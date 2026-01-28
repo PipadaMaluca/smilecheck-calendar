@@ -1,13 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PatientCalendar } from './PatientCalendar';
 import { DentistCalendar } from './DentistCalendar';
 import { ClinicCalendar } from './ClinicCalendar';
+import { DesktopCalendarView } from './desktop/DesktopCalendarView';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
   const [activeView, setActiveView] = useState('patient');
+  const [isDesktop, setIsDesktop] = useState(false);
 
+  useEffect(() => {
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  // On desktop (>= 1024px), show the Doctolib-style layout
+  if (isDesktop) {
+    return <DesktopCalendarView />;
+  }
+
+  // On mobile/tablet, show the original tabbed interface
   return (
     <div className="min-h-screen bg-background">
       {/* View Selector */}
