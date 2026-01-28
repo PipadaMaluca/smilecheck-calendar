@@ -2,95 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 214 50% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 214 45% 13%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 214 45% 13%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 162 100% 43%;
+    --primary-foreground: 214 50% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 214 40% 18%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 214 35% 20%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 214 40% 22%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 214 30% 25%;
+    --input: 214 30% 25%;
+    --ring: 162 100% 43%;
+
+    --radius: 0.75rem;
+
+    /* SmileCheck Custom Colors */
+    --teleconsulta: 162 100% 43%;
+    --presencial: 210 100% 60%;
+    --urgente: 0 84% 60%;
+    --prioritario: 45 100% 50%;
+    --rotina: 162 100% 43%;
+    --livre: 214 30% 25%;
+    --bloqueado: 214 25% 18%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(162 100% 43%), hsl(162 80% 35%));
+    --gradient-card: linear-gradient(180deg, hsl(214 45% 15%), hsl(214 45% 12%));
+    --gradient-modal: linear-gradient(180deg, hsl(214 45% 16%), hsl(214 45% 11%));
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px -4px hsl(214 50% 5% / 0.5);
+    --shadow-modal: 0 25px 50px -12px hsl(214 50% 5% / 0.8);
+    --shadow-glow: 0 0 30px hsl(162 100% 43% / 0.3);
+
+    --sidebar-background: 214 50% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 162 100% 43%;
+    --sidebar-primary-foreground: 214 50% 10%;
+    --sidebar-accent: 214 40% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 214 30% 25%;
+    --sidebar-ring: 162 100% 43%;
   }
 }
 
@@ -100,6 +72,148 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
   }
+}
+
+@layer components {
+  .calendar-day {
+    @apply relative flex flex-col items-center justify-center w-10 h-10 rounded-full transition-all duration-200;
+  }
+
+  .calendar-day-today {
+    @apply bg-primary text-primary-foreground font-semibold;
+    box-shadow: var(--shadow-glow);
+  }
+
+  .calendar-day-selected {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  .calendar-day-has-appointment::after {
+    content: '';
+    @apply absolute bottom-1 w-1 h-1 rounded-full bg-primary;
+  }
+
+  .consultation-card {
+    @apply relative overflow-hidden rounded-xl bg-card p-4 transition-all duration-300 hover:scale-[1.02];
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .consultation-card::before {
+    content: '';
+    @apply absolute left-0 top-0 bottom-0 w-1 rounded-l-xl;
+  }
+
+  .consultation-card-teleconsulta::before {
+    @apply bg-[hsl(var(--teleconsulta))];
+  }
+
+  .consultation-card-presencial::before {
+    @apply bg-[hsl(var(--presencial))];
+  }
+
+  .time-slot {
+    @apply relative flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200;
+  }
+
+  .time-slot-livre {
+    @apply bg-muted/30 border border-dashed border-muted-foreground/20;
+  }
+
+  .time-slot-ocupado {
+    @apply bg-card;
+    background: var(--gradient-card);
+  }
+
+  .time-slot-bloqueado {
+    @apply bg-[hsl(var(--bloqueado))] border border-muted-foreground/10;
+  }
+
+  .badge-teleconsulta {
+    @apply bg-[hsl(var(--teleconsulta))/0.15] text-[hsl(var(--teleconsulta))] border border-[hsl(var(--teleconsulta))/0.3];
+  }
+
+  .badge-presencial {
+    @apply bg-[hsl(var(--presencial))/0.15] text-[hsl(var(--presencial))] border border-[hsl(var(--presencial))/0.3];
+  }
+
+  .badge-urgente {
+    @apply bg-[hsl(var(--urgente))/0.15] text-[hsl(var(--urgente))] border border-[hsl(var(--urgente))/0.3];
+  }
+
+  .badge-prioritario {
+    @apply bg-[hsl(var(--prioritario))/0.15] text-[hsl(var(--prioritario))] border border-[hsl(var(--prioritario))/0.3];
+  }
+
+  .badge-rotina {
+    @apply bg-[hsl(var(--rotina))/0.15] text-[hsl(var(--rotina))] border border-[hsl(var(--rotina))/0.3];
+  }
+
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border;
+    box-shadow: 0 -4px 20px hsl(214 50% 5% / 0.3);
+  }
+
+  .bottom-nav-item {
+    @apply flex flex-col items-center gap-1 py-2 px-4 text-muted-foreground transition-all duration-200;
+  }
+
+  .bottom-nav-item-active {
+    @apply text-primary;
+  }
+
+  .floating-button {
+    @apply fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110;
+    box-shadow: var(--shadow-glow);
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 bg-background/80 backdrop-blur-sm z-50;
+  }
+
+  .modal-content {
+    @apply fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6 z-50;
+    background: var(--gradient-modal);
+    box-shadow: var(--shadow-modal);
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }

@@ -1,0 +1,55 @@
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PatientCalendar } from './PatientCalendar';
+import { DentistCalendar } from './DentistCalendar';
+import { ClinicCalendar } from './ClinicCalendar';
+import { User, Stethoscope, Building2 } from 'lucide-react';
+
+export function CalendarDemo() {
+  const [activeView, setActiveView] = useState('patient');
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* View Selector */}
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+        <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
+          <TabsList className="w-full h-14 bg-card/50 rounded-none grid grid-cols-3">
+            <TabsTrigger
+              value="patient"
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <User className="w-4 h-4" />
+              <span className="hidden sm:inline">Paciente</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="dentist"
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <Stethoscope className="w-4 h-4" />
+              <span className="hidden sm:inline">Dentista</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="clinic"
+              className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <Building2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Clínica</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="patient" className="mt-0">
+            <PatientCalendar />
+          </TabsContent>
+
+          <TabsContent value="dentist" className="mt-0">
+            <DentistCalendar />
+          </TabsContent>
+
+          <TabsContent value="clinic" className="mt-0">
+            <ClinicCalendar />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
