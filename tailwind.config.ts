@@ -60,13 +60,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Consultation type colors
+        restauracao: "hsl(var(--restauracao))",
+        "primeira-consulta": "hsl(var(--primeira-consulta))",
+        protese: "hsl(var(--protese))",
+        urgencia: "hsl(var(--urgencia))",
         teleconsulta: "hsl(var(--teleconsulta))",
+        bloqueado: "hsl(var(--bloqueado))",
+        livre: "hsl(var(--livre))",
+        // Legacy compatibility
         presencial: "hsl(var(--presencial))",
         urgente: "hsl(var(--urgente))",
         prioritario: "hsl(var(--prioritario))",
         rotina: "hsl(var(--rotina))",
-        livre: "hsl(var(--livre))",
-        bloqueado: "hsl(var(--bloqueado))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -95,8 +101,8 @@ export default {
           to: { opacity: "1", transform: "scale(1)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(162 100% 43% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(162 100% 43% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(207 90% 54% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(207 90% 54% / 0.5)" },
         },
       },
       animation: {

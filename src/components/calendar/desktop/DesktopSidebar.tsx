@@ -1,12 +1,26 @@
 import { useState } from 'react';
-import { Search, ChevronDown, ChevronRight, Check, Plus } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Calendar } from '@/components/ui/calendar';
 import { Dentist } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  isSameMonth,
+  isSameDay,
+  addMonths,
+  subMonths,
+} from 'date-fns';
+import { pt } from 'date-fns/locale';
+import smileLogo from '@/assets/smilecheck-logo.png';
+import { ChevronLeft } from 'lucide-react';
 
 interface DesktopSidebarProps {
   isOpen: boolean;
@@ -31,6 +45,8 @@ export function DesktopSidebar({
 }: DesktopSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isProfessionalsOpen, setIsProfessionalsOpen] = useState(true);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const today = new Date();
 
   const filteredDentists = dentists.filter((d) =>
     d.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -38,10 +54,43 @@ export function DesktopSidebar({
 
   const allSelected = dentists.every((d) => selectedDentistIds.includes(d.id));
 
+  // Generate calendar grid
+  const monthStart = startOfMonth(currentMonth);
+  const monthEnd = endOfMonth(monthStart);
+  const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
+  const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
+
+  const rows: Date[][] = [];
+  let days: Date[] = [];
+  let day = startDate;
+
+  while (day <= endDate) {
+    for (let i = 0; i < 7; i++) {
+      days.push(day);
+      day = addDays(day, 1);
+    }
+    rows.push(days);
+    days = [];
+  }
+
+  const hasAppointment = (date: Date) =>
+    appointmentDates.some((d) => isSameDay(d, date));
+
+  const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+
   if (!isOpen) return null;
 
   return (
     <aside className="w-64 bg-card border-r border-border flex flex-col h-full overflow-hidden">
+      {/* Logo - Larger */}
+      <div className="p-4 border-b border-border flex items-center justify-center">
+        <img 
+          src={smileLogo} 
+          alt="SmileCheck" 
+          className="w-full max-w-[200px] h-auto"
+        />
+      </div>
+
       {/* Find Slot Button */}
       <div className="p-4">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold">
@@ -50,20 +99,71 @@ export function DesktopSidebar({
         </Button>
       </div>
 
-      {/* Mini Calendar */}
-      <div className="px-2 pb-4 border-b border-border">
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={(date) => date && onDateSelect(date)}
-          className="w-full"
-          modifiers={{
-            hasAppointment: appointmentDates,
-          }}
-          modifiersClassNames={{
-            hasAppointment: 'calendar-day-has-appointment',
-          }}
-        />
+      {/* Mini Calendar - Full month display */}
+      <div className="px-3 pb-4 border-b border-border">
+        {/* Month Navigation */}
+        <div className="flex items-center justify-between mb-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+            className="h-7 w-7 text-muted-foreground hover:text-foreground"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+          <span className="text-sm font-medium capitalize">
+            {format(currentMonth, 'MMMM yyyy', { locale: pt })}
+          </span>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+            className="h-7 w-7 text-muted-foreground hover:text-foreground"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Week Days Header */}
+        <div className="grid grid-cols-7 gap-0.5 mb-1">
+          {weekDays.map((d) => (
+            <div
+              key={d}
+              className="text-center text-[10px] font-medium text-muted-foreground py-1"
+            >
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {/* Calendar Grid */}
+        <div className="grid grid-cols-7 gap-0.5">
+          {rows.flat().map((date, idx) => {
+            const isCurrentMonth = isSameMonth(date, currentMonth);
+            const isToday = isSameDay(date, today);
+            const isSelected = isSameDay(date, selectedDate);
+            const hasAppt = hasAppointment(date);
+
+            return (
+              <button
+                key={idx}
+                onClick={() => onDateSelect(date)}
+                className={cn(
+                  'relative flex flex-col items-center justify-center w-7 h-7 rounded text-xs transition-all',
+                  !isCurrentMonth && 'text-muted-foreground/40',
+                  isCurrentMonth && 'text-foreground hover:bg-secondary/50',
+                  isToday && 'bg-primary text-primary-foreground font-semibold',
+                  isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
+                )}
+              >
+                {format(date, 'd')}
+                {hasAppt && !isToday && (
+                  <span className="absolute bottom-0.5 w-1 h-1 rounded-full bg-primary" />
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Agendas Section */}
@@ -154,13 +254,6 @@ export function DesktopSidebar({
           <Plus className="w-4 h-4" />
           Adicionar profissional
         </Button>
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 border-t border-border">
-        <p className="text-[10px] text-muted-foreground text-center">
-          SmileCheck © 2026
-        </p>
       </div>
     </aside>
   );

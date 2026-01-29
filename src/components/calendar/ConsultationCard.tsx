@@ -27,13 +27,13 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
           <div
             className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center',
-              isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-presencial/20'
+              isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-primary/20'
             )}
           >
             <Icon
               className={cn(
                 'w-5 h-5',
-                isTeleconsulta ? 'text-teleconsulta' : 'text-presencial'
+                isTeleconsulta ? 'text-teleconsulta' : 'text-primary'
               )}
             />
           </div>
@@ -42,7 +42,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             <p
               className={cn(
                 'text-sm font-medium',
-                isTeleconsulta ? 'text-teleconsulta' : 'text-presencial'
+                isTeleconsulta ? 'text-teleconsulta' : 'text-primary'
               )}
             >
               {typeLabel}
@@ -78,11 +78,11 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
       <div className="flex items-center justify-between">
         <div className="text-xs text-muted-foreground">
           {consultation.isPaid ? (
-            <span className="text-teleconsulta">💰 €{consultation.price} (pago)</span>
+            <span className="text-primary">💰 €{consultation.price} (pago)</span>
           ) : consultation.clinic.distance ? (
             <span>📍 {consultation.clinic.distance} km</span>
           ) : (
-            <span className="text-prioritario">💰 €{consultation.price} (pendente)</span>
+            <span className="text-primeira-consulta">💰 €{consultation.price} (pendente)</span>
           )}
         </div>
 
@@ -101,7 +101,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             <Button
               size="sm"
               variant="ghost"
-              className="h-8 px-3 text-xs hover:bg-presencial/10 hover:text-presencial"
+              className="h-8 px-3 text-xs hover:bg-primary/10 hover:text-primary"
               onClick={(e) => e.stopPropagation()}
             >
               <Navigation className="w-3.5 h-3.5 mr-1" />

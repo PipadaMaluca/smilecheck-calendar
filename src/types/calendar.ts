@@ -1,4 +1,5 @@
 export type ConsultationType = 'teleconsulta' | 'presencial';
+export type ConsultationCategory = 'restauracao' | 'primeira_consulta' | 'protese' | 'urgencia' | 'teleconsulta' | 'outro';
 export type UrgencyLevel = 'urgente' | 'prioritario' | 'rotina';
 export type UserRole = 'patient' | 'dentist' | 'clinic';
 
@@ -36,6 +37,7 @@ export interface Triage {
 export interface Consultation {
   id: string;
   type: ConsultationType;
+  category?: ConsultationCategory;
   date: Date;
   time: string;
   duration: number;
