@@ -56,9 +56,9 @@ export function MultiDentistGrid({ dentists, slotsPerDentist, onSlotClick }: Mul
                       !slot || slot.status === 'livre'
                         ? 'bg-muted/20 border border-dashed border-muted-foreground/10'
                         : '',
-                      isBloqueado && 'bg-bloqueado',
+                      isBloqueado && 'bg-bloqueado/30',
                       isOcupado && isTeleconsulta && 'bg-teleconsulta/20 border border-teleconsulta/30 cursor-pointer hover:bg-teleconsulta/30',
-                      isOcupado && !isTeleconsulta && 'bg-presencial/20 border border-presencial/30 cursor-pointer hover:bg-presencial/30'
+                      isOcupado && !isTeleconsulta && 'bg-primary/20 border border-primary/30 cursor-pointer hover:bg-primary/30'
                     )}
                   >
                     {isOcupado && slot?.consultation && (
@@ -66,7 +66,7 @@ export function MultiDentistGrid({ dentists, slotsPerDentist, onSlotClick }: Mul
                         {isTeleconsulta ? (
                           <Video className="w-3 h-3 text-teleconsulta flex-shrink-0" />
                         ) : (
-                          <MapPin className="w-3 h-3 text-presencial flex-shrink-0" />
+                          <MapPin className="w-3 h-3 text-primary flex-shrink-0" />
                         )}
                         <span className="truncate font-medium">
                           {slot.consultation.patient.name.split(' ')[0]}

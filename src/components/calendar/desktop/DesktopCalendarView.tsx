@@ -1,21 +1,34 @@
-import { useState, useMemo } from 'react';
-import { DesktopHeader } from './DesktopHeader';
+import { useState, useMemo, useEffect } from 'react';
+import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DesktopNavSidebar } from './DesktopNavSidebar';
 import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
-import { DesktopConsultationDetail } from './DesktopConsultationDetail';
-import { Consultation, TimeSlot } from '@/types/calendar';
+import { EditConsultationModal } from '../EditConsultationModal';
+import { PatientCalendar } from '../PatientCalendar';
+import { DentistCalendar } from '../DentistCalendar';
+import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
+import { format } from 'date-fns';
+import { pt } from 'date-fns/locale';
+import { Stethoscope, Building2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('day');
+  const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(
     mockDentists.map((d) => d.id)
   );
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
+  const [activeRole, setActiveRole] = useState<UserRole>('clinic');
+  const [activeNavTab, setActiveNavTab] = useState('agenda');
 
   const appointmentDates = mockConsultations.map((c) => c.date);
 
@@ -38,7 +51,6 @@ export function DesktopCalendarView() {
   const handleDentistToggle = (dentistId: string) => {
     setSelectedDentistIds((prev) => {
       if (prev.includes(dentistId)) {
-        // Don't allow deselecting all dentists
         if (prev.length === 1) return prev;
         return prev.filter((id) => id !== dentistId);
       }
@@ -48,10 +60,8 @@ export function DesktopCalendarView() {
 
   const handleSelectAllDentists = () => {
     if (selectedDentistIds.length === mockDentists.length) {
-      // If all selected, select only the first one
       setSelectedDentistIds([mockDentists[0].id]);
     } else {
-      // Select all
       setSelectedDentistIds(mockDentists.map((d) => d.id));
     }
   };
@@ -62,39 +72,241 @@ export function DesktopCalendarView() {
     }
   };
 
+  const goToPreviousDay = () => {
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() - 1);
+    setSelectedDate(newDate);
+  };
+
+  const goToNextDay = () => {
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + 1);
+    setSelectedDate(newDate);
+  };
+
+  const goToToday = () => {
+    setSelectedDate(new Date());
+  };
+
+  const renderContent = () => {
+    switch (activeRole) {
+      case 'patient':
+        return (
+          <div className="flex-1 overflow-auto">
+            <PatientCalendar />
+          </div>
+        );
+      case 'dentist':
+        return (
+          <div className="flex-1 overflow-auto">
+            <DentistCalendar />
+          </div>
+        );
+      case 'clinic':
+      default:
+        return (
+          <>
+            <DesktopSidebar
+              isOpen={isSidebarOpen}
+              selectedDate={selectedDate}
+              onDateSelect={setSelectedDate}
+              dentists={mockDentists}
+              selectedDentistIds={selectedDentistIds}
+              onDentistToggle={handleDentistToggle}
+              onSelectAllDentists={handleSelectAllDentists}
+              appointmentDates={appointmentDates}
+            />
+            <DesktopTimeline
+              dentists={filteredDentists}
+              slotsPerDentist={slotsPerDentist}
+              onSlotClick={handleSlotClick}
+            />
+          </>
+        );
+    }
+  };
+
   return (
-    <div className="h-screen flex flex-col bg-background">
-      <DesktopHeader
-        currentDate={selectedDate}
-        onDateChange={setSelectedDate}
-        onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
+    <div className="h-screen flex bg-background">
+      {/* Left Navigation Sidebar */}
+      <DesktopNavSidebar
+        isExpanded={isNavExpanded}
+        activeTab={activeNavTab}
+        onTabChange={setActiveNavTab}
+        userRole={activeRole}
       />
 
-      <div className="flex-1 flex overflow-hidden">
-        <DesktopSidebar
-          isOpen={isSidebarOpen}
-          selectedDate={selectedDate}
-          onDateSelect={setSelectedDate}
-          dentists={mockDentists}
-          selectedDentistIds={selectedDentistIds}
-          onDentistToggle={handleDentistToggle}
-          onSelectAllDentists={handleSelectAllDentists}
-          appointmentDates={appointmentDates}
-        />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
+          {/* Left Section */}
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => setIsNavExpanded(!isNavExpanded)}
+            >
+              <Menu className="w-5 h-5" />
+            </Button>
 
-        <DesktopTimeline
-          dentists={filteredDentists}
-          slotsPerDentist={slotsPerDentist}
-          onSlotClick={handleSlotClick}
-        />
+            <div className="h-6 w-px bg-border" />
+
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={goToToday}
+              className="font-medium"
+            >
+              Hoje
+            </Button>
+
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" size="icon" onClick={goToPreviousDay}>
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={goToNextDay}>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+
+            <span className="text-sm font-medium capitalize">
+              {format(selectedDate, "EEEE d MMMM yyyy", { locale: pt })}
+            </span>
+          </div>
+
+          {/* Center Section - Role Selector + View Toggle */}
+          <div className="flex items-center gap-4">
+            {/* Role Selector */}
+            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('patient')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'patient'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <User className="w-4 h-4" />
+                Paciente
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('dentist')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'dentist'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Stethoscope className="w-4 h-4" />
+                Dentista
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('clinic')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'clinic'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
+                <Building2 className="w-4 h-4" />
+                Clínica
+              </Button>
+            </div>
+
+            {activeRole === 'clinic' && (
+              <>
+                <div className="h-6 w-px bg-border" />
+
+                {/* View Mode Toggle */}
+                <ToggleGroup
+                  type="single"
+                  value={viewMode}
+                  onValueChange={(val) => val && setViewMode(val as ViewMode)}
+                  className="bg-secondary/50 rounded-lg p-1"
+                >
+                  <ToggleGroupItem
+                    value="list"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
+                    Lista
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="day"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
+                    Dia
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="week"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
+                    Semana
+                  </ToggleGroupItem>
+                  <ToggleGroupItem
+                    value="month"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
+                    Mês
+                  </ToggleGroupItem>
+                </ToggleGroup>
+
+                <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
+                  <CalendarClock className="w-4 h-4" />
+                  Modificar horários
+                </Button>
+
+                <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
+                  <Settings className="w-4 h-4" />
+                  Configurações
+                </Button>
+              </>
+            )}
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="text-muted-foreground">
+              <HelpCircle className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground">
+              <User className="w-5 h-5" />
+            </Button>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <div className="flex-1 flex overflow-hidden">
+          {renderContent()}
+        </div>
       </div>
 
-      <DesktopConsultationDetail
+      {/* Edit Consultation Modal */}
+      <EditConsultationModal
         consultation={selectedConsultation}
         isOpen={!!selectedConsultation}
         onClose={() => setSelectedConsultation(null)}
+        onSave={(updated) => {
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }}
+        onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }}
       />
     </div>
   );

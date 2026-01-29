@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Video, MapPin, Flag, Clock, AlertTriangle, Baby, Check } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot } from '@/types/calendar';
+import { Consultation, ConsultationCategory, Dentist, TimeSlot } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
 interface DesktopTimelineProps {
@@ -13,26 +13,76 @@ interface DesktopTimelineProps {
 const SLOT_HEIGHT = 60; // pixels per 30 min
 const HOUR_HEIGHT = SLOT_HEIGHT * 2; // 120px per hour
 
-// Consultation type colors
+// Consultation type colors - matching the new palette
 const CONSULTATION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
-  restauracao: { bg: 'bg-blue-500/20', border: 'border-l-blue-500', text: 'text-blue-400' },
-  destartarizacao: { bg: 'bg-blue-500/20', border: 'border-l-blue-500', text: 'text-blue-400' },
-  primeira_consulta: { bg: 'bg-yellow-500/20', border: 'border-l-yellow-500', text: 'text-yellow-400' },
-  protese: { bg: 'bg-green-500/20', border: 'border-l-green-500', text: 'text-green-400' },
-  urgencia: { bg: 'bg-red-500/20', border: 'border-l-red-500', text: 'text-red-400' },
-  teleconsulta: { bg: 'bg-orange-500/20', border: 'border-l-orange-500', text: 'text-orange-400' },
-  default: { bg: 'bg-blue-500/20', border: 'border-l-blue-500', text: 'text-blue-400' },
+  restauracao: { 
+    bg: 'bg-[hsl(207,90%,54%)]/20', 
+    border: 'border-l-[hsl(207,90%,54%)]', 
+    text: 'text-[hsl(207,90%,54%)]' 
+  },
+  primeira_consulta: { 
+    bg: 'bg-[hsl(49,98%,60%)]/20', 
+    border: 'border-l-[hsl(49,98%,60%)]', 
+    text: 'text-[hsl(49,98%,60%)]' 
+  },
+  protese: { 
+    bg: 'bg-[hsl(122,39%,49%)]/20', 
+    border: 'border-l-[hsl(122,39%,49%)]', 
+    text: 'text-[hsl(122,39%,49%)]' 
+  },
+  urgencia: { 
+    bg: 'bg-[hsl(4,90%,58%)]/20', 
+    border: 'border-l-[hsl(4,90%,58%)]', 
+    text: 'text-[hsl(4,90%,58%)]' 
+  },
+  teleconsulta: { 
+    bg: 'bg-[hsl(36,100%,50%)]/20', 
+    border: 'border-l-[hsl(36,100%,50%)]', 
+    text: 'text-[hsl(36,100%,50%)]' 
+  },
+  bloqueado: { 
+    bg: 'bg-[hsl(0,0%,62%)]/30', 
+    border: 'border-l-[hsl(0,0%,62%)]', 
+    text: 'text-[hsl(0,0%,62%)]' 
+  },
+  default: { 
+    bg: 'bg-[hsl(207,90%,54%)]/20', 
+    border: 'border-l-[hsl(207,90%,54%)]', 
+    text: 'text-[hsl(207,90%,54%)]' 
+  },
 };
 
 function getConsultationColor(consultation: Consultation) {
+  // Check for category first
+  if (consultation.category && CONSULTATION_COLORS[consultation.category]) {
+    return CONSULTATION_COLORS[consultation.category];
+  }
+  
+  // Then check type
   if (consultation.type === 'teleconsulta') {
     return CONSULTATION_COLORS.teleconsulta;
   }
+  
+  // Check for urgency in triage
   if (consultation.triage?.urgency === 'urgente') {
     return CONSULTATION_COLORS.urgencia;
   }
+  
   // Default to normal consultation color
   return CONSULTATION_COLORS.default;
+}
+
+function getCategoryLabel(consultation: Consultation): string {
+  if (consultation.type === 'teleconsulta') return 'Teleconsulta';
+  
+  switch (consultation.category) {
+    case 'restauracao': return 'Restauração';
+    case 'primeira_consulta': return 'Primeira Consulta';
+    case 'protese': return 'Prótese';
+    case 'urgencia': return 'Urgência';
+    case 'outro': return 'Consulta';
+    default: return 'Consulta Presencial';
+  }
 }
 
 export function DesktopTimeline({
@@ -176,7 +226,7 @@ export function DesktopTimeline({
                   {blockedSlots.map((slot, slotIdx) => (
                     <div
                       key={`blocked-${slotIdx}`}
-                      className="absolute left-1 right-1 bg-muted/50 rounded flex items-center justify-center"
+                      className="absolute left-1 right-1 bg-bloqueado/30 rounded flex items-center justify-center border-l-4 border-l-bloqueado"
                       style={{
                         top: `${getSlotPosition(slot.time)}px`,
                         height: `${SLOT_HEIGHT}px`,
@@ -218,17 +268,17 @@ export function DesktopTimeline({
                                 {slot.time}
                               </span>
                               {isTeleconsulta && (
-                                <Video className="w-3 h-3 text-orange-400" />
+                                <Video className={cn("w-3 h-3", colors.text)} />
                               )}
                               {isUrgent && (
-                                <AlertTriangle className="w-3 h-3 text-red-400" />
+                                <AlertTriangle className="w-3 h-3 text-urgencia" />
                               )}
                             </div>
                             <p className="text-xs font-bold uppercase truncate mt-0.5">
                               {consultation.patient.name}
                             </p>
-                            <p className="text-[10px] text-muted-foreground truncate">
-                              {isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}
+                            <p className={cn("text-[10px] truncate", colors.text)}>
+                              {getCategoryLabel(consultation)}
                             </p>
                           </div>
 
@@ -237,7 +287,7 @@ export function DesktopTimeline({
                             {consultation.isPaid ? (
                               <Check className="w-3 h-3 text-primary" />
                             ) : (
-                              <Flag className="w-3 h-3 text-yellow-400" />
+                              <Flag className="w-3 h-3 text-primeira-consulta" />
                             )}
                           </div>
                         </div>

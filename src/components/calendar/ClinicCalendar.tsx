@@ -4,16 +4,18 @@ import { DateNavigator } from './DateNavigator';
 import { DentistFilter } from './DentistFilter';
 import { MultiDentistGrid } from './MultiDentistGrid';
 import { DaySummary } from './DaySummary';
-import { ConsultationModal } from './ConsultationModal';
+import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { Consultation, TimeSlot, Dentist } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from '@/data/mockData';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDentistId, setSelectedDentistId] = useState<string | null>(null);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
+  const isMobile = useIsMobile();
 
   const filteredDentists = selectedDentistId
     ? mockDentists.filter((d) => d.id === selectedDentistId)
@@ -115,13 +117,20 @@ export function ClinicCalendar() {
         onTabChange={setActiveTab}
       />
 
-      {selectedConsultation && (
-        <ConsultationModal
-          consultation={selectedConsultation}
-          isOpen={!!selectedConsultation}
-          onClose={() => setSelectedConsultation(null)}
-        />
-      )}
+      <EditConsultationModal
+        consultation={selectedConsultation}
+        isOpen={!!selectedConsultation}
+        onClose={() => setSelectedConsultation(null)}
+        isMobile={isMobile}
+        onSave={(updated) => {
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }}
+        onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }}
+      />
     </div>
   );
 }

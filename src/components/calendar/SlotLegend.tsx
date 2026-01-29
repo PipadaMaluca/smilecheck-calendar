@@ -1,5 +1,3 @@
-import { Video, MapPin, Clock, Lock } from 'lucide-react';
-
 export function SlotLegend() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-4 px-4 py-3 bg-card/50 rounded-xl mx-4">
@@ -8,7 +6,7 @@ export function SlotLegend() {
         <span className="text-xs text-muted-foreground">Teleconsulta</span>
       </div>
       <div className="flex items-center gap-2">
-        <div className="w-3 h-3 rounded bg-presencial" />
+        <div className="w-3 h-3 rounded bg-restauracao" />
         <span className="text-xs text-muted-foreground">Presencial</span>
       </div>
       <div className="flex items-center gap-2">

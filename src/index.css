@@ -15,8 +15,9 @@
     --popover: 214 45% 13%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 162 100% 43%;
-    --primary-foreground: 214 50% 10%;
+    /* Changed from green to blue #2196F3 */
+    --primary: 207 90% 54%;
+    --primary-foreground: 210 40% 98%;
 
     --secondary: 214 40% 18%;
     --secondary-foreground: 210 40% 98%;
@@ -32,37 +33,43 @@
 
     --border: 214 30% 25%;
     --input: 214 30% 25%;
-    --ring: 162 100% 43%;
+    --ring: 207 90% 54%;
 
     --radius: 0.75rem;
 
-    /* SmileCheck Custom Colors */
-    --teleconsulta: 162 100% 43%;
-    --presencial: 210 100% 60%;
-    --urgente: 0 84% 60%;
-    --prioritario: 45 100% 50%;
-    --rotina: 162 100% 43%;
-    --livre: 214 30% 25%;
-    --bloqueado: 214 25% 18%;
+    /* SmileCheck Consultation Type Colors */
+    --restauracao: 207 90% 54%;       /* Blue #2196F3 */
+    --primeira-consulta: 49 98% 60%;  /* Yellow #FDD835 */
+    --protese: 122 39% 49%;           /* Green #4CAF50 */
+    --urgencia: 4 90% 58%;            /* Red #F44336 */
+    --teleconsulta: 36 100% 50%;      /* Orange #FF9800 */
+    --bloqueado: 0 0% 62%;            /* Grey #9E9E9E */
+    --livre: 0 0% 62%;                /* Grey #9E9E9E */
+
+    /* Legacy colors for compatibility */
+    --presencial: 207 90% 54%;
+    --urgente: 4 90% 58%;
+    --prioritario: 49 98% 60%;
+    --rotina: 207 90% 54%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(162 100% 43%), hsl(162 80% 35%));
+    --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(207 80% 45%));
     --gradient-card: linear-gradient(180deg, hsl(214 45% 15%), hsl(214 45% 12%));
     --gradient-modal: linear-gradient(180deg, hsl(214 45% 16%), hsl(214 45% 11%));
 
     /* Shadows */
     --shadow-card: 0 4px 20px -4px hsl(214 50% 5% / 0.5);
     --shadow-modal: 0 25px 50px -12px hsl(214 50% 5% / 0.8);
-    --shadow-glow: 0 0 30px hsl(162 100% 43% / 0.3);
+    --shadow-glow: 0 0 30px hsl(207 90% 54% / 0.3);
 
     --sidebar-background: 214 50% 10%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 162 100% 43%;
-    --sidebar-primary-foreground: 214 50% 10%;
+    --sidebar-primary: 207 90% 54%;
+    --sidebar-primary-foreground: 210 40% 98%;
     --sidebar-accent: 214 40% 18%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 214 30% 25%;
-    --sidebar-ring: 162 100% 43%;
+    --sidebar-ring: 207 90% 54%;
   }
 }
 
@@ -129,7 +136,7 @@
   }
 
   .time-slot-bloqueado {
-    @apply bg-[hsl(var(--bloqueado))] border border-muted-foreground/10;
+    @apply bg-[hsl(var(--bloqueado))/0.3] border border-muted-foreground/10;
   }
 
   .badge-teleconsulta {
@@ -141,15 +148,15 @@
   }
 
   .badge-urgente {
-    @apply bg-[hsl(var(--urgente))/0.15] text-[hsl(var(--urgente))] border border-[hsl(var(--urgente))/0.3];
+    @apply bg-[hsl(var(--urgencia))/0.15] text-[hsl(var(--urgencia))] border border-[hsl(var(--urgencia))/0.3];
   }
 
   .badge-prioritario {
-    @apply bg-[hsl(var(--prioritario))/0.15] text-[hsl(var(--prioritario))] border border-[hsl(var(--prioritario))/0.3];
+    @apply bg-[hsl(var(--primeira-consulta))/0.15] text-[hsl(var(--primeira-consulta))] border border-[hsl(var(--primeira-consulta))/0.3];
   }
 
   .badge-rotina {
-    @apply bg-[hsl(var(--rotina))/0.15] text-[hsl(var(--rotina))] border border-[hsl(var(--rotina))/0.3];
+    @apply bg-[hsl(var(--restauracao))/0.15] text-[hsl(var(--restauracao))] border border-[hsl(var(--restauracao))/0.3];
   }
 
   .bottom-nav {
@@ -178,6 +185,31 @@
     @apply fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6 z-50;
     background: var(--gradient-modal);
     box-shadow: var(--shadow-modal);
+  }
+
+  /* Consultation type block colors */
+  .consultation-block-restauracao {
+    @apply bg-[hsl(var(--restauracao))/0.2] border-l-[hsl(var(--restauracao))];
+  }
+  
+  .consultation-block-primeira-consulta {
+    @apply bg-[hsl(var(--primeira-consulta))/0.2] border-l-[hsl(var(--primeira-consulta))];
+  }
+  
+  .consultation-block-protese {
+    @apply bg-[hsl(var(--protese))/0.2] border-l-[hsl(var(--protese))];
+  }
+  
+  .consultation-block-urgencia {
+    @apply bg-[hsl(var(--urgencia))/0.2] border-l-[hsl(var(--urgencia))];
+  }
+  
+  .consultation-block-teleconsulta {
+    @apply bg-[hsl(var(--teleconsulta))/0.2] border-l-[hsl(var(--teleconsulta))];
+  }
+  
+  .consultation-block-bloqueado {
+    @apply bg-[hsl(var(--bloqueado))/0.3];
   }
 }
 
@@ -223,6 +255,24 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .animate-slide-in-right {
   animation: slideInRight 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.animate-slide-up-modal {
+  animation: slideUpModal 0.3s ease-out;
 }

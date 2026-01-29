@@ -6,16 +6,18 @@ import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
 import { SlotLegend } from './SlotLegend';
 import { DaySummary } from './DaySummary';
-import { ConsultationModal } from './ConsultationModal';
+import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { Consultation, TimeSlot } from '@/types/calendar';
 import { mockConsultations, mockClinics, generateTimeSlots } from '@/data/mockData';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
+  const isMobile = useIsMobile();
 
   const slots = generateTimeSlots(selectedDate, mockConsultations);
   const dayConsultations = mockConsultations.filter(
@@ -84,13 +86,20 @@ export function DentistCalendar() {
         onTabChange={setActiveTab}
       />
 
-      {selectedConsultation && (
-        <ConsultationModal
-          consultation={selectedConsultation}
-          isOpen={!!selectedConsultation}
-          onClose={() => setSelectedConsultation(null)}
-        />
-      )}
+      <EditConsultationModal
+        consultation={selectedConsultation}
+        isOpen={!!selectedConsultation}
+        onClose={() => setSelectedConsultation(null)}
+        isMobile={isMobile}
+        onSave={(updated) => {
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }}
+        onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }}
+      />
     </div>
   );
 }

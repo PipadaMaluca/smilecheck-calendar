@@ -25,7 +25,7 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
               isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
               isBloqueado && 'time-slot-bloqueado',
               isOcupado && isTeleconsulta && 'border-l-2 border-l-teleconsulta',
-              isOcupado && !isTeleconsulta && 'border-l-2 border-l-presencial'
+              isOcupado && !isTeleconsulta && 'border-l-2 border-l-restauracao'
             )}
           >
             <span className="w-12 text-sm font-mono text-muted-foreground">
@@ -48,13 +48,13 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
                 <div
                   className={cn(
                     'w-8 h-8 rounded-lg flex items-center justify-center',
-                    isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-presencial/20'
+                    isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-restauracao/20'
                   )}
                 >
                   {isTeleconsulta ? (
                     <Video className="w-4 h-4 text-teleconsulta" />
                   ) : (
-                    <MapPin className="w-4 h-4 text-presencial" />
+                    <MapPin className="w-4 h-4 text-restauracao" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">

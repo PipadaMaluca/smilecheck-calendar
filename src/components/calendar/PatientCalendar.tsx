@@ -4,17 +4,19 @@ import { Button } from '@/components/ui/button';
 import { CalendarHeader } from './CalendarHeader';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
-import { ConsultationModal } from './ConsultationModal';
+import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { Consultation } from '@/types/calendar';
 import { mockConsultations } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function PatientCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
+  const isMobile = useIsMobile();
 
   const appointmentDates = mockConsultations.map((c) => c.date);
   const dayConsultations = mockConsultations.filter((c) =>
@@ -71,14 +73,21 @@ export function PatientCalendar() {
         onTabChange={setActiveTab}
       />
 
-      {/* Modal */}
-      {selectedConsultation && (
-        <ConsultationModal
-          consultation={selectedConsultation}
-          isOpen={!!selectedConsultation}
-          onClose={() => setSelectedConsultation(null)}
-        />
-      )}
+      {/* Edit Modal */}
+      <EditConsultationModal
+        consultation={selectedConsultation}
+        isOpen={!!selectedConsultation}
+        onClose={() => setSelectedConsultation(null)}
+        isMobile={isMobile}
+        onSave={(updated) => {
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }}
+        onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }}
+      />
     </div>
   );
 }
