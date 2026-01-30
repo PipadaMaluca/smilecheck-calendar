@@ -1,10 +1,8 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
-import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { PatientCalendar } from '../PatientCalendar';
@@ -15,6 +13,7 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { Stethoscope, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import smileIcon from '@/assets/smilecheck-icon.png';
 
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
@@ -22,7 +21,6 @@ export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(
     mockDentists.map((d) => d.id)
   );
@@ -105,35 +103,29 @@ export function DesktopCalendarView() {
       case 'clinic':
       default:
         return (
-          <>
-            <DesktopSidebar
-              isOpen={isSidebarOpen}
-              selectedDate={selectedDate}
-              onDateSelect={setSelectedDate}
-              dentists={mockDentists}
-              selectedDentistIds={selectedDentistIds}
-              onDentistToggle={handleDentistToggle}
-              onSelectAllDentists={handleSelectAllDentists}
-              appointmentDates={appointmentDates}
-            />
-            <DesktopTimeline
-              dentists={filteredDentists}
-              slotsPerDentist={slotsPerDentist}
-              onSlotClick={handleSlotClick}
-            />
-          </>
+          <DesktopTimeline
+            dentists={filteredDentists}
+            slotsPerDentist={slotsPerDentist}
+            onSlotClick={handleSlotClick}
+          />
         );
     }
   };
 
   return (
     <div className="h-screen flex bg-background">
-      {/* Left Navigation Sidebar */}
+      {/* Left Navigation Sidebar - Combined nav + calendar + dentist list */}
       <DesktopNavSidebar
         isExpanded={isNavExpanded}
         activeTab={activeNavTab}
         onTabChange={setActiveNavTab}
-        userRole={activeRole}
+        selectedDate={selectedDate}
+        onDateSelect={setSelectedDate}
+        dentists={mockDentists}
+        selectedDentistIds={selectedDentistIds}
+        onDentistToggle={handleDentistToggle}
+        onSelectAllDentists={handleSelectAllDentists}
+        appointmentDates={appointmentDates}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -149,6 +141,8 @@ export function DesktopCalendarView() {
             >
               <Menu className="w-5 h-5" />
             </Button>
+
+            <img src={smileIcon} alt="SmileCheck" className="h-8 w-8" />
 
             <div className="h-6 w-px bg-border" />
 
@@ -264,19 +258,17 @@ export function DesktopCalendarView() {
                   <CalendarClock className="w-4 h-4" />
                   Modificar horários
                 </Button>
-
-                <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
-                  <Settings className="w-4 h-4" />
-                  Configurações
-                </Button>
               </>
             )}
           </div>
 
-          {/* Right Section */}
+          {/* Right Section - Help, Settings, Notifications, Profile */}
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="text-muted-foreground">
               <HelpCircle className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-muted-foreground">
+              <Settings className="w-5 h-5" />
             </Button>
             <Button variant="ghost" size="icon" className="text-muted-foreground relative">
               <Bell className="w-5 h-5" />
