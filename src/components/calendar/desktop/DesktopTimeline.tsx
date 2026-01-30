@@ -203,7 +203,7 @@ export function DesktopTimeline({
             const slots = slotsPerDentist[dentist.id] || [];
             const occupiedSlots = slots.filter(s => s.status === 'ocupado' && s.consultation);
             const blockedSlots = slots.filter(s => s.status === 'bloqueado');
-            return <div key={dentist.id} className={cn("flex-1 relative border-l border-secondary", colIdx === 0 && 'border-l-0')}>
+            return <div key={dentist.id} className={cn("flex-1 relative border-l border-border", colIdx === 0 && 'border-l-0')}>
                   {/* Blocked Slots */}
                   {blockedSlots.map((slot, slotIdx) => <div key={`blocked-${slotIdx}`} className="absolute left-1 right-1 bg-bloqueado/30 rounded flex items-center justify-center border-l-4 border-l-bloqueado" style={{
                 top: `${getSlotPosition(slot.time)}px`,
