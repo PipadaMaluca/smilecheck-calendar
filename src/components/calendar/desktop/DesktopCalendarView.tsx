@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
-import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock, Stethoscope, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
+import { DesktopCalendarSidebar } from './DesktopCalendarSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { PatientCalendar } from '../PatientCalendar';
@@ -11,20 +12,26 @@ import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { Stethoscope, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import smileIcon from '@/assets/smilecheck-icon.png';
+
 type ViewMode = 'list' | 'day' | 'week' | 'month';
+
 export function DesktopCalendarView() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(mockDentists.map(d => d.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('agenda');
+
   const appointmentDates = mockConsultations.map(c => c.date);
-  const filteredDentists = useMemo(() => mockDentists.filter(d => selectedDentistIds.includes(d.id)), [selectedDentistIds]);
+  
+  const filteredDentists = useMemo(() => 
+    mockDentists.filter(d => selectedDentistIds.includes(d.id)), 
+    [selectedDentistIds]
+  );
+
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
     filteredDentists.forEach(dentist => {
@@ -33,6 +40,7 @@ export function DesktopCalendarView() {
     });
     return result;
   }, [selectedDate, filteredDentists]);
+
   const handleDentistToggle = (dentistId: string) => {
     setSelectedDentistIds(prev => {
       if (prev.includes(dentistId)) {
@@ -42,6 +50,7 @@ export function DesktopCalendarView() {
       return [...prev, dentistId];
     });
   };
+
   const handleSelectAllDentists = () => {
     if (selectedDentistIds.length === mockDentists.length) {
       setSelectedDentistIds([mockDentists[0].id]);
@@ -49,53 +58,96 @@ export function DesktopCalendarView() {
       setSelectedDentistIds(mockDentists.map(d => d.id));
     }
   };
+
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.consultation) {
       setSelectedConsultation(slot.consultation);
     }
   };
+
   const goToPreviousDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() - 1);
     setSelectedDate(newDate);
   };
+
   const goToNextDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() + 1);
     setSelectedDate(newDate);
   };
+
   const goToToday = () => {
     setSelectedDate(new Date());
   };
+
   const renderContent = () => {
     switch (activeRole) {
       case 'patient':
-        return <div className="flex-1 overflow-auto">
+        return (
+          <div className="flex-1 overflow-auto">
             <PatientCalendar />
-          </div>;
+          </div>
+        );
       case 'dentist':
-        return <div className="flex-1 overflow-auto">
+        return (
+          <div className="flex-1 overflow-auto">
             <DentistCalendar />
-          </div>;
+          </div>
+        );
       case 'clinic':
       default:
-        return <DesktopTimeline dentists={filteredDentists} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} />;
+        return (
+          <DesktopTimeline
+            dentists={filteredDentists}
+            slotsPerDentist={slotsPerDentist}
+            onSlotClick={handleSlotClick}
+            selectedDate={selectedDate}
+          />
+        );
     }
   };
-  return <div className="h-screen flex bg-background">
-      {/* Left Navigation Sidebar - Combined nav + calendar + dentist list */}
-      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={setActiveNavTab} selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} appointmentDates={appointmentDates} />
 
+  return (
+    <div className="h-screen flex bg-background">
+      {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
+      <DesktopNavSidebar
+        isExpanded={isNavExpanded}
+        activeTab={activeNavTab}
+        onTabChange={setActiveNavTab}
+        userRole={activeRole}
+      />
+
+      {/* Vertical separator line */}
+      {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+
+      {/* Sidebar 2 - Calendar + Dentists (lighter blue #0D2137) - Only visible when expanded */}
+      {isNavExpanded && (
+        <DesktopCalendarSidebar
+          selectedDate={selectedDate}
+          onDateSelect={setSelectedDate}
+          dentists={mockDentists}
+          selectedDentistIds={selectedDentistIds}
+          onDentistToggle={handleDentistToggle}
+          onSelectAllDentists={handleSelectAllDentists}
+          appointmentDates={appointmentDates}
+        />
+      )}
+
+      {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
           {/* Left Section */}
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => setIsNavExpanded(!isNavExpanded)}
+            >
               <Menu className="w-5 h-5" />
             </Button>
-
-            
 
             <div className="h-6 w-px bg-border" />
 
@@ -113,9 +165,7 @@ export function DesktopCalendarView() {
             </div>
 
             <span className="text-sm font-medium capitalize">
-              {format(selectedDate, "EEEE d MMMM yyyy", {
-              locale: pt
-            })}
+              {format(selectedDate, "EEEE d MMMM yyyy", { locale: pt })}
             </span>
           </div>
 
@@ -123,35 +173,83 @@ export function DesktopCalendarView() {
           <div className="flex items-center gap-4">
             {/* Role Selector */}
             <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('patient')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'patient'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
                 <User className="w-4 h-4" />
                 Paciente
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('dentist')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'dentist'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
                 <Stethoscope className="w-4 h-4" />
                 Dentista
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveRole('clinic')}
+                className={cn(
+                  'gap-2 px-3 py-1 text-xs transition-all',
+                  activeRole === 'clinic'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+              >
                 <Building2 className="w-4 h-4" />
                 Clínica
               </Button>
             </div>
 
-            {activeRole === 'clinic' && <>
+            {activeRole === 'clinic' && (
+              <>
                 <div className="h-6 w-px bg-border" />
 
                 {/* View Mode Toggle */}
-                <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                  <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                <ToggleGroup
+                  type="single"
+                  value={viewMode}
+                  onValueChange={(val) => val && setViewMode(val as ViewMode)}
+                  className="bg-secondary/50 rounded-lg p-1"
+                >
+                  <ToggleGroupItem
+                    value="list"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
                     Lista
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <ToggleGroupItem
+                    value="day"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
                     Dia
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <ToggleGroupItem
+                    value="week"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
                     Semana
                   </ToggleGroupItem>
-                  <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <ToggleGroupItem
+                    value="month"
+                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  >
                     Mês
                   </ToggleGroupItem>
                 </ToggleGroup>
@@ -160,7 +258,8 @@ export function DesktopCalendarView() {
                   <CalendarClock className="w-4 h-4" />
                   Modificar horários
                 </Button>
-              </>}
+              </>
+            )}
           </div>
 
           {/* Right Section - Help, Settings, Notifications, Profile */}
@@ -188,12 +287,19 @@ export function DesktopCalendarView() {
       </div>
 
       {/* Edit Consultation Modal */}
-      <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {
-      console.log('Saved consultation:', updated);
-      setSelectedConsultation(null);
-    }} onCancel={consultation => {
-      console.log('Cancelled consultation:', consultation);
-      setSelectedConsultation(null);
-    }} />
-    </div>;
+      <EditConsultationModal
+        consultation={selectedConsultation}
+        isOpen={!!selectedConsultation}
+        onClose={() => setSelectedConsultation(null)}
+        onSave={(updated) => {
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }}
+        onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }}
+      />
+    </div>
+  );
 }
