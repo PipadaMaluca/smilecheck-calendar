@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dentist, UserRole } from '@/types/calendar';
+import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -14,10 +15,12 @@ interface DesktopCalendarSidebarProps {
   onDateSelect: (date: Date) => void;
   dentists: Dentist[];
   selectedDentistIds: string[];
-  onDentistToggle: (dentistId: string) => void;
+  onDentistToggle: (dentistId: string, clinicId?: string) => void;
   onSelectAllDentists: () => void;
   appointmentDates?: Date[];
   userRole?: UserRole;
+  selectedClinicIds?: string[];
+  onClinicToggle?: (clinicId: string) => void;
 }
 
 export function DesktopCalendarSidebar({
@@ -29,16 +32,28 @@ export function DesktopCalendarSidebar({
   onSelectAllDentists,
   appointmentDates = [],
   userRole = 'clinic',
+  selectedClinicIds = ['1'],
+  onClinicToggle,
 }: DesktopCalendarSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isProfessionalsOpen, setIsProfessionalsOpen] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
   const today = new Date();
 
-  const filteredDentists = dentists.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  const allSelected = dentists.every((d) => selectedDentistIds.includes(d.id));
+  const toggleClinicExpanded = (clinicId: string) => {
+    setExpandedClinics(prev => 
+      prev.includes(clinicId) 
+        ? prev.filter(id => id !== clinicId)
+        : [...prev, clinicId]
+    );
+  };
+
+  // Get total selected dentists count
+  const totalDentists = mockClinics.reduce((acc, clinic) => {
+    return acc + getDentistsForClinic(clinic.id).length;
+  }, 0);
+  
+  const selectedCount = selectedDentistIds.filter(id => id !== 'all').length || totalDentists;
 
   // Generate calendar grid
   const monthStart = startOfMonth(currentMonth);
@@ -63,16 +78,25 @@ export function DesktopCalendarSidebar({
     appointmentDates.some((d) => isSameDay(d, date));
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
-  // For dentist role, mark self as "(Eu)"
-  const getSelfSuffix = (dentist: Dentist, index: number) => {
-    if (userRole === 'dentist' && index === 0) {
-      return ' (Eu)';
-    }
-    return '';
+  // Check if a dentist is selected for a specific clinic
+  const isDentistSelected = (dentistId: string, clinicId: string) => {
+    if (selectedDentistIds.includes('all') || selectedDentistIds.length === 0) return true;
+    const key = `${clinicId}-${dentistId}`;
+    return selectedDentistIds.includes(key) || selectedDentistIds.includes(dentistId);
+  };
+
+  // Check if all dentists of a clinic are selected
+  const isClinicFullySelected = (clinicId: string) => {
+    if (selectedDentistIds.includes('all') || selectedDentistIds.length === 0) return true;
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    return dentistsInClinic.every(d => {
+      const key = `${clinicId}-${d.id}`;
+      return selectedDentistIds.includes(key) || selectedDentistIds.includes(d.id);
+    });
   };
 
   return (
-    <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
+    <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
@@ -148,11 +172,11 @@ export function DesktopCalendarSidebar({
         </div>
       </div>
 
-      {/* Agendas Section */}
+      {/* Agendas Section Header */}
       <div className="p-3 border-b border-[#1E3A5F] flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-muted-foreground">
-            Agendas ({selectedDentistIds.length}/{dentists.length})
+            Agendas ({selectedCount}/{totalDentists})
           </span>
           <ChevronDown className="w-4 h-4 text-muted-foreground" />
         </div>
@@ -179,7 +203,7 @@ export function DesktopCalendarSidebar({
         </div>
       </div>
 
-      {/* Dentists List */}
+      {/* Clinics + Dentists List - Hierarchical */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
         {/* All checkbox */}
         <div
@@ -187,54 +211,83 @@ export function DesktopCalendarSidebar({
           onClick={onSelectAllDentists}
         >
           <Checkbox
-            checked={allSelected}
+            checked={selectedDentistIds.includes('all') || selectedDentistIds.length === 0}
             className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
           />
           <span className="text-xs font-medium">Todos</span>
         </div>
 
-        {/* Professionals Group */}
-        <Collapsible open={isProfessionalsOpen} onOpenChange={setIsProfessionalsOpen}>
-          <CollapsibleTrigger className="flex items-center gap-1.5 py-1.5 w-full text-left">
-            <ChevronDown
-              className={cn(
-                'w-3 h-3 text-muted-foreground transition-transform',
-                !isProfessionalsOpen && '-rotate-90'
-              )}
-            />
-            <span className="text-xs text-muted-foreground">Profissionais</span>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="pl-3">
-            {filteredDentists.map((dentist, index) => {
-              const isSelected = selectedDentistIds.includes(dentist.id);
-              const isSelf = userRole === 'dentist' && index === 0;
-              return (
-                <div
-                  key={dentist.id}
-                  className={cn(
-                    "flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5",
-                    isSelf && "opacity-90"
-                  )}
-                  onClick={() => !isSelf && onDentistToggle(dentist.id)}
-                >
-                  <Checkbox
-                    checked={isSelected}
-                    disabled={isSelf}
-                    className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                  />
-                  <div className="flex flex-col min-w-0">
-                    <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
-                      {dentist.name}{getSelfSuffix(dentist, index)}
-                    </span>
-                    {dentist.workingHours && (
-                      <span className="text-[9px] text-muted-foreground">{dentist.workingHours}</span>
+        {/* Clinics with their dentists */}
+        {mockClinics.map(clinic => {
+          const isExpanded = expandedClinics.includes(clinic.id);
+          const dentistsInClinic = getDentistsForClinic(clinic.id);
+          const filteredDentists = searchQuery 
+            ? dentistsInClinic.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()))
+            : dentistsInClinic;
+          const isFullySelected = isClinicFullySelected(clinic.id);
+          
+          if (searchQuery && filteredDentists.length === 0) return null;
+
+          return (
+            <Collapsible 
+              key={clinic.id} 
+              open={isExpanded} 
+              onOpenChange={() => toggleClinicExpanded(clinic.id)}
+            >
+              <div className="flex items-center gap-1.5 py-1.5">
+                <Checkbox
+                  checked={isFullySelected}
+                  onCheckedChange={() => onClinicToggle?.(clinic.id)}
+                  className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <CollapsibleTrigger className="flex items-center gap-1.5 flex-1 text-left">
+                  <Building2 className="w-3 h-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground flex-1 truncate">{clinic.name}</span>
+                  <ChevronDown
+                    className={cn(
+                      'w-3 h-3 text-muted-foreground transition-transform',
+                      !isExpanded && '-rotate-90'
                     )}
-                  </div>
-                </div>
-              );
-            })}
-          </CollapsibleContent>
-        </Collapsible>
+                  />
+                </CollapsibleTrigger>
+              </div>
+              <CollapsibleContent className="pl-5">
+                {filteredDentists.map((dentist, index) => {
+                  const isSelected = isDentistSelected(dentist.id, clinic.id);
+                  const worksOnDemo = dentistWorksOnDemo(clinic.id, dentist.id);
+                  const isSelf = userRole === 'dentist' && dentist.id === '1' && clinic.id === '1';
+                  
+                  return (
+                    <div
+                      key={`${clinic.id}-${dentist.id}`}
+                      className={cn(
+                        "flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5",
+                        !worksOnDemo && "opacity-50"
+                      )}
+                      onClick={() => !isSelf && onDentistToggle(dentist.id, clinic.id)}
+                    >
+                      <Checkbox
+                        checked={isSelected}
+                        disabled={isSelf}
+                        className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                      />
+                      <div className="flex flex-col min-w-0">
+                        <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
+                          {dentist.name}{isSelf ? ' (Eu)' : ''}
+                        </span>
+                        <span className="text-[9px] text-muted-foreground">
+                          {dentist.workingHours || '9h-21h'}
+                          {!worksOnDemo && ' • Não trabalha hoje'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </CollapsibleContent>
+            </Collapsible>
+          );
+        })}
 
         {/* Add Dentist */}
         <Button

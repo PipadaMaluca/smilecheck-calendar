@@ -1,15 +1,61 @@
 import { Consultation, Dentist, Clinic, TimeSlot } from '@/types/calendar';
 
+// ===== CLINICS =====
 export const mockClinics: Clinic[] = [
-  { id: '1', name: 'Clínica Dentária SmileCheck', address: 'Av. da Liberdade 123, Lisboa', distance: 2.5 },
-  { id: '2', name: 'Centro Dentário Sorriso', address: 'Rua Augusta 45, Lisboa', distance: 4.2 },
+  { id: '1', name: 'Clínica SmileCheck', address: 'Av. da Liberdade 123, Lisboa', distance: 2.5 },
+  { id: '2', name: 'Clínica Mitry-Mory', address: 'Rue de Paris 45, Mitry-Mory', distance: 4.2 },
+  { id: '3', name: 'Clínica Montfermeil', address: 'Avenue Jean Jaurès 78, Montfermeil', distance: 6.0 },
 ];
 
+// ===== DENTISTS =====
+// SmileCheck: Dr. Gonçalo Pipo, Dr. Alexandre Bernardo, Dr. Gil Santos
+// Mitry-Mory: Dr. Gonçalo Pipo (não trabalha dia 31), Dr. Frederico Cardoso, Dr. Duarte Pereira
+// Montfermeil: Dr. Gonçalo Pipo (não trabalha dia 31), Dr. Fábio Lobo, Dra. Catarina Fernandes
 export const mockDentists: Dentist[] = [
   { id: '1', name: 'Dr. Gonçalo Pipo', specialty: 'Ortodontia', workingHours: '9h-21h' },
   { id: '2', name: 'Dr. Alexandre Bernardo', specialty: 'Endodontia', workingHours: '9h-21h' },
   { id: '3', name: 'Dr. Gil Santos', specialty: 'Periodontia', workingHours: '9h-21h' },
+  { id: '4', name: 'Dr. Frederico Cardoso', specialty: 'Implantologia', workingHours: '9h-21h' },
+  { id: '5', name: 'Dr. Duarte Pereira', specialty: 'Ortodontia', workingHours: '9h-21h' },
+  { id: '6', name: 'Dr. Fábio Lobo', specialty: 'Cirurgia Oral', workingHours: '9h-21h' },
+  { id: '7', name: 'Dra. Catarina Fernandes', specialty: 'Odontopediatria', workingHours: '9h-21h' },
 ];
+
+// Clinic-dentist mapping
+export interface ClinicDentist {
+  clinicId: string;
+  dentistId: string;
+  worksOnDemo: boolean; // Whether they work on Jan 31
+}
+
+export const clinicDentists: ClinicDentist[] = [
+  // SmileCheck
+  { clinicId: '1', dentistId: '1', worksOnDemo: true },
+  { clinicId: '1', dentistId: '2', worksOnDemo: true },
+  { clinicId: '1', dentistId: '3', worksOnDemo: true },
+  // Mitry-Mory
+  { clinicId: '2', dentistId: '1', worksOnDemo: false }, // Gonçalo não trabalha aqui dia 31
+  { clinicId: '2', dentistId: '4', worksOnDemo: true },
+  { clinicId: '2', dentistId: '5', worksOnDemo: true },
+  // Montfermeil
+  { clinicId: '3', dentistId: '1', worksOnDemo: false }, // Gonçalo não trabalha aqui dia 31
+  { clinicId: '3', dentistId: '6', worksOnDemo: true },
+  { clinicId: '3', dentistId: '7', worksOnDemo: true },
+];
+
+// Helper to get dentists for a clinic
+export const getDentistsForClinic = (clinicId: string): Dentist[] => {
+  const dentistIds = clinicDentists
+    .filter(cd => cd.clinicId === clinicId)
+    .map(cd => cd.dentistId);
+  return mockDentists.filter(d => dentistIds.includes(d.id));
+};
+
+// Helper to check if dentist works on demo day at clinic
+export const dentistWorksOnDemo = (clinicId: string, dentistId: string): boolean => {
+  const record = clinicDentists.find(cd => cd.clinicId === clinicId && cd.dentistId === dentistId);
+  return record?.worksOnDemo ?? false;
+};
 
 // Helper to create patient
 const createPatient = (id: string, name: string, phone: string, rating: number, level: string) => ({
@@ -121,10 +167,10 @@ export const mockPatientConsultations: Consultation[] = [
   },
 ];
 
-// ===== JANUARY 31 - Full Day Demo for ALL 3 Dentists =====
+// ===== JANUARY 31 - Full Day Demo for ALL Dentists =====
 export const mockConsultations: Consultation[] = [
   // ==========================================
-  // DR. GONÇALO PIPO (Dentist ID: 1)
+  // DR. GONÇALO PIPO - CLÍNICA SMILECHECK (ID: 1)
   // ==========================================
   {
     id: 'gp-1',
@@ -184,13 +230,7 @@ export const mockConsultations: Consultation[] = [
     isPaid: true,
     paymentMethod: 'Dinheiro',
     notes: 'Dor aguda dente 48',
-    triage: {
-      symptom: 'Dor intensa no dente',
-      duration: 'Desde ontem',
-      intensity: 5,
-      photos: 2,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Dor intensa no dente', duration: 'Desde ontem', intensity: 5, photos: 2, urgency: 'urgente' },
   },
   {
     id: 'gp-5',
@@ -220,16 +260,9 @@ export const mockConsultations: Consultation[] = [
     price: 35,
     isPaid: true,
     paymentMethod: 'MB Way',
-    triage: {
-      symptom: 'Inchaço na gengiva',
-      duration: 'Há 2 dias',
-      intensity: 4,
-      photos: 3,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Inchaço na gengiva', duration: 'Há 2 dias', intensity: 4, photos: 3, urgency: 'urgente' },
   },
-  // 12:30 - Livre
-  // 13:00-14:00 - ALMOÇO (bloqueado)
+  // 12:30 - Livre, 13:00-14:00 - ALMOÇO
   {
     id: 'gp-7',
     type: 'presencial',
@@ -330,13 +363,7 @@ export const mockConsultations: Consultation[] = [
     price: 80,
     isPaid: false,
     notes: 'Dor aguda',
-    triage: {
-      symptom: 'Dor no molar',
-      duration: 'Há 1 dia',
-      intensity: 4,
-      photos: 1,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Dor no molar', duration: 'Há 1 dia', intensity: 4, photos: 1, urgency: 'urgente' },
   },
   {
     id: 'gp-14',
@@ -398,7 +425,7 @@ export const mockConsultations: Consultation[] = [
   },
 
   // ==========================================
-  // DR. ALEXANDRE BERNARDO (Dentist ID: 2)
+  // DR. ALEXANDRE BERNARDO - CLÍNICA SMILECHECK (ID: 2)
   // ==========================================
   {
     id: 'ab-1',
@@ -472,13 +499,7 @@ export const mockConsultations: Consultation[] = [
     price: 80,
     isPaid: false,
     notes: 'Dor intensa',
-    triage: {
-      symptom: 'Dor aguda',
-      duration: 'Desde ontem',
-      intensity: 5,
-      photos: 2,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Dor aguda', duration: 'Desde ontem', intensity: 5, photos: 2, urgency: 'urgente' },
   },
   {
     id: 'ab-6',
@@ -582,13 +603,7 @@ export const mockConsultations: Consultation[] = [
     price: 35,
     isPaid: true,
     paymentMethod: 'MB Way',
-    triage: {
-      symptom: 'Inchaço facial',
-      duration: 'Há 1 dia',
-      intensity: 4,
-      photos: 3,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Inchaço facial', duration: 'Há 1 dia', intensity: 4, photos: 3, urgency: 'urgente' },
   },
   {
     id: 'ab-13',
@@ -679,7 +694,7 @@ export const mockConsultations: Consultation[] = [
   },
 
   // ==========================================
-  // DR. GIL SANTOS (Dentist ID: 3)
+  // DR. GIL SANTOS - CLÍNICA SMILECHECK (ID: 3)
   // ==========================================
   {
     id: 'gs-1',
@@ -739,13 +754,7 @@ export const mockConsultations: Consultation[] = [
     price: 80,
     isPaid: false,
     notes: 'Dor no siso',
-    triage: {
-      symptom: 'Dor no dente do siso',
-      duration: 'Há 2 dias',
-      intensity: 4,
-      photos: 2,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Dor no dente do siso', duration: 'Há 2 dias', intensity: 4, photos: 2, urgency: 'urgente' },
   },
   {
     id: 'gs-5',
@@ -864,13 +873,7 @@ export const mockConsultations: Consultation[] = [
     price: 35,
     isPaid: true,
     paymentMethod: 'Cartão',
-    triage: {
-      symptom: 'Dor na gengiva',
-      duration: 'Há 3 dias',
-      intensity: 3,
-      photos: 2,
-      urgency: 'urgente',
-    },
+    triage: { symptom: 'Dor na gengiva', duration: 'Há 3 dias', intensity: 3, photos: 2, urgency: 'urgente' },
   },
   {
     id: 'gs-13',
@@ -959,6 +962,558 @@ export const mockConsultations: Consultation[] = [
     paymentMethod: 'MB Way',
   },
   // 21:00 - Livre
+
+  // ==========================================
+  // DR. FREDERICO CARDOSO - CLÍNICA MITRY-MORY (ID: 4)
+  // ==========================================
+  {
+    id: 'fc-1',
+    type: 'presencial',
+    category: 'cirurgia',
+    date: DEMO_DATE,
+    time: '09:00',
+    duration: 60,
+    patient: createPatient('fc-p1', 'Ricardo Mendes', '+351 911 411 411', 4.5, 'Gold'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 200,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Extração complexa',
+  },
+  {
+    id: 'fc-2',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: DEMO_DATE,
+    time: '10:00',
+    duration: 30,
+    patient: createPatient('fc-p2', 'Paula Ribeiro', '+351 922 522 522', 4.3, 'Silver'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 50,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Limpeza profunda',
+  },
+  {
+    id: 'fc-3',
+    type: 'presencial',
+    category: 'endodontia',
+    date: DEMO_DATE,
+    time: '11:00',
+    duration: 60,
+    patient: createPatient('fc-p3', 'Vasco Almeida', '+351 933 633 633', 4.8, 'Platinum'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 150,
+    isPaid: true,
+    paymentMethod: 'Transferência',
+    notes: 'Desvitalização 26',
+  },
+  {
+    id: 'fc-4',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: DEMO_DATE,
+    time: '12:00',
+    duration: 30,
+    patient: createPatient('fc-p4', 'Cláudia Ferreira', '+351 944 744 744', 4.0, 'Bronze'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 40,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Avaliação inicial',
+  },
+  // 13:00-14:00 - ALMOÇO
+  {
+    id: 'fc-5',
+    type: 'presencial',
+    category: 'protese',
+    date: DEMO_DATE,
+    time: '14:00',
+    duration: 60,
+    patient: createPatient('fc-p5', 'Henrique Lopes', '+351 955 855 855', 4.6, 'Gold'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 180,
+    isPaid: false,
+    notes: 'Coroa cerâmica',
+  },
+  {
+    id: 'fc-6',
+    type: 'presencial',
+    category: 'restauracao',
+    date: DEMO_DATE,
+    time: '15:00',
+    duration: 30,
+    patient: createPatient('fc-p6', 'Susana Costa', '+351 966 966 966', 4.4, 'Silver'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 60,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Dente 36',
+  },
+  {
+    id: 'fc-7',
+    type: 'presencial',
+    category: 'urgencia',
+    date: DEMO_DATE,
+    time: '16:00',
+    duration: 30,
+    patient: createPatient('fc-p7', 'Diogo Santos', '+351 977 077 077', 3.9, 'Bronze'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 80,
+    isPaid: false,
+    notes: 'Dor aguda',
+    triage: { symptom: 'Dor intensa', duration: 'Desde hoje', intensity: 5, photos: 1, urgency: 'urgente' },
+  },
+  {
+    id: 'fc-8',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: DEMO_DATE,
+    time: '17:00',
+    duration: 30,
+    patient: createPatient('fc-p8', 'Raquel Nunes', '+351 988 188 188', 4.7, 'Gold'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+  },
+  {
+    id: 'fc-9',
+    type: 'teleconsulta',
+    category: 'teleconsulta_urgente',
+    date: DEMO_DATE,
+    time: '19:30',
+    duration: 30,
+    patient: createPatient('fc-p9', 'Tânia Gomes', '+351 999 299 299', 4.2, 'Silver'),
+    dentist: mockDentists[3],
+    clinic: mockClinics[1],
+    price: 35,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    triage: { symptom: 'Inchaço súbito', duration: 'Há 1 hora', intensity: 4, photos: 2, urgency: 'urgente' },
+  },
+
+  // ==========================================
+  // DR. DUARTE PEREIRA - CLÍNICA MITRY-MORY (ID: 5)
+  // ==========================================
+  {
+    id: 'dp-1',
+    type: 'presencial',
+    category: 'cirurgia',
+    date: DEMO_DATE,
+    time: '09:30',
+    duration: 60,
+    patient: createPatient('dp-p1', 'Bernardo Silva', '+351 911 511 511', 4.5, 'Gold'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 200,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Extração siso',
+  },
+  {
+    id: 'dp-2',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: DEMO_DATE,
+    time: '10:30',
+    duration: 30,
+    patient: createPatient('dp-p2', 'Inês Rodrigues', '+351 922 622 622', 4.8, 'Platinum'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 50,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Limpeza semestral',
+  },
+  {
+    id: 'dp-3',
+    type: 'presencial',
+    category: 'endodontia',
+    date: DEMO_DATE,
+    time: '11:30',
+    duration: 60,
+    patient: createPatient('dp-p3', 'Gonçalo Martins', '+351 933 733 733', 4.3, 'Silver'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 150,
+    isPaid: true,
+    paymentMethod: 'Transferência',
+    notes: 'Desvitalização 46',
+  },
+  {
+    id: 'dp-4',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: DEMO_DATE,
+    time: '12:30',
+    duration: 30,
+    patient: createPatient('dp-p4', 'Leonor Pereira', '+351 944 844 844', 5.0, 'Platinum'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 40,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Primeira consulta',
+  },
+  // 13:00-14:00 - ALMOÇO
+  {
+    id: 'dp-5',
+    type: 'presencial',
+    category: 'protese',
+    date: DEMO_DATE,
+    time: '14:30',
+    duration: 60,
+    patient: createPatient('dp-p5', 'Afonso Oliveira', '+351 955 955 955', 4.1, 'Bronze'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 180,
+    isPaid: false,
+    notes: 'Ponte fixa',
+  },
+  {
+    id: 'dp-6',
+    type: 'presencial',
+    category: 'restauracao',
+    date: DEMO_DATE,
+    time: '15:30',
+    duration: 30,
+    patient: createPatient('dp-p6', 'Matilde Sousa', '+351 966 066 066', 4.6, 'Gold'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 60,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Dente 25',
+  },
+  {
+    id: 'dp-7',
+    type: 'presencial',
+    category: 'urgencia',
+    date: DEMO_DATE,
+    time: '16:30',
+    duration: 30,
+    patient: createPatient('dp-p7', 'Tomé Fernandes', '+351 977 177 177', 4.0, 'Bronze'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 80,
+    isPaid: false,
+    notes: 'Dor no dente',
+    triage: { symptom: 'Dor aguda molar', duration: 'Há 2 dias', intensity: 4, photos: 2, urgency: 'urgente' },
+  },
+  {
+    id: 'dp-8',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: DEMO_DATE,
+    time: '18:30',
+    duration: 30,
+    patient: createPatient('dp-p8', 'Lara Alves', '+351 988 288 288', 4.9, 'Platinum'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+  },
+  {
+    id: 'dp-9',
+    type: 'teleconsulta',
+    category: 'teleconsulta_urgente',
+    date: DEMO_DATE,
+    time: '20:00',
+    duration: 30,
+    patient: createPatient('dp-p9', 'Ivo Carvalho', '+351 999 399 399', 4.4, 'Silver'),
+    dentist: mockDentists[4],
+    clinic: mockClinics[1],
+    price: 35,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    triage: { symptom: 'Sangramento gengival', duration: 'Desde ontem', intensity: 3, photos: 1, urgency: 'urgente' },
+  },
+
+  // ==========================================
+  // DR. FÁBIO LOBO - CLÍNICA MONTFERMEIL (ID: 6)
+  // ==========================================
+  {
+    id: 'fl-1',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: DEMO_DATE,
+    time: '09:00',
+    duration: 30,
+    patient: createPatient('fl-p1', 'Nuno Teixeira', '+351 911 611 611', 4.5, 'Gold'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 50,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Limpeza',
+  },
+  {
+    id: 'fl-2',
+    type: 'presencial',
+    category: 'cirurgia',
+    date: DEMO_DATE,
+    time: '10:00',
+    duration: 60,
+    patient: createPatient('fl-p2', 'Vanessa Reis', '+351 922 722 722', 4.8, 'Platinum'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 200,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Extração 38',
+  },
+  {
+    id: 'fl-3',
+    type: 'presencial',
+    category: 'endodontia',
+    date: DEMO_DATE,
+    time: '11:00',
+    duration: 60,
+    patient: createPatient('fl-p3', 'Eduardo Pinto', '+351 933 833 833', 4.3, 'Silver'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 150,
+    isPaid: true,
+    paymentMethod: 'Transferência',
+    notes: 'Desvitalização 36',
+  },
+  {
+    id: 'fl-4',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: DEMO_DATE,
+    time: '12:00',
+    duration: 30,
+    patient: createPatient('fl-p4', 'Filipa Correia', '+351 944 944 944', 4.0, 'Bronze'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 40,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Avaliação',
+  },
+  // 13:00-14:00 - ALMOÇO
+  {
+    id: 'fl-5',
+    type: 'presencial',
+    category: 'restauracao',
+    date: DEMO_DATE,
+    time: '14:00',
+    duration: 30,
+    patient: createPatient('fl-p5', 'Gabriel Moreira', '+351 955 055 055', 4.6, 'Gold'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 60,
+    isPaid: false,
+    notes: 'Dente 46',
+  },
+  {
+    id: 'fl-6',
+    type: 'presencial',
+    category: 'protese',
+    date: DEMO_DATE,
+    time: '15:00',
+    duration: 60,
+    patient: createPatient('fl-p6', 'Margarida Cunha', '+351 966 166 166', 4.9, 'Platinum'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 180,
+    isPaid: true,
+    paymentMethod: 'Transferência',
+    notes: 'Coroa',
+  },
+  {
+    id: 'fl-7',
+    type: 'presencial',
+    category: 'urgencia',
+    date: DEMO_DATE,
+    time: '16:00',
+    duration: 30,
+    patient: createPatient('fl-p7', 'Samuel Rocha', '+351 977 277 277', 3.8, 'Bronze'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 80,
+    isPaid: false,
+    notes: 'Dor aguda',
+    triage: { symptom: 'Dor intensa', duration: 'Há 1 dia', intensity: 5, photos: 2, urgency: 'urgente' },
+  },
+  {
+    id: 'fl-8',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: DEMO_DATE,
+    time: '18:00',
+    duration: 30,
+    patient: createPatient('fl-p8', 'Alexandra Dias', '+351 988 388 388', 4.5, 'Gold'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+  },
+  {
+    id: 'fl-9',
+    type: 'teleconsulta',
+    category: 'teleconsulta_urgente',
+    date: DEMO_DATE,
+    time: '19:00',
+    duration: 30,
+    patient: createPatient('fl-p9', 'Kevin Baptista', '+351 999 499 499', 4.2, 'Silver'),
+    dentist: mockDentists[5],
+    clinic: mockClinics[2],
+    price: 35,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    triage: { symptom: 'Inchaço facial', duration: 'Há 3 horas', intensity: 4, photos: 3, urgency: 'urgente' },
+  },
+
+  // ==========================================
+  // DRA. CATARINA FERNANDES - CLÍNICA MONTFERMEIL (ID: 7)
+  // ==========================================
+  {
+    id: 'cf-1',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: DEMO_DATE,
+    time: '09:30',
+    duration: 30,
+    patient: createPatient('cf-p1', 'Rodrigo Vieira', '+351 911 711 711', 5.0, 'Platinum'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 40,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Primeira visita',
+  },
+  {
+    id: 'cf-2',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: DEMO_DATE,
+    time: '10:30',
+    duration: 30,
+    patient: createPatient('cf-p2', 'Carolina Barros', '+351 922 822 822', 4.7, 'Gold'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 50,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+    notes: 'Limpeza',
+  },
+  {
+    id: 'cf-3',
+    type: 'presencial',
+    category: 'cirurgia',
+    date: DEMO_DATE,
+    time: '11:30',
+    duration: 60,
+    patient: createPatient('cf-p3', 'Martim Araújo', '+351 933 933 933', 4.4, 'Silver'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 200,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Extração',
+  },
+  {
+    id: 'cf-4',
+    type: 'presencial',
+    category: 'endodontia',
+    date: DEMO_DATE,
+    time: '12:30',
+    duration: 30,
+    patient: createPatient('cf-p4', 'Benedita Faria', '+351 944 044 044', 4.1, 'Bronze'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 150,
+    isPaid: false,
+    notes: 'Início desvitalização',
+  },
+  // 13:00-14:00 - ALMOÇO
+  {
+    id: 'cf-5',
+    type: 'presencial',
+    category: 'restauracao',
+    date: DEMO_DATE,
+    time: '14:30',
+    duration: 30,
+    patient: createPatient('cf-p5', 'Xavier Monteiro', '+351 955 155 155', 4.8, 'Platinum'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 60,
+    isPaid: true,
+    paymentMethod: 'Transferência',
+    notes: 'Dente 15',
+  },
+  {
+    id: 'cf-6',
+    type: 'presencial',
+    category: 'protese',
+    date: DEMO_DATE,
+    time: '15:30',
+    duration: 60,
+    patient: createPatient('cf-p6', 'Mafalda Guerreiro', '+351 966 266 266', 4.5, 'Gold'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 180,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    notes: 'Prótese fixa',
+  },
+  {
+    id: 'cf-7',
+    type: 'presencial',
+    category: 'urgencia',
+    date: DEMO_DATE,
+    time: '17:00',
+    duration: 30,
+    patient: createPatient('cf-p7', 'Lourenço Simões', '+351 977 377 377', 4.0, 'Bronze'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 80,
+    isPaid: false,
+    notes: 'Dor intensa',
+    triage: { symptom: 'Dor aguda', duration: 'Desde hoje', intensity: 5, photos: 1, urgency: 'urgente' },
+  },
+  {
+    id: 'cf-8',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: DEMO_DATE,
+    time: '19:30',
+    duration: 30,
+    patient: createPatient('cf-p8', 'Eva Nogueira', '+351 988 488 488', 4.9, 'Platinum'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+  },
+  {
+    id: 'cf-9',
+    type: 'teleconsulta',
+    category: 'teleconsulta_urgente',
+    date: DEMO_DATE,
+    time: '20:30',
+    duration: 30,
+    patient: createPatient('cf-p9', 'Dinis Tavares', '+351 999 599 599', 4.3, 'Silver'),
+    dentist: mockDentists[6],
+    clinic: mockClinics[2],
+    price: 35,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+    triage: { symptom: 'Dor na gengiva', duration: 'Há 2 dias', intensity: 3, photos: 2, urgency: 'urgente' },
+  },
 ];
 
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {

@@ -54,25 +54,26 @@ export function DentistCalendar() {
     return generateTimeSlots(date, consultations);
   };
 
-  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean) => {
+  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       setSelectedDentists(['all']);
     } else {
+      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
       if (isCheckbox) {
         if (selectedDentists.includes('all')) {
-          setSelectedDentists([dentistId]);
-        } else if (selectedDentists.includes(dentistId)) {
-          const newSelected = selectedDentists.filter(id => id !== dentistId);
+          setSelectedDentists([key]);
+        } else if (selectedDentists.includes(key)) {
+          const newSelected = selectedDentists.filter(id => id !== key);
           if (newSelected.length === 0) {
             setSelectedDentists(['all']);
           } else {
             setSelectedDentists(newSelected);
           }
         } else {
-          setSelectedDentists([...selectedDentists, dentistId]);
+          setSelectedDentists([...selectedDentists, key]);
         }
       } else {
-        setSelectedDentists([dentistId]);
+        setSelectedDentists([key]);
       }
     }
   };
