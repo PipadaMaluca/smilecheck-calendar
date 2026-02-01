@@ -15,16 +15,22 @@ import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockD
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
 // Mock family members for patient view
-const mockFamilyMembers = [
-  { id: 'f1', name: 'João Silva', relation: 'Eu' },
-  { id: 'f2', name: 'Maria Silva', relation: 'Filha' },
-  { id: 'f3', name: 'Pedro Silva', relation: 'Filho' },
-];
-
+const mockFamilyMembers = [{
+  id: 'f1',
+  name: 'João Silva',
+  relation: 'Eu'
+}, {
+  id: 'f2',
+  name: 'Maria Silva',
+  relation: 'Filha'
+}, {
+  id: 'f3',
+  name: 'Pedro Silva',
+  relation: 'Filho'
+}];
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
@@ -34,9 +40,8 @@ export function DesktopCalendarView() {
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('agenda');
-
   const appointmentDates = mockConsultations.map(c => c.date);
-  
+
   // For clinic view: all selected dentists, for dentist view: self + optionally others
   const filteredDentists = useMemo(() => {
     if (activeRole === 'dentist') {
@@ -52,7 +57,6 @@ export function DesktopCalendarView() {
     }
     return mockDentists.filter(d => selectedDentistIds.includes(d.id));
   }, [selectedDentistIds, activeRole]);
-
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
     filteredDentists.forEach(dentist => {
@@ -64,10 +68,7 @@ export function DesktopCalendarView() {
 
   // Day consultations for list view
   const dayConsultations = useMemo(() => {
-    return mockConsultations.filter(c => 
-      isSameDay(c.date, selectedDate) && 
-      (activeRole === 'clinic' || c.dentist.id === mockDentists[0].id || selectedDentistIds.includes(c.dentist.id))
-    );
+    return mockConsultations.filter(c => isSameDay(c.date, selectedDate) && (activeRole === 'clinic' || c.dentist.id === mockDentists[0].id || selectedDentistIds.includes(c.dentist.id)));
   }, [selectedDate, activeRole, selectedDentistIds]);
 
   // Patient consultations
@@ -77,13 +78,12 @@ export function DesktopCalendarView() {
       return true;
     });
   }, []);
-
   const handleDentistToggle = (dentistId: string) => {
     if (activeRole === 'dentist') {
       // For dentist view, self is always selected, toggle others as columns
       const selfId = mockDentists[0].id;
       if (dentistId === selfId) return; // Can't deselect self
-      
+
       setSelectedDentistIds(prev => {
         if (prev.includes(dentistId)) {
           return prev.filter(id => id !== dentistId);
@@ -100,7 +100,6 @@ export function DesktopCalendarView() {
       });
     }
   };
-
   const handleSelectAllDentists = () => {
     if (activeRole === 'dentist') {
       // Toggle between just self and all
@@ -117,7 +116,6 @@ export function DesktopCalendarView() {
       }
     }
   };
-
   const handleFamilyMemberToggle = (memberId: string) => {
     setSelectedFamilyMemberIds(prev => {
       if (prev.includes(memberId)) {
@@ -127,7 +125,6 @@ export function DesktopCalendarView() {
       return [...prev, memberId];
     });
   };
-
   const handleSelectAllFamilyMembers = () => {
     if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
       setSelectedFamilyMemberIds([mockFamilyMembers[0].id]);
@@ -135,100 +132,43 @@ export function DesktopCalendarView() {
       setSelectedFamilyMemberIds(mockFamilyMembers.map(m => m.id));
     }
   };
-
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.consultation) {
       setSelectedConsultation(slot.consultation);
     }
   };
-
   const goToPreviousDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() - 1);
     setSelectedDate(newDate);
   };
-
   const goToNextDay = () => {
     const newDate = new Date(selectedDate);
     newDate.setDate(newDate.getDate() + 1);
     setSelectedDate(newDate);
   };
-
   const goToToday = () => {
     setSelectedDate(new Date());
   };
-
   const renderSidebar = () => {
     if (!isNavExpanded) return null;
-
     if (activeRole === 'patient') {
-      return (
-        <PatientSidebar
-          selectedDate={selectedDate}
-          onDateSelect={setSelectedDate}
-          familyMembers={mockFamilyMembers}
-          selectedMemberIds={selectedFamilyMemberIds}
-          onMemberToggle={handleFamilyMemberToggle}
-          onSelectAllMembers={handleSelectAllFamilyMembers}
-          appointmentDates={appointmentDates}
-        />
-      );
+      return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} />;
     }
-
-    return (
-      <DesktopCalendarSidebar
-        selectedDate={selectedDate}
-        onDateSelect={setSelectedDate}
-        dentists={mockDentists}
-        selectedDentistIds={selectedDentistIds}
-        onDentistToggle={handleDentistToggle}
-        onSelectAllDentists={handleSelectAllDentists}
-        appointmentDates={appointmentDates}
-        userRole={activeRole}
-      />
-    );
+    return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} appointmentDates={appointmentDates} userRole={activeRole} />;
   };
-
   const renderContent = () => {
     if (activeRole === 'patient') {
-      return (
-        <PatientAppointmentsList
-          consultations={patientConsultations}
-          selectedDate={selectedDate}
-          onConsultationClick={setSelectedConsultation}
-        />
-      );
+      return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
     }
-
     if (viewMode === 'list') {
-      return (
-        <ListView
-          consultations={dayConsultations}
-          dentists={filteredDentists}
-          onConsultationClick={setSelectedConsultation}
-        />
-      );
+      return <ListView consultations={dayConsultations} dentists={filteredDentists} onConsultationClick={setSelectedConsultation} />;
     }
-
-    return (
-      <DesktopTimeline
-        dentists={filteredDentists}
-        slotsPerDentist={slotsPerDentist}
-        onSlotClick={handleSlotClick}
-        selectedDate={selectedDate}
-      />
-    );
+    return <DesktopTimeline dentists={filteredDentists} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
-
-  return (
-    <div className="h-screen flex bg-background">
+  return <div className="h-screen flex bg-background">
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
-      <DesktopNavSidebar
-        isExpanded={isNavExpanded}
-        activeTab={activeNavTab}
-        onTabChange={setActiveNavTab}
-        userRole={activeRole}
-      />
+      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={setActiveNavTab} userRole={activeRole} />
 
       {/* Vertical separator line */}
       {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
@@ -239,15 +179,10 @@ export function DesktopCalendarView() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4 flex-shrink-0">
+        <header className="h-14 border-b border-border flex items-center justify-between px-4 flex-shrink-0 bg-sidebar">
           {/* Left Section */}
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-foreground"
-              onClick={() => setIsNavExpanded(!isNavExpanded)}
-            >
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
               <Menu className="w-5 h-5" />
             </Button>
 
@@ -267,7 +202,9 @@ export function DesktopCalendarView() {
             </div>
 
             <span className="text-sm font-medium capitalize">
-              {format(selectedDate, "EEEE d MMMM yyyy", { locale: pt })}
+              {format(selectedDate, "EEEE d MMMM yyyy", {
+              locale: pt
+            })}
             </span>
           </div>
 
@@ -275,83 +212,35 @@ export function DesktopCalendarView() {
           <div className="flex items-center gap-4">
             {/* Role Selector */}
             <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setActiveRole('patient')}
-                className={cn(
-                  'gap-2 px-3 py-1 text-xs transition-all',
-                  activeRole === 'patient'
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-muted-foreground hover:text-foreground'
-                )}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <User className="w-4 h-4" />
                 Paciente
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setActiveRole('dentist')}
-                className={cn(
-                  'gap-2 px-3 py-1 text-xs transition-all',
-                  activeRole === 'dentist'
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-muted-foreground hover:text-foreground'
-                )}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <Stethoscope className="w-4 h-4" />
                 Dentista
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setActiveRole('clinic')}
-                className={cn(
-                  'gap-2 px-3 py-1 text-xs transition-all',
-                  activeRole === 'clinic'
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'text-muted-foreground hover:text-foreground'
-                )}
-              >
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <Building2 className="w-4 h-4" />
                 Clínica
               </Button>
             </div>
 
-            {(activeRole === 'clinic' || activeRole === 'dentist') && (
-              <>
+            {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                 <div className="h-6 w-px bg-border" />
 
                 {/* View Mode Toggle */}
-                <ToggleGroup
-                  type="single"
-                  value={viewMode}
-                  onValueChange={(val) => val && setViewMode(val as ViewMode)}
-                  className="bg-secondary/50 rounded-lg p-1"
-                >
-                  <ToggleGroupItem
-                    value="list"
-                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-                  >
+                <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
+                  <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
                     Lista
                   </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value="day"
-                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-                  >
+                  <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
                     Dia
                   </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value="week"
-                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-                  >
+                  <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
                     Semana
                   </ToggleGroupItem>
-                  <ToggleGroupItem
-                    value="month"
-                    className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-                  >
+                  <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
                     Mês
                   </ToggleGroupItem>
                 </ToggleGroup>
@@ -360,8 +249,7 @@ export function DesktopCalendarView() {
                   <CalendarClock className="w-4 h-4" />
                   Modificar horários
                 </Button>
-              </>
-            )}
+              </>}
           </div>
 
           {/* Right Section - Help, Settings, Notifications, Profile */}
@@ -383,9 +271,7 @@ export function DesktopCalendarView() {
         </header>
 
         {/* Category Legend - visible for dentist and clinic */}
-        {(activeRole === 'clinic' || activeRole === 'dentist') && (
-          <CategoryLegend />
-        )}
+        {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
 
         {/* Main Content */}
         <div className="flex-1 flex overflow-hidden">
@@ -394,19 +280,12 @@ export function DesktopCalendarView() {
       </div>
 
       {/* Edit Consultation Modal */}
-      <EditConsultationModal
-        consultation={selectedConsultation}
-        isOpen={!!selectedConsultation}
-        onClose={() => setSelectedConsultation(null)}
-        onSave={(updated) => {
-          console.log('Saved consultation:', updated);
-          setSelectedConsultation(null);
-        }}
-        onCancel={(consultation) => {
-          console.log('Cancelled consultation:', consultation);
-          setSelectedConsultation(null);
-        }}
-      />
-    </div>
-  );
+      <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {
+      console.log('Saved consultation:', updated);
+      setSelectedConsultation(null);
+    }} onCancel={consultation => {
+      console.log('Cancelled consultation:', consultation);
+      setSelectedConsultation(null);
+    }} />
+    </div>;
 }
