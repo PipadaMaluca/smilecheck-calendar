@@ -37,8 +37,14 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
   const items = navigationItems[userRole];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border z-50" style={{ boxShadow: '0 -4px 20px hsl(214 50% 5% / 0.3)' }}>
-      <div className="flex items-center justify-around py-1">
+    <nav 
+      className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border z-50" 
+      style={{ 
+        boxShadow: '0 -4px 20px hsl(214 50% 5% / 0.3)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+      }}
+    >
+      <div className="flex items-center justify-around py-2">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;

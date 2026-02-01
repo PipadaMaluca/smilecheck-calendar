@@ -1,6 +1,6 @@
 import { Video, MapPin, MessageCircle, X, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
 interface ConsultationCardProps {
@@ -12,6 +12,13 @@ interface ConsultationCardProps {
 export function ConsultationCard({ consultation, userRole, onClick }: ConsultationCardProps) {
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const Icon = isTeleconsulta ? Video : MapPin;
+  
+  // For patients: show type simply, for others: show full category
+  const category = consultation.category || 'restauracao';
+  const colors = CATEGORY_COLORS[category];
+  const categoryLabel = CATEGORY_LABELS[category];
+  
+  // Type label for patients
   const typeLabel = isTeleconsulta ? 'Teleconsulta' : 'Presencial';
 
   return (
@@ -21,39 +28,45 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
         'consultation-card cursor-pointer animate-slide-up',
         isTeleconsulta ? 'consultation-card-teleconsulta' : 'consultation-card-presencial'
       )}
+      style={{ borderLeftColor: colors.hex, borderLeftWidth: '4px' }}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              'w-10 h-10 rounded-xl flex items-center justify-center',
-              isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-primary/20'
+              'w-10 h-10 rounded-xl flex items-center justify-center'
             )}
+            style={{ backgroundColor: `${colors.hex}20` }}
           >
             <Icon
-              className={cn(
-                'w-5 h-5',
-                isTeleconsulta ? 'text-teleconsulta' : 'text-primary'
-              )}
+              className="w-5 h-5"
+              style={{ color: colors.hex }}
             />
           </div>
           <div>
             <p className="text-lg font-semibold">{consultation.time}</p>
-            <p
-              className={cn(
-                'text-sm font-medium',
-                isTeleconsulta ? 'text-teleconsulta' : 'text-primary'
-              )}
-            >
-              {typeLabel}
-            </p>
+            {userRole === 'patient' ? (
+              <p
+                className={cn(
+                  'text-sm font-medium',
+                  isTeleconsulta ? 'text-teleconsulta' : 'text-primary'
+                )}
+              >
+                {typeLabel}
+              </p>
+            ) : (
+              <p
+                className="text-sm font-bold"
+                style={{ color: colors.hex }}
+              >
+                {categoryLabel}
+              </p>
+            )}
           </div>
         </div>
         <div
-          className={cn(
-            'px-2 py-1 rounded-full text-xs font-medium',
-            isTeleconsulta ? 'badge-teleconsulta' : 'badge-presencial'
-          )}
+          className="px-2 py-1 rounded-full text-xs font-medium"
+          style={{ backgroundColor: `${colors.hex}20`, color: colors.hex }}
         >
           {consultation.duration} min
         </div>
@@ -62,7 +75,14 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
       <div className="space-y-1 mb-4">
         {userRole === 'patient' ? (
           <>
+            {/* For patient: show category below dentist name */}
             <p className="text-sm font-medium">{consultation.dentist.name}</p>
+            <p 
+              className="text-xs font-medium"
+              style={{ color: colors.hex }}
+            >
+              {categoryLabel}
+            </p>
             <p className="text-xs text-muted-foreground">{consultation.clinic.name}</p>
           </>
         ) : (
@@ -77,12 +97,22 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
 
       <div className="flex items-center justify-between">
         <div className="text-xs text-muted-foreground">
-          {consultation.isPaid ? (
-            <span className="text-primary">💰 €{consultation.price} (pago)</span>
-          ) : consultation.clinic.distance ? (
-            <span>📍 {consultation.clinic.distance} km</span>
+          {userRole === 'patient' ? (
+            // Patient view: teleconsulta can show "Pago", presencial shows "A pagar"
+            isTeleconsulta && consultation.isPaid ? (
+              <span className="text-primary">💰 €{consultation.price} (pago)</span>
+            ) : (
+              <span className="text-primeira-consulta">💰 €{consultation.price} (a pagar)</span>
+            )
           ) : (
-            <span className="text-primeira-consulta">💰 €{consultation.price} (pendente)</span>
+            // Dentist/Clinic view
+            consultation.isPaid ? (
+              <span className="text-primary">💰 €{consultation.price} (pago)</span>
+            ) : consultation.clinic.distance ? (
+              <span>📍 {consultation.clinic.distance} km</span>
+            ) : (
+              <span className="text-primeira-consulta">💰 €{consultation.price} (pendente)</span>
+            )
           )}
         </div>
 

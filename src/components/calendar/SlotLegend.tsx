@@ -15,7 +15,7 @@ const LEGEND_ORDER: ConsultationCategory[] = [
 
 export function SlotLegend() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3 px-4 py-3 bg-card/50 rounded-xl mx-4">
+    <div className="flex flex-wrap items-center justify-center gap-3 px-4 py-3 bg-card/50 rounded-xl mx-4 border border-border">
       {LEGEND_ORDER.map((category) => {
         const colors = CATEGORY_COLORS[category];
         const label = CATEGORY_LABELS[category];

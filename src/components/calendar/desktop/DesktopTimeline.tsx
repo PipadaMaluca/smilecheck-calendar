@@ -130,7 +130,7 @@ export function DesktopTimeline({
             {hours.map((hour, idx) => (
               <div
                 key={hour}
-                className="absolute left-0 right-0 flex items-center justify-end pr-2"
+                className="absolute left-0 right-0 flex items-start justify-end pr-2 pt-0.5"
                 style={{ top: `${idx * HOUR_HEIGHT}px`, height: `${HOUR_HEIGHT}px` }}
               >
                 <span className="text-[11px] font-mono text-muted-foreground">

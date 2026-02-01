@@ -85,7 +85,7 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
   teleconsulta: { bg: 'bg-[#FF9800]', text: 'text-white', hex: '#FF9800' },
   teleconsulta_urgente: { bg: 'bg-[#E65100]', text: 'text-white', hex: '#E65100' },
   endodontia: { bg: 'bg-[#E91E63]', text: 'text-white', hex: '#E91E63' },
-  cirurgia: { bg: 'bg-[#212121]', text: 'text-white', hex: '#212121' },
+  cirurgia: { bg: 'bg-[#000000]', text: 'text-white', hex: '#000000' },
   destartarizacao: { bg: 'bg-[#9C27B0]', text: 'text-white', hex: '#9C27B0' },
   outro: { bg: 'bg-[#9E9E9E]', text: 'text-white', hex: '#9E9E9E' },
 };

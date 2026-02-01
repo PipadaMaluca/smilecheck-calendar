@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CalendarHeader } from './CalendarHeader';
 import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
-import { SlotLegend } from './SlotLegend';
+import { CategoryLegend } from './CategoryLegend';
 import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
@@ -14,7 +14,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function DentistCalendar() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
@@ -42,7 +42,7 @@ export function DentistCalendar() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20 relative">
+    <div className="min-h-screen bg-background pb-24 relative">
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
@@ -69,9 +69,8 @@ export function DentistCalendar() {
           showViewToggle
         />
 
-        <div className="mb-4">
-          <SlotLegend />
-        </div>
+        {/* Category Legend */}
+        <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
         <TimeSlotView slots={slots} onSlotClick={handleSlotClick} />
 
@@ -93,6 +92,7 @@ export function DentistCalendar() {
           </Button>
         </div>
 
+        {/* Fixed Bottom Navigation */}
         <BottomNavigation
           userRole="dentist"
           activeTab={activeTab}

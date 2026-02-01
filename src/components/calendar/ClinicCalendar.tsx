@@ -3,6 +3,7 @@ import { CalendarHeader } from './CalendarHeader';
 import { DateNavigator } from './DateNavigator';
 import { DentistFilter } from './DentistFilter';
 import { MultiDentistGrid } from './MultiDentistGrid';
+import { CategoryLegend } from './CategoryLegend';
 import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
@@ -11,7 +12,7 @@ import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from 
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export function ClinicCalendar() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedDentistId, setSelectedDentistId] = useState<string | null>(null);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
@@ -55,7 +56,7 @@ export function ClinicCalendar() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-24">
       <CalendarHeader
         title="Agenda da Clínica"
         showClinicSelector
@@ -66,6 +67,9 @@ export function ClinicCalendar() {
         date={selectedDate}
         onDateChange={setSelectedDate}
       />
+
+      {/* Category Legend */}
+      <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
       <DentistFilter
         dentists={mockDentists}
@@ -111,6 +115,7 @@ export function ClinicCalendar() {
         </div>
       </div>
 
+      {/* Fixed Bottom Navigation */}
       <BottomNavigation
         userRole="clinic"
         activeTab={activeTab}
