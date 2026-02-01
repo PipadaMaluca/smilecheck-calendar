@@ -10,9 +10,16 @@ import { MobileSidebar } from './mobile/MobileSidebar';
 import { ViewModeSelector } from './mobile/ViewModeSelector';
 import { DentistFilterMobile } from './mobile/DentistFilterMobile';
 import { ThreeDayView } from './mobile/ThreeDayView';
-import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
-import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from '@/data/mockData';
+import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
+import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, clinicDentists, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+interface DentistColumn {
+  dentist: Dentist;
+  clinic: Clinic;
+  worksToday: boolean;
+  slots: TimeSlot[];
+}
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -24,20 +31,44 @@ export function ClinicCalendar() {
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const isMobile = useIsMobile();
 
-  const filteredDentists = selectedDentistIds.length === 0 || selectedDentistIds.includes('all')
-    ? mockDentists
-    : mockDentists.filter((d) => selectedDentistIds.includes(d.id));
-
-  const slotsPerDentist = useMemo(() => {
-    const result: Record<string, TimeSlot[]> = {};
-    filteredDentists.forEach((dentist) => {
-      const dentistConsultations = mockConsultations.filter(
-        (c) => c.dentist.id === dentist.id
-      );
-      result[dentist.id] = generateTimeSlots(selectedDate, dentistConsultations);
+  // Build columns based on selected clinics and dentists
+  const columns = useMemo<DentistColumn[]>(() => {
+    const result: DentistColumn[] = [];
+    
+    // For each selected clinic, add its dentists
+    const clinicsToShow = selectedClinics.length === 0 ? mockClinics : mockClinics.filter(c => selectedClinics.includes(c.id));
+    
+    clinicsToShow.forEach(clinic => {
+      const dentistsInClinic = getDentistsForClinic(clinic.id);
+      
+      // Filter dentists if specific ones are selected
+      const dentistsToShow = selectedDentistIds.length === 0 || selectedDentistIds.includes('all')
+        ? dentistsInClinic
+        : dentistsInClinic.filter(d => selectedDentistIds.includes(d.id) || selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+      
+      dentistsToShow.forEach(dentist => {
+        const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
+        const dentistConsultations = mockConsultations.filter(
+          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id
+        );
+        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        
+        result.push({
+          dentist,
+          clinic,
+          worksToday,
+          slots,
+        });
+      });
     });
+    
     return result;
-  }, [selectedDate, filteredDentists]);
+  }, [selectedDate, selectedClinics, selectedDentistIds]);
+
+  // For display in filter (only SmileCheck dentists by default)
+  const displayDentists = useMemo(() => {
+    return getDentistsForClinic('1'); // SmileCheck
+  }, []);
 
   const allDayConsultations = mockConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
@@ -47,47 +78,44 @@ export function ClinicCalendar() {
     totalConsultations: allDayConsultations.length,
     teleconsultas: allDayConsultations.filter((c) => c.type === 'teleconsulta').length,
     presenciais: allDayConsultations.filter((c) => c.type === 'presencial').length,
-    vagasLivres: Object.values(slotsPerDentist)
-      .flat()
+    vagasLivres: columns
+      .filter(col => col.worksToday)
+      .flatMap(col => col.slots)
       .filter((s) => s.status === 'livre').length,
     totalRevenue: allDayConsultations
       .filter((c) => c.type === 'teleconsulta' && c.isPaid)
       .reduce((sum, c) => sum + c.price, 0),
   };
 
-  const handleSlotClick = (dentistId: string, slot: TimeSlot) => {
+  const handleSlotClick = (dentistId: string, clinicId: string, slot: TimeSlot) => {
     if (slot.consultation) {
       setSelectedConsultation(slot.consultation);
     }
   };
 
-  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean) => {
+  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       // "Todos" clicked
       setSelectedDentistIds([]);
     } else {
+      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
+      
       if (isCheckbox) {
         // Checkbox click: toggle in multi-select
-        if (selectedDentistIds.length === 0) {
+        if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
           // Was "all", now select just this one
-          setSelectedDentistIds([dentistId]);
-        } else if (selectedDentistIds.includes(dentistId)) {
+          setSelectedDentistIds([key]);
+        } else if (selectedDentistIds.includes(key)) {
           // Remove from selection
-          const newSelected = selectedDentistIds.filter(id => id !== dentistId);
+          const newSelected = selectedDentistIds.filter(id => id !== key);
           setSelectedDentistIds(newSelected);
         } else {
           // Add to selection
-          const newSelected = [...selectedDentistIds, dentistId];
-          // If all dentists selected, switch to empty (all)
-          if (newSelected.length === mockDentists.length) {
-            setSelectedDentistIds([]);
-          } else {
-            setSelectedDentistIds(newSelected);
-          }
+          setSelectedDentistIds([...selectedDentistIds, key]);
         }
       } else {
         // Name click: select ONLY this dentist
-        setSelectedDentistIds([dentistId]);
+        setSelectedDentistIds([key]);
       }
     }
   };
@@ -111,7 +139,7 @@ export function ClinicCalendar() {
 
   const getSlots = (date: Date) => {
     // For 3-day view, use first dentist or selected dentist
-    const dentistId = selectedDentistIds.length === 1 ? selectedDentistIds[0] : mockDentists[0].id;
+    const dentistId = selectedDentistIds.length === 1 ? selectedDentistIds[0].split('-').pop() || mockDentists[0].id : mockDentists[0].id;
     const consultations = mockConsultations.filter(c => c.dentist.id === dentistId);
     return generateTimeSlots(date, consultations);
   };
@@ -142,7 +170,7 @@ export function ClinicCalendar() {
 
       {/* Dentist Filter - centered */}
       <DentistFilterMobile
-        dentists={mockDentists}
+        dentists={displayDentists}
         selectedDentistIds={selectedDentistIds}
         onToggle={handleDentistToggle}
         centered
@@ -158,8 +186,7 @@ export function ClinicCalendar() {
           />
         ) : (
           <MultiDentistGrid
-            dentists={filteredDentists}
-            slotsPerDentist={slotsPerDentist}
+            columns={columns}
             onSlotClick={handleSlotClick}
             showFullName
           />
@@ -175,16 +202,19 @@ export function ClinicCalendar() {
         <div className="bg-card rounded-xl p-4">
           <h4 className="text-xs font-semibold text-muted-foreground mb-3">Por Dentista</h4>
           <div className="space-y-2">
-            {mockDentists.map((dentist) => {
+            {columns.filter(col => col.worksToday).map((col, idx) => {
               const dentistConsults = allDayConsultations.filter(
-                (c) => c.dentist.id === dentist.id
+                (c) => c.dentist.id === col.dentist.id && c.clinic.id === col.clinic.id
               );
               const tele = dentistConsults.filter((c) => c.type === 'teleconsulta').length;
               const pres = dentistConsults.filter((c) => c.type === 'presencial').length;
 
               return (
-                <div key={dentist.id} className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{dentist.name}</span>
+                <div key={`${col.clinic.id}-${col.dentist.id}-${idx}`} className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">
+                    {col.dentist.name}
+                    <span className="text-xs ml-1 opacity-60">({col.clinic.name.replace('Clínica ', '')})</span>
+                  </span>
                   <div className="flex items-center gap-3">
                     <span className="text-teleconsulta">{tele} tele</span>
                     <span className="text-presencial">{pres} pres</span>

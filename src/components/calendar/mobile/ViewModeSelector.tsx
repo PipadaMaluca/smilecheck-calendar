@@ -9,15 +9,16 @@ interface ViewModeSelectorProps {
 
 export function ViewModeSelector({ viewMode, onViewModeChange, userRole }: ViewModeSelectorProps) {
   // Patient only has list and day views
+  // Order: Day, 3 Days (if not patient), List
   const modes: { id: ViewMode; label: string }[] = userRole === 'patient'
     ? [
-        { id: 'list', label: 'Lista' },
         { id: 'day', label: 'Dia' },
+        { id: 'list', label: 'Lista' },
       ]
     : [
-        { id: 'list', label: 'Lista' },
         { id: 'day', label: 'Dia' },
         { id: 'three-day', label: '3 Dias' },
+        { id: 'list', label: 'Lista' },
       ];
 
   return (

@@ -1,4 +1,4 @@
-import { X, User, CreditCard, List, Calendar, CalendarDays, Building2, Users, UserPlus, Bell, Clock, Globe, Gift, Settings, HelpCircle, Phone, FileText, LogOut, ChevronDown, ChevronUp, Check } from 'lucide-react';
+import { X, User, CreditCard, List, Calendar, CalendarDays, Building2, Users, UserPlus, Bell, Clock, Globe, Gift, Settings, HelpCircle, Phone, FileText, LogOut, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
+import { mockDentists, mockClinics, mockFamilyMembers, clinicDentists, getDentistsForClinic } from '@/data/mockData';
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ interface MobileSidebarProps {
   onMemberToggle?: (memberId: string, isCheckbox: boolean) => void;
   // For dentist/clinic filters
   selectedDentists?: string[];
-  onDentistToggle?: (dentistId: string, isCheckbox: boolean) => void;
+  onDentistToggle?: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
   selectedClinics?: string[];
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
 }
@@ -39,8 +39,7 @@ export function MobileSidebar({
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
-  const [clinicsOpen, setClinicsOpen] = useState(false);
-  const [dentistsOpen, setDentistsOpen] = useState(false);
+  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']); // SmileCheck expanded by default
 
   const userName = userRole === 'patient' 
     ? `${mockFamilyMembers[0].name} (${mockFamilyMembers[0].age} anos)` 
@@ -53,6 +52,59 @@ export function MobileSidebar({
   const handleViewChange = (mode: ViewMode) => {
     onViewModeChange(mode);
     onClose();
+  };
+
+  const toggleClinicExpanded = (clinicId: string) => {
+    setExpandedClinics(prev => 
+      prev.includes(clinicId) 
+        ? prev.filter(id => id !== clinicId)
+        : [...prev, clinicId]
+    );
+  };
+
+  // Check if a dentist is selected for a specific clinic
+  const isDentistSelected = (dentistId: string, clinicId: string) => {
+    // For simplicity, we track by dentistId-clinicId combo
+    const key = `${clinicId}-${dentistId}`;
+    if (selectedDentists.includes('all')) return true;
+    return selectedDentists.includes(key) || selectedDentists.includes(dentistId);
+  };
+
+  // Check if all dentists of a clinic are selected
+  const isClinicFullySelected = (clinicId: string) => {
+    if (selectedDentists.includes('all')) return true;
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    return dentistsInClinic.every(d => {
+      const key = `${clinicId}-${d.id}`;
+      return selectedDentists.includes(key) || selectedDentists.includes(d.id);
+    });
+  };
+
+  const handleClinicCheckbox = (clinicId: string) => {
+    // Toggle all dentists of this clinic
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    const allSelected = isClinicFullySelected(clinicId);
+    
+    if (allSelected) {
+      // Deselect all dentists in this clinic
+      dentistsInClinic.forEach(d => {
+        const key = `${clinicId}-${d.id}`;
+        if (selectedDentists.includes(key) || selectedDentists.includes(d.id)) {
+          onDentistToggle?.(d.id, true, clinicId);
+        }
+      });
+    } else {
+      // Select all dentists in this clinic
+      dentistsInClinic.forEach(d => {
+        const key = `${clinicId}-${d.id}`;
+        if (!selectedDentists.includes(key) && !selectedDentists.includes(d.id)) {
+          onDentistToggle?.(d.id, true, clinicId);
+        }
+      });
+    }
+    
+    // Also toggle the clinic selection
+    onClinicToggle?.(clinicId, true);
   };
 
   const MenuSection = ({ children, className }: { children: React.ReactNode; className?: string }) => (
@@ -86,7 +138,7 @@ export function MobileSidebar({
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="left" className="w-[300px] p-0 bg-card">
+      <SheetContent side="left" className="w-[300px] p-0 bg-card overflow-y-auto">
         <SheetHeader className="p-4 border-b border-border">
           <div className="flex items-center justify-between">
             <SheetTitle className="sr-only">Menu</SheetTitle>
@@ -114,14 +166,8 @@ export function MobileSidebar({
           <MenuItem icon={CreditCard} label="Gerir Plano" />
         </MenuSection>
 
-        {/* Views */}
+        {/* Views - Order: Day, 3 Days, List */}
         <MenuSection>
-          <MenuItem 
-            icon={List} 
-            label="Vista em Lista" 
-            active={viewMode === 'list'}
-            onClick={() => handleViewChange('list')}
-          />
           <MenuItem 
             icon={Calendar} 
             label="Vista Diária" 
@@ -136,6 +182,12 @@ export function MobileSidebar({
               onClick={() => handleViewChange('three-day')}
             />
           )}
+          <MenuItem 
+            icon={List} 
+            label="Vista em Lista" 
+            active={viewMode === 'list'}
+            onClick={() => handleViewChange('list')}
+          />
         </MenuSection>
 
         {/* Patient: Family filter */}
@@ -182,7 +234,7 @@ export function MobileSidebar({
           </MenuSection>
         )}
 
-        {/* Dentist/Clinic: Agendas */}
+        {/* Dentist/Clinic: Agendas - Hierarchical with 3 clinics */}
         {userRole !== 'patient' && (
           <MenuSection>
             <Collapsible open={agendasOpen} onOpenChange={setAgendasOpen}>
@@ -193,60 +245,59 @@ export function MobileSidebar({
                 </div>
                 {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 py-2 space-y-3">
-                {/* Clinics submenu */}
-                <Collapsible open={clinicsOpen} onOpenChange={setClinicsOpen}>
-                  <CollapsibleTrigger className="w-full flex items-center justify-between py-1 text-sm text-muted-foreground hover:text-foreground">
-                    <div className="flex items-center gap-2">
-                      <Building2 className="w-3.5 h-3.5" />
-                      <span>Clínicas</span>
-                    </div>
-                    {clinicsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="pl-6 py-1 space-y-1.5">
-                    {mockClinics.map(clinic => (
-                      <div key={clinic.id} className="flex items-center gap-2">
+              <CollapsibleContent className="px-2 py-2 space-y-1">
+                {/* Each clinic with its dentists */}
+                {mockClinics.map(clinic => {
+                  const clinicExpanded = expandedClinics.includes(clinic.id);
+                  const dentistsInClinic = getDentistsForClinic(clinic.id);
+                  const isFullySelected = isClinicFullySelected(clinic.id);
+                  const isClinicSelected = selectedClinics.includes(clinic.id);
+                  
+                  return (
+                    <div key={clinic.id} className="ml-2">
+                      {/* Clinic header */}
+                      <div className="flex items-center gap-2 py-1.5">
                         <Checkbox 
-                          checked={selectedClinics.includes(clinic.id)}
-                          onCheckedChange={() => onClinicToggle?.(clinic.id, true)}
+                          checked={isClinicSelected && isFullySelected}
+                          onCheckedChange={() => handleClinicCheckbox(clinic.id)}
                         />
                         <button 
-                          className="text-xs hover:text-primary"
-                          onClick={() => onClinicToggle?.(clinic.id, false)}
+                          className="flex-1 flex items-center justify-between text-sm hover:text-primary"
+                          onClick={() => toggleClinicExpanded(clinic.id)}
                         >
-                          {clinic.name}
+                          <div className="flex items-center gap-2">
+                            <Building2 className="w-3.5 h-3.5" />
+                            <span>{clinic.name}</span>
+                          </div>
+                          {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
                       </div>
-                    ))}
-                  </CollapsibleContent>
-                </Collapsible>
-
-                {/* Dentists submenu */}
-                <Collapsible open={dentistsOpen} onOpenChange={setDentistsOpen}>
-                  <CollapsibleTrigger className="w-full flex items-center justify-between py-1 text-sm text-muted-foreground hover:text-foreground">
-                    <div className="flex items-center gap-2">
-                      <User className="w-3.5 h-3.5" />
-                      <span>Dentistas</span>
+                      
+                      {/* Dentists under this clinic */}
+                      {clinicExpanded && (
+                        <div className="ml-6 space-y-1 pb-2">
+                          {dentistsInClinic.map(dentist => {
+                            const isSelected = isDentistSelected(dentist.id, clinic.id);
+                            return (
+                              <div key={`${clinic.id}-${dentist.id}`} className="flex items-center gap-2">
+                                <Checkbox 
+                                  checked={isSelected}
+                                  onCheckedChange={() => onDentistToggle?.(dentist.id, true, clinic.id)}
+                                />
+                                <button 
+                                  className="text-xs hover:text-primary text-left"
+                                  onClick={() => onDentistToggle?.(dentist.id, false, clinic.id)}
+                                >
+                                  {dentist.name}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
-                    {dentistsOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="pl-6 py-1 space-y-1.5">
-                    {mockDentists.map(dentist => (
-                      <div key={dentist.id} className="flex items-center gap-2">
-                        <Checkbox 
-                          checked={selectedDentists.includes(dentist.id) || selectedDentists.includes('all')}
-                          onCheckedChange={() => onDentistToggle?.(dentist.id, true)}
-                        />
-                        <button 
-                          className="text-xs hover:text-primary"
-                          onClick={() => onDentistToggle?.(dentist.id, false)}
-                        >
-                          {dentist.name}
-                        </button>
-                      </div>
-                    ))}
-                  </CollapsibleContent>
-                </Collapsible>
+                  );
+                })}
               </CollapsibleContent>
             </Collapsible>
           </MenuSection>
