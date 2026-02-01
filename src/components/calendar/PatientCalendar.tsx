@@ -15,7 +15,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { cn } from '@/lib/utils';
 
 export function PatientCalendar() {
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 1, 3)); // Start on a date with consultations
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Demo day
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);

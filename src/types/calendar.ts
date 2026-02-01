@@ -27,6 +27,7 @@ export interface Dentist {
   name: string;
   specialty?: string;
   avatar?: string;
+  workingHours?: string;
 }
 
 export interface Clinic {

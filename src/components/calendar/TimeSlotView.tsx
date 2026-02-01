@@ -1,5 +1,5 @@
-import { Video, MapPin, Lock } from 'lucide-react';
-import { TimeSlot } from '@/types/calendar';
+import { Video, MapPin, Lock, AlertTriangle } from 'lucide-react';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
 interface TimeSlotViewProps {
@@ -13,7 +13,13 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
       {slots.map((slot, idx) => {
         const isOcupado = slot.status === 'ocupado';
         const isBloqueado = slot.status === 'bloqueado';
-        const isTeleconsulta = slot.consultation?.type === 'teleconsulta';
+        const consultation = slot.consultation;
+        const category = consultation?.category || 'restauracao';
+        const colors = CATEGORY_COLORS[category];
+        const categoryLabel = CATEGORY_LABELS[category];
+        const isTeleconsulta = consultation?.type === 'teleconsulta';
+        const isTeleconsultaUrgente = category === 'teleconsulta_urgente';
+        const isUrgent = category === 'urgencia' || isTeleconsultaUrgente;
 
         return (
           <div
@@ -23,10 +29,9 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
               'time-slot',
               slot.status === 'livre' && 'time-slot-livre',
               isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
-              isBloqueado && 'time-slot-bloqueado',
-              isOcupado && isTeleconsulta && 'border-l-2 border-l-teleconsulta',
-              isOcupado && !isTeleconsulta && 'border-l-2 border-l-restauracao'
+              isBloqueado && 'time-slot-bloqueado'
             )}
+            style={isOcupado ? { borderLeftColor: colors.hex, borderLeftWidth: '3px' } : undefined}
           >
             <span className="w-12 text-sm font-mono text-muted-foreground">
               {slot.time}
@@ -43,35 +48,34 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
               </div>
             )}
 
-            {isOcupado && slot.consultation && (
+            {isOcupado && consultation && (
               <div className="flex items-center gap-3 flex-1">
                 <div
-                  className={cn(
-                    'w-8 h-8 rounded-lg flex items-center justify-center',
-                    isTeleconsulta ? 'bg-teleconsulta/20' : 'bg-restauracao/20'
-                  )}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{ backgroundColor: `${colors.hex}20` }}
                 >
                   {isTeleconsulta ? (
-                    <Video className="w-4 h-4 text-teleconsulta" />
+                    <Video className="w-4 h-4" style={{ color: colors.hex }} />
                   ) : (
-                    <MapPin className="w-4 h-4 text-restauracao" />
+                    <MapPin className="w-4 h-4" style={{ color: colors.hex }} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">
-                    {slot.consultation.patient.name}
-                  </p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-sm font-medium truncate">
+                      {consultation.patient.name}
+                    </p>
+                    {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
+                  </div>
                   <p className="text-xs text-muted-foreground">
-                    {slot.consultation.duration} min
+                    {consultation.duration} min
                   </p>
                 </div>
                 <div
-                  className={cn(
-                    'px-2 py-0.5 rounded text-[10px] font-medium',
-                    isTeleconsulta ? 'badge-teleconsulta' : 'badge-presencial'
-                  )}
+                  className="px-2 py-0.5 rounded text-[10px] font-bold"
+                  style={{ backgroundColor: `${colors.hex}20`, color: colors.hex }}
                 >
-                  {isTeleconsulta ? 'TELE' : 'PRES'}
+                  {categoryLabel}
                 </div>
               </div>
             )}

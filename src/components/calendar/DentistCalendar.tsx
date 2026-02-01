@@ -9,7 +9,7 @@ import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { Consultation, TimeSlot } from '@/types/calendar';
-import { mockConsultations, mockClinics, generateTimeSlots } from '@/data/mockData';
+import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
@@ -20,8 +20,10 @@ export function DentistCalendar() {
   const [activeTab, setActiveTab] = useState('agenda');
   const isMobile = useIsMobile();
 
-  const slots = generateTimeSlots(selectedDate, mockConsultations);
-  const dayConsultations = mockConsultations.filter(
+  // Filter only Dr. Gonçalo Pipo's consultations
+  const myConsultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
+  const slots = generateTimeSlots(selectedDate, myConsultations);
+  const dayConsultations = myConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
   );
 

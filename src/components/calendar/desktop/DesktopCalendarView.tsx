@@ -11,26 +11,12 @@ import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
-import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
+import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, generateTimeSlots } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
-// Mock family members for patient view
-const mockFamilyMembers = [{
-  id: 'f1',
-  name: 'João Silva',
-  relation: 'Eu'
-}, {
-  id: 'f2',
-  name: 'Maria Silva',
-  relation: 'Filha'
-}, {
-  id: 'f3',
-  name: 'Pedro Silva',
-  relation: 'Filho'
-}];
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
@@ -71,13 +57,16 @@ export function DesktopCalendarView() {
     return mockConsultations.filter(c => isSameDay(c.date, selectedDate) && (activeRole === 'clinic' || c.dentist.id === mockDentists[0].id || selectedDentistIds.includes(c.dentist.id)));
   }, [selectedDate, activeRole, selectedDentistIds]);
 
-  // Patient consultations
+  // Patient consultations - use the dedicated mock data
   const patientConsultations = useMemo(() => {
-    return mockConsultations.filter(c => {
-      // In real app, filter by patient/family member
-      return true;
-    });
-  }, []);
+    // Filter by selected family members
+    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
+      return mockPatientConsultations; // All selected
+    }
+    return mockPatientConsultations.filter(c => 
+      selectedFamilyMemberIds.includes(c.patient.id)
+    );
+  }, [selectedFamilyMemberIds]);
   const handleDentistToggle = (dentistId: string) => {
     if (activeRole === 'dentist') {
       // For dentist view, self is always selected, toggle others as columns

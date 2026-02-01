@@ -114,7 +114,7 @@ export function DesktopTimeline({
               <div>
                 <p className="text-xs font-medium truncate">{dentist.name}</p>
                 <p className="text-[9px] text-muted-foreground">
-                  {workingHours.start}h-{workingHours.end}h
+                  {dentist.workingHours || '9h-21h'}
                 </p>
               </div>
             </div>

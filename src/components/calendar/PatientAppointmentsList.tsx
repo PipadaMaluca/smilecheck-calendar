@@ -103,6 +103,11 @@ export function PatientAppointmentsList({
                         {getPaymentStatus(consultation)}
                       </div>
 
+                      {/* Patient name (for family view) */}
+                      <p className="text-xs text-primary font-medium mb-1">
+                        Para: {consultation.patient.name}
+                      </p>
+
                       {/* Dentist & Clinic */}
                       <p className="text-sm font-medium">{consultation.dentist.name}</p>
                       <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-1">
