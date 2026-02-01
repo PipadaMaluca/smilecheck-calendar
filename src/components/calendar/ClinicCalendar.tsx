@@ -8,10 +8,9 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ViewModeSelector } from './mobile/ViewModeSelector';
-import { DentistFilterMobile } from './mobile/DentistFilterMobile';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
-import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, clinicDentists, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
+import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface DentistColumn {
@@ -168,13 +167,7 @@ export function ClinicCalendar() {
       {/* Category Legend */}
       <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
-      {/* Dentist Filter - centered */}
-      <DentistFilterMobile
-        dentists={displayDentists}
-        selectedDentistIds={selectedDentistIds}
-        onToggle={handleDentistToggle}
-        centered
-      />
+      {/* Dentist filters are now in the sidebar - removed from here */}
 
       {/* Content based on view mode */}
       <div className="mt-4">

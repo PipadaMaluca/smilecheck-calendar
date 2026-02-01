@@ -79,7 +79,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
               const category = consultation.category || 'restauracao';
               const colors = CATEGORY_COLORS[category];
               const isTeleconsulta = consultation.type === 'teleconsulta';
-              const isTeleconsultaUrgente = consultation.category === 'teleconsulta_urgente';
+              const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
 
               return (
                 <TableRow
@@ -152,10 +152,10 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                           color: colors.hex,
                         }}
                       >
-                        {(isTeleconsulta || isTeleconsultaUrgente) && (
+                        {isTeleconsulta && (
                           <Video className="w-3 h-3" />
                         )}
-                        {isTeleconsultaUrgente && (
+                        {isUrgentTeleconsulta && (
                           <AlertTriangle className="w-3 h-3" />
                         )}
                         {CATEGORY_LABELS[category] || 'Consulta'}

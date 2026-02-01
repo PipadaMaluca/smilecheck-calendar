@@ -208,8 +208,8 @@ export function DesktopTimeline({
                     const consultation = slot.consultation!;
                     const styles = getConsultationStyles(consultation);
                     const isTeleconsulta = consultation.type === 'teleconsulta';
-                    const isTeleconsultaUrgente = consultation.category === 'teleconsulta_urgente';
-                    const isUrgent = consultation.category === 'urgencia' || isTeleconsultaUrgente;
+                    const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
+                    const isUrgent = consultation.category === 'urgencia' || isUrgentTeleconsulta;
                     const slotHeight = getSlotHeight(consultation.duration);
 
                     return (
@@ -242,7 +242,7 @@ export function DesktopTimeline({
                               >
                                 {getCategoryLabel(consultation)}
                               </span>
-                              {(isTeleconsulta || isTeleconsultaUrgente) && (
+                              {(isTeleconsulta || isUrgentTeleconsulta) && (
                                 <Video className="w-2.5 h-2.5" style={{ color: styles.borderColor }} />
                               )}
                               {isUrgent && (

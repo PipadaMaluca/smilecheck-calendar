@@ -79,8 +79,8 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                 const category = consultation?.category || 'restauracao';
                 const colors = CATEGORY_COLORS[category];
                 const isTeleconsulta = consultation?.type === 'teleconsulta';
-                const isTeleconsultaUrgente = category === 'teleconsulta_urgente';
-                const isUrgent = category === 'urgencia' || isTeleconsultaUrgente;
+                const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
+                const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
                 const isToday = dayIdx === 1;
 
                 return (

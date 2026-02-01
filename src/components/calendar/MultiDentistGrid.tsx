@@ -88,15 +88,22 @@ export function MultiDentistGrid({
                   const category = consultation?.category || 'restauracao';
                   const colors = CATEGORY_COLORS[category];
                   const isTeleconsulta = consultation?.type === 'teleconsulta';
-                  const isTeleconsultaUrgente = category === 'teleconsulta_urgente';
-                  const isUrgent = category === 'urgencia' || isTeleconsultaUrgente;
+                  const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
+                  const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
+
+                  // Get patient name with age
+                  const patientName = consultation?.patient.name || '';
+                  const patientAge = consultation?.patient.age;
+                  const displayName = showFullName 
+                    ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
+                    : patientName.split(' ')[0];
 
                   return (
                     <div
                       key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
                       onClick={() => isOcupado && slot && onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                       className={cn(
-                        'flex-1 mx-0.5 min-w-[180px] rounded-md flex items-center justify-center text-[10px] transition-all',
+                        'flex-1 mx-0.5 min-w-[180px] rounded-md flex flex-col justify-center px-2 text-[10px] transition-all',
                         !slot || slot.status === 'livre' ? 'bg-muted/20 border border-dashed border-muted-foreground/10' : '',
                         isBloqueado && 'bg-[#607D8B]/30',
                         isOcupado && 'cursor-pointer hover:opacity-80'
@@ -107,22 +114,34 @@ export function MultiDentistGrid({
                       } : undefined}
                     >
                       {isOcupado && consultation && (
-                        <div className="flex items-center gap-1 px-1 truncate">
-                          {isTeleconsulta ? (
-                            <Video className="w-3 h-3 flex-shrink-0" style={{ color: colors.hex }} />
-                          ) : (
-                            <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: colors.hex }} />
-                          )}
-                          {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
-                          <span className="truncate font-medium">
-                            {showFullName 
-                              ? `${consultation.patient.name.split(' ')[0]} ${consultation.patient.name.split(' ').slice(-1)[0]}` 
-                              : consultation.patient.name.split(' ')[0]}
-                          </span>
+                        <div className="overflow-hidden">
+                          {/* Line 1: Time + Name (Age) */}
+                          <div className="flex items-center gap-1">
+                            <span className="text-[9px] text-muted-foreground font-mono">{time}</span>
+                            <span className="font-bold text-white uppercase truncate">
+                              {displayName}
+                              {patientAge && <span className="text-[8px] ml-0.5">({patientAge})</span>}
+                            </span>
+                          </div>
+                          {/* Line 2: Type + Icons + Notes */}
+                          <div className="flex items-center gap-1">
+                            <span className="font-bold uppercase text-white text-[9px]">
+                              {CATEGORY_LABELS[category]}
+                            </span>
+                            {isTeleconsulta && (
+                              <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
+                            )}
+                            {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
+                            {consultation.notes && (
+                              <span className="text-[8px] text-[#8B9CB6] truncate ml-1">
+                                {consultation.notes}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       )}
-                      {isBloqueado && <span className="text-muted-foreground/60">{slot?.blockReason}</span>}
-                      {(!slot || slot.status === 'livre') && <span className="text-muted-foreground/40">—</span>}
+                      {isBloqueado && <span className="text-muted-foreground/60 text-center">{slot?.blockReason}</span>}
+                      {(!slot || slot.status === 'livre') && <span className="text-muted-foreground/40 text-center">—</span>}
                     </div>
                   );
                 })}

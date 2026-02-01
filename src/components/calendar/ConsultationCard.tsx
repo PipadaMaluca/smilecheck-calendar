@@ -1,4 +1,4 @@
-import { Video, MapPin, MessageCircle, X, Navigation } from 'lucide-react';
+import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
@@ -11,15 +11,21 @@ interface ConsultationCardProps {
 
 export function ConsultationCard({ consultation, userRole, onClick }: ConsultationCardProps) {
   const isTeleconsulta = consultation.type === 'teleconsulta';
+  const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
   const Icon = isTeleconsulta ? Video : MapPin;
   
-  // For patients: show type simply, for others: show full category
   const category = consultation.category || 'restauracao';
   const colors = CATEGORY_COLORS[category];
   const categoryLabel = CATEGORY_LABELS[category];
   
   // Type label for patients
   const typeLabel = isTeleconsulta ? 'Teleconsulta' : 'Presencial';
+
+  // Patient info with age
+  const patientAge = consultation.patient.age;
+  const patientNameWithAge = patientAge 
+    ? `${consultation.patient.name} (${patientAge} anos)` 
+    : consultation.patient.name;
 
   return (
     <div
@@ -44,7 +50,12 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             />
           </div>
           <div>
-            <p className="text-lg font-semibold">{consultation.time}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-lg font-semibold">{consultation.time}</p>
+              {isUrgentTeleconsulta && (
+                <AlertTriangle className="w-4 h-4 text-[#F44336]" />
+              )}
+            </div>
             {userRole === 'patient' ? (
               <p
                 className={cn(
@@ -56,7 +67,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
               </p>
             ) : (
               <p
-                className="text-sm font-bold"
+                className="text-sm font-bold uppercase"
                 style={{ color: colors.hex }}
               >
                 {categoryLabel}
@@ -75,19 +86,26 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
       <div className="space-y-1 mb-4">
         {userRole === 'patient' ? (
           <>
-            {/* For patient: show category below dentist name */}
+            {/* For patient: show dentist name and category */}
             <p className="text-sm font-medium">{consultation.dentist.name}</p>
             <p 
-              className="text-xs font-medium"
+              className="text-xs font-bold uppercase"
               style={{ color: colors.hex }}
             >
               {categoryLabel}
             </p>
             <p className="text-xs text-muted-foreground">{consultation.clinic.name}</p>
+            {consultation.notes && (
+              <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
+            )}
           </>
         ) : (
           <>
-            <p className="text-sm font-medium">{consultation.patient.name}</p>
+            {/* For dentist/clinic: show patient with age and notes */}
+            <p className="text-sm font-bold uppercase text-white">{patientNameWithAge}</p>
+            {consultation.notes && (
+              <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
+            )}
             <p className="text-xs text-muted-foreground">
               ⭐ {consultation.patient.rating} | 🥈 {consultation.patient.level}
             </p>
@@ -98,11 +116,11 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
       <div className="flex items-center justify-between">
         <div className="text-xs text-muted-foreground">
           {userRole === 'patient' ? (
-            // Patient view: teleconsulta can show "Pago", presencial shows "A pagar"
+            // Patient view: teleconsulta shows "Pago", presencial shows "A pagar"
             isTeleconsulta && consultation.isPaid ? (
               <span className="text-primary">💰 €{consultation.price} (pago)</span>
             ) : (
-              <span className="text-primeira-consulta">💰 €{consultation.price} (a pagar)</span>
+              <span className="text-[#FDD835]">💰 €{consultation.price} (a pagar)</span>
             )
           ) : (
             // Dentist/Clinic view
@@ -111,7 +129,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             ) : consultation.clinic.distance ? (
               <span>📍 {consultation.clinic.distance} km</span>
             ) : (
-              <span className="text-primeira-consulta">💰 €{consultation.price} (pendente)</span>
+              <span className="text-[#FDD835]">💰 €{consultation.price} (pendente)</span>
             )
           )}
         </div>

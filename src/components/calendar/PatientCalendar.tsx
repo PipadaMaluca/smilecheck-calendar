@@ -7,7 +7,6 @@ import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
-import { ViewModeSelector } from './mobile/ViewModeSelector';
 import { FamilyFilter } from './mobile/FamilyFilter';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
@@ -17,7 +16,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function PatientCalendar() {
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Demo day
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);
@@ -42,16 +41,12 @@ export function PatientCalendar() {
 
   const handleMemberToggle = (memberId: string, isCheckbox: boolean) => {
     if (memberId === 'all') {
-      // Clicking "all" always selects all
       setSelectedMembers(['all']);
     } else {
       if (isCheckbox) {
-        // Checkbox click: toggle in multi-select
         if (selectedMembers.includes('all')) {
-          // If "all" was selected, switch to just this member
           setSelectedMembers([memberId]);
         } else if (selectedMembers.includes(memberId)) {
-          // Remove from selection
           const newSelected = selectedMembers.filter(id => id !== memberId);
           if (newSelected.length === 0) {
             setSelectedMembers(['all']);
@@ -59,9 +54,7 @@ export function PatientCalendar() {
             setSelectedMembers(newSelected);
           }
         } else {
-          // Add to selection
           const newSelected = [...selectedMembers, memberId];
-          // If all members are now selected, switch to 'all'
           if (newSelected.length === mockFamilyMembers.length) {
             setSelectedMembers(['all']);
           } else {
@@ -69,7 +62,6 @@ export function PatientCalendar() {
           }
         }
       } else {
-        // Name click: select ONLY this member
         setSelectedMembers([memberId]);
       }
     }
@@ -92,12 +84,7 @@ export function PatientCalendar() {
         {/* Mobile Header */}
         <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
 
-        {/* View Mode Selector */}
-        <ViewModeSelector 
-          viewMode={viewMode} 
-          onViewModeChange={setViewMode} 
-          userRole="patient" 
-        />
+        {/* NO View Mode Selector for Patient - only list view */}
 
         {/* Calendar */}
         <div className="py-2">
