@@ -1,44 +1,47 @@
 import { useState } from 'react';
-import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft } from 'lucide-react';
+import { Search, ChevronDown, ChevronLeft, ChevronRight, Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Dentist, UserRole } from '@/types/calendar';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 
-interface DesktopCalendarSidebarProps {
-  selectedDate: Date;
-  onDateSelect: (date: Date) => void;
-  dentists: Dentist[];
-  selectedDentistIds: string[];
-  onDentistToggle: (dentistId: string) => void;
-  onSelectAllDentists: () => void;
-  appointmentDates?: Date[];
-  userRole?: UserRole;
+interface FamilyMember {
+  id: string;
+  name: string;
+  relation: string;
 }
 
-export function DesktopCalendarSidebar({
+interface PatientSidebarProps {
+  selectedDate: Date;
+  onDateSelect: (date: Date) => void;
+  familyMembers: FamilyMember[];
+  selectedMemberIds: string[];
+  onMemberToggle: (memberId: string) => void;
+  onSelectAllMembers: () => void;
+  appointmentDates?: Date[];
+}
+
+export function PatientSidebar({
   selectedDate,
   onDateSelect,
-  dentists,
-  selectedDentistIds,
-  onDentistToggle,
-  onSelectAllDentists,
+  familyMembers,
+  selectedMemberIds,
+  onMemberToggle,
+  onSelectAllMembers,
   appointmentDates = [],
-  userRole = 'clinic',
-}: DesktopCalendarSidebarProps) {
+}: PatientSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isProfessionalsOpen, setIsProfessionalsOpen] = useState(true);
+  const [isFamilyOpen, setIsFamilyOpen] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const today = new Date();
 
-  const filteredDentists = dentists.filter((d) =>
-    d.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredMembers = familyMembers.filter((m) =>
+    m.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const allSelected = dentists.every((d) => selectedDentistIds.includes(d.id));
+  const allSelected = familyMembers.every((m) => selectedMemberIds.includes(m.id));
 
   // Generate calendar grid
   const monthStart = startOfMonth(currentMonth);
@@ -63,21 +66,13 @@ export function DesktopCalendarSidebar({
     appointmentDates.some((d) => isSameDay(d, date));
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
-  // For dentist role, mark self as "(Eu)"
-  const getSelfSuffix = (dentist: Dentist, index: number) => {
-    if (userRole === 'dentist' && index === 0) {
-      return ' (Eu)';
-    }
-    return '';
-  };
-
   return (
     <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
-          <Search className="w-4 h-4" />
-          ENCONTRAR VAGA
+          <Plus className="w-4 h-4" />
+          NOVA CONSULTA
         </Button>
       </div>
 
@@ -148,22 +143,13 @@ export function DesktopCalendarSidebar({
         </div>
       </div>
 
-      {/* Agendas Section */}
+      {/* Family Section */}
       <div className="p-3 border-b border-[#1E3A5F] flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-muted-foreground">
-            Agendas ({selectedDentistIds.length}/{dentists.length})
+            Filtrar por membro:
           </span>
-          <ChevronDown className="w-4 h-4 text-muted-foreground" />
         </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="w-full text-xs font-medium bg-primary/20 hover:bg-primary/30 text-primary"
-          onClick={onSelectAllDentists}
-        >
-          FILTRAR PRESENTES
-        </Button>
       </div>
 
       {/* Search */}
@@ -179,12 +165,12 @@ export function DesktopCalendarSidebar({
         </div>
       </div>
 
-      {/* Dentists List */}
+      {/* Family Members List */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
         {/* All checkbox */}
         <div
           className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
-          onClick={onSelectAllDentists}
+          onClick={onSelectAllMembers}
         >
           <Checkbox
             checked={allSelected}
@@ -193,53 +179,44 @@ export function DesktopCalendarSidebar({
           <span className="text-xs font-medium">Todos</span>
         </div>
 
-        {/* Professionals Group */}
-        <Collapsible open={isProfessionalsOpen} onOpenChange={setIsProfessionalsOpen}>
+        {/* Family Group */}
+        <Collapsible open={isFamilyOpen} onOpenChange={setIsFamilyOpen}>
           <CollapsibleTrigger className="flex items-center gap-1.5 py-1.5 w-full text-left">
             <ChevronDown
               className={cn(
                 'w-3 h-3 text-muted-foreground transition-transform',
-                !isProfessionalsOpen && '-rotate-90'
+                !isFamilyOpen && '-rotate-90'
               )}
             />
-            <span className="text-xs text-muted-foreground">Profissionais</span>
+            <span className="text-xs text-muted-foreground">Família</span>
           </CollapsibleTrigger>
           <CollapsibleContent className="pl-3">
-            {filteredDentists.map((dentist, index) => {
-              const isSelected = selectedDentistIds.includes(dentist.id);
-              const isSelf = userRole === 'dentist' && index === 0;
+            {filteredMembers.map((member) => {
+              const isSelected = selectedMemberIds.includes(member.id);
               return (
                 <div
-                  key={dentist.id}
-                  className={cn(
-                    "flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5",
-                    isSelf && "opacity-90"
-                  )}
-                  onClick={() => !isSelf && onDentistToggle(dentist.id)}
+                  key={member.id}
+                  className="flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
+                  onClick={() => onMemberToggle(member.id)}
                 >
                   <Checkbox
                     checked={isSelected}
-                    disabled={isSelf}
                     className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
-                  <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
-                    {dentist.name}{getSelfSuffix(dentist, index)}
-                  </span>
+                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                    <User className="w-2.5 h-2.5 text-primary" />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
+                      {member.name}
+                    </span>
+                    <span className="text-[9px] text-muted-foreground">{member.relation}</span>
+                  </div>
                 </div>
               );
             })}
           </CollapsibleContent>
         </Collapsible>
-
-        {/* Add Dentist */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-start gap-1.5 text-primary text-xs mt-1 h-7 hover:bg-[#152238]"
-        >
-          <Plus className="w-3 h-3" />
-          Adicionar
-        </Button>
       </div>
 
       {/* Footer */}
