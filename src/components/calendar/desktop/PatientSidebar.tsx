@@ -193,6 +193,10 @@ export function PatientSidebar({
           <CollapsibleContent className="pl-3">
             {filteredMembers.map((member) => {
               const isSelected = selectedMemberIds.includes(member.id);
+              // Extract name and age from member.name (e.g., "João Silva (45)")
+              const nameMatch = member.name.match(/^(.+?)\s*(?:\((\d+)\))?$/);
+              const displayName = nameMatch ? nameMatch[1] : member.name;
+              
               return (
                 <div
                   key={member.id}

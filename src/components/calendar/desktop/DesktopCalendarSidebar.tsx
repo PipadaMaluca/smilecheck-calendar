@@ -222,9 +222,14 @@ export function DesktopCalendarSidebar({
                     disabled={isSelf}
                     className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
-                  <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
-                    {dentist.name}{getSelfSuffix(dentist, index)}
-                  </span>
+                  <div className="flex flex-col min-w-0">
+                    <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
+                      {dentist.name}{getSelfSuffix(dentist, index)}
+                    </span>
+                    {dentist.workingHours && (
+                      <span className="text-[9px] text-muted-foreground">{dentist.workingHours}</span>
+                    )}
+                  </div>
                 </div>
               );
             })}
