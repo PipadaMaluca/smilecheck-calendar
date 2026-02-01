@@ -46,14 +46,13 @@ export function DesktopTimeline({
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
 
-  // Calculate working hours based on the date (Jan 31 has extended hours)
+  // Fixed hours 8h-22h (always show full range)
   const workingHours = useMemo(() => {
-    const isJan31 = selectedDate.getDate() === 31 && selectedDate.getMonth() === 0;
     return defaultWorkingHours || {
-      start: 9,
-      end: isJan31 ? 22 : 19
+      start: 8,
+      end: 22
     };
-  }, [selectedDate, defaultWorkingHours]);
+  }, [defaultWorkingHours]);
 
   // Generate hours array
   const hours: number[] = [];
@@ -103,7 +102,7 @@ export function DesktopTimeline({
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden">
       {/* Dentist Headers */}
       <div className="flex border-b border-border bg-card/50 sticky top-0 z-10">
-        <div className="w-14 flex-shrink-0 border-r border-[#1E3A5F]" />
+        <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
         {dentists.map(dentist => (
           <div key={dentist.id} className="flex-1 px-3 py-2 border-l border-border first:border-l-0">
             <div className="flex items-center gap-2">
@@ -127,14 +126,14 @@ export function DesktopTimeline({
       <div ref={timelineRef} className="flex-1 overflow-y-auto overflow-x-auto scrollbar-hide">
         <div className="relative flex" style={{ minHeight: `${hours.length * HOUR_HEIGHT}px` }}>
           {/* Hours Column */}
-          <div className="w-14 flex-shrink-0 relative border-r border-[#1E3A5F]">
+          <div className="w-16 flex-shrink-0 relative border-r border-[#1E3A5F]">
             {hours.map((hour, idx) => (
               <div
                 key={hour}
-                className="absolute left-0 right-0 flex items-start justify-end pr-2"
-                style={{ top: `${idx * HOUR_HEIGHT}px` }}
+                className="absolute left-0 right-0 flex items-center justify-end pr-2"
+                style={{ top: `${idx * HOUR_HEIGHT}px`, height: `${HOUR_HEIGHT}px` }}
               >
-                <span className="text-[10px] font-mono text-muted-foreground -translate-y-1/2">
+                <span className="text-[11px] font-mono text-muted-foreground">
                   {hour.toString().padStart(2, '0')}:00
                 </span>
               </div>
@@ -232,9 +231,16 @@ export function DesktopTimeline({
                       >
                         <div className="flex items-start justify-between gap-0.5 p-1 h-full overflow-hidden">
                           <div className="flex-1 min-w-0 overflow-hidden">
-                            <div className="flex items-center gap-1">
+                            {/* First line: time + type */}
+                            <div className="flex items-center gap-1 flex-wrap">
                               <span className="text-[8px] font-mono text-muted-foreground">
                                 {slot.time}
+                              </span>
+                              <span 
+                                className="text-[8px] font-bold truncate"
+                                style={{ color: styles.borderColor }}
+                              >
+                                {getCategoryLabel(consultation)}
                               </span>
                               {(isTeleconsulta || isTeleconsultaUrgente) && (
                                 <Video className="w-2.5 h-2.5" style={{ color: styles.borderColor }} />
@@ -243,14 +249,17 @@ export function DesktopTimeline({
                                 <AlertTriangle className="w-2.5 h-2.5 text-[#F44336]" />
                               )}
                             </div>
-                            <p className="text-[9px] font-bold uppercase truncate text-white leading-tight">
-                              {consultation.patient.name}
-                            </p>
-                            {slotHeight > 35 && (
-                              <p className="text-[8px] truncate" style={{ color: styles.borderColor }}>
-                                {getCategoryLabel(consultation)}
+                            {/* Second line: patient name + notes */}
+                            <div className="flex items-center gap-1.5">
+                              <p className="text-[9px] font-bold uppercase truncate text-white leading-tight">
+                                {consultation.patient.name}
                               </p>
-                            )}
+                              {consultation.notes && (
+                                <span className="text-[8px] text-muted-foreground truncate">
+                                  {consultation.notes}
+                                </span>
+                              )}
+                            </div>
                           </div>
 
                           {/* Status indicator */}

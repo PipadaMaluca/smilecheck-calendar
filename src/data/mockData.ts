@@ -6,9 +6,9 @@ export const mockClinics: Clinic[] = [
 ];
 
 export const mockDentists: Dentist[] = [
-  { id: '1', name: 'Dr. Carlos Silva', specialty: 'Ortodontia' },
-  { id: '2', name: 'Dra. Ana Santos', specialty: 'Endodontia' },
-  { id: '3', name: 'Dr. Miguel Costa', specialty: 'Periodontia' },
+  { id: '1', name: 'Dr. Gonçalo Pipo', specialty: 'Ortodontia' },
+  { id: '2', name: 'Dr. Alexandre Bernardo', specialty: 'Endodontia' },
+  { id: '3', name: 'Dr. Gil Santos', specialty: 'Periodontia' },
 ];
 
 // Helper to create patient
@@ -126,11 +126,12 @@ export const mockConsultations: Consultation[] = [
     time: '09:00',
     duration: 30,
     patient: createPatient('p31-1', 'Pedro Almeida', '+351 911 111 111', 4.5, 'Bronze'),
-    dentist: mockDentists[0], // Dr. Carlos Silva
+    dentist: mockDentists[0], // Dr. Gonçalo Pipo
     clinic: mockClinics[0],
     price: 40,
     isPaid: true,
     paymentMethod: 'MB Way',
+    notes: 'Check-up completo',
   },
   {
     id: '31-2',
@@ -145,6 +146,7 @@ export const mockConsultations: Consultation[] = [
     price: 60,
     isPaid: true,
     paymentMethod: 'Cartão',
+    notes: 'Dente 36',
   },
   {
     id: '31-3',
@@ -158,6 +160,7 @@ export const mockConsultations: Consultation[] = [
     clinic: mockClinics[0],
     price: 50,
     isPaid: false,
+    notes: 'Limpeza semestral',
   },
   {
     id: '31-4',
@@ -172,6 +175,7 @@ export const mockConsultations: Consultation[] = [
     price: 80,
     isPaid: true,
     paymentMethod: 'Dinheiro',
+    notes: 'Dor aguda dente 48',
     triage: {
       symptom: 'Dor intensa no dente',
       duration: 'Desde ontem',
@@ -193,6 +197,7 @@ export const mockConsultations: Consultation[] = [
     price: 150,
     isPaid: true,
     paymentMethod: 'Transferência',
+    notes: 'Desvitalização 46',
   },
   {
     id: '31-6',
@@ -229,6 +234,7 @@ export const mockConsultations: Consultation[] = [
     price: 200,
     isPaid: true,
     paymentMethod: 'Cartão',
+    notes: 'Extração dente 48',
   },
   {
     id: '31-8',
@@ -242,6 +248,7 @@ export const mockConsultations: Consultation[] = [
     clinic: mockClinics[0],
     price: 180,
     isPaid: false,
+    notes: 'Coroa cerâmica 11',
   },
   {
     id: '31-9',
@@ -256,6 +263,7 @@ export const mockConsultations: Consultation[] = [
     price: 60,
     isPaid: true,
     paymentMethod: 'MB Way',
+    notes: 'Restauração 25',
   },
   {
     id: '31-10',
@@ -270,6 +278,7 @@ export const mockConsultations: Consultation[] = [
     price: 40,
     isPaid: true,
     paymentMethod: 'Cartão',
+    notes: 'Avaliação ortodontia',
   },
   {
     id: '31-11',
@@ -297,6 +306,7 @@ export const mockConsultations: Consultation[] = [
     price: 60,
     isPaid: true,
     paymentMethod: 'Dinheiro',
+    notes: 'Dente 14',
   },
   
   // NOITE (Teleconsultas)
