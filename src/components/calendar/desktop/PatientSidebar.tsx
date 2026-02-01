@@ -8,9 +8,12 @@ import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSa
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 
+import { mockFamilyMembers } from '@/data/mockData';
+
 interface FamilyMember {
   id: string;
   name: string;
+  age: number;
   relation: string;
 }
 
@@ -193,9 +196,6 @@ export function PatientSidebar({
           <CollapsibleContent className="pl-3">
             {filteredMembers.map((member) => {
               const isSelected = selectedMemberIds.includes(member.id);
-              // Extract name and age from member.name (e.g., "João Silva (45)")
-              const nameMatch = member.name.match(/^(.+?)\s*(?:\((\d+)\))?$/);
-              const displayName = nameMatch ? nameMatch[1] : member.name;
               
               return (
                 <div
@@ -212,7 +212,7 @@ export function PatientSidebar({
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
-                      {member.name}
+                      {member.name} ({member.age} anos)
                     </span>
                     <span className="text-[9px] text-muted-foreground">{member.relation}</span>
                   </div>

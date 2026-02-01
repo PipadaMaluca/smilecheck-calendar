@@ -1,24 +1,28 @@
-import { useState } from 'react';
-import { Plus, Check } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { CalendarHeader } from './CalendarHeader';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
-import { Consultation } from '@/types/calendar';
+import { MobileHeader } from './mobile/MobileHeader';
+import { MobileSidebar } from './mobile/MobileSidebar';
+import { ViewModeSelector } from './mobile/ViewModeSelector';
+import { FamilyFilter } from './mobile/FamilyFilter';
+import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
-import { cn } from '@/lib/utils';
 
 export function PatientCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Demo day
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -36,21 +40,37 @@ export function PatientCalendar() {
     .filter(c => c.date >= new Date())
     .sort((a, b) => a.date.getTime() - b.date.getTime());
 
-  const toggleMember = (memberId: string) => {
+  const handleMemberToggle = (memberId: string, isCheckbox: boolean) => {
     if (memberId === 'all') {
+      // Clicking "all" always selects all
       setSelectedMembers(['all']);
     } else {
-      const newSelected = selectedMembers.includes('all')
-        ? [memberId]
-        : selectedMembers.includes(memberId)
-          ? selectedMembers.filter(id => id !== memberId)
-          : [...selectedMembers, memberId];
-      
-      // If all members are selected or none, revert to 'all'
-      if (newSelected.length === 0 || newSelected.length === mockFamilyMembers.length) {
-        setSelectedMembers(['all']);
+      if (isCheckbox) {
+        // Checkbox click: toggle in multi-select
+        if (selectedMembers.includes('all')) {
+          // If "all" was selected, switch to just this member
+          setSelectedMembers([memberId]);
+        } else if (selectedMembers.includes(memberId)) {
+          // Remove from selection
+          const newSelected = selectedMembers.filter(id => id !== memberId);
+          if (newSelected.length === 0) {
+            setSelectedMembers(['all']);
+          } else {
+            setSelectedMembers(newSelected);
+          }
+        } else {
+          // Add to selection
+          const newSelected = [...selectedMembers, memberId];
+          // If all members are now selected, switch to 'all'
+          if (newSelected.length === mockFamilyMembers.length) {
+            setSelectedMembers(['all']);
+          } else {
+            setSelectedMembers(newSelected);
+          }
+        }
       } else {
-        setSelectedMembers(newSelected);
+        // Name click: select ONLY this member
+        setSelectedMembers([memberId]);
       }
     }
   };
@@ -69,9 +89,18 @@ export function PatientCalendar() {
       />
       
       <div className="relative z-10">
-        <CalendarHeader title="Agenda" />
+        {/* Mobile Header */}
+        <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
 
-        <div className="py-4">
+        {/* View Mode Selector */}
+        <ViewModeSelector 
+          viewMode={viewMode} 
+          onViewModeChange={setViewMode} 
+          userRole="patient" 
+        />
+
+        {/* Calendar */}
+        <div className="py-2">
           <MonthlyCalendar
             selectedDate={selectedDate}
             onDateSelect={setSelectedDate}
@@ -79,39 +108,11 @@ export function PatientCalendar() {
           />
         </div>
 
-        {/* Family Member Filter */}
-        <div className="px-4 mb-4">
-          <p className="text-xs font-medium text-muted-foreground mb-2">Filtrar por membro:</p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => toggleMember('all')}
-              className={cn(
-                'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                selectedMembers.includes('all')
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-card border border-border text-muted-foreground hover:border-primary/50'
-              )}
-            >
-              {selectedMembers.includes('all') && <Check className="w-3 h-3" />}
-              Todos
-            </button>
-            {mockFamilyMembers.map(member => (
-              <button
-                key={member.id}
-                onClick={() => toggleMember(member.id)}
-                className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                  selectedMembers.includes(member.id) && !selectedMembers.includes('all')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-card border border-border text-muted-foreground hover:border-primary/50'
-                )}
-              >
-                {selectedMembers.includes(member.id) && !selectedMembers.includes('all') && <Check className="w-3 h-3" />}
-                {member.name} ({member.relation})
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Family Filter */}
+        <FamilyFilter 
+          selectedMembers={selectedMembers}
+          onMemberToggle={handleMemberToggle}
+        />
 
         {/* Consultations List */}
         <div className="px-4 mt-4">
@@ -169,6 +170,17 @@ export function PatientCalendar() {
           userRole="patient"
           activeTab={activeTab}
           onTabChange={setActiveTab}
+        />
+
+        {/* Mobile Sidebar */}
+        <MobileSidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          userRole="patient"
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          selectedMembers={selectedMembers}
+          onMemberToggle={handleMemberToggle}
         />
 
         {/* Edit Modal */}

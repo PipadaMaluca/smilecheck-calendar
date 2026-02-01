@@ -93,7 +93,7 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
 
 export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   restauracao: 'Restauração',
-  primeira_consulta: 'Primeira Consulta',
+  primeira_consulta: '1ª Consulta',
   protese: 'Prótese',
   urgencia: 'Urgência',
   teleconsulta: 'Teleconsulta',
@@ -103,3 +103,28 @@ export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   destartarizacao: 'Destartarização',
   outro: 'Outro',
 };
+
+// Mobile category labels (shorter)
+export const CATEGORY_LABELS_SHORT: Record<ConsultationCategory, string> = {
+  restauracao: 'Restauração',
+  primeira_consulta: '1ª Consulta',
+  protese: 'Prótese',
+  urgencia: 'Urgência',
+  teleconsulta: 'Teleconsulta',
+  teleconsulta_urgente: 'Tele. Urgente',
+  endodontia: 'Endodontia',
+  cirurgia: 'Cirurgia',
+  destartarizacao: 'Destartarização',
+  outro: 'Outro',
+};
+
+// View mode type
+export type ViewMode = 'list' | 'day' | 'three-day';
+
+// Family member type
+export interface FamilyMember {
+  id: string;
+  name: string;
+  age: number;
+  relation: string;
+}

@@ -1,26 +1,32 @@
 import { useState, useMemo } from 'react';
-import { CalendarHeader } from './CalendarHeader';
 import { DateNavigator } from './DateNavigator';
-import { DentistFilter } from './DentistFilter';
 import { MultiDentistGrid } from './MultiDentistGrid';
 import { CategoryLegend } from './CategoryLegend';
 import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
-import { Consultation, TimeSlot, Dentist } from '@/types/calendar';
+import { MobileHeader } from './mobile/MobileHeader';
+import { MobileSidebar } from './mobile/MobileSidebar';
+import { ViewModeSelector } from './mobile/ViewModeSelector';
+import { DentistFilterMobile } from './mobile/DentistFilterMobile';
+import { ThreeDayView } from './mobile/ThreeDayView';
+import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
-  const [selectedDentistId, setSelectedDentistId] = useState<string | null>(null);
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('day');
+  const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const isMobile = useIsMobile();
 
-  const filteredDentists = selectedDentistId
-    ? mockDentists.filter((d) => d.id === selectedDentistId)
-    : mockDentists;
+  const filteredDentists = selectedDentistIds.length === 0 || selectedDentistIds.includes('all')
+    ? mockDentists
+    : mockDentists.filter((d) => selectedDentistIds.includes(d.id));
 
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
@@ -55,12 +61,75 @@ export function ClinicCalendar() {
     }
   };
 
+  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean) => {
+    if (dentistId === null) {
+      // "Todos" clicked
+      setSelectedDentistIds([]);
+    } else {
+      if (isCheckbox) {
+        // Checkbox click: toggle in multi-select
+        if (selectedDentistIds.length === 0) {
+          // Was "all", now select just this one
+          setSelectedDentistIds([dentistId]);
+        } else if (selectedDentistIds.includes(dentistId)) {
+          // Remove from selection
+          const newSelected = selectedDentistIds.filter(id => id !== dentistId);
+          setSelectedDentistIds(newSelected);
+        } else {
+          // Add to selection
+          const newSelected = [...selectedDentistIds, dentistId];
+          // If all dentists selected, switch to empty (all)
+          if (newSelected.length === mockDentists.length) {
+            setSelectedDentistIds([]);
+          } else {
+            setSelectedDentistIds(newSelected);
+          }
+        }
+      } else {
+        // Name click: select ONLY this dentist
+        setSelectedDentistIds([dentistId]);
+      }
+    }
+  };
+
+  const handleClinicToggle = (clinicId: string, isCheckbox: boolean) => {
+    if (isCheckbox) {
+      if (selectedClinics.includes(clinicId)) {
+        const newSelected = selectedClinics.filter(id => id !== clinicId);
+        if (newSelected.length === 0) {
+          setSelectedClinics(['1']);
+        } else {
+          setSelectedClinics(newSelected);
+        }
+      } else {
+        setSelectedClinics([...selectedClinics, clinicId]);
+      }
+    } else {
+      setSelectedClinics([clinicId]);
+    }
+  };
+
+  const getSlots = (date: Date) => {
+    // For 3-day view, use first dentist or selected dentist
+    const dentistId = selectedDentistIds.length === 1 ? selectedDentistIds[0] : mockDentists[0].id;
+    const consultations = mockConsultations.filter(c => c.dentist.id === dentistId);
+    return generateTimeSlots(date, consultations);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24">
-      <CalendarHeader
-        title="Agenda da Clínica"
+      {/* Mobile Header */}
+      <MobileHeader 
+        onMenuClick={() => setSidebarOpen(true)}
         showClinicSelector
         selectedClinic={mockClinics[0]}
+      />
+
+      {/* View Mode Selector */}
+      <ViewModeSelector 
+        viewMode={viewMode} 
+        onViewModeChange={setViewMode} 
+        userRole="clinic" 
       />
 
       <DateNavigator
@@ -71,18 +140,30 @@ export function ClinicCalendar() {
       {/* Category Legend */}
       <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
-      <DentistFilter
+      {/* Dentist Filter - centered */}
+      <DentistFilterMobile
         dentists={mockDentists}
-        selectedDentistId={selectedDentistId}
-        onSelect={setSelectedDentistId}
+        selectedDentistIds={selectedDentistIds}
+        onToggle={handleDentistToggle}
+        centered
       />
 
+      {/* Content based on view mode */}
       <div className="mt-4">
-        <MultiDentistGrid
-          dentists={filteredDentists}
-          slotsPerDentist={slotsPerDentist}
-          onSlotClick={handleSlotClick}
-        />
+        {viewMode === 'three-day' ? (
+          <ThreeDayView 
+            selectedDate={selectedDate}
+            getSlots={getSlots}
+            onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
+          />
+        ) : (
+          <MultiDentistGrid
+            dentists={filteredDentists}
+            slotsPerDentist={slotsPerDentist}
+            onSlotClick={handleSlotClick}
+            showFullName
+          />
+        )}
       </div>
 
       <div className="mt-6">
@@ -120,6 +201,19 @@ export function ClinicCalendar() {
         userRole="clinic"
         activeTab={activeTab}
         onTabChange={setActiveTab}
+      />
+
+      {/* Mobile Sidebar */}
+      <MobileSidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        userRole="clinic"
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        selectedDentists={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+        onDentistToggle={handleDentistToggle}
+        selectedClinics={selectedClinics}
+        onClinicToggle={handleClinicToggle}
       />
 
       <EditConsultationModal
