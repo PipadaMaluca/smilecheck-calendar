@@ -20,6 +20,104 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   level,
 });
 
+// Family members for patient view
+export const mockFamilyMembers = [
+  { id: 'fm1', name: 'João Silva', relation: 'Eu' },
+  { id: 'fm2', name: 'Maria Silva', relation: 'Esposa' },
+  { id: 'fm3', name: 'Pedro Silva', relation: 'Filho' },
+];
+
+// Patient consultations - 2 per family member (1 presencial + 1 teleconsulta)
+export const mockPatientConsultations: Consultation[] = [
+  // João Silva (Eu)
+  {
+    id: 'pat-1',
+    type: 'presencial',
+    category: 'restauracao',
+    date: new Date(2026, 1, 3),
+    time: '10:00',
+    duration: 45,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold'),
+    dentist: mockDentists[0],
+    clinic: mockClinics[0],
+    price: 60,
+    isPaid: false,
+    notes: 'Restauração dente 36',
+  },
+  {
+    id: 'pat-2',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: new Date(2026, 1, 5),
+    time: '18:00',
+    duration: 30,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold'),
+    dentist: mockDentists[1],
+    clinic: mockClinics[0],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+  },
+  // Maria Silva (Esposa)
+  {
+    id: 'pat-3',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: new Date(2026, 1, 4),
+    time: '14:00',
+    duration: 30,
+    patient: createPatient('fm2', 'Maria Silva', '+351 912 000 002', 4.9, 'Platinum'),
+    dentist: mockDentists[0],
+    clinic: mockClinics[0],
+    price: 50,
+    isPaid: false,
+    notes: 'Limpeza semestral',
+  },
+  {
+    id: 'pat-4',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: new Date(2026, 1, 7),
+    time: '19:00',
+    duration: 30,
+    patient: createPatient('fm2', 'Maria Silva', '+351 912 000 002', 4.9, 'Platinum'),
+    dentist: mockDentists[2],
+    clinic: mockClinics[0],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'Cartão',
+  },
+  // Pedro Silva (Filho)
+  {
+    id: 'pat-5',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: new Date(2026, 1, 6),
+    time: '11:00',
+    duration: 30,
+    patient: createPatient('fm3', 'Pedro Silva', '+351 912 000 003', 5.0, 'Bronze'),
+    dentist: mockDentists[1],
+    clinic: mockClinics[0],
+    price: 40,
+    isPaid: false,
+    notes: 'Check-up inicial',
+  },
+  {
+    id: 'pat-6',
+    type: 'teleconsulta',
+    category: 'teleconsulta',
+    date: new Date(2026, 1, 10),
+    time: '17:30',
+    duration: 30,
+    patient: createPatient('fm3', 'Pedro Silva', '+351 912 000 003', 5.0, 'Bronze'),
+    dentist: mockDentists[0],
+    clinic: mockClinics[0],
+    price: 25,
+    isPaid: true,
+    paymentMethod: 'MB Way',
+  },
+];
+
 export const mockConsultations: Consultation[] = [
   // ===== JANUARY 28 (existing data) =====
   {
