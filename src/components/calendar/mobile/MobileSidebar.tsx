@@ -1,12 +1,11 @@
-import { X, User, CreditCard, List, Calendar, CalendarDays, Building2, Users, UserPlus, Bell, Clock, Globe, Gift, Settings, HelpCircle, Phone, FileText, LogOut, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, User, CreditCard, List, Calendar, CalendarDays, Building2, Users, Bell, Clock, Globe, Gift, Settings, HelpCircle, Phone, FileText, LogOut, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Checkbox } from '@/components/ui/checkbox';
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import { mockDentists, mockClinics, mockFamilyMembers, clinicDentists, getDentistsForClinic } from '@/data/mockData';
+import { mockDentists, mockClinics, mockFamilyMembers, getDentistsForClinic } from '@/data/mockData';
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -39,7 +38,7 @@ export function MobileSidebar({
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
-  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']); // SmileCheck expanded by default
+  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
   const userName = userRole === 'patient' 
     ? `${mockFamilyMembers[0].name} (${mockFamilyMembers[0].age} anos)` 
@@ -64,10 +63,19 @@ export function MobileSidebar({
 
   // Check if a dentist is selected for a specific clinic
   const isDentistSelected = (dentistId: string, clinicId: string) => {
-    // For simplicity, we track by dentistId-clinicId combo
     const key = `${clinicId}-${dentistId}`;
     if (selectedDentists.includes('all')) return true;
     return selectedDentists.includes(key) || selectedDentists.includes(dentistId);
+  };
+
+  // Check if at least one dentist of a clinic is selected
+  const isClinicPartiallySelected = (clinicId: string) => {
+    if (selectedDentists.includes('all')) return true;
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    return dentistsInClinic.some(d => {
+      const key = `${clinicId}-${d.id}`;
+      return selectedDentists.includes(key) || selectedDentists.includes(d.id);
+    });
   };
 
   // Check if all dentists of a clinic are selected
@@ -81,12 +89,10 @@ export function MobileSidebar({
   };
 
   const handleClinicCheckbox = (clinicId: string) => {
-    // Toggle all dentists of this clinic
     const dentistsInClinic = getDentistsForClinic(clinicId);
     const allSelected = isClinicFullySelected(clinicId);
     
     if (allSelected) {
-      // Deselect all dentists in this clinic
       dentistsInClinic.forEach(d => {
         const key = `${clinicId}-${d.id}`;
         if (selectedDentists.includes(key) || selectedDentists.includes(d.id)) {
@@ -94,7 +100,6 @@ export function MobileSidebar({
         }
       });
     } else {
-      // Select all dentists in this clinic
       dentistsInClinic.forEach(d => {
         const key = `${clinicId}-${d.id}`;
         if (!selectedDentists.includes(key) && !selectedDentists.includes(d.id)) {
@@ -103,7 +108,6 @@ export function MobileSidebar({
       });
     }
     
-    // Also toggle the clinic selection
     onClinicToggle?.(clinicId, true);
   };
 
@@ -133,6 +137,29 @@ export function MobileSidebar({
     >
       <Icon className="w-4 h-4" />
       <span>{label}</span>
+    </button>
+  );
+
+  // Custom checkbox component with larger size
+  const CustomCheckbox = ({ checked, onChange, className }: { checked: boolean; onChange: () => void; className?: string }) => (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        onChange();
+      }}
+      className={cn(
+        'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
+        checked 
+          ? 'bg-primary border-primary text-primary-foreground' 
+          : 'border-muted-foreground/50 hover:border-primary',
+        className
+      )}
+    >
+      {checked && (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      )}
     </button>
   );
 
@@ -166,29 +193,29 @@ export function MobileSidebar({
           <MenuItem icon={CreditCard} label="Gerir Plano" />
         </MenuSection>
 
-        {/* Views - Order: Day, 3 Days, List */}
-        <MenuSection>
-          <MenuItem 
-            icon={Calendar} 
-            label="Vista Diária" 
-            active={viewMode === 'day'}
-            onClick={() => handleViewChange('day')}
-          />
-          {userRole !== 'patient' && (
+        {/* Views - Only for Dentist/Clinic (NOT Patient) */}
+        {userRole !== 'patient' && (
+          <MenuSection>
+            <MenuItem 
+              icon={Calendar} 
+              label="Vista Diária" 
+              active={viewMode === 'day'}
+              onClick={() => handleViewChange('day')}
+            />
             <MenuItem 
               icon={CalendarDays} 
               label="Vista 3 Dias" 
               active={viewMode === 'three-day'}
               onClick={() => handleViewChange('three-day')}
             />
-          )}
-          <MenuItem 
-            icon={List} 
-            label="Vista em Lista" 
-            active={viewMode === 'list'}
-            onClick={() => handleViewChange('list')}
-          />
-        </MenuSection>
+            <MenuItem 
+              icon={List} 
+              label="Vista em Lista" 
+              active={viewMode === 'list'}
+              onClick={() => handleViewChange('list')}
+            />
+          </MenuSection>
+        )}
 
         {/* Patient: Family filter */}
         {userRole === 'patient' && (
@@ -201,12 +228,12 @@ export function MobileSidebar({
                 </div>
                 {familyOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 py-2 space-y-2">
+              <CollapsibleContent className="px-4 py-2 space-y-3">
                 {/* All option */}
-                <div className="flex items-center gap-2">
-                  <Checkbox 
+                <div className="flex items-center gap-3">
+                  <CustomCheckbox 
                     checked={selectedMembers.includes('all')}
-                    onCheckedChange={() => onMemberToggle?.('all', true)}
+                    onChange={() => onMemberToggle?.('all', true)}
                   />
                   <button 
                     className="text-sm hover:text-primary"
@@ -216,10 +243,10 @@ export function MobileSidebar({
                   </button>
                 </div>
                 {mockFamilyMembers.map(member => (
-                  <div key={member.id} className="flex items-center gap-2">
-                    <Checkbox 
+                  <div key={member.id} className="flex items-center gap-3">
+                    <CustomCheckbox 
                       checked={selectedMembers.includes(member.id) || selectedMembers.includes('all')}
-                      onCheckedChange={() => onMemberToggle?.(member.id, true)}
+                      onChange={() => onMemberToggle?.(member.id, true)}
                     />
                     <button 
                       className="text-sm hover:text-primary text-left"
@@ -246,20 +273,19 @@ export function MobileSidebar({
                 {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="px-2 py-2 space-y-1">
-                {/* Each clinic with its dentists */}
                 {mockClinics.map(clinic => {
                   const clinicExpanded = expandedClinics.includes(clinic.id);
                   const dentistsInClinic = getDentistsForClinic(clinic.id);
                   const isFullySelected = isClinicFullySelected(clinic.id);
-                  const isClinicSelected = selectedClinics.includes(clinic.id);
+                  const isPartiallySelected = isClinicPartiallySelected(clinic.id);
                   
                   return (
                     <div key={clinic.id} className="ml-2">
                       {/* Clinic header */}
                       <div className="flex items-center gap-2 py-1.5">
-                        <Checkbox 
-                          checked={isClinicSelected && isFullySelected}
-                          onCheckedChange={() => handleClinicCheckbox(clinic.id)}
+                        <CustomCheckbox 
+                          checked={isFullySelected || isPartiallySelected}
+                          onChange={() => handleClinicCheckbox(clinic.id)}
                         />
                         <button 
                           className="flex-1 flex items-center justify-between text-sm hover:text-primary"
@@ -267,7 +293,7 @@ export function MobileSidebar({
                         >
                           <div className="flex items-center gap-2">
                             <Building2 className="w-3.5 h-3.5" />
-                            <span>{clinic.name}</span>
+                            <span>{clinic.name.replace('Clínica ', '')}</span>
                           </div>
                           {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
@@ -275,14 +301,14 @@ export function MobileSidebar({
                       
                       {/* Dentists under this clinic */}
                       {clinicExpanded && (
-                        <div className="ml-6 space-y-1 pb-2">
+                        <div className="ml-8 space-y-2 pb-2">
                           {dentistsInClinic.map(dentist => {
                             const isSelected = isDentistSelected(dentist.id, clinic.id);
                             return (
                               <div key={`${clinic.id}-${dentist.id}`} className="flex items-center gap-2">
-                                <Checkbox 
+                                <CustomCheckbox 
                                   checked={isSelected}
-                                  onCheckedChange={() => onDentistToggle?.(dentist.id, true, clinic.id)}
+                                  onChange={() => onDentistToggle?.(dentist.id, true, clinic.id)}
                                 />
                                 <button 
                                   className="text-xs hover:text-primary text-left"
@@ -312,17 +338,27 @@ export function MobileSidebar({
 
         {/* Common menu items */}
         <MenuSection>
-          <MenuItem icon={UserPlus} label="Pacientes" />
+          {userRole !== 'patient' && (
+            <MenuItem icon={Users} label="Pacientes" />
+          )}
           <MenuItem icon={Bell} label="Centro de Notificações" />
           {userRole !== 'patient' && (
             <MenuItem icon={Clock} label="Gerir Disponibilidade" />
           )}
         </MenuSection>
 
-        <MenuSection>
-          <MenuItem icon={Globe} label="Comunidade SmileCheck" />
-          <MenuItem icon={Gift} label="Programa de Referral" />
-        </MenuSection>
+        {userRole !== 'patient' && (
+          <MenuSection>
+            <MenuItem icon={Globe} label="Comunidade SmileCheck" />
+            <MenuItem icon={Gift} label="Programa de Referral" />
+          </MenuSection>
+        )}
+
+        {userRole === 'patient' && (
+          <MenuSection>
+            <MenuItem icon={Gift} label="Programa de Referral" />
+          </MenuSection>
+        )}
 
         <MenuSection>
           <MenuItem icon={Settings} label="Definições" />

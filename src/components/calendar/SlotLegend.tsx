@@ -1,17 +1,4 @@
-import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory } from '@/types/calendar';
-
-// Complete legend with all types - alphabetical order except teleconsultas at end
-const LEGEND_ORDER: ConsultationCategory[] = [
-  'cirurgia',
-  'destartarizacao',
-  'endodontia',
-  'primeira_consulta',
-  'protese',
-  'restauracao',
-  'urgencia',
-  'teleconsulta',
-  'teleconsulta_urgente',
-];
+import { CATEGORY_COLORS, CATEGORY_LABELS, LEGEND_ORDER } from '@/types/calendar';
 
 export function SlotLegend() {
   return (

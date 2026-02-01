@@ -1,14 +1,15 @@
 export type ConsultationType = 'teleconsulta' | 'presencial';
 export type ConsultationCategory = 
-  | 'restauracao' 
   | 'primeira_consulta' 
-  | 'protese' 
-  | 'urgencia' 
-  | 'teleconsulta' 
-  | 'teleconsulta_urgente'
-  | 'endodontia'
-  | 'cirurgia'
   | 'destartarizacao'
+  | 'cirurgia'
+  | 'endodontia'
+  | 'odontopediatria'
+  | 'ortodontia'
+  | 'protese'
+  | 'restauracao' 
+  | 'urgencia' 
+  | 'teleconsulta'
   | 'outro';
 export type UrgencyLevel = 'urgente' | 'prioritario' | 'rotina';
 export type UserRole = 'patient' | 'dentist' | 'clinic';
@@ -20,6 +21,7 @@ export interface Patient {
   rating: number;
   level: string;
   avatar?: string;
+  age?: number;
 }
 
 export interface Dentist {
@@ -60,6 +62,7 @@ export interface Consultation {
   paymentMethod?: string;
   triage?: Triage;
   notes?: string;
+  isUrgentTeleconsulta?: boolean; // For teleconsultas with ⚠️ warning
 }
 
 export interface TimeSlot {
@@ -77,46 +80,63 @@ export interface DaySummary {
   totalRevenue: number;
 }
 
-// Category color mapping
+// Category color mapping - 10 types in specified order
 export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: string; hex: string }> = {
-  restauracao: { bg: 'bg-[#2196F3]', text: 'text-white', hex: '#2196F3' },
   primeira_consulta: { bg: 'bg-[#FDD835]', text: 'text-black', hex: '#FDD835' },
-  protese: { bg: 'bg-[#4CAF50]', text: 'text-white', hex: '#4CAF50' },
+  destartarizacao: { bg: 'bg-[#9C27B0]', text: 'text-white', hex: '#9C27B0' },
+  cirurgia: { bg: 'bg-[#212121]', text: 'text-white', hex: '#212121' },
+  endodontia: { bg: 'bg-[#E91E63]', text: 'text-white', hex: '#E91E63' },
+  odontopediatria: { bg: 'bg-[#E65100]', text: 'text-white', hex: '#E65100' },
+  ortodontia: { bg: 'bg-[#8BC34A]', text: 'text-white', hex: '#8BC34A' },
+  protese: { bg: 'bg-[#2E7D32]', text: 'text-white', hex: '#2E7D32' },
+  restauracao: { bg: 'bg-[#2196F3]', text: 'text-white', hex: '#2196F3' },
   urgencia: { bg: 'bg-[#F44336]', text: 'text-white', hex: '#F44336' },
   teleconsulta: { bg: 'bg-[#FF9800]', text: 'text-white', hex: '#FF9800' },
-  teleconsulta_urgente: { bg: 'bg-[#E65100]', text: 'text-white', hex: '#E65100' },
-  endodontia: { bg: 'bg-[#E91E63]', text: 'text-white', hex: '#E91E63' },
-  cirurgia: { bg: 'bg-[#000000]', text: 'text-white', hex: '#000000' },
-  destartarizacao: { bg: 'bg-[#9C27B0]', text: 'text-white', hex: '#9C27B0' },
   outro: { bg: 'bg-[#9E9E9E]', text: 'text-white', hex: '#9E9E9E' },
 };
 
 export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
-  restauracao: 'Restauração',
   primeira_consulta: '1ª Consulta',
+  destartarizacao: 'Destartarização',
+  cirurgia: 'Cirurgia',
+  endodontia: 'Endodontia',
+  odontopediatria: 'Odontopediatria',
+  ortodontia: 'Ortodontia',
   protese: 'Prótese',
+  restauracao: 'Restauração',
   urgencia: 'Urgência',
   teleconsulta: 'Teleconsulta',
-  teleconsulta_urgente: 'Teleconsulta Urgente',
-  endodontia: 'Endodontia',
-  cirurgia: 'Cirurgia',
-  destartarizacao: 'Destartarização',
   outro: 'Outro',
 };
 
-// Mobile category labels (shorter)
+// Mobile category labels (shorter) - same as main labels now
 export const CATEGORY_LABELS_SHORT: Record<ConsultationCategory, string> = {
-  restauracao: 'Restauração',
   primeira_consulta: '1ª Consulta',
+  destartarizacao: 'Destartarização',
+  cirurgia: 'Cirurgia',
+  endodontia: 'Endodontia',
+  odontopediatria: 'Odontopediatria',
+  ortodontia: 'Ortodontia',
   protese: 'Prótese',
+  restauracao: 'Restauração',
   urgencia: 'Urgência',
   teleconsulta: 'Teleconsulta',
-  teleconsulta_urgente: 'Tele. Urgente',
-  endodontia: 'Endodontia',
-  cirurgia: 'Cirurgia',
-  destartarizacao: 'Destartarização',
   outro: 'Outro',
 };
+
+// Legend order as specified
+export const LEGEND_ORDER: ConsultationCategory[] = [
+  'primeira_consulta',
+  'destartarizacao',
+  'cirurgia',
+  'endodontia',
+  'odontopediatria',
+  'ortodontia',
+  'protese',
+  'restauracao',
+  'urgencia',
+  'teleconsulta',
+];
 
 // View mode type
 export type ViewMode = 'list' | 'day' | 'three-day';
