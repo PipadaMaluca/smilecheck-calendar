@@ -6,12 +6,14 @@ interface MultiDentistGridProps {
   dentists: Dentist[];
   slotsPerDentist: Record<string, TimeSlot[]>;
   onSlotClick?: (dentistId: string, slot: TimeSlot) => void;
+  showFullName?: boolean;
 }
 
 export function MultiDentistGrid({
   dentists,
   slotsPerDentist,
-  onSlotClick
+  onSlotClick,
+  showFullName = false
 }: MultiDentistGridProps) {
   const timeLabels: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
@@ -77,7 +79,9 @@ export function MultiDentistGrid({
                         )}
                         {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                         <span className="truncate font-medium">
-                          {consultation.patient.name.split(' ')[0]}
+                          {showFullName 
+                            ? `${consultation.patient.name.split(' ')[0]} ${consultation.patient.name.split(' ').slice(-1)[0]}` 
+                            : consultation.patient.name.split(' ')[0]}
                         </span>
                       </div>
                     )}

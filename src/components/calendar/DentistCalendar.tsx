@@ -1,26 +1,32 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Plus, PauseCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { CalendarHeader } from './CalendarHeader';
 import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
 import { CategoryLegend } from './CategoryLegend';
 import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
-import { Consultation, TimeSlot } from '@/types/calendar';
+import { MobileHeader } from './mobile/MobileHeader';
+import { MobileSidebar } from './mobile/MobileSidebar';
+import { ViewModeSelector } from './mobile/ViewModeSelector';
+import { ThreeDayView } from './mobile/ThreeDayView';
+import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
-  const [viewMode, setViewMode] = useState<'day' | 'week' | 'month'>('day');
+  const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedDentists, setSelectedDentists] = useState<string[]>(['all']);
+  const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const isMobile = useIsMobile();
 
-  // Filter only Dr. Gonçalo Pipo's consultations
+  // Filter only Dr. Gonçalo Pipo's consultations (current user)
   const myConsultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
   const slots = generateTimeSlots(selectedDate, myConsultations);
   const dayConsultations = myConsultations.filter(
@@ -43,6 +49,51 @@ export function DentistCalendar() {
     }
   };
 
+  const getSlots = (date: Date) => {
+    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
+    return generateTimeSlots(date, consultations);
+  };
+
+  const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean) => {
+    if (dentistId === null) {
+      setSelectedDentists(['all']);
+    } else {
+      if (isCheckbox) {
+        if (selectedDentists.includes('all')) {
+          setSelectedDentists([dentistId]);
+        } else if (selectedDentists.includes(dentistId)) {
+          const newSelected = selectedDentists.filter(id => id !== dentistId);
+          if (newSelected.length === 0) {
+            setSelectedDentists(['all']);
+          } else {
+            setSelectedDentists(newSelected);
+          }
+        } else {
+          setSelectedDentists([...selectedDentists, dentistId]);
+        }
+      } else {
+        setSelectedDentists([dentistId]);
+      }
+    }
+  };
+
+  const handleClinicToggle = (clinicId: string, isCheckbox: boolean) => {
+    if (isCheckbox) {
+      if (selectedClinics.includes(clinicId)) {
+        const newSelected = selectedClinics.filter(id => id !== clinicId);
+        if (newSelected.length === 0) {
+          setSelectedClinics(['1']);
+        } else {
+          setSelectedClinics(newSelected);
+        }
+      } else {
+        setSelectedClinics([...selectedClinics, clinicId]);
+      }
+    } else {
+      setSelectedClinics([clinicId]);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24 relative">
       {/* Background Watermark Logo */}
@@ -57,24 +108,38 @@ export function DentistCalendar() {
       />
       
       <div className="relative z-10">
-        <CalendarHeader
-          title="Agenda"
+        {/* Mobile Header */}
+        <MobileHeader 
+          onMenuClick={() => setSidebarOpen(true)}
           showClinicSelector
           selectedClinic={mockClinics[0]}
+        />
+
+        {/* View Mode Selector */}
+        <ViewModeSelector 
+          viewMode={viewMode} 
+          onViewModeChange={setViewMode} 
+          userRole="dentist" 
         />
 
         <DateNavigator
           date={selectedDate}
           onDateChange={setSelectedDate}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          showViewToggle
         />
 
         {/* Category Legend */}
         <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
-        <TimeSlotView slots={slots} onSlotClick={handleSlotClick} />
+        {/* Content based on view mode */}
+        {viewMode === 'three-day' ? (
+          <ThreeDayView 
+            selectedDate={selectedDate}
+            getSlots={getSlots}
+            onSlotClick={handleSlotClick}
+          />
+        ) : (
+          <TimeSlotView slots={slots} onSlotClick={handleSlotClick} />
+        )}
 
         <div className="mt-6">
           <DaySummary summary={summary} />
@@ -99,6 +164,19 @@ export function DentistCalendar() {
           userRole="dentist"
           activeTab={activeTab}
           onTabChange={setActiveTab}
+        />
+
+        {/* Mobile Sidebar */}
+        <MobileSidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          userRole="dentist"
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          selectedDentists={selectedDentists}
+          onDentistToggle={handleDentistToggle}
+          selectedClinics={selectedClinics}
+          onClinicToggle={handleClinicToggle}
         />
 
         <EditConsultationModal

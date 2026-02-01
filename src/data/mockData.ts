@@ -22,9 +22,9 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
 
 // Family members for patient view - with ages
 export const mockFamilyMembers = [
-  { id: 'fm1', name: 'João Silva (45)', relation: 'Eu' },
-  { id: 'fm2', name: 'Maria Silva (42)', relation: 'Esposa' },
-  { id: 'fm3', name: 'Pedro Silva (12)', relation: 'Filho' },
+  { id: 'fm1', name: 'João Silva', age: 45, relation: 'Eu' },
+  { id: 'fm2', name: 'Maria Silva', age: 42, relation: 'Esposa' },
+  { id: 'fm3', name: 'Pedro Silva', age: 12, relation: 'Filho' },
 ];
 
 // Demo date - January 31, 2026
