@@ -4,33 +4,54 @@ import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
 import { DesktopCalendarSidebar } from './DesktopCalendarSidebar';
+import { PatientSidebar } from './PatientSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
+import { ListView } from './ListView';
+import { PatientAppointmentsList } from '../PatientAppointmentsList';
+import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
-import { PatientCalendar } from '../PatientCalendar';
-import { DentistCalendar } from '../DentistCalendar';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
-import { format } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
+// Mock family members for patient view
+const mockFamilyMembers = [
+  { id: 'f1', name: 'João Silva', relation: 'Eu' },
+  { id: 'f2', name: 'Maria Silva', relation: 'Filha' },
+  { id: 'f3', name: 'Pedro Silva', relation: 'Filho' },
+];
+
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(mockDentists.map(d => d.id));
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([mockDentists[0].id]); // Dentist view: only self selected
+  const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('agenda');
 
   const appointmentDates = mockConsultations.map(c => c.date);
   
-  const filteredDentists = useMemo(() => 
-    mockDentists.filter(d => selectedDentistIds.includes(d.id)), 
-    [selectedDentistIds]
-  );
+  // For clinic view: all selected dentists, for dentist view: self + optionally others
+  const filteredDentists = useMemo(() => {
+    if (activeRole === 'dentist') {
+      // Always include self (first dentist), plus any others selected
+      const selfId = mockDentists[0].id;
+      const selectedOthers = selectedDentistIds.filter(id => id !== selfId);
+      const result = [mockDentists[0]];
+      selectedOthers.forEach(id => {
+        const dentist = mockDentists.find(d => d.id === id);
+        if (dentist) result.push(dentist);
+      });
+      return result;
+    }
+    return mockDentists.filter(d => selectedDentistIds.includes(d.id));
+  }, [selectedDentistIds, activeRole]);
 
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
@@ -41,21 +62,77 @@ export function DesktopCalendarView() {
     return result;
   }, [selectedDate, filteredDentists]);
 
-  const handleDentistToggle = (dentistId: string) => {
-    setSelectedDentistIds(prev => {
-      if (prev.includes(dentistId)) {
-        if (prev.length === 1) return prev;
-        return prev.filter(id => id !== dentistId);
-      }
-      return [...prev, dentistId];
+  // Day consultations for list view
+  const dayConsultations = useMemo(() => {
+    return mockConsultations.filter(c => 
+      isSameDay(c.date, selectedDate) && 
+      (activeRole === 'clinic' || c.dentist.id === mockDentists[0].id || selectedDentistIds.includes(c.dentist.id))
+    );
+  }, [selectedDate, activeRole, selectedDentistIds]);
+
+  // Patient consultations
+  const patientConsultations = useMemo(() => {
+    return mockConsultations.filter(c => {
+      // In real app, filter by patient/family member
+      return true;
     });
+  }, []);
+
+  const handleDentistToggle = (dentistId: string) => {
+    if (activeRole === 'dentist') {
+      // For dentist view, self is always selected, toggle others as columns
+      const selfId = mockDentists[0].id;
+      if (dentistId === selfId) return; // Can't deselect self
+      
+      setSelectedDentistIds(prev => {
+        if (prev.includes(dentistId)) {
+          return prev.filter(id => id !== dentistId);
+        }
+        return [...prev, dentistId];
+      });
+    } else {
+      setSelectedDentistIds(prev => {
+        if (prev.includes(dentistId)) {
+          if (prev.length === 1) return prev;
+          return prev.filter(id => id !== dentistId);
+        }
+        return [...prev, dentistId];
+      });
+    }
   };
 
   const handleSelectAllDentists = () => {
-    if (selectedDentistIds.length === mockDentists.length) {
-      setSelectedDentistIds([mockDentists[0].id]);
+    if (activeRole === 'dentist') {
+      // Toggle between just self and all
+      if (selectedDentistIds.length === mockDentists.length) {
+        setSelectedDentistIds([mockDentists[0].id]);
+      } else {
+        setSelectedDentistIds(mockDentists.map(d => d.id));
+      }
     } else {
-      setSelectedDentistIds(mockDentists.map(d => d.id));
+      if (selectedDentistIds.length === mockDentists.length) {
+        setSelectedDentistIds([mockDentists[0].id]);
+      } else {
+        setSelectedDentistIds(mockDentists.map(d => d.id));
+      }
+    }
+  };
+
+  const handleFamilyMemberToggle = (memberId: string) => {
+    setSelectedFamilyMemberIds(prev => {
+      if (prev.includes(memberId)) {
+        if (prev.length === 1) return prev;
+        return prev.filter(id => id !== memberId);
+      }
+      return [...prev, memberId];
+    });
+  };
+
+  const handleSelectAllFamilyMembers = () => {
+    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
+      setSelectedFamilyMemberIds([mockFamilyMembers[0].id]);
+    } else {
+      setSelectedFamilyMemberIds(mockFamilyMembers.map(m => m.id));
     }
   };
 
@@ -81,31 +158,66 @@ export function DesktopCalendarView() {
     setSelectedDate(new Date());
   };
 
-  const renderContent = () => {
-    switch (activeRole) {
-      case 'patient':
-        return (
-          <div className="flex-1 overflow-auto">
-            <PatientCalendar />
-          </div>
-        );
-      case 'dentist':
-        return (
-          <div className="flex-1 overflow-auto">
-            <DentistCalendar />
-          </div>
-        );
-      case 'clinic':
-      default:
-        return (
-          <DesktopTimeline
-            dentists={filteredDentists}
-            slotsPerDentist={slotsPerDentist}
-            onSlotClick={handleSlotClick}
-            selectedDate={selectedDate}
-          />
-        );
+  const renderSidebar = () => {
+    if (!isNavExpanded) return null;
+
+    if (activeRole === 'patient') {
+      return (
+        <PatientSidebar
+          selectedDate={selectedDate}
+          onDateSelect={setSelectedDate}
+          familyMembers={mockFamilyMembers}
+          selectedMemberIds={selectedFamilyMemberIds}
+          onMemberToggle={handleFamilyMemberToggle}
+          onSelectAllMembers={handleSelectAllFamilyMembers}
+          appointmentDates={appointmentDates}
+        />
+      );
     }
+
+    return (
+      <DesktopCalendarSidebar
+        selectedDate={selectedDate}
+        onDateSelect={setSelectedDate}
+        dentists={mockDentists}
+        selectedDentistIds={selectedDentistIds}
+        onDentistToggle={handleDentistToggle}
+        onSelectAllDentists={handleSelectAllDentists}
+        appointmentDates={appointmentDates}
+        userRole={activeRole}
+      />
+    );
+  };
+
+  const renderContent = () => {
+    if (activeRole === 'patient') {
+      return (
+        <PatientAppointmentsList
+          consultations={patientConsultations}
+          selectedDate={selectedDate}
+          onConsultationClick={setSelectedConsultation}
+        />
+      );
+    }
+
+    if (viewMode === 'list') {
+      return (
+        <ListView
+          consultations={dayConsultations}
+          dentists={filteredDentists}
+          onConsultationClick={setSelectedConsultation}
+        />
+      );
+    }
+
+    return (
+      <DesktopTimeline
+        dentists={filteredDentists}
+        slotsPerDentist={slotsPerDentist}
+        onSlotClick={handleSlotClick}
+        selectedDate={selectedDate}
+      />
+    );
   };
 
   return (
@@ -121,23 +233,13 @@ export function DesktopCalendarView() {
       {/* Vertical separator line */}
       {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
 
-      {/* Sidebar 2 - Calendar + Dentists (lighter blue #0D2137) - Only visible when expanded */}
-      {isNavExpanded && (
-        <DesktopCalendarSidebar
-          selectedDate={selectedDate}
-          onDateSelect={setSelectedDate}
-          dentists={mockDentists}
-          selectedDentistIds={selectedDentistIds}
-          onDentistToggle={handleDentistToggle}
-          onSelectAllDentists={handleSelectAllDentists}
-          appointmentDates={appointmentDates}
-        />
-      )}
+      {/* Sidebar 2 - Calendar + Dentists/Family (lighter blue #0D2137) - Only visible when expanded */}
+      {renderSidebar()}
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
+        <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4 flex-shrink-0">
           {/* Left Section */}
           <div className="flex items-center gap-3">
             <Button
@@ -217,7 +319,7 @@ export function DesktopCalendarView() {
               </Button>
             </div>
 
-            {activeRole === 'clinic' && (
+            {(activeRole === 'clinic' || activeRole === 'dentist') && (
               <>
                 <div className="h-6 w-px bg-border" />
 
@@ -279,6 +381,11 @@ export function DesktopCalendarView() {
             </Button>
           </div>
         </header>
+
+        {/* Category Legend - visible for dentist and clinic */}
+        {(activeRole === 'clinic' || activeRole === 'dentist') && (
+          <CategoryLegend />
+        )}
 
         {/* Main Content */}
         <div className="flex-1 flex overflow-hidden">

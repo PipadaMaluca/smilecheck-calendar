@@ -8,6 +8,7 @@ interface BottomNavigationProps {
   onTabChange: (tab: string) => void;
 }
 
+// Mobile/Tablet navigation - 5 items each, fixed at bottom
 const navigationItems = {
   patient: [
     { id: 'home', icon: Home, label: 'Home' },
@@ -36,7 +37,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
   const items = navigationItems[userRole];
 
   return (
-    <nav className="bottom-nav">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border z-50" style={{ boxShadow: '0 -4px 20px hsl(214 50% 5% / 0.3)' }}>
       <div className="flex items-center justify-around py-1">
         {items.map((item) => {
           const Icon = item.icon;
@@ -47,8 +48,8 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => onTabChange(item.id)}
               className={cn(
-                'bottom-nav-item',
-                isActive && 'bottom-nav-item-active'
+                'flex flex-col items-center gap-1 py-2 px-4 text-muted-foreground transition-all duration-200 relative',
+                isActive && 'text-primary'
               )}
             >
               <Icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} />
