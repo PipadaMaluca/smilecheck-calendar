@@ -95,7 +95,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                   ) : (
                     <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: colors.hex }} />
                   )}
-                  <span className="text-sm font-bold uppercase text-white truncate">
+                  <span className="text-sm font-bold text-white truncate">
                     {patientNameWithAge}
                   </span>
                   {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
@@ -103,7 +103,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 {/* Line 2: Category (colored) + Notes (gray) */}
                 <div className="flex items-center gap-2 ml-5">
                   <span 
-                    className="text-xs font-bold uppercase"
+                    className="text-xs font-bold"
                     style={{ color: colors.hex }}
                   >
                     {CATEGORY_LABELS[category]}

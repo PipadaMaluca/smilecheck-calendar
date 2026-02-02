@@ -22,6 +22,7 @@ interface DesktopCalendarSidebarProps {
   selectedClinicIds?: string[];
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   onSelectOnlyClinic?: (clinicId: string) => void;
+  onSelectPresentDentists?: () => void;
 }
 
 export function DesktopCalendarSidebar({
@@ -35,6 +36,7 @@ export function DesktopCalendarSidebar({
   userRole = 'clinic',
   selectedClinicIds = ['1'],
   onClinicToggle,
+  onSelectPresentDentists,
 }: DesktopCalendarSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -185,9 +187,9 @@ export function DesktopCalendarSidebar({
           variant="secondary"
           size="sm"
           className="w-full text-xs font-medium bg-primary/20 hover:bg-primary/30 text-primary"
-          onClick={onSelectAllDentists}
+          onClick={onSelectPresentDentists}
         >
-          FILTRAR PRESENTES
+          Filtrar Presentes
         </Button>
       </div>
 

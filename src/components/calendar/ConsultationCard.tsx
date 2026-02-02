@@ -67,7 +67,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
               </p>
             ) : (
               <p
-                className="text-sm font-bold uppercase"
+                className="text-sm font-bold"
                 style={{ color: colors.hex }}
               >
                 {categoryLabel}
@@ -89,7 +89,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             {/* For patient: show dentist name and category */}
             <p className="text-sm font-medium">{consultation.dentist.name}</p>
             <p 
-              className="text-xs font-bold uppercase"
+              className="text-xs font-bold"
               style={{ color: colors.hex }}
             >
               {categoryLabel}
@@ -102,7 +102,7 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
         ) : (
           <>
             {/* For dentist/clinic: show patient with age and notes */}
-            <p className="text-sm font-bold uppercase text-white">{patientNameWithAge}</p>
+            <p className="text-sm font-bold text-white">{patientNameWithAge}</p>
             {consultation.notes && (
               <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
             )}

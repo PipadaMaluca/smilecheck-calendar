@@ -150,14 +150,14 @@ export function MultiDentistGrid({
                           {/* Line 1: Time + Name (Age) */}
                           <div className="flex items-center gap-1">
                             <span className="text-[10px] text-muted-foreground font-mono">{time}</span>
-                            <span className="font-bold text-white uppercase truncate">
+                            <span className="font-bold text-white truncate">
                               {displayName}
                               <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
                             </span>
                           </div>
                           {/* Line 2: Type (colored) + Notes (gray) */}
                           <div className="flex items-center gap-1">
-                            <span className="font-bold uppercase text-[9px]" style={{ color: colors.hex }}>
+                            <span className="font-bold text-[9px]" style={{ color: colors.hex }}>
                               {CATEGORY_LABELS[category]}
                             </span>
                             {isTeleconsulta && (

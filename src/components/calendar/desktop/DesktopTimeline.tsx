@@ -212,7 +212,7 @@ export function DesktopTimeline({
                               <span className="text-[8px] font-mono text-muted-foreground">
                                 {slot.time}
                               </span>
-                              <span className="text-[9px] font-bold truncate text-white uppercase leading-tight">
+                              <span className="text-[9px] font-bold truncate text-white leading-tight">
                                 {consultation.patient.name}
                                 {consultation.patient.age && (
                                   <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
@@ -223,7 +223,7 @@ export function DesktopTimeline({
                             </div>
                             {/* Second line: type (colored) + notes (gray) */}
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[8px] font-bold uppercase truncate" style={{ color: styles.borderColor }}>
+                              <span className="text-[8px] font-bold truncate" style={{ color: styles.borderColor }}>
                                 {getCategoryLabel(consultation)}
                               </span>
                               {consultation.notes && <span className="text-[8px] text-[#8B9CB6] truncate">
