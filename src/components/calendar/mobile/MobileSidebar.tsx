@@ -273,28 +273,84 @@ export function MobileSidebar({
                 {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="px-2 py-2 space-y-1">
+                {/* "Filtrar Presentes" / Todos */}
+                <div className="flex items-center gap-2 py-1.5 ml-2">
+                  <CustomCheckbox 
+                    checked={selectedDentists.includes('all') || selectedDentists.length === 0}
+                    onChange={() => onDentistToggle?.(null, true)}
+                  />
+                  <button 
+                    className="text-sm hover:text-primary"
+                    onClick={() => onDentistToggle?.(null, false)}
+                  >
+                    Filtrar Presentes
+                  </button>
+                </div>
+                
                 {mockClinics.map(clinic => {
                   const clinicExpanded = expandedClinics.includes(clinic.id);
                   const dentistsInClinic = getDentistsForClinic(clinic.id);
-                  const isFullySelected = isClinicFullySelected(clinic.id);
-                  const isPartiallySelected = isClinicPartiallySelected(clinic.id);
+                  
+                  // Check if all dentists of this clinic are selected
+                  const allClinicDentistsSelected = dentistsInClinic.every(d => {
+                    const key = `${clinic.id}-${d.id}`;
+                    return selectedDentists.includes('all') || selectedDentists.includes(key);
+                  });
+                  
+                  // Check if at least one dentist of this clinic is selected
+                  const someClinicDentistsSelected = dentistsInClinic.some(d => {
+                    const key = `${clinic.id}-${d.id}`;
+                    return selectedDentists.includes('all') || selectedDentists.includes(key);
+                  });
                   
                   return (
                     <div key={clinic.id} className="ml-2">
                       {/* Clinic header */}
                       <div className="flex items-center gap-2 py-1.5">
                         <CustomCheckbox 
-                          checked={isFullySelected || isPartiallySelected}
-                          onChange={() => handleClinicCheckbox(clinic.id)}
+                          checked={allClinicDentistsSelected || someClinicDentistsSelected}
+                          onChange={() => {
+                            // Toggle all dentists in clinic
+                            const keys = dentistsInClinic.map(d => `${clinic.id}-${d.id}`);
+                            if (allClinicDentistsSelected) {
+                              // Deselect all
+                              keys.forEach(key => {
+                                if (selectedDentists.includes(key)) {
+                                  onDentistToggle?.(key.split('-').slice(1).join('-'), true, clinic.id);
+                                }
+                              });
+                            } else {
+                              // Select all
+                              keys.forEach(key => {
+                                if (!selectedDentists.includes(key) && !selectedDentists.includes('all')) {
+                                  onDentistToggle?.(key.split('-').slice(1).join('-'), true, clinic.id);
+                                }
+                              });
+                            }
+                          }}
                         />
                         <button 
                           className="flex-1 flex items-center justify-between text-sm hover:text-primary"
-                          onClick={() => toggleClinicExpanded(clinic.id)}
+                          onClick={() => {
+                            // Exclusive selection - select only this clinic's dentists
+                            const keys = dentistsInClinic.map(d => `${clinic.id}-${d.id}`);
+                            // First dentist as name click to set exclusive
+                            if (dentistsInClinic.length > 0) {
+                              onDentistToggle?.(dentistsInClinic[0].id, false, clinic.id);
+                              // Then add the rest
+                              keys.slice(1).forEach(key => {
+                                const dentistId = key.split('-').slice(1).join('-');
+                                onDentistToggle?.(dentistId, true, clinic.id);
+                              });
+                            }
+                          }}
                         >
                           <div className="flex items-center gap-2">
                             <Building2 className="w-3.5 h-3.5" />
                             <span>{clinic.name.replace('Clínica ', '')}</span>
                           </div>
+                        </button>
+                        <button onClick={() => toggleClinicExpanded(clinic.id)}>
                           {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
                       </div>
@@ -303,9 +359,10 @@ export function MobileSidebar({
                       {clinicExpanded && (
                         <div className="ml-8 space-y-2 pb-2">
                           {dentistsInClinic.map(dentist => {
-                            const isSelected = isDentistSelected(dentist.id, clinic.id);
+                            const key = `${clinic.id}-${dentist.id}`;
+                            const isSelected = selectedDentists.includes('all') || selectedDentists.includes(key);
                             return (
-                              <div key={`${clinic.id}-${dentist.id}`} className="flex items-center gap-2">
+                              <div key={key} className="flex items-center gap-2">
                                 <CustomCheckbox 
                                   checked={isSelected}
                                   onChange={() => onDentistToggle?.(dentist.id, true, clinic.id)}

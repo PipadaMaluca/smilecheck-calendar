@@ -5,7 +5,7 @@ import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
 import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
 import { CategoryLegend } from './CategoryLegend';
-import { DaySummary } from './DaySummary';
+import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
@@ -71,19 +71,11 @@ export function DentistCalendar() {
   }, [selectedDentistIds]);
 
   const slots = generateTimeSlots(selectedDate, myConsultations);
-  const dayConsultations = myConsultations.filter(
+
+  // Day consultations for summary
+  const dayConsultations = mockConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
   );
-
-  const summary = {
-    totalConsultations: dayConsultations.length,
-    teleconsultas: dayConsultations.filter((c) => c.type === 'teleconsulta').length,
-    presenciais: dayConsultations.filter((c) => c.type === 'presencial').length,
-    vagasLivres: slots.filter((s) => s.status === 'livre').length,
-    totalRevenue: dayConsultations
-      .filter((c) => c.type === 'teleconsulta' && c.isPaid)
-      .reduce((sum, c) => sum + c.price, 0),
-  };
 
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.consultation) {
@@ -166,7 +158,7 @@ export function DentistCalendar() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 relative">
+    <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
@@ -178,7 +170,7 @@ export function DentistCalendar() {
         }}
       />
       
-      <div className="relative z-10">
+      <div className="relative z-10 w-full max-w-full">
         {/* Mobile Header */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
@@ -196,17 +188,24 @@ export function DentistCalendar() {
           onDateChange={setSelectedDate}
         />
 
-        {/* Category Legend */}
+        {/* Category Legend - Centered */}
         <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
         {/* Content based on view mode */}
-        <div className="mt-4">
+        <div className="mt-4 w-full">
           {renderContent()}
         </div>
 
-        <div className="mt-6">
-          <DaySummary summary={summary} />
-        </div>
+        {/* Dynamic Day Summary - ONLY show in Day and List views */}
+        {viewMode !== 'three-day' && (
+          <div className="mt-6">
+            <DynamicDaySummary 
+              consultations={dayConsultations}
+              selectedDentistIds={selectedDentistIds}
+              selectedClinics={selectedClinics}
+            />
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="fixed bottom-24 right-4 flex flex-col gap-3 z-20">
