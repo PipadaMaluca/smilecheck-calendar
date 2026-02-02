@@ -11,42 +11,79 @@ import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
-import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, generateTimeSlots } from '@/data/mockData';
+import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
+// Build all clinic-dentist combinations
+const getAllClinicDentistKeys = () => {
+  const keys: string[] = [];
+  mockClinics.forEach(clinic => {
+    getDentistsForClinic(clinic.id).forEach(dentist => {
+      keys.push(`${clinic.id}-${dentist.id}`);
+    });
+  });
+  return keys;
+};
+
+// Get only dentists who work on demo day
+const getPresentDentistKeys = () => {
+  const keys: string[] = [];
+  mockClinics.forEach(clinic => {
+    getDentistsForClinic(clinic.id).forEach(dentist => {
+      if (dentistWorksOnDemo(clinic.id, dentist.id)) {
+        keys.push(`${clinic.id}-${dentist.id}`);
+      }
+    });
+  });
+  return keys;
+};
+
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([mockDentists[0].id]); // Dentist view: only self selected
+  // Start with all present dentists selected
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('agenda');
   const appointmentDates = mockConsultations.map(c => c.date);
 
-  // For clinic view: all selected dentists, for dentist view: self + optionally others
+  // Build the list of dentists to show based on selections
   const filteredDentists = useMemo(() => {
-    if (activeRole === 'dentist') {
-      // Always include self (first dentist), plus any others selected
-      const selfId = mockDentists[0].id;
-      const selectedOthers = selectedDentistIds.filter(id => id !== selfId);
-      const result = [mockDentists[0]];
-      selectedOthers.forEach(id => {
-        const dentist = mockDentists.find(d => d.id === id);
-        if (dentist) result.push(dentist);
-      });
-      return result;
+    if (selectedDentistIds.length === 0) {
+      return [];
     }
-    return mockDentists.filter(d => selectedDentistIds.includes(d.id));
-  }, [selectedDentistIds, activeRole]);
+    
+    const result: { dentist: typeof mockDentists[0]; clinicId: string }[] = [];
+    
+    selectedDentistIds.forEach(key => {
+      const [clinicId, dentistId] = key.split('-');
+      const dentist = mockDentists.find(d => d.id === dentistId);
+      if (dentist) {
+        result.push({ dentist, clinicId });
+      }
+    });
+    
+    return result;
+  }, [selectedDentistIds]);
+
+  // Get just dentists for components that need Dentist[]
+  const dentistsForTimeline = useMemo(() => {
+    return filteredDentists.map(({ dentist }) => dentist);
+  }, [filteredDentists]);
+
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
-    filteredDentists.forEach(dentist => {
-      const dentistConsultations = mockConsultations.filter(c => c.dentist.id === dentist.id);
+    filteredDentists.forEach(({ dentist, clinicId }) => {
+      const dentistConsultations = mockConsultations.filter(
+        c => c.dentist.id === dentist.id && c.clinic.id === clinicId
+      );
+      // Use dentist.id as key for timeline compatibility
       result[dentist.id] = generateTimeSlots(selectedDate, dentistConsultations);
     });
     return result;
@@ -54,8 +91,14 @@ export function DesktopCalendarView() {
 
   // Day consultations for list view
   const dayConsultations = useMemo(() => {
-    return mockConsultations.filter(c => isSameDay(c.date, selectedDate) && (activeRole === 'clinic' || c.dentist.id === mockDentists[0].id || selectedDentistIds.includes(c.dentist.id)));
-  }, [selectedDate, activeRole, selectedDentistIds]);
+    if (selectedDentistIds.length === 0) return [];
+    
+    return mockConsultations.filter(c => {
+      if (!isSameDay(c.date, selectedDate)) return false;
+      const key = `${c.clinic.id}-${c.dentist.id}`;
+      return selectedDentistIds.includes(key);
+    });
+  }, [selectedDate, selectedDentistIds]);
 
   // Patient consultations - use the dedicated mock data
   const patientConsultations = useMemo(() => {
@@ -67,30 +110,21 @@ export function DesktopCalendarView() {
       selectedFamilyMemberIds.includes(c.patient.id)
     );
   }, [selectedFamilyMemberIds]);
+  
   const handleDentistToggle = (dentistId: string, isCheckbox: boolean, clinicId?: string) => {
     const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
     
     if (isCheckbox) {
       // Checkbox click: toggle this dentist in multi-select mode
-      if (activeRole === 'dentist') {
-        const selfId = mockDentists[0].id;
-        if (dentistId === selfId && clinicId === '1') return; // Can't deselect self at primary clinic
-        
-        setSelectedDentistIds(prev => {
-          if (prev.includes(key) || prev.includes(dentistId)) {
-            return prev.filter(id => id !== key && id !== dentistId);
-          }
+      setSelectedDentistIds(prev => {
+        if (prev.includes(key)) {
+          // Removing - allow removing even the last one
+          return prev.filter(id => id !== key);
+        } else {
+          // Adding
           return [...prev, key];
-        });
-      } else {
-        setSelectedDentistIds(prev => {
-          if (prev.includes(key) || prev.includes(dentistId)) {
-            if (prev.length === 1) return prev;
-            return prev.filter(id => id !== key && id !== dentistId);
-          }
-          return [...prev, key];
-        });
-      }
+        }
+      });
     } else {
       // Name click: select ONLY this dentist (exclusive selection)
       setSelectedDentistIds([key]);
@@ -98,36 +132,44 @@ export function DesktopCalendarView() {
   };
   
   const handleClinicToggle = (clinicId: string, isCheckbox: boolean) => {
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
+    
     if (isCheckbox) {
       // Checkbox click: toggle all dentists in this clinic
-      const dentistsInClinic = mockDentists.filter(d => 
-        // Simplified - in real app would use getDentistsForClinic
-        true
-      );
-      // Toggle logic for checkbox - handled by sidebar internally
+      const allSelected = clinicKeys.every(key => selectedDentistIds.includes(key));
+      
+      if (allSelected) {
+        // Remove all from this clinic
+        setSelectedDentistIds(prev => prev.filter(id => !clinicKeys.includes(id)));
+      } else {
+        // Add all from this clinic
+        setSelectedDentistIds(prev => {
+          const newKeys = clinicKeys.filter(key => !prev.includes(key));
+          return [...prev, ...newKeys];
+        });
+      }
     } else {
       // Name click: select ONLY this clinic's dentists (exclusive selection)
-      // This will clear all other selections and select only this clinic
-      const dentistsInClinic = mockDentists.map(d => `${clinicId}-${d.id}`);
-      setSelectedDentistIds(dentistsInClinic.slice(0, 3)); // First 3 dentists of this clinic
+      setSelectedDentistIds(clinicKeys);
     }
   };
+  
   const handleSelectAllDentists = () => {
-    if (activeRole === 'dentist') {
-      // Toggle between just self and all
-      if (selectedDentistIds.length === mockDentists.length) {
-        setSelectedDentistIds([mockDentists[0].id]);
-      } else {
-        setSelectedDentistIds(mockDentists.map(d => d.id));
-      }
+    // Toggle between all and none
+    const allKeys = getAllClinicDentistKeys();
+    if (selectedDentistIds.length === allKeys.length) {
+      setSelectedDentistIds([]);
     } else {
-      if (selectedDentistIds.length === mockDentists.length) {
-        setSelectedDentistIds([mockDentists[0].id]);
-      } else {
-        setSelectedDentistIds(mockDentists.map(d => d.id));
-      }
+      setSelectedDentistIds(allKeys);
     }
   };
+  
+  const handleSelectPresentDentists = () => {
+    // Select only dentists who work on this day (demo)
+    setSelectedDentistIds(getPresentDentistKeys());
+  };
+  
   const handleFamilyMemberToggle = (memberId: string) => {
     setSelectedFamilyMemberIds(prev => {
       if (prev.includes(memberId)) {
@@ -167,16 +209,16 @@ export function DesktopCalendarView() {
     if (activeRole === 'patient') {
       return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} />;
     }
-    return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} appointmentDates={appointmentDates} userRole={activeRole} />;
+    return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} onSelectPresentDentists={handleSelectPresentDentists} onClinicToggle={handleClinicToggle} appointmentDates={appointmentDates} userRole={activeRole} />;
   };
   const renderContent = () => {
     if (activeRole === 'patient') {
       return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
     }
     if (viewMode === 'list') {
-      return <ListView consultations={dayConsultations} dentists={filteredDentists} onConsultationClick={setSelectedConsultation} />;
+      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline} onConsultationClick={setSelectedConsultation} />;
     }
-    return <DesktopTimeline dentists={filteredDentists} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
+    return <DesktopTimeline dentists={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
   return <div className="h-screen flex bg-background">
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}

@@ -138,9 +138,9 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                     >
                       {isOcupado && consultation && (
                         <div className="flex flex-col px-0.5 overflow-hidden leading-tight">
-                          {/* Line 1: FIRST + LAST NAME (age anos) */}
+                          {/* Line 1: First + Last Name (age anos) */}
                           <div className="flex items-center gap-0.5 truncate">
-                            <span className="truncate font-bold uppercase text-[8px] text-white">
+                            <span className="truncate font-bold text-[8px] text-white">
                               {(() => {
                                 const nameParts = consultation.patient.name.split(' ');
                                 const firstName = nameParts[0];
@@ -154,7 +154,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                             {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                           </div>
                           {/* Line 2: TYPE (colored) */}
-                          <span className="text-[7px] font-bold uppercase truncate" style={{ color: colors.hex }}>
+                          <span className="text-[7px] font-bold truncate" style={{ color: colors.hex }}>
                             {CATEGORY_LABELS[category]}
                           </span>
                         </div>
