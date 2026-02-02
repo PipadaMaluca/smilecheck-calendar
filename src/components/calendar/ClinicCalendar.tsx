@@ -3,7 +3,7 @@ import { DateNavigator } from './DateNavigator';
 import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
 import { TimeSlotView } from './TimeSlotView';
 import { CategoryLegend } from './CategoryLegend';
-import { DaySummary } from './DaySummary';
+import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
@@ -58,27 +58,10 @@ export function ClinicCalendar() {
     return result;
   }, [selectedDate, selectedClinics, selectedDentistIds]);
 
-  // For display in filter (only SmileCheck dentists by default)
-  const displayDentists = useMemo(() => {
-    return getDentistsForClinic('1'); // SmileCheck
-  }, []);
-
+  // Day consultations for summary
   const allDayConsultations = mockConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
   );
-
-  const summary = {
-    totalConsultations: allDayConsultations.length,
-    teleconsultas: allDayConsultations.filter((c) => c.type === 'teleconsulta').length,
-    presenciais: allDayConsultations.filter((c) => c.type === 'presencial').length,
-    vagasLivres: columns
-      .filter(col => col.worksToday)
-      .flatMap(col => col.slots)
-      .filter((s) => s.status === 'livre').length,
-    totalRevenue: allDayConsultations
-      .filter((c) => c.type === 'teleconsulta' && c.isPaid)
-      .reduce((sum, c) => sum + c.price, 0),
-  };
 
   const handleSlotClick = (dentistId: string, clinicId: string, slot: TimeSlot) => {
     if (slot.consultation) {
@@ -143,7 +126,7 @@ export function ClinicCalendar() {
   }, [selectedDate, selectedDentistIds, selectedClinics]);
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 overflow-x-hidden">
       {/* Mobile Header */}
       <MobileHeader 
         onMenuClick={() => setSidebarOpen(true)}
@@ -161,11 +144,11 @@ export function ClinicCalendar() {
         onDateChange={setSelectedDate}
       />
 
-      {/* Category Legend */}
+      {/* Category Legend - Centered */}
       <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
       {/* Content based on view mode */}
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         {viewMode === 'three-day' ? (
           <ThreeDayView 
             selectedDate={selectedDate}
@@ -186,9 +169,16 @@ export function ClinicCalendar() {
         )}
       </div>
 
-      <div className="mt-6">
-        <DaySummary summary={summary} />
-      </div>
+      {/* Dynamic Day Summary - ONLY show in Day and List views */}
+      {viewMode !== 'three-day' && (
+        <div className="mt-6">
+          <DynamicDaySummary 
+            consultations={allDayConsultations}
+            selectedDentistIds={selectedDentistIds}
+            selectedClinics={selectedClinics}
+          />
+        </div>
+      )}
 
       {/* Per-dentist summary */}
       <div className="px-4 mt-4 mb-6">
