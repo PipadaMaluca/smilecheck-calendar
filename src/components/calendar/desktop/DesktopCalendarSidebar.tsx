@@ -21,6 +21,7 @@ interface DesktopCalendarSidebarProps {
   userRole?: UserRole;
   selectedClinicIds?: string[];
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
+  onSelectOnlyClinic?: (clinicId: string) => void;
 }
 
 export function DesktopCalendarSidebar({
@@ -249,15 +250,25 @@ export function DesktopCalendarSidebar({
                   className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   onClick={(e) => e.stopPropagation()}
                 />
-                <CollapsibleTrigger className="flex items-center gap-1.5 flex-1 text-left hover:text-primary">
+                <button
+                  className="flex items-center gap-1.5 flex-1 text-left hover:text-primary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClinicToggle?.(clinic.id, false);
+                  }}
+                >
                   <Building2 className="w-3 h-3 text-muted-foreground" />
                   <span className="text-xs text-muted-foreground flex-1 truncate hover:text-primary">{clinic.name}</span>
-                  <ChevronDown
-                    className={cn(
-                      'w-3 h-3 text-muted-foreground transition-transform',
-                      !isExpanded && '-rotate-90'
-                    )}
-                  />
+                </button>
+                <CollapsibleTrigger asChild>
+                  <button className="p-0.5 hover:bg-[#152238] rounded" onClick={(e) => e.stopPropagation()}>
+                    <ChevronDown
+                      className={cn(
+                        'w-3 h-3 text-muted-foreground transition-transform',
+                        !isExpanded && '-rotate-90'
+                      )}
+                    />
+                  </button>
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="pl-5">

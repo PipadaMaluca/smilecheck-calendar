@@ -9,7 +9,7 @@ interface TimeSlotViewProps {
 }
 
 export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotViewProps) {
-  // Group slots to handle 1h consultations
+  // Group slots to handle long consultations (60min, 90min, 120min)
   const processedSlots: { slot: TimeSlot; skip?: boolean; height: number }[] = [];
   
   for (let i = 0; i < slots.length; i++) {
@@ -18,11 +18,12 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
     const duration = consultation?.duration || 30;
     
     if (duration >= 60 && slot.status === 'ocupado') {
-      processedSlots.push({ slot, height: 2 }); // Double height
-      // Mark next slot to skip
-      if (i + 1 < slots.length) {
-        processedSlots.push({ slot: slots[i + 1], skip: true, height: 1 });
-        i++; // Skip next iteration
+      const slotsToSpan = Math.ceil(duration / 30);
+      processedSlots.push({ slot, height: slotsToSpan });
+      // Mark subsequent slots to skip based on duration
+      for (let j = 1; j < slotsToSpan && (i + j) < slots.length; j++) {
+        processedSlots.push({ slot: slots[i + j], skip: true, height: 1 });
+        i++;
       }
     } else {
       processedSlots.push({ slot, height: 1 });
@@ -48,7 +49,14 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
           ? `${consultation?.patient.name} (${patientAge} anos)`
           : consultation?.patient.name;
 
-        const slotHeight = processed.height === 2 ? 'min-h-[72px]' : '';
+        // Calculate height class based on number of slots (1 = 36px, 2 = 72px, 3 = 108px, 4 = 144px)
+        const heightMap: Record<number, string> = {
+          1: '',
+          2: 'min-h-[72px]',
+          3: 'min-h-[108px]',
+          4: 'min-h-[144px]',
+        };
+        const slotHeight = heightMap[processed.height] || '';
 
         return (
           <div

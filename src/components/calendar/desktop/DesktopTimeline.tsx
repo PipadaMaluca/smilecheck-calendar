@@ -156,6 +156,26 @@ export function DesktopTimeline({
             const slots = slotsPerDentist[dentist.id] || [];
             const occupiedSlots = slots.filter(s => s.status === 'ocupado' && s.consultation);
             const blockedSlots = slots.filter(s => s.status === 'bloqueado');
+            
+            // Filter out slots that are covered by previous longer consultations
+            const primaryOccupiedSlots = occupiedSlots.filter(slot => {
+              const slotTime = slot.time;
+              const [slotHour, slotMin] = slotTime.split(':').map(Number);
+              const slotMinutes = slotHour * 60 + slotMin;
+              
+              // Check if any earlier consultation spans into this time
+              return !occupiedSlots.some(otherSlot => {
+                if (otherSlot.time === slotTime) return false;
+                const [otherHour, otherMin] = otherSlot.time.split(':').map(Number);
+                const otherMinutes = otherHour * 60 + otherMin;
+                if (otherMinutes >= slotMinutes) return false;
+                
+                const duration = otherSlot.consultation?.duration || 30;
+                const endMinutes = otherMinutes + duration;
+                return slotMinutes < endMinutes;
+              });
+            });
+            
             return <div key={dentist.id} className={cn("flex-1 relative bg-slate-700", colIdx > 0 && 'border-l border-border')} style={{
               minHeight: `${hours.length * HOUR_HEIGHT}px`
             }}>
@@ -170,7 +190,7 @@ export function DesktopTimeline({
                     </div>)}
 
                   {/* Consultation Blocks */}
-                  {occupiedSlots.map(slot => {
+                  {primaryOccupiedSlots.map(slot => {
                 const consultation = slot.consultation!;
                 const styles = getConsultationStyles(consultation);
                 const isTeleconsulta = consultation.type === 'teleconsulta';
