@@ -96,17 +96,17 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
               borderLeftWidth: isOcupado ? '3px' : undefined,
             }}
           >
-            <span className="w-12 text-sm font-mono text-muted-foreground">
+            <span className="w-10 text-xs font-mono text-muted-foreground">
               {slot.time}
             </span>
 
             {slot.status === 'livre' && (
-              <span className="text-sm text-muted-foreground/60">Livre</span>
+              <span className="text-xs text-muted-foreground/60">Livre</span>
             )}
 
             {isBloqueado && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground/80">
-                <Lock className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-xs text-muted-foreground/80">
+                <Lock className="w-3 h-3" />
                 <span className="font-medium">{slot.blockReason}</span>
               </div>
             )}
@@ -114,32 +114,32 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
             {isOcupado && consultation && (
               <div className="flex flex-col flex-1 overflow-hidden">
                 {/* Line 1: Name (Age) with icons */}
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1">
                   {isTeleconsulta ? (
-                    <Video className="w-4 h-4 flex-shrink-0" style={{ color: colors.hex }} />
+                    <Video className="w-3 h-3 flex-shrink-0" style={{ color: colors.hex }} />
                   ) : (
-                    <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: colors.hex }} />
+                    <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: colors.hex }} />
                   )}
-                  <span className="text-sm font-bold text-white truncate">
+                  <span className="text-xs font-bold text-white truncate">
                     {patientNameWithAge}
                   </span>
-                  {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
+                  {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                 </div>
-                {/* Line 2: Category (colored) + Notes (gray) */}
-                <div className="flex items-center gap-2 ml-5">
+                {/* Line 2: Category (colored) + Notes (gray) + Duration */}
+                <div className="flex items-center gap-1.5 ml-4">
                   <span 
-                    className="text-xs font-bold"
+                    className="text-[10px] font-bold"
                     style={{ color: colors.hex }}
                   >
                     {CATEGORY_LABELS[category]}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span className="text-xs text-[#8B9CB6] truncate">
+                    <span className="text-[9px] text-[#8B9CB6] truncate">
                       {consultation.notes}
                     </span>
                   )}
-                  <span className="text-xs text-muted-foreground ml-auto flex-shrink-0">
-                    {consultation.duration} min
+                  <span className="text-[10px] text-muted-foreground ml-auto flex-shrink-0">
+                    {consultation.duration}min
                   </span>
                 </div>
               </div>

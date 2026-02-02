@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, PauseCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DateNavigator } from './DateNavigator';
@@ -10,7 +10,6 @@ import { EditConsultationModal } from './EditConsultationModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
-import { ViewModeSelector } from './mobile/ViewModeSelector';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
@@ -31,14 +30,33 @@ export function DentistCalendar() {
   const columns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
     
-    const clinicsToShow = selectedClinics.length === 0 ? mockClinics : mockClinics.filter(c => selectedClinics.includes(c.id));
+    // If no dentists selected or "all", show all clinics with all their dentists
+    const showAll = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
     
-    clinicsToShow.forEach(clinic => {
+    // Determine which clinics to iterate
+    const clinicsToIterate = showAll 
+      ? (selectedClinics.length === 0 ? mockClinics : mockClinics.filter(c => selectedClinics.includes(c.id)))
+      : mockClinics; // When specific dentists selected, iterate ALL clinics to check composite IDs
+    
+    clinicsToIterate.forEach(clinic => {
       const dentistsInClinic = getDentistsForClinic(clinic.id);
       
-      const dentistsToShow = selectedDentistIds.length === 0 || selectedDentistIds.includes('all')
-        ? dentistsInClinic
-        : dentistsInClinic.filter(d => selectedDentistIds.includes(d.id) || selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+      // Filter dentists based on selection
+      let dentistsToShow;
+      if (showAll) {
+        // Show all dentists from selected clinics
+        if (selectedClinics.length === 0 || selectedClinics.includes(clinic.id)) {
+          dentistsToShow = dentistsInClinic;
+        } else {
+          dentistsToShow = [];
+        }
+      } else {
+        // Check composite IDs (clinic.id-dentist.id)
+        dentistsToShow = dentistsInClinic.filter(d => {
+          const compositeKey = `${clinic.id}-${d.id}`;
+          return selectedDentistIds.includes(compositeKey);
+        });
+      }
       
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
@@ -157,6 +175,18 @@ export function DentistCalendar() {
     );
   };
 
+  // When view mode changes to 3-day or list, ensure only one dentist is selected
+  useEffect(() => {
+    if ((viewMode === 'three-day' || viewMode === 'list') && selectedDentistIds.length > 1) {
+      setSelectedDentistIds([selectedDentistIds[0]]);
+    }
+  }, [viewMode]);
+
+  // Handler that respects view mode restrictions
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
       {/* Background Watermark Logo */}
@@ -171,16 +201,12 @@ export function DentistCalendar() {
       />
       
       <div className="relative z-10 w-full max-w-full">
-        {/* Mobile Header */}
+        {/* Mobile Header with View Mode Selector */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
-        />
-
-        {/* View Mode Selector */}
-        <ViewModeSelector 
-          viewMode={viewMode} 
-          onViewModeChange={setViewMode} 
-          userRole="dentist" 
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
+          userRole="dentist"
         />
 
         <DateNavigator
