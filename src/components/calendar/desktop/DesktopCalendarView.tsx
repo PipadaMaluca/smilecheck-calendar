@@ -68,15 +68,14 @@ export function DesktopCalendarView() {
     );
   }, [selectedFamilyMemberIds]);
   const handleDentistToggle = (dentistId: string, isCheckbox: boolean, clinicId?: string) => {
-    if (activeRole === 'dentist') {
-      // For dentist view, self is always selected, toggle others as columns
-      const selfId = mockDentists[0].id;
-      if (dentistId === selfId && clinicId === '1') return; // Can't deselect self at primary clinic
-
-      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      
-      if (isCheckbox) {
-        // Checkbox click: toggle this dentist
+    const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
+    
+    if (isCheckbox) {
+      // Checkbox click: toggle this dentist in multi-select mode
+      if (activeRole === 'dentist') {
+        const selfId = mockDentists[0].id;
+        if (dentistId === selfId && clinicId === '1') return; // Can't deselect self at primary clinic
+        
         setSelectedDentistIds(prev => {
           if (prev.includes(key) || prev.includes(dentistId)) {
             return prev.filter(id => id !== key && id !== dentistId);
@@ -84,14 +83,6 @@ export function DesktopCalendarView() {
           return [...prev, key];
         });
       } else {
-        // Name click: select ONLY this dentist
-        setSelectedDentistIds([key]);
-      }
-    } else {
-      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      
-      if (isCheckbox) {
-        // Checkbox click: toggle this dentist
         setSelectedDentistIds(prev => {
           if (prev.includes(key) || prev.includes(dentistId)) {
             if (prev.length === 1) return prev;
@@ -99,10 +90,26 @@ export function DesktopCalendarView() {
           }
           return [...prev, key];
         });
-      } else {
-        // Name click: select ONLY this dentist
-        setSelectedDentistIds([key]);
       }
+    } else {
+      // Name click: select ONLY this dentist (exclusive selection)
+      setSelectedDentistIds([key]);
+    }
+  };
+  
+  const handleClinicToggle = (clinicId: string, isCheckbox: boolean) => {
+    if (isCheckbox) {
+      // Checkbox click: toggle all dentists in this clinic
+      const dentistsInClinic = mockDentists.filter(d => 
+        // Simplified - in real app would use getDentistsForClinic
+        true
+      );
+      // Toggle logic for checkbox - handled by sidebar internally
+    } else {
+      // Name click: select ONLY this clinic's dentists (exclusive selection)
+      // This will clear all other selections and select only this clinic
+      const dentistsInClinic = mockDentists.map(d => `${clinicId}-${d.id}`);
+      setSelectedDentistIds(dentistsInClinic.slice(0, 3)); // First 3 dentists of this clinic
     }
   };
   const handleSelectAllDentists = () => {
