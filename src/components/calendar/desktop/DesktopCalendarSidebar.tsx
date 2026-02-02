@@ -23,6 +23,8 @@ interface DesktopCalendarSidebarProps {
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   onSelectOnlyClinic?: (clinicId: string) => void;
   onSelectPresentDentists?: () => void;
+  isTodosSelected?: boolean;
+  onToggleTodos?: () => void;
 }
 
 export function DesktopCalendarSidebar({
@@ -37,10 +39,12 @@ export function DesktopCalendarSidebar({
   selectedClinicIds = ['1'],
   onClinicToggle,
   onSelectPresentDentists,
+  isTodosSelected = false,
+  onToggleTodos,
 }: DesktopCalendarSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
+  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1', '2', '3']);
   const today = new Date();
 
   const toggleClinicExpanded = (clinicId: string) => {
@@ -51,12 +55,12 @@ export function DesktopCalendarSidebar({
     );
   };
 
-  // Get total selected dentists count
+  // Get total dentists count and selected count
   const totalDentists = mockClinics.reduce((acc, clinic) => {
     return acc + getDentistsForClinic(clinic.id).length;
   }, 0);
   
-  const selectedCount = selectedDentistIds.filter(id => id !== 'all').length || totalDentists;
+  const selectedCount = selectedDentistIds.length;
 
   // Generate calendar grid
   const monthStart = startOfMonth(currentMonth);
@@ -81,20 +85,27 @@ export function DesktopCalendarSidebar({
     appointmentDates.some((d) => isSameDay(d, date));
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
-  // Check if a dentist is selected for a specific clinic
+  // Check if a dentist is selected for a specific clinic using composite key
   const isDentistSelected = (dentistId: string, clinicId: string) => {
-    if (selectedDentistIds.includes('all') || selectedDentistIds.length === 0) return true;
     const key = `${clinicId}-${dentistId}`;
-    return selectedDentistIds.includes(key) || selectedDentistIds.includes(dentistId);
+    return selectedDentistIds.includes(key);
+  };
+
+  // Check if any dentist of a clinic is selected
+  const isClinicPartiallySelected = (clinicId: string) => {
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    return dentistsInClinic.some(d => {
+      const key = `${clinicId}-${d.id}`;
+      return selectedDentistIds.includes(key);
+    });
   };
 
   // Check if all dentists of a clinic are selected
   const isClinicFullySelected = (clinicId: string) => {
-    if (selectedDentistIds.includes('all') || selectedDentistIds.length === 0) return true;
     const dentistsInClinic = getDentistsForClinic(clinicId);
     return dentistsInClinic.every(d => {
       const key = `${clinicId}-${d.id}`;
-      return selectedDentistIds.includes(key) || selectedDentistIds.includes(d.id);
+      return selectedDentistIds.includes(key);
     });
   };
 
@@ -104,7 +115,7 @@ export function DesktopCalendarSidebar({
       <div className="p-3 flex-shrink-0">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
           <Search className="w-4 h-4" />
-          ENCONTRAR VAGA
+          Encontrar Vaga
         </Button>
       </div>
 
@@ -208,17 +219,17 @@ export function DesktopCalendarSidebar({
 
       {/* Clinics + Dentists List - Hierarchical */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
-        {/* All checkbox */}
+        {/* Todos checkbox - FIXED LOGIC */}
         <div className="flex items-center gap-2 py-1.5 hover:bg-[#152238] rounded px-1.5 -mx-1.5">
           <Checkbox
-            checked={selectedDentistIds.includes('all') || selectedDentistIds.length === 0}
-            onCheckedChange={() => onSelectAllDentists()}
+            checked={isTodosSelected}
+            onCheckedChange={() => onToggleTodos?.()}
             className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             onClick={(e) => e.stopPropagation()}
           />
           <button 
             className="text-xs font-medium hover:text-primary"
-            onClick={onSelectAllDentists}
+            onClick={() => onSelectAllDentists()}
           >
             Todos
           </button>
@@ -232,10 +243,7 @@ export function DesktopCalendarSidebar({
             ? dentistsInClinic.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()))
             : dentistsInClinic;
           const isFullySelected = isClinicFullySelected(clinic.id);
-          const hasAnySelected = dentistsInClinic.some(d => {
-            const key = `${clinic.id}-${d.id}`;
-            return selectedDentistIds.includes(key) || selectedDentistIds.includes(d.id);
-          }) || selectedDentistIds.includes('all') || selectedDentistIds.length === 0;
+          const hasAnySelected = isClinicPartiallySelected(clinic.id);
           
           if (searchQuery && filteredDentists.length === 0) return null;
 
@@ -247,9 +255,12 @@ export function DesktopCalendarSidebar({
             >
               <div className="flex items-center gap-1.5 py-1.5">
                 <Checkbox
-                  checked={isFullySelected || hasAnySelected}
+                  checked={isFullySelected}
                   onCheckedChange={() => onClinicToggle?.(clinic.id, true)}
-                  className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  className={cn(
+                    "border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
+                    hasAnySelected && !isFullySelected && "data-[state=unchecked]:bg-primary/40"
+                  )}
                   onClick={(e) => e.stopPropagation()}
                 />
                 <button
@@ -300,8 +311,13 @@ export function DesktopCalendarSidebar({
                         )}
                         onClick={() => !isSelf && onDentistToggle(dentist.id, false, clinic.id)}
                       >
-                        <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
+                        <span className={cn(
+                          'text-xs truncate', 
+                          isSelected && 'font-medium',
+                          !worksOnDemo && 'text-muted-foreground/60'
+                        )}>
                           {dentist.name}{isSelf ? ' (Eu)' : ''}
+                          {!worksOnDemo && ' •'}
                         </span>
                         <span className="text-[9px] text-muted-foreground">
                           {dentist.workingHours || '9h-21h'}

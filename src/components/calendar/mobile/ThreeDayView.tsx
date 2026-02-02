@@ -10,6 +10,17 @@ interface ThreeDayViewProps {
   onSlotClick?: (slot: TimeSlot) => void;
 }
 
+// FIXED: Slot height is constant and immutable
+const SLOT_HEIGHT = 36; // Fixed height per 30-min slot
+
+// Convert time string to slot index (0-based, where 08:00 = 0)
+function timeToSlotIndex(time: string): number {
+  const [hour, minute] = time.split(':').map(Number);
+  const hoursFromStart = hour - 8; // Start at 08:00
+  const halfHours = Math.floor(minute / 30);
+  return hoursFromStart * 2 + halfHours;
+}
+
 export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayViewProps) {
   const days = [
     subDays(selectedDate, 1),
@@ -17,12 +28,14 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
     addDays(selectedDate, 1),
   ];
 
-  const timeLabels: string[] = [];
+  // Generate time slot labels (08:00 to 21:30 = 28 slots)
+  const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
-    for (let minutes = 0; minutes < 60; minutes += 30) {
-      timeLabels.push(`${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
-    }
+    timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
+    timeSlots.push(`${hour.toString().padStart(2, '0')}:30`);
   }
+  
+  const totalSlots = timeSlots.length;
 
   return (
     <div className="px-2 overflow-x-auto animate-slide-up">
@@ -41,7 +54,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                 )}
               >
                 <p className={cn(
-                  'text-[10px] uppercase',
+                  'text-[10px]',
                   isToday ? 'text-primary font-semibold' : 'text-muted-foreground'
                 )}>
                   {format(day, 'EEE', { locale: pt })}
@@ -63,104 +76,142 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
           })}
         </div>
 
-        {/* Time Grid */}
-        <div className="space-y-0.5">
-          {timeLabels.map((time, timeIdx) => {
-            // Pre-calculate slots for each day to check for spanning consultations
-            const daySlots = days.map(day => getSlots(day));
+        {/* Time Grid with CSS Grid for fixed slot heights */}
+        <div className="flex" style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
+          {/* Time Column */}
+          <div 
+            className="w-12 flex-shrink-0"
+            style={{
+              display: 'grid',
+              gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+            }}
+          >
+            {timeSlots.map((time) => (
+              <div 
+                key={time} 
+                className="flex items-center justify-end pr-1 text-[10px] text-muted-foreground font-mono"
+              >
+                {time}
+              </div>
+            ))}
+          </div>
+
+          {/* Day Columns */}
+          {days.map((day, dayIdx) => {
+            const slots = getSlots(day);
+            const isToday = dayIdx === 1;
             
+            // Build slot occupancy map for this day
+            const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
+            const occupiedIndices = new Set<number>();
+            
+            slots.forEach(slot => {
+              if (slot.status === 'ocupado' && slot.consultation) {
+                const startIdx = timeToSlotIndex(slot.time);
+                const duration = slot.consultation.duration || 30;
+                const spanCount = Math.ceil(duration / 30);
+                
+                if (!occupiedIndices.has(startIdx)) {
+                  primarySlots.push({ slot, startIdx, spanCount });
+                  for (let i = 0; i < spanCount; i++) {
+                    occupiedIndices.add(startIdx + i);
+                  }
+                }
+              } else if (slot.status === 'bloqueado') {
+                const startIdx = timeToSlotIndex(slot.time);
+                if (!occupiedIndices.has(startIdx)) {
+                  primarySlots.push({ slot, startIdx, spanCount: 1 });
+                  occupiedIndices.add(startIdx);
+                }
+              }
+            });
+
             return (
-              <div key={time} className="flex items-stretch min-h-[36px]">
-                <div className="w-12 flex-shrink-0 text-[10px] text-muted-foreground font-mono pr-1 flex items-center justify-end">
-                  {time}
-                </div>
-                {days.map((day, dayIdx) => {
-                  const slots = daySlots[dayIdx];
+              <div
+                key={dayIdx}
+                className="flex-1 mx-0.5 relative"
+                style={{
+                  display: 'grid',
+                  gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+                }}
+              >
+                {/* Empty slot backgrounds */}
+                {timeSlots.map((time, slotIdx) => {
+                  if (occupiedIndices.has(slotIdx)) return null;
                   
-                  // Check if this slot is covered by a previous longer consultation
-                  for (let checkIdx = 1; checkIdx <= 3; checkIdx++) {
-                    const prevTimeIdx = timeIdx - checkIdx;
-                    if (prevTimeIdx >= 0) {
-                      const prevTime = timeLabels[prevTimeIdx];
-                      const prevSlot = slots.find(s => s.time === prevTime);
-                      if (prevSlot?.status === 'ocupado' && prevSlot.consultation) {
-                        const duration = prevSlot.consultation.duration;
-                        const slotsNeeded = Math.ceil(duration / 30);
-                        if (checkIdx < slotsNeeded) {
-                          // This slot is part of a longer consultation - render empty
-                          return (
-                            <div
-                              key={`${dayIdx}-${time}`}
-                              className="flex-1 mx-0.5 h-[36px]"
-                            />
-                          );
-                        }
-                      }
-                    }
+                  return (
+                    <div
+                      key={time}
+                      className={cn(
+                        'rounded flex items-center justify-center',
+                        isToday 
+                          ? 'bg-primary/5 border border-dashed border-primary/20' 
+                          : 'bg-muted/20 border border-dashed border-muted-foreground/10'
+                      )}
+                      style={{ gridRow: `${slotIdx + 1} / span 1` }}
+                    >
+                      <span className="text-muted-foreground/40">—</span>
+                    </div>
+                  );
+                })}
+                
+                {/* Consultation blocks using grid-row span */}
+                {primarySlots.map(({ slot, startIdx, spanCount }) => {
+                  const isBlocked = slot.status === 'bloqueado';
+                  const consultation = slot.consultation;
+                  
+                  if (isBlocked) {
+                    return (
+                      <div
+                        key={`blocked-${slot.time}`}
+                        className="bg-[#607D8B]/30 rounded flex items-center justify-center"
+                        style={{ gridRow: `${startIdx + 1} / span 1` }}
+                      >
+                        <span className="text-muted-foreground/60 text-[8px]">Pausa</span>
+                      </div>
+                    );
                   }
                   
-                  const slot = slots.find(s => s.time === time);
-                  const isOcupado = slot?.status === 'ocupado';
-                  const isBloqueado = slot?.status === 'bloqueado';
-                  const consultation = slot?.consultation;
-                  const category = consultation?.category || 'restauracao';
-                  const colors = CATEGORY_COLORS[category];
-                  const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
-                  const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
-                  const isToday = dayIdx === 1;
+                  if (!consultation) return null;
                   
-                  // Calculate height for long consultations
-                  const duration = consultation?.duration || 30;
-                  const slotsCount = Math.ceil(duration / 30);
-                  const blockHeight = isOcupado && duration >= 60 ? slotsCount * 36 : 36;
+                  const category = consultation.category || 'restauracao';
+                  const colors = CATEGORY_COLORS[category];
+                  const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
+                  const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
+                  
+                  // First name + last name
+                  const nameParts = consultation.patient.name.split(' ');
+                  const firstName = nameParts[0];
+                  const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+                  const displayName = lastName ? `${firstName} ${lastName}` : firstName;
 
                   return (
                     <div
-                      key={`${dayIdx}-${time}`}
-                      onClick={() => isOcupado && slot && onSlotClick?.(slot)}
-                      className={cn(
-                        'flex-1 mx-0.5 rounded flex items-center justify-center text-[9px] transition-all',
-                        !slot || slot.status === 'livre' 
-                          ? isToday 
-                            ? 'bg-primary/5 border border-dashed border-primary/20' 
-                            : 'bg-muted/20 border border-dashed border-muted-foreground/10'
-                          : '',
-                        isBloqueado && 'bg-[#607D8B]/30',
-                        isOcupado && 'cursor-pointer hover:opacity-80'
-                      )}
+                      key={consultation.id}
+                      onClick={() => onSlotClick?.(slot)}
+                      className="rounded cursor-pointer hover:opacity-80 transition-all overflow-hidden px-0.5"
                       style={{
-                        height: `${blockHeight}px`,
-                        ...(isOcupado ? { 
-                          backgroundColor: `${colors.hex}20`, 
-                          borderLeft: `2px solid ${colors.hex}` 
-                        } : {})
+                        gridRow: `${startIdx + 1} / span ${spanCount}`,
+                        backgroundColor: `${colors.hex}20`,
+                        borderLeft: `2px solid ${colors.hex}`,
                       }}
                     >
-                      {isOcupado && consultation && (
-                        <div className="flex flex-col px-0.5 overflow-hidden leading-tight">
-                          {/* Line 1: First + Last Name (age anos) */}
-                          <div className="flex items-center gap-0.5 truncate">
-                            <span className="truncate font-bold text-[8px] text-white">
-                              {(() => {
-                                const nameParts = consultation.patient.name.split(' ');
-                                const firstName = nameParts[0];
-                                const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
-                                return lastName ? `${firstName} ${lastName}` : firstName;
-                              })()}
-                            </span>
-                            <span className="text-[7px] text-muted-foreground whitespace-nowrap">
-                              ({consultation.patient.age} anos)
-                            </span>
-                            {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
-                          </div>
-                          {/* Line 2: TYPE (colored) */}
-                          <span className="text-[7px] font-bold truncate" style={{ color: colors.hex }}>
-                            {CATEGORY_LABELS[category]}
+                      <div className="flex flex-col leading-tight py-0.5">
+                        {/* Line 1: First + Last Name (age anos) */}
+                        <div className="flex items-center gap-0.5 truncate">
+                          <span className="truncate font-bold text-[8px] text-white">
+                            {displayName}
                           </span>
+                          <span className="text-[7px] text-muted-foreground whitespace-nowrap">
+                            ({consultation.patient.age} anos)
+                          </span>
+                          {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                         </div>
-                      )}
-                      {isBloqueado && <span className="text-muted-foreground/60 text-[8px]">Pausa</span>}
-                      {(!slot || slot.status === 'livre') && <span className="text-muted-foreground/40">—</span>}
+                        {/* Line 2: TYPE (colored) */}
+                        <span className="text-[7px] font-bold truncate" style={{ color: colors.hex }}>
+                          {CATEGORY_LABELS[category]}
+                        </span>
+                      </div>
                     </div>
                   );
                 })}

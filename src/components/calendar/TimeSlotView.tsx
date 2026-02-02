@@ -8,32 +8,63 @@ interface TimeSlotViewProps {
   showNotes?: boolean;
 }
 
+// FIXED: Slot height is constant and immutable
+const SLOT_HEIGHT = 60; // Fixed height per 30-min slot
+
+// Convert time string to slot index (0-based, where 08:00 = 0)
+function timeToSlotIndex(time: string): number {
+  const [hour, minute] = time.split(':').map(Number);
+  const hoursFromStart = hour - 8; // Start at 08:00
+  const halfHours = Math.floor(minute / 30);
+  return hoursFromStart * 2 + halfHours;
+}
+
 export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotViewProps) {
-  // Group slots to handle long consultations (60min, 90min, 120min)
-  const processedSlots: { slot: TimeSlot; skip?: boolean; height: number }[] = [];
+  // Build slot occupancy map for proper spanning
+  const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
+  const occupiedIndices = new Set<number>();
   
-  for (let i = 0; i < slots.length; i++) {
-    const slot = slots[i];
-    const consultation = slot.consultation;
-    const duration = consultation?.duration || 30;
-    
-    if (duration >= 60 && slot.status === 'ocupado') {
-      const slotsToSpan = Math.ceil(duration / 30);
-      processedSlots.push({ slot, height: slotsToSpan });
-      // Mark subsequent slots to skip based on duration
-      for (let j = 1; j < slotsToSpan && (i + j) < slots.length; j++) {
-        processedSlots.push({ slot: slots[i + j], skip: true, height: 1 });
-        i++;
+  slots.forEach(slot => {
+    if (slot.status === 'ocupado' && slot.consultation) {
+      const startIdx = timeToSlotIndex(slot.time);
+      const duration = slot.consultation.duration || 30;
+      const spanCount = Math.ceil(duration / 30);
+      
+      // Check if this is a primary slot (not covered by a previous consultation)
+      if (!occupiedIndices.has(startIdx)) {
+        primarySlots.push({ slot, startIdx, spanCount });
+        // Mark all slots this consultation occupies
+        for (let i = 0; i < spanCount; i++) {
+          occupiedIndices.add(startIdx + i);
+        }
       }
-    } else {
-      processedSlots.push({ slot, height: 1 });
+    } else if (slot.status === 'bloqueado') {
+      const startIdx = timeToSlotIndex(slot.time);
+      if (!occupiedIndices.has(startIdx)) {
+        primarySlots.push({ slot, startIdx, spanCount: 1 });
+        occupiedIndices.add(startIdx);
+      }
+    } else if (slot.status === 'livre') {
+      const startIdx = timeToSlotIndex(slot.time);
+      if (!occupiedIndices.has(startIdx)) {
+        primarySlots.push({ slot, startIdx, spanCount: 1 });
+      }
     }
-  }
+  });
+
+  // Sort by start index
+  primarySlots.sort((a, b) => a.startIdx - b.startIdx);
 
   return (
-    <div className="space-y-2 px-4 animate-slide-up">
-      {processedSlots.filter(p => !p.skip).map((processed, idx) => {
-        const slot = processed.slot;
+    <div 
+      className="px-4 animate-slide-up"
+      style={{
+        display: 'grid',
+        gridTemplateRows: `repeat(${slots.length}, ${SLOT_HEIGHT}px)`,
+        gap: '4px',
+      }}
+    >
+      {primarySlots.map(({ slot, startIdx, spanCount }, idx) => {
         const isOcupado = slot.status === 'ocupado';
         const isBloqueado = slot.status === 'bloqueado';
         const consultation = slot.consultation;
@@ -49,27 +80,21 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
           ? `${consultation?.patient.name} (${patientAge} anos)`
           : consultation?.patient.name;
 
-        // Calculate height class based on number of slots (1 = 36px, 2 = 72px, 3 = 108px, 4 = 144px)
-        const heightMap: Record<number, string> = {
-          1: '',
-          2: 'min-h-[72px]',
-          3: 'min-h-[108px]',
-          4: 'min-h-[144px]',
-        };
-        const slotHeight = heightMap[processed.height] || '';
-
         return (
           <div
-            key={idx}
+            key={`${slot.time}-${idx}`}
             onClick={() => isOcupado && onSlotClick?.(slot)}
             className={cn(
               'time-slot',
               slot.status === 'livre' && 'time-slot-livre',
               isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
               isBloqueado && 'time-slot-bloqueado',
-              slotHeight
             )}
-            style={isOcupado ? { borderLeftColor: colors.hex, borderLeftWidth: '3px' } : undefined}
+            style={{
+              gridRow: `${startIdx + 1} / span ${spanCount}`,
+              borderLeftColor: isOcupado ? colors.hex : undefined,
+              borderLeftWidth: isOcupado ? '3px' : undefined,
+            }}
           >
             <span className="w-12 text-sm font-mono text-muted-foreground">
               {slot.time}
