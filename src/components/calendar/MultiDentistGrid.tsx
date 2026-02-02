@@ -82,19 +82,26 @@ export function MultiDentistGrid({
                     );
                   }
 
-                  // Check if this slot is part of a longer consultation from previous slot
-                  const prevTimeIdx = timeIdx - 1;
-                  if (prevTimeIdx >= 0) {
-                    const prevTime = timeLabels[prevTimeIdx];
-                    const prevSlot = col.slots.find(s => s.time === prevTime);
-                    if (prevSlot?.status === 'ocupado' && prevSlot.consultation?.duration >= 60) {
-                      // This slot is covered by the previous consultation - render empty placeholder
-                      return (
-                        <div
-                          key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
-                          className="flex-1 mx-0.5 min-w-[180px] h-[40px]"
-                        />
-                      );
+                  // Check if this slot is part of a longer consultation from previous slots
+                  // Check up to 3 previous slots (for consultations up to 120 min)
+                  for (let offset = 1; offset <= 3; offset++) {
+                    const checkIdx = timeIdx - offset;
+                    if (checkIdx >= 0) {
+                      const checkTime = timeLabels[checkIdx];
+                      const checkSlot = col.slots.find(s => s.time === checkTime);
+                      if (checkSlot?.status === 'ocupado' && checkSlot.consultation) {
+                        const duration = checkSlot.consultation.duration || 30;
+                        const slotsNeeded = Math.ceil(duration / 30);
+                        if (offset < slotsNeeded) {
+                          // This slot is covered by a previous consultation - render empty placeholder
+                          return (
+                            <div
+                              key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
+                              className="flex-1 mx-0.5 min-w-[180px] h-[40px]"
+                            />
+                          );
+                        }
+                      }
                     }
                   }
 
@@ -108,9 +115,10 @@ export function MultiDentistGrid({
                   const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
                   const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
                   
-                  // Calculate height based on duration
+                  // Calculate height based on duration (30min = 40px, 60min = 80px, 90min = 120px, 120min = 160px)
                   const duration = consultation?.duration || 30;
-                  const blockHeight = duration >= 60 ? 80 : 40; // Double height for 1h+
+                  const slotsNeeded = Math.ceil(duration / 30);
+                  const blockHeight = slotsNeeded * 40;
 
                   // Get patient name with age
                   const patientName = consultation?.patient.name || '';

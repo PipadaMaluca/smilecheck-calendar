@@ -102,24 +102,29 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                       borderLeft: `2px solid ${colors.hex}` 
                     } : undefined}
                   >
-                    {isOcupado && consultation && (
-                      <div className="flex flex-col px-0.5 overflow-hidden leading-tight">
-                        {/* Line 1: NAME (age anos) */}
-                        <div className="flex items-center gap-0.5 truncate">
-                          <span className="truncate font-bold uppercase text-[8px] text-white">
-                            {consultation.patient.name.split(' ')[0]}
+                    {isOcupado && consultation && (() => {
+                      const nameParts = consultation.patient.name.split(' ');
+                      const firstName = nameParts[0];
+                      const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+                      return (
+                        <div className="flex flex-col px-0.5 overflow-hidden leading-tight">
+                          {/* Line 1: FIRST LAST (age anos) */}
+                          <div className="flex items-center gap-0.5 truncate">
+                            <span className="truncate font-bold uppercase text-[8px] text-white">
+                              {firstName} {lastName}
+                            </span>
+                            <span className="text-[7px] text-muted-foreground whitespace-nowrap">
+                              ({consultation.patient.age} anos)
+                            </span>
+                            {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
+                          </div>
+                          {/* Line 2: TYPE (colored) */}
+                          <span className="text-[7px] font-bold uppercase truncate" style={{ color: colors.hex }}>
+                            {CATEGORY_LABELS[category]}
                           </span>
-                          <span className="text-[7px] text-muted-foreground whitespace-nowrap">
-                            ({consultation.patient.age} anos)
-                          </span>
-                          {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                         </div>
-                        {/* Line 2: TYPE (colored) */}
-                        <span className="text-[7px] font-bold uppercase truncate" style={{ color: colors.hex }}>
-                          {CATEGORY_LABELS[category]}
-                        </span>
-                      </div>
-                    )}
+                      );
+                    })()}
                     {isBloqueado && <span className="text-muted-foreground/60 text-[8px]">Pausa</span>}
                     {(!slot || slot.status === 'livre') && <span className="text-muted-foreground/40">—</span>}
                   </div>
