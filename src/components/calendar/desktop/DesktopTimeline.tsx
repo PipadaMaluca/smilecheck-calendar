@@ -22,8 +22,8 @@ interface DesktopTimelineProps {
   };
 }
 
-// FIXED: Slot heights - fixed and immutable
-const SLOT_HEIGHT = 56; // Fixed height per 30-min slot
+// FIXED: Slot heights - fixed and immutable (40px desktop)
+const SLOT_HEIGHT = 40; // Fixed height per 30-min slot
 const TOTAL_SLOTS = 28; // 08:00 to 22:00 = 14 hours = 28 slots
 
 function getConsultationStyles(consultation: Consultation) {

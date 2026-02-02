@@ -10,8 +10,8 @@ interface ThreeDayViewProps {
   onSlotClick?: (slot: TimeSlot) => void;
 }
 
-// FIXED: Slot height is constant and immutable
-const SLOT_HEIGHT = 36; // Fixed height per 30-min slot
+// FIXED: Slot height is constant and immutable (35px mobile)
+const SLOT_HEIGHT = 35; // Fixed height per 30-min slot
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
 function timeToSlotIndex(time: string): number {
