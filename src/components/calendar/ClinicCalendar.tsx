@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { DateNavigator } from './DateNavigator';
-import { MultiDentistGrid } from './MultiDentistGrid';
+import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
+import { TimeSlotView } from './TimeSlotView';
 import { CategoryLegend } from './CategoryLegend';
 import { DaySummary } from './DaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
@@ -12,13 +13,6 @@ import { ThreeDayView } from './mobile/ThreeDayView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
-
-interface DentistColumn {
-  dentist: Dentist;
-  clinic: Clinic;
-  worksToday: boolean;
-  slots: TimeSlot[];
-}
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -137,19 +131,22 @@ export function ClinicCalendar() {
   };
 
   const getSlots = (date: Date) => {
-    // For 3-day view, use first dentist or selected dentist
+    // For 3-day view or list view, use first dentist or selected dentist
     const dentistId = selectedDentistIds.length === 1 ? selectedDentistIds[0].split('-').pop() || mockDentists[0].id : mockDentists[0].id;
-    const consultations = mockConsultations.filter(c => c.dentist.id === dentistId);
+    const clinicId = selectedClinics.length === 1 ? selectedClinics[0] : '1';
+    const consultations = mockConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId);
     return generateTimeSlots(date, consultations);
   };
+
+  const listSlots = useMemo(() => {
+    return getSlots(selectedDate);
+  }, [selectedDate, selectedDentistIds, selectedClinics]);
 
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* Mobile Header */}
       <MobileHeader 
         onMenuClick={() => setSidebarOpen(true)}
-        showClinicSelector
-        selectedClinic={mockClinics[0]}
       />
 
       {/* View Mode Selector */}
@@ -167,8 +164,6 @@ export function ClinicCalendar() {
       {/* Category Legend */}
       <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
-      {/* Dentist filters are now in the sidebar - removed from here */}
-
       {/* Content based on view mode */}
       <div className="mt-4">
         {viewMode === 'three-day' ? (
@@ -176,6 +171,11 @@ export function ClinicCalendar() {
             selectedDate={selectedDate}
             getSlots={getSlots}
             onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
+          />
+        ) : viewMode === 'list' ? (
+          <TimeSlotView 
+            slots={listSlots} 
+            onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)} 
           />
         ) : (
           <MultiDentistGrid

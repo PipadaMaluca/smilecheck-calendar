@@ -2,7 +2,7 @@ import { Dentist, Clinic, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/t
 import { cn } from '@/lib/utils';
 import { Video, MapPin, AlertTriangle, Ban } from 'lucide-react';
 
-interface DentistColumn {
+export interface DentistColumn {
   dentist: Dentist;
   clinic: Clinic;
   worksToday: boolean;
@@ -51,11 +51,24 @@ export function MultiDentistGrid({
             ))}
           </div>
 
-          {/* Time Grid */}
-          <div className="space-y-1">
-            {timeLabels.map((time) => (
-              <div key={time} className="flex items-stretch min-h-[40px]">
-                <div className="w-16 flex-shrink-0 text-xs text-muted-foreground font-mono pr-2 flex items-center justify-end">
+        {/* Time Grid */}
+        <div className="space-y-0">
+          {timeLabels.map((time, timeIdx) => {
+            // Check if this slot should be skipped (part of a 1h consultation from previous slot)
+            const shouldSkipSlot = (col: DentistColumn) => {
+              const prevTimeIdx = timeIdx - 1;
+              if (prevTimeIdx < 0) return false;
+              const prevTime = timeLabels[prevTimeIdx];
+              const prevSlot = col.slots.find(s => s.time === prevTime);
+              if (prevSlot?.status === 'ocupado' && prevSlot.consultation?.duration >= 60) {
+                return true;
+              }
+              return false;
+            };
+
+            return (
+              <div key={time} className="flex items-stretch">
+                <div className="w-16 flex-shrink-0 text-xs text-muted-foreground font-mono pr-2 flex items-center justify-end h-[40px]">
                   {time}
                 </div>
                 {columns.map((col, idx) => {
@@ -64,7 +77,7 @@ export function MultiDentistGrid({
                     return (
                       <div
                         key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
-                        className="flex-1 mx-0.5 min-w-[180px] bg-[#2A3A4A] flex items-center justify-center"
+                        className="flex-1 mx-0.5 min-w-[180px] bg-[#2A3A4A] flex items-center justify-center h-[40px]"
                         style={{ 
                           borderRadius: time === '08:00' ? '8px 8px 0 0' : time === '21:30' ? '0 0 8px 8px' : '0' 
                         }}
@@ -81,6 +94,11 @@ export function MultiDentistGrid({
                     );
                   }
 
+                  // Check if this slot should be skipped
+                  if (shouldSkipSlot(col)) {
+                    return null; // Skip rendering, as previous block extends here
+                  }
+
                   const slot = col.slots.find(s => s.time === time);
                   const isOcupado = slot?.status === 'ocupado';
                   const isBloqueado = slot?.status === 'bloqueado';
@@ -90,6 +108,10 @@ export function MultiDentistGrid({
                   const isTeleconsulta = consultation?.type === 'teleconsulta';
                   const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
                   const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
+                  
+                  // Calculate height based on duration
+                  const duration = consultation?.duration || 30;
+                  const blockHeight = duration >= 60 ? 80 : 40; // Double height for 1h+
 
                   // Get patient name with age
                   const patientName = consultation?.patient.name || '';
@@ -108,24 +130,27 @@ export function MultiDentistGrid({
                         isBloqueado && 'bg-[#607D8B]/30',
                         isOcupado && 'cursor-pointer hover:opacity-80'
                       )}
-                      style={isOcupado ? { 
-                        backgroundColor: `${colors.hex}20`, 
-                        borderLeft: `3px solid ${colors.hex}` 
-                      } : undefined}
+                      style={{
+                        height: `${blockHeight}px`,
+                        ...(isOcupado ? { 
+                          backgroundColor: `${colors.hex}20`, 
+                          borderLeft: `3px solid ${colors.hex}` 
+                        } : {})
+                      }}
                     >
                       {isOcupado && consultation && (
                         <div className="overflow-hidden">
                           {/* Line 1: Time + Name (Age) */}
                           <div className="flex items-center gap-1">
-                            <span className="text-[9px] text-muted-foreground font-mono">{time}</span>
+                            <span className="text-[10px] text-muted-foreground font-mono">{time}</span>
                             <span className="font-bold text-white uppercase truncate">
                               {displayName}
-                              {patientAge && <span className="text-[8px] ml-0.5">({patientAge})</span>}
+                              <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
                             </span>
                           </div>
-                          {/* Line 2: Type + Icons + Notes */}
+                          {/* Line 2: Type (colored) + Notes (gray) */}
                           <div className="flex items-center gap-1">
-                            <span className="font-bold uppercase text-white text-[9px]">
+                            <span className="font-bold uppercase text-[9px]" style={{ color: colors.hex }}>
                               {CATEGORY_LABELS[category]}
                             </span>
                             {isTeleconsulta && (
@@ -146,8 +171,9 @@ export function MultiDentistGrid({
                   );
                 })}
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         </div>
       </div>
     </div>

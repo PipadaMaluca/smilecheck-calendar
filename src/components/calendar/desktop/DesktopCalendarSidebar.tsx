@@ -15,12 +15,12 @@ interface DesktopCalendarSidebarProps {
   onDateSelect: (date: Date) => void;
   dentists: Dentist[];
   selectedDentistIds: string[];
-  onDentistToggle: (dentistId: string, clinicId?: string) => void;
+  onDentistToggle: (dentistId: string, isCheckbox: boolean, clinicId?: string) => void;
   onSelectAllDentists: () => void;
   appointmentDates?: Date[];
   userRole?: UserRole;
   selectedClinicIds?: string[];
-  onClinicToggle?: (clinicId: string) => void;
+  onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
 }
 
 export function DesktopCalendarSidebar({
@@ -206,15 +206,19 @@ export function DesktopCalendarSidebar({
       {/* Clinics + Dentists List - Hierarchical */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
         {/* All checkbox */}
-        <div
-          className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
-          onClick={onSelectAllDentists}
-        >
+        <div className="flex items-center gap-2 py-1.5 hover:bg-[#152238] rounded px-1.5 -mx-1.5">
           <Checkbox
             checked={selectedDentistIds.includes('all') || selectedDentistIds.length === 0}
-            className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            onCheckedChange={() => onSelectAllDentists()}
+            className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            onClick={(e) => e.stopPropagation()}
           />
-          <span className="text-xs font-medium">Todos</span>
+          <button 
+            className="text-xs font-medium hover:text-primary"
+            onClick={onSelectAllDentists}
+          >
+            Todos
+          </button>
         </div>
 
         {/* Clinics with their dentists */}
@@ -225,6 +229,10 @@ export function DesktopCalendarSidebar({
             ? dentistsInClinic.filter(d => d.name.toLowerCase().includes(searchQuery.toLowerCase()))
             : dentistsInClinic;
           const isFullySelected = isClinicFullySelected(clinic.id);
+          const hasAnySelected = dentistsInClinic.some(d => {
+            const key = `${clinic.id}-${d.id}`;
+            return selectedDentistIds.includes(key) || selectedDentistIds.includes(d.id);
+          }) || selectedDentistIds.includes('all') || selectedDentistIds.length === 0;
           
           if (searchQuery && filteredDentists.length === 0) return null;
 
@@ -236,14 +244,14 @@ export function DesktopCalendarSidebar({
             >
               <div className="flex items-center gap-1.5 py-1.5">
                 <Checkbox
-                  checked={isFullySelected}
-                  onCheckedChange={() => onClinicToggle?.(clinic.id)}
-                  className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  checked={isFullySelected || hasAnySelected}
+                  onCheckedChange={() => onClinicToggle?.(clinic.id, true)}
+                  className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   onClick={(e) => e.stopPropagation()}
                 />
-                <CollapsibleTrigger className="flex items-center gap-1.5 flex-1 text-left">
+                <CollapsibleTrigger className="flex items-center gap-1.5 flex-1 text-left hover:text-primary">
                   <Building2 className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-xs text-muted-foreground flex-1 truncate">{clinic.name}</span>
+                  <span className="text-xs text-muted-foreground flex-1 truncate hover:text-primary">{clinic.name}</span>
                   <ChevronDown
                     className={cn(
                       'w-3 h-3 text-muted-foreground transition-transform',
@@ -253,7 +261,7 @@ export function DesktopCalendarSidebar({
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="pl-5">
-                {filteredDentists.map((dentist, index) => {
+                {filteredDentists.map((dentist) => {
                   const isSelected = isDentistSelected(dentist.id, clinic.id);
                   const worksOnDemo = dentistWorksOnDemo(clinic.id, dentist.id);
                   const isSelf = userRole === 'dentist' && dentist.id === '1' && clinic.id === '1';
@@ -262,25 +270,30 @@ export function DesktopCalendarSidebar({
                     <div
                       key={`${clinic.id}-${dentist.id}`}
                       className={cn(
-                        "flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5",
-                        !worksOnDemo && "opacity-50"
+                        "flex items-center gap-2 py-1 hover:bg-[#152238] rounded px-1.5 -mx-1.5"
                       )}
-                      onClick={() => !isSelf && onDentistToggle(dentist.id, clinic.id)}
                     >
                       <Checkbox
                         checked={isSelected}
                         disabled={isSelf}
-                        className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        onCheckedChange={() => !isSelf && onDentistToggle(dentist.id, true, clinic.id)}
+                        className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        onClick={(e) => e.stopPropagation()}
                       />
-                      <div className="flex flex-col min-w-0">
+                      <button 
+                        className={cn(
+                          'flex flex-col min-w-0 text-left cursor-pointer hover:text-primary',
+                          isSelf && 'cursor-default'
+                        )}
+                        onClick={() => !isSelf && onDentistToggle(dentist.id, false, clinic.id)}
+                      >
                         <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
                           {dentist.name}{isSelf ? ' (Eu)' : ''}
                         </span>
                         <span className="text-[9px] text-muted-foreground">
                           {dentist.workingHours || '9h-21h'}
-                          {!worksOnDemo && ' • Não trabalha hoje'}
                         </span>
-                      </div>
+                      </button>
                     </div>
                   );
                 })}

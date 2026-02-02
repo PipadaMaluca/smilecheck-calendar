@@ -67,28 +67,42 @@ export function DesktopCalendarView() {
       selectedFamilyMemberIds.includes(c.patient.id)
     );
   }, [selectedFamilyMemberIds]);
-  const handleDentistToggle = (dentistId: string, clinicId?: string) => {
+  const handleDentistToggle = (dentistId: string, isCheckbox: boolean, clinicId?: string) => {
     if (activeRole === 'dentist') {
       // For dentist view, self is always selected, toggle others as columns
       const selfId = mockDentists[0].id;
       if (dentistId === selfId && clinicId === '1') return; // Can't deselect self at primary clinic
 
       const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      setSelectedDentistIds(prev => {
-        if (prev.includes(key) || prev.includes(dentistId)) {
-          return prev.filter(id => id !== key && id !== dentistId);
-        }
-        return [...prev, key];
-      });
+      
+      if (isCheckbox) {
+        // Checkbox click: toggle this dentist
+        setSelectedDentistIds(prev => {
+          if (prev.includes(key) || prev.includes(dentistId)) {
+            return prev.filter(id => id !== key && id !== dentistId);
+          }
+          return [...prev, key];
+        });
+      } else {
+        // Name click: select ONLY this dentist
+        setSelectedDentistIds([key]);
+      }
     } else {
       const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      setSelectedDentistIds(prev => {
-        if (prev.includes(key) || prev.includes(dentistId)) {
-          if (prev.length === 1) return prev;
-          return prev.filter(id => id !== key && id !== dentistId);
-        }
-        return [...prev, key];
-      });
+      
+      if (isCheckbox) {
+        // Checkbox click: toggle this dentist
+        setSelectedDentistIds(prev => {
+          if (prev.includes(key) || prev.includes(dentistId)) {
+            if (prev.length === 1) return prev;
+            return prev.filter(id => id !== key && id !== dentistId);
+          }
+          return [...prev, key];
+        });
+      } else {
+        // Name click: select ONLY this dentist
+        setSelectedDentistIds([key]);
+      }
     }
   };
   const handleSelectAllDentists = () => {

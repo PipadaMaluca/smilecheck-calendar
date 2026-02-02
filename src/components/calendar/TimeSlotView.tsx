@@ -5,18 +5,39 @@ import { cn } from '@/lib/utils';
 interface TimeSlotViewProps {
   slots: TimeSlot[];
   onSlotClick?: (slot: TimeSlot) => void;
+  showNotes?: boolean;
 }
 
-export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
+export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotViewProps) {
+  // Group slots to handle 1h consultations
+  const processedSlots: { slot: TimeSlot; skip?: boolean; height: number }[] = [];
+  
+  for (let i = 0; i < slots.length; i++) {
+    const slot = slots[i];
+    const consultation = slot.consultation;
+    const duration = consultation?.duration || 30;
+    
+    if (duration >= 60 && slot.status === 'ocupado') {
+      processedSlots.push({ slot, height: 2 }); // Double height
+      // Mark next slot to skip
+      if (i + 1 < slots.length) {
+        processedSlots.push({ slot: slots[i + 1], skip: true, height: 1 });
+        i++; // Skip next iteration
+      }
+    } else {
+      processedSlots.push({ slot, height: 1 });
+    }
+  }
+
   return (
     <div className="space-y-2 px-4 animate-slide-up">
-      {slots.map((slot, idx) => {
+      {processedSlots.filter(p => !p.skip).map((processed, idx) => {
+        const slot = processed.slot;
         const isOcupado = slot.status === 'ocupado';
         const isBloqueado = slot.status === 'bloqueado';
         const consultation = slot.consultation;
         const category = consultation?.category || 'restauracao';
         const colors = CATEGORY_COLORS[category];
-        const categoryLabel = CATEGORY_LABELS[category];
         const isTeleconsulta = consultation?.type === 'teleconsulta';
         const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
         const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
@@ -24,8 +45,10 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
         // Patient info with age
         const patientAge = consultation?.patient.age;
         const patientNameWithAge = patientAge 
-          ? `${consultation?.patient.name} (${patientAge})`
+          ? `${consultation?.patient.name} (${patientAge} anos)`
           : consultation?.patient.name;
+
+        const slotHeight = processed.height === 2 ? 'min-h-[72px]' : '';
 
         return (
           <div
@@ -35,7 +58,8 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
               'time-slot',
               slot.status === 'livre' && 'time-slot-livre',
               isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
-              isBloqueado && 'time-slot-bloqueado'
+              isBloqueado && 'time-slot-bloqueado',
+              slotHeight
             )}
             style={isOcupado ? { borderLeftColor: colors.hex, borderLeftWidth: '3px' } : undefined}
           >
@@ -56,7 +80,7 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
 
             {isOcupado && consultation && (
               <div className="flex flex-col flex-1 overflow-hidden">
-                {/* Line 1: Name (Age) */}
+                {/* Line 1: Name (Age) with icons */}
                 <div className="flex items-center gap-1.5">
                   {isTeleconsulta ? (
                     <Video className="w-4 h-4 flex-shrink-0" style={{ color: colors.hex }} />
@@ -68,15 +92,15 @@ export function TimeSlotView({ slots, onSlotClick }: TimeSlotViewProps) {
                   </span>
                   {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
                 </div>
-                {/* Line 2: Category + Notes */}
+                {/* Line 2: Category (colored) + Notes (gray) */}
                 <div className="flex items-center gap-2 ml-5">
                   <span 
                     className="text-xs font-bold uppercase"
                     style={{ color: colors.hex }}
                   >
-                    {categoryLabel}
+                    {CATEGORY_LABELS[category]}
                   </span>
-                  {consultation.notes && (
+                  {showNotes && consultation.notes && (
                     <span className="text-xs text-[#8B9CB6] truncate">
                       {consultation.notes}
                     </span>
