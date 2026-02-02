@@ -54,18 +54,6 @@ export function MultiDentistGrid({
         {/* Time Grid */}
         <div className="space-y-0">
           {timeLabels.map((time, timeIdx) => {
-            // Check if this slot should be skipped (part of a 1h consultation from previous slot)
-            const shouldSkipSlot = (col: DentistColumn) => {
-              const prevTimeIdx = timeIdx - 1;
-              if (prevTimeIdx < 0) return false;
-              const prevTime = timeLabels[prevTimeIdx];
-              const prevSlot = col.slots.find(s => s.time === prevTime);
-              if (prevSlot?.status === 'ocupado' && prevSlot.consultation?.duration >= 60) {
-                return true;
-              }
-              return false;
-            };
-
             return (
               <div key={time} className="flex items-stretch">
                 <div className="w-16 flex-shrink-0 text-xs text-muted-foreground font-mono pr-2 flex items-center justify-end h-[40px]">
@@ -94,9 +82,20 @@ export function MultiDentistGrid({
                     );
                   }
 
-                  // Check if this slot should be skipped
-                  if (shouldSkipSlot(col)) {
-                    return null; // Skip rendering, as previous block extends here
+                  // Check if this slot is part of a longer consultation from previous slot
+                  const prevTimeIdx = timeIdx - 1;
+                  if (prevTimeIdx >= 0) {
+                    const prevTime = timeLabels[prevTimeIdx];
+                    const prevSlot = col.slots.find(s => s.time === prevTime);
+                    if (prevSlot?.status === 'ocupado' && prevSlot.consultation?.duration >= 60) {
+                      // This slot is covered by the previous consultation - render empty placeholder
+                      return (
+                        <div
+                          key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
+                          className="flex-1 mx-0.5 min-w-[180px] h-[40px]"
+                        />
+                      );
+                    }
                   }
 
                   const slot = col.slots.find(s => s.time === time);
