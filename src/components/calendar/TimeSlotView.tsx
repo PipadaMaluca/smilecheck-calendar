@@ -8,8 +8,8 @@ interface TimeSlotViewProps {
   showNotes?: boolean;
 }
 
-// FIXED: Slot height is constant and immutable
-const SLOT_HEIGHT = 60; // Fixed height per 30-min slot
+// FIXED: Slot height is constant and immutable (38px tablet)
+const SLOT_HEIGHT = 38; // Fixed height per 30-min slot
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
 function timeToSlotIndex(time: string): number {
