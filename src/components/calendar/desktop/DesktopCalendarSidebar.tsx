@@ -210,7 +210,7 @@ export function DesktopCalendarSidebar({
           <Checkbox
             checked={selectedDentistIds.includes('all') || selectedDentistIds.length === 0}
             onCheckedChange={() => onSelectAllDentists()}
-            className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             onClick={(e) => e.stopPropagation()}
           />
           <button 
@@ -246,7 +246,7 @@ export function DesktopCalendarSidebar({
                 <Checkbox
                   checked={isFullySelected || hasAnySelected}
                   onCheckedChange={() => onClinicToggle?.(clinic.id, true)}
-                  className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                  className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   onClick={(e) => e.stopPropagation()}
                 />
                 <CollapsibleTrigger className="flex items-center gap-1.5 flex-1 text-left hover:text-primary">
@@ -277,7 +277,7 @@ export function DesktopCalendarSidebar({
                         checked={isSelected}
                         disabled={isSelf}
                         onCheckedChange={() => !isSelf && onDentistToggle(dentist.id, true, clinic.id)}
-                        className="border-muted-foreground h-5 w-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                         onClick={(e) => e.stopPropagation()}
                       />
                       <button 

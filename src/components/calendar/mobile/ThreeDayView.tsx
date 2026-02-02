@@ -1,8 +1,8 @@
-import { TimeSlot, CATEGORY_COLORS, Consultation } from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { format, addDays, subDays } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-import { Video, MapPin, AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 
 interface ThreeDayViewProps {
   selectedDate: Date;
@@ -103,15 +103,20 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                     } : undefined}
                   >
                     {isOcupado && consultation && (
-                      <div className="flex items-center gap-0.5 px-0.5 truncate">
-                        {isTeleconsulta ? (
-                          <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
-                        ) : (
-                          <MapPin className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
-                        )}
-                        {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
-                        <span className="truncate font-medium">
-                          {consultation.patient.name.split(' ')[0]}
+                      <div className="flex flex-col px-0.5 overflow-hidden leading-tight">
+                        {/* Line 1: NAME (age anos) */}
+                        <div className="flex items-center gap-0.5 truncate">
+                          <span className="truncate font-bold uppercase text-[8px] text-white">
+                            {consultation.patient.name.split(' ')[0]}
+                          </span>
+                          <span className="text-[7px] text-muted-foreground whitespace-nowrap">
+                            ({consultation.patient.age} anos)
+                          </span>
+                          {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
+                        </div>
+                        {/* Line 2: TYPE (colored) */}
+                        <span className="text-[7px] font-bold uppercase truncate" style={{ color: colors.hex }}>
+                          {CATEGORY_LABELS[category]}
                         </span>
                       </div>
                     )}
