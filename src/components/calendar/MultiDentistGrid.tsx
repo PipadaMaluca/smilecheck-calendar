@@ -1,6 +1,6 @@
 import { Dentist, Clinic, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { Video, MapPin, AlertTriangle, Ban } from 'lucide-react';
+import { Video, AlertTriangle, Ban } from 'lucide-react';
 
 export interface DentistColumn {
   dentist: Dentist;
@@ -15,17 +15,30 @@ interface MultiDentistGridProps {
   showFullName?: boolean;
 }
 
+// FIXED: Slot height is constant and immutable
+const SLOT_HEIGHT = 40; // Fixed height per 30-min slot
+
+// Convert time string to slot index (0-based, where 08:00 = 0)
+function timeToSlotIndex(time: string): number {
+  const [hour, minute] = time.split(':').map(Number);
+  const hoursFromStart = hour - 8; // Start at 08:00
+  const halfHours = Math.floor(minute / 30);
+  return hoursFromStart * 2 + halfHours;
+}
+
 export function MultiDentistGrid({
   columns,
   onSlotClick,
   showFullName = false
 }: MultiDentistGridProps) {
-  const timeLabels: string[] = [];
+  // Generate time slot labels (08:00 to 21:30 = 28 slots)
+  const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
-    for (let minutes = 0; minutes < 60; minutes += 30) {
-      timeLabels.push(`${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
-    }
+    timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
+    timeSlots.push(`${hour.toString().padStart(2, '0')}:30`);
   }
+  
+  const totalSlots = timeSlots.length;
   
   return (
     <div className="px-4 overflow-x-auto animate-slide-up">
@@ -51,136 +64,174 @@ export function MultiDentistGrid({
             ))}
           </div>
 
-        {/* Time Grid */}
-        <div className="space-y-0">
-          {timeLabels.map((time, timeIdx) => {
-            return (
-              <div key={time} className="flex items-stretch">
-                <div className="w-16 flex-shrink-0 text-xs text-muted-foreground font-mono pr-2 flex items-center justify-end h-[40px]">
+          {/* Time Grid with CSS Grid for fixed slot heights */}
+          <div className="flex" style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
+            {/* Time Column */}
+            <div 
+              className="w-16 flex-shrink-0"
+              style={{
+                display: 'grid',
+                gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+              }}
+            >
+              {timeSlots.map((time) => (
+                <div 
+                  key={time} 
+                  className="flex items-center justify-end pr-2 text-xs text-muted-foreground font-mono"
+                >
                   {time}
                 </div>
-                {columns.map((col, idx) => {
-                  // If dentist doesn't work today, show grayed out column
-                  if (!col.worksToday) {
+              ))}
+            </div>
+
+            {/* Dentist Columns */}
+            {columns.map((col, idx) => {
+              // If dentist doesn't work today, show grayed out column
+              if (!col.worksToday) {
+                return (
+                  <div
+                    key={`${col.clinic.id}-${col.dentist.id}-${idx}`}
+                    className="flex-1 min-w-[180px] mx-0.5 bg-[#2A3A4A] rounded-lg flex items-center justify-center"
+                    style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}
+                  >
+                    <div className="text-center px-2">
+                      <Ban className="w-5 h-5 mx-auto mb-1 text-[#8B9CB6]" />
+                      <p className="text-[10px] text-[#8B9CB6] leading-tight">
+                        Hoje o médico<br />não trabalha<br />nesta clínica
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+
+              // Build slot occupancy map
+              const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
+              
+              col.slots.forEach(slot => {
+                if (slot.status === 'ocupado' && slot.consultation) {
+                  const startIdx = timeToSlotIndex(slot.time);
+                  const duration = slot.consultation.duration || 30;
+                  const spanCount = Math.ceil(duration / 30);
+                  
+                  // Check if this is a primary slot (not covered by a previous consultation)
+                  const isCovered = primarySlots.some(ps => {
+                    const psEnd = ps.startIdx + ps.spanCount;
+                    return startIdx >= ps.startIdx && startIdx < psEnd;
+                  });
+                  
+                  if (!isCovered) {
+                    primarySlots.push({ slot, startIdx, spanCount });
+                  }
+                } else if (slot.status === 'bloqueado') {
+                  const startIdx = timeToSlotIndex(slot.time);
+                  primarySlots.push({ slot, startIdx, spanCount: 1 });
+                }
+              });
+
+              return (
+                <div
+                  key={`${col.clinic.id}-${col.dentist.id}-${idx}`}
+                  className="flex-1 min-w-[180px] mx-0.5 relative"
+                  style={{
+                    display: 'grid',
+                    gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+                  }}
+                >
+                  {/* Empty slot backgrounds */}
+                  {timeSlots.map((time, slotIdx) => {
+                    // Check if this slot is occupied
+                    const isOccupied = primarySlots.some(ps => {
+                      const psEnd = ps.startIdx + ps.spanCount;
+                      return slotIdx >= ps.startIdx && slotIdx < psEnd;
+                    });
+                    
+                    if (isOccupied) return null;
+                    
                     return (
                       <div
-                        key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
-                        className="flex-1 mx-0.5 min-w-[180px] bg-[#2A3A4A] flex items-center justify-center h-[40px]"
-                        style={{ 
-                          borderRadius: time === '08:00' ? '8px 8px 0 0' : time === '21:30' ? '0 0 8px 8px' : '0' 
-                        }}
+                        key={time}
+                        className="bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center"
+                        style={{ gridRow: `${slotIdx + 1} / span 1` }}
                       >
-                        {time === '14:00' && (
-                          <div className="text-center px-2">
-                            <Ban className="w-5 h-5 mx-auto mb-1 text-[#8B9CB6]" />
-                            <p className="text-[10px] text-[#8B9CB6] leading-tight">
-                              Hoje o médico<br />não trabalha<br />nesta clínica
-                            </p>
-                          </div>
-                        )}
+                        <span className="text-muted-foreground/40">—</span>
                       </div>
                     );
-                  }
-
-                  // Check if this slot is part of a longer consultation from previous slots
-                  // Check up to 3 previous slots for consultations that span into this time
-                  for (let checkIdx = 1; checkIdx <= 3; checkIdx++) {
-                    const prevTimeIdx = timeIdx - checkIdx;
-                    if (prevTimeIdx >= 0) {
-                      const prevTime = timeLabels[prevTimeIdx];
-                      const prevSlot = col.slots.find(s => s.time === prevTime);
-                      if (prevSlot?.status === 'ocupado' && prevSlot.consultation) {
-                        const duration = prevSlot.consultation.duration;
-                        const slotsNeeded = Math.ceil(duration / 30);
-                        // If this slot falls within the span of the previous consultation
-                        if (checkIdx < slotsNeeded) {
-                          return (
-                            <div
-                              key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
-                              className="flex-1 mx-0.5 min-w-[180px] h-[40px]"
-                            />
-                          );
-                        }
-                      }
-                    }
-                  }
-
-                  const slot = col.slots.find(s => s.time === time);
-                  const isOcupado = slot?.status === 'ocupado';
-                  const isBloqueado = slot?.status === 'bloqueado';
-                  const consultation = slot?.consultation;
-                  const category = consultation?.category || 'restauracao';
-                  const colors = CATEGORY_COLORS[category];
-                  const isTeleconsulta = consultation?.type === 'teleconsulta';
-                  const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
-                  const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
+                  })}
                   
-                  // Calculate height based on duration (30min = 40px, 60min = 80px, 90min = 120px, 120min = 160px)
-                  const duration = consultation?.duration || 30;
-                  const slotsCount = Math.ceil(duration / 30);
-                  const blockHeight = slotsCount * 40;
-
-                  // Get patient name with age
-                  const patientName = consultation?.patient.name || '';
-                  const patientAge = consultation?.patient.age;
-                  const displayName = showFullName 
-                    ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
-                    : patientName.split(' ')[0];
-
-                  return (
-                    <div
-                      key={`${col.clinic.id}-${col.dentist.id}-${time}-${idx}`}
-                      onClick={() => isOcupado && slot && onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
-                      className={cn(
-                        'flex-1 mx-0.5 min-w-[180px] rounded-md flex flex-col justify-center px-2 text-[10px] transition-all',
-                        !slot || slot.status === 'livre' ? 'bg-muted/20 border border-dashed border-muted-foreground/10' : '',
-                        isBloqueado && 'bg-[#607D8B]/30',
-                        isOcupado && 'cursor-pointer hover:opacity-80'
-                      )}
-                      style={{
-                        height: `${blockHeight}px`,
-                        ...(isOcupado ? { 
-                          backgroundColor: `${colors.hex}20`, 
-                          borderLeft: `3px solid ${colors.hex}` 
-                        } : {})
-                      }}
-                    >
-                      {isOcupado && consultation && (
-                        <div className="overflow-hidden">
-                          {/* Line 1: Time + Name (Age) */}
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px] text-muted-foreground font-mono">{time}</span>
-                            <span className="font-bold text-white truncate">
-                              {displayName}
-                              <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
-                            </span>
-                          </div>
-                          {/* Line 2: Type (colored) + Notes (gray) */}
-                          <div className="flex items-center gap-1">
-                            <span className="font-bold text-[9px]" style={{ color: colors.hex }}>
-                              {CATEGORY_LABELS[category]}
-                            </span>
-                            {isTeleconsulta && (
-                              <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
-                            )}
-                            {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
-                            {consultation.notes && (
-                              <span className="text-[8px] text-[#8B9CB6] truncate ml-1">
-                                {consultation.notes}
-                              </span>
-                            )}
-                          </div>
+                  {/* Consultation blocks using grid-row span */}
+                  {primarySlots.map(({ slot, startIdx, spanCount }) => {
+                    const isBlocked = slot.status === 'bloqueado';
+                    const consultation = slot.consultation;
+                    
+                    if (isBlocked) {
+                      return (
+                        <div
+                          key={`blocked-${slot.time}`}
+                          className="bg-[#607D8B]/30 rounded flex items-center justify-center"
+                          style={{ gridRow: `${startIdx + 1} / span 1` }}
+                        >
+                          <span className="text-muted-foreground/60 text-center text-[10px]">
+                            {slot.blockReason}
+                          </span>
                         </div>
-                      )}
-                      {isBloqueado && <span className="text-muted-foreground/60 text-center">{slot?.blockReason}</span>}
-                      {(!slot || slot.status === 'livre') && <span className="text-muted-foreground/40 text-center">—</span>}
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+                      );
+                    }
+                    
+                    if (!consultation) return null;
+                    
+                    const category = consultation.category || 'restauracao';
+                    const colors = CATEGORY_COLORS[category];
+                    const isTeleconsulta = consultation.type === 'teleconsulta';
+                    const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
+                    const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
+                    
+                    const patientName = consultation.patient.name || '';
+                    const patientAge = consultation.patient.age;
+                    const displayName = showFullName 
+                      ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
+                      : patientName.split(' ')[0];
+
+                    return (
+                      <div
+                        key={consultation.id}
+                        onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
+                        className="rounded-md flex flex-col justify-center px-2 cursor-pointer hover:opacity-80 transition-all overflow-hidden"
+                        style={{
+                          gridRow: `${startIdx + 1} / span ${spanCount}`,
+                          backgroundColor: `${colors.hex}20`,
+                          borderLeft: `3px solid ${colors.hex}`,
+                        }}
+                      >
+                        {/* Line 1: Time + Name (Age) */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] text-muted-foreground font-mono">{slot.time}</span>
+                          <span className="font-bold text-white truncate text-[10px]">
+                            {displayName}
+                            <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
+                          </span>
+                        </div>
+                        {/* Line 2: Type (colored) + Notes (gray) */}
+                        <div className="flex items-center gap-1">
+                          <span className="font-bold text-[9px]" style={{ color: colors.hex }}>
+                            {CATEGORY_LABELS[category]}
+                          </span>
+                          {isTeleconsulta && (
+                            <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
+                          )}
+                          {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
+                          {consultation.notes && (
+                            <span className="text-[8px] text-[#8B9CB6] truncate ml-1">
+                              {consultation.notes}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
