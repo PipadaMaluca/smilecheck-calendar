@@ -187,27 +187,26 @@ export function DesktopTimeline({
                 }}>
                         <div className="flex items-start justify-between gap-0.5 p-1 h-full overflow-hidden">
                           <div className="flex-1 min-w-0 overflow-hidden">
-                            {/* First line: time + type */}
+                            {/* First line: time + name (age) */}
                             <div className="flex items-center gap-1 flex-wrap">
                               <span className="text-[8px] font-mono text-muted-foreground">
                                 {slot.time}
                               </span>
-                              <span className="text-[8px] font-bold truncate" style={{
-                          color: styles.borderColor
-                        }}>
-                                {getCategoryLabel(consultation)}
+                              <span className="text-[9px] font-bold truncate text-white uppercase leading-tight">
+                                {consultation.patient.name}
+                                {consultation.patient.age && (
+                                  <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
+                                )}
                               </span>
-                              {(isTeleconsulta || isUrgentTeleconsulta) && <Video className="w-2.5 h-2.5" style={{
-                          color: styles.borderColor
-                        }} />}
+                              {(isTeleconsulta || isUrgentTeleconsulta) && <Video className="w-2.5 h-2.5" style={{ color: styles.borderColor }} />}
                               {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336]" />}
                             </div>
-                            {/* Second line: patient name + notes */}
+                            {/* Second line: type (colored) + notes (gray) */}
                             <div className="flex items-center gap-1.5">
-                              <p className="text-[9px] font-bold uppercase truncate text-white leading-tight">
-                                {consultation.patient.name}
-                              </p>
-                              {consultation.notes && <span className="text-[8px] text-muted-foreground truncate">
+                              <span className="text-[8px] font-bold uppercase truncate" style={{ color: styles.borderColor }}>
+                                {getCategoryLabel(consultation)}
+                              </span>
+                              {consultation.notes && <span className="text-[8px] text-[#8B9CB6] truncate">
                                   {consultation.notes}
                                 </span>}
                             </div>
