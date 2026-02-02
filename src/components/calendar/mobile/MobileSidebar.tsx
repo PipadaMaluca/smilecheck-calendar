@@ -361,12 +361,35 @@ export function MobileSidebar({
                           {dentistsInClinic.map(dentist => {
                             const key = `${clinic.id}-${dentist.id}`;
                             const isSelected = selectedDentists.includes('all') || selectedDentists.includes(key);
+                            // In 3-day or list view, show radio buttons instead of checkboxes
+                            const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
+                            
                             return (
                               <div key={key} className="flex items-center gap-2">
-                                <CustomCheckbox 
-                                  checked={isSelected}
-                                  onChange={() => onDentistToggle?.(dentist.id, true, clinic.id)}
-                                />
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    // In single mode, always do exclusive selection
+                                    onDentistToggle?.(dentist.id, !isSingleMode, clinic.id);
+                                  }}
+                                  className={cn(
+                                    'w-6 h-6 flex items-center justify-center transition-colors flex-shrink-0 border-2',
+                                    isSingleMode ? 'rounded-full' : 'rounded',
+                                    isSelected 
+                                      ? 'bg-primary border-primary text-primary-foreground' 
+                                      : 'border-muted-foreground/50 hover:border-primary'
+                                  )}
+                                >
+                                  {isSelected && (
+                                    isSingleMode ? (
+                                      <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />
+                                    ) : (
+                                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                      </svg>
+                                    )
+                                  )}
+                                </button>
                                 <button 
                                   className="text-xs hover:text-primary text-left"
                                   onClick={() => onDentistToggle?.(dentist.id, false, clinic.id)}
