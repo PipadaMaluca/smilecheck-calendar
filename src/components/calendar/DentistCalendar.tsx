@@ -12,7 +12,7 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
-import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
+import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
@@ -124,7 +124,11 @@ export function DentistCalendar() {
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
-      setSelectedDentistIds([]);
+      // "Filtrar Presentes" clicked - select all 7 dentists who work on demo day
+      const presentDentists = clinicDentists
+        .filter(cd => cd.worksOnDemo)
+        .map(cd => `${cd.clinicId}-${cd.dentistId}`);
+      setSelectedDentistIds(presentDentists);
     } else {
       const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
       if (isCheckbox) {
