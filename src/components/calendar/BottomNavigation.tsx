@@ -1,4 +1,4 @@
-import { Home, Search, Calendar, MessageCircle, Users, Settings } from 'lucide-react';
+import { Home, Calendar, Heart, MessageCircle, Users, Settings, Search } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
@@ -12,10 +12,10 @@ interface BottomNavigationProps {
 const navigationItems = {
   patient: [
     { id: 'home', icon: Home, label: 'Home' },
-    { id: 'agenda', icon: Calendar, label: 'Agenda' },
-    { id: 'search', icon: Search, label: 'Buscar' },
+    { id: 'agenda', icon: Calendar, label: 'Consulta' },
+    { id: 'saude', icon: Heart, label: 'Saúde' },
     { id: 'chat', icon: MessageCircle, label: 'Chat' },
-    { id: 'settings', icon: Settings, label: 'Config.' },
+    { id: 'conta', icon: Settings, label: 'Conta' },
   ],
   dentist: [
     { id: 'home', icon: Home, label: 'Home' },
