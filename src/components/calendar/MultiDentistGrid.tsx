@@ -40,17 +40,23 @@ export function MultiDentistGrid({
   
   const totalSlots = timeSlots.length;
   
-  // Mobile detection
+  // Mobile detection - single vs multi dentist
   const isSingleColumn = columns.length === 1;
+  const isMultiColumn = columns.length > 1;
   
   return (
     <div className={cn(
       "animate-slide-up",
-      isSingleColumn ? "px-2 w-full max-w-full overflow-hidden" : "px-4 overflow-x-auto"
-    )}>
+      // Single dentist: no horizontal scroll, full width
+      isSingleColumn && "calendar-grid-single px-2 w-full max-w-[100vw] overflow-x-hidden",
+      // Multi dentist: allow horizontal scroll
+      isMultiColumn && "calendar-grid-multi px-2 overflow-x-auto"
+    )}
+    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch' } : undefined}
+    >
       <div className="relative">
         {/* Scroll indicator - only for multiple columns */}
-        {columns.length > 3 && !isSingleColumn && (
+        {columns.length > 3 && isMultiColumn && (
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
@@ -60,7 +66,11 @@ export function MultiDentistGrid({
             "flex border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
             isSingleColumn && "calendar-grid-mobile"
           )}>
-            <div className={cn("flex-shrink-0", isSingleColumn ? "w-10 time-column-mobile" : "w-16")} />
+            <div className={cn(
+              "flex-shrink-0",
+              isSingleColumn ? "w-10 time-column-mobile" : "w-16",
+              isMultiColumn && "sticky left-0 bg-background z-10"
+            )} />
             {columns.map((col, idx) => (
               <div 
                 key={`${col.clinic.id}-${col.dentist.id}-${idx}`} 
@@ -80,9 +90,13 @@ export function MultiDentistGrid({
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
           <div className={cn("flex calendar-grid-mobile", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
-            {/* Time Column */}
+            {/* Time Column - sticky when multi-column for scroll */}
             <div 
-              className={cn("flex-shrink-0 time-column-mobile", isSingleColumn ? "w-10" : "w-16")}
+              className={cn(
+                "flex-shrink-0 time-column-mobile",
+                isSingleColumn ? "w-10" : "w-16",
+                isMultiColumn && "sticky left-0 bg-background z-10"
+              )}
               style={{
                 display: 'grid',
                 gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
