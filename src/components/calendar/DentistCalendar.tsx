@@ -108,7 +108,17 @@ export function DentistCalendar() {
   };
 
   const getSlots = (date: Date) => {
-    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
+    // For 3-day view, use selected dentist
+    if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
+      // Parse composite ID (clinicId-dentistId)
+      const parts = selectedDentistIds[0].split('-');
+      const clinicId = parts[0];
+      const dentistId = parts.slice(1).join('-') || parts[0];
+      const consultations = mockConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId);
+      return generateTimeSlots(date, consultations);
+    }
+    // Default to first dentist
+    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1');
     return generateTimeSlots(date, consultations);
   };
 
@@ -176,9 +186,16 @@ export function DentistCalendar() {
   };
 
   // When view mode changes to 3-day or list, ensure only one dentist is selected
+  // If none selected, auto-select first dentist
   useEffect(() => {
-    if ((viewMode === 'three-day' || viewMode === 'list') && selectedDentistIds.length > 1) {
-      setSelectedDentistIds([selectedDentistIds[0]]);
+    if (viewMode === 'three-day' || viewMode === 'list') {
+      if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+        // Select first dentist from first clinic
+        setSelectedDentistIds(['1-1']); // SmileCheck - Dr. Gonçalo Pipo
+      } else if (selectedDentistIds.length > 1) {
+        // Keep only the first selected
+        setSelectedDentistIds([selectedDentistIds[0]]);
+      }
     }
   }, [viewMode]);
 

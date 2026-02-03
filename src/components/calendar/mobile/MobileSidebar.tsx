@@ -273,87 +273,64 @@ export function MobileSidebar({
                 {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="px-2 py-2 space-y-1">
-                {/* "Filtrar Presentes" / Todos */}
+                {/* "Filtrar Presentes" / Todos - only active in day view */}
                 <div className="flex items-center gap-2 py-1.5 ml-2">
-                  <CustomCheckbox 
-                    checked={selectedDentists.includes('all') || selectedDentists.length === 0}
-                    onChange={() => onDentistToggle?.(null, true)}
-                  />
-                  <button 
-                    className="text-sm hover:text-primary"
-                    onClick={() => onDentistToggle?.(null, false)}
+                  <button
+                    onClick={() => {
+                      if (viewMode === 'day') {
+                        onDentistToggle?.(null, true);
+                      }
+                    }}
+                    disabled={viewMode !== 'day'}
+                    className={cn(
+                      'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
+                      viewMode !== 'day' 
+                        ? 'border-muted-foreground/30 opacity-50 cursor-not-allowed'
+                        : selectedDentists.includes('all') || selectedDentists.length === 0
+                          ? 'bg-primary border-primary text-primary-foreground' 
+                          : 'border-muted-foreground/50 hover:border-primary'
+                    )}
+                  >
+                    {(selectedDentists.includes('all') || selectedDentists.length === 0) && viewMode === 'day' && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    )}
+                  </button>
+                  <span 
+                    className={cn(
+                      "text-sm",
+                      viewMode !== 'day' 
+                        ? 'text-muted-foreground/50 cursor-not-allowed' 
+                        : 'hover:text-primary cursor-pointer'
+                    )}
+                    onClick={() => {
+                      if (viewMode === 'day') {
+                        onDentistToggle?.(null, false);
+                      }
+                    }}
                   >
                     Filtrar Presentes
-                  </button>
+                  </span>
                 </div>
                 
                 {mockClinics.map(clinic => {
                   const clinicExpanded = expandedClinics.includes(clinic.id);
                   const dentistsInClinic = getDentistsForClinic(clinic.id);
                   
-                  // Check if all dentists of this clinic are selected
-                  const allClinicDentistsSelected = dentistsInClinic.every(d => {
-                    const key = `${clinic.id}-${d.id}`;
-                    return selectedDentists.includes('all') || selectedDentists.includes(key);
-                  });
-                  
-                  // Check if at least one dentist of this clinic is selected
-                  const someClinicDentistsSelected = dentistsInClinic.some(d => {
-                    const key = `${clinic.id}-${d.id}`;
-                    return selectedDentists.includes('all') || selectedDentists.includes(key);
-                  });
-                  
                   return (
                     <div key={clinic.id} className="ml-2">
-                      {/* Clinic header */}
-                      <div className="flex items-center gap-2 py-1.5">
-                        <CustomCheckbox 
-                          checked={allClinicDentistsSelected || someClinicDentistsSelected}
-                          onChange={() => {
-                            // Toggle all dentists in clinic
-                            const keys = dentistsInClinic.map(d => `${clinic.id}-${d.id}`);
-                            if (allClinicDentistsSelected) {
-                              // Deselect all
-                              keys.forEach(key => {
-                                if (selectedDentists.includes(key)) {
-                                  onDentistToggle?.(key.split('-').slice(1).join('-'), true, clinic.id);
-                                }
-                              });
-                            } else {
-                              // Select all
-                              keys.forEach(key => {
-                                if (!selectedDentists.includes(key) && !selectedDentists.includes('all')) {
-                                  onDentistToggle?.(key.split('-').slice(1).join('-'), true, clinic.id);
-                                }
-                              });
-                            }
-                          }}
-                        />
-                        <button 
-                          className="flex-1 flex items-center justify-between text-sm hover:text-primary"
-                          onClick={() => {
-                            // Exclusive selection - select only this clinic's dentists
-                            const keys = dentistsInClinic.map(d => `${clinic.id}-${d.id}`);
-                            // First dentist as name click to set exclusive
-                            if (dentistsInClinic.length > 0) {
-                              onDentistToggle?.(dentistsInClinic[0].id, false, clinic.id);
-                              // Then add the rest
-                              keys.slice(1).forEach(key => {
-                                const dentistId = key.split('-').slice(1).join('-');
-                                onDentistToggle?.(dentistId, true, clinic.id);
-                              });
-                            }
-                          }}
-                        >
-                          <div className="flex items-center gap-2">
-                            <Building2 className="w-3.5 h-3.5" />
-                            <span>{clinic.name.replace('Clínica ', '')}</span>
-                          </div>
-                        </button>
-                        <button onClick={() => toggleClinicExpanded(clinic.id)}>
-                          {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
+                      {/* Clinic header - NO checkbox, just expand/collapse */}
+                      <button 
+                        className="w-full flex items-center justify-between py-1.5 text-sm hover:text-primary"
+                        onClick={() => toggleClinicExpanded(clinic.id)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-3.5 h-3.5" />
+                          <span>{clinic.name.replace('Clínica ', '')}</span>
+                        </div>
+                        {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      </button>
                       
                       {/* Dentists under this clinic */}
                       {clinicExpanded && (
