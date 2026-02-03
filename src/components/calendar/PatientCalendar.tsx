@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MonthlyCalendar } from './MonthlyCalendar';
@@ -16,6 +17,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function PatientCalendar() {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('agenda');
@@ -147,8 +149,11 @@ export function PatientCalendar() {
           )}
         </div>
 
-        {/* Floating Button */}
-        <Button className="floating-button animate-pulse-glow">
+        {/* Floating Button - Nova Consulta */}
+        <Button 
+          className="floating-button animate-pulse-glow"
+          onClick={() => navigate('/triagem')}
+        >
           <Plus className="w-6 h-6" />
         </Button>
 
