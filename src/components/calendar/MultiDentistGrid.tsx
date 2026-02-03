@@ -40,22 +40,36 @@ export function MultiDentistGrid({
   
   const totalSlots = timeSlots.length;
   
+  // Mobile detection
+  const isSingleColumn = columns.length === 1;
+  
   return (
-    <div className="px-4 overflow-x-auto animate-slide-up">
+    <div className={cn(
+      "animate-slide-up",
+      isSingleColumn ? "px-2 w-full max-w-full overflow-hidden" : "px-4 overflow-x-auto"
+    )}>
       <div className="relative">
-        {/* Scroll indicator */}
-        {columns.length > 3 && (
+        {/* Scroll indicator - only for multiple columns */}
+        {columns.length > 3 && !isSingleColumn && (
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
-        <div style={{ minWidth: `${Math.max(600, columns.length * 200)}px` }}>
+        <div style={isSingleColumn ? { width: '100%' } : { minWidth: `${Math.max(600, columns.length * 200)}px` }}>
           {/* Dentist Headers */}
-          <div className="flex border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20">
-            <div className="w-16 flex-shrink-0" />
+          <div className={cn(
+            "flex border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
+            isSingleColumn && "calendar-grid-mobile"
+          )}>
+            <div className={cn("flex-shrink-0", isSingleColumn ? "w-10 time-column-mobile" : "w-16")} />
             {columns.map((col, idx) => (
               <div 
                 key={`${col.clinic.id}-${col.dentist.id}-${idx}`} 
-                className="flex-1 text-center px-2 min-w-[180px]"
+                className={cn(
+                  "text-center px-2",
+                  isSingleColumn 
+                    ? "flex-1 min-w-0 dentist-column-mobile dentist-header-mobile" 
+                    : "flex-1 min-w-[180px]"
+                )}
               >
                 <p className="text-xs font-semibold truncate">{col.dentist.name}</p>
                 <p className="text-[9px] text-muted-foreground truncate">{col.clinic.name}</p>
@@ -65,10 +79,10 @@ export function MultiDentistGrid({
           </div>
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
-          <div className="flex" style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
+          <div className={cn("flex calendar-grid-mobile", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
             {/* Time Column */}
             <div 
-              className="w-16 flex-shrink-0"
+              className={cn("flex-shrink-0 time-column-mobile", isSingleColumn ? "w-10" : "w-16")}
               style={{
                 display: 'grid',
                 gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
@@ -77,7 +91,10 @@ export function MultiDentistGrid({
               {timeSlots.map((time) => (
                 <div 
                   key={time} 
-                  className="flex items-center justify-end pr-2 text-xs text-muted-foreground font-mono"
+                  className={cn(
+                    "flex items-center justify-end pr-1 text-muted-foreground font-mono",
+                    isSingleColumn ? "text-[10px]" : "text-xs pr-2"
+                  )}
                 >
                   {time}
                 </div>
@@ -131,7 +148,10 @@ export function MultiDentistGrid({
               return (
                 <div
                   key={`${col.clinic.id}-${col.dentist.id}-${idx}`}
-                  className="flex-1 min-w-[180px] mx-0.5 relative"
+                  className={cn(
+                    "mx-0.5 relative dentist-column-mobile",
+                    isSingleColumn ? "flex-1 min-w-0" : "flex-1 min-w-[180px]"
+                  )}
                   style={{
                     display: 'grid',
                     gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
@@ -195,7 +215,10 @@ export function MultiDentistGrid({
                       <div
                         key={consultation.id}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
-                        className="rounded-md flex flex-col justify-center px-2 cursor-pointer hover:opacity-80 transition-all overflow-hidden"
+                        className={cn(
+                          "rounded-md flex flex-col justify-center cursor-pointer hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          isSingleColumn ? "px-1.5" : "px-2"
+                        )}
                         style={{
                           gridRow: `${startIdx + 1} / span ${spanCount}`,
                           backgroundColor: `${colors.hex}20`,
