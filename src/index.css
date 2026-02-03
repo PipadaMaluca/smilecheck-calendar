@@ -321,7 +321,9 @@
     width: 100vw;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
-    padding: 0 8px !important;
+    padding: 0 !important;
+    padding-right: 8px !important;
+    margin-left: 0 !important;
   }
   
   .calendar-grid-multi .time-column-mobile {
@@ -330,6 +332,8 @@
     flex-shrink: 0 !important;
     position: sticky !important;
     left: 0 !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
     background: hsl(var(--background)) !important;
     z-index: 10 !important;
   }

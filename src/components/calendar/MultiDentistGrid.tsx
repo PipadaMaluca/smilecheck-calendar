@@ -48,11 +48,11 @@ export function MultiDentistGrid({
     <div className={cn(
       "animate-slide-up",
       // Single dentist: no horizontal scroll, full width
-      isSingleColumn && "calendar-grid-single px-2 w-full max-w-[100vw] overflow-x-hidden",
-      // Multi dentist: allow horizontal scroll
-      isMultiColumn && "calendar-grid-multi px-2 overflow-x-auto"
+      isSingleColumn && "calendar-grid-single w-full max-w-[100vw] overflow-x-hidden",
+      // Multi dentist: allow horizontal scroll - NO padding left for sticky time column
+      isMultiColumn && "calendar-grid-multi overflow-x-auto"
     )}
-    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch' } : undefined}
+    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0 } : undefined}
     >
       <div className="relative">
         {/* Scroll indicator - only for multiple columns */}
