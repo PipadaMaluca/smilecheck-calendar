@@ -273,12 +273,25 @@ export function MobileSidebar({
                 {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </CollapsibleTrigger>
               <CollapsibleContent className="px-2 py-2 space-y-1">
-                {/* "Filtrar Presentes" / Todos - only active in day view */}
+                {/* "Filtrar Presentes" button - only active in day view */}
+                {/* Logic: OFF = manual selection, ON = 7 present dentists selected */}
                 <div className="flex items-center gap-2 py-1.5 ml-2">
                   <button
                     onClick={() => {
                       if (viewMode === 'day') {
-                        onDentistToggle?.(null, true);
+                        // Check if currently showing "filtered" state (7 dentists selected)
+                        // If already filtered (7 dentists), clicking will clear
+                        // If not filtered, clicking will select all 7 present dentists
+                        const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                          !selectedDentists.includes('all');
+                        
+                        if (isCurrentlyFiltered) {
+                          // Toggle OFF: clear selection (will show all by default)
+                          onDentistToggle?.('all', true);
+                        } else {
+                          // Toggle ON: select 7 present dentists
+                          onDentistToggle?.(null, true);
+                        }
                       }
                     }}
                     disabled={viewMode !== 'day'}
@@ -286,12 +299,12 @@ export function MobileSidebar({
                       'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
                       viewMode !== 'day' 
                         ? 'border-muted-foreground/30 opacity-50 cursor-not-allowed'
-                        : selectedDentists.includes('all') || selectedDentists.length === 0
+                        : selectedDentists.length === 7 && !selectedDentists.includes('all')
                           ? 'bg-primary border-primary text-primary-foreground' 
                           : 'border-muted-foreground/50 hover:border-primary'
                     )}
                   >
-                    {(selectedDentists.includes('all') || selectedDentists.length === 0) && viewMode === 'day' && (
+                    {selectedDentists.length === 7 && !selectedDentists.includes('all') && viewMode === 'day' && (
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
@@ -306,7 +319,13 @@ export function MobileSidebar({
                     )}
                     onClick={() => {
                       if (viewMode === 'day') {
-                        onDentistToggle?.(null, false);
+                        const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                          !selectedDentists.includes('all');
+                        if (isCurrentlyFiltered) {
+                          onDentistToggle?.('all', false);
+                        } else {
+                          onDentistToggle?.(null, false);
+                        }
                       }
                     }}
                   >

@@ -92,6 +92,9 @@ export function ClinicCalendar() {
         .filter(cd => cd.worksOnDemo)
         .map(cd => `${cd.clinicId}-${cd.dentistId}`);
       setSelectedDentistIds(presentDentists);
+    } else if (dentistId === 'all') {
+      // Clear filter - show all (empty array means show all)
+      setSelectedDentistIds([]);
     } else {
       const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
       

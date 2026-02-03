@@ -166,7 +166,8 @@
   }
 
   .bottom-nav {
-    @apply fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-xl border-t border-border;
+    @apply fixed bottom-0 left-0 right-0 border-t border-border;
+    background: hsl(214 50% 10%); /* Solid background, no transparency */
     box-shadow: 0 -4px 20px hsl(214 50% 5% / 0.3);
   }
 
