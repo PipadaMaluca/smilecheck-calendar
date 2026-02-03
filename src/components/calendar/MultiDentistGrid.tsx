@@ -90,16 +90,17 @@ export function MultiDentistGrid({
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
           <div className={cn("flex calendar-grid-mobile", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
-            {/* Time Column - sticky when multi-column for scroll */}
+            {/* Time Column - sticky when multi-column for scroll with SOLID background */}
             <div 
               className={cn(
                 "flex-shrink-0 time-column-mobile",
                 isSingleColumn ? "w-10" : "w-16",
-                isMultiColumn && "sticky left-0 bg-background z-10"
+                isMultiColumn && "sticky left-0 z-10"
               )}
               style={{
                 display: 'grid',
                 gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+                backgroundColor: 'hsl(214 50% 10%)', // Solid background, no transparency
               }}
             >
               {timeSlots.map((time) => (
