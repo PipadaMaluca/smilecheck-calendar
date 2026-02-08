@@ -1,4 +1,4 @@
-import { X, User, CreditCard, List, Calendar, CalendarDays, Building2, Users, Bell, Clock, Globe, Gift, Settings, HelpCircle, Phone, FileText, LogOut, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, User, CreditCard, Calendar, Building2, Users, Bell, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -40,18 +40,18 @@ export function MobileSidebar({
   const [familyOpen, setFamilyOpen] = useState(false);
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
+  // User profile info based on role
   const userName = userRole === 'patient' 
-    ? `${mockFamilyMembers[0].name} (${mockFamilyMembers[0].age} anos)` 
-    : mockDentists[0].name;
+    ? mockFamilyMembers[0].name
+    : userRole === 'dentist'
+    ? mockDentists[0].name
+    : mockClinics[0].name;
   
   const userSubtitle = userRole === 'patient' 
-    ? 'Conta Familiar' 
-    : mockClinics[0].name;
-
-  const handleViewChange = (mode: ViewMode) => {
-    onViewModeChange(mode);
-    onClose();
-  };
+    ? 'Paciente' 
+    : userRole === 'dentist'
+    ? 'Dentista'
+    : 'Clínica';
 
   const toggleClinicExpanded = (clinicId: string) => {
     setExpandedClinics(prev => 
@@ -66,49 +66,6 @@ export function MobileSidebar({
     const key = `${clinicId}-${dentistId}`;
     if (selectedDentists.includes('all')) return true;
     return selectedDentists.includes(key) || selectedDentists.includes(dentistId);
-  };
-
-  // Check if at least one dentist of a clinic is selected
-  const isClinicPartiallySelected = (clinicId: string) => {
-    if (selectedDentists.includes('all')) return true;
-    const dentistsInClinic = getDentistsForClinic(clinicId);
-    return dentistsInClinic.some(d => {
-      const key = `${clinicId}-${d.id}`;
-      return selectedDentists.includes(key) || selectedDentists.includes(d.id);
-    });
-  };
-
-  // Check if all dentists of a clinic are selected
-  const isClinicFullySelected = (clinicId: string) => {
-    if (selectedDentists.includes('all')) return true;
-    const dentistsInClinic = getDentistsForClinic(clinicId);
-    return dentistsInClinic.every(d => {
-      const key = `${clinicId}-${d.id}`;
-      return selectedDentists.includes(key) || selectedDentists.includes(d.id);
-    });
-  };
-
-  const handleClinicCheckbox = (clinicId: string) => {
-    const dentistsInClinic = getDentistsForClinic(clinicId);
-    const allSelected = isClinicFullySelected(clinicId);
-    
-    if (allSelected) {
-      dentistsInClinic.forEach(d => {
-        const key = `${clinicId}-${d.id}`;
-        if (selectedDentists.includes(key) || selectedDentists.includes(d.id)) {
-          onDentistToggle?.(d.id, true, clinicId);
-        }
-      });
-    } else {
-      dentistsInClinic.forEach(d => {
-        const key = `${clinicId}-${d.id}`;
-        if (!selectedDentists.includes(key) && !selectedDentists.includes(d.id)) {
-          onDentistToggle?.(d.id, true, clinicId);
-        }
-      });
-    }
-    
-    onClinicToggle?.(clinicId, true);
   };
 
   const MenuSection = ({ children, className }: { children: React.ReactNode; className?: string }) => (
@@ -182,270 +139,386 @@ export function MobileSidebar({
               <User className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <p className="font-medium text-sm">{userName}</p>
+              <p className="font-bold text-sm">{userName}</p>
               <p className="text-xs text-muted-foreground">{userSubtitle}</p>
             </div>
           </div>
         </div>
 
-        {/* Plan */}
-        <MenuSection>
-          <MenuItem icon={CreditCard} label="Gerir Plano" />
-        </MenuSection>
-
-        {/* Views - Only for Dentist/Clinic (NOT Patient) */}
-        {userRole !== 'patient' && (
-          <MenuSection>
-            <MenuItem 
-              icon={Calendar} 
-              label="Vista Diária" 
-              active={viewMode === 'day'}
-              onClick={() => handleViewChange('day')}
-            />
-            <MenuItem 
-              icon={CalendarDays} 
-              label="Vista 3 Dias" 
-              active={viewMode === 'three-day'}
-              onClick={() => handleViewChange('three-day')}
-            />
-            <MenuItem 
-              icon={List} 
-              label="Vista em Lista" 
-              active={viewMode === 'list'}
-              onClick={() => handleViewChange('list')}
-            />
-          </MenuSection>
-        )}
-
-        {/* Patient: Family filter */}
+        {/* ========== PATIENT MENU ========== */}
         {userRole === 'patient' && (
-          <MenuSection>
-            <Collapsible open={familyOpen} onOpenChange={setFamilyOpen}>
-              <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
-                <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4" />
-                  <span>Família</span>
-                </div>
-                {familyOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-4 py-2 space-y-3">
-                {/* All option */}
-                <div className="flex items-center gap-3">
-                  <CustomCheckbox 
-                    checked={selectedMembers.includes('all')}
-                    onChange={() => onMemberToggle?.('all', true)}
-                  />
-                  <button 
-                    className="text-sm hover:text-primary"
-                    onClick={() => onMemberToggle?.('all', false)}
-                  >
-                    Todos
-                  </button>
-                </div>
-                {mockFamilyMembers.map(member => (
-                  <div key={member.id} className="flex items-center gap-3">
+          <>
+            <MenuSection>
+              <MenuItem icon={Trophy} label="Conquistas" />
+              
+              {/* Family dropdown */}
+              <Collapsible open={familyOpen} onOpenChange={setFamilyOpen}>
+                <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
+                  <div className="flex items-center gap-3">
+                    <Users className="w-4 h-4" />
+                    <span>Família</span>
+                  </div>
+                  {familyOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </CollapsibleTrigger>
+                <CollapsibleContent className="px-4 py-2 space-y-3">
+                  {/* All option */}
+                  <div className="flex items-center gap-3">
                     <CustomCheckbox 
-                      checked={selectedMembers.includes(member.id) || selectedMembers.includes('all')}
-                      onChange={() => onMemberToggle?.(member.id, true)}
+                      checked={selectedMembers.includes('all')}
+                      onChange={() => onMemberToggle?.('all', true)}
                     />
                     <button 
-                      className="text-sm hover:text-primary text-left"
-                      onClick={() => onMemberToggle?.(member.id, false)}
+                      className="text-sm hover:text-primary"
+                      onClick={() => onMemberToggle?.('all', false)}
                     >
-                      {member.name} ({member.age} anos)
+                      Todos
                     </button>
                   </div>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-          </MenuSection>
-        )}
-
-        {/* Dentist/Clinic: Agendas - Hierarchical with 3 clinics */}
-        {userRole !== 'patient' && (
-          <MenuSection>
-            <Collapsible open={agendasOpen} onOpenChange={setAgendasOpen}>
-              <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4" />
-                  <span>Agendas</span>
-                </div>
-                {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </CollapsibleTrigger>
-              <CollapsibleContent className="px-2 py-2 space-y-1">
-                {/* "Filtrar Presentes" button - only active in day view */}
-                {/* Logic: OFF = manual selection, ON = 7 present dentists selected */}
-                <div className="flex items-center gap-2 py-1.5 ml-2">
-                  <button
-                    onClick={() => {
-                      if (viewMode === 'day') {
-                        // Check if currently showing "filtered" state (7 dentists selected)
-                        // If already filtered (7 dentists), clicking will clear
-                        // If not filtered, clicking will select all 7 present dentists
-                        const isCurrentlyFiltered = selectedDentists.length === 7 && 
-                          !selectedDentists.includes('all');
-                        
-                        if (isCurrentlyFiltered) {
-                          // Toggle OFF: clear selection (will show all by default)
-                          onDentistToggle?.('all', true);
-                        } else {
-                          // Toggle ON: select 7 present dentists
-                          onDentistToggle?.(null, true);
-                        }
-                      }
-                    }}
-                    disabled={viewMode !== 'day'}
-                    className={cn(
-                      'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
-                      viewMode !== 'day' 
-                        ? 'border-muted-foreground/30 opacity-50 cursor-not-allowed'
-                        : selectedDentists.length === 7 && !selectedDentists.includes('all')
-                          ? 'bg-primary border-primary text-primary-foreground' 
-                          : 'border-muted-foreground/50 hover:border-primary'
-                    )}
-                  >
-                    {selectedDentists.length === 7 && !selectedDentists.includes('all') && viewMode === 'day' && (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    )}
-                  </button>
-                  <span 
-                    className={cn(
-                      "text-sm",
-                      viewMode !== 'day' 
-                        ? 'text-muted-foreground/50 cursor-not-allowed' 
-                        : 'hover:text-primary cursor-pointer'
-                    )}
-                    onClick={() => {
-                      if (viewMode === 'day') {
-                        const isCurrentlyFiltered = selectedDentists.length === 7 && 
-                          !selectedDentists.includes('all');
-                        if (isCurrentlyFiltered) {
-                          onDentistToggle?.('all', false);
-                        } else {
-                          onDentistToggle?.(null, false);
-                        }
-                      }
-                    }}
-                  >
-                    Filtrar Presentes
-                  </span>
-                </div>
-                
-                {mockClinics.map(clinic => {
-                  const clinicExpanded = expandedClinics.includes(clinic.id);
-                  const dentistsInClinic = getDentistsForClinic(clinic.id);
-                  
-                  return (
-                    <div key={clinic.id} className="ml-2">
-                      {/* Clinic header - NO checkbox, just expand/collapse */}
+                  {mockFamilyMembers.map(member => (
+                    <div key={member.id} className="flex items-center gap-3">
+                      <CustomCheckbox 
+                        checked={selectedMembers.includes(member.id) || selectedMembers.includes('all')}
+                        onChange={() => onMemberToggle?.(member.id, true)}
+                      />
                       <button 
-                        className="w-full flex items-center justify-between py-1.5 text-sm hover:text-primary"
-                        onClick={() => toggleClinicExpanded(clinic.id)}
+                        className="text-sm hover:text-primary text-left"
+                        onClick={() => onMemberToggle?.(member.id, false)}
                       >
-                        <div className="flex items-center gap-2">
-                          <Building2 className="w-3.5 h-3.5" />
-                          <span>{clinic.name.replace('Clínica ', '')}</span>
-                        </div>
-                        {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                        {member.name} ({member.age} anos)
                       </button>
-                      
-                      {/* Dentists under this clinic */}
-                      {clinicExpanded && (
-                        <div className="ml-8 space-y-2 pb-2">
-                          {dentistsInClinic.map(dentist => {
-                            const key = `${clinic.id}-${dentist.id}`;
-                            const isSelected = selectedDentists.includes('all') || selectedDentists.includes(key);
-                            // In 3-day or list view, show radio buttons instead of checkboxes
-                            const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
-                            
-                            return (
-                              <div key={key} className="flex items-center gap-2">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    // In single mode, always do exclusive selection
-                                    onDentistToggle?.(dentist.id, !isSingleMode, clinic.id);
-                                  }}
-                                  className={cn(
-                                    'w-6 h-6 flex items-center justify-center transition-colors flex-shrink-0 border-2',
-                                    isSingleMode ? 'rounded-full' : 'rounded',
-                                    isSelected 
-                                      ? 'bg-primary border-primary text-primary-foreground' 
-                                      : 'border-muted-foreground/50 hover:border-primary'
-                                  )}
-                                >
-                                  {isSelected && (
-                                    isSingleMode ? (
-                                      <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />
-                                    ) : (
-                                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <polyline points="20 6 9 17 4 12" />
-                                      </svg>
-                                    )
-                                  )}
-                                </button>
-                                <button 
-                                  className="text-xs hover:text-primary text-left"
-                                  onClick={() => onDentistToggle?.(dentist.id, false, clinic.id)}
-                                >
-                                  {dentist.name}
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      )}
                     </div>
-                  );
-                })}
-              </CollapsibleContent>
-            </Collapsible>
-          </MenuSection>
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+
+              <MenuItem icon={CreditCard} label="Gerir Plano" />
+              <MenuItem icon={Gift} label="Loja de Recompensas" />
+              <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
+              <MenuItem icon={Bell} label="Notificações" />
+            </MenuSection>
+
+            <MenuSection>
+              <MenuItem icon={HelpCircle} label="Ajuda & Suporte" />
+              <MenuItem icon={FileText} label="Termos de Utilização" />
+            </MenuSection>
+
+            <MenuSection className="border-b-0">
+              <MenuItem icon={LogOut} label="Terminar Sessão" />
+            </MenuSection>
+          </>
         )}
 
-        {/* Clinic-only: Gerir Equipa */}
+        {/* ========== DENTIST MENU ========== */}
+        {userRole === 'dentist' && (
+          <>
+            <MenuSection>
+              <MenuItem icon={Trophy} label="Classificações" />
+              <MenuItem icon={Award} label="Conquistas" />
+              
+              {/* Filtrar Agendas dropdown */}
+              <Collapsible open={agendasOpen} onOpenChange={setAgendasOpen}>
+                <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
+                  <div className="flex items-center gap-3">
+                    <Calendar className="w-4 h-4" />
+                    <span>Filtrar Agendas</span>
+                  </div>
+                  {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </CollapsibleTrigger>
+                <CollapsibleContent className="px-2 py-2 space-y-1">
+                  {/* "Filtrar Presentes" button - only active in day view */}
+                  <div className="flex items-center gap-2 py-1.5 ml-2">
+                    <button
+                      onClick={() => {
+                        if (viewMode === 'day') {
+                          const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                            !selectedDentists.includes('all');
+                          
+                          if (isCurrentlyFiltered) {
+                            onDentistToggle?.('all', true);
+                          } else {
+                            onDentistToggle?.(null, true);
+                          }
+                        }
+                      }}
+                      disabled={viewMode !== 'day'}
+                      className={cn(
+                        'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
+                        viewMode !== 'day' 
+                          ? 'border-muted-foreground/30 opacity-50 cursor-not-allowed'
+                          : selectedDentists.length === 7 && !selectedDentists.includes('all')
+                            ? 'bg-primary border-primary text-primary-foreground' 
+                            : 'border-muted-foreground/50 hover:border-primary'
+                      )}
+                    >
+                      {selectedDentists.length === 7 && !selectedDentists.includes('all') && viewMode === 'day' && (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </button>
+                    <span 
+                      className={cn(
+                        "text-sm",
+                        viewMode !== 'day' 
+                          ? 'text-muted-foreground/50 cursor-not-allowed' 
+                          : 'hover:text-primary cursor-pointer'
+                      )}
+                      onClick={() => {
+                        if (viewMode === 'day') {
+                          const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                            !selectedDentists.includes('all');
+                          if (isCurrentlyFiltered) {
+                            onDentistToggle?.('all', false);
+                          } else {
+                            onDentistToggle?.(null, false);
+                          }
+                        }
+                      }}
+                    >
+                      Filtrar Presentes
+                    </span>
+                  </div>
+                  
+                  {mockClinics.map(clinic => {
+                    const clinicExpanded = expandedClinics.includes(clinic.id);
+                    const dentistsInClinic = getDentistsForClinic(clinic.id);
+                    
+                    return (
+                      <div key={clinic.id} className="ml-2">
+                        <button 
+                          className="w-full flex items-center justify-between py-1.5 text-sm hover:text-primary"
+                          onClick={() => toggleClinicExpanded(clinic.id)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Building2 className="w-3.5 h-3.5" />
+                            <span>{clinic.name.replace('Clínica ', '')}</span>
+                          </div>
+                          {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                        </button>
+                        
+                        {clinicExpanded && (
+                          <div className="ml-8 space-y-2 pb-2">
+                            {dentistsInClinic.map(dentist => {
+                              const key = `${clinic.id}-${dentist.id}`;
+                              const isSelected = selectedDentists.includes('all') || selectedDentists.includes(key);
+                              const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
+                              
+                              return (
+                                <div key={key} className="flex items-center gap-2">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onDentistToggle?.(dentist.id, !isSingleMode, clinic.id);
+                                    }}
+                                    className={cn(
+                                      'w-6 h-6 flex items-center justify-center transition-colors flex-shrink-0 border-2',
+                                      isSingleMode ? 'rounded-full' : 'rounded',
+                                      isSelected 
+                                        ? 'bg-primary border-primary text-primary-foreground' 
+                                        : 'border-muted-foreground/50 hover:border-primary'
+                                    )}
+                                  >
+                                    {isSelected && (
+                                      isSingleMode ? (
+                                        <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />
+                                      ) : (
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                          <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                      )
+                                    )}
+                                  </button>
+                                  <button 
+                                    className="text-xs hover:text-primary text-left"
+                                    onClick={() => onDentistToggle?.(dentist.id, false, clinic.id)}
+                                  >
+                                    {dentist.name}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </CollapsibleContent>
+              </Collapsible>
+
+              <MenuItem icon={Clock} label="Gerir Disponibilidade" />
+              <MenuItem icon={CreditCard} label="Gerir Plano" />
+              <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
+              <MenuItem icon={Bell} label="Notificações" />
+              <MenuItem icon={Search} label="Pesquisa de Pacientes" />
+              <MenuItem icon={FilePlus} label="Prescrever Receita" />
+            </MenuSection>
+
+            <MenuSection>
+              <MenuItem icon={HelpCircle} label="Ajuda & Suporte" />
+              <MenuItem icon={FileText} label="Termos de Utilização" />
+            </MenuSection>
+
+            <MenuSection className="border-b-0">
+              <MenuItem icon={LogOut} label="Terminar Sessão" />
+            </MenuSection>
+          </>
+        )}
+
+        {/* ========== CLINIC MENU ========== */}
         {userRole === 'clinic' && (
-          <MenuSection>
-            <MenuItem icon={Users} label="Gerir Equipa" />
-          </MenuSection>
+          <>
+            <MenuSection>
+              <MenuItem icon={Trophy} label="Classificações" />
+              <MenuItem icon={Award} label="Conquistas" />
+              <MenuItem icon={BarChart3} label="Estatísticas" />
+              
+              {/* Filtrar Agendas dropdown */}
+              <Collapsible open={agendasOpen} onOpenChange={setAgendasOpen}>
+                <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
+                  <div className="flex items-center gap-3">
+                    <Calendar className="w-4 h-4" />
+                    <span>Filtrar Agendas</span>
+                  </div>
+                  {agendasOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </CollapsibleTrigger>
+                <CollapsibleContent className="px-2 py-2 space-y-1">
+                  {/* "Filtrar Presentes" button - only active in day view */}
+                  <div className="flex items-center gap-2 py-1.5 ml-2">
+                    <button
+                      onClick={() => {
+                        if (viewMode === 'day') {
+                          const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                            !selectedDentists.includes('all');
+                          
+                          if (isCurrentlyFiltered) {
+                            onDentistToggle?.('all', true);
+                          } else {
+                            onDentistToggle?.(null, true);
+                          }
+                        }
+                      }}
+                      disabled={viewMode !== 'day'}
+                      className={cn(
+                        'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
+                        viewMode !== 'day' 
+                          ? 'border-muted-foreground/30 opacity-50 cursor-not-allowed'
+                          : selectedDentists.length === 7 && !selectedDentists.includes('all')
+                            ? 'bg-primary border-primary text-primary-foreground' 
+                            : 'border-muted-foreground/50 hover:border-primary'
+                      )}
+                    >
+                      {selectedDentists.length === 7 && !selectedDentists.includes('all') && viewMode === 'day' && (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      )}
+                    </button>
+                    <span 
+                      className={cn(
+                        "text-sm",
+                        viewMode !== 'day' 
+                          ? 'text-muted-foreground/50 cursor-not-allowed' 
+                          : 'hover:text-primary cursor-pointer'
+                      )}
+                      onClick={() => {
+                        if (viewMode === 'day') {
+                          const isCurrentlyFiltered = selectedDentists.length === 7 && 
+                            !selectedDentists.includes('all');
+                          if (isCurrentlyFiltered) {
+                            onDentistToggle?.('all', false);
+                          } else {
+                            onDentistToggle?.(null, false);
+                          }
+                        }
+                      }}
+                    >
+                      Filtrar Presentes
+                    </span>
+                  </div>
+                  
+                  {mockClinics.map(clinic => {
+                    const clinicExpanded = expandedClinics.includes(clinic.id);
+                    const dentistsInClinic = getDentistsForClinic(clinic.id);
+                    
+                    return (
+                      <div key={clinic.id} className="ml-2">
+                        <button 
+                          className="w-full flex items-center justify-between py-1.5 text-sm hover:text-primary"
+                          onClick={() => toggleClinicExpanded(clinic.id)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <Building2 className="w-3.5 h-3.5" />
+                            <span>{clinic.name.replace('Clínica ', '')}</span>
+                          </div>
+                          {clinicExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                        </button>
+                        
+                        {clinicExpanded && (
+                          <div className="ml-8 space-y-2 pb-2">
+                            {dentistsInClinic.map(dentist => {
+                              const key = `${clinic.id}-${dentist.id}`;
+                              const isSelected = selectedDentists.includes('all') || selectedDentists.includes(key);
+                              const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
+                              
+                              return (
+                                <div key={key} className="flex items-center gap-2">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onDentistToggle?.(dentist.id, !isSingleMode, clinic.id);
+                                    }}
+                                    className={cn(
+                                      'w-6 h-6 flex items-center justify-center transition-colors flex-shrink-0 border-2',
+                                      isSingleMode ? 'rounded-full' : 'rounded',
+                                      isSelected 
+                                        ? 'bg-primary border-primary text-primary-foreground' 
+                                        : 'border-muted-foreground/50 hover:border-primary'
+                                    )}
+                                  >
+                                    {isSelected && (
+                                      isSingleMode ? (
+                                        <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />
+                                      ) : (
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                          <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                      )
+                                    )}
+                                  </button>
+                                  <button 
+                                    className="text-xs hover:text-primary text-left"
+                                    onClick={() => onDentistToggle?.(dentist.id, false, clinic.id)}
+                                  >
+                                    {dentist.name}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </CollapsibleContent>
+              </Collapsible>
+
+              <MenuItem icon={Clock} label="Gerir Horários" />
+              <MenuItem icon={CreditCard} label="Gerir Plano" />
+              <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
+              <MenuItem icon={Bell} label="Notificações" />
+              <MenuItem icon={Search} label="Pesquisa de Pacientes" />
+            </MenuSection>
+
+            <MenuSection>
+              <MenuItem icon={HelpCircle} label="Ajuda & Suporte" />
+              <MenuItem icon={FileText} label="Termos de Utilização" />
+            </MenuSection>
+
+            <MenuSection className="border-b-0">
+              <MenuItem icon={LogOut} label="Terminar Sessão" />
+            </MenuSection>
+          </>
         )}
-
-        {/* Common menu items */}
-        <MenuSection>
-          {userRole !== 'patient' && (
-            <MenuItem icon={Users} label="Pacientes" />
-          )}
-          <MenuItem icon={Bell} label="Centro de Notificações" />
-          {userRole !== 'patient' && (
-            <MenuItem icon={Clock} label="Gerir Disponibilidade" />
-          )}
-        </MenuSection>
-
-        {userRole !== 'patient' && (
-          <MenuSection>
-            <MenuItem icon={Globe} label="Comunidade SmileCheck" />
-            <MenuItem icon={Gift} label="Programa de Referral" />
-          </MenuSection>
-        )}
-
-        {userRole === 'patient' && (
-          <MenuSection>
-            <MenuItem icon={Gift} label="Programa de Referral" />
-          </MenuSection>
-        )}
-
-        <MenuSection>
-          <MenuItem icon={Settings} label="Definições" />
-          <MenuItem icon={HelpCircle} label="Ajuda" />
-          <MenuItem icon={Phone} label="Contactar Suporte" />
-          <MenuItem icon={FileText} label="Termos de Utilização" />
-        </MenuSection>
-
-        <MenuSection className="border-b-0">
-          <MenuItem icon={LogOut} label="Terminar Sessão" />
-        </MenuSection>
       </SheetContent>
     </Sheet>
   );
