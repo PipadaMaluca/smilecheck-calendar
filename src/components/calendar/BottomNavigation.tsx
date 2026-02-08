@@ -1,4 +1,4 @@
-import { Home, Calendar, Heart, MessageCircle, Users, Settings, Search } from 'lucide-react';
+import { Home, Calendar, Heart, MessageCircle, Users, Settings } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
@@ -11,25 +11,25 @@ interface BottomNavigationProps {
 // Mobile/Tablet navigation - 5 items each, fixed at bottom
 const navigationItems = {
   patient: [
-    { id: 'home', icon: Home, label: 'Home' },
-    { id: 'agenda', icon: Calendar, label: 'Consulta' },
+    { id: 'home', icon: Home, label: 'Início' },
+    { id: 'consultas', icon: Calendar, label: 'Consultas' },
     { id: 'saude', icon: Heart, label: 'Saúde' },
-    { id: 'chat', icon: MessageCircle, label: 'Chat' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
     { id: 'conta', icon: Settings, label: 'Conta' },
   ],
   dentist: [
-    { id: 'home', icon: Home, label: 'Home' },
+    { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
-    { id: 'search', icon: Search, label: 'Buscar' },
-    { id: 'chat', icon: MessageCircle, label: 'Chat' },
-    { id: 'settings', icon: Settings, label: 'Config.' },
+    { id: 'equipa', icon: Users, label: 'Equipa' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
+    { id: 'conta', icon: Settings, label: 'Conta' },
   ],
   clinic: [
-    { id: 'home', icon: Home, label: 'Home' },
+    { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
-    { id: 'search', icon: Search, label: 'Buscar' },
-    { id: 'team', icon: Users, label: 'Equipa' },
-    { id: 'settings', icon: Settings, label: 'Config.' },
+    { id: 'equipa', icon: Users, label: 'Equipa' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
+    { id: 'conta', icon: Settings, label: 'Conta' },
   ],
 };
 
