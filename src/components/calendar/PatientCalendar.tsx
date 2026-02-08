@@ -84,7 +84,12 @@ export function PatientCalendar() {
       
       <div className="relative z-10">
         {/* Mobile Header */}
-        <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
+        <MobileHeader 
+          onMenuClick={() => setSidebarOpen(true)}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+          userRole="patient"
+        />
 
         {/* NO View Mode Selector for Patient - only list view */}
 
