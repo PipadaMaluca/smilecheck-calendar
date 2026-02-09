@@ -11,7 +11,7 @@ import { BottomNavigation } from "./BottomNavigation";
 import { MobileHeader } from "./mobile/MobileHeader";
 import { MobileSidebar } from "./mobile/MobileSidebar";
 import { ThreeDayView } from "./mobile/ThreeDayView";
-import { DesktopLayout } from "./desktop/DesktopHeader";
+import { DesktopLayout } from "@/components/desktop/DesktopHeader";
 import { Consultation, TimeSlot, ViewMode } from "@/types/calendar";
 import {
   mockConsultations,
