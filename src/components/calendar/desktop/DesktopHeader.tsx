@@ -1,9 +1,11 @@
-import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, Settings, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import smileLogo from '@/assets/smilecheck-logo.png';
+import { mockDentists } from '@/data/mockData';
 
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
@@ -123,18 +125,17 @@ export function DesktopHeader({
         </Button>
       </div>
 
-      {/* Right Section */}
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="text-muted-foreground">
-          <HelpCircle className="w-5 h-5" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground relative">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground">
-          <User className="w-5 h-5" />
-        </Button>
+      {/* Right Section - User Profile */}
+      <div className="flex items-center gap-3">
+        <div className="text-right">
+          <p className="text-sm font-bold text-foreground">{mockDentists[0].name}</p>
+          <p className="text-xs text-muted-foreground">Dentista</p>
+        </div>
+        <Avatar className="h-9 w-9">
+          <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+            {mockDentists[0].name.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
       </div>
     </header>
   );
