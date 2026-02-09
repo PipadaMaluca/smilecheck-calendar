@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import {
   Search,
+  User,
   Home,
   Calendar,
   Heart,
@@ -19,44 +20,21 @@ import { cn } from "@/lib/utils";
 import { mockDentists, mockClinics, mockFamilyMembers } from "@/data/mockData";
 import smileIcon from "@/assets/smilecheck-icon.png";
 
+// ========== HEADER ==========
 interface DesktopHeaderProps {
   userRole: UserRole;
   currentDate: Date;
 }
 
-interface DesktopSidebarProps {
-  userRole: UserRole;
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-}
-
-interface DesktopLayoutProps {
-  userRole: UserRole;
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-  currentDate: Date;
-  children: ReactNode;
-}
-
-// ========== HEADER ==========
 export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
   const getUserInfo = () => {
     switch (userRole) {
       case "patient":
-        return {
-          name: mockFamilyMembers[0].name,
-          subtitle: "Paciente",
-        };
+        return { name: mockFamilyMembers[0].name, subtitle: "Paciente" };
       case "dentist":
-        return {
-          name: mockDentists[0].name,
-          subtitle: "Dentista",
-        };
+        return { name: mockDentists[0].name, subtitle: "Dentista" };
       case "clinic":
-        return {
-          name: mockClinics[0].name,
-          subtitle: "Clínica",
-        };
+        return { name: mockClinics[0].name, subtitle: "Clínica" };
     }
   };
 
@@ -88,7 +66,7 @@ export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
           <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-          <span className="text-sm font-medium text-primary">{userInfo.name.charAt(0)}</span>
+          <User className="w-5 h-5 text-primary" />
         </div>
       </div>
     </header>
@@ -96,6 +74,12 @@ export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
 }
 
 // ========== SIDEBAR ==========
+interface DesktopSidebarProps {
+  userRole: UserRole;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
 const sidebarItems = {
   patient: {
     main: [
@@ -147,7 +131,6 @@ export function DesktopSidebar({ userRole, activeTab, onTabChange }: DesktopSide
 
   return (
     <aside className="w-64 h-screen bg-card border-r border-border flex flex-col fixed left-0 top-0">
-      {/* Logo */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center gap-3">
           <img src={smileIcon} alt="SmileCheck" className="w-8 h-8" />
@@ -160,7 +143,6 @@ export function DesktopSidebar({ userRole, activeTab, onTabChange }: DesktopSide
         </div>
       </div>
 
-      {/* Main Navigation */}
       <nav className="flex-1 p-4 overflow-y-auto">
         <div className="space-y-1">
           {items.main.map((item) => {
@@ -209,7 +191,6 @@ export function DesktopSidebar({ userRole, activeTab, onTabChange }: DesktopSide
         </div>
       </nav>
 
-      {/* Bottom: Conta */}
       <div className="p-4 border-t border-border">
         <button
           onClick={() => onTabChange("conta")}
@@ -229,18 +210,22 @@ export function DesktopSidebar({ userRole, activeTab, onTabChange }: DesktopSide
 }
 
 // ========== LAYOUT ==========
+interface DesktopLayoutProps {
+  userRole: UserRole;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  currentDate: Date;
+  children: ReactNode;
+}
+
 export function DesktopLayout({ userRole, activeTab, onTabChange, currentDate, children }: DesktopLayoutProps) {
   return (
     <div className="min-h-screen bg-background">
-      {/* Sidebar fixa à esquerda */}
       <DesktopSidebar userRole={userRole} activeTab={activeTab} onTabChange={onTabChange} />
 
-      {/* Área principal com margin para a sidebar */}
       <div className="ml-64 flex flex-col min-h-screen">
-        {/* Header no topo */}
         <DesktopHeader userRole={userRole} currentDate={currentDate} />
 
-        {/* Conteúdo */}
         <main className="flex-1 overflow-auto p-6">{children}</main>
       </div>
     </div>
