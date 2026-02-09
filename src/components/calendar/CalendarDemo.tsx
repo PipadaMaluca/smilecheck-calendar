@@ -22,6 +22,7 @@ export function CalendarDemo() {
 
   // On desktop (>= 1024px), show the Doctolib-style layout
   if (isDesktop) {
+    console.log('DESKTOP ATIVO');
     return <DesktopCalendarView />;
   }
 
