@@ -209,7 +209,7 @@ export function DentistCalendar() {
           isOpen={!!selectedConsultation}
           onClose={() => setSelectedConsultation(null)}
           isMobile={false}
-          onSave={(updated) => {
+          onSave={() => {
             setSelectedConsultation(null);
           }}
           onCancel={() => {
@@ -277,7 +277,7 @@ export function DentistCalendar() {
           isOpen={!!selectedConsultation}
           onClose={() => setSelectedConsultation(null)}
           isMobile={isMobile}
-          onSave={(updated) => {
+          onSave={() => {
             setSelectedConsultation(null);
           }}
           onCancel={() => {
