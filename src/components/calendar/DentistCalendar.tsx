@@ -11,7 +11,7 @@ import { BottomNavigation } from "./BottomNavigation";
 import { MobileHeader } from "./mobile/MobileHeader";
 import { MobileSidebar } from "./mobile/MobileSidebar";
 import { ThreeDayView } from "./mobile/ThreeDayView";
-import { DesktopLayout } from "@/components/desktop/DesktopHeader";
+import { DesktopLayout } from "./desktop/DesktopHeader";
 import { Consultation, TimeSlot, ViewMode } from "@/types/calendar";
 import {
   mockConsultations,
@@ -35,7 +35,6 @@ export function DentistCalendar() {
   const [selectedClinics, setSelectedClinics] = useState<string[]>(["1"]);
   const isMobile = useIsMobile();
 
-  // Detect desktop (window width >= 1024px)
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -47,12 +46,9 @@ export function DentistCalendar() {
     return () => window.removeEventListener("resize", checkDesktop);
   }, []);
 
-  // Build columns based on selected clinics and dentists (like ClinicCalendar)
   const columns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
-
     const showAll = selectedDentistIds.length === 0 || selectedDentistIds.includes("all");
-
     const clinicsToIterate = showAll
       ? selectedClinics.length === 0
         ? mockClinics
@@ -61,7 +57,6 @@ export function DentistCalendar() {
 
     clinicsToIterate.forEach((clinic) => {
       const dentistsInClinic = getDentistsForClinic(clinic.id);
-
       let dentistsToShow;
       if (showAll) {
         if (selectedClinics.length === 0 || selectedClinics.includes(clinic.id)) {
@@ -82,13 +77,7 @@ export function DentistCalendar() {
           (c) => c.dentist.id === dentist.id && c.clinic.id === clinic.id,
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
-
-        result.push({
-          dentist,
-          clinic,
-          worksToday,
-          slots,
-        });
+        result.push({ dentist, clinic, worksToday, slots });
       });
     });
 
@@ -179,11 +168,9 @@ export function DentistCalendar() {
     if (viewMode === "three-day") {
       return <ThreeDayView selectedDate={selectedDate} getSlots={getSlots} onSlotClick={handleSlotClick} />;
     }
-
     if (viewMode === "list") {
       return <TimeSlotView slots={slots} onSlotClick={handleSlotClick} />;
     }
-
     return <MultiDentistGrid columns={columns} onSlotClick={handleGridSlotClick} showFullName />;
   };
 
@@ -201,39 +188,31 @@ export function DentistCalendar() {
     setViewMode(mode);
   };
 
-  // ========== DESKTOP LAYOUT ==========
+  // ========== DESKTOP ==========
   if (isDesktop) {
     return (
       <DesktopLayout userRole="dentist" activeTab={activeTab} onTabChange={setActiveTab} currentDate={selectedDate}>
-        <div className="max-w-full">
-          <DateNavigator date={selectedDate} onDateChange={setSelectedDate} />
-
-          <CategoryLegend compact className="my-4 rounded-lg" />
-
-          <div className="mt-4">{renderContent()}</div>
-
-          {viewMode !== "three-day" && (
-            <div className="mt-6">
-              <DynamicDaySummary
-                consultations={dayConsultations}
-                selectedDentistIds={selectedDentistIds}
-                selectedClinics={selectedClinics}
-              />
-            </div>
-          )}
-        </div>
-
+        <DateNavigator date={selectedDate} onDateChange={setSelectedDate} />
+        <CategoryLegend compact className="my-4 rounded-lg" />
+        <div className="mt-4">{renderContent()}</div>
+        {viewMode !== "three-day" && (
+          <div className="mt-6">
+            <DynamicDaySummary
+              consultations={dayConsultations}
+              selectedDentistIds={selectedDentistIds}
+              selectedClinics={selectedClinics}
+            />
+          </div>
+        )}
         <EditConsultationModal
           consultation={selectedConsultation}
           isOpen={!!selectedConsultation}
           onClose={() => setSelectedConsultation(null)}
           isMobile={false}
           onSave={(updated) => {
-            console.log("Saved consultation:", updated);
             setSelectedConsultation(null);
           }}
-          onCancel={(consultation) => {
-            console.log("Cancelled consultation:", consultation);
+          onCancel={() => {
             setSelectedConsultation(null);
           }}
         />
@@ -241,7 +220,7 @@ export function DentistCalendar() {
     );
   }
 
-  // ========== MOBILE/TABLET LAYOUT ==========
+  // ========== MOBILE/TABLET ==========
   return (
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
       <div
@@ -261,13 +240,9 @@ export function DentistCalendar() {
           onViewModeChange={handleViewModeChange}
           userRole="dentist"
         />
-
         <DateNavigator date={selectedDate} onDateChange={setSelectedDate} />
-
         <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
-
         <div className="mt-4 w-full">{renderContent()}</div>
-
         {viewMode !== "three-day" && (
           <div className="mt-6">
             <DynamicDaySummary
@@ -277,7 +252,6 @@ export function DentistCalendar() {
             />
           </div>
         )}
-
         <div className="fixed bottom-24 right-4 flex flex-col gap-3 z-20">
           <Button variant="secondary" size="icon" className="w-12 h-12 rounded-full shadow-lg">
             <PauseCircle className="w-5 h-5" />
@@ -286,9 +260,7 @@ export function DentistCalendar() {
             <Plus className="w-6 h-6" />
           </Button>
         </div>
-
         <BottomNavigation userRole="dentist" activeTab={activeTab} onTabChange={setActiveTab} />
-
         <MobileSidebar
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
@@ -300,18 +272,15 @@ export function DentistCalendar() {
           selectedClinics={selectedClinics}
           onClinicToggle={handleClinicToggle}
         />
-
         <EditConsultationModal
           consultation={selectedConsultation}
           isOpen={!!selectedConsultation}
           onClose={() => setSelectedConsultation(null)}
           isMobile={isMobile}
           onSave={(updated) => {
-            console.log("Saved consultation:", updated);
             setSelectedConsultation(null);
           }}
-          onCancel={(consultation) => {
-            console.log("Cancelled consultation:", consultation);
+          onCancel={() => {
             setSelectedConsultation(null);
           }}
         />
