@@ -10,6 +10,7 @@ import { MobileSidebar } from './mobile/MobileSidebar';
 import { FamilyFilter } from './mobile/FamilyFilter';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { AccountView } from '@/components/account/AccountView';
+import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -158,6 +159,8 @@ export function PatientCalendar() {
               )}
             </div>
           </>
+        ) : activeTab === 'conversas' ? (
+          <ConversationsView userRole="patient" onNavigate={setActiveTab} />
         ) : activeTab === 'conta' ? (
           <AccountView userRole="patient" onNavigate={setActiveTab} />
         ) : (
