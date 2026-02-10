@@ -14,6 +14,7 @@ import { ThreeDayView } from './mobile/ThreeDayView';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
+import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -279,6 +280,8 @@ export function DentistCalendar() {
           </>
         ) : activeTab === 'equipa' ? (
           <TeamView userRole="dentist" onNavigate={setActiveTab} />
+        ) : activeTab === 'conversas' ? (
+          <ConversationsView userRole="dentist" onNavigate={setActiveTab} />
         ) : activeTab === 'conta' ? (
           <AccountView userRole="dentist" onNavigate={setActiveTab} />
         ) : (
