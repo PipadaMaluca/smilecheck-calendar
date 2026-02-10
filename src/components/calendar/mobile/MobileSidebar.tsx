@@ -21,6 +21,7 @@ interface MobileSidebarProps {
   onDentistToggle?: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
   selectedClinics?: string[];
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
+  onPrescribe?: () => void;
 }
 
 export function MobileSidebar({
@@ -35,6 +36,7 @@ export function MobileSidebar({
   onDentistToggle,
   selectedClinics = ['1'],
   onClinicToggle,
+  onPrescribe,
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -350,7 +352,7 @@ export function MobileSidebar({
               <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
               <MenuItem icon={Bell} label="Notificações" />
               <MenuItem icon={Search} label="Pesquisa de Pacientes" />
-              <MenuItem icon={FilePlus} label="Prescrever Receita" />
+              <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => { onClose(); onPrescribe?.(); }} />
             </MenuSection>
 
             <MenuSection>

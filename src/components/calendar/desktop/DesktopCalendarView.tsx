@@ -16,6 +16,7 @@ import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
 import { TriageInline } from '@/components/triage/TriageInline';
+import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -58,6 +59,7 @@ export function DesktopCalendarView() {
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
+  const [showPrescription, setShowPrescription] = useState(false);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected (all present dentists)
@@ -277,7 +279,7 @@ export function DesktopCalendarView() {
         }}
       />
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
-      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={handleNavTabChange} userRole={activeRole} />
+      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={handleNavTabChange} userRole={activeRole} onPrescribe={() => setShowPrescription(true)} />
 
       {activeNavTab === 'home' ? (
         /* Dashboard View */
@@ -560,5 +562,13 @@ export function DesktopCalendarView() {
       console.log('Cancelled consultation:', consultation);
       setSelectedConsultation(null);
     }} />
+
+      {/* Prescription Flow */}
+      {showPrescription && (
+        <PrescriptionFlow
+          onClose={() => setShowPrescription(false)}
+          onGoHome={() => { setShowPrescription(false); setActiveNavTab('home'); }}
+        />
+      )}
     </div>;
 }
