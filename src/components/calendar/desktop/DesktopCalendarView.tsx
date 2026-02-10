@@ -15,6 +15,7 @@ import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
+import { TriageInline } from '@/components/triage/TriageInline';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -56,6 +57,7 @@ export function DesktopCalendarView() {
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('home');
+  const [showTriage, setShowTriage] = useState(false);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected (all present dentists)
@@ -232,11 +234,14 @@ export function DesktopCalendarView() {
   const renderSidebar = () => {
     if (!isNavExpanded) return null;
     if (activeRole === 'patient') {
-      return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} />;
+      return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} onNewConsultation={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />;
     }
     return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} onSelectPresentDentists={handleSelectPresentDentists} onClinicToggle={handleClinicToggle} appointmentDates={appointmentDates} userRole={activeRole} isTodosSelected={isTodosSelected} onToggleTodos={handleToggleTodos} />;
   };
   const renderContent = () => {
+    if (showTriage && activeRole === 'patient') {
+      return <TriageInline onClose={() => setShowTriage(false)} />;
+    }
     if (activeRole === 'patient') {
       return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
     }
@@ -307,7 +312,7 @@ export function DesktopCalendarView() {
             </div>
           </header>
 
-          <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} />
+          <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />
         </div>
       ) : activeNavTab === 'agenda' ? (
         /* Calendar View */

@@ -12,6 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 interface DashboardViewProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
+  onStartTriage?: () => void;
 }
 
 function getGreeting(): string {
@@ -31,7 +32,7 @@ function getUserName(role: UserRole): string {
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
-export function DashboardView({ userRole, onNavigate }: DashboardViewProps) {
+export function DashboardView({ userRole, onNavigate, onStartTriage }: DashboardViewProps) {
   const greeting = getGreeting();
   const userName = getUserName(userRole);
 
@@ -111,9 +112,9 @@ export function DashboardView({ userRole, onNavigate }: DashboardViewProps) {
         ];
       case 'patient':
         return [
-          { label: 'Marcar Consulta', action: () => {} },
+          { label: 'Marcar Consulta', action: () => onStartTriage?.() },
           { label: 'Ver Recompensas', action: () => onNavigate('loja') },
-          { label: 'Minha Saúde', action: () => {} },
+          { label: 'Minha Saúde', action: () => onNavigate('saude') },
         ];
     }
   }, [userRole, onNavigate]);

@@ -25,6 +25,7 @@ interface PatientSidebarProps {
   onMemberToggle: (memberId: string) => void;
   onSelectAllMembers: () => void;
   appointmentDates?: Date[];
+  onNewConsultation?: () => void;
 }
 
 export function PatientSidebar({
@@ -35,6 +36,7 @@ export function PatientSidebar({
   onMemberToggle,
   onSelectAllMembers,
   appointmentDates = [],
+  onNewConsultation,
 }: PatientSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFamilyOpen, setIsFamilyOpen] = useState(true);
@@ -73,7 +75,7 @@ export function PatientSidebar({
     <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
-        <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
+        <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
           <Plus className="w-4 h-4" />
           NOVA CONSULTA
         </Button>
