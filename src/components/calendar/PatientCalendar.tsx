@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
@@ -12,6 +11,7 @@ import { DashboardView } from '@/components/dashboard/DashboardView';
 import { AccountView } from '@/components/account/AccountView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
+import { TriageInline } from '@/components/triage/TriageInline';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -20,13 +20,13 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function PatientCalendar() {
-  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const [showTriage, setShowTriage] = useState(false);
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -86,16 +86,18 @@ export function PatientCalendar() {
       />
       
       <div className="relative z-10">
-        {/* Mobile Header - no view selector for patient */}
+        {/* Mobile Header */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
           userRole="patient"
           showNewConsultation={activeTab === 'consultas'}
-          onNewConsultation={() => navigate('/triagem')}
+          onNewConsultation={() => { setShowTriage(true); setActiveTab('consultas'); }}
         />
 
-        {activeTab === 'home' ? (
-          <DashboardView userRole="patient" onNavigate={setActiveTab} />
+        {showTriage ? (
+          <TriageInline onClose={() => setShowTriage(false)} />
+        ) : activeTab === 'home' ? (
+          <DashboardView userRole="patient" onNavigate={setActiveTab} onStartTriage={() => setShowTriage(true)} />
         ) : activeTab === 'consultas' ? (
           <>
             {/* Calendar */}
