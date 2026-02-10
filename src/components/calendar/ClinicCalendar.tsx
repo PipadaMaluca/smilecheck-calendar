@@ -191,8 +191,7 @@ export function ClinicCalendar() {
       {/* Mobile Header with View Mode Selector */}
       <MobileHeader 
         onMenuClick={() => setSidebarOpen(true)}
-        viewMode={viewMode}
-        onViewModeChange={handleViewModeChange}
+        {...(activeTab === 'agenda' ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
         userRole="clinic"
       />
 

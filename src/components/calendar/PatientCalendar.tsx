@@ -88,8 +88,7 @@ export function PatientCalendar() {
         {/* Mobile Header */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
+          {...(activeTab === 'consultas' ? { viewMode, onViewModeChange: setViewMode } : {})}
           userRole="patient"
         />
 
