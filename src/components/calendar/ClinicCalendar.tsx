@@ -9,6 +9,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { DashboardView } from '@/components/dashboard/DashboardView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -17,7 +18,7 @@ export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
-  const [activeTab, setActiveTab] = useState('agenda');
+  const [activeTab, setActiveTab] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
@@ -183,75 +184,85 @@ export function ClinicCalendar() {
         userRole="clinic"
       />
 
-      <DateNavigator
-        date={selectedDate}
-        onDateChange={setSelectedDate}
-      />
+      {activeTab === 'home' ? (
+        <DashboardView userRole="clinic" onNavigate={setActiveTab} />
+      ) : activeTab === 'agenda' ? (
+        <>
+          <DateNavigator
+            date={selectedDate}
+            onDateChange={setSelectedDate}
+          />
 
-      {/* Category Legend - Centered */}
-      <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
+          {/* Category Legend - Centered */}
+          <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
 
-      {/* Content based on view mode */}
-      <div className="mt-4 w-full">
-        {viewMode === 'three-day' ? (
-          <ThreeDayView 
-            selectedDate={selectedDate}
-            getSlots={getSlots}
-            onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
-          />
-        ) : viewMode === 'list' ? (
-          <TimeSlotView 
-            slots={listSlots} 
-            onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)} 
-          />
-        ) : (
-          <MultiDentistGrid
-            columns={columns}
-            onSlotClick={handleSlotClick}
-            showFullName
-          />
-        )}
-      </div>
+          {/* Content based on view mode */}
+          <div className="mt-4 w-full">
+            {viewMode === 'three-day' ? (
+              <ThreeDayView 
+                selectedDate={selectedDate}
+                getSlots={getSlots}
+                onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
+              />
+            ) : viewMode === 'list' ? (
+              <TimeSlotView 
+                slots={listSlots} 
+                onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)} 
+              />
+            ) : (
+              <MultiDentistGrid
+                columns={columns}
+                onSlotClick={handleSlotClick}
+                showFullName
+              />
+            )}
+          </div>
 
-      {/* Dynamic Day Summary - ONLY show in Day and List views */}
-      {viewMode !== 'three-day' && (
-        <div className="mt-6">
-          <DynamicDaySummary 
-            consultations={allDayConsultations}
-            selectedDentistIds={selectedDentistIds}
-            selectedClinics={selectedClinics}
-          />
+          {/* Dynamic Day Summary */}
+          {viewMode !== 'three-day' && (
+            <div className="mt-6">
+              <DynamicDaySummary 
+                consultations={allDayConsultations}
+                selectedDentistIds={selectedDentistIds}
+                selectedClinics={selectedClinics}
+              />
+            </div>
+          )}
+
+          {/* Per-dentist summary */}
+          <div className="px-4 mt-4 mb-6">
+            <div className="bg-card rounded-xl p-4">
+              <h4 className="text-xs font-semibold text-muted-foreground mb-3">Por Dentista</h4>
+              <div className="space-y-2">
+                {columns.filter(col => col.worksToday).map((col, idx) => {
+                  const dentistConsults = allDayConsultations.filter(
+                    (c) => c.dentist.id === col.dentist.id && c.clinic.id === col.clinic.id
+                  );
+                  const tele = dentistConsults.filter((c) => c.type === 'teleconsulta').length;
+                  const pres = dentistConsults.filter((c) => c.type === 'presencial').length;
+
+                  return (
+                    <div key={`${col.clinic.id}-${col.dentist.id}-${idx}`} className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        {col.dentist.name}
+                        <span className="text-xs ml-1 opacity-60">({col.clinic.name.replace('Clínica ', '')})</span>
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-teleconsulta">{tele} tele</span>
+                        <span className="text-presencial">{pres} pres</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex items-center justify-center py-20 text-muted-foreground">
+          <p className="text-lg">Secção em construção...</p>
         </div>
       )}
-
-      {/* Per-dentist summary */}
-      <div className="px-4 mt-4 mb-6">
-        <div className="bg-card rounded-xl p-4">
-          <h4 className="text-xs font-semibold text-muted-foreground mb-3">Por Dentista</h4>
-          <div className="space-y-2">
-            {columns.filter(col => col.worksToday).map((col, idx) => {
-              const dentistConsults = allDayConsultations.filter(
-                (c) => c.dentist.id === col.dentist.id && c.clinic.id === col.clinic.id
-              );
-              const tele = dentistConsults.filter((c) => c.type === 'teleconsulta').length;
-              const pres = dentistConsults.filter((c) => c.type === 'presencial').length;
-
-              return (
-                <div key={`${col.clinic.id}-${col.dentist.id}-${idx}`} className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">
-                    {col.dentist.name}
-                    <span className="text-xs ml-1 opacity-60">({col.clinic.name.replace('Clínica ', '')})</span>
-                  </span>
-                  <div className="flex items-center gap-3">
-                    <span className="text-teleconsulta">{tele} tele</span>
-                    <span className="text-presencial">{pres} pres</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
 
       {/* Fixed Bottom Navigation */}
       <BottomNavigation
