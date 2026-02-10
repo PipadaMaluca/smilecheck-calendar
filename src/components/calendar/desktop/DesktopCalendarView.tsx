@@ -1,8 +1,8 @@
 import { useState, useMemo, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { DesktopMainSidebar } from './DesktopMainSidebar';
+import { DesktopNavSidebar } from './DesktopNavSidebar';
 import { DesktopCalendarSidebar } from './DesktopCalendarSidebar';
 import { PatientSidebar } from './PatientSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
@@ -43,7 +43,7 @@ const getPresentDentistKeys = () => {
 export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
   const [viewMode, setViewMode] = useState<ViewMode>('day');
-  
+  const [isNavExpanded, setIsNavExpanded] = useState(true);
   // Start with all present dentists selected (7 who work that day)
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
@@ -224,6 +224,7 @@ export function DesktopCalendarView() {
     setSelectedDate(new Date());
   };
   const renderSidebar = () => {
+    if (!isNavExpanded) return null;
     if (activeRole === 'patient') {
       return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} />;
     }
@@ -238,16 +239,28 @@ export function DesktopCalendarView() {
     }
     return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
-  return <div className="h-screen bg-background">
-      {/* Fixed Sidebar */}
-      <DesktopMainSidebar userRole={activeRole} activeTab={activeNavTab} onTabChange={setActiveNavTab} />
+  return <div className="h-screen flex bg-background">
+      {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
+      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={setActiveNavTab} userRole={activeRole} />
 
-      {/* Main Content Area - offset by sidebar width */}
-      <div className="ml-64 h-screen flex flex-col overflow-hidden">
+      {/* Vertical separator line */}
+      {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+
+      {/* Sidebar 2 - Calendar + Dentists/Family (lighter blue #0D2137) - Only visible when expanded */}
+      {renderSidebar()}
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
           {/* Left Section - Menu + Date */}
           <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+              <Menu className="w-5 h-5" />
+            </Button>
+
+            <div className="h-6 w-px bg-border" />
+
             <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">
               Hoje
             </Button>
