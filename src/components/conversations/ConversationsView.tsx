@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2 } from 'lucide-react';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -245,7 +247,13 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className={cn('text-sm truncate', conversation.unread > 0 && 'font-bold')}>
-                          {conversation.name}
+                          {userRole === 'patient' && conversation.type === 'Dentista' ? (
+                            <ClickableDentistName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
+                          ) : userRole === 'patient' && conversation.type === 'Clínica' ? (
+                            <ClickableClinicName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
+                          ) : (
+                            conversation.name
+                          )}
                         </span>
                         <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0', badge.className)}>
                           <BadgeIcon className="w-2.5 h-2.5" />
@@ -293,7 +301,15 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                   <User className="w-4 h-4 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold truncate">{selectedConversation.name}</p>
+                   <p className="text-sm font-semibold truncate">
+                     {userRole === 'patient' && selectedConversation.type === 'Dentista' ? (
+                       <ClickableDentistName name={selectedConversation.name} className="text-sm font-semibold" />
+                     ) : userRole === 'patient' && selectedConversation.type === 'Clínica' ? (
+                       <ClickableClinicName name={selectedConversation.name} className="text-sm font-semibold" />
+                     ) : (
+                       selectedConversation.name
+                     )}
+                   </p>
                   <span className={cn(
                     'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium',
                     typeBadgeConfig[selectedConversation.type].className
