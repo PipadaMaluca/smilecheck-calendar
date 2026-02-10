@@ -16,6 +16,7 @@ import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsulta
 import { isSameDay } from 'date-fns';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import smileIcon from '@/assets/smilecheck-icon.png';
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
 // Build all clinic-dentist combinations as composite keys
@@ -244,7 +245,17 @@ export function DesktopCalendarView() {
     setActiveNavTab(tab);
   }, []);
 
-  return <div className="h-screen flex bg-background">
+  return <div className="h-screen flex bg-background relative">
+      {/* Background Watermark Logo */}
+      <div 
+        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+        style={{
+          backgroundImage: `url(${smileIcon})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: '60%',
+        }}
+      />
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
       <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={handleNavTabChange} userRole={activeRole} />
 
