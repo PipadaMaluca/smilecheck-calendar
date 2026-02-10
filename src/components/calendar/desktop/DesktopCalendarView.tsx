@@ -10,6 +10,7 @@ import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
+import { DashboardView } from '@/components/dashboard/DashboardView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -49,7 +50,7 @@ export function DesktopCalendarView() {
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
-  const [activeNavTab, setActiveNavTab] = useState('agenda');
+  const [activeNavTab, setActiveNavTab] = useState('home');
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected (all present dentists)
@@ -239,41 +240,19 @@ export function DesktopCalendarView() {
     }
     return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
+  const handleNavTabChange = useCallback((tab: string) => {
+    setActiveNavTab(tab);
+  }, []);
+
   return <div className="h-screen flex bg-background">
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
-      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={setActiveNavTab} userRole={activeRole} />
+      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={handleNavTabChange} userRole={activeRole} />
 
-      {/* Vertical separator line */}
-      {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
-
-      {/* Sidebar 2 - Calendar + Dentists/Family (lighter blue #0D2137) - Only visible when expanded */}
-      {renderSidebar()}
-
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-          {/* Left Section - Menu + Date */}
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
-              <Menu className="w-5 h-5" />
-            </Button>
-
-            <div className="h-6 w-px bg-border" />
-
-            <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">
-              Hoje
-            </Button>
-
-            <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" onClick={goToPreviousDay}>
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={goToNextDay}>
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-
+      {activeNavTab === 'home' ? (
+        /* Dashboard View */
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Header */}
+          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
             <span className="text-sm font-medium capitalize text-foreground">
               {selectedDate.toLocaleDateString('pt-PT', {
                 weekday: 'long',
@@ -282,10 +261,7 @@ export function DesktopCalendarView() {
                 year: 'numeric',
               })}
             </span>
-          </div>
 
-          {/* Center Section - Role Selector + View Toggle + Search */}
-          <div className="items-center gap-4 flex flex-row">
             <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
               <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <User className="w-4 h-4" />
@@ -301,52 +277,125 @@ export function DesktopCalendarView() {
               </Button>
             </div>
 
-            {(activeRole === 'clinic' || activeRole === 'dentist') && <>
-                <div className="h-6 w-px bg-border" />
-
-                <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                  <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
-                  <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
-                  <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
-                  <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
-                </ToggleGroup>
-
-                <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
-                  <CalendarClock className="w-4 h-4" />
-                  Modificar horários
-                </Button>
-
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input placeholder="Pesquisar pacientes..." className="pl-9 h-9 w-56 text-sm" />
-                </div>
-              </>}
-          </div>
-
-          {/* Right Section - User info + icon */}
-          <div className="flex items-center gap-3">
-            <div className="text-right">
-              <p className="text-sm font-bold text-foreground">
-                {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-              </p>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-sm font-bold text-foreground">
+                  {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                </p>
+              </div>
+              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
             </div>
-            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="w-5 h-5 text-primary" />
-            </div>
-          </div>
-        </header>
+          </header>
 
-        {/* Category Legend - visible for dentist and clinic */}
-        {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
-
-        {/* Main Content */}
-        <div className="flex-1 flex overflow-hidden">
-          {renderContent()}
+          <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} />
         </div>
-      </div>
+      ) : activeNavTab === 'agenda' ? (
+        /* Calendar View */
+        <>
+          {/* Vertical separator line */}
+          {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+
+          {/* Sidebar 2 - Calendar + Dentists/Family */}
+          {renderSidebar()}
+
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Header */}
+            <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+                  <Menu className="w-5 h-5" />
+                </Button>
+                <div className="h-6 w-px bg-border" />
+                <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">
+                  Hoje
+                </Button>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="icon" onClick={goToPreviousDay}>
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" onClick={goToNextDay}>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+                <span className="text-sm font-medium capitalize text-foreground">
+                  {selectedDate.toLocaleDateString('pt-PT', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </span>
+              </div>
+
+              <div className="items-center gap-4 flex flex-row">
+                <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                    <User className="w-4 h-4" />
+                    Paciente
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                    <Stethoscope className="w-4 h-4" />
+                    Dentista
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                    <Building2 className="w-4 h-4" />
+                    Clínica
+                  </Button>
+                </div>
+
+                {(activeRole === 'clinic' || activeRole === 'dentist') && <>
+                    <div className="h-6 w-px bg-border" />
+                    <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
+                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
+                    </ToggleGroup>
+                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
+                      <CalendarClock className="w-4 h-4" />
+                      Modificar horários
+                    </Button>
+                    <div className="relative">
+                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Input placeholder="Pesquisar pacientes..." className="pl-9 h-9 w-56 text-sm" />
+                    </div>
+                  </>}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-sm font-bold text-foreground">
+                    {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                  </p>
+                </div>
+                <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="w-5 h-5 text-primary" />
+                </div>
+              </div>
+            </header>
+
+            {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
+
+            <div className="flex-1 flex overflow-hidden">
+              {renderContent()}
+            </div>
+          </div>
+        </>
+      ) : (
+        /* Placeholder for other tabs */
+        <div className="flex-1 flex items-center justify-center text-muted-foreground">
+          <p className="text-lg">Secção em construção...</p>
+        </div>
+      )}
 
       {/* Edit Consultation Modal */}
       <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {
