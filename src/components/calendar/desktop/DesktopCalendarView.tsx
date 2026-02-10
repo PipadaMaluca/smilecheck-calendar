@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Menu, ChevronLeft, ChevronRight, HelpCircle, Bell, User, Settings, CalendarClock, Stethoscope, Building2 } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
@@ -12,8 +12,8 @@ import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
-import { format, isSameDay } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { isSameDay } from 'date-fns';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
@@ -252,8 +252,8 @@ export function DesktopCalendarView() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-14 border-b border-border flex items-center justify-between px-4 flex-shrink-0 bg-sidebar">
-          {/* Left Section */}
+        <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+          {/* Left Section - Menu + Date */}
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
               <Menu className="w-5 h-5" />
@@ -274,16 +274,18 @@ export function DesktopCalendarView() {
               </Button>
             </div>
 
-            <span className="text-sm font-medium capitalize">
-              {format(selectedDate, "EEEE d MMMM yyyy", {
-              locale: pt
-            })}
+            <span className="text-sm font-medium capitalize text-foreground">
+              {selectedDate.toLocaleDateString('pt-PT', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
             </span>
           </div>
 
-          {/* Center Section - Role Selector + View Toggle */}
-          <div className="items-center gap-4 flex flex-row pr-[200px]">
-            {/* Role Selector */}
+          {/* Center Section - Role Selector + View Toggle + Search */}
+          <div className="items-center gap-4 flex flex-row">
             <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
               <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <User className="w-4 h-4" />
@@ -302,31 +304,39 @@ export function DesktopCalendarView() {
             {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                 <div className="h-6 w-px bg-border" />
 
-                {/* View Mode Toggle */}
                 <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                  <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                    Lista
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                    Dia
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                    Semana
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                    Mês
-                  </ToggleGroupItem>
+                  <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
+                  <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
+                  <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
+                  <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
                 </ToggleGroup>
 
                 <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
                   <CalendarClock className="w-4 h-4" />
                   Modificar horários
                 </Button>
+
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input placeholder="Pesquisar pacientes..." className="pl-9 h-9 w-56 text-sm" />
+                </div>
               </>}
           </div>
 
-          {/* Right Section - Help, Settings, Notifications, Profile */}
-          
+          {/* Right Section - User info + icon */}
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <p className="text-sm font-bold text-foreground">
+                {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+              </p>
+            </div>
+            <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+              <User className="w-5 h-5 text-primary" />
+            </div>
+          </div>
         </header>
 
         {/* Category Legend - visible for dentist and clinic */}
