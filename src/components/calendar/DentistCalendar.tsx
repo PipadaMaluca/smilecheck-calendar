@@ -11,6 +11,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { DashboardView } from '@/components/dashboard/DashboardView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -20,7 +21,7 @@ export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
-  const [activeTab, setActiveTab] = useState('agenda');
+  const [activeTab, setActiveTab] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
@@ -233,43 +234,53 @@ export function DentistCalendar() {
           userRole="dentist"
         />
 
-        <DateNavigator
-          date={selectedDate}
-          onDateChange={setSelectedDate}
-        />
-
-        {/* Category Legend - Centered */}
-        <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
-
-        {/* Content based on view mode */}
-        <div className="mt-4 w-full">
-          {renderContent()}
-        </div>
-
-        {/* Dynamic Day Summary - ONLY show in Day and List views */}
-        {viewMode !== 'three-day' && (
-          <div className="mt-6">
-            <DynamicDaySummary 
-              consultations={dayConsultations}
-              selectedDentistIds={selectedDentistIds}
-              selectedClinics={selectedClinics}
+        {activeTab === 'home' ? (
+          <DashboardView userRole="dentist" onNavigate={setActiveTab} />
+        ) : activeTab === 'agenda' ? (
+          <>
+            <DateNavigator
+              date={selectedDate}
+              onDateChange={setSelectedDate}
             />
+
+            {/* Category Legend - Centered */}
+            <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
+
+            {/* Content based on view mode */}
+            <div className="mt-4 w-full">
+              {renderContent()}
+            </div>
+
+            {/* Dynamic Day Summary - ONLY show in Day and List views */}
+            {viewMode !== 'three-day' && (
+              <div className="mt-6">
+                <DynamicDaySummary 
+                  consultations={dayConsultations}
+                  selectedDentistIds={selectedDentistIds}
+                  selectedClinics={selectedClinics}
+                />
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="fixed bottom-24 right-4 flex flex-col gap-3 z-20">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="w-12 h-12 rounded-full shadow-lg"
+              >
+                <PauseCircle className="w-5 h-5" />
+              </Button>
+              <Button className="floating-button animate-pulse-glow" style={{ position: 'relative', bottom: 0, right: 0 }}>
+                <Plus className="w-6 h-6" />
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center justify-center py-20 text-muted-foreground">
+            <p className="text-lg">Secção em construção...</p>
           </div>
         )}
-
-        {/* Action Buttons */}
-        <div className="fixed bottom-24 right-4 flex flex-col gap-3 z-20">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="w-12 h-12 rounded-full shadow-lg"
-          >
-            <PauseCircle className="w-5 h-5" />
-          </Button>
-          <Button className="floating-button animate-pulse-glow" style={{ position: 'relative', bottom: 0, right: 0 }}>
-            <Plus className="w-6 h-6" />
-          </Button>
-        </div>
 
         {/* Fixed Bottom Navigation */}
         <BottomNavigation

@@ -9,6 +9,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { FamilyFilter } from './mobile/FamilyFilter';
+import { DashboardView } from '@/components/dashboard/DashboardView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -20,7 +21,7 @@ export function PatientCalendar() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
-  const [activeTab, setActiveTab] = useState('agenda');
+  const [activeTab, setActiveTab] = useState('home');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
@@ -91,76 +92,84 @@ export function PatientCalendar() {
           userRole="patient"
         />
 
-        {/* NO View Mode Selector for Patient - only list view */}
-
-        {/* Calendar */}
-        <div className="py-2">
-          <MonthlyCalendar
-            selectedDate={selectedDate}
-            onDateSelect={setSelectedDate}
-            appointmentDates={appointmentDates}
-          />
-        </div>
-
-        {/* Family Filter */}
-        <FamilyFilter 
-          selectedMembers={selectedMembers}
-          onMemberToggle={handleMemberToggle}
-        />
-
-        {/* Consultations List */}
-        <div className="px-4 mt-4">
-          {dayConsultations.length > 0 ? (
-            <>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-                {format(selectedDate, "d 'de' MMMM", { locale: pt })} • {dayConsultations.length} consulta{dayConsultations.length > 1 ? 's' : ''}
-              </h3>
-              <div className="space-y-3">
-                {dayConsultations.map((consultation) => (
-                  <ConsultationCard
-                    key={consultation.id}
-                    consultation={consultation}
-                    userRole="patient"
-                    onClick={() => setSelectedConsultation(consultation)}
-                  />
-                ))}
-              </div>
-            </>
-          ) : upcomingConsultations.length > 0 ? (
-            <>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-                Próximas consultas
-              </h3>
-              <div className="space-y-3">
-                {upcomingConsultations.slice(0, 5).map((consultation) => (
-                  <div key={consultation.id}>
-                    <p className="text-xs text-muted-foreground mb-1 capitalize">
-                      {format(consultation.date, "EEEE, d 'de' MMMM", { locale: pt })}
-                    </p>
-                    <ConsultationCard
-                      consultation={consultation}
-                      userRole="patient"
-                      onClick={() => setSelectedConsultation(consultation)}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground mb-2">Sem consultas agendadas</p>
-              <p className="text-xs text-muted-foreground/60">Toque em + para agendar uma nova consulta</p>
+        {activeTab === 'home' ? (
+          <DashboardView userRole="patient" onNavigate={setActiveTab} />
+        ) : activeTab === 'consultas' ? (
+          <>
+            {/* Calendar */}
+            <div className="py-2">
+              <MonthlyCalendar
+                selectedDate={selectedDate}
+                onDateSelect={setSelectedDate}
+                appointmentDates={appointmentDates}
+              />
             </div>
-          )}
-        </div>
 
-        {/* Floating Button - Nova Consulta */}
-        <Button 
-          className="floating-button animate-pulse-glow"
-          onClick={() => navigate('/triagem')}
-        >
-          <Plus className="w-6 h-6" />
-        </Button>
+            {/* Family Filter */}
+            <FamilyFilter 
+              selectedMembers={selectedMembers}
+              onMemberToggle={handleMemberToggle}
+            />
+
+            {/* Consultations List */}
+            <div className="px-4 mt-4">
+              {dayConsultations.length > 0 ? (
+                <>
+                  <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+                    {format(selectedDate, "d 'de' MMMM", { locale: pt })} • {dayConsultations.length} consulta{dayConsultations.length > 1 ? 's' : ''}
+                  </h3>
+                  <div className="space-y-3">
+                    {dayConsultations.map((consultation) => (
+                      <ConsultationCard
+                        key={consultation.id}
+                        consultation={consultation}
+                        userRole="patient"
+                        onClick={() => setSelectedConsultation(consultation)}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : upcomingConsultations.length > 0 ? (
+                <>
+                  <h3 className="text-sm font-semibold text-muted-foreground mb-3">
+                    Próximas consultas
+                  </h3>
+                  <div className="space-y-3">
+                    {upcomingConsultations.slice(0, 5).map((consultation) => (
+                      <div key={consultation.id}>
+                        <p className="text-xs text-muted-foreground mb-1 capitalize">
+                          {format(consultation.date, "EEEE, d 'de' MMMM", { locale: pt })}
+                        </p>
+                        <ConsultationCard
+                          consultation={consultation}
+                          userRole="patient"
+                          onClick={() => setSelectedConsultation(consultation)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground mb-2">Sem consultas agendadas</p>
+                  <p className="text-xs text-muted-foreground/60">Toque em + para agendar uma nova consulta</p>
+                </div>
+              )}
+            </div>
+
+            {/* Floating Button - Nova Consulta */}
+            <Button 
+              className="floating-button animate-pulse-glow"
+              onClick={() => navigate('/triagem')}
+            >
+              <Plus className="w-6 h-6" />
+            </Button>
+          </>
+        ) : (
+          <div className="flex items-center justify-center py-20 text-muted-foreground">
+            <p className="text-lg">Secção em construção...</p>
+          </div>
+        )}
 
         {/* Bottom Navigation - Fixed */}
         <BottomNavigation
