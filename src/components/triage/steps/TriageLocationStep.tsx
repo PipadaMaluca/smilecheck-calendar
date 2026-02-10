@@ -51,99 +51,111 @@ const SHAPES: Record<string, { outline: string; detail: string }> = {
   },
 };
 
-interface ToothArc {
+interface ToothPlaced {
   id: string;
   shape: string;
   x: number;
   y: number;
   rotate: number;
   scale: number;
-  // label offset toward interior of arch (in local rotated coords, positive Y = toward arch center)
-  labelY: number;
+  isUpper: boolean;
 }
 
+// Place teeth with explicit per-tooth angle offsets for non-uniform spacing
+// angleCumulativeOffsets: cumulative angle from start for each tooth
 function placeOnArc(
   teeth: { id: string; shape: string; scale: number }[],
   cx: number, cy: number, rx: number, ry: number,
-  startAngle: number, endAngle: number,
+  angles: number[], // explicit angle per tooth in degrees
   flipRotation: boolean,
-  labelInward: number, // positive = toward arch center
-): ToothArc[] {
-  const n = teeth.length;
+  isUpper: boolean,
+): ToothPlaced[] {
   return teeth.map((t, i) => {
-    const frac = n > 1 ? i / (n - 1) : 0.5;
-    const angleDeg = startAngle + frac * (endAngle - startAngle);
+    const angleDeg = angles[i];
     const angleRad = (angleDeg * Math.PI) / 180;
     const x = cx + rx * Math.cos(angleRad);
     const y = cy + ry * Math.sin(angleRad);
     const rot = flipRotation ? angleDeg + 90 : angleDeg - 90;
-    return { ...t, x, y, rotate: rot, labelY: labelInward };
+    return { ...t, x, y, rotate: rot, isUpper };
   });
 }
 
-const UPPER_RIGHT_DEFS = [
-  { id: '18', shape: 'upperMolar', scale: 1.0 },
-  { id: '17', shape: 'upperMolar', scale: 1.0 },
-  { id: '16', shape: 'upperMolar', scale: 1.0 },
-  { id: '15', shape: 'upperPremolar', scale: 0.88 },
-  { id: '14', shape: 'upperPremolar', scale: 0.88 },
-  { id: '13', shape: 'upperCanine', scale: 0.85 },
-  { id: '12', shape: 'upperLateral', scale: 0.78 },
-  { id: '11', shape: 'upperCentral', scale: 0.95 },
-];
-
-const UPPER_LEFT_DEFS = [
-  { id: '21', shape: 'upperCentral', scale: 0.95 },
-  { id: '22', shape: 'upperLateral', scale: 0.78 },
-  { id: '23', shape: 'upperCanine', scale: 0.85 },
-  { id: '24', shape: 'upperPremolar', scale: 0.88 },
-  { id: '25', shape: 'upperPremolar', scale: 0.88 },
-  { id: '26', shape: 'upperMolar', scale: 1.0 },
-  { id: '27', shape: 'upperMolar', scale: 1.0 },
-  { id: '28', shape: 'upperMolar', scale: 1.0 },
-];
-
-const LOWER_RIGHT_DEFS = [
-  { id: '48', shape: 'lowerMolar', scale: 1.0 },
-  { id: '47', shape: 'lowerMolar', scale: 1.0 },
-  { id: '46', shape: 'lowerMolar', scale: 1.0 },
-  { id: '45', shape: 'lowerPremolar', scale: 0.88 },
-  { id: '44', shape: 'lowerPremolar', scale: 0.88 },
-  { id: '43', shape: 'lowerCanine', scale: 0.85 },
-  { id: '42', shape: 'lowerLateral', scale: 0.78 },
-  { id: '41', shape: 'lowerCentral', scale: 0.8 },
-];
-
-const LOWER_LEFT_DEFS = [
-  { id: '31', shape: 'lowerCentral', scale: 0.8 },
-  { id: '32', shape: 'lowerLateral', scale: 0.78 },
-  { id: '33', shape: 'lowerCanine', scale: 0.85 },
-  { id: '34', shape: 'lowerPremolar', scale: 0.88 },
-  { id: '35', shape: 'lowerPremolar', scale: 0.88 },
-  { id: '36', shape: 'lowerMolar', scale: 1.0 },
-  { id: '37', shape: 'lowerMolar', scale: 1.0 },
-  { id: '38', shape: 'lowerMolar', scale: 1.0 },
-];
-
 const CX = 200;
 
-// Upper arch — wider ellipse, more spread angle range
-const UPPER_CY = 130;
-const UPPER_RX = 170;
-const UPPER_RY = 110;
-// Upper right: 18 at ~198°, 11 at ~262°  (wider spread = less overlap)
-// Upper left: 21 at ~278°, 28 at ~342°
-const upperRight = placeOnArc(UPPER_RIGHT_DEFS, CX, UPPER_CY, UPPER_RX, UPPER_RY, 198, 262, false, 18);
-const upperLeft = placeOnArc(UPPER_LEFT_DEFS, CX, UPPER_CY, UPPER_RX, UPPER_RY, 278, 342, false, 18);
+// === UPPER ARCH ===
+const UPPER_CY = 128;
+const UPPER_RX = 172;
+const UPPER_RY = 112;
 
-// Lower arch — slightly smaller
-const LOWER_CY = 195;
-const LOWER_RX = 145;
-const LOWER_RY = 90;
-const lowerRight = placeOnArc(LOWER_RIGHT_DEFS, CX, LOWER_CY, LOWER_RX, LOWER_RY, 162, 98, true, -18);
-const lowerLeft = placeOnArc(LOWER_LEFT_DEFS, CX, LOWER_CY, LOWER_RX, LOWER_RY, 82, 18, true, -18);
+// Upper Right: 18→11 (molars spread, incisors tight)
+// Angles go from ~196° (18, far right) toward ~265° (11, near center)
+// Molars: 196, 206, 216 (10° apart — wide)
+// Premolars: 224, 231 (7-8° apart)
+// Canine: 238
+// Incisors: 248, 256 (tight, 8° then close to center gap)
+const upperRightAngles = [196, 207, 218, 226, 233, 240, 250, 258];
+const upperRightDefs = [
+  { id: '18', shape: 'upperMolar', scale: 0.95 },
+  { id: '17', shape: 'upperMolar', scale: 0.95 },
+  { id: '16', shape: 'upperMolar', scale: 0.95 },
+  { id: '15', shape: 'upperPremolar', scale: 0.85 },
+  { id: '14', shape: 'upperPremolar', scale: 0.85 },
+  { id: '13', shape: 'upperCanine', scale: 0.82 },
+  { id: '12', shape: 'upperLateral', scale: 0.75 },
+  { id: '11', shape: 'upperCentral', scale: 0.9 },
+];
 
-const ALL_TEETH: ToothArc[] = [...upperRight, ...upperLeft, ...lowerRight, ...lowerLeft];
+// Upper Left: 21→28 (mirror)
+const upperLeftAngles = [282, 290, 300, 307, 314, 322, 333, 344];
+const upperLeftDefs = [
+  { id: '21', shape: 'upperCentral', scale: 0.9 },
+  { id: '22', shape: 'upperLateral', scale: 0.75 },
+  { id: '23', shape: 'upperCanine', scale: 0.82 },
+  { id: '24', shape: 'upperPremolar', scale: 0.85 },
+  { id: '25', shape: 'upperPremolar', scale: 0.85 },
+  { id: '26', shape: 'upperMolar', scale: 0.95 },
+  { id: '27', shape: 'upperMolar', scale: 0.95 },
+  { id: '28', shape: 'upperMolar', scale: 0.95 },
+];
+
+// === LOWER ARCH ===
+const LOWER_CY = 198;
+const LOWER_RX = 148;
+const LOWER_RY = 92;
+
+// Lower Right: 48→41 (molars at outside, incisors near center)
+// Angles go from ~164° (48) to ~98° (41)
+const lowerRightAngles = [164, 153, 142, 134, 127, 120, 110, 102];
+const lowerRightDefs = [
+  { id: '48', shape: 'lowerMolar', scale: 0.95 },
+  { id: '47', shape: 'lowerMolar', scale: 0.95 },
+  { id: '46', shape: 'lowerMolar', scale: 0.95 },
+  { id: '45', shape: 'lowerPremolar', scale: 0.85 },
+  { id: '44', shape: 'lowerPremolar', scale: 0.85 },
+  { id: '43', shape: 'lowerCanine', scale: 0.82 },
+  { id: '42', shape: 'lowerLateral', scale: 0.75 },
+  { id: '41', shape: 'lowerCentral', scale: 0.78 },
+];
+
+// Lower Left: 31→38
+const lowerLeftAngles = [78, 70, 60, 53, 46, 38, 27, 16];
+const lowerLeftDefs = [
+  { id: '31', shape: 'lowerCentral', scale: 0.78 },
+  { id: '32', shape: 'lowerLateral', scale: 0.75 },
+  { id: '33', shape: 'lowerCanine', scale: 0.82 },
+  { id: '34', shape: 'lowerPremolar', scale: 0.85 },
+  { id: '35', shape: 'lowerPremolar', scale: 0.85 },
+  { id: '36', shape: 'lowerMolar', scale: 0.95 },
+  { id: '37', shape: 'lowerMolar', scale: 0.95 },
+  { id: '38', shape: 'lowerMolar', scale: 0.95 },
+];
+
+const ALL_TEETH: ToothPlaced[] = [
+  ...placeOnArc(upperRightDefs, CX, UPPER_CY, UPPER_RX, UPPER_RY, upperRightAngles, false, true),
+  ...placeOnArc(upperLeftDefs, CX, UPPER_CY, UPPER_RX, UPPER_RY, upperLeftAngles, false, true),
+  ...placeOnArc(lowerRightDefs, CX, LOWER_CY, LOWER_RX, LOWER_RY, lowerRightAngles, true, false),
+  ...placeOnArc(lowerLeftDefs, CX, LOWER_CY, LOWER_RX, LOWER_RY, lowerLeftAngles, true, false),
+];
 
 export function TriageLocationStep({
   selectedTeeth,
@@ -178,39 +190,45 @@ export function TriageLocationStep({
           <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Sup. Esquerdo</span>
         </div>
 
-        <svg viewBox="0 0 400 330" className="w-full h-auto" style={{ maxHeight: 360 }}>
-          {/* Crosshair dividers */}
-          <line x1={CX} y1="10" x2={CX} y2="320" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.35} />
-          <line x1="15" y1="165" x2="385" y2="165" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.35} />
-
-          <text x="24" y="169" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">D</text>
-          <text x="370" y="169" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">E</text>
+        <svg viewBox="0 0 400 340" className="w-full h-auto" style={{ maxHeight: 370 }}>
+          {/* Dividers */}
+          <line x1={CX} y1="8" x2={CX} y2="332" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
+          <line x1="12" y1="168" x2="388" y2="168" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
+          <text x="20" y="172" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">D</text>
+          <text x="374" y="172" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">E</text>
 
           {ALL_TEETH.map((tooth) => {
             const isSelected = selectedTeeth.includes(tooth.id);
             const shape = SHAPES[tooth.shape];
             if (!shape) return null;
 
+            // Compute number position: offset outward from arch (above for upper, below for lower)
+            const rotRad = (tooth.rotate * Math.PI) / 180;
+            // For upper teeth, push number outward (away from arch center = toward top of SVG)
+            // For lower teeth, push number outward (away from arch center = toward bottom of SVG)
+            // "Outward" in local tooth space is along negative Y (the tooth path points outward)
+            // After rotation, outward direction in SVG space:
+            const outwardDist = tooth.isUpper ? -20 : 20;
+            const numX = tooth.x + Math.sin(rotRad) * outwardDist;
+            const numY = tooth.y - Math.cos(rotRad) * outwardDist;
+
             return (
-              <g
-                key={tooth.id}
-                transform={`translate(${tooth.x},${tooth.y})`}
-                onClick={() => toggleTooth(tooth.id)}
-                className={cn(
-                  'cursor-pointer',
-                  unknownLocation && 'opacity-40 cursor-not-allowed pointer-events-none',
-                )}
-              >
-                {/* Rotated tooth shape */}
-                <g transform={`rotate(${tooth.rotate}) scale(${tooth.scale})`}>
+              <g key={tooth.id}>
+                {/* Tooth */}
+                <g
+                  transform={`translate(${tooth.x},${tooth.y}) rotate(${tooth.rotate}) scale(${tooth.scale})`}
+                  onClick={() => toggleTooth(tooth.id)}
+                  className={cn(
+                    'cursor-pointer',
+                    unknownLocation && 'opacity-40 cursor-not-allowed pointer-events-none',
+                  )}
+                >
                   <rect x={-14} y={-16} width={28} height={32} fill="transparent" />
                   <path
                     d={shape.outline}
                     className={cn(
                       'transition-all duration-150',
-                      isSelected
-                        ? 'fill-primary/90 stroke-primary'
-                        : 'fill-[#0f2a42] stroke-[#4a6a8a]',
+                      isSelected ? 'fill-primary/90 stroke-primary' : 'fill-[#0f2a42] stroke-[#4a6a8a]',
                     )}
                     strokeWidth={1.2}
                     strokeLinejoin="round"
@@ -226,36 +244,21 @@ export function TriageLocationStep({
                     strokeLinecap="round"
                   />
                 </g>
-                {/* Number — inside the arch (toward center of mouth) */}
-                {/* labelY is in rotated-tooth local space: we offset along the radial inward direction */}
-                {(() => {
-                  const angleRad = (tooth.rotate + 90) * Math.PI / 180; // direction toward arch center (upper: down, lower: up)
-                  // For upper teeth (rotate ~ -90+angle → labelY positive pushes inward/down)
-                  // For lower teeth (rotate ~ 90+angle → labelY negative pushes inward/up)
-                  const nx = Math.cos(angleRad * 0) * 0; // not needed, we use labelY along the tooth's outward axis
-                  void nx;
-                  // Simply offset along the tooth's local Y axis (after rotation), which points outward
-                  // labelY > 0 = toward arch interior for upper, labelY < 0 for lower
-                  const rotRad = (tooth.rotate * Math.PI) / 180;
-                  const dx = -Math.sin(rotRad) * tooth.labelY;
-                  const dy = Math.cos(rotRad) * tooth.labelY;
-                  return (
-                    <text
-                      x={dx}
-                      y={dy + 2.5}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      className={cn(
-                        'select-none pointer-events-none',
-                        isSelected ? 'fill-primary font-bold' : 'fill-muted-foreground/60',
-                      )}
-                      fontSize="6.5"
-                      fontFamily="monospace"
-                    >
-                      {tooth.id}
-                    </text>
-                  );
-                })()}
+                {/* Number — positioned outward, always upright */}
+                <text
+                  x={numX}
+                  y={numY}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  className={cn(
+                    'select-none pointer-events-none',
+                    isSelected ? 'fill-primary font-bold' : 'fill-muted-foreground/60',
+                  )}
+                  fontSize="7"
+                  fontFamily="monospace"
+                >
+                  {tooth.id}
+                </text>
               </g>
             );
           })}
