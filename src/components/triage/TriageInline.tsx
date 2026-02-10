@@ -7,6 +7,7 @@ import { TriageDurationStep } from './steps/TriageDurationStep';
 import { TriageIntensityStep } from './steps/TriageIntensityStep';
 import { TriagePhotosStep } from './steps/TriagePhotosStep';
 import { TriageCompletion } from './TriageCompletion';
+import { SearchDentistView } from '@/components/search/SearchDentistView';
 import { TriageData, initialTriageData } from '@/types/triage';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -19,6 +20,7 @@ interface TriageInlineProps {
 export function TriageInline({ onClose }: TriageInlineProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [triageData, setTriageData] = useState<TriageData>(initialTriageData);
 
   const updateTriageData = <K extends keyof TriageData>(key: K, value: TriageData[K]) => {
@@ -40,8 +42,7 @@ export function TriageInline({ onClose }: TriageInlineProps) {
   };
 
   const handleFindDentists = () => {
-    console.log('Triage data:', triageData);
-    onClose();
+    setShowSearch(true);
   };
 
   const canProceed = () => {
@@ -102,6 +103,11 @@ export function TriageInline({ onClose }: TriageInlineProps) {
         return null;
     }
   };
+
+  // Show search view
+  if (showSearch) {
+    return <SearchDentistView onBack={() => setShowSearch(false)} />;
+  }
 
   return (
     <ScrollArea className="flex-1">
