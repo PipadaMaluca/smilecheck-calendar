@@ -9,6 +9,7 @@ import {
   getAvailabilityForDentist,
 } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { BookingFlow } from '@/components/booking/BookingFlow';
 
 interface DentistProfileModalProps {
   dentist: DentistSearchResult;
@@ -17,6 +18,7 @@ interface DentistProfileModalProps {
 
 export function DentistProfileModal({ dentist, onClose }: DentistProfileModalProps) {
   const isMobile = useIsMobile();
+  const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const reviews = getReviewsForDentist(dentist.id);
   const availability = getAvailabilityForDentist(dentist.id);
@@ -26,6 +28,16 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
     .filter((_, i, a) => i === 0 || i === a.length - 1)
     .map((n) => n[0])
     .join('');
+
+  if (showBooking) {
+    return (
+      <BookingFlow
+        dentist={dentist}
+        onClose={() => setShowBooking(false)}
+        onComplete={() => { setShowBooking(false); onClose(); }}
+      />
+    );
+  }
 
   const content = (
     <div className="space-y-6">
@@ -88,7 +100,10 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
           {dentist.clinics.map((c) => (
             <div key={c.id} className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
               <MapPin className="w-4 h-4 text-primary shrink-0" />
-              <span className="text-sm text-foreground">{c.name}</span>
+              <div>
+                <span className="text-sm text-foreground">{c.name}</span>
+                <p className="text-xs text-muted-foreground">{c.address}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -137,9 +152,9 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
         </div>
       </div>
 
-      {/* Action buttons - at end of scroll content */}
+      {/* Action buttons */}
       <div className="flex gap-3 pt-3 pb-2">
-        <Button className="flex-1 bg-primary hover:bg-primary/90 h-11">
+        <Button className="flex-1 bg-primary hover:bg-primary/90 h-11" onClick={() => setShowBooking(true)}>
           <Calendar className="w-4 h-4 mr-2" />
           Marcar Consulta
         </Button>
