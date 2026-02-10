@@ -14,6 +14,8 @@ import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
+import { ProfileView } from '@/components/profile/ProfileView';
+import { EditProfileView } from '@/components/profile/EditProfileView';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -26,6 +28,8 @@ export function ClinicCalendar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists
@@ -276,7 +280,7 @@ export function ClinicCalendar() {
       ) : activeTab === 'conversas' ? (
         <ConversationsView userRole="clinic" onNavigate={setActiveTab} />
       ) : activeTab === 'conta' ? (
-        <AccountView userRole="clinic" onNavigate={setActiveTab} />
+        <AccountView userRole="clinic" onNavigate={setActiveTab} onEditProfile={() => setShowEditProfile(true)} />
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <p className="text-lg">Secção em construção...</p>
@@ -301,7 +305,12 @@ export function ClinicCalendar() {
         onDentistToggle={handleDentistToggle}
         selectedClinics={selectedClinics}
         onClinicToggle={handleClinicToggle}
+        onProfileClick={() => setShowProfile(true)}
       />
+
+
+      <ProfileView userRole="clinic" isOpen={showProfile} onClose={() => setShowProfile(false)} />
+      <EditProfileView userRole="clinic" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
 
       <EditConsultationModal
         consultation={selectedConsultation}

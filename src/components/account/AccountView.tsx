@@ -16,6 +16,7 @@ import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 interface AccountViewProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
+  onEditProfile?: () => void;
 }
 
 function getUserInfo(role: UserRole) {
@@ -81,7 +82,7 @@ function LinkRow({ icon: Icon, label, danger = false }: {
   );
 }
 
-export function AccountView({ userRole, onNavigate }: AccountViewProps) {
+export function AccountView({ userRole, onNavigate, onEditProfile }: AccountViewProps) {
   const userInfo = getUserInfo(userRole);
 
   return (
@@ -96,7 +97,7 @@ export function AccountView({ userRole, onNavigate }: AccountViewProps) {
             <h1 className="text-xl font-bold text-foreground">{userInfo.name}</h1>
             <p className="text-sm text-muted-foreground">{userInfo.subtitle}</p>
           </div>
-          <Button variant="outline" size="sm">Editar Perfil</Button>
+          <Button variant="outline" size="sm" onClick={onEditProfile}>Editar Perfil</Button>
         </div>
 
         {/* PATIENT SECTIONS */}

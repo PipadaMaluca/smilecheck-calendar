@@ -12,6 +12,8 @@ import { AccountView } from '@/components/account/AccountView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
 import { TriageInline } from '@/components/triage/TriageInline';
+import { ProfileView } from '@/components/profile/ProfileView';
+import { EditProfileView } from '@/components/profile/EditProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -27,6 +29,8 @@ export function PatientCalendar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [showTriage, setShowTriage] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -172,7 +176,7 @@ export function PatientCalendar() {
         ) : activeTab === 'conversas' ? (
           <ConversationsView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'conta' ? (
-          <AccountView userRole="patient" onNavigate={handleTabChange} />
+          <AccountView userRole="patient" onNavigate={handleTabChange} onEditProfile={() => setShowEditProfile(true)} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
@@ -195,6 +199,7 @@ export function PatientCalendar() {
           onViewModeChange={setViewMode}
           selectedMembers={selectedMembers}
           onMemberToggle={handleMemberToggle}
+          onProfileClick={() => setShowProfile(true)}
         />
 
         {/* Edit Modal */}
@@ -212,6 +217,9 @@ export function PatientCalendar() {
             setSelectedConsultation(null);
           }}
         />
+
+        <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
+        <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
       </div>
     </div>
   );
