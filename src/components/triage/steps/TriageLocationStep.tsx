@@ -8,223 +8,149 @@ interface TriageLocationStepProps {
   onUnknownChange: (unknown: boolean) => void;
 }
 
-// Occlusal view SVG paths for each tooth type - anatomically realistic
-const OCCLUSAL_PATHS: Record<string, { outline: string; detail: string; w: number; h: number }> = {
-  // Upper molars - wide, rectangular with rounded corners, cross-shaped fissure
+// Occlusal SVG paths per tooth type
+const SHAPES: Record<string, { outline: string; detail: string }> = {
   upperMolar: {
     outline: 'M-11,-8 C-11,-11 -8,-13 -4,-13 L4,-13 C8,-13 11,-11 11,-8 L11,8 C11,11 8,13 4,13 L-4,13 C-8,13 -11,11 -11,8 Z',
     detail: 'M-6,0 L6,0 M0,-8 L0,8',
-    w: 26, h: 30,
   },
-  // Upper premolars - oval, smaller
   upperPremolar: {
     outline: 'M-8,-7 C-8,-10 -5,-12 0,-12 C5,-12 8,-10 8,-7 L8,7 C8,10 5,12 0,12 C-5,12 -8,10 -8,7 Z',
     detail: 'M-4,0 L4,0',
-    w: 20, h: 28,
   },
-  // Upper canines - diamond / pointed oval
   upperCanine: {
     outline: 'M0,-13 C5,-11 7,-6 7,0 C7,6 5,11 0,13 C-5,11 -7,6 -7,0 C-7,-6 -5,-11 0,-13 Z',
     detail: 'M0,-6 L0,6',
-    w: 18, h: 30,
   },
-  // Upper lateral incisors - shovel shaped, narrow
   upperLateral: {
     outline: 'M-5,-7 C-5,-10 -3,-12 0,-12 C3,-12 5,-10 5,-7 L5,7 C5,10 3,12 0,12 C-3,12 -5,10 -5,7 Z',
     detail: 'M-2,0 L2,0',
-    w: 14, h: 28,
   },
-  // Upper central incisors - wider shovel
   upperCentral: {
-    outline: 'M-6,-7 C-6,-10 -4,-12 0,-12 C4,-12 6,-10 6,-7 L6,7 C6,10 4,12 0,12 C-4,12 -6,10 -6,7 Z',
+    outline: 'M-7,-8 C-7,-11 -5,-13 0,-13 C5,-13 7,-11 7,-8 L7,8 C7,11 5,13 0,13 C-5,13 -7,11 -7,8 Z',
     detail: 'M-3,0 L3,0',
-    w: 16, h: 28,
   },
-  // Lower molars
   lowerMolar: {
     outline: 'M-11,-8 C-11,-11 -8,-13 -4,-13 L4,-13 C8,-13 11,-11 11,-8 L11,8 C11,11 8,13 4,13 L-4,13 C-8,13 -11,11 -11,8 Z',
     detail: 'M-6,0 L6,0 M0,-8 L0,8 M-4,-4 L4,4',
-    w: 26, h: 30,
   },
   lowerPremolar: {
     outline: 'M-7,-7 C-7,-10 -4,-12 0,-12 C4,-12 7,-10 7,-7 L7,7 C7,10 4,12 0,12 C-4,12 -7,10 -7,7 Z',
     detail: 'M-3,0 L3,0',
-    w: 18, h: 28,
   },
   lowerCanine: {
     outline: 'M0,-13 C5,-11 6,-6 6,0 C6,6 5,11 0,13 C-5,11 -6,6 -6,0 C-6,-6 -5,-11 0,-13 Z',
     detail: 'M0,-5 L0,5',
-    w: 16, h: 30,
   },
   lowerLateral: {
     outline: 'M-4,-7 C-4,-10 -2,-12 0,-12 C2,-12 4,-10 4,-7 L4,7 C4,10 2,12 0,12 C-2,12 -4,10 -4,7 Z',
     detail: 'M-1,0 L1,0',
-    w: 12, h: 28,
   },
   lowerCentral: {
     outline: 'M-5,-7 C-5,-10 -3,-12 0,-12 C3,-12 5,-10 5,-7 L5,7 C5,10 3,12 0,12 C-3,12 -5,10 -5,7 Z',
     detail: 'M-2,0 L2,0',
-    w: 14, h: 28,
   },
 };
 
-interface ToothDef {
+interface ToothArc {
   id: string;
   shape: string;
+  x: number;
+  y: number;
+  rotate: number;
+  scale: number;
 }
 
-// Quadrants with correct tooth shapes
-const Q_UPPER_RIGHT: ToothDef[] = [
-  { id: '18', shape: 'upperMolar' },
-  { id: '17', shape: 'upperMolar' },
-  { id: '16', shape: 'upperMolar' },
-  { id: '15', shape: 'upperPremolar' },
-  { id: '14', shape: 'upperPremolar' },
-  { id: '13', shape: 'upperCanine' },
-  { id: '12', shape: 'upperLateral' },
-  { id: '11', shape: 'upperCentral' },
-];
-
-const Q_UPPER_LEFT: ToothDef[] = [
-  { id: '21', shape: 'upperCentral' },
-  { id: '22', shape: 'upperLateral' },
-  { id: '23', shape: 'upperCanine' },
-  { id: '24', shape: 'upperPremolar' },
-  { id: '25', shape: 'upperPremolar' },
-  { id: '26', shape: 'upperMolar' },
-  { id: '27', shape: 'upperMolar' },
-  { id: '28', shape: 'upperMolar' },
-];
-
-const Q_LOWER_LEFT: ToothDef[] = [
-  { id: '31', shape: 'lowerCentral' },
-  { id: '32', shape: 'lowerLateral' },
-  { id: '33', shape: 'lowerCanine' },
-  { id: '34', shape: 'lowerPremolar' },
-  { id: '35', shape: 'lowerPremolar' },
-  { id: '36', shape: 'lowerMolar' },
-  { id: '37', shape: 'lowerMolar' },
-  { id: '38', shape: 'lowerMolar' },
-];
-
-const Q_LOWER_RIGHT: ToothDef[] = [
-  { id: '48', shape: 'lowerMolar' },
-  { id: '47', shape: 'lowerMolar' },
-  { id: '46', shape: 'lowerMolar' },
-  { id: '45', shape: 'lowerPremolar' },
-  { id: '44', shape: 'lowerPremolar' },
-  { id: '43', shape: 'lowerCanine' },
-  { id: '42', shape: 'lowerLateral' },
-  { id: '41', shape: 'lowerCentral' },
-];
-
-function ToothButton({
-  tooth,
-  isSelected,
-  disabled,
-  onToggle,
-  numberBelow,
-}: {
-  tooth: ToothDef;
-  isSelected: boolean;
-  disabled: boolean;
-  onToggle: (id: string) => void;
-  numberBelow: boolean;
-}) {
-  const shape = OCCLUSAL_PATHS[tooth.shape];
-  if (!shape) return null;
-
-  return (
-    <button
-      type="button"
-      onClick={() => onToggle(tooth.id)}
-      disabled={disabled}
-      className={cn(
-        'relative flex flex-col items-center transition-all duration-150 rounded p-[2px]',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-        disabled && 'opacity-40 cursor-not-allowed',
-        !disabled && 'hover:bg-primary/10 cursor-pointer active:scale-95',
-      )}
-      aria-label={`Dente ${tooth.id}`}
-    >
-      {!numberBelow && (
-        <span className={cn(
-          'text-[8px] md:text-[9px] leading-none font-mono mb-[1px]',
-          isSelected ? 'text-primary font-bold' : 'text-muted-foreground/60',
-        )}>
-          {tooth.id}
-        </span>
-      )}
-      <svg
-        width={shape.w * 0.85}
-        height={shape.h * 0.85}
-        viewBox={`${-shape.w / 2} ${-shape.h / 2} ${shape.w} ${shape.h}`}
-        className="md:scale-110"
-      >
-        {/* Outer shape */}
-        <path
-          d={shape.outline}
-          className={cn(
-            'transition-all duration-150',
-            isSelected
-              ? 'fill-primary/90 stroke-primary'
-              : 'fill-[#0f2a42] stroke-[#4a6a8a] hover:stroke-primary/60',
-          )}
-          strokeWidth={1.2}
-          strokeLinejoin="round"
-        />
-        {/* Inner fissure detail */}
-        <path
-          d={shape.detail}
-          className={cn(
-            'transition-all duration-150',
-            isSelected ? 'stroke-primary-foreground/50' : 'stroke-[#3a5a7a]/60',
-          )}
-          strokeWidth={0.8}
-          fill="none"
-          strokeLinecap="round"
-        />
-      </svg>
-      {numberBelow && (
-        <span className={cn(
-          'text-[8px] md:text-[9px] leading-none font-mono mt-[1px]',
-          isSelected ? 'text-primary font-bold' : 'text-muted-foreground/60',
-        )}>
-          {tooth.id}
-        </span>
-      )}
-    </button>
-  );
+// Helper: place teeth along elliptical arch
+// cx,cy = center of arch ellipse; rx,ry = radii; angles = array of angles in degrees
+// flipRotation for lower arch
+function placeOnArc(
+  teeth: { id: string; shape: string; scale: number }[],
+  cx: number, cy: number, rx: number, ry: number,
+  startAngle: number, endAngle: number,
+  flipRotation: boolean,
+): ToothArc[] {
+  const n = teeth.length;
+  return teeth.map((t, i) => {
+    const frac = n > 1 ? i / (n - 1) : 0.5;
+    const angleDeg = startAngle + frac * (endAngle - startAngle);
+    const angleRad = (angleDeg * Math.PI) / 180;
+    const x = cx + rx * Math.cos(angleRad);
+    const y = cy + ry * Math.sin(angleRad);
+    // Tooth points outward from arch center
+    const rot = flipRotation ? angleDeg + 90 : angleDeg - 90;
+    return { ...t, x, y, rotate: rot };
+  });
 }
 
-function QuadrantRow({
-  teeth,
-  selectedTeeth,
-  disabled,
-  onToggle,
-  numberBelow,
-}: {
-  teeth: ToothDef[];
-  selectedTeeth: string[];
-  disabled: boolean;
-  onToggle: (id: string) => void;
-  numberBelow: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-[2px] md:gap-1">
-      {teeth.map((t) => (
-        <ToothButton
-          key={t.id}
-          tooth={t}
-          isSelected={selectedTeeth.includes(t.id)}
-          disabled={disabled}
-          onToggle={onToggle}
-          numberBelow={numberBelow}
-        />
-      ))}
-    </div>
-  );
-}
+// Upper arch: teeth arranged in an inverted U (arch opens downward)
+// Right quadrant: 18(far right) → 11(center right)
+const UPPER_RIGHT_DEFS = [
+  { id: '18', shape: 'upperMolar', scale: 1.05 },
+  { id: '17', shape: 'upperMolar', scale: 1.05 },
+  { id: '16', shape: 'upperMolar', scale: 1.05 },
+  { id: '15', shape: 'upperPremolar', scale: 0.92 },
+  { id: '14', shape: 'upperPremolar', scale: 0.92 },
+  { id: '13', shape: 'upperCanine', scale: 0.88 },
+  { id: '12', shape: 'upperLateral', scale: 0.82 },
+  { id: '11', shape: 'upperCentral', scale: 1.0 },
+];
+
+const UPPER_LEFT_DEFS = [
+  { id: '21', shape: 'upperCentral', scale: 1.0 },
+  { id: '22', shape: 'upperLateral', scale: 0.82 },
+  { id: '23', shape: 'upperCanine', scale: 0.88 },
+  { id: '24', shape: 'upperPremolar', scale: 0.92 },
+  { id: '25', shape: 'upperPremolar', scale: 0.92 },
+  { id: '26', shape: 'upperMolar', scale: 1.05 },
+  { id: '27', shape: 'upperMolar', scale: 1.05 },
+  { id: '28', shape: 'upperMolar', scale: 1.05 },
+];
+
+const LOWER_RIGHT_DEFS = [
+  { id: '48', shape: 'lowerMolar', scale: 1.05 },
+  { id: '47', shape: 'lowerMolar', scale: 1.05 },
+  { id: '46', shape: 'lowerMolar', scale: 1.05 },
+  { id: '45', shape: 'lowerPremolar', scale: 0.92 },
+  { id: '44', shape: 'lowerPremolar', scale: 0.92 },
+  { id: '43', shape: 'lowerCanine', scale: 0.88 },
+  { id: '42', shape: 'lowerLateral', scale: 0.82 },
+  { id: '41', shape: 'lowerCentral', scale: 0.85 },
+];
+
+const LOWER_LEFT_DEFS = [
+  { id: '31', shape: 'lowerCentral', scale: 0.85 },
+  { id: '32', shape: 'lowerLateral', scale: 0.82 },
+  { id: '33', shape: 'lowerCanine', scale: 0.88 },
+  { id: '34', shape: 'lowerPremolar', scale: 0.92 },
+  { id: '35', shape: 'lowerPremolar', scale: 0.92 },
+  { id: '36', shape: 'lowerMolar', scale: 1.05 },
+  { id: '37', shape: 'lowerMolar', scale: 1.05 },
+  { id: '38', shape: 'lowerMolar', scale: 1.05 },
+];
+
+// SVG viewBox: 0 0 340 300 — center at 170,150
+const CX = 170;
+
+// Upper arch: ellipse centered higher, arch curves downward
+const UPPER_CY = 120;
+const UPPER_RX = 145;
+const UPPER_RY = 95;
+// Right side: from ~200° (far molar) to ~265° (central near midline)
+// Left side: from ~275° to ~340°
+const upperRight = placeOnArc(UPPER_RIGHT_DEFS, CX, UPPER_CY, UPPER_RX, UPPER_RY, 195, 264, false);
+const upperLeft = placeOnArc(UPPER_LEFT_DEFS, CX, UPPER_CY, UPPER_RX, UPPER_RY, 276, 345, false);
+
+// Lower arch: smaller ellipse, arch curves upward
+const LOWER_CY = 180;
+const LOWER_RX = 125;
+const LOWER_RY = 80;
+// Right side: from ~160° (far molar) down to ~96° (central)
+// Left side: from ~84° down to ~20°
+const lowerRight = placeOnArc(LOWER_RIGHT_DEFS, CX, LOWER_CY, LOWER_RX, LOWER_RY, 165, 96, true);
+const lowerLeft = placeOnArc(LOWER_LEFT_DEFS, CX, LOWER_CY, LOWER_RX, LOWER_RY, 84, 15, true);
+
+const ALL_TEETH: ToothArc[] = [...upperRight, ...upperLeft, ...lowerRight, ...lowerLeft];
 
 export function TriageLocationStep({
   selectedTeeth,
@@ -249,59 +175,91 @@ export function TriageLocationStep({
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <h2 className="text-lg font-semibold text-foreground">
-          Onde sente o problema?
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Toque nos dentes afetados
-        </p>
+        <h2 className="text-lg font-semibold text-foreground">Onde sente o problema?</h2>
+        <p className="text-sm text-muted-foreground mt-1">Toque nos dentes afetados</p>
       </div>
 
       {/* Odontogram */}
-      <div className="bg-[#1E3A5F]/40 rounded-xl p-3 md:p-5 mx-auto max-w-[520px] space-y-0">
-        {/* Upper labels */}
-        <div className="flex justify-between px-1 mb-1">
-          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
-            Sup. Direito
-          </span>
-          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
-            Sup. Esquerdo
-          </span>
+      <div className="bg-[#1E3A5F]/40 rounded-xl p-2 md:p-4 mx-auto max-w-[520px]">
+        {/* Quadrant labels */}
+        <div className="flex justify-between px-2 mb-0">
+          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Sup. Direito</span>
+          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Sup. Esquerdo</span>
         </div>
 
-        {/* Upper arch - numbers above */}
-        <div className="flex items-end justify-center gap-2 md:gap-3">
-          <QuadrantRow teeth={Q_UPPER_RIGHT} selectedTeeth={selectedTeeth} disabled={unknownLocation} onToggle={toggleTooth} numberBelow={false} />
-          <div className="w-px h-12 bg-muted-foreground/30 flex-shrink-0" />
-          <QuadrantRow teeth={Q_UPPER_LEFT} selectedTeeth={selectedTeeth} disabled={unknownLocation} onToggle={toggleTooth} numberBelow={false} />
-        </div>
+        <svg viewBox="0 0 340 300" className="w-full h-auto" style={{ maxHeight: 340 }}>
+          {/* Crosshair dividers */}
+          <line x1={CX} y1="10" x2={CX} y2="290" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.4} />
+          <line x1="15" y1="150" x2="325" y2="150" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.4} />
 
-        {/* Horizontal divider */}
-        <div className="flex items-center gap-1 my-1">
-          <div className="flex-1 h-px bg-muted-foreground/25" />
-          <div className="flex items-center gap-1 px-1">
-            <span className="text-[8px] text-muted-foreground/40 font-medium">D</span>
-            <div className="w-1.5 h-1.5 rounded-full bg-muted-foreground/20" />
-            <span className="text-[8px] text-muted-foreground/40 font-medium">E</span>
-          </div>
-          <div className="flex-1 h-px bg-muted-foreground/25" />
-        </div>
+          {/* D / E labels */}
+          <text x="22" y="154" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">D</text>
+          <text x="310" y="154" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">E</text>
 
-        {/* Lower arch - numbers below */}
-        <div className="flex items-start justify-center gap-2 md:gap-3">
-          <QuadrantRow teeth={Q_LOWER_RIGHT} selectedTeeth={selectedTeeth} disabled={unknownLocation} onToggle={toggleTooth} numberBelow={true} />
-          <div className="w-px h-12 bg-muted-foreground/30 flex-shrink-0" />
-          <QuadrantRow teeth={Q_LOWER_LEFT} selectedTeeth={selectedTeeth} disabled={unknownLocation} onToggle={toggleTooth} numberBelow={true} />
-        </div>
+          {/* Teeth */}
+          {ALL_TEETH.map((tooth) => {
+            const isSelected = selectedTeeth.includes(tooth.id);
+            const shape = SHAPES[tooth.shape];
+            if (!shape) return null;
 
-        {/* Lower labels */}
-        <div className="flex justify-between px-1 mt-1">
-          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
-            Inf. Direito
-          </span>
-          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
-            Inf. Esquerdo
-          </span>
+            return (
+              <g
+                key={tooth.id}
+                transform={`translate(${tooth.x},${tooth.y}) rotate(${tooth.rotate}) scale(${tooth.scale})`}
+                onClick={() => toggleTooth(tooth.id)}
+                className={cn(
+                  'cursor-pointer',
+                  unknownLocation && 'opacity-40 cursor-not-allowed pointer-events-none',
+                )}
+              >
+                {/* Hit area */}
+                <rect x={-14} y={-16} width={28} height={32} fill="transparent" />
+                {/* Tooth outline */}
+                <path
+                  d={shape.outline}
+                  className={cn(
+                    'transition-all duration-150',
+                    isSelected
+                      ? 'fill-primary/90 stroke-primary'
+                      : 'fill-[#0f2a42] stroke-[#4a6a8a]',
+                  )}
+                  strokeWidth={1.2}
+                  strokeLinejoin="round"
+                />
+                {/* Fissure detail */}
+                <path
+                  d={shape.detail}
+                  className={cn(
+                    'transition-all duration-150',
+                    isSelected ? 'stroke-primary-foreground/40' : 'stroke-[#3a5a7a]/50',
+                  )}
+                  strokeWidth={0.7}
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                {/* Tooth number — always upright */}
+                <g transform={`rotate(${-tooth.rotate})`}>
+                  <text
+                    y={tooth.y < 150 ? -16 : 20}
+                    textAnchor="middle"
+                    className={cn(
+                      'select-none pointer-events-none',
+                      isSelected ? 'fill-primary font-bold' : 'fill-muted-foreground/50',
+                    )}
+                    fontSize="7"
+                    fontFamily="monospace"
+                  >
+                    {tooth.id}
+                  </text>
+                </g>
+              </g>
+            );
+          })}
+        </svg>
+
+        <div className="flex justify-between px-2 -mt-1">
+          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Inf. Direito</span>
+          <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Inf. Esquerdo</span>
         </div>
       </div>
 
