@@ -1,123 +1,137 @@
-import { useState } from 'react';
-import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import smileIcon from '@/assets/smilecheck-icon.png';
+import { mockFamilyMembers } from '@/data/mockData';
 
 interface HealthViewProps {
   userRole: 'patient';
   onNavigate?: (tab: string) => void;
 }
 
-// Mock data
-const initialAllergies = ['Penicilina', 'Látex'];
-const initialMedications = [
-  { name: 'Ibuprofeno', dosage: '400mg - 2x/dia' },
-  { name: 'Omeprazol', dosage: '20mg - 1x/dia' },
-];
-const initialConditions = ['Hipertensão'];
-const initialDocuments = [
-  { id: '1', name: 'Raio-X Panorâmico', type: 'exame' as const, date: '28 Jan 2026', format: 'pdf' },
-  { id: '2', name: 'Análises Sanguíneas', type: 'exame' as const, date: '15 Jan 2026', format: 'pdf' },
-  { id: '3', name: 'Relatório Ortodontia', type: 'outro' as const, date: '10 Jan 2026', format: 'pdf' },
-];
-const initialPrescriptions = [
-  {
-    id: '1',
-    dentist: 'Dr. Gonçalo Pipo',
-    date: '28 Jan 2026',
-    medications: 'Amoxicilina 500mg, Ibuprofeno 600mg',
+interface FamilyMember {
+  id: string;
+  name: string;
+  age: number;
+  relation: string;
+}
+
+interface MemberHealthData {
+  bloodType: string;
+  height: string;
+  weight: string;
+  allergies: string[];
+  medications: { name: string; dosage: string }[];
+  conditions: string[];
+  documents: { id: string; name: string; type: 'exame' | 'receita' | 'outro'; date: string; format: string }[];
+  prescriptions: { id: string; dentist: string; date: string; medications: string }[];
+  vaccines: { name: string; date: string }[];
+}
+
+const defaultHealthData: Record<string, MemberHealthData> = {
+  fm1: {
+    bloodType: 'O+', height: '178', weight: '75',
+    allergies: ['Penicilina', 'Látex'],
+    medications: [{ name: 'Ibuprofeno', dosage: '400mg - 2x/dia' }, { name: 'Omeprazol', dosage: '20mg - 1x/dia' }],
+    conditions: ['Hipertensão'],
+    documents: [
+      { id: '1', name: 'Raio-X Panorâmico', type: 'exame', date: '28 Jan 2026', format: 'pdf' },
+      { id: '2', name: 'Análises Sanguíneas', type: 'exame', date: '15 Jan 2026', format: 'pdf' },
+    ],
+    prescriptions: [
+      { id: '1', dentist: 'Dr. Gonçalo Pipo', date: '28 Jan 2026', medications: 'Amoxicilina 500mg, Ibuprofeno 600mg' },
+    ],
+    vaccines: [{ name: 'Hepatite B', date: '12 Mar 2024' }, { name: 'Tétano', date: '05 Jun 2022' }],
   },
-  {
-    id: '2',
-    dentist: 'Dra. Sofia Martins',
-    date: '15 Dez 2025',
-    medications: 'Clindamicina 300mg',
+  fm2: {
+    bloodType: 'A+', height: '165', weight: '62',
+    allergies: ['Aspirina'],
+    medications: [],
+    conditions: [],
+    documents: [
+      { id: '3', name: 'Relatório Ortodontia', type: 'outro', date: '10 Jan 2026', format: 'pdf' },
+    ],
+    prescriptions: [
+      { id: '2', dentist: 'Dra. Sofia Martins', date: '15 Dez 2025', medications: 'Clindamicina 300mg' },
+    ],
+    vaccines: [{ name: 'Hepatite B', date: '20 Jan 2023' }],
   },
-];
-const initialVaccines = [
-  { name: 'Hepatite B', date: '12 Mar 2024' },
-  { name: 'Tétano', date: '05 Jun 2022' },
-];
+  fm3: {
+    bloodType: 'O+', height: '152', weight: '42',
+    allergies: [],
+    medications: [],
+    conditions: [],
+    documents: [],
+    prescriptions: [],
+    vaccines: [{ name: 'Hepatite B', date: '10 Set 2014' }, { name: 'Tétano', date: '15 Mar 2020' }],
+  },
+};
+
+const emptyHealthData = (): MemberHealthData => ({
+  bloodType: '', height: '', weight: '',
+  allergies: [], medications: [], conditions: [],
+  documents: [], prescriptions: [], vaccines: [],
+});
 
 export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const isMobile = useIsMobile();
 
-  // Health profile
-  const [bloodType, setBloodType] = useState('O+');
-  const [height, setHeight] = useState('175');
-  const [weight, setWeight] = useState('72');
+  const [members, setMembers] = useState<FamilyMember[]>([...mockFamilyMembers]);
+  const [selectedMemberId, setSelectedMemberId] = useState(members[0].id);
+  const [healthData, setHealthData] = useState<Record<string, MemberHealthData>>(defaultHealthData);
   const [profileChanged, setProfileChanged] = useState(false);
 
-  // Allergies
-  const [allergies, setAllergies] = useState(initialAllergies);
-  const [newAllergy, setNewAllergy] = useState('');
+  // Add member modal
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newMemberName, setNewMemberName] = useState('');
+  const [newMemberBirthYear, setNewMemberBirthYear] = useState('');
+  const [newMemberRelation, setNewMemberRelation] = useState('');
 
-  // Medications
-  const [medications, setMedications] = useState(initialMedications);
+  // Input fields for adding items
+  const [newAllergy, setNewAllergy] = useState('');
   const [newMedName, setNewMedName] = useState('');
   const [newMedDosage, setNewMedDosage] = useState('');
-
-  // Conditions
-  const [conditions, setConditions] = useState(initialConditions);
   const [newCondition, setNewCondition] = useState('');
-
-  // Documents
-  const [documents] = useState(initialDocuments);
-  const [docFilter, setDocFilter] = useState('todos');
-
-  // Prescriptions
-  const [prescriptions] = useState(initialPrescriptions);
-
-  // Vaccines
-  const [vaccines, setVaccines] = useState(initialVaccines);
   const [newVaccineName, setNewVaccineName] = useState('');
   const [newVaccineDate, setNewVaccineDate] = useState('');
+  const [docFilter, setDocFilter] = useState('todos');
 
-  const filteredDocs = docFilter === 'todos' ? documents : documents.filter(d => d.type === docFilter);
+  const currentMember = members.find(m => m.id === selectedMemberId)!;
+  const data = healthData[selectedMemberId] || emptyHealthData();
 
-  const addAllergy = () => {
-    if (newAllergy.trim()) {
-      setAllergies([...allergies, newAllergy.trim()]);
-      setNewAllergy('');
-    }
-  };
+  const updateData = useCallback((updater: (prev: MemberHealthData) => MemberHealthData) => {
+    setHealthData(prev => ({
+      ...prev,
+      [selectedMemberId]: updater(prev[selectedMemberId] || emptyHealthData()),
+    }));
+  }, [selectedMemberId]);
 
-  const addMedication = () => {
-    if (newMedName.trim()) {
-      setMedications([...medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }]);
-      setNewMedName('');
-      setNewMedDosage('');
-    }
-  };
+  const filteredDocs = docFilter === 'todos' ? data.documents : data.documents.filter(d => d.type === docFilter);
 
-  const addCondition = () => {
-    if (newCondition.trim()) {
-      setConditions([...conditions, newCondition.trim()]);
-      setNewCondition('');
-    }
-  };
-
-  const addVaccine = () => {
-    if (newVaccineName.trim()) {
-      setVaccines([...vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }]);
-      setNewVaccineName('');
-      setNewVaccineDate('');
-    }
+  const addMember = () => {
+    if (!newMemberName.trim() || !newMemberRelation) return;
+    const age = newMemberBirthYear ? new Date().getFullYear() - parseInt(newMemberBirthYear) : 0;
+    const newId = `fm-${Date.now()}`;
+    setMembers(prev => [...prev, { id: newId, name: newMemberName.trim(), age, relation: newMemberRelation }]);
+    setHealthData(prev => ({ ...prev, [newId]: emptyHealthData() }));
+    setSelectedMemberId(newId);
+    setShowAddModal(false);
+    setNewMemberName('');
+    setNewMemberBirthYear('');
+    setNewMemberRelation('');
   };
 
   const RemoveButton = ({ onClick }: { onClick: () => void }) => (
-    <button
-      onClick={onClick}
-      className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-    >
+    <button onClick={onClick} className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">
       <X className="w-3.5 h-3.5" />
     </button>
   );
@@ -143,8 +157,43 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           <p className="text-sm text-muted-foreground">Mantenha os seus dados atualizados</p>
         </div>
 
+        {/* Family Member Tabs */}
+        <div className="relative">
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
+            {members.map(member => (
+              <button
+                key={member.id}
+                onClick={() => { setSelectedMemberId(member.id); setProfileChanged(false); setDocFilter('todos'); }}
+                className={cn(
+                  'flex-shrink-0 flex flex-col items-center px-4 py-2 rounded-lg transition-all duration-200 border-b-2',
+                  selectedMemberId === member.id
+                    ? 'bg-primary/10 border-primary text-foreground'
+                    : 'bg-transparent border-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
+                )}
+              >
+                <span className="text-sm font-medium whitespace-nowrap">{member.name}</span>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <span className="text-[10px] text-muted-foreground">{member.age} anos</span>
+                  {member.age < 18 && (
+                    <Badge variant="secondary" className="text-[8px] px-1 py-0 h-3.5 bg-amber-500/20 text-amber-400 border-amber-500/30">
+                      Menor
+                    </Badge>
+                  )}
+                </div>
+              </button>
+            ))}
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="flex-shrink-0 flex items-center gap-1 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span className="text-xs font-medium whitespace-nowrap">Adicionar</span>
+            </button>
+          </div>
+        </div>
+
         {/* Grid: 2 cols on desktop/tablet, 1 col on mobile */}
-        <div className={cn('grid gap-4', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
+        <div className={cn('grid gap-4 animate-fade-in', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
 
           {/* 1. Perfil de Saúde */}
           <Card>
@@ -154,8 +203,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <label className="text-xs font-medium text-muted-foreground">Grupo Sanguíneo</label>
-                <Select value={bloodType} onValueChange={(v) => { setBloodType(v); setProfileChanged(true); }}>
-                  <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
+                <Select value={data.bloodType} onValueChange={(v) => { updateData(d => ({ ...d, bloodType: v })); setProfileChanged(true); }}>
+                  <SelectTrigger className="h-9"><SelectValue placeholder="Selecionar..." /></SelectTrigger>
                   <SelectContent>
                     {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(t => (
                       <SelectItem key={t} value={t}>{t}</SelectItem>
@@ -168,19 +217,17 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
                     <Ruler className="w-3 h-3" /> Altura (cm)
                   </label>
-                  <Input type="number" value={height} onChange={e => { setHeight(e.target.value); setProfileChanged(true); }} className="h-9" />
+                  <Input type="number" value={data.height} onChange={e => { updateData(d => ({ ...d, height: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
                     <Weight className="w-3 h-3" /> Peso (kg)
                   </label>
-                  <Input type="number" value={weight} onChange={e => { setWeight(e.target.value); setProfileChanged(true); }} className="h-9" />
+                  <Input type="number" value={data.weight} onChange={e => { updateData(d => ({ ...d, weight: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
               </div>
               {profileChanged && (
-                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">
-                  Guardar
-                </Button>
+                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">Guardar</Button>
               )}
             </CardContent>
           </Card>
@@ -191,27 +238,21 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {allergies.length === 0 ? (
+              {data.allergies.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">Nenhuma alergia registada</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
-                  {allergies.map((a, i) => (
+                  {data.allergies.map((a, i) => (
                     <Badge key={i} variant="secondary" className="gap-1 pr-1">
                       {a}
-                      <RemoveButton onClick={() => setAllergies(allergies.filter((_, idx) => idx !== i))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, allergies: d.allergies.filter((_, idx) => idx !== i) }))} />
                     </Badge>
                   ))}
                 </div>
               )}
               <div className="flex gap-2">
-                <Input
-                  placeholder="Nova alergia..."
-                  value={newAllergy}
-                  onChange={e => setNewAllergy(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && addAllergy()}
-                  className="h-9 flex-1"
-                />
-                <Button size="sm" onClick={addAllergy} disabled={!newAllergy.trim()} className="gap-1">
+                <Input placeholder="Nova alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
+                <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
               </div>
@@ -224,35 +265,25 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={Pill} label="Medicação Actual" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {medications.length === 0 ? (
+              {data.medications.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">Nenhuma medicação registada</p>
               ) : (
                 <div className="space-y-2">
-                  {medications.map((m, i) => (
+                  {data.medications.map((m, i) => (
                     <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
                       <div>
                         <p className="text-sm font-medium">{m.name}</p>
                         <p className="text-xs text-muted-foreground">{m.dosage}</p>
                       </div>
-                      <RemoveButton onClick={() => setMedications(medications.filter((_, idx) => idx !== i))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, medications: d.medications.filter((_, idx) => idx !== i) }))} />
                     </div>
                   ))}
                 </div>
               )}
               <div className="flex gap-2">
-                <Input
-                  placeholder="Medicamento..."
-                  value={newMedName}
-                  onChange={e => setNewMedName(e.target.value)}
-                  className="h-9 flex-1"
-                />
-                <Input
-                  placeholder="Dosagem..."
-                  value={newMedDosage}
-                  onChange={e => setNewMedDosage(e.target.value)}
-                  className="h-9 w-28"
-                />
-                <Button size="sm" onClick={addMedication} disabled={!newMedName.trim()} className="gap-1">
+                <Input placeholder="Medicamento..." value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder="Dosagem..." value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
+                <Button size="sm" onClick={() => { if (newMedName.trim()) { updateData(d => ({ ...d, medications: [...d.medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }] })); setNewMedName(''); setNewMedDosage(''); } }} disabled={!newMedName.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
               </div>
@@ -265,27 +296,21 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={Activity} label="Condições Médicas" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {conditions.length === 0 ? (
+              {data.conditions.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">Nenhuma condição registada</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
-                  {conditions.map((c, i) => (
+                  {data.conditions.map((c, i) => (
                     <Badge key={i} variant="secondary" className="gap-1 pr-1">
                       {c}
-                      <RemoveButton onClick={() => setConditions(conditions.filter((_, idx) => idx !== i))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, conditions: d.conditions.filter((_, idx) => idx !== i) }))} />
                     </Badge>
                   ))}
                 </div>
               )}
               <div className="flex gap-2">
-                <Input
-                  placeholder="Nova condição..."
-                  value={newCondition}
-                  onChange={e => setNewCondition(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && addCondition()}
-                  className="h-9 flex-1"
-                />
-                <Button size="sm" onClick={addCondition} disabled={!newCondition.trim()} className="gap-1">
+                <Input placeholder="Nova condição..." value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
+                <Button size="sm" onClick={() => { if (newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} disabled={!newCondition.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
               </div>
@@ -340,11 +365,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label="Receitas Médicas" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {prescriptions.length === 0 ? (
+              {data.prescriptions.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">Nenhuma receita</p>
               ) : (
                 <div className="space-y-2">
-                  {prescriptions.map(rx => (
+                  {data.prescriptions.map(rx => (
                     <div key={rx.id} className="p-3 rounded-lg bg-secondary/50 space-y-1">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium">{rx.dentist}</p>
@@ -367,35 +392,25 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={Syringe} label="Histórico de Vacinas" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {vaccines.length === 0 ? (
+              {data.vaccines.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">Nenhuma vacina registada</p>
               ) : (
                 <div className="space-y-2">
-                  {vaccines.map((v, i) => (
+                  {data.vaccines.map((v, i) => (
                     <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
                       <div>
                         <p className="text-sm font-medium">{v.name}</p>
                         <p className="text-xs text-muted-foreground">{v.date}</p>
                       </div>
-                      <RemoveButton onClick={() => setVaccines(vaccines.filter((_, idx) => idx !== i))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, vaccines: d.vaccines.filter((_, idx) => idx !== i) }))} />
                     </div>
                   ))}
                 </div>
               )}
               <div className="flex gap-2">
-                <Input
-                  placeholder="Vacina..."
-                  value={newVaccineName}
-                  onChange={e => setNewVaccineName(e.target.value)}
-                  className="h-9 flex-1"
-                />
-                <Input
-                  placeholder="Data..."
-                  value={newVaccineDate}
-                  onChange={e => setNewVaccineDate(e.target.value)}
-                  className="h-9 w-28"
-                />
-                <Button size="sm" onClick={addVaccine} disabled={!newVaccineName.trim()} className="gap-1">
+                <Input placeholder="Vacina..." value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder="Data..." value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
+                <Button size="sm" onClick={() => { if (newVaccineName.trim()) { updateData(d => ({ ...d, vaccines: [...d.vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }] })); setNewVaccineName(''); setNewVaccineDate(''); } }} disabled={!newVaccineName.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
               </div>
@@ -403,6 +418,45 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           </Card>
         </div>
       </div>
+
+      {/* Add Family Member Modal */}
+      <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <UserPlus className="w-5 h-5 text-primary" />
+              Adicionar Membro Familiar
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label>Nome</Label>
+              <Input placeholder="Nome completo..." value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>Ano de Nascimento</Label>
+              <Input type="number" placeholder="Ex: 1990" value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>Parentesco</Label>
+              <Select value={newMemberRelation} onValueChange={setNewMemberRelation}>
+                <SelectTrigger><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Filho/a">Filho/a</SelectItem>
+                  <SelectItem value="Cônjuge">Cônjuge</SelectItem>
+                  <SelectItem value="Pai">Pai</SelectItem>
+                  <SelectItem value="Mãe">Mãe</SelectItem>
+                  <SelectItem value="Outro">Outro</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancelar</Button>
+            <Button onClick={addMember} disabled={!newMemberName.trim() || !newMemberRelation}>Adicionar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </ScrollArea>
   );
 }
