@@ -7,9 +7,10 @@ interface ConsultationCardProps {
   consultation: Consultation;
   userRole: UserRole;
   onClick?: () => void;
+  showFamilyMember?: boolean;
 }
 
-export function ConsultationCard({ consultation, userRole, onClick }: ConsultationCardProps) {
+export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember }: ConsultationCardProps) {
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
   const Icon = isTeleconsulta ? Video : MapPin;
@@ -94,6 +95,11 @@ export function ConsultationCard({ consultation, userRole, onClick }: Consultati
             >
               {categoryLabel}
             </p>
+            {showFamilyMember && (
+              <p className="text-xs font-medium text-primary">
+                Para: {consultation.patient.name}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}
+              </p>
+            )}
             <p className="text-xs text-muted-foreground">{consultation.clinic.name}</p>
             {consultation.notes && (
               <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>

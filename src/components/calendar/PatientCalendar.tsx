@@ -124,6 +124,7 @@ export function PatientCalendar() {
                         key={consultation.id}
                         consultation={consultation}
                         userRole="patient"
+                        showFamilyMember={selectedMembers.includes('all') || selectedMembers.length > 1}
                         onClick={() => setSelectedConsultation(consultation)}
                       />
                     ))}
@@ -143,6 +144,7 @@ export function PatientCalendar() {
                         <ConsultationCard
                           consultation={consultation}
                           userRole="patient"
+                          showFamilyMember={selectedMembers.includes('all') || selectedMembers.length > 1}
                           onClick={() => setSelectedConsultation(consultation)}
                         />
                       </div>
