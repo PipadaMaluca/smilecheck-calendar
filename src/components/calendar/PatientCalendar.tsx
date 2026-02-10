@@ -10,6 +10,7 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { FamilyFilter } from './mobile/FamilyFilter';
 import { DashboardView } from '@/components/dashboard/DashboardView';
+import { AccountView } from '@/components/account/AccountView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -165,6 +166,8 @@ export function PatientCalendar() {
               <Plus className="w-6 h-6" />
             </Button>
           </>
+        ) : activeTab === 'conta' ? (
+          <AccountView userRole="patient" onNavigate={setActiveTab} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
