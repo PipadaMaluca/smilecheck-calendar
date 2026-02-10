@@ -113,11 +113,11 @@ const upperRight = buildArch(
     { x: 104, y: 124, r: -62 },
     { x: 111, y: 98, r: -47 },
     { x: 124, y: 76, r: -32 },
-    { x: 139, y: 60, r: -20 },
-    { x: 152, y: 48, r: -12 },
-    { x: 161, y: 42, r: -6 },
-    { x: 173, y: 37, r: -2 },
-    { x: 186, y: 34, r: 0 },
+    { x: 135, y: 57, r: -22 },
+    { x: 147, y: 44, r: -14 },
+    { x: 157, y: 38, r: -8 },
+    { x: 169, y: 34, r: -3 },
+    { x: 183, y: 32, r: 0 },
   ],
 );
 
@@ -134,11 +134,11 @@ const upperLeft = buildArch(
     { id: '28', shape: 'upperMolar' },
   ],
   [
-    { x: 214, y: 34, r: 0 },
-    { x: 227, y: 37, r: 2 },
-    { x: 239, y: 42, r: 6 },
-    { x: 248, y: 48, r: 12 },
-    { x: 261, y: 60, r: 20 },
+    { x: 217, y: 32, r: 0 },
+    { x: 231, y: 34, r: 3 },
+    { x: 243, y: 38, r: 8 },
+    { x: 253, y: 44, r: 14 },
+    { x: 265, y: 57, r: 22 },
     { x: 276, y: 76, r: 32 },
     { x: 289, y: 98, r: 47 },
     { x: 296, y: 124, r: 62 },
@@ -161,11 +161,11 @@ const lowerRight = buildArch(
     { x: 114, y: 176, r: 62 },
     { x: 119, y: 200, r: 47 },
     { x: 130, y: 218, r: 32 },
-    { x: 144, y: 232, r: 20 },
-    { x: 156, y: 242, r: 12 },
-    { x: 163, y: 249, r: 6 },
-    { x: 173, y: 252, r: 2 },
-    { x: 186, y: 254, r: 0 },
+    { x: 141, y: 235, r: 22 },
+    { x: 153, y: 246, r: 14 },
+    { x: 163, y: 253, r: 8 },
+    { x: 175, y: 257, r: 3 },
+    { x: 189, y: 259, r: 0 },
   ],
 );
 
@@ -182,11 +182,11 @@ const lowerLeft = buildArch(
     { id: '38', shape: 'lowerMolar' },
   ],
   [
-    { x: 214, y: 254, r: 0 },
-    { x: 227, y: 252, r: -2 },
-    { x: 237, y: 249, r: -6 },
-    { x: 244, y: 242, r: -12 },
-    { x: 256, y: 232, r: -20 },
+    { x: 211, y: 259, r: 0 },
+    { x: 225, y: 257, r: -3 },
+    { x: 237, y: 253, r: -8 },
+    { x: 247, y: 246, r: -14 },
+    { x: 259, y: 235, r: -22 },
     { x: 270, y: 218, r: -32 },
     { x: 281, y: 200, r: -47 },
     { x: 286, y: 176, r: -62 },
@@ -239,7 +239,7 @@ export function TriageLocationStep({
           <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Sup. Esquerdo</span>
         </div>
 
-        <svg viewBox="0 0 400 290" className="w-full h-auto" style={{ maxHeight: 350 }}>
+        <svg viewBox="0 0 400 300" className="w-full h-auto" style={{ maxHeight: 360 }}>
           {/* Dividers */}
           <line x1={CX} y1="8" x2={CX} y2="282" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
           <line x1="80" y1="145" x2="320" y2="145" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
@@ -252,10 +252,10 @@ export function TriageLocationStep({
             if (!shape) return null;
 
             const upper = isUpperTooth(tooth.id);
-            const scale = 0.85;
+            const scale = 0.78;
 
             // Number position: above for upper, below for lower
-            const numOffset = upper ? -19 : 19;
+            const numOffset = upper ? -21 : 21;
             const rotRad = (tooth.rotate * Math.PI) / 180;
             const numX = tooth.x + Math.sin(rotRad) * numOffset;
             const numY = tooth.y - Math.cos(rotRad) * numOffset;
