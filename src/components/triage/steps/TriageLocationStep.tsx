@@ -114,10 +114,10 @@ const upperRight = buildArch(
     { x: 111, y: 98, r: -47 },
     { x: 124, y: 76, r: -32 },
     { x: 139, y: 60, r: -20 },
-    { x: 155, y: 48, r: -12 },
-    { x: 168, y: 40, r: -6 },
-    { x: 180, y: 35, r: -2 },
-    { x: 191, y: 33, r: 0 },
+    { x: 152, y: 48, r: -12 },
+    { x: 164, y: 41, r: -6 },
+    { x: 176, y: 36, r: -2 },
+    { x: 188, y: 34, r: 0 },
   ],
 );
 
@@ -134,10 +134,10 @@ const upperLeft = buildArch(
     { id: '28', shape: 'upperMolar' },
   ],
   [
-    { x: 209, y: 33, r: 0 },
-    { x: 220, y: 35, r: 2 },
-    { x: 232, y: 40, r: 6 },
-    { x: 245, y: 48, r: 12 },
+    { x: 212, y: 34, r: 0 },
+    { x: 224, y: 36, r: 2 },
+    { x: 236, y: 41, r: 6 },
+    { x: 248, y: 48, r: 12 },
     { x: 261, y: 60, r: 20 },
     { x: 276, y: 76, r: 32 },
     { x: 289, y: 98, r: 47 },
@@ -162,10 +162,10 @@ const lowerRight = buildArch(
     { x: 119, y: 200, r: 47 },
     { x: 130, y: 218, r: 32 },
     { x: 144, y: 232, r: 20 },
-    { x: 158, y: 242, r: 12 },
-    { x: 170, y: 249, r: 6 },
-    { x: 180, y: 253, r: 2 },
-    { x: 191, y: 255, r: 0 },
+    { x: 156, y: 242, r: 12 },
+    { x: 166, y: 248, r: 6 },
+    { x: 176, y: 252, r: 2 },
+    { x: 188, y: 254, r: 0 },
   ],
 );
 
@@ -182,10 +182,10 @@ const lowerLeft = buildArch(
     { id: '38', shape: 'lowerMolar' },
   ],
   [
-    { x: 209, y: 255, r: 0 },
-    { x: 220, y: 253, r: -2 },
-    { x: 230, y: 249, r: -6 },
-    { x: 242, y: 242, r: -12 },
+    { x: 212, y: 254, r: 0 },
+    { x: 224, y: 252, r: -2 },
+    { x: 234, y: 248, r: -6 },
+    { x: 244, y: 242, r: -12 },
     { x: 256, y: 232, r: -20 },
     { x: 270, y: 218, r: -32 },
     { x: 281, y: 200, r: -47 },
@@ -255,7 +255,7 @@ export function TriageLocationStep({
             const scale = 0.85;
 
             // Number position: above for upper, below for lower
-            const numOffset = upper ? -16 : 16;
+            const numOffset = upper ? -19 : 19;
             const rotRad = (tooth.rotate * Math.PI) / 180;
             const numX = tooth.x + Math.sin(rotRad) * numOffset;
             const numY = tooth.y - Math.cos(rotRad) * numOffset;
