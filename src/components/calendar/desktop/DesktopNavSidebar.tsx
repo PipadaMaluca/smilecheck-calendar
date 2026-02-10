@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -10,6 +10,7 @@ interface DesktopNavSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   userRole: UserRole;
+  onPrescribe?: () => void;
 }
 
 const MAIN_NAV_ITEMS_BY_ROLE = {
@@ -45,6 +46,7 @@ export function DesktopNavSidebar({
   activeTab,
   onTabChange,
   userRole,
+  onPrescribe,
 }: DesktopNavSidebarProps) {
   const mainItems = MAIN_NAV_ITEMS_BY_ROLE[userRole];
 
@@ -108,6 +110,25 @@ export function DesktopNavSidebar({
 
         {/* Secondary Navigation */}
         {SECONDARY_NAV_ITEMS.map(renderNavButton)}
+
+        {/* Prescribe button for dentist */}
+        {userRole === 'dentist' && (
+          <>
+            <Separator className="my-1 bg-[#1E3A5F]" />
+            <Button
+              variant="ghost"
+              onClick={onPrescribe}
+              className="flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
+            >
+              <FilePlus className="w-5 h-5 flex-shrink-0" />
+              {isExpanded && (
+                <span className="text-[10px] font-medium text-center leading-tight">
+                  Prescrever<br />Receita
+                </span>
+              )}
+            </Button>
+          </>
+        )}
       </nav>
 
       {/* Bottom: Conta */}

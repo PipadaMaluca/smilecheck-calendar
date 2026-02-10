@@ -15,6 +15,7 @@ import { DashboardView } from '@/components/dashboard/DashboardView';
 import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
+import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -28,6 +29,7 @@ export function DentistCalendar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
+  const [showPrescription, setShowPrescription] = useState(false);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -308,8 +310,15 @@ export function DentistCalendar() {
           onDentistToggle={handleDentistToggle}
           selectedClinics={selectedClinics}
           onClinicToggle={handleClinicToggle}
+          onPrescribe={() => setShowPrescription(true)}
         />
 
+        {showPrescription && (
+          <PrescriptionFlow
+            onClose={() => setShowPrescription(false)}
+            onGoHome={() => { setShowPrescription(false); setActiveTab('home'); }}
+          />
+        )}
         <EditConsultationModal
           consultation={selectedConsultation}
           isOpen={!!selectedConsultation}
