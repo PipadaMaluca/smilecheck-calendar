@@ -3,6 +3,7 @@ import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, 
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
+import { DesktopMainSidebar } from './DesktopMainSidebar';
 import { DesktopCalendarSidebar } from './DesktopCalendarSidebar';
 import { PatientSidebar } from './PatientSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
@@ -240,6 +241,11 @@ export function DesktopCalendarView() {
     return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
   return <div className="h-screen flex bg-background">
+      {/* Fixed Main Sidebar */}
+      <DesktopMainSidebar activeTab={activeNavTab} onTabChange={setActiveNavTab} userRole={activeRole} />
+
+      {/* Content wrapper with ml-64 to offset fixed sidebar */}
+      <div className="ml-64 flex flex-1 h-screen">
       {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
       <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={setActiveNavTab} userRole={activeRole} />
 
@@ -356,5 +362,6 @@ export function DesktopCalendarView() {
       console.log('Cancelled consultation:', consultation);
       setSelectedConsultation(null);
     }} />
+      </div>
     </div>;
 }
