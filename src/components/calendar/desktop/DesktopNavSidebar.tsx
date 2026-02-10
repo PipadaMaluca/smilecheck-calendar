@@ -65,7 +65,9 @@ export function DesktopNavSidebar({
       >
         <Icon className="w-5 h-5 flex-shrink-0" />
         {isExpanded && (
-          <span className="text-[10px] font-medium">{item.label}</span>
+          <span className="text-[10px] font-medium text-center leading-tight">
+            {item.id === 'loja' ? <>{`Loja de`}<br />{`Recompensas`}</> : item.label}
+          </span>
         )}
       </Button>
     );
