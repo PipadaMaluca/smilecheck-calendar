@@ -8,15 +8,13 @@ export interface TriageSymptom {
 
 export const TRIAGE_SYMPTOMS: TriageSymptom[] = [
   { id: 'dor_dente', label: 'Dor de dente', icon: '🦷' },
-  { id: 'sensibilidade', label: 'Sensibilidade ao quente/frio', icon: '🌡️' },
+  { id: 'sensibilidade', label: 'Sensibilidade', icon: '🌡️' },
   { id: 'sangramento', label: 'Sangramento nas gengivas', icon: '🩸' },
   { id: 'mau_halito', label: 'Mau hálito', icon: '😮‍💨' },
   { id: 'inchaco', label: 'Inchaço', icon: '😣' },
-  { id: 'dente_abanar', label: 'Dente a abanar', icon: '🦷' },
-  { id: 'dor_mandibula', label: 'Dor na mandíbula', icon: '😖' },
-  { id: 'descoloracao', label: 'Descoloração do dente', icon: '🎨' },
+  { id: 'dente_abanar', label: 'Dente a abanar', icon: '🔄' },
   { id: 'dente_partido', label: 'Dente partido/lascado', icon: '💔' },
-  { id: 'feridas_boca', label: 'Feridas na boca', icon: '⚪' },
+  { id: 'manchas', label: 'Manchas nos dentes', icon: '🎨' },
   { id: 'outro', label: 'Outro', icon: '❓' },
 ];
 
@@ -28,12 +26,11 @@ export interface TriageDuration {
 
 export const TRIAGE_DURATIONS: TriageDuration[] = [
   { id: 'menos_24h', label: 'Menos de 24 horas', icon: '⏰' },
-  { id: '1_3_dias', label: '1-3 dias', icon: '📅' },
-  { id: '4_7_dias', label: '4-7 dias', icon: '📅' },
-  { id: '1_2_semanas', label: '1-2 semanas', icon: '📅' },
-  { id: '2_4_semanas', label: '2-4 semanas', icon: '📅' },
+  { id: '1_3_dias', label: '1 a 3 dias', icon: '📅' },
+  { id: '4_7_dias', label: '4 a 7 dias', icon: '📅' },
+  { id: '1_2_semanas', label: '1 a 2 semanas', icon: '📅' },
+  { id: '2_4_semanas', label: '2 a 4 semanas', icon: '📅' },
   { id: 'mais_1_mes', label: 'Mais de 1 mês', icon: '📅' },
-  { id: 'nao_sei', label: 'Não tenho a certeza', icon: '❓' },
 ];
 
 export interface ToothPosition {

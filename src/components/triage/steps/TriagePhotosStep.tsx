@@ -72,7 +72,7 @@ export function TriagePhotosStep({
           Adicione fotos (opcional)
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Fotos ajudam o dentista a preparar-se melhor
+          Máximo 5 fotos, 5MB cada
         </p>
       </div>
 

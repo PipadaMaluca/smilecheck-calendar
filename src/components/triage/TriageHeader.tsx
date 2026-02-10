@@ -13,9 +13,9 @@ export function TriageHeader({ currentStep, totalSteps }: TriageHeaderProps) {
     <div className="space-y-4">
       {/* Title */}
       <div className="text-center">
-        <h1 className="text-xl font-bold text-foreground">Nova Consulta - Triagem</h1>
+        <h1 className="text-xl font-bold text-foreground">Triagem</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Ajude-nos a entender o seu problema
+          Passo {currentStep} de {totalSteps}
         </p>
       </div>
 
