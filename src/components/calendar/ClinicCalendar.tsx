@@ -13,6 +13,7 @@ import { DashboardView } from '@/components/dashboard/DashboardView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
+import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -175,7 +176,17 @@ export function ClinicCalendar() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 overflow-x-hidden">
+    <div className="min-h-screen bg-background pb-24 overflow-x-hidden relative">
+      {/* Background Watermark Logo */}
+      <div 
+        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+        style={{
+          backgroundImage: `url(${smileIcon})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: '60%',
+        }}
+      />
       {/* Mobile Header with View Mode Selector */}
       <MobileHeader 
         onMenuClick={() => setSidebarOpen(true)}
