@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PatientCalendar } from './PatientCalendar';
 import { DentistCalendar } from './DentistCalendar';
 import { ClinicCalendar } from './ClinicCalendar';
 import { DesktopCalendarView } from './desktop/DesktopCalendarView';
+import { SplashScreen } from '@/components/splash/SplashScreen';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
   const [activeView, setActiveView] = useState('patient');
   const [isDesktop, setIsDesktop] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     const checkDesktop = () => {
@@ -20,15 +22,28 @@ export function CalendarDemo() {
     return () => window.removeEventListener('resize', checkDesktop);
   }, []);
 
+  const handleSplashFinish = useCallback(() => {
+    setShowSplash(false);
+  }, []);
+
+  // Determine role for splash (desktop uses 'clinic' as default, mobile uses activeView)
+  const splashRole = isDesktop ? 'clinic' : (activeView as 'patient' | 'dentist' | 'clinic');
+
   // On desktop (>= 1024px), show the Doctolib-style layout
   if (isDesktop) {
-    console.log('DESKTOP ATIVO');
-    return <DesktopCalendarView />;
+    return (
+      <>
+        {showSplash && <SplashScreen userRole={splashRole} onFinish={handleSplashFinish} />}
+        <DesktopCalendarView />
+      </>
+    );
   }
 
   // On mobile/tablet, show the original tabbed interface
   return (
     <div className="min-h-screen bg-background">
+      {showSplash && <SplashScreen userRole={splashRole} onFinish={handleSplashFinish} />}
+
       {/* View Selector */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
