@@ -14,7 +14,7 @@ export function TriageDurationStep({
     <div className="space-y-4">
       <div className="text-center">
         <h2 className="text-lg font-semibold text-foreground">
-          Há quanto tempo sente isto?
+          Há quanto tempo tem este problema?
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
           Selecione a opção mais adequada

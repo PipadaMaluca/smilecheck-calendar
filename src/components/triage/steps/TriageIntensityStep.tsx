@@ -43,7 +43,7 @@ export function TriageIntensityStep({
           Qual a intensidade da dor?
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
-          0 = Sem dor, 10 = Dor insuportável
+          Sem dor (0) · Moderada (5) · Insuportável (10)
         </p>
       </div>
 

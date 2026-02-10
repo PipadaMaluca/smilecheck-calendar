@@ -30,7 +30,7 @@ export function TriageSymptomsStep({
     <div className="space-y-4">
       <div className="text-center">
         <h2 className="text-lg font-semibold text-foreground">
-          Que sintomas está a sentir?
+          Quais são os seus sintomas?
         </h2>
         <p className="text-sm text-muted-foreground mt-1">
           Selecione todos os que se aplicam
