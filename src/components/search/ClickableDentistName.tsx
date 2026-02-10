@@ -7,6 +7,7 @@ interface ClickableDentistNameProps {
   name: string;
   className?: string;
   children?: React.ReactNode;
+  onGoHome?: () => void;
 }
 
 /**
@@ -15,7 +16,7 @@ interface ClickableDentistNameProps {
  * If no match is found, the name is rendered as plain text.
  * Only intended for patient role.
  */
-export function ClickableDentistName({ name, className, children }: ClickableDentistNameProps) {
+export function ClickableDentistName({ name, className, children, onGoHome }: ClickableDentistNameProps) {
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
 
   const dentist = MOCK_DENTIST_RESULTS.find(
@@ -25,6 +26,11 @@ export function ClickableDentistName({ name, className, children }: ClickableDen
   if (!dentist) {
     return <span className={className}>{children || name}</span>;
   }
+
+  const handleGoHome = onGoHome || (() => {
+    setSelectedDentist(null);
+    window.dispatchEvent(new CustomEvent('smilecheck:go-home'));
+  });
 
   return (
     <>
@@ -44,6 +50,7 @@ export function ClickableDentistName({ name, className, children }: ClickableDen
         <DentistProfileModal
           dentist={selectedDentist}
           onClose={() => setSelectedDentist(null)}
+          onGoHome={handleGoHome}
         />
       )}
     </>

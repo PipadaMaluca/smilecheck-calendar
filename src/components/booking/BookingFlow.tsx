@@ -16,6 +16,7 @@ interface BookingFlowProps {
   dentist: DentistSearchResult;
   onClose: () => void;
   onComplete: () => void;
+  onGoHome?: () => void;
 }
 
 type BookingStep = 'clinic' | 'type' | 'datetime' | 'confirm' | 'payment' | 'success';
@@ -36,7 +37,7 @@ const ALL_SLOTS = [
 
 const OCCUPIED_SLOTS = ['09:30', '10:30', '14:30', '16:00', '17:30', '19:30'];
 
-export function BookingFlow({ dentist, onClose, onComplete }: BookingFlowProps) {
+export function BookingFlow({ dentist, onClose, onComplete, onGoHome }: BookingFlowProps) {
   const isMobile = useIsMobile();
   const skipClinic = dentist.clinics.length <= 1;
   
@@ -399,7 +400,13 @@ export function BookingFlow({ dentist, onClose, onComplete }: BookingFlowProps) 
         </div>
       </div>
       <div className="flex gap-3 w-full pt-2">
-        <Button variant="outline" className="flex-1 border-border" onClick={onComplete}>
+        <Button variant="outline" className="flex-1 border-border" onClick={() => {
+          if (onGoHome) {
+            onGoHome();
+          } else {
+            onComplete();
+          }
+        }}>
           Voltar ao Início
         </Button>
         <Button className="flex-1" onClick={onClose}>
