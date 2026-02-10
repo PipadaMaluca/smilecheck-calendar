@@ -93,7 +93,7 @@ const UPPER_RY = 112;
 // Premolars: 224, 231 (7-8° apart)
 // Canine: 238
 // Incisors: 248, 256 (tight, 8° then close to center gap)
-const upperRightAngles = [196, 207, 218, 226, 233, 240, 250, 258];
+const upperRightAngles = [200, 210, 220, 228, 234, 241, 252, 261];
 const upperRightDefs = [
   { id: '18', shape: 'upperMolar', scale: 0.95 },
   { id: '17', shape: 'upperMolar', scale: 0.95 },
@@ -106,7 +106,7 @@ const upperRightDefs = [
 ];
 
 // Upper Left: 21→28 (mirror)
-const upperLeftAngles = [282, 290, 300, 307, 314, 322, 333, 344];
+const upperLeftAngles = [279, 288, 299, 306, 312, 319, 330, 340];
 const upperLeftDefs = [
   { id: '21', shape: 'upperCentral', scale: 0.9 },
   { id: '22', shape: 'upperLateral', scale: 0.75 },
@@ -125,7 +125,7 @@ const LOWER_RY = 92;
 
 // Lower Right: 48→41 (molars at outside, incisors near center)
 // Angles go from ~164° (48) to ~98° (41)
-const lowerRightAngles = [164, 153, 142, 134, 127, 120, 110, 102];
+const lowerRightAngles = [160, 150, 140, 132, 126, 119, 108, 99];
 const lowerRightDefs = [
   { id: '48', shape: 'lowerMolar', scale: 0.95 },
   { id: '47', shape: 'lowerMolar', scale: 0.95 },
@@ -138,7 +138,7 @@ const lowerRightDefs = [
 ];
 
 // Lower Left: 31→38
-const lowerLeftAngles = [78, 70, 60, 53, 46, 38, 27, 16];
+const lowerLeftAngles = [81, 72, 61, 54, 48, 41, 30, 20];
 const lowerLeftDefs = [
   { id: '31', shape: 'lowerCentral', scale: 0.78 },
   { id: '32', shape: 'lowerLateral', scale: 0.75 },
@@ -254,7 +254,8 @@ export function TriageLocationStep({
                     'select-none pointer-events-none',
                     isSelected ? 'fill-primary font-bold' : 'fill-muted-foreground/60',
                   )}
-                  fontSize="7"
+                  fontSize="9"
+                  fontWeight="600"
                   fontFamily="monospace"
                 >
                   {tooth.id}
