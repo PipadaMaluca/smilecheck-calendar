@@ -82,72 +82,66 @@ function placeOnArc(
 
 const CX = 200;
 
-// === UPPER ARCH ===
-const UPPER_CY = 128;
-const UPPER_RX = 172;
-const UPPER_RY = 112;
+// === UPPER ARCH === (softer ellipse, closer to center)
+const UPPER_CY = 140;
+const UPPER_RX = 155;
+const UPPER_RY = 95;
 
-// Upper Right: 18→11 (molars spread, incisors tight)
-// Angles go from ~196° (18, far right) toward ~265° (11, near center)
-// Molars: 196, 206, 216 (10° apart — wide)
-// Premolars: 224, 231 (7-8° apart)
-// Canine: 238
-// Incisors: 248, 256 (tight, 8° then close to center gap)
-const upperRightAngles = [200, 210, 220, 228, 234, 241, 252, 261];
+// Uniform ~9° spacing across 8 teeth per side
+const upperRightAngles = [198, 207, 216, 225, 234, 243, 252, 261];
 const upperRightDefs = [
-  { id: '18', shape: 'upperMolar', scale: 0.95 },
-  { id: '17', shape: 'upperMolar', scale: 0.95 },
-  { id: '16', shape: 'upperMolar', scale: 0.95 },
-  { id: '15', shape: 'upperPremolar', scale: 0.85 },
-  { id: '14', shape: 'upperPremolar', scale: 0.85 },
-  { id: '13', shape: 'upperCanine', scale: 0.82 },
-  { id: '12', shape: 'upperLateral', scale: 0.75 },
-  { id: '11', shape: 'upperCentral', scale: 0.9 },
+  { id: '18', shape: 'upperMolar', scale: 0.88 },
+  { id: '17', shape: 'upperMolar', scale: 0.88 },
+  { id: '16', shape: 'upperMolar', scale: 0.88 },
+  { id: '15', shape: 'upperPremolar', scale: 0.8 },
+  { id: '14', shape: 'upperPremolar', scale: 0.8 },
+  { id: '13', shape: 'upperCanine', scale: 0.78 },
+  { id: '12', shape: 'upperLateral', scale: 0.72 },
+  { id: '11', shape: 'upperCentral', scale: 0.82 },
 ];
 
-// Upper Left: 21→28 (mirror)
-const upperLeftAngles = [279, 288, 299, 306, 312, 319, 330, 340];
+// Mirror: 21→28
+const upperLeftAngles = [279, 288, 297, 306, 315, 324, 333, 342];
 const upperLeftDefs = [
-  { id: '21', shape: 'upperCentral', scale: 0.9 },
-  { id: '22', shape: 'upperLateral', scale: 0.75 },
-  { id: '23', shape: 'upperCanine', scale: 0.82 },
-  { id: '24', shape: 'upperPremolar', scale: 0.85 },
-  { id: '25', shape: 'upperPremolar', scale: 0.85 },
-  { id: '26', shape: 'upperMolar', scale: 0.95 },
-  { id: '27', shape: 'upperMolar', scale: 0.95 },
-  { id: '28', shape: 'upperMolar', scale: 0.95 },
+  { id: '21', shape: 'upperCentral', scale: 0.82 },
+  { id: '22', shape: 'upperLateral', scale: 0.72 },
+  { id: '23', shape: 'upperCanine', scale: 0.78 },
+  { id: '24', shape: 'upperPremolar', scale: 0.8 },
+  { id: '25', shape: 'upperPremolar', scale: 0.8 },
+  { id: '26', shape: 'upperMolar', scale: 0.88 },
+  { id: '27', shape: 'upperMolar', scale: 0.88 },
+  { id: '28', shape: 'upperMolar', scale: 0.88 },
 ];
 
-// === LOWER ARCH ===
-const LOWER_CY = 198;
-const LOWER_RX = 148;
-const LOWER_RY = 92;
+// === LOWER ARCH === (closer to upper, softer ellipse)
+const LOWER_CY = 195;
+const LOWER_RX = 135;
+const LOWER_RY = 78;
 
-// Lower Right: 48→41 (molars at outside, incisors near center)
-// Angles go from ~164° (48) to ~98° (41)
-const lowerRightAngles = [160, 150, 140, 132, 126, 119, 108, 99];
+// Uniform ~9° spacing
+const lowerRightAngles = [162, 153, 144, 135, 126, 117, 108, 99];
 const lowerRightDefs = [
-  { id: '48', shape: 'lowerMolar', scale: 0.95 },
-  { id: '47', shape: 'lowerMolar', scale: 0.95 },
-  { id: '46', shape: 'lowerMolar', scale: 0.95 },
-  { id: '45', shape: 'lowerPremolar', scale: 0.85 },
-  { id: '44', shape: 'lowerPremolar', scale: 0.85 },
-  { id: '43', shape: 'lowerCanine', scale: 0.82 },
-  { id: '42', shape: 'lowerLateral', scale: 0.75 },
-  { id: '41', shape: 'lowerCentral', scale: 0.78 },
+  { id: '48', shape: 'lowerMolar', scale: 0.88 },
+  { id: '47', shape: 'lowerMolar', scale: 0.88 },
+  { id: '46', shape: 'lowerMolar', scale: 0.88 },
+  { id: '45', shape: 'lowerPremolar', scale: 0.8 },
+  { id: '44', shape: 'lowerPremolar', scale: 0.8 },
+  { id: '43', shape: 'lowerCanine', scale: 0.78 },
+  { id: '42', shape: 'lowerLateral', scale: 0.72 },
+  { id: '41', shape: 'lowerCentral', scale: 0.72 },
 ];
 
-// Lower Left: 31→38
-const lowerLeftAngles = [81, 72, 61, 54, 48, 41, 30, 20];
+// Mirror: 31→38
+const lowerLeftAngles = [81, 72, 63, 54, 45, 36, 27, 18];
 const lowerLeftDefs = [
-  { id: '31', shape: 'lowerCentral', scale: 0.78 },
-  { id: '32', shape: 'lowerLateral', scale: 0.75 },
-  { id: '33', shape: 'lowerCanine', scale: 0.82 },
-  { id: '34', shape: 'lowerPremolar', scale: 0.85 },
-  { id: '35', shape: 'lowerPremolar', scale: 0.85 },
-  { id: '36', shape: 'lowerMolar', scale: 0.95 },
-  { id: '37', shape: 'lowerMolar', scale: 0.95 },
-  { id: '38', shape: 'lowerMolar', scale: 0.95 },
+  { id: '31', shape: 'lowerCentral', scale: 0.72 },
+  { id: '32', shape: 'lowerLateral', scale: 0.72 },
+  { id: '33', shape: 'lowerCanine', scale: 0.78 },
+  { id: '34', shape: 'lowerPremolar', scale: 0.8 },
+  { id: '35', shape: 'lowerPremolar', scale: 0.8 },
+  { id: '36', shape: 'lowerMolar', scale: 0.88 },
+  { id: '37', shape: 'lowerMolar', scale: 0.88 },
+  { id: '38', shape: 'lowerMolar', scale: 0.88 },
 ];
 
 const ALL_TEETH: ToothPlaced[] = [
@@ -190,9 +184,9 @@ export function TriageLocationStep({
           <span className="text-[9px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Sup. Esquerdo</span>
         </div>
 
-        <svg viewBox="0 0 400 340" className="w-full h-auto" style={{ maxHeight: 370 }}>
+        <svg viewBox="0 0 400 310" className="w-full h-auto" style={{ maxHeight: 350 }}>
           {/* Dividers */}
-          <line x1={CX} y1="8" x2={CX} y2="332" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
+          <line x1={CX} y1="8" x2={CX} y2="302" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
           <line x1="12" y1="168" x2="388" y2="168" stroke="hsl(215 20% 40%)" strokeWidth="0.6" strokeDasharray="3,3" opacity={0.3} />
           <text x="20" y="172" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">D</text>
           <text x="374" y="172" className="fill-muted-foreground/40" fontSize="9" fontWeight="500">E</text>
@@ -202,13 +196,8 @@ export function TriageLocationStep({
             const shape = SHAPES[tooth.shape];
             if (!shape) return null;
 
-            // Compute number position: offset outward from arch (above for upper, below for lower)
+            const outwardDist = tooth.isUpper ? -18 : 18;
             const rotRad = (tooth.rotate * Math.PI) / 180;
-            // For upper teeth, push number outward (away from arch center = toward top of SVG)
-            // For lower teeth, push number outward (away from arch center = toward bottom of SVG)
-            // "Outward" in local tooth space is along negative Y (the tooth path points outward)
-            // After rotation, outward direction in SVG space:
-            const outwardDist = tooth.isUpper ? -20 : 20;
             const numX = tooth.x + Math.sin(rotRad) * outwardDist;
             const numY = tooth.y - Math.cos(rotRad) * outwardDist;
 
