@@ -14,6 +14,7 @@ import { DashboardView } from '@/components/dashboard/DashboardView';
 import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
+import { HealthView } from '@/components/health/HealthView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -499,6 +500,34 @@ export function DesktopCalendarView() {
             </div>
           </header>
           <ConversationsView userRole={activeRole} onNavigate={handleNavTabChange} />
+        </div>
+      ) : activeNavTab === 'saude' && activeRole === 'patient' ? (
+        /* Health View - Patient only */
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+            <span className="text-sm font-medium text-foreground">Saúde</span>
+            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all bg-primary text-primary-foreground hover:bg-primary/90')}>
+                <User className="w-4 h-4" /> Paciente
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all text-muted-foreground hover:text-foreground')}>
+                <Stethoscope className="w-4 h-4" /> Dentista
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all text-muted-foreground hover:text-foreground')}>
+                <Building2 className="w-4 h-4" /> Clínica
+              </Button>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-sm font-bold text-foreground">{mockFamilyMembers[0].name}</p>
+                <p className="text-xs text-muted-foreground">Paciente</p>
+              </div>
+              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
+            </div>
+          </header>
+          <HealthView userRole="patient" onNavigate={handleNavTabChange} />
         </div>
       ) : (
         /* Placeholder for other tabs */

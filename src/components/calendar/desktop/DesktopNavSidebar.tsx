@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -16,6 +16,7 @@ const MAIN_NAV_ITEMS_BY_ROLE = {
   patient: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
+    { id: 'saude', icon: Heart, label: 'Saúde' },
     { id: 'chat', icon: MessageCircle, label: 'Conversas' },
   ],
   dentist: [
