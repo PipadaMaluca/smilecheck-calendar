@@ -9,7 +9,7 @@ export interface DentistSearchResult {
   level: 'ouro' | 'prata' | 'bronze';
   specialties: string[];
   distance: number;
-  clinics: { id: string; name: string }[];
+  clinics: { id: string; name: string; address: string; distance: number }[];
   nextAvailable: string;
   teleconsultaPrice: number;
   bio: string;
@@ -40,7 +40,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'ouro',
     specialties: ['Generalista', 'Estética Dentária'],
     distance: 2.5,
-    clinics: [{ id: '1', name: 'Clínica SmileCheck' }],
+    clinics: [{ id: '1', name: 'Clínica SmileCheck', address: 'Rua Augusta 123, Lisboa', distance: 2.5 }],
     nextAvailable: 'Hoje, 15:30',
     teleconsultaPrice: 20,
     bio: 'Médico dentista com mais de 15 anos de experiência em clínica geral e estética dentária. Focado no conforto do paciente e nas técnicas mais recentes.',
@@ -55,7 +55,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'ouro',
     specialties: ['Generalista', 'Ortodontia', 'Multidisciplinar'],
     distance: 2.5,
-    clinics: [{ id: '1', name: 'Clínica SmileCheck' }],
+    clinics: [{ id: '1', name: 'Clínica SmileCheck', address: 'Rua Augusta 123, Lisboa', distance: 2.5 }],
     nextAvailable: 'Hoje, 17:00',
     teleconsultaPrice: 25,
     bio: 'Especialista multidisciplinar com formação em ortodontia e implantologia. Atende todas as áreas da medicina dentária com excelência.',
@@ -70,7 +70,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'prata',
     specialties: ['Generalista'],
     distance: 2.5,
-    clinics: [{ id: '1', name: 'Clínica SmileCheck' }],
+    clinics: [{ id: '1', name: 'Clínica SmileCheck', address: 'Rua Augusta 123, Lisboa', distance: 2.5 }],
     nextAvailable: 'Amanhã, 09:30',
     teleconsultaPrice: 18,
     bio: 'Dentista generalista dedicado à prevenção e tratamentos conservadores. Ambiente calmo e acolhedor.',
@@ -85,7 +85,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'prata',
     specialties: ['Cirurgia', 'Prótese'],
     distance: 4.2,
-    clinics: [{ id: '2', name: 'Clínica Mitry-Mory' }],
+    clinics: [{ id: '2', name: 'Clínica Mitry-Mory', address: 'Avenue de la République 45, Mitry-Mory', distance: 4.2 }],
     nextAvailable: 'Amanhã, 10:00',
     teleconsultaPrice: 22,
     bio: 'Cirurgião oral especializado em extrações complexas e reabilitação protética. Formação avançada em cirurgia minimamente invasiva.',
@@ -100,7 +100,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'bronze',
     specialties: ['Endodontia'],
     distance: 4.2,
-    clinics: [{ id: '2', name: 'Clínica Mitry-Mory' }],
+    clinics: [{ id: '2', name: 'Clínica Mitry-Mory', address: 'Avenue de la République 45, Mitry-Mory', distance: 4.2 }],
     nextAvailable: 'Amanhã, 14:00',
     teleconsultaPrice: 20,
     bio: 'Endodontista com vasta experiência em tratamentos de canal e retratamentos. Utiliza microscopia operatória para máxima precisão.',
@@ -115,7 +115,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'prata',
     specialties: ['Cirurgia', 'Prótese', 'Implantologia'],
     distance: 6.0,
-    clinics: [{ id: '3', name: 'Clínica Montfermeil' }],
+    clinics: [{ id: '3', name: 'Clínica Montfermeil', address: 'Rue de Paris 78, Montfermeil', distance: 6.0 }],
     nextAvailable: 'Qua, 11:00',
     teleconsultaPrice: 25,
     bio: 'Especialista em implantes dentários e reabilitação oral completa. Mais de 2000 implantes colocados com sucesso.',
@@ -130,7 +130,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     level: 'ouro',
     specialties: ['Ortodontia'],
     distance: 6.0,
-    clinics: [{ id: '3', name: 'Clínica Montfermeil' }],
+    clinics: [{ id: '3', name: 'Clínica Montfermeil', address: 'Rue de Paris 78, Montfermeil', distance: 6.0 }],
     nextAvailable: 'Qua, 09:00',
     teleconsultaPrice: 30,
     bio: 'Ortodontista com especialização em alinhadores invisíveis e ortodontia lingual. Apaixonada por criar sorrisos perfeitos.',
