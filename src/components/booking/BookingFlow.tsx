@@ -399,7 +399,7 @@ export function BookingFlow({ dentist, onClose, onComplete }: BookingFlowProps) 
         </div>
       </div>
       <div className="flex gap-3 w-full pt-2">
-        <Button variant="outline" className="flex-1 border-border" onClick={onClose}>
+        <Button variant="outline" className="flex-1 border-border" onClick={onComplete}>
           Voltar ao Início
         </Button>
         <Button className="flex-1" onClick={onClose}>
@@ -423,7 +423,7 @@ export function BookingFlow({ dentist, onClose, onComplete }: BookingFlowProps) 
   const renderButtons = () => {
     if (step === 'success') return null;
     return (
-      <div className={cn('flex gap-3 pt-4', isMobile && 'fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border z-10')}>
+      <div className="flex gap-3 pt-4">
         {currentIdx === 0 ? (
           <Button variant="outline" className="flex-1 border-border" onClick={onClose}>Cancelar</Button>
         ) : (
@@ -467,17 +467,42 @@ export function BookingFlow({ dentist, onClose, onComplete }: BookingFlowProps) 
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-[60] bg-background">
+      <div className="fixed inset-0 z-[60] bg-background" style={{ bottom: '60px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-semibold text-foreground">Marcar Consulta</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
-        <div className="h-[calc(100vh-57px-72px)] overflow-y-auto">
+        <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100% - 57px - 64px)' }}>
           <div className="p-4 pb-8">{content}</div>
         </div>
-        {renderButtons()}
+        {step !== 'success' && (
+          <div className="flex gap-3 p-4 border-t border-border bg-background">
+            {currentIdx === 0 ? (
+              <Button variant="outline" className="flex-1 border-border" onClick={onClose}>Cancelar</Button>
+            ) : (
+              <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
+                <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
+              </Button>
+            )}
+            {step === 'confirm' ? (
+              <Button className="flex-1" onClick={handleConfirm}>
+                {data.consultationType === 'teleconsulta' ? 'Seguinte' : 'Confirmar'}
+                {data.consultationType !== 'teleconsulta' && <Check className="w-4 h-4 ml-1" />}
+                {data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
+              </Button>
+            ) : step === 'payment' ? (
+              <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
+                Pagar €{totalPrice}
+              </Button>
+            ) : (
+              <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
+                Seguinte <ChevronRight className="w-4 h-4 ml-1" />
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     );
   }

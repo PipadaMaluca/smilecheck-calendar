@@ -72,6 +72,11 @@ export function PatientCalendar() {
     }
   };
 
+  const handleTabChange = (tab: string) => {
+    setShowTriage(false);
+    setActiveTab(tab);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-24 relative">
       {/* Background Watermark Logo */}
@@ -95,9 +100,9 @@ export function PatientCalendar() {
         />
 
         {showTriage ? (
-          <TriageInline onClose={() => setShowTriage(false)} />
+          <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => { setShowTriage(false); setActiveTab('home'); }} />
         ) : activeTab === 'home' ? (
-          <DashboardView userRole="patient" onNavigate={setActiveTab} onStartTriage={() => setShowTriage(true)} />
+          <DashboardView userRole="patient" onNavigate={handleTabChange} onStartTriage={() => setShowTriage(true)} />
         ) : activeTab === 'consultas' ? (
           <>
             {/* Calendar */}
@@ -163,22 +168,22 @@ export function PatientCalendar() {
             </div>
           </>
         ) : activeTab === 'saude' ? (
-          <HealthView userRole="patient" onNavigate={setActiveTab} />
+          <HealthView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'conversas' ? (
-          <ConversationsView userRole="patient" onNavigate={setActiveTab} />
+          <ConversationsView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'conta' ? (
-          <AccountView userRole="patient" onNavigate={setActiveTab} />
+          <AccountView userRole="patient" onNavigate={handleTabChange} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
           </div>
         )}
 
-        {/* Bottom Navigation - Fixed */}
+        {/* Bottom Navigation - Fixed - Always on top */}
         <BottomNavigation
           userRole="patient"
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
 
         {/* Mobile Sidebar */}

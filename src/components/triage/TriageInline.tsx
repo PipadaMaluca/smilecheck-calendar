@@ -15,9 +15,10 @@ const TOTAL_STEPS = 5;
 
 interface TriageInlineProps {
   onClose: () => void;
+  onGoHome?: () => void;
 }
 
-export function TriageInline({ onClose }: TriageInlineProps) {
+export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -106,7 +107,7 @@ export function TriageInline({ onClose }: TriageInlineProps) {
 
   // Show search view
   if (showSearch) {
-    return <SearchDentistView onBack={() => setShowSearch(false)} />;
+    return <SearchDentistView onBack={() => setShowSearch(false)} onGoHome={onGoHome} />;
   }
 
   return (
