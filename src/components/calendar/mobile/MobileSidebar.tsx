@@ -13,15 +13,14 @@ interface MobileSidebarProps {
   userRole: UserRole;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
-  // For family filter (patient)
   selectedMembers?: string[];
   onMemberToggle?: (memberId: string, isCheckbox: boolean) => void;
-  // For dentist/clinic filters
   selectedDentists?: string[];
   onDentistToggle?: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
   selectedClinics?: string[];
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   onPrescribe?: () => void;
+  onProfileClick?: () => void;
 }
 
 export function MobileSidebar({
@@ -37,6 +36,7 @@ export function MobileSidebar({
   selectedClinics = ['1'],
   onClinicToggle,
   onPrescribe,
+  onProfileClick,
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -135,7 +135,10 @@ export function MobileSidebar({
         </SheetHeader>
 
         {/* User Profile */}
-        <div className="p-4 border-b border-border">
+        <button
+          className="p-4 border-b border-border w-full text-left hover:bg-muted/50 transition-colors"
+          onClick={() => { onClose(); onProfileClick?.(); }}
+        >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
               <User className="w-5 h-5 text-primary" />
@@ -145,7 +148,7 @@ export function MobileSidebar({
               <p className="text-xs text-muted-foreground">{userSubtitle}</p>
             </div>
           </div>
-        </div>
+        </button>
 
         {/* ========== PATIENT MENU ========== */}
         {userRole === 'patient' && (

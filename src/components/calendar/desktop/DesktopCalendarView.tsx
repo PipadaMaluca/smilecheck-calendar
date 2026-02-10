@@ -17,6 +17,8 @@ import { ConversationsView } from '@/components/conversations/ConversationsView'
 import { HealthView } from '@/components/health/HealthView';
 import { TriageInline } from '@/components/triage/TriageInline';
 import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
+import { ProfileView } from '@/components/profile/ProfileView';
+import { EditProfileView } from '@/components/profile/EditProfileView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -60,6 +62,8 @@ export function DesktopCalendarView() {
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
   const [showPrescription, setShowPrescription] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected (all present dentists)
@@ -310,7 +314,7 @@ export function DesktopCalendarView() {
               </Button>
             </div>
 
-            <div className="flex items-center gap-3">
+            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">
                   {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -322,7 +326,7 @@ export function DesktopCalendarView() {
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
-            </div>
+            </button>
           </header>
 
           <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />
@@ -401,7 +405,7 @@ export function DesktopCalendarView() {
                   </>}
               </div>
 
-              <div className="flex items-center gap-3">
+              <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
                 <div className="text-right">
                   <p className="text-sm font-bold text-foreground">
                     {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -413,7 +417,7 @@ export function DesktopCalendarView() {
                 <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                   <User className="w-5 h-5 text-primary" />
                 </div>
-              </div>
+              </button>
             </header>
 
             {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
@@ -439,7 +443,7 @@ export function DesktopCalendarView() {
                 <Building2 className="w-4 h-4" /> Clínica
               </Button>
             </div>
-            <div className="flex items-center gap-3">
+            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">
                   {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -451,7 +455,7 @@ export function DesktopCalendarView() {
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
-            </div>
+            </button>
           </header>
           <TeamView userRole={activeRole} onNavigate={handleNavTabChange} />
         </div>
@@ -471,7 +475,7 @@ export function DesktopCalendarView() {
                 <Building2 className="w-4 h-4" /> Clínica
               </Button>
             </div>
-            <div className="flex items-center gap-3">
+            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">
                   {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -483,9 +487,9 @@ export function DesktopCalendarView() {
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
-            </div>
+            </button>
           </header>
-          <AccountView userRole={activeRole} onNavigate={handleNavTabChange} />
+          <AccountView userRole={activeRole} onNavigate={handleNavTabChange} onEditProfile={() => setShowEditProfile(true)} />
         </div>
       ) : activeNavTab === 'conversas' ? (
         /* Conversations View */
@@ -503,7 +507,7 @@ export function DesktopCalendarView() {
                 <Building2 className="w-4 h-4" /> Clínica
               </Button>
             </div>
-            <div className="flex items-center gap-3">
+            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">
                   {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -515,7 +519,7 @@ export function DesktopCalendarView() {
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
-            </div>
+            </button>
           </header>
           <ConversationsView userRole={activeRole} onNavigate={handleNavTabChange} />
         </div>
@@ -535,7 +539,7 @@ export function DesktopCalendarView() {
                 <Building2 className="w-4 h-4" /> Clínica
               </Button>
             </div>
-            <div className="flex items-center gap-3">
+            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
               <div className="text-right">
                 <p className="text-sm font-bold text-foreground">{mockFamilyMembers[0].name}</p>
                 <p className="text-xs text-muted-foreground">Paciente</p>
@@ -543,7 +547,7 @@ export function DesktopCalendarView() {
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <User className="w-5 h-5 text-primary" />
               </div>
-            </div>
+            </button>
           </header>
           <HealthView userRole="patient" onNavigate={handleNavTabChange} />
         </div>
@@ -570,5 +574,11 @@ export function DesktopCalendarView() {
           onGoHome={() => { setShowPrescription(false); setActiveNavTab('home'); }}
         />
       )}
+
+      {/* Profile View */}
+      <ProfileView userRole={activeRole} isOpen={showProfile} onClose={() => setShowProfile(false)} />
+
+      {/* Edit Profile View (from Account) */}
+      <EditProfileView userRole={activeRole} isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
     </div>;
 }

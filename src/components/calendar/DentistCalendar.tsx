@@ -16,6 +16,8 @@ import { AccountView } from '@/components/account/AccountView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
+import { ProfileView } from '@/components/profile/ProfileView';
+import { EditProfileView } from '@/components/profile/EditProfileView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -30,6 +32,8 @@ export function DentistCalendar() {
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -285,7 +289,7 @@ export function DentistCalendar() {
         ) : activeTab === 'conversas' ? (
           <ConversationsView userRole="dentist" onNavigate={setActiveTab} />
         ) : activeTab === 'conta' ? (
-          <AccountView userRole="dentist" onNavigate={setActiveTab} />
+          <AccountView userRole="dentist" onNavigate={setActiveTab} onEditProfile={() => setShowEditProfile(true)} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
@@ -311,6 +315,7 @@ export function DentistCalendar() {
           selectedClinics={selectedClinics}
           onClinicToggle={handleClinicToggle}
           onPrescribe={() => setShowPrescription(true)}
+          onProfileClick={() => setShowProfile(true)}
         />
 
         {showPrescription && (
@@ -319,6 +324,10 @@ export function DentistCalendar() {
             onGoHome={() => { setShowPrescription(false); setActiveTab('home'); }}
           />
         )}
+
+        <ProfileView userRole="dentist" isOpen={showProfile} onClose={() => setShowProfile(false)} />
+        <EditProfileView userRole="dentist" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+
         <EditConsultationModal
           consultation={selectedConsultation}
           isOpen={!!selectedConsultation}
