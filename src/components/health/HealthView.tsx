@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { mockFamilyMembers } from '@/data/mockData';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 
 interface HealthViewProps {
   userRole: 'patient';
@@ -372,7 +373,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                   {data.prescriptions.map(rx => (
                     <div key={rx.id} className="p-3 rounded-lg bg-secondary/50 space-y-1">
                       <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium">{rx.dentist}</p>
+                        <ClickableDentistName name={rx.dentist} className="text-sm font-medium" />
                         <span className="text-xs text-muted-foreground">{rx.date}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">{rx.medications}</p>

@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import { Star, MapPin, Clock, Video, X, Calendar, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import {
   DentistSearchResult,
@@ -137,8 +137,8 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
         </div>
       </div>
 
-      {/* Action buttons */}
-      <div className="flex gap-3 sticky bottom-0 bg-card pt-3 pb-2">
+      {/* Action buttons - at end of scroll content */}
+      <div className="flex gap-3 pt-3 pb-2">
         <Button className="flex-1 bg-primary hover:bg-primary/90 h-11">
           <Calendar className="w-4 h-4 mr-2" />
           Marcar Consulta
@@ -152,36 +152,34 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
   );
 
   if (isMobile) {
-    // Full screen on mobile
     return (
       <div className="fixed inset-0 z-50 bg-background">
-        <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
-        <ScrollArea className="h-[calc(100vh-57px)]">
+        <div className="h-[calc(100vh-57px)] overflow-y-auto">
           <div className="p-4 pb-8">{content}</div>
-        </ScrollArea>
+        </div>
       </div>
     );
   }
 
-  // Modal on desktop/tablet
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
-        <ScrollArea className="max-h-[calc(90vh-57px)]">
+        <div className="overflow-y-auto flex-1">
           <div className="p-6 pb-8">{content}</div>
-        </ScrollArea>
+        </div>
       </div>
     </div>
   );

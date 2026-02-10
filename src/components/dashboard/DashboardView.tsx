@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award } from 'lucide-react';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -183,11 +185,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">
-                          {userRole === 'patient' ? item.dentist.name : item.patient.name}
+                          {userRole === 'patient' ? (
+                            <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
+                          ) : (
+                            item.patient.name
+                          )}
                         </p>
                         <p className="text-xs text-muted-foreground truncate">
                           {userRole === 'clinic' && `${item.dentist.name} • `}
-                          {item.clinic.name}
+                          {userRole === 'patient' ? (
+                            <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
+                          ) : (
+                            item.clinic.name
+                          )}
                         </p>
                       </div>
 

@@ -4,6 +4,8 @@ import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 interface PatientAppointmentsListProps {
   consultations: Consultation[];
@@ -109,10 +111,10 @@ export function PatientAppointmentsList({
                       </p>
 
                       {/* Dentist & Clinic */}
-                      <p className="text-sm font-medium">{consultation.dentist.name}</p>
+                      <ClickableDentistName name={consultation.dentist.name} className="text-sm font-medium" />
                       <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-1">
                         <MapPin className="w-3.5 h-3.5" />
-                        <span>{consultation.clinic.name}</span>
+                        <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground" />
                       </div>
                     </div>
 
