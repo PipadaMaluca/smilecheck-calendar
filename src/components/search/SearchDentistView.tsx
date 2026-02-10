@@ -11,9 +11,10 @@ import smileCheckIcon from '@/assets/smilecheck-icon.png';
 
 interface SearchDentistViewProps {
   onBack: () => void;
+  onGoHome?: () => void;
 }
 
-export function SearchDentistView({ onBack }: SearchDentistViewProps) {
+export function SearchDentistView({ onBack, onGoHome }: SearchDentistViewProps) {
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [specialty, setSpecialty] = useState('Todas');
@@ -157,6 +158,7 @@ export function SearchDentistView({ onBack }: SearchDentistViewProps) {
         <DentistProfileModal
           dentist={selectedDentist}
           onClose={() => setSelectedDentist(null)}
+          onGoHome={onGoHome}
         />
       )}
     </div>

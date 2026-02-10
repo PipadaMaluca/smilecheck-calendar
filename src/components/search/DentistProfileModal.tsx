@@ -14,9 +14,10 @@ import { BookingFlow } from '@/components/booking/BookingFlow';
 interface DentistProfileModalProps {
   dentist: DentistSearchResult;
   onClose: () => void;
+  onGoHome?: () => void;
 }
 
-export function DentistProfileModal({ dentist, onClose }: DentistProfileModalProps) {
+export function DentistProfileModal({ dentist, onClose, onGoHome }: DentistProfileModalProps) {
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
@@ -34,7 +35,7 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
       <BookingFlow
         dentist={dentist}
         onClose={() => setShowBooking(false)}
-        onComplete={() => { setShowBooking(false); onClose(); }}
+        onComplete={() => { if (onGoHome) onGoHome(); else { setShowBooking(false); onClose(); } }}
       />
     );
   }
@@ -168,14 +169,14 @@ export function DentistProfileModal({ dentist, onClose }: DentistProfileModalPro
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-50 bg-background">
+      <div className="fixed inset-0 z-[55] bg-background" style={{ bottom: '60px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
-        <div className="h-[calc(100vh-57px)] overflow-y-auto">
+        <div className="h-[calc(100%-57px)] overflow-y-auto">
           <div className="p-4 pb-8">{content}</div>
         </div>
       </div>
