@@ -12,6 +12,7 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { DashboardView } from '@/components/dashboard/DashboardView';
+import { AccountView } from '@/components/account/AccountView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -276,6 +277,8 @@ export function DentistCalendar() {
               </Button>
             </div>
           </>
+        ) : activeTab === 'conta' ? (
+          <AccountView userRole="dentist" onNavigate={setActiveTab} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
