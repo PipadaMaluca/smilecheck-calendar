@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
@@ -85,11 +84,12 @@ export function PatientCalendar() {
       />
       
       <div className="relative z-10">
-        {/* Mobile Header */}
+        {/* Mobile Header - no view selector for patient */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
-          {...(activeTab === 'consultas' ? { viewMode, onViewModeChange: setViewMode } : {})}
           userRole="patient"
+          showNewConsultation={activeTab === 'consultas'}
+          onNewConsultation={() => navigate('/triagem')}
         />
 
         {activeTab === 'home' ? (
@@ -150,20 +150,11 @@ export function PatientCalendar() {
                   </div>
                 </>
               ) : (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-2">Sem consultas agendadas</p>
-                  <p className="text-xs text-muted-foreground/60">Toque em + para agendar uma nova consulta</p>
+              <div className="text-center py-12">
+                  <p className="text-muted-foreground mb-2">Sem consultas para este dia</p>
                 </div>
               )}
             </div>
-
-            {/* Floating Button - Nova Consulta */}
-            <Button 
-              className="floating-button animate-pulse-glow"
-              onClick={() => navigate('/triagem')}
-            >
-              <Plus className="w-6 h-6" />
-            </Button>
           </>
         ) : activeTab === 'conta' ? (
           <AccountView userRole="patient" onNavigate={setActiveTab} />
