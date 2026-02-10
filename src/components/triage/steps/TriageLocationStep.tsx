@@ -113,11 +113,11 @@ const upperRight = buildArch(
     { x: 104, y: 124, r: -62 },
     { x: 111, y: 98, r: -47 },
     { x: 124, y: 76, r: -32 },
-    { x: 135, y: 57, r: -22 },
-    { x: 147, y: 44, r: -14 },
-    { x: 157, y: 38, r: -8 },
-    { x: 169, y: 34, r: -3 },
-    { x: 183, y: 32, r: 0 },
+    { x: 132, y: 55, r: -22 },
+    { x: 144, y: 42, r: -14 },
+    { x: 155, y: 36, r: -8 },
+    { x: 167, y: 32, r: -3 },
+    { x: 181, y: 30, r: 0 },
   ],
 );
 
@@ -134,11 +134,11 @@ const upperLeft = buildArch(
     { id: '28', shape: 'upperMolar' },
   ],
   [
-    { x: 217, y: 32, r: 0 },
-    { x: 231, y: 34, r: 3 },
-    { x: 243, y: 38, r: 8 },
-    { x: 253, y: 44, r: 14 },
-    { x: 265, y: 57, r: 22 },
+    { x: 219, y: 30, r: 0 },
+    { x: 233, y: 32, r: 3 },
+    { x: 245, y: 36, r: 8 },
+    { x: 256, y: 42, r: 14 },
+    { x: 268, y: 55, r: 22 },
     { x: 276, y: 76, r: 32 },
     { x: 289, y: 98, r: 47 },
     { x: 296, y: 124, r: 62 },
@@ -161,11 +161,11 @@ const lowerRight = buildArch(
     { x: 114, y: 176, r: 62 },
     { x: 119, y: 200, r: 47 },
     { x: 130, y: 218, r: 32 },
-    { x: 141, y: 235, r: 22 },
-    { x: 153, y: 246, r: 14 },
-    { x: 163, y: 253, r: 8 },
-    { x: 175, y: 257, r: 3 },
-    { x: 189, y: 259, r: 0 },
+    { x: 138, y: 237, r: 22 },
+    { x: 150, y: 248, r: 14 },
+    { x: 161, y: 255, r: 8 },
+    { x: 173, y: 259, r: 3 },
+    { x: 187, y: 261, r: 0 },
   ],
 );
 
@@ -182,11 +182,11 @@ const lowerLeft = buildArch(
     { id: '38', shape: 'lowerMolar' },
   ],
   [
-    { x: 211, y: 259, r: 0 },
-    { x: 225, y: 257, r: -3 },
-    { x: 237, y: 253, r: -8 },
-    { x: 247, y: 246, r: -14 },
-    { x: 259, y: 235, r: -22 },
+    { x: 213, y: 261, r: 0 },
+    { x: 227, y: 259, r: -3 },
+    { x: 239, y: 255, r: -8 },
+    { x: 250, y: 248, r: -14 },
+    { x: 262, y: 237, r: -22 },
     { x: 270, y: 218, r: -32 },
     { x: 281, y: 200, r: -47 },
     { x: 286, y: 176, r: -62 },
@@ -252,7 +252,7 @@ export function TriageLocationStep({
             if (!shape) return null;
 
             const upper = isUpperTooth(tooth.id);
-            const scale = 0.78;
+            const scale = 0.8;
 
             // Number position: above for upper, below for lower
             const numOffset = upper ? -21 : 21;
