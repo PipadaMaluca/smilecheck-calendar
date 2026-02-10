@@ -17,19 +17,19 @@ const MAIN_NAV_ITEMS_BY_ROLE = {
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
     { id: 'saude', icon: Heart, label: 'Saúde' },
-    { id: 'chat', icon: MessageCircle, label: 'Conversas' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
   ],
   dentist: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
     { id: 'team', icon: Users, label: 'Equipa' },
-    { id: 'chat', icon: MessageCircle, label: 'Conversas' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
   ],
   clinic: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
     { id: 'team', icon: Users, label: 'Equipa' },
-    { id: 'chat', icon: MessageCircle, label: 'Conversas' },
+    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
   ],
 };
 
