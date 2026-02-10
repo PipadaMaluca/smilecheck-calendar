@@ -35,7 +35,8 @@ export function DentistProfileModal({ dentist, onClose, onGoHome }: DentistProfi
       <BookingFlow
         dentist={dentist}
         onClose={() => setShowBooking(false)}
-        onComplete={() => { if (onGoHome) onGoHome(); else { setShowBooking(false); onClose(); } }}
+        onComplete={() => { setShowBooking(false); onClose(); }}
+        onGoHome={onGoHome}
       />
     );
   }

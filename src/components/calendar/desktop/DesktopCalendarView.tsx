@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -240,7 +240,7 @@ export function DesktopCalendarView() {
   };
   const renderContent = () => {
     if (showTriage && activeRole === 'patient') {
-      return <TriageInline onClose={() => setShowTriage(false)} />;
+      return <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => { setShowTriage(false); setActiveNavTab('home'); }} />;
     }
     if (activeRole === 'patient') {
       return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
@@ -252,6 +252,17 @@ export function DesktopCalendarView() {
   };
   const handleNavTabChange = useCallback((tab: string) => {
     setActiveNavTab(tab);
+    setShowTriage(false);
+  }, []);
+
+  // Listen for global "go home" events from booking flows opened via ClickableDentistName
+  useEffect(() => {
+    const handler = () => {
+      setActiveNavTab('home');
+      setShowTriage(false);
+    };
+    window.addEventListener('smilecheck:go-home', handler);
+    return () => window.removeEventListener('smilecheck:go-home', handler);
   }, []);
 
   return <div className="h-screen flex bg-background relative">
