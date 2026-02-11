@@ -1,4 +1,4 @@
-import { X, User, CreditCard, Calendar, Building2, Users, Bell, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search } from 'lucide-react';
+import { X, User, CreditCard, Calendar, Building2, Users, Bell, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -353,10 +353,13 @@ export function MobileSidebar({
               </Collapsible>
 
               <MenuItem icon={Clock} label="Gerir Disponibilidade" />
-              <MenuItem icon={CreditCard} label="Gerir Plano" />
+              <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => { onClose(); onNavigate?.('plano'); }} />
+              <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => { onClose(); onNavigate?.('loja'); }} />
+              <MenuItem icon={Star} label="Colegas Favoritos" onClick={() => { onClose(); onNavigate?.('favoritos'); }} />
+              <MenuItem icon={FileText} label="Carta de Referência" onClick={() => { onClose(); onNavigate?.('referencia'); }} />
+              <MenuItem icon={Search} label="Pesquisar" onClick={() => { onClose(); onNavigate?.('pesquisa'); }} />
               <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
               <MenuItem icon={Bell} label="Notificações" />
-              <MenuItem icon={Search} label="Pesquisa de Pacientes" />
               <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => { onClose(); onPrescribe?.(); }} />
             </MenuSection>
 
@@ -510,10 +513,13 @@ export function MobileSidebar({
               </Collapsible>
 
               <MenuItem icon={Clock} label="Gerir Horários" />
-              <MenuItem icon={CreditCard} label="Gerir Plano" />
+              <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => { onClose(); onNavigate?.('plano'); }} />
+              <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => { onClose(); onNavigate?.('loja'); }} />
+              <MenuItem icon={Star} label="Colegas Favoritos" onClick={() => { onClose(); onNavigate?.('favoritos'); }} />
+              <MenuItem icon={FileText} label="Carta de Referência" onClick={() => { onClose(); onNavigate?.('referencia'); }} />
+              <MenuItem icon={Search} label="Pesquisar" onClick={() => { onClose(); onNavigate?.('pesquisa'); }} />
               <MenuItem icon={TrendingUp} label="Nível e Pontuação" />
               <MenuItem icon={Bell} label="Notificações" />
-              <MenuItem icon={Search} label="Pesquisa de Pacientes" />
             </MenuSection>
 
             <MenuSection>

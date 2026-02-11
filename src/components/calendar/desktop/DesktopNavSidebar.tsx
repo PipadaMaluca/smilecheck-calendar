@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, Star, FileText, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -39,6 +39,11 @@ const SECONDARY_NAV_ITEMS = [
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+];
+
+const PROFESSIONAL_NAV_ITEMS = [
+  { id: 'favoritos', icon: Star, label: 'Favoritos' },
+  { id: 'referencia', icon: FileText, label: 'Carta Referência' },
 ];
 
 export function DesktopNavSidebar({
@@ -110,6 +115,14 @@ export function DesktopNavSidebar({
 
         {/* Secondary Navigation */}
         {SECONDARY_NAV_ITEMS.map(renderNavButton)}
+
+        {/* Professional items (dentist/clinic only) */}
+        {(userRole === 'dentist' || userRole === 'clinic') && (
+          <>
+            <Separator className="my-1 bg-[#1E3A5F]" />
+            {PROFESSIONAL_NAV_ITEMS.map(renderNavButton)}
+          </>
+        )}
 
         {/* Prescribe button for dentist */}
         {userRole === 'dentist' && (

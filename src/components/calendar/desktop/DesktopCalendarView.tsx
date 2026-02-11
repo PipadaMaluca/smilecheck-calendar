@@ -23,12 +23,19 @@ import { RankingsView } from '@/components/rankings/RankingsView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
+import { UnifiedSearch } from '@/components/search/UnifiedSearch';
+import { FavoritesView } from '@/components/favorites/FavoritesView';
+import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
+import { DentistProfileView } from '@/components/profile/DentistProfileView';
+import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
+import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { isSameDay } from 'date-fns';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
+import { toast } from 'sonner';
 type ViewMode = 'list' | 'day' | 'week' | 'month';
 
 // Build all clinic-dentist combinations as composite keys
@@ -68,6 +75,11 @@ export function DesktopCalendarView() {
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showReferral, setShowReferral] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>(['1', '2']);
+  const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
+  const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected (all present dentists)
@@ -261,9 +273,18 @@ export function DesktopCalendarView() {
     return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
   const handleNavTabChange = useCallback((tab: string) => {
+    if (tab === 'referencia') {
+      setShowReferral(true);
+      return;
+    }
     setActiveNavTab(tab);
     setShowTriage(false);
   }, []);
+
+  const toggleFavorite = useCallback((id: string) => {
+    setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
+    toast.success(favorites.includes(id) ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
+  }, [favorites]);
 
   // Listen for global "go home" events from booking flows opened via ClickableDentistName
   useEffect(() => {
@@ -402,9 +423,9 @@ export function DesktopCalendarView() {
                       <CalendarClock className="w-4 h-4" />
                       Modificar horários
                     </Button>
-                    <div className="relative">
+                    <div className="relative cursor-pointer" onClick={() => setShowSearch(true)}>
                       <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input placeholder="Pesquisar pacientes..." className="pl-9 h-9 w-56 text-sm" />
+                      <Input placeholder="Pesquisar pacientes, dentistas..." className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
                     </div>
                   </>}
               </div>
@@ -571,6 +592,14 @@ export function DesktopCalendarView() {
         <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
           <RewardsStoreView userRole={activeRole} />
         </div>
+      ) : activeNavTab === 'favoritos' && (activeRole === 'dentist' || activeRole === 'clinic') ? (
+        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
+          <FavoritesView
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            onViewProfile={d => setViewDentistProfile(d)}
+          />
+        </div>
       ) : (
         /* Placeholder for other tabs */
         <div className="flex-1 flex items-center justify-center text-muted-foreground">
@@ -595,10 +624,56 @@ export function DesktopCalendarView() {
         />
       )}
 
+      {/* Referral Letter Flow */}
+      {showReferral && (
+        <ReferralLetterFlow
+          onClose={() => setShowReferral(false)}
+          onGoHome={() => { setShowReferral(false); setActiveNavTab('home'); }}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+        />
+      )}
+
       {/* Profile View */}
       <ProfileView userRole={activeRole} isOpen={showProfile} onClose={() => setShowProfile(false)} />
 
       {/* Edit Profile View (from Account) */}
       <EditProfileView userRole={activeRole} isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+
+      {/* Unified Search */}
+      <UnifiedSearch
+        userRole={activeRole}
+        isOpen={showSearch}
+        onClose={() => setShowSearch(false)}
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+        onViewDentistProfile={d => { setShowSearch(false); setViewDentistProfile(d); }}
+        onViewClinicProfile={id => { setShowSearch(false); setViewClinicProfile(id); }}
+      />
+
+      {/* Dentist Profile View */}
+      {viewDentistProfile && (
+        <DentistProfileView
+          dentist={viewDentistProfile}
+          isOpen={true}
+          onClose={() => setViewDentistProfile(null)}
+          isFavorite={favorites.includes(viewDentistProfile.id)}
+          onToggleFavorite={() => toggleFavorite(viewDentistProfile.id)}
+          onGoHome={() => { setViewDentistProfile(null); setActiveNavTab('home'); }}
+        />
+      )}
+
+      {/* Clinic Profile View */}
+      {viewClinicProfile && (
+        <ClinicProfileView
+          clinicId={viewClinicProfile}
+          isOpen={true}
+          onClose={() => setViewClinicProfile(null)}
+          onViewDentistProfile={id => {
+            const d = MOCK_DENTIST_RESULTS.find(dr => dr.id === id);
+            if (d) { setViewClinicProfile(null); setViewDentistProfile(d); }
+          }}
+        />
+      )}
     </div>;
 }

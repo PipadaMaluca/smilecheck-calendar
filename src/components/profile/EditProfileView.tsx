@@ -87,6 +87,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
   const [dentistNotifEmail, setDentistNotifEmail] = useState(true);
   const [dentistNotifSms, setDentistNotifSms] = useState(false);
   const [dentistNotifBookings, setDentistNotifBookings] = useState(true);
+  const [acceptsNewPatients, setAcceptsNewPatients] = useState(true);
+  const [dentistSchedules, setDentistSchedules] = useState([
+    { clinic: 'Clínica SmileCheck', days: WEEKDAYS.map((d, i) => ({ day: d, active: i < 5, start: '09:00', end: '19:00' })) },
+    { clinic: 'Clínica Mitry-Mory', days: WEEKDAYS.map((d, i) => ({ day: d, active: i === 2 || i === 5, start: i === 2 ? '14:00' : '09:00', end: i === 2 ? '19:00' : '13:00' })) },
+  ]);
 
   // Clinic state
   const [clinicName, setClinicName] = useState(mockClinics[0].name);
@@ -112,6 +117,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
   const [clinicNotifEmail, setClinicNotifEmail] = useState(true);
   const [clinicWeeklyReports, setClinicWeeklyReports] = useState(true);
   const [clinicOnlineBookings, setClinicOnlineBookings] = useState(true);
+  const [clinicAcceptsNewPatients, setClinicAcceptsNewPatients] = useState(true);
+  const [clinicXrayServices, setClinicXrayServices] = useState(['Raio-X Panorâmico', 'Raio-X Periapical']);
+  const [clinicAccessibility, setClinicAccessibility] = useState(['Acesso a cadeira de rodas', 'Elevador']);
 
   if (!isOpen) return null;
 
@@ -302,6 +310,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
               </div>
 
               <Separator />
+              <SectionTitle>Disponibilidade</SectionTitle>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium">Aceita novos pacientes</span>
+                <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+              </div>
+
               <SectionTitle>Teleconsulta</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
@@ -317,6 +331,46 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
                   </FieldGroup>
                 )}
               </div>
+
+              <Separator />
+              <SectionTitle>Horários por Clínica</SectionTitle>
+              {dentistSchedules.map((sched, si) => (
+                <div key={sched.clinic} className="mb-4">
+                  <p className="text-xs font-semibold text-muted-foreground mb-2">{sched.clinic}</p>
+                  <div className="space-y-1.5">
+                    {sched.days.map((d, di) => (
+                      <div key={d.day} className="flex items-center gap-2 text-sm">
+                        <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
+                        <Switch
+                          checked={d.active}
+                          onCheckedChange={checked => {
+                            const updated = [...dentistSchedules];
+                            updated[si].days[di] = { ...d, active: checked };
+                            setDentistSchedules(updated);
+                          }}
+                        />
+                        {d.active ? (
+                          <>
+                            <Input type="time" value={d.start} onChange={e => {
+                              const updated = [...dentistSchedules];
+                              updated[si].days[di] = { ...d, start: e.target.value };
+                              setDentistSchedules(updated);
+                            }} className="w-24 h-7 text-xs" />
+                            <span className="text-muted-foreground">-</span>
+                            <Input type="time" value={d.end} onChange={e => {
+                              const updated = [...dentistSchedules];
+                              updated[si].days[di] = { ...d, end: e.target.value };
+                              setDentistSchedules(updated);
+                            }} className="w-24 h-7 text-xs" />
+                          </>
+                        ) : (
+                          <span className="text-destructive text-xs">Não trabalha</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
 
               <Separator />
               <SectionTitle>Notificações</SectionTitle>
@@ -421,6 +475,37 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
+              </div>
+
+              <Separator />
+              <SectionTitle>Disponibilidade</SectionTitle>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium">Aceita novos pacientes</span>
+                <Switch checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
+              </div>
+
+              <SectionTitle>Tipos de Raio-X</SectionTitle>
+              <div className="space-y-2">
+                {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map(xray => (
+                  <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
+                      setClinicXrayServices(prev => prev.includes(xray) ? prev.filter(x => x !== xray) : [...prev, xray]);
+                    }} className="rounded" />
+                    {xray}
+                  </label>
+                ))}
+              </div>
+
+              <SectionTitle>Acessibilidade</SectionTitle>
+              <div className="space-y-2">
+                {['Acesso a cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'].map(acc => (
+                  <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
+                      setClinicAccessibility(prev => prev.includes(acc) ? prev.filter(x => x !== acc) : [...prev, acc]);
+                    }} className="rounded" />
+                    {acc}
+                  </label>
+                ))}
               </div>
 
               <Separator />
