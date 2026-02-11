@@ -19,6 +19,8 @@ import { TriageInline } from '@/components/triage/TriageInline';
 import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
+import { RankingsView } from '@/components/rankings/RankingsView';
+import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -550,6 +552,14 @@ export function DesktopCalendarView() {
             </button>
           </header>
           <HealthView userRole="patient" onNavigate={handleNavTabChange} />
+        </div>
+      ) : activeNavTab === 'classificacoes' && activeRole !== 'patient' ? (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <RankingsView userRole={activeRole} />
+        </div>
+      ) : activeNavTab === 'conquistas' ? (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <AchievementsView userRole={activeRole} />
         </div>
       ) : (
         /* Placeholder for other tabs */

@@ -16,6 +16,8 @@ import { ConversationsView } from '@/components/conversations/ConversationsView'
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
+import { RankingsView } from '@/components/rankings/RankingsView';
+import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -281,6 +283,10 @@ export function ClinicCalendar() {
         <ConversationsView userRole="clinic" onNavigate={setActiveTab} />
       ) : activeTab === 'conta' ? (
         <AccountView userRole="clinic" onNavigate={setActiveTab} onEditProfile={() => setShowEditProfile(true)} />
+      ) : activeTab === 'classificacoes' ? (
+        <div className="px-0"><RankingsView userRole="clinic" /></div>
+      ) : activeTab === 'conquistas' ? (
+        <div className="px-0"><AchievementsView userRole="clinic" /></div>
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <p className="text-lg">Secção em construção...</p>
@@ -306,6 +312,7 @@ export function ClinicCalendar() {
         selectedClinics={selectedClinics}
         onClinicToggle={handleClinicToggle}
         onProfileClick={() => setShowProfile(true)}
+        onNavigate={setActiveTab}
       />
 
 
