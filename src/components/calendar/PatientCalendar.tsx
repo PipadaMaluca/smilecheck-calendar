@@ -15,6 +15,8 @@ import { TriageInline } from '@/components/triage/TriageInline';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
+import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -180,6 +182,10 @@ export function PatientCalendar() {
           <AccountView userRole="patient" onNavigate={handleTabChange} onEditProfile={() => setShowEditProfile(true)} />
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="patient" /></div>
+        ) : activeTab === 'plano' ? (
+          <ManagePlanView userRole="patient" />
+        ) : activeTab === 'loja' ? (
+          <RewardsStoreView userRole="patient" />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>

@@ -20,6 +20,8 @@ import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
+import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -296,6 +298,10 @@ export function DentistCalendar() {
           <div className="px-0"><RankingsView userRole="dentist" /></div>
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="dentist" /></div>
+        ) : activeTab === 'plano' ? (
+          <ManagePlanView userRole="dentist" />
+        ) : activeTab === 'loja' ? (
+          <RewardsStoreView userRole="dentist" />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
