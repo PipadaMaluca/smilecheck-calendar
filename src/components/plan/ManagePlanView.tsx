@@ -24,10 +24,7 @@ interface ManagePlanViewProps {
 
 type PlanTier = 'free' | 'pro' | 'premium';
 
-interface PlanFeature {
-  text: string;
-  included: boolean;
-}
+// PlanFeature interface moved into PLANS_BY_ROLE block
 
 interface Plan {
   id: PlanTier;
@@ -40,6 +37,12 @@ interface Plan {
   icon: React.ElementType;
 }
 
+interface PlanFeature {
+  text: string;
+  included: boolean;
+  isInherited?: boolean;
+}
+
 const PLANS_BY_ROLE: Record<string, Plan[]> = {
   patient: [
     {
@@ -49,37 +52,25 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
         { text: 'Marcar consultas', included: true },
         { text: '1 teleconsulta/mês', included: true },
         { text: 'Acesso básico à app', included: true },
-        { text: 'Teleconsultas ilimitadas', included: false },
-        { text: 'Prioridade nas marcações', included: false },
-        { text: 'Sem anúncios', included: false },
-        { text: 'Descontos em consultas', included: false },
-        { text: 'Bónus de pontos (+20%)', included: false },
       ],
     },
     {
       id: 'pro', name: 'Pro', price: '€4.99', priceValue: 4.99, period: '/mês',
       icon: Star, popular: true,
       features: [
-        { text: 'Marcar consultas', included: true },
+        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
         { text: 'Teleconsultas ilimitadas', included: true },
         { text: 'Prioridade nas marcações', included: true },
         { text: 'Sem anúncios', included: true },
-        { text: 'Acesso básico à app', included: true },
-        { text: 'Descontos em consultas', included: false },
-        { text: 'Consultas urgência prioritárias', included: false },
-        { text: 'Bónus de pontos (+20%)', included: false },
       ],
     },
     {
       id: 'premium', name: 'Premium', price: '€9.99', priceValue: 9.99, period: '/mês',
       icon: Crown,
       features: [
-        { text: 'Marcar consultas', included: true },
-        { text: 'Teleconsultas ilimitadas', included: true },
-        { text: 'Prioridade nas marcações', included: true },
-        { text: 'Sem anúncios', included: true },
+        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
         { text: 'Descontos em consultas', included: true },
-        { text: 'Consultas urgência prioritárias', included: true },
+        { text: 'Consultas de urgência prioritárias', included: true },
         { text: 'Suporte prioritário', included: true },
         { text: 'Bónus de pontos (+20%)', included: true },
       ],
@@ -93,39 +84,28 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
         { text: 'Perfil básico', included: true },
         { text: 'Até 10 teleconsultas/mês', included: true },
         { text: '1 clínica associada', included: true },
-        { text: 'Teleconsultas ilimitadas', included: false },
-        { text: 'Estatísticas avançadas', included: false },
-        { text: 'Prescrições ilimitadas', included: false },
-        { text: 'Destaque nos resultados', included: false },
-        { text: 'Bónus de pontos (+30%)', included: false },
       ],
     },
     {
       id: 'pro', name: 'Pro', price: '€19.99', priceValue: 19.99, period: '/mês',
       icon: Star, popular: true,
       features: [
+        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
         { text: 'Teleconsultas ilimitadas', included: true },
         { text: 'Até 3 clínicas', included: true },
         { text: 'Estatísticas avançadas', included: true },
         { text: 'Prescrições ilimitadas', included: true },
-        { text: 'Perfil básico', included: true },
-        { text: 'Destaque nos resultados', included: false },
-        { text: 'Clínicas ilimitadas', included: false },
-        { text: 'Bónus de pontos (+30%)', included: false },
       ],
     },
     {
       id: 'premium', name: 'Premium', price: '€39.99', priceValue: 39.99, period: '/mês',
       icon: Crown,
       features: [
-        { text: 'Teleconsultas ilimitadas', included: true },
+        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
         { text: 'Clínicas ilimitadas', included: true },
-        { text: 'Estatísticas avançadas', included: true },
-        { text: 'Prescrições ilimitadas', included: true },
-        { text: 'Destaque nos resultados', included: true },
+        { text: 'Destaque nos resultados de pesquisa', included: true },
         { text: 'Bónus de pontos (+30%)', included: true },
         { text: 'Suporte prioritário', included: true },
-        { text: 'Perfil básico', included: true },
       ],
     },
   ],
@@ -136,40 +116,28 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
       features: [
         { text: 'Até 3 dentistas', included: true },
         { text: 'Funcionalidades básicas', included: true },
-        { text: 'Estatísticas da equipa', included: false },
-        { text: 'Relatórios mensais', included: false },
-        { text: 'Dentistas ilimitados', included: false },
-        { text: 'API de integração', included: false },
-        { text: 'Suporte dedicado', included: false },
-        { text: 'Destaque nos resultados', included: false },
       ],
     },
     {
       id: 'pro', name: 'Pro', price: '€49.99', priceValue: 49.99, period: '/mês',
       icon: Star, popular: true,
       features: [
+        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
         { text: 'Até 10 dentistas', included: true },
         { text: 'Estatísticas da equipa', included: true },
         { text: 'Relatórios mensais', included: true },
-        { text: 'Funcionalidades básicas', included: true },
-        { text: 'Dentistas ilimitados', included: false },
-        { text: 'Estatísticas avançadas', included: false },
-        { text: 'API de integração', included: false },
-        { text: 'Destaque nos resultados', included: false },
       ],
     },
     {
       id: 'premium', name: 'Premium', price: '€99.99', priceValue: 99.99, period: '/mês',
       icon: Crown,
       features: [
+        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
         { text: 'Dentistas ilimitados', included: true },
         { text: 'Estatísticas avançadas', included: true },
-        { text: 'Relatórios mensais', included: true },
         { text: 'API de integração', included: true },
         { text: 'Suporte dedicado', included: true },
         { text: 'Destaque nos resultados', included: true },
-        { text: 'Estatísticas da equipa', included: true },
-        { text: 'Funcionalidades básicas', included: true },
       ],
     },
   ],
@@ -271,17 +239,20 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
               <CardContent className="space-y-3 pt-2">
                 <div className="space-y-2">
                   {plan.features.map((feat, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm">
-                      {feat.included ? (
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <div key={i} className={cn(
+                      "flex items-center gap-2 text-sm",
+                      feat.isInherited && "mb-1"
+                    )}>
+                      {feat.isInherited ? (
+                        <span className="text-muted-foreground text-xs italic">
+                          {feat.text}
+                        </span>
                       ) : (
-                        <X className="w-4 h-4 text-muted-foreground/40 flex-shrink-0" />
+                        <>
+                          <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                          <span className="text-foreground">{feat.text}</span>
+                        </>
                       )}
-                      <span className={cn(
-                        feat.included ? 'text-foreground' : 'text-muted-foreground/50'
-                      )}>
-                        {feat.text}
-                      </span>
                     </div>
                   ))}
                 </div>
