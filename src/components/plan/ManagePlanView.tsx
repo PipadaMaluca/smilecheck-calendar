@@ -204,7 +204,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             <Card
               key={plan.id}
               className={cn(
-                'relative transition-all duration-200',
+                'relative transition-all duration-200 flex flex-col',
                 isCurrent && 'border-primary ring-2 ring-primary/20',
                 plan.popular && !isCurrent && 'border-amber-500/30'
               )}
@@ -236,8 +236,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   {plan.period && <span className="text-sm text-muted-foreground">{plan.period}</span>}
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3 pt-2">
-                <div className="space-y-2">
+              <CardContent className="flex flex-col flex-1 pt-2">
+                <div className="space-y-2 flex-1">
                   {plan.features.map((feat, i) => (
                     <div key={i} className={cn(
                       "flex items-center gap-2 text-sm",
