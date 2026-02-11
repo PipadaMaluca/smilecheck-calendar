@@ -192,12 +192,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                           )}
                         </p>
                         <p className="text-xs text-muted-foreground truncate">
-                          {userRole === 'clinic' && `${item.dentist.name} • `}
-                          {userRole === 'patient' ? (
-                            <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
-                          ) : (
-                            item.clinic.name
+                          {userRole === 'clinic' && (
+                            <><ClickableDentistName name={item.dentist.name} className="text-xs text-muted-foreground" /> {' • '}</>
                           )}
+                          <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
                         </p>
                       </div>
 

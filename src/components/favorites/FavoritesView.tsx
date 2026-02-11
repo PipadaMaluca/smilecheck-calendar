@@ -1,10 +1,10 @@
 import { Star, User, MapPin, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -42,7 +42,9 @@ export function FavoritesView({ favorites, onToggleFavorite, onViewProfile }: Fa
                     {initials}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
+                    <p className="text-sm font-bold text-foreground truncate">
+                      <ClickableDentistName name={d.name} className="text-sm font-bold text-foreground" />
+                    </p>
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-medium">{d.rating}</span>
@@ -60,10 +62,7 @@ export function FavoritesView({ favorites, onToggleFavorite, onViewProfile }: Fa
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" className="flex-1 text-xs" onClick={() => onViewProfile(d)}>
-                    Ver Perfil
-                  </Button>
-                  <Button size="sm" variant="ghost" className="text-xs text-destructive hover:text-destructive" onClick={() => onToggleFavorite(d.id)}>
+                  <Button size="sm" variant="ghost" className="flex-1 text-xs text-destructive hover:text-destructive" onClick={() => onToggleFavorite(d.id)}>
                     <X className="w-3 h-3 mr-1" />
                     Remover
                   </Button>

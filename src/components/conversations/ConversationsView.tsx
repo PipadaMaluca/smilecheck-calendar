@@ -247,9 +247,9 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className={cn('text-sm truncate', conversation.unread > 0 && 'font-bold')}>
-                          {userRole === 'patient' && conversation.type === 'Dentista' ? (
+                          {conversation.type === 'Dentista' ? (
                             <ClickableDentistName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
-                          ) : userRole === 'patient' && conversation.type === 'Clínica' ? (
+                          ) : conversation.type === 'Clínica' ? (
                             <ClickableClinicName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
                           ) : (
                             conversation.name
@@ -302,9 +302,9 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                    <p className="text-sm font-semibold truncate">
-                     {userRole === 'patient' && selectedConversation.type === 'Dentista' ? (
+                     {selectedConversation.type === 'Dentista' ? (
                        <ClickableDentistName name={selectedConversation.name} className="text-sm font-semibold" />
-                     ) : userRole === 'patient' && selectedConversation.type === 'Clínica' ? (
+                     ) : selectedConversation.type === 'Clínica' ? (
                        <ClickableClinicName name={selectedConversation.name} className="text-sm font-semibold" />
                      ) : (
                        selectedConversation.name

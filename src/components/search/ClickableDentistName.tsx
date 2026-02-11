@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { DentistProfileModal } from './DentistProfileModal';
+import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 
 interface ClickableDentistNameProps {
@@ -11,13 +11,11 @@ interface ClickableDentistNameProps {
 }
 
 /**
- * Makes a dentist name clickable to open their profile modal.
- * Attempts to match the name to a dentist in the mock data.
- * If no match is found, the name is rendered as plain text.
- * Only intended for patient role.
+ * Makes a dentist name clickable to open their full profile view.
+ * Works for all roles (patient, dentist, clinic).
  */
 export function ClickableDentistName({ name, className, children, onGoHome }: ClickableDentistNameProps) {
-  const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
 
   const dentist = MOCK_DENTIST_RESULTS.find(
     (d) => d.name.toLowerCase() === name.toLowerCase()
@@ -27,17 +25,12 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
     return <span className={className}>{children || name}</span>;
   }
 
-  const handleGoHome = onGoHome || (() => {
-    setSelectedDentist(null);
-    window.dispatchEvent(new CustomEvent('smilecheck:go-home'));
-  });
-
   return (
     <>
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setSelectedDentist(dentist);
+          setShowProfile(true);
         }}
         className={cn(
           'text-left hover:underline hover:text-primary transition-colors cursor-pointer',
@@ -46,11 +39,12 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
       >
         {children || name}
       </button>
-      {selectedDentist && (
-        <DentistProfileModal
-          dentist={selectedDentist}
-          onClose={() => setSelectedDentist(null)}
-          onGoHome={handleGoHome}
+      {showProfile && (
+        <DentistProfileView
+          dentist={dentist}
+          isOpen={true}
+          onClose={() => setShowProfile(false)}
+          onGoHome={onGoHome}
         />
       )}
     </>

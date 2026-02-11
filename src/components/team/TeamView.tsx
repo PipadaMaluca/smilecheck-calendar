@@ -10,6 +10,8 @@ import { Separator } from '@/components/ui/separator';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics, getDentistsForClinic, clinicDentists } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 interface TeamViewProps {
   userRole: UserRole;
@@ -84,7 +86,9 @@ function DentistCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-semibold text-sm text-foreground">{dentist.name}</p>
+                <p className="font-semibold text-sm text-foreground">
+                  <ClickableDentistName name={dentist.name} className="font-semibold text-sm text-foreground" />
+                </p>
                 <p className="text-xs text-muted-foreground">{dentist.specialty}</p>
               </div>
               {showActions && onRemove && (
@@ -107,16 +111,6 @@ function DentistCard({
                 <span className="text-xs text-muted-foreground">
                   {extras.consultationsThisMonth} consultas este mês
                 </span>
-              </div>
-            )}
-            {showActions && (
-              <div className="flex items-center gap-2 mt-3">
-                <Button variant="outline" size="sm" className="text-xs h-7">
-                  Ver Perfil
-                </Button>
-                <Button variant="outline" size="sm" className="text-xs h-7">
-                  Ver Stats
-                </Button>
               </div>
             )}
           </div>
@@ -216,7 +210,9 @@ function DentistTeamView() {
               className="w-full p-4 flex items-center justify-between hover:bg-secondary/30 transition-colors rounded-t-lg"
             >
               <div className="text-left">
-                <p className="font-semibold text-sm text-foreground">{clinic.name}</p>
+                <p className="font-semibold text-sm text-foreground">
+                  <ClickableClinicName name={clinic.name} clinicId={clinic.id} className="font-semibold text-sm text-foreground" />
+                </p>
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                   <MapPin className="w-3 h-3" />
                   {clinic.address}

@@ -2,6 +2,8 @@ import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'luci
 import { Button } from '@/components/ui/button';
 import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 interface ConsultationCardProps {
   consultation: Consultation;
@@ -88,7 +90,9 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         {userRole === 'patient' ? (
           <>
             {/* For patient: show dentist name and category */}
-            <p className="text-sm font-medium">{consultation.dentist.name}</p>
+            <p className="text-sm font-medium">
+              <ClickableDentistName name={consultation.dentist.name} className="text-sm font-medium" />
+            </p>
             <p 
               className="text-xs font-bold"
               style={{ color: colors.hex }}
@@ -100,7 +104,9 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
                 Para: {consultation.patient.name}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}
               </p>
             )}
-            <p className="text-xs text-muted-foreground">{consultation.clinic.name}</p>
+            <p className="text-xs text-muted-foreground">
+              <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground" />
+            </p>
             {consultation.notes && (
               <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
             )}
