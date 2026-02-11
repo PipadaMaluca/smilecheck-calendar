@@ -21,6 +21,7 @@ interface MobileSidebarProps {
   onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   onPrescribe?: () => void;
   onProfileClick?: () => void;
+  onNavigate?: (tab: string) => void;
 }
 
 export function MobileSidebar({
@@ -37,6 +38,7 @@ export function MobileSidebar({
   onClinicToggle,
   onPrescribe,
   onProfileClick,
+  onNavigate,
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -154,7 +156,7 @@ export function MobileSidebar({
         {userRole === 'patient' && (
           <>
             <MenuSection>
-              <MenuItem icon={Trophy} label="Conquistas" />
+              <MenuItem icon={Trophy} label="Conquistas" onClick={() => { onClose(); onNavigate?.('conquistas'); }} />
               
               {/* Family dropdown */}
               <Collapsible open={familyOpen} onOpenChange={setFamilyOpen}>
@@ -217,8 +219,8 @@ export function MobileSidebar({
         {userRole === 'dentist' && (
           <>
             <MenuSection>
-              <MenuItem icon={Trophy} label="Classificações" />
-              <MenuItem icon={Award} label="Conquistas" />
+              <MenuItem icon={Trophy} label="Classificações" onClick={() => { onClose(); onNavigate?.('classificacoes'); }} />
+              <MenuItem icon={Award} label="Conquistas" onClick={() => { onClose(); onNavigate?.('conquistas'); }} />
               
               {/* Filtrar Agendas dropdown */}
               <Collapsible open={agendasOpen} onOpenChange={setAgendasOpen}>
@@ -373,8 +375,8 @@ export function MobileSidebar({
         {userRole === 'clinic' && (
           <>
             <MenuSection>
-              <MenuItem icon={Trophy} label="Classificações" />
-              <MenuItem icon={Award} label="Conquistas" />
+              <MenuItem icon={Trophy} label="Classificações" onClick={() => { onClose(); onNavigate?.('classificacoes'); }} />
+              <MenuItem icon={Award} label="Conquistas" onClick={() => { onClose(); onNavigate?.('conquistas'); }} />
               <MenuItem icon={BarChart3} label="Estatísticas" />
               
               {/* Filtrar Agendas dropdown */}

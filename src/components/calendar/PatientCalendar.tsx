@@ -14,6 +14,7 @@ import { HealthView } from '@/components/health/HealthView';
 import { TriageInline } from '@/components/triage/TriageInline';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
+import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { format, isSameDay } from 'date-fns';
@@ -177,6 +178,8 @@ export function PatientCalendar() {
           <ConversationsView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'conta' ? (
           <AccountView userRole="patient" onNavigate={handleTabChange} onEditProfile={() => setShowEditProfile(true)} />
+        ) : activeTab === 'conquistas' ? (
+          <div className="px-0"><AchievementsView userRole="patient" /></div>
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
@@ -200,6 +203,7 @@ export function PatientCalendar() {
           selectedMembers={selectedMembers}
           onMemberToggle={handleMemberToggle}
           onProfileClick={() => setShowProfile(true)}
+          onNavigate={handleTabChange}
         />
 
         {/* Edit Modal */}
