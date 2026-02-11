@@ -19,14 +19,14 @@ interface TeamViewProps {
 }
 
 // Mock data for extra dentist info
-const dentistExtras: Record<string, { rating: number; level: string; consultationsThisMonth: number }> = {
+const dentistExtras: Record<string, {rating: number;level: string;consultationsThisMonth: number;}> = {
   '1': { rating: 4.8, level: 'Ouro', consultationsThisMonth: 142 },
   '2': { rating: 4.9, level: 'Platina', consultationsThisMonth: 118 },
   '3': { rating: 4.5, level: 'Prata', consultationsThisMonth: 95 },
   '4': { rating: 4.6, level: 'Ouro', consultationsThisMonth: 87 },
   '5': { rating: 4.3, level: 'Bronze', consultationsThisMonth: 64 },
   '6': { rating: 4.7, level: 'Ouro', consultationsThisMonth: 103 },
-  '7': { rating: 4.4, level: 'Prata', consultationsThisMonth: 78 },
+  '7': { rating: 4.4, level: 'Prata', consultationsThisMonth: 78 }
 };
 
 const levelColors: Record<string, string> = {
@@ -35,47 +35,47 @@ const levelColors: Record<string, string> = {
   'Prata': 'bg-slate-300/20 text-slate-500 border-slate-400/30',
   'Ouro': 'bg-amber-400/20 text-amber-500 border-amber-500/30',
   'Platina': 'bg-violet-400/20 text-violet-400 border-violet-400/30',
-  'Diamante': 'bg-cyan-400/20 text-cyan-300 border-cyan-400/30',
+  'Diamante': 'bg-cyan-400/20 text-cyan-300 border-cyan-400/30'
 };
 
-function StarRating({ rating }: { rating: number }) {
+function StarRating({ rating }: {rating: number;}) {
   return (
     <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5].map(i => (
-        <Star
-          key={i}
-          className={cn(
-            'w-3.5 h-3.5',
-            i <= Math.round(rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground/30'
-          )}
-        />
-      ))}
+      {[1, 2, 3, 4, 5].map((i) =>
+      <Star
+        key={i}
+        className={cn(
+          'w-3.5 h-3.5',
+          i <= Math.round(rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground/30'
+        )} />
+
+      )}
       <span className="text-xs text-muted-foreground ml-1">{rating.toFixed(1)}</span>
-    </div>
-  );
+    </div>);
+
 }
 
-function LevelBadge({ level }: { level: string }) {
+function LevelBadge({ level }: {level: string;}) {
   const colors = levelColors[level] || levelColors['Lata'];
   return (
     <Badge variant="outline" className={cn('text-[10px] px-2 py-0.5 font-semibold', colors)}>
       <Award className="w-3 h-3 mr-1" />
       {level}
-    </Badge>
-  );
+    </Badge>);
+
 }
 
 function DentistCard({
   dentist,
   extras,
   showActions,
-  onRemove,
-}: {
-  dentist: typeof mockDentists[0];
-  extras: typeof dentistExtras['1'];
-  showActions: boolean;
-  onRemove?: () => void;
-}) {
+  onRemove
+
+
+
+
+
+}: {dentist: typeof mockDentists[0];extras: typeof dentistExtras['1'];showActions: boolean;onRemove?: () => void;}) {
   return (
     <Card className="group hover:shadow-md transition-shadow border-border/50">
       <CardContent className="p-4">
@@ -91,36 +91,36 @@ function DentistCard({
                 </p>
                 <p className="text-xs text-muted-foreground">{dentist.specialty}</p>
               </div>
-              {showActions && onRemove && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 text-destructive/60 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={onRemove}
-                >
+              {showActions && onRemove &&
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-destructive/60 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={onRemove}>
+
                   <X className="w-4 h-4" />
                 </Button>
-              )}
+              }
             </div>
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <StarRating rating={extras.rating} />
               <LevelBadge level={extras.level} />
             </div>
-            {showActions && (
-              <div className="flex items-center gap-2 mt-3">
+            {showActions &&
+            <div className="flex items-center gap-2 mt-3">
                 <span className="text-xs text-muted-foreground">
                   {extras.consultationsThisMonth} consultas este mês
                 </span>
               </div>
-            )}
+            }
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>);
+
 }
 
-function AddDentistModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function AddDentistModal({ open, onClose }: {open: boolean;onClose: () => void;}) {
   const [email, setEmail] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -148,9 +148,9 @@ function AddDentistModal({ open, onClose }: { open: boolean; onClose: () => void
               <Input
                 placeholder="email@exemplo.com"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="flex-1"
-              />
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1" />
+
               <Button size="sm" disabled={!email}>Enviar</Button>
             </div>
           </div>
@@ -174,8 +174,8 @@ function AddDentistModal({ open, onClose }: { open: boolean; onClose: () => void
           </p>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>);
+
 }
 
 // ===== DENTIST VIEW: Read-only, grouped by clinic =====
@@ -183,17 +183,17 @@ function DentistTeamView() {
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
   // Clinics where the current dentist (Dr. Gonçalo Pipo, id=1) works
-  const myClinics = clinicDentists
-    .filter(cd => cd.dentistId === '1')
-    .map(cd => {
-      const clinic = mockClinics.find(c => c.id === cd.clinicId)!;
-      const colleagues = getDentistsForClinic(cd.clinicId).filter(d => d.id !== '1');
-      return { clinic, colleagues };
-    });
+  const myClinics = clinicDentists.
+  filter((cd) => cd.dentistId === '1').
+  map((cd) => {
+    const clinic = mockClinics.find((c) => c.id === cd.clinicId)!;
+    const colleagues = getDentistsForClinic(cd.clinicId).filter((d) => d.id !== '1');
+    return { clinic, colleagues };
+  });
 
   const toggleClinic = (id: string) => {
-    setExpandedClinics(prev =>
-      prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
+    setExpandedClinics((prev) =>
+    prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
     );
   };
 
@@ -207,8 +207,8 @@ function DentistTeamView() {
           <Card key={clinic.id} className="border-border/50">
             <button
               onClick={() => toggleClinic(clinic.id)}
-              className="w-full p-4 flex items-center justify-between hover:bg-secondary/30 transition-colors rounded-t-lg"
-            >
+              className="w-full p-4 flex items-center justify-between hover:bg-secondary/30 transition-colors rounded-t-lg">
+
               <div className="text-left">
                 <p className="font-semibold text-sm text-foreground">
                   <ClickableClinicName name={clinic.name} clinicId={clinic.id} className="font-semibold text-sm text-foreground" />
@@ -223,29 +223,29 @@ function DentistTeamView() {
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </div>
             </button>
-            {isExpanded && (
-              <CardContent className="pt-0 pb-4 px-4 space-y-3">
+            {isExpanded &&
+            <CardContent className="pt-0 pb-4 px-4 space-y-3">
                 <Separator className="mb-3" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {colleagues.map(d => (
-                    <DentistCard
-                      key={d.id}
-                      dentist={d}
-                      extras={dentistExtras[d.id] || { rating: 4.0, level: 'Lata', consultationsThisMonth: 0 }}
-                      showActions={false}
-                    />
-                  ))}
-                </div>
-                {colleagues.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Nenhum colega nesta clínica</p>
+                  {colleagues.map((d) =>
+                <DentistCard
+                  key={d.id}
+                  dentist={d}
+                  extras={dentistExtras[d.id] || { rating: 4.0, level: 'Lata', consultationsThisMonth: 0 }}
+                  showActions={false} />
+
                 )}
+                </div>
+                {colleagues.length === 0 &&
+              <p className="text-sm text-muted-foreground text-center py-4">Nenhum colega nesta clínica</p>
+              }
               </CardContent>
-            )}
-          </Card>
-        );
+            }
+          </Card>);
+
       })}
-    </div>
-  );
+    </div>);
+
 }
 
 // ===== CLINIC VIEW: Full management =====
@@ -270,16 +270,16 @@ function ClinicTeamView() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-        {clinicDentistsList.map(d => (
-          <div key={d.id} className="relative">
+        {clinicDentistsList.map((d) =>
+        <div key={d.id} className="relative pl-[5px] pt-[5px] pr-[5px] pb-0">
             <DentistCard
-              dentist={d}
-              extras={dentistExtras[d.id] || { rating: 4.0, level: 'Lata', consultationsThisMonth: 0 }}
-              showActions
-              onRemove={() => setRemoveConfirm(d.id)}
-            />
+            dentist={d}
+            extras={dentistExtras[d.id] || { rating: 4.0, level: 'Lata', consultationsThisMonth: 0 }}
+            showActions
+            onRemove={() => setRemoveConfirm(d.id)} />
+
           </div>
-        ))}
+        )}
       </div>
 
       {/* Remove Confirmation Dialog */}
@@ -302,8 +302,8 @@ function ClinicTeamView() {
       </Dialog>
 
       <AddDentistModal open={addModalOpen} onClose={() => setAddModalOpen(false)} />
-    </div>
-  );
+    </div>);
+
 }
 
 // ===== PATIENT VIEW: Not available =====
@@ -313,8 +313,8 @@ function PatientTeamView() {
       <AlertCircle className="w-10 h-10 text-muted-foreground/50" />
       <p className="text-lg font-medium">Página não disponível</p>
       <p className="text-sm text-muted-foreground/70">Esta secção não está disponível para pacientes.</p>
-    </div>
-  );
+    </div>);
+
 }
 
 export function TeamView({ userRole, onNavigate }: TeamViewProps) {
@@ -325,6 +325,6 @@ export function TeamView({ userRole, onNavigate }: TeamViewProps) {
         {userRole === 'dentist' && <DentistTeamView />}
         {userRole === 'clinic' && <ClinicTeamView />}
       </div>
-    </ScrollArea>
-  );
+    </ScrollArea>);
+
 }
