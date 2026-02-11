@@ -88,26 +88,9 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     );
   }
 
-  const content = (
-    <div className="flex flex-col h-full">
-      {/* Header bar */}
-      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        {isMobile ? (
-          <>
-            <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-            <h2 className="text-base font-semibold">Perfil do Dentista</h2>
-            <div className="w-10" />
-          </>
-        ) : (
-          <>
-            <h2 className="text-base font-semibold">Perfil do Dentista</h2>
-            <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
-          </>
-        )}
-      </div>
+  const profileContent = (
+    <>
 
-      <ScrollArea className="flex-1">
-        <div className="p-5 space-y-6">
           {/* Profile Header */}
           <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
             <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
@@ -291,19 +274,42 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               ))}
             </div>
           </section>
-        </div>
-      </ScrollArea>
-    </div>
+    </>
   );
 
   if (isMobile) {
-    return <div className="fixed inset-0 bg-background z-[60] flex flex-col">{content}</div>;
+    return (
+      <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden">
+        {/* Fixed header */}
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+          <h2 className="text-base font-semibold">Perfil do Dentista</h2>
+          <div className="w-10" />
+        </div>
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-5 space-y-6">
+            {profileContent}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center" onClick={onClose}>
-      <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[700px] max-h-[90vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-        {content}
+    <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[700px] max-h-[90vh] md:max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
+        {/* Fixed header */}
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+          <h2 className="text-base font-semibold">Perfil do Dentista</h2>
+          <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
+        </div>
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-5 space-y-6">
+            {profileContent}
+          </div>
+        </div>
       </div>
     </div>
   );

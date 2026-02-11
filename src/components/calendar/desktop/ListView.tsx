@@ -2,6 +2,7 @@ import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide
 import { Button } from '@/components/ui/button';
 import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import {
   Table,
   TableBody,
@@ -94,7 +95,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                         className="w-1 h-8 rounded-full flex-shrink-0"
                         style={{ backgroundColor: colors.hex }}
                       />
-                      <span className="text-xs truncate">{consultation.dentist.name}</span>
+                      <ClickableDentistName name={consultation.dentist.name} className="text-xs" />
                     </div>
                   </TableCell>
 

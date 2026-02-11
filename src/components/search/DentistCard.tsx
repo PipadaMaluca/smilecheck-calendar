@@ -1,7 +1,7 @@
-import { Star, MapPin, Clock, Video, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DentistSearchResult, LEVEL_CONFIG } from '@/data/mockDentistSearch';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 interface DentistCardProps {
   dentist: DentistSearchResult;
@@ -77,22 +77,13 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
 
       {/* Clinics */}
       <div className="text-[11px] text-muted-foreground">
-        {dentist.clinics.map((c) => c.name).join(' · ')}
+        {dentist.clinics.map((c, i) => (
+          <span key={c.id}>
+            {i > 0 && ' · '}
+            <ClickableClinicName name={c.name} className="text-[11px] text-muted-foreground" />
+          </span>
+        ))}
       </div>
-
-      {/* Action */}
-      <Button
-        variant="outline"
-        size="sm"
-        className="w-full border-primary/30 text-primary hover:bg-primary/10 h-9"
-        onClick={(e) => {
-          e.stopPropagation();
-          onViewProfile(dentist);
-        }}
-      >
-        Ver Perfil
-        <ChevronRight className="w-4 h-4 ml-1" />
-      </Button>
     </div>
   );
 }
