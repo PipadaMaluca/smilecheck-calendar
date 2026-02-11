@@ -22,9 +22,16 @@ import { RankingsView } from '@/components/rankings/RankingsView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
+import { UnifiedSearch } from '@/components/search/UnifiedSearch';
+import { FavoritesView } from '@/components/favorites/FavoritesView';
+import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
+import { DentistProfileView } from '@/components/profile/DentistProfileView';
+import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
 
 export function DentistCalendar() {
@@ -38,6 +45,11 @@ export function DentistCalendar() {
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showReferral, setShowReferral] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>(['1', '2']);
+  const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
+  const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -302,6 +314,15 @@ export function DentistCalendar() {
           <ManagePlanView userRole="dentist" />
         ) : activeTab === 'loja' ? (
           <RewardsStoreView userRole="dentist" />
+        ) : activeTab === 'favoritos' ? (
+          <FavoritesView
+            favorites={favorites}
+            onToggleFavorite={id => {
+              setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
+              toast.success(favorites.includes(id) ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
+            }}
+            onViewProfile={d => setViewDentistProfile(d)}
+          />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
@@ -328,7 +349,11 @@ export function DentistCalendar() {
           onClinicToggle={handleClinicToggle}
           onPrescribe={() => setShowPrescription(true)}
           onProfileClick={() => setShowProfile(true)}
-          onNavigate={setActiveTab}
+          onNavigate={(tab) => {
+            if (tab === 'pesquisa') { setShowSearch(true); return; }
+            if (tab === 'referencia') { setShowReferral(true); return; }
+            setActiveTab(tab);
+          }}
         />
 
         {showPrescription && (
@@ -340,6 +365,47 @@ export function DentistCalendar() {
 
         <ProfileView userRole="dentist" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="dentist" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+
+        <UnifiedSearch
+          userRole="dentist"
+          isOpen={showSearch}
+          onClose={() => setShowSearch(false)}
+          favorites={favorites}
+          onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
+          onViewDentistProfile={d => { setShowSearch(false); setViewDentistProfile(d); }}
+          onViewClinicProfile={id => { setShowSearch(false); setViewClinicProfile(id); }}
+        />
+
+        {showReferral && (
+          <ReferralLetterFlow
+            onClose={() => setShowReferral(false)}
+            onGoHome={() => { setShowReferral(false); setActiveTab('home'); }}
+            favorites={favorites}
+            onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
+          />
+        )}
+
+        {viewDentistProfile && (
+          <DentistProfileView
+            dentist={viewDentistProfile}
+            isOpen={true}
+            onClose={() => setViewDentistProfile(null)}
+            isFavorite={favorites.includes(viewDentistProfile.id)}
+            onToggleFavorite={() => { setFavorites(prev => prev.includes(viewDentistProfile.id) ? prev.filter(f => f !== viewDentistProfile.id) : [...prev, viewDentistProfile.id]); }}
+          />
+        )}
+
+        {viewClinicProfile && (
+          <ClinicProfileView
+            clinicId={viewClinicProfile}
+            isOpen={true}
+            onClose={() => setViewClinicProfile(null)}
+            onViewDentistProfile={id => {
+              const d = MOCK_DENTIST_RESULTS.find(dr => dr.id === id);
+              if (d) { setViewClinicProfile(null); setViewDentistProfile(d); }
+            }}
+          />
+        )}
 
         <EditConsultationModal
           consultation={selectedConsultation}
