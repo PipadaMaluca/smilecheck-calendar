@@ -21,6 +21,8 @@ import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
+import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
@@ -560,6 +562,14 @@ export function DesktopCalendarView() {
       ) : activeNavTab === 'conquistas' ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           <AchievementsView userRole={activeRole} />
+        </div>
+      ) : activeNavTab === 'plano' ? (
+        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
+          <ManagePlanView userRole={activeRole} />
+        </div>
+      ) : activeNavTab === 'loja' ? (
+        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
+          <RewardsStoreView userRole={activeRole} />
         </div>
       ) : (
         /* Placeholder for other tabs */
