@@ -8,28 +8,27 @@ interface BottomNavigationProps {
   onTabChange: (tab: string) => void;
 }
 
-// Mobile/Tablet navigation - 5 items each, fixed at bottom
 const navigationItems = {
   patient: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'consultas', icon: Calendar, label: 'Consultas' },
     { id: 'saude', icon: Heart, label: 'Saúde' },
     { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'conta', icon: Settings, label: 'Conta' },
+    { id: 'configuracoes', icon: Settings, label: 'Config.' },
   ],
   dentist: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
     { id: 'equipa', icon: Users, label: 'Equipa' },
     { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'conta', icon: Settings, label: 'Conta' },
+    { id: 'configuracoes', icon: Settings, label: 'Config.' },
   ],
   clinic: [
     { id: 'home', icon: Home, label: 'Início' },
     { id: 'agenda', icon: Calendar, label: 'Agenda' },
     { id: 'equipa', icon: Users, label: 'Equipa' },
     { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'conta', icon: Settings, label: 'Conta' },
+    { id: 'configuracoes', icon: Settings, label: 'Config.' },
   ],
 };
 

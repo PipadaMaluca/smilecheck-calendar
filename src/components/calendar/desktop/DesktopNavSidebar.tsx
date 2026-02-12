@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, Star, FileText, Search } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, Star, FileText, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -16,7 +16,7 @@ interface DesktopNavSidebarProps {
 const MAIN_NAV_ITEMS_BY_ROLE = {
   patient: [
     { id: 'home', icon: Home, label: 'Início' },
-    { id: 'agenda', icon: Calendar, label: 'Agenda' },
+    { id: 'agenda', icon: Calendar, label: 'Consultas' },
     { id: 'saude', icon: Heart, label: 'Saúde' },
     { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
   ],
@@ -34,17 +34,37 @@ const MAIN_NAV_ITEMS_BY_ROLE = {
   ],
 };
 
-const SECONDARY_NAV_ITEMS = [
-  { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
-  { id: 'conquistas', icon: Award, label: 'Conquistas' },
-  { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
-  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
-];
+// Two-line labels for specific items
+const TWO_LINE_LABELS: Record<string, [string, string]> = {
+  'loja': ['Loja de', 'Recompensas'],
+  'referencia': ['Carta de', 'Referência'],
+  'prescrever': ['Prescrever', 'Receita'],
+};
 
-const PROFESSIONAL_NAV_ITEMS = [
-  { id: 'favoritos', icon: Star, label: 'Favoritos' },
-  { id: 'referencia', icon: FileText, label: 'Carta Referência' },
-];
+// Alphabetical secondary items per role
+const SECONDARY_NAV_BY_ROLE = {
+  patient: [
+    { id: 'conquistas', icon: Award, label: 'Conquistas' },
+    { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
+    { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  ],
+  dentist: [
+    { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
+    { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
+    { id: 'conquistas', icon: Award, label: 'Conquistas' },
+    { id: 'favoritos', icon: Star, label: 'Favoritos' },
+    { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
+    { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  ],
+  clinic: [
+    { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
+    { id: 'conquistas', icon: Award, label: 'Conquistas' },
+    { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
+    { id: 'favoritos', icon: Star, label: 'Favoritos' },
+    { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
+    { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  ],
+};
 
 export function DesktopNavSidebar({
   isExpanded,
@@ -54,16 +74,18 @@ export function DesktopNavSidebar({
   onPrescribe,
 }: DesktopNavSidebarProps) {
   const mainItems = MAIN_NAV_ITEMS_BY_ROLE[userRole];
+  const secondaryItems = SECONDARY_NAV_BY_ROLE[userRole];
 
-  const renderNavButton = (item: { id: string; icon: React.ElementType; label: string }) => {
+  const renderNavButton = (item: { id: string; icon: React.ElementType; label: string }, onClick?: () => void) => {
     const Icon = item.icon;
     const isActive = activeTab === item.id;
+    const twoLine = TWO_LINE_LABELS[item.id];
 
     return (
       <Button
         key={item.id}
         variant="ghost"
-        onClick={() => onTabChange(item.id)}
+        onClick={onClick || (() => onTabChange(item.id))}
         className={cn(
           'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200',
           isActive
@@ -74,7 +96,7 @@ export function DesktopNavSidebar({
         <Icon className="w-5 h-5 flex-shrink-0" />
         {isExpanded && (
           <span className="text-[10px] font-medium text-center leading-tight">
-            {item.id === 'loja' ? <>{`Loja de`}<br />{`Recompensas`}</> : item.label}
+            {twoLine ? <>{twoLine[0]}<br />{twoLine[1]}</> : item.label}
           </span>
         )}
       </Button>
@@ -108,45 +130,23 @@ export function DesktopNavSidebar({
 
       {/* Main Navigation */}
       <nav className="flex flex-col items-center gap-1 p-2 flex-1">
-        {mainItems.map(renderNavButton)}
+        {mainItems.map(item => renderNavButton(item))}
 
-        {/* Separator */}
         <Separator className="my-1 bg-[#1E3A5F]" />
 
-        {/* Secondary Navigation */}
-        {SECONDARY_NAV_ITEMS.map(renderNavButton)}
-
-        {/* Professional items (dentist/clinic only) */}
-        {(userRole === 'dentist' || userRole === 'clinic') && (
-          <>
-            <Separator className="my-1 bg-[#1E3A5F]" />
-            {PROFESSIONAL_NAV_ITEMS.map(renderNavButton)}
-          </>
+        {/* Dentist: Prescrever Receita after separator */}
+        {userRole === 'dentist' && renderNavButton(
+          { id: 'prescrever', icon: FilePlus, label: 'Prescrever Receita' },
+          onPrescribe
         )}
 
-        {/* Prescribe button for dentist */}
-        {userRole === 'dentist' && (
-          <>
-            <Separator className="my-1 bg-[#1E3A5F]" />
-            <Button
-              variant="ghost"
-              onClick={onPrescribe}
-              className="flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
-            >
-              <FilePlus className="w-5 h-5 flex-shrink-0" />
-              {isExpanded && (
-                <span className="text-[10px] font-medium text-center leading-tight">
-                  Prescrever<br />Receita
-                </span>
-              )}
-            </Button>
-          </>
-        )}
+        {/* Secondary items (alphabetical) */}
+        {secondaryItems.map(item => renderNavButton(item))}
       </nav>
 
-      {/* Bottom: Conta */}
+      {/* Bottom: Configurações */}
       <div className="border-t border-[#1E3A5F] p-2 flex-shrink-0">
-        {renderNavButton({ id: 'conta', icon: Settings, label: 'Conta' })}
+        {renderNavButton({ id: 'configuracoes', icon: Settings, label: 'Configurações' })}
       </div>
     </aside>
   );
