@@ -8,7 +8,8 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { FamilyFilter } from './mobile/FamilyFilter';
 import { DashboardView } from '@/components/dashboard/DashboardView';
-import { AccountView } from '@/components/account/AccountView';
+import { SettingsView } from '@/components/settings/SettingsView';
+import { InviteView } from '@/components/settings/InviteView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
 import { TriageInline } from '@/components/triage/TriageInline';
@@ -34,6 +35,7 @@ export function PatientCalendar() {
   const [showTriage, setShowTriage] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -178,8 +180,8 @@ export function PatientCalendar() {
           <HealthView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'conversas' ? (
           <ConversationsView userRole="patient" onNavigate={handleTabChange} />
-        ) : activeTab === 'conta' ? (
-          <AccountView userRole="patient" onNavigate={handleTabChange} onEditProfile={() => setShowEditProfile(true)} />
+        ) : activeTab === 'configuracoes' ? (
+          <SettingsView userRole="patient" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="patient" /></div>
         ) : activeTab === 'plano' ? (
@@ -230,6 +232,7 @@ export function PatientCalendar() {
 
         <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+        {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
       </div>
     </div>
   );

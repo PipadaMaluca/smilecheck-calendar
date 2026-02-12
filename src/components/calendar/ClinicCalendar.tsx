@@ -10,7 +10,8 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { DashboardView } from '@/components/dashboard/DashboardView';
-import { AccountView } from '@/components/account/AccountView';
+import { SettingsView } from '@/components/settings/SettingsView';
+import { InviteView } from '@/components/settings/InviteView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
@@ -41,6 +42,7 @@ export function ClinicCalendar() {
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
@@ -295,8 +297,8 @@ export function ClinicCalendar() {
         <TeamView userRole="clinic" onNavigate={setActiveTab} />
       ) : activeTab === 'conversas' ? (
         <ConversationsView userRole="clinic" onNavigate={setActiveTab} />
-      ) : activeTab === 'conta' ? (
-        <AccountView userRole="clinic" onNavigate={setActiveTab} onEditProfile={() => setShowEditProfile(true)} />
+      ) : activeTab === 'configuracoes' ? (
+        <SettingsView userRole="clinic" onNavigate={setActiveTab} onInvite={() => setShowInvite(true)} />
       ) : activeTab === 'classificacoes' ? (
         <div className="px-0"><RankingsView userRole="clinic" /></div>
       ) : activeTab === 'conquistas' ? (
@@ -380,6 +382,8 @@ export function ClinicCalendar() {
           }}
         />
       )}
+
+      {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
       <EditConsultationModal
         consultation={selectedConsultation}

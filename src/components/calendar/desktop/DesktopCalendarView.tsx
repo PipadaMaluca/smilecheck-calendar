@@ -11,7 +11,8 @@ import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { DashboardView } from '@/components/dashboard/DashboardView';
-import { AccountView } from '@/components/account/AccountView';
+import { SettingsView } from '@/components/settings/SettingsView';
+import { InviteView } from '@/components/settings/InviteView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
@@ -75,6 +76,7 @@ export function DesktopCalendarView() {
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
@@ -484,11 +486,11 @@ export function DesktopCalendarView() {
           </header>
           <TeamView userRole={activeRole} onNavigate={handleNavTabChange} />
         </div>
-      ) : activeNavTab === 'conta' ? (
-        /* Account View */
+      ) : activeNavTab === 'configuracoes' ? (
+        /* Settings View */
         <div className="flex-1 flex flex-col overflow-hidden">
           <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium text-foreground">Conta</span>
+            <span className="text-sm font-medium text-foreground">Configurações</span>
             <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
               <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                 <User className="w-4 h-4" /> Paciente
@@ -514,7 +516,7 @@ export function DesktopCalendarView() {
               </div>
             </button>
           </header>
-          <AccountView userRole={activeRole} onNavigate={handleNavTabChange} onEditProfile={() => setShowEditProfile(true)} />
+          <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setShowInvite(true)} />
         </div>
       ) : activeNavTab === 'conversas' ? (
         /* Conversations View */
@@ -639,6 +641,9 @@ export function DesktopCalendarView() {
 
       {/* Edit Profile View (from Account) */}
       <EditProfileView userRole={activeRole} isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+
+      {/* Invite View */}
+      {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
       {/* Unified Search */}
       <UnifiedSearch

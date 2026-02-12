@@ -12,7 +12,8 @@ import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
 import { DashboardView } from '@/components/dashboard/DashboardView';
-import { AccountView } from '@/components/account/AccountView';
+import { SettingsView } from '@/components/settings/SettingsView';
+import { InviteView } from '@/components/settings/InviteView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
@@ -45,6 +46,7 @@ export function DentistCalendar() {
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
@@ -304,8 +306,8 @@ export function DentistCalendar() {
           <TeamView userRole="dentist" onNavigate={setActiveTab} />
         ) : activeTab === 'conversas' ? (
           <ConversationsView userRole="dentist" onNavigate={setActiveTab} />
-        ) : activeTab === 'conta' ? (
-          <AccountView userRole="dentist" onNavigate={setActiveTab} onEditProfile={() => setShowEditProfile(true)} />
+        ) : activeTab === 'configuracoes' ? (
+          <SettingsView userRole="dentist" onNavigate={setActiveTab} onInvite={() => setShowInvite(true)} />
         ) : activeTab === 'classificacoes' ? (
           <div className="px-0"><RankingsView userRole="dentist" /></div>
         ) : activeTab === 'conquistas' ? (
@@ -406,6 +408,8 @@ export function DentistCalendar() {
             }}
           />
         )}
+
+        {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
         <EditConsultationModal
           consultation={selectedConsultation}
