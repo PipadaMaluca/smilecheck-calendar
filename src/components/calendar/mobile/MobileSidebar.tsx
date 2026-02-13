@@ -22,6 +22,7 @@ interface MobileSidebarProps {
   onPrescribe?: () => void;
   onProfileClick?: () => void;
   onNavigate?: (tab: string) => void;
+  activeTab?: string;
 }
 
 export function MobileSidebar({
@@ -39,6 +40,7 @@ export function MobileSidebar({
   onPrescribe,
   onProfileClick,
   onNavigate,
+  activeTab,
 }: MobileSidebarProps) {
   const [agendasOpen, setAgendasOpen] = useState(false);
   const [familyOpen, setFamilyOpen] = useState(false);
@@ -303,7 +305,7 @@ export function MobileSidebar({
         {userRole === 'dentist' && (
           <>
             <MenuSection>
-              {renderAgendaFilter()}
+              {(activeTab === 'agenda') && renderAgendaFilter()}
 
               {/* Prescrever Receita after separator-like position */}
               <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => { onClose(); onPrescribe?.(); }} />
@@ -328,7 +330,7 @@ export function MobileSidebar({
         {userRole === 'clinic' && (
           <>
             <MenuSection>
-              {renderAgendaFilter()}
+              {(activeTab === 'agenda') && renderAgendaFilter()}
 
               {/* Alphabetical - NO Carta de Referência, NO Prescrever Receita */}
               <MenuItem icon={Trophy} label="Classificações" onClick={() => { onClose(); onNavigate?.('classificacoes'); }} />

@@ -30,6 +30,7 @@ interface EditProfileViewProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
+  inline?: boolean;
 }
 
 const SPECIALTIES = [
@@ -54,7 +55,7 @@ function FieldGroup({ label, children, className }: { label: string; children: R
   );
 }
 
-export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfileViewProps) {
+export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
   const isMobile = useIsMobile();
 
   // Patient state
@@ -284,7 +285,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
                 </div>
               </div>
 
-              <FieldGroup label={`Bio/Descrição (${dentistBio.length}/500)`}>
+              <FieldGroup label={`Sobre (${dentistBio.length}/500)`}>
                 <Textarea
                   value={dentistBio}
                   onChange={e => e.target.value.length <= 500 && setDentistBio(e.target.value)}
@@ -612,9 +613,13 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave }: EditProfi
     </div>
   );
 
+  if (inline) {
+    return <div className="max-w-2xl mx-auto">{content}</div>;
+  }
+
   if (isMobile) {
     return (
-      <div className="fixed inset-0 bg-background z-[65] flex flex-col">
+      <div className="fixed inset-0 bg-background z-[65] flex flex-col pb-[60px]">
         {content}
       </div>
     );

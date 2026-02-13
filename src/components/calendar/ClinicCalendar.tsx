@@ -332,6 +332,7 @@ export function ClinicCalendar() {
         selectedClinics={selectedClinics}
         onClinicToggle={handleClinicToggle}
         onProfileClick={() => setShowProfile(true)}
+        activeTab={activeTab}
         onNavigate={(tab) => {
           if (tab === 'pesquisa') { setShowSearch(true); return; }
           if (tab === 'referencia') { setShowReferral(true); return; }

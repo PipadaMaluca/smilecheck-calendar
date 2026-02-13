@@ -18,6 +18,7 @@ interface ReferralLetterFlowProps {
   onGoHome?: () => void;
   favorites?: string[];
   onToggleFavorite?: (id: string) => void;
+  inline?: boolean;
 }
 
 const MOCK_PATIENTS = [

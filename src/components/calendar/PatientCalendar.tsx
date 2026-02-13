@@ -212,6 +212,7 @@ export function PatientCalendar() {
           onMemberToggle={handleMemberToggle}
           onProfileClick={() => setShowProfile(true)}
           onNavigate={handleTabChange}
+          activeTab={activeTab}
         />
 
         {/* Edit Modal */}

@@ -62,81 +62,53 @@ const getPresentDentistKeys = () => {
   });
   return keys;
 };
+
 export function DesktopCalendarView() {
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31)); // Default to Jan 31 to show the example
+  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
-  // Start with all present dentists selected (7 who work that day)
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
-  const [showPrescription, setShowPrescription] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
-  const [showInvite, setShowInvite] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [showReferral, setShowReferral] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
 
-  // Check if "Todos" is effectively selected (all present dentists)
+  // Check if "Todos" is effectively selected
   const presentKeys = getPresentDentistKeys();
   const isTodosSelected = presentKeys.every(key => selectedDentistIds.includes(key));
 
-  // Build the list of dentists to show based on selections (with their clinic context)
+  // Build the list of dentists to show based on selections
   const filteredDentists = useMemo(() => {
-    if (selectedDentistIds.length === 0) {
-      return [];
-    }
-    const result: {
-      dentist: typeof mockDentists[0];
-      clinicId: string;
-      worksToday: boolean;
-      key: string;
-    }[] = [];
+    if (selectedDentistIds.length === 0) return [];
+    const result: { dentist: typeof mockDentists[0]; clinicId: string; worksToday: boolean; key: string; }[] = [];
     selectedDentistIds.forEach(key => {
       const parts = key.split('-');
       if (parts.length !== 2) return;
       const [clinicId, dentistId] = parts;
       const dentist = mockDentists.find(d => d.id === dentistId);
       const worksToday = dentistWorksOnDemo(clinicId, dentistId);
-      if (dentist) {
-        result.push({
-          dentist,
-          clinicId,
-          worksToday,
-          key
-        });
-      }
+      if (dentist) result.push({ dentist, clinicId, worksToday, key });
     });
     return result;
   }, [selectedDentistIds]);
 
-  // Get unique dentists for timeline (avoiding duplicates for same dentist different clinics)
-  const dentistsForTimeline = useMemo(() => {
-    // For timeline, we need to show each dentist-clinic combo as a separate column
-    return filteredDentists;
-  }, [filteredDentists]);
+  const dentistsForTimeline = useMemo(() => filteredDentists, [filteredDentists]);
+
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
-    filteredDentists.forEach(({
-      dentist,
-      clinicId,
-      key
-    }) => {
+    filteredDentists.forEach(({ dentist, clinicId, key }) => {
       const dentistConsultations = mockConsultations.filter(c => c.dentist.id === dentist.id && c.clinic.id === clinicId);
-      // Use composite key for slot lookup
       result[key] = generateTimeSlots(selectedDate, dentistConsultations);
     });
     return result;
   }, [selectedDate, filteredDentists]);
 
-  // Day consultations for list view
   const dayConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) return [];
     return mockConsultations.filter(c => {
@@ -146,81 +118,48 @@ export function DesktopCalendarView() {
     });
   }, [selectedDate, selectedDentistIds]);
 
-  // Patient consultations - use the dedicated mock data
   const patientConsultations = useMemo(() => {
-    // Filter by selected family members
-    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
-      return mockPatientConsultations; // All selected
-    }
+    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) return mockPatientConsultations;
     return mockPatientConsultations.filter(c => selectedFamilyMemberIds.includes(c.patient.id));
   }, [selectedFamilyMemberIds]);
 
-  // FIXED: Toggle individual dentist (checkbox click adds/removes, name click is exclusive)
   const handleDentistToggle = useCallback((dentistId: string, isCheckbox: boolean, clinicId?: string) => {
     if (!clinicId) return;
     const key = `${clinicId}-${dentistId}`;
     if (isCheckbox) {
-      // Checkbox click: toggle this dentist in multi-select mode
-      setSelectedDentistIds(prev => {
-        if (prev.includes(key)) {
-          // Remove this dentist
-          return prev.filter(id => id !== key);
-        } else {
-          // Add this dentist
-          return [...prev, key];
-        }
-      });
+      setSelectedDentistIds(prev => prev.includes(key) ? prev.filter(id => id !== key) : [...prev, key]);
     } else {
-      // Name click: select ONLY this dentist (exclusive selection)
       setSelectedDentistIds([key]);
     }
   }, []);
 
-  // FIXED: Toggle clinic (checkbox toggles all, name is exclusive)
   const handleClinicToggle = useCallback((clinicId: string, isCheckbox: boolean) => {
     const dentistsInClinic = getDentistsForClinic(clinicId);
     const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
     if (isCheckbox) {
-      // Checkbox click: toggle all dentists in this clinic
       setSelectedDentistIds(prev => {
         const allSelected = clinicKeys.every(key => prev.includes(key));
-        if (allSelected) {
-          // Remove all from this clinic
-          return prev.filter(id => !clinicKeys.includes(id));
-        } else {
-          // Add all from this clinic (merge with existing)
-          return [...new Set([...prev, ...clinicKeys])];
-        }
+        return allSelected ? prev.filter(id => !clinicKeys.includes(id)) : [...new Set([...prev, ...clinicKeys])];
       });
     } else {
-      // Name click: select ONLY this clinic's dentists (exclusive selection)
       setSelectedDentistIds(clinicKeys);
     }
   }, []);
 
-  // FIXED: "Todos" toggle - toggles between present dentists and none
   const handleToggleTodos = useCallback(() => {
     const presentKeys = getPresentDentistKeys();
     const allPresent = presentKeys.every(key => selectedDentistIds.includes(key));
-    if (allPresent) {
-      // Currently all present are selected -> deselect all
-      setSelectedDentistIds([]);
-    } else {
-      // Not all present are selected -> select all present
-      setSelectedDentistIds(presentKeys);
-    }
+    setSelectedDentistIds(allPresent ? [] : presentKeys);
   }, [selectedDentistIds]);
 
-  // FIXED: Select all dentists who are present (Filtrar Presentes button)
   const handleSelectPresentDentists = useCallback(() => {
     setSelectedDentistIds(getPresentDentistKeys());
   }, []);
 
-  // Select all dentists (click on "Todos" text)
   const handleSelectAllDentists = useCallback(() => {
-    // When clicking on "Todos" text, select all present dentists
     setSelectedDentistIds(getPresentDentistKeys());
   }, []);
+
   const handleFamilyMemberToggle = (memberId: string) => {
     setSelectedFamilyMemberIds(prev => {
       if (prev.includes(memberId)) {
@@ -230,6 +169,7 @@ export function DesktopCalendarView() {
       return [...prev, memberId];
     });
   };
+
   const handleSelectAllFamilyMembers = () => {
     if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
       setSelectedFamilyMemberIds([mockFamilyMembers[0].id]);
@@ -237,24 +177,15 @@ export function DesktopCalendarView() {
       setSelectedFamilyMemberIds(mockFamilyMembers.map(m => m.id));
     }
   };
+
   const handleSlotClick = (slot: TimeSlot) => {
-    if (slot.consultation) {
-      setSelectedConsultation(slot.consultation);
-    }
+    if (slot.consultation) setSelectedConsultation(slot.consultation);
   };
-  const goToPreviousDay = () => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(newDate.getDate() - 1);
-    setSelectedDate(newDate);
-  };
-  const goToNextDay = () => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(newDate.getDate() + 1);
-    setSelectedDate(newDate);
-  };
-  const goToToday = () => {
-    setSelectedDate(new Date());
-  };
+
+  const goToPreviousDay = () => { const d = new Date(selectedDate); d.setDate(d.getDate() - 1); setSelectedDate(d); };
+  const goToNextDay = () => { const d = new Date(selectedDate); d.setDate(d.getDate() + 1); setSelectedDate(d); };
+  const goToToday = () => { setSelectedDate(new Date()); };
+
   const renderSidebar = () => {
     if (!isNavExpanded) return null;
     if (activeRole === 'patient') {
@@ -262,6 +193,7 @@ export function DesktopCalendarView() {
     }
     return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} onSelectPresentDentists={handleSelectPresentDentists} onClinicToggle={handleClinicToggle} appointmentDates={appointmentDates} userRole={activeRole} isTodosSelected={isTodosSelected} onToggleTodos={handleToggleTodos} />;
   };
+
   const renderContent = () => {
     if (showTriage && activeRole === 'patient') {
       return <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => { setShowTriage(false); setActiveNavTab('home'); }} />;
@@ -274,13 +206,13 @@ export function DesktopCalendarView() {
     }
     return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
   };
+
   const handleNavTabChange = useCallback((tab: string) => {
-    if (tab === 'referencia') {
-      setShowReferral(true);
-      return;
-    }
+    // All tabs now render inline, including referencia and prescrever
     setActiveNavTab(tab);
     setShowTriage(false);
+    setViewDentistProfile(null);
+    setViewClinicProfile(null);
   }, []);
 
   const toggleFavorite = useCallback((id: string) => {
@@ -288,151 +220,106 @@ export function DesktopCalendarView() {
     toast.success(favorites.includes(id) ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
   }, [favorites]);
 
-  // Listen for global "go home" events from booking flows opened via ClickableDentistName
   useEffect(() => {
-    const handler = () => {
-      setActiveNavTab('home');
-      setShowTriage(false);
-    };
+    const handler = () => { setActiveNavTab('home'); setShowTriage(false); };
     window.addEventListener('smilecheck:go-home', handler);
     return () => window.removeEventListener('smilecheck:go-home', handler);
   }, []);
 
-  return <div className="h-screen flex bg-background relative">
-      {/* Background Watermark Logo */}
-      <div 
-        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
-        style={{
-          backgroundImage: `url(${smileIcon})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          backgroundSize: '60%',
-        }}
-      />
-      {/* Sidebar 1 - Navigation (dark blue #0A1929) */}
-      <DesktopNavSidebar isExpanded={isNavExpanded} activeTab={activeNavTab} onTabChange={handleNavTabChange} userRole={activeRole} onPrescribe={() => setShowPrescription(true)} />
-
-      {activeNavTab === 'home' ? (
-        /* Dashboard View */
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
-          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium capitalize text-foreground">
-              {selectedDate.toLocaleDateString('pt-PT', {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </span>
-
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <User className="w-4 h-4" />
-                Paciente
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Stethoscope className="w-4 h-4" />
-                Dentista
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Building2 className="w-4 h-4" />
-                Clínica
-              </Button>
-            </div>
-
-            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
-              <div className="text-right">
-                <p className="text-sm font-bold text-foreground">
-                  {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                </p>
-              </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-            </button>
-          </header>
-
-          <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />
+  // Helper to render standard header (taller, aligned with logo block) for non-agenda screens
+  const renderStandardHeader = (title: string) => (
+    <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+      <span className="text-sm font-medium text-foreground">{title}</span>
+      <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+        <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+          <User className="w-4 h-4" /> Paciente
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+          <Stethoscope className="w-4 h-4" /> Dentista
+        </Button>
+        <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+          <Building2 className="w-4 h-4" /> Clínica
+        </Button>
+      </div>
+      <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+        <div className="text-right">
+          <p className="text-sm font-bold text-foreground">
+            {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+          </p>
         </div>
-      ) : activeNavTab === 'agenda' ? (
-        /* Calendar View */
-        <>
-          {/* Vertical separator line */}
-          {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+          <User className="w-5 h-5 text-primary" />
+        </div>
+      </button>
+    </header>
+  );
 
-          {/* Sidebar 2 - Calendar + Dentists/Family */}
-          {renderSidebar()}
+  // Render the main content area based on active nav tab
+  const renderMainArea = () => {
+    // Viewing a specific dentist profile (inline)
+    if (viewDentistProfile) {
+      return (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {renderStandardHeader('Perfil do Dentista')}
+          <div className="flex-1 overflow-y-auto">
+            <DentistProfileView
+              dentist={viewDentistProfile}
+              isOpen={true}
+              onClose={() => setViewDentistProfile(null)}
+              isFavorite={favorites.includes(viewDentistProfile.id)}
+              onToggleFavorite={() => toggleFavorite(viewDentistProfile.id)}
+              onGoHome={() => { setViewDentistProfile(null); setActiveNavTab('home'); }}
+              inline
+            />
+          </div>
+        </div>
+      );
+    }
 
-          {/* Main Content Area */}
+    // Viewing a specific clinic profile (inline)
+    if (viewClinicProfile) {
+      return (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {renderStandardHeader('Perfil da Clínica')}
+          <div className="flex-1 overflow-y-auto">
+            <ClinicProfileView
+              clinicId={viewClinicProfile}
+              isOpen={true}
+              onClose={() => setViewClinicProfile(null)}
+              onViewDentistProfile={id => {
+                const d = MOCK_DENTIST_RESULTS.find(dr => dr.id === id);
+                if (d) { setViewClinicProfile(null); setViewDentistProfile(d); }
+              }}
+              inline
+            />
+          </div>
+        </div>
+      );
+    }
+
+    switch (activeNavTab) {
+      case 'home':
+        return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {/* Header */}
-            <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-              <div className="flex items-center gap-3">
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
-                  <Menu className="w-5 h-5" />
+            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+              <span className="text-sm font-medium capitalize text-foreground">
+                {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+              <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+                <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                  <User className="w-4 h-4" /> Paciente
                 </Button>
-                <div className="h-6 w-px bg-border" />
-                <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">
-                  Hoje
+                <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                  <Stethoscope className="w-4 h-4" /> Dentista
                 </Button>
-                <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="icon" onClick={goToPreviousDay}>
-                    <ChevronLeft className="w-4 h-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={goToNextDay}>
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </div>
-                <span className="text-sm font-medium capitalize text-foreground">
-                  {selectedDate.toLocaleDateString('pt-PT', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </span>
+                <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                  <Building2 className="w-4 h-4" /> Clínica
+                </Button>
               </div>
-
-              <div className="items-center gap-4 flex flex-row">
-                <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                    <User className="w-4 h-4" />
-                    Paciente
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                    <Stethoscope className="w-4 h-4" />
-                    Dentista
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                    <Building2 className="w-4 h-4" />
-                    Clínica
-                  </Button>
-                </div>
-
-                {(activeRole === 'clinic' || activeRole === 'dentist') && <>
-                    <div className="h-6 w-px bg-border" />
-                    <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
-                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
-                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
-                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
-                    </ToggleGroup>
-                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
-                      <CalendarClock className="w-4 h-4" />
-                      Modificar horários
-                    </Button>
-                    <div className="relative cursor-pointer" onClick={() => setShowSearch(true)}>
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input placeholder="Pesquisar pacientes, dentistas..." className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
-                    </div>
-                  </>}
-              </div>
-
-              <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
+              <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                 <div className="text-right">
                   <p className="text-sm font-bold text-foreground">
                     {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -446,239 +333,285 @@ export function DesktopCalendarView() {
                 </div>
               </button>
             </header>
+            <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />
+          </div>
+        );
 
-            {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
+      case 'agenda':
+        return (
+          <>
+            {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+            {renderSidebar()}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {/* Agenda keeps original header height */}
+              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+                <div className="flex items-center gap-3">
+                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+                    <Menu className="w-5 h-5" />
+                  </Button>
+                  <div className="h-6 w-px bg-border" />
+                  <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">Hoje</Button>
+                  <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="icon" onClick={goToPreviousDay}><ChevronLeft className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={goToNextDay}><ChevronRight className="w-4 h-4" /></Button>
+                  </div>
+                  <span className="text-sm font-medium capitalize text-foreground">
+                    {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                </div>
+                <div className="items-center gap-4 flex flex-row">
+                  <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                      <User className="w-4 h-4" /> Paciente
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                      <Stethoscope className="w-4 h-4" /> Dentista
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+                      <Building2 className="w-4 h-4" /> Clínica
+                    </Button>
+                  </div>
+                  {(activeRole === 'clinic' || activeRole === 'dentist') && <>
+                    <div className="h-6 w-px bg-border" />
+                    <ToggleGroup type="single" value={viewMode} onValueChange={val => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
+                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
+                    </ToggleGroup>
+                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
+                      <CalendarClock className="w-4 h-4" /> Modificar horários
+                    </Button>
+                    <div className="relative cursor-pointer" onClick={() => setActiveNavTab('pesquisa')}>
+                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Input placeholder="Pesquisar pacientes, dentistas..." className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
+                    </div>
+                  </>}
+                </div>
+                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-foreground">
+                      {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                    </p>
+                  </div>
+                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="w-5 h-5 text-primary" />
+                  </div>
+                </button>
+              </header>
+              {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
+              <div className="flex-1 flex overflow-hidden">{renderContent()}</div>
+            </div>
+          </>
+        );
 
-            <div className="flex-1 flex overflow-hidden">
-              {renderContent()}
+      case 'team':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Equipa')}
+            <TeamView userRole={activeRole} onNavigate={handleNavTabChange} />
+          </div>
+        );
+
+      case 'conversas':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Conversas')}
+            <ConversationsView userRole={activeRole} onNavigate={handleNavTabChange} />
+          </div>
+        );
+
+      case 'saude':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Saúde')}
+            <HealthView userRole="patient" onNavigate={handleNavTabChange} />
+          </div>
+        );
+
+      case 'configuracoes':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Configurações')}
+            <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setActiveNavTab('convite')} />
+          </div>
+        );
+
+      case 'convite':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Convidar Amigos')}
+            <div className="flex-1 overflow-y-auto">
+              <InviteView onClose={() => setActiveNavTab('configuracoes')} inline />
             </div>
           </div>
-        </>
-      ) : activeNavTab === 'team' ? (
-        /* Team View */
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium text-foreground">Equipa</span>
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <User className="w-4 h-4" /> Paciente
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Stethoscope className="w-4 h-4" /> Dentista
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Building2 className="w-4 h-4" /> Clínica
-              </Button>
+        );
+
+      case 'perfil':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Meu Perfil')}
+            <div className="flex-1 overflow-y-auto">
+              <ProfileView
+                userRole={activeRole}
+                isOpen={true}
+                onClose={() => setActiveNavTab('home')}
+                inline
+                onViewClinicProfile={(id) => { setViewClinicProfile(id); }}
+                onViewDentistProfile={(d) => { setViewDentistProfile(d); }}
+              />
             </div>
-            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
-              <div className="text-right">
-                <p className="text-sm font-bold text-foreground">
-                  {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                </p>
-              </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-            </button>
-          </header>
-          <TeamView userRole={activeRole} onNavigate={handleNavTabChange} />
-        </div>
-      ) : activeNavTab === 'configuracoes' ? (
-        /* Settings View */
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium text-foreground">Configurações</span>
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <User className="w-4 h-4" /> Paciente
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Stethoscope className="w-4 h-4" /> Dentista
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Building2 className="w-4 h-4" /> Clínica
-              </Button>
+          </div>
+        );
+
+      case 'editarPerfil':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Editar Perfil')}
+            <div className="flex-1 overflow-y-auto">
+              <EditProfileView userRole={activeRole} isOpen={true} onClose={() => setActiveNavTab('perfil')} onSave={() => setActiveNavTab('perfil')} inline />
             </div>
-            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
-              <div className="text-right">
-                <p className="text-sm font-bold text-foreground">
-                  {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                </p>
-              </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-            </button>
-          </header>
-          <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setShowInvite(true)} />
-        </div>
-      ) : activeNavTab === 'conversas' ? (
-        /* Conversations View */
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium text-foreground">Conversas</span>
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <User className="w-4 h-4" /> Paciente
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Stethoscope className="w-4 h-4" /> Dentista
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                <Building2 className="w-4 h-4" /> Clínica
-              </Button>
+          </div>
+        );
+
+      case 'classificacoes':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Classificações')}
+            <div className="flex-1 overflow-y-auto"><RankingsView userRole={activeRole} /></div>
+          </div>
+        );
+
+      case 'conquistas':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Conquistas')}
+            <div className="flex-1 overflow-y-auto"><AchievementsView userRole={activeRole} /></div>
+          </div>
+        );
+
+      case 'plano':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Gerir Plano')}
+            <div className="flex-1 overflow-y-auto"><ManagePlanView userRole={activeRole} /></div>
+          </div>
+        );
+
+      case 'loja':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Loja de Recompensas')}
+            <div className="flex-1 overflow-y-auto"><RewardsStoreView userRole={activeRole} /></div>
+          </div>
+        );
+
+      case 'favoritos':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Favoritos')}
+            <div className="flex-1 overflow-y-auto">
+              <FavoritesView
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+                onViewProfile={d => setViewDentistProfile(d)}
+              />
             </div>
-            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
-              <div className="text-right">
-                <p className="text-sm font-bold text-foreground">
-                  {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                </p>
-              </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-            </button>
-          </header>
-          <ConversationsView userRole={activeRole} onNavigate={handleNavTabChange} />
-        </div>
-      ) : activeNavTab === 'saude' && activeRole === 'patient' ? (
-        /* Health View - Patient only */
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-            <span className="text-sm font-medium text-foreground">Saúde</span>
-            <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all bg-primary text-primary-foreground hover:bg-primary/90')}>
-                <User className="w-4 h-4" /> Paciente
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all text-muted-foreground hover:text-foreground')}>
-                <Stethoscope className="w-4 h-4" /> Dentista
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all text-muted-foreground hover:text-foreground')}>
-                <Building2 className="w-4 h-4" /> Clínica
-              </Button>
+          </div>
+        );
+
+      case 'pesquisa':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Pesquisar')}
+            <div className="flex-1 overflow-y-auto">
+              <UnifiedSearch
+                userRole={activeRole}
+                isOpen={true}
+                onClose={() => setActiveNavTab('home')}
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+                onViewDentistProfile={d => { setViewDentistProfile(d); }}
+                onViewClinicProfile={id => { setViewClinicProfile(id); }}
+                inline
+              />
             </div>
-            <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setShowProfile(true)}>
-              <div className="text-right">
-                <p className="text-sm font-bold text-foreground">{mockFamilyMembers[0].name}</p>
-                <p className="text-xs text-muted-foreground">Paciente</p>
-              </div>
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
-              </div>
-            </button>
-          </header>
-          <HealthView userRole="patient" onNavigate={handleNavTabChange} />
-        </div>
-      ) : activeNavTab === 'classificacoes' && activeRole !== 'patient' ? (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <RankingsView userRole={activeRole} />
-        </div>
-      ) : activeNavTab === 'conquistas' ? (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <AchievementsView userRole={activeRole} />
-        </div>
-      ) : activeNavTab === 'plano' ? (
-        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
-          <ManagePlanView userRole={activeRole} />
-        </div>
-      ) : activeNavTab === 'loja' ? (
-        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
-          <RewardsStoreView userRole={activeRole} />
-        </div>
-      ) : activeNavTab === 'favoritos' && (activeRole === 'dentist' || activeRole === 'clinic') ? (
-        <div className="flex-1 flex flex-col overflow-hidden overflow-y-auto">
-          <FavoritesView
-            favorites={favorites}
-            onToggleFavorite={toggleFavorite}
-            onViewProfile={d => setViewDentistProfile(d)}
-          />
-        </div>
-      ) : (
-        /* Placeholder for other tabs */
-        <div className="flex-1 flex items-center justify-center text-muted-foreground">
-          <p className="text-lg">Secção em construção...</p>
-        </div>
-      )}
+          </div>
+        );
 
-      {/* Edit Consultation Modal */}
-      <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {
-      console.log('Saved consultation:', updated);
-      setSelectedConsultation(null);
-    }} onCancel={consultation => {
-      console.log('Cancelled consultation:', consultation);
-      setSelectedConsultation(null);
-    }} />
+      case 'prescrever':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Prescrever Receita')}
+            <div className="flex-1 overflow-y-auto">
+              <PrescriptionFlow
+                onClose={() => setActiveNavTab('home')}
+                onGoHome={() => setActiveNavTab('home')}
+                inline
+              />
+            </div>
+          </div>
+        );
 
-      {/* Prescription Flow */}
-      {showPrescription && (
-        <PrescriptionFlow
-          onClose={() => setShowPrescription(false)}
-          onGoHome={() => { setShowPrescription(false); setActiveNavTab('home'); }}
-        />
-      )}
+      case 'referencia':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Carta de Referência')}
+            <div className="flex-1 overflow-y-auto">
+              <ReferralLetterFlow
+                onClose={() => setActiveNavTab('home')}
+                onGoHome={() => setActiveNavTab('home')}
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+                inline
+              />
+            </div>
+          </div>
+        );
 
-      {/* Referral Letter Flow */}
-      {showReferral && (
-        <ReferralLetterFlow
-          onClose={() => setShowReferral(false)}
-          onGoHome={() => { setShowReferral(false); setActiveNavTab('home'); }}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-        />
-      )}
+      default:
+        return (
+          <div className="flex-1 flex items-center justify-center text-muted-foreground">
+            <p className="text-lg">Secção em construção...</p>
+          </div>
+        );
+    }
+  };
 
-      {/* Profile View */}
-      <ProfileView userRole={activeRole} isOpen={showProfile} onClose={() => setShowProfile(false)} />
-
-      {/* Edit Profile View (from Account) */}
-      <EditProfileView userRole={activeRole} isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
-
-      {/* Invite View */}
-      {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
-
-      {/* Unified Search */}
-      <UnifiedSearch
+  return (
+    <div className="h-screen flex bg-background relative">
+      {/* Background Watermark Logo */}
+      <div
+        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+        style={{
+          backgroundImage: `url(${smileIcon})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          backgroundSize: '60%',
+        }}
+      />
+      {/* Sidebar */}
+      <DesktopNavSidebar
+        isExpanded={isNavExpanded}
+        activeTab={activeNavTab}
+        onTabChange={handleNavTabChange}
         userRole={activeRole}
-        isOpen={showSearch}
-        onClose={() => setShowSearch(false)}
-        favorites={favorites}
-        onToggleFavorite={toggleFavorite}
-        onViewDentistProfile={d => { setShowSearch(false); setViewDentistProfile(d); }}
-        onViewClinicProfile={id => { setShowSearch(false); setViewClinicProfile(id); }}
+        onPrescribe={() => setActiveNavTab('prescrever')}
       />
 
-      {/* Dentist Profile View */}
-      {viewDentistProfile && (
-        <DentistProfileView
-          dentist={viewDentistProfile}
-          isOpen={true}
-          onClose={() => setViewDentistProfile(null)}
-          isFavorite={favorites.includes(viewDentistProfile.id)}
-          onToggleFavorite={() => toggleFavorite(viewDentistProfile.id)}
-          onGoHome={() => { setViewDentistProfile(null); setActiveNavTab('home'); }}
-        />
-      )}
+      {renderMainArea()}
 
-      {/* Clinic Profile View */}
-      {viewClinicProfile && (
-        <ClinicProfileView
-          clinicId={viewClinicProfile}
-          isOpen={true}
-          onClose={() => setViewClinicProfile(null)}
-          onViewDentistProfile={id => {
-            const d = MOCK_DENTIST_RESULTS.find(dr => dr.id === id);
-            if (d) { setViewClinicProfile(null); setViewDentistProfile(d); }
-          }}
-        />
-      )}
-    </div>;
+      {/* Edit Consultation Modal - this one stays as modal */}
+      <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {
+        console.log('Saved consultation:', updated);
+        setSelectedConsultation(null);
+      }} onCancel={consultation => {
+        console.log('Cancelled consultation:', consultation);
+        setSelectedConsultation(null);
+      }} />
+    </div>
+  );
 }
