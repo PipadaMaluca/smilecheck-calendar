@@ -19,6 +19,7 @@ interface UnifiedSearchProps {
   onViewClinicProfile?: (clinicId: string) => void;
   favorites?: string[];
   onToggleFavorite?: (dentistId: string) => void;
+  inline?: boolean;
 }
 
 // Mock patients (the dentist's/clinic's patients)
@@ -41,7 +42,7 @@ const MOCK_CLINIC_SEARCH = [
   { id: '5', name: 'OralMed Cascais', address: 'Av. 25 de Abril, Cascais', rating: 4.5, reviewCount: 98, distance: 15.0 },
 ];
 
-export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile, onViewClinicProfile, favorites = [], onToggleFavorite }: UnifiedSearchProps) {
+export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile, onViewClinicProfile, favorites = [], onToggleFavorite, inline }: UnifiedSearchProps) {
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'patients' | 'dentists' | 'clinics'>('all');
   const isMobile = useIsMobile();
@@ -238,10 +239,15 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
     </div>
   );
 
+  if (inline) {
+    if (!isOpen) return null;
+    return content;
+  }
+
   if (isMobile) {
     if (!isOpen) return null;
     return (
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col">
+      <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-semibold">Pesquisar</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>

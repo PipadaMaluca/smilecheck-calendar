@@ -351,6 +351,7 @@ export function DentistCalendar() {
           onClinicToggle={handleClinicToggle}
           onPrescribe={() => setShowPrescription(true)}
           onProfileClick={() => setShowProfile(true)}
+          activeTab={activeTab}
           onNavigate={(tab) => {
             if (tab === 'pesquisa') { setShowSearch(true); return; }
             if (tab === 'referencia') { setShowReferral(true); return; }

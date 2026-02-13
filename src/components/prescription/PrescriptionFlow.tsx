@@ -13,6 +13,7 @@ interface PrescriptionFlowProps {
   onGoHome?: () => void;
   /** If set, skip patient selection */
   preSelectedPatient?: { id: string; name: string; age: number };
+  inline?: boolean;
 }
 
 type PrescriptionStep = 'patient' | 'medications' | 'preview' | 'success';
