@@ -1,4 +1,4 @@
-import { Consultation, Dentist, Clinic, TimeSlot } from '@/types/calendar';
+import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
 
 // ===== CLINICS =====
 export const mockClinics: Clinic[] = [
@@ -180,6 +180,7 @@ export const mockConsultations: Consultation[] = [
     price: 40,
     isPaid: true,
     notes: 'Avaliação inicial',
+    status: 'visto' as ConsultationStatus,
   },
   {
     id: 'gp-2',
@@ -194,6 +195,7 @@ export const mockConsultations: Consultation[] = [
     price: 60,
     isPaid: true,
     notes: 'Dente 15, face oclusal',
+    status: 'em_consulta' as ConsultationStatus,
   },
   {
     id: 'gp-3',
@@ -208,6 +210,7 @@ export const mockConsultations: Consultation[] = [
     price: 50,
     isPaid: false,
     notes: 'Limpeza semestral',
+    status: 'confirmada' as ConsultationStatus,
   },
   {
     id: 'gp-4',
@@ -222,6 +225,7 @@ export const mockConsultations: Consultation[] = [
     price: 80,
     isPaid: true,
     notes: 'Dor aguda dente 46',
+    status: 'em_sala_espera' as ConsultationStatus,
     triage: { symptom: 'Dor intensa no dente', duration: 'Desde ontem', intensity: 5, photos: 2, urgency: 'urgente' },
   },
   {

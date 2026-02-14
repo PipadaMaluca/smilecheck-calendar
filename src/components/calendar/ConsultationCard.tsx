@@ -1,18 +1,24 @@
+import { useState } from 'react';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { ConsultationContextMenu } from './ConsultationContextMenu';
+import { toast } from 'sonner';
 
 interface ConsultationCardProps {
   consultation: Consultation;
   userRole: UserRole;
   onClick?: () => void;
   showFamilyMember?: boolean;
+  onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
+  onCopy?: (consultation: Consultation) => void;
 }
 
-export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember }: ConsultationCardProps) {
+export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember, onStatusChange, onCopy }: ConsultationCardProps) {
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
   const Icon = isTeleconsulta ? Video : MapPin;
@@ -20,6 +26,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
   const category = consultation.category || 'restauracao';
   const colors = CATEGORY_COLORS[category];
   const categoryLabel = CATEGORY_LABELS[category];
+  const status = consultation.status || 'agendada';
+  const statusConfig = STATUS_CONFIG[status];
   
   // Type label for patients
   const typeLabel = isTeleconsulta ? 'Teleconsulta' : 'Presencial';
@@ -30,15 +38,30 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
     ? `${consultation.patient.name} (${patientAge} anos)` 
     : consultation.patient.name;
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (userRole === 'patient') return;
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  };
+
   return (
+    <>
     <div
       onClick={onClick}
+      onContextMenu={handleContextMenu}
       className={cn(
         'consultation-card cursor-pointer animate-slide-up',
         isTeleconsulta ? 'consultation-card-teleconsulta' : 'consultation-card-presencial'
       )}
       style={{ borderLeftColor: colors.hex, borderLeftWidth: '4px' }}
     >
+      {/* Status Badge */}
+      <div className="flex items-center justify-between mb-2">
+        <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium', statusConfig.bg, statusConfig.color)}>
+          {statusConfig.icon} {statusConfig.label}
+        </span>
+      </div>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div
@@ -180,5 +203,22 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         </div>
       </div>
     </div>
+
+      {/* Context Menu */}
+      {contextMenu && userRole !== 'patient' && (
+        <ConsultationContextMenu
+          consultation={consultation}
+          position={contextMenu}
+          onClose={() => setContextMenu(null)}
+          onStatusChange={(c, s) => {
+            onStatusChange?.(c, s);
+            toast.success(`Estado alterado para "${STATUS_CONFIG[s].label}"`);
+          }}
+          onCopy={(c) => onCopy?.(c)}
+          onViewProfile={() => {}}
+          onSendMessage={() => toast.info('Abrir conversa...')}
+        />
+      )}
+    </>
   );
 }
