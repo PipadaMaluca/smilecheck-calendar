@@ -10,6 +10,7 @@ import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
+import { CopyConsultationModal } from '../CopyConsultationModal';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -29,7 +30,7 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
-import { Consultation, TimeSlot, UserRole } from '@/types/calendar';
+import { Consultation, TimeSlot, UserRole, ConsultationStatus } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { isSameDay } from 'date-fns';
@@ -70,6 +71,7 @@ export function DesktopCalendarView() {
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
+  const [copyConsultation, setCopyConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
@@ -204,7 +206,7 @@ export function DesktopCalendarView() {
     if (viewMode === 'list') {
       return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map(d => d.dentist)} onConsultationClick={setSelectedConsultation} />;
     }
-    return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} />;
+    return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} onStatusChange={(c, s) => { toast.success(`Estado de ${c.patient.name} alterado`); }} onCopy={(c) => setCopyConsultation(c)} />;
   };
 
   const handleNavTabChange = useCallback((tab: string) => {
@@ -612,6 +614,17 @@ export function DesktopCalendarView() {
         console.log('Cancelled consultation:', consultation);
         setSelectedConsultation(null);
       }} />
+
+      {/* Copy Consultation Modal */}
+      <CopyConsultationModal
+        consultation={copyConsultation}
+        isOpen={!!copyConsultation}
+        onClose={() => setCopyConsultation(null)}
+        onSave={(copied) => {
+          console.log('Copied consultation:', copied);
+          setCopyConsultation(null);
+        }}
+      />
     </div>
   );
 }

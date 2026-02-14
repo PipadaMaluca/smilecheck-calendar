@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Video, Flag, AlertTriangle, Check, Ban } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
+import { ConsultationContextMenu } from '../ConsultationContextMenu';
+import { toast } from 'sonner';
 
 interface DentistColumn {
   dentist: Dentist;
@@ -20,6 +22,8 @@ interface DesktopTimelineProps {
     start: number;
     end: number;
   };
+  onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
+  onCopy?: (consultation: Consultation) => void;
 }
 
 // FIXED: Slot heights - fixed and immutable (40px desktop)
@@ -57,10 +61,13 @@ export function DesktopTimeline({
   slotsPerDentist,
   onSlotClick,
   selectedDate,
-  workingHours: defaultWorkingHours
+  workingHours: defaultWorkingHours,
+  onStatusChange,
+  onCopy,
 }: DesktopTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
+  const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; x: number; y: number } | null>(null);
 
   // Fixed hours 8h-22h
   const workingHours = useMemo(() => {
@@ -105,6 +112,7 @@ export function DesktopTimeline({
   }, []);
 
   return (
+    <>
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden">
       {/* Dentist Headers */}
       <div className="flex border-b border-border bg-card/50 sticky top-0 z-10">
@@ -280,10 +288,18 @@ export function DesktopTimeline({
                     const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
                     const isUrgent = consultation.category === 'urgencia' || isUrgentTeleconsulta;
                     
+                    const consultStatus = consultation.status || 'agendada';
+                    const statusCfg = STATUS_CONFIG[consultStatus];
+                    
                     return (
                       <div
                         key={consultation.id}
                         onClick={() => onSlotClick(slot)}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setContextMenu({ consultation, x: e.clientX, y: e.clientY });
+                        }}
                         className="mx-0.5 rounded cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden"
                         style={{
                           gridRow: `${startIdx + 1} / span ${spanCount}`,
@@ -328,10 +344,9 @@ export function DesktopTimeline({
                           
                           {/* Status indicator */}
                           <div className="flex-shrink-0">
-                            {consultation.isPaid 
-                              ? <Check className="w-3 h-3 text-primary" /> 
-                              : <Flag className="w-3 h-3 text-[#FDD835]" />
-                            }
+                            <span className={cn('text-[8px] font-medium', statusCfg.color)}>
+                              {statusCfg.icon}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -344,5 +359,23 @@ export function DesktopTimeline({
         </div>
       </div>
     </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <ConsultationContextMenu
+          consultation={contextMenu.consultation}
+          position={{ x: contextMenu.x, y: contextMenu.y }}
+          onClose={() => setContextMenu(null)}
+          onStatusChange={(c, s) => {
+            onStatusChange?.(c, s);
+            toast.success(`Estado alterado para "${STATUS_CONFIG[s].label}"`);
+            setContextMenu(null);
+          }}
+          onCopy={(c) => { onCopy?.(c); setContextMenu(null); }}
+          onViewProfile={() => setContextMenu(null)}
+          onSendMessage={() => { toast.info('Abrir conversa...'); setContextMenu(null); }}
+        />
+      )}
+    </>
   );
 }

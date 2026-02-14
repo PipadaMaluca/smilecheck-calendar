@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import {
@@ -27,23 +28,11 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
   });
 
   const getStatusBadge = (consultation: Consultation) => {
-    if (consultation.type === 'teleconsulta') {
-      return consultation.isPaid ? (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-green-500/20 text-green-400">
-          <Check className="w-3 h-3" />
-          Pago
-        </span>
-      ) : (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-yellow-500/20 text-yellow-400">
-          <Clock className="w-3 h-3" />
-          Pendente
-        </span>
-      );
-    }
+    const status = consultation.status || 'agendada';
+    const config = STATUS_CONFIG[status];
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-blue-500/20 text-blue-400">
-        <Clock className="w-3 h-3" />
-        A pagar
+      <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs', config.bg, config.color)}>
+        {config.icon} {config.label}
       </span>
     );
   };

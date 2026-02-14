@@ -1,4 +1,14 @@
 export type ConsultationType = 'teleconsulta' | 'presencial';
+
+export type ConsultationStatus = 
+  | 'agendada'
+  | 'confirmada'
+  | 'em_sala_espera'
+  | 'em_consulta'
+  | 'visto'
+  | 'falta_justificada'
+  | 'falta_nao_justificada';
+
 export type ConsultationCategory = 
   | 'primeira_consulta' 
   | 'destartarizacao'
@@ -51,6 +61,7 @@ export interface Consultation {
   id: string;
   type: ConsultationType;
   category?: ConsultationCategory;
+  status?: ConsultationStatus;
   date: Date;
   time: string;
   duration: number;
@@ -62,8 +73,19 @@ export interface Consultation {
   paymentMethod?: string;
   triage?: Triage;
   notes?: string;
-  isUrgentTeleconsulta?: boolean; // For teleconsultas with ⚠️ warning
+  isUrgentTeleconsulta?: boolean;
 }
+
+// Consultation status colors and labels
+export const STATUS_CONFIG: Record<ConsultationStatus, { label: string; color: string; bg: string; icon: string }> = {
+  agendada: { label: 'Agendada', color: 'text-blue-400', bg: 'bg-blue-500/20', icon: '📅' },
+  confirmada: { label: 'Confirmada', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: '✅' },
+  em_sala_espera: { label: 'Em sala de espera', color: 'text-sky-400', bg: 'bg-sky-500/20', icon: '🪑' },
+  em_consulta: { label: 'Em consulta', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: '🦷' },
+  visto: { label: 'Visto', color: 'text-green-400', bg: 'bg-green-500/20', icon: '✔️' },
+  falta_justificada: { label: 'Falta justificada', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: '⚠️' },
+  falta_nao_justificada: { label: 'Falta não justificada', color: 'text-destructive', bg: 'bg-destructive/20', icon: '❌' },
+};
 
 export interface TimeSlot {
   time: string;
