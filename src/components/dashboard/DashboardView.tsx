@@ -10,6 +10,8 @@ import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPa
 import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ClinicConfirmations } from './ClinicConfirmations';
+import { PatientScoreHistory } from './PatientScoreHistory';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -232,6 +234,17 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             </div>
           </div>
         </div>
+
+        {/* Clinic: Real-time confirmations */}
+        {userRole === 'clinic' && <ClinicConfirmations />}
+
+        {/* Patient: Score history */}
+        {userRole === 'patient' && (
+          <div>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Nível e Pontuação</h2>
+            <PatientScoreHistory />
+          </div>
+        )}
       </div>
     </ScrollArea>
   );

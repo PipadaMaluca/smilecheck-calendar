@@ -15,9 +15,10 @@ interface ConsultationCardProps {
   showFamilyMember?: boolean;
   onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
   onCopy?: (consultation: Consultation) => void;
+  onFeedback?: (consultation: Consultation) => void;
 }
 
-export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember, onStatusChange, onCopy }: ConsultationCardProps) {
+export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember, onStatusChange, onCopy, onFeedback }: ConsultationCardProps) {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
@@ -212,6 +213,9 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
           onClose={() => setContextMenu(null)}
           onStatusChange={(c, s) => {
             onStatusChange?.(c, s);
+            if (s === 'visto') {
+              onFeedback?.(c);
+            }
             toast.success(`Estado alterado para "${STATUS_CONFIG[s].label}"`);
           }}
           onCopy={(c) => onCopy?.(c)}
