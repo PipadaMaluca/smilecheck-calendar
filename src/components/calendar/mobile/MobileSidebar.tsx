@@ -85,7 +85,7 @@ export function MobileSidebar({
   }: {icon: React.ElementType;label: string;onClick?: () => void;active?: boolean;}) =>
   <button
     onClick={onClick}
-    className={cn("w-full gap-3 px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pr-[10px] pl-[15px] pb-[7px] pt-[7px]",
+    className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-0 gap-[15px]",
 
     active && 'text-primary bg-primary/10'
     )}>
