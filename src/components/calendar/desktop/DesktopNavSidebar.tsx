@@ -129,7 +129,7 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Main Navigation */}
-      <nav className="gap-1 p-2 flex-1 items-center justify-start flex flex-col px-[3px] py-[10px]">
+      <nav className="gap-1 p-2 flex-1 items-center justify-start flex flex-col py-[10px] px-[4px]">
         {mainItems.map((item) => renderNavButton(item))}
 
         <Separator className="my-1 bg-[#1E3A5F]" />
@@ -145,7 +145,7 @@ export function DesktopNavSidebar({
       </nav>
 
       {/* Bottom: Configurações */}
-      <div className="border-t border-[#1E3A5F] p-2 flex-shrink-0">
+      <div className="border-t border-[#1E3A5F] p-2 flex-shrink-0 px-[4px] py-[10px]">
         {renderNavButton({ id: 'configuracoes', icon: Settings, label: 'Configurações' })}
       </div>
     </aside>);
