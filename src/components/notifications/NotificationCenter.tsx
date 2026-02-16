@@ -87,7 +87,7 @@ export function NotificationDropdown({ onViewAll, onClose }: NotificationDropdow
   return (
     <>
       <div className="fixed inset-0 z-[49]" onClick={onClose} />
-      <div className="absolute right-0 top-full mt-2 w-[380px] bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
+      <div className="absolute right-0 top-full mt-2 w-[380px] bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in border-solid">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="text-sm font-bold">Notificações</h3>
           <Button variant="ghost" size="sm" className="text-xs text-primary" onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}>
