@@ -41,7 +41,7 @@ export function MobileHeader({
   }];
 
   return <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border w-full">
-      <div className="relative flex items-center w-full max-w-full px-[20px] py-[23px]">
+      <div className="relative w-full max-w-full px-[20px] py-[23px] pl-0 pr-0 gap-0 flex-row flex items-center justify-center my-[3px] mx-[7px]">
         {/* Menu button - absolute left */}
         <Button variant="ghost" size="icon" onClick={onMenuClick} className="absolute left-4 text-muted-foreground hover:text-foreground flex-shrink-0">
           <Menu className="w-5 h-5" />
