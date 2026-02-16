@@ -59,11 +59,11 @@ export function NotificationBell({ onClick, className }: NotificationBellProps) 
   return (
     <button
       onClick={onClick}
-      className={cn('relative p-2 rounded-lg hover:bg-accent/50 transition-colors', className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[5px] pt-[10px]", className)}>
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
       {unreadCount > 0 &&
-      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center px-1 mr-[7px]">
+      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center px-1 mb-0 mt-[5px] ml-0 mr-[5px]">
           {unreadCount}
         </span>
       }
