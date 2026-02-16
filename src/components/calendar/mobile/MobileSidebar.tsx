@@ -1,4 +1,4 @@
-import { X, User, CreditCard, Calendar, Building2, Users, Bell, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search, Star } from 'lucide-react';
+import { X, User, CreditCard, Calendar, Building2, Users, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search, Star, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -247,48 +247,20 @@ export function MobileSidebar({
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
               <User className="w-5 h-5 text-primary" />
             </div>
-            <div>
+            <div className="flex-1">
               <p className="font-bold text-sm">{userName}</p>
               <p className="text-xs text-muted-foreground">{userSubtitle}</p>
             </div>
           </div>
         </button>
 
+        {/* Notifications */}
+        <MenuItem icon={Bell} label="Notificações" onClick={() => { onClose(); onNavigate?.('notificacoes'); }} />
+
         {/* ========== PATIENT MENU ========== */}
         {userRole === 'patient' && (
           <>
             <MenuSection>
-              {/* Family dropdown */}
-              <Collapsible open={familyOpen} onOpenChange={setFamilyOpen}>
-                <CollapsibleTrigger className="w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-muted/50">
-                  <div className="flex items-center gap-3">
-                    <Users className="w-4 h-4" />
-                    <span>Família</span>
-                  </div>
-                  {familyOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-4 py-2 space-y-3">
-                  <div className="flex items-center gap-3">
-                    <CustomCheckbox 
-                      checked={selectedMembers.includes('all')}
-                      onChange={() => onMemberToggle?.('all', true)}
-                    />
-                    <button className="text-sm hover:text-primary" onClick={() => onMemberToggle?.('all', false)}>Todos</button>
-                  </div>
-                  {mockFamilyMembers.map(member => (
-                    <div key={member.id} className="flex items-center gap-3">
-                      <CustomCheckbox 
-                        checked={selectedMembers.includes(member.id) || selectedMembers.includes('all')}
-                        onChange={() => onMemberToggle?.(member.id, true)}
-                      />
-                      <button className="text-sm hover:text-primary text-left" onClick={() => onMemberToggle?.(member.id, false)}>
-                        {member.name} ({member.age} anos)
-                      </button>
-                    </div>
-                  ))}
-                </CollapsibleContent>
-              </Collapsible>
-
               {/* Alphabetical order */}
               <MenuItem icon={Award} label="Conquistas" onClick={() => { onClose(); onNavigate?.('conquistas'); }} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => { onClose(); onNavigate?.('plano'); }} />

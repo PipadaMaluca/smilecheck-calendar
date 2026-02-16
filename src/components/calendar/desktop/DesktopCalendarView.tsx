@@ -10,7 +10,8 @@ import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
-import { CopyConsultationModal } from '../CopyConsultationModal';
+import { CopyPasteBanner } from '../CopyPasteBanner';
+import { PasteConfirmationModal } from '../PasteConfirmationModal';
 import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
@@ -31,6 +32,7 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
+import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, TimeSlot, UserRole, ConsultationStatus } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
@@ -72,7 +74,8 @@ export function DesktopCalendarView() {
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map(m => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
-  const [copyConsultation, setCopyConsultation] = useState<Consultation | null>(null);
+  const [clipboardConsultation, setClipboardConsultation] = useState<Consultation | null>(null);
+  const [pasteTarget, setPasteTarget] = useState<{ time: string; dentistKey: string; dentistName: string } | null>(null);
   const [feedbackConsultation, setFeedbackConsultation] = useState<Consultation | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>('clinic');
   const [activeNavTab, setActiveNavTab] = useState('home');
@@ -81,6 +84,7 @@ export function DesktopCalendarView() {
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
+  const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   // Check if "Todos" is effectively selected
@@ -208,7 +212,20 @@ export function DesktopCalendarView() {
     if (viewMode === 'list') {
       return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map(d => d.dentist)} onConsultationClick={setSelectedConsultation} />;
     }
-    return <DesktopTimeline dentistColumns={dentistsForTimeline} slotsPerDentist={slotsPerDentist} onSlotClick={handleSlotClick} selectedDate={selectedDate} onStatusChange={(c, s) => { if (s === 'visto') { setFeedbackConsultation(c); } toast.success(`Estado de ${c.patient.name} alterado`); }} onCopy={(c) => setCopyConsultation(c)} />;
+    return <DesktopTimeline
+      dentistColumns={dentistsForTimeline}
+      slotsPerDentist={slotsPerDentist}
+      onSlotClick={handleSlotClick}
+      selectedDate={selectedDate}
+      onStatusChange={(c, s) => { if (s === 'visto') { setFeedbackConsultation(c); } toast.success(`Estado de ${c.patient.name} alterado`); }}
+      onCopy={(c) => { setClipboardConsultation(c); setActiveNavTab('agenda'); toast.info('Clique num slot vazio para colar a consulta'); }}
+      isPasteMode={!!clipboardConsultation}
+      onEmptySlotClick={(time, dentistKey, dentistName) => {
+        if (clipboardConsultation) {
+          setPasteTarget({ time, dentistKey, dentistName });
+        }
+      }}
+    />;
   };
 
   const handleNavTabChange = useCallback((tab: string) => {
@@ -245,19 +262,30 @@ export function DesktopCalendarView() {
           <Building2 className="w-4 h-4" /> Clínica
         </Button>
       </div>
-      <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
-        <div className="text-right">
-          <p className="text-sm font-bold text-foreground">
-            {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-          </p>
+      <div className="flex items-center gap-2">
+        <div className="relative">
+          <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
+          {showNotificationDropdown && (
+            <NotificationDropdown
+              onViewAll={() => setActiveNavTab('notificacoes')}
+              onClose={() => setShowNotificationDropdown(false)}
+            />
+          )}
         </div>
-        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-          <User className="w-5 h-5 text-primary" />
-        </div>
-      </button>
+        <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+          <div className="text-right">
+            <p className="text-sm font-bold text-foreground">
+              {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+            </p>
+          </div>
+          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <User className="w-5 h-5 text-primary" />
+          </div>
+        </button>
+      </div>
     </header>
   );
 
@@ -323,19 +351,30 @@ export function DesktopCalendarView() {
                   <Building2 className="w-4 h-4" /> Clínica
                 </Button>
               </div>
-              <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-foreground">
-                    {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                  </p>
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
+                  {showNotificationDropdown && (
+                    <NotificationDropdown
+                      onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
+                      onClose={() => setShowNotificationDropdown(false)}
+                    />
+                  )}
                 </div>
-                <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                  <User className="w-5 h-5 text-primary" />
-                </div>
-              </button>
+                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-foreground">
+                      {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                    </p>
+                  </div>
+                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="w-5 h-5 text-primary" />
+                  </div>
+                </button>
+              </div>
             </header>
             <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => { setShowTriage(true); setActiveNavTab('agenda'); }} />
           </div>
@@ -392,21 +431,30 @@ export function DesktopCalendarView() {
                     </div>
                   </>}
                 </div>
-                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-foreground">
-                      {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
-                    </p>
-                  </div>
-                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="w-5 h-5 text-primary" />
-                  </div>
-                </button>
+                <div className="flex items-center gap-2">
+                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
+                  <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-foreground">
+                        {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                      </p>
+                    </div>
+                    <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="w-5 h-5 text-primary" />
+                    </div>
+                  </button>
+                </div>
               </header>
               {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
+              {clipboardConsultation && (
+                <CopyPasteBanner
+                  consultation={clipboardConsultation}
+                  onCancel={() => setClipboardConsultation(null)}
+                />
+              )}
               <div className="flex-1 flex overflow-hidden">{renderContent()}</div>
             </div>
           </>
@@ -576,6 +624,16 @@ export function DesktopCalendarView() {
           </div>
         );
 
+      case 'notificacoes':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Notificações')}
+            <div className="flex-1 overflow-y-auto p-4">
+              <NotificationsFullView inline />
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className="flex-1 flex items-center justify-center text-muted-foreground">
@@ -617,14 +675,18 @@ export function DesktopCalendarView() {
         setSelectedConsultation(null);
       }} />
 
-      {/* Copy Consultation Modal */}
-      <CopyConsultationModal
-        consultation={copyConsultation}
-        isOpen={!!copyConsultation}
-        onClose={() => setCopyConsultation(null)}
-        onSave={(copied) => {
-          console.log('Copied consultation:', copied);
-          setCopyConsultation(null);
+      {/* Paste Confirmation Modal */}
+      <PasteConfirmationModal
+        consultation={clipboardConsultation}
+        targetDate={selectedDate}
+        targetTime={pasteTarget?.time || ''}
+        targetDentistName={pasteTarget?.dentistName}
+        isOpen={!!pasteTarget && !!clipboardConsultation}
+        onClose={() => setPasteTarget(null)}
+        onConfirm={(pasted) => {
+          console.log('Pasted consultation:', pasted);
+          setPasteTarget(null);
+          setClipboardConsultation(null);
         }}
       />
 

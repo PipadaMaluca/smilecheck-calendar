@@ -15,6 +15,7 @@ import { InviteView } from '@/components/settings/InviteView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
+import { NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
@@ -303,6 +304,8 @@ export function ClinicCalendar() {
         <div className="px-0"><RankingsView userRole="clinic" /></div>
       ) : activeTab === 'conquistas' ? (
         <div className="px-0"><AchievementsView userRole="clinic" /></div>
+      ) : activeTab === 'notificacoes' ? (
+        <NotificationsFullView onBack={() => setActiveTab('home')} />
       ) : activeTab === 'plano' ? (
         <ManagePlanView userRole="clinic" />
       ) : activeTab === 'loja' ? (

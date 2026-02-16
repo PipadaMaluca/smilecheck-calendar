@@ -24,6 +24,8 @@ interface DesktopTimelineProps {
   };
   onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
   onCopy?: (consultation: Consultation) => void;
+  isPasteMode?: boolean;
+  onEmptySlotClick?: (time: string, dentistKey: string, dentistName: string) => void;
 }
 
 // FIXED: Slot heights - fixed and immutable (40px desktop)
@@ -64,6 +66,8 @@ export function DesktopTimeline({
   workingHours: defaultWorkingHours,
   onStatusChange,
   onCopy,
+  isPasteMode,
+  onEmptySlotClick,
 }: DesktopTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
@@ -260,6 +264,19 @@ export function DesktopTimeline({
                     gridTemplateRows: `repeat(${TOTAL_SLOTS}, ${SLOT_HEIGHT}px)`,
                   }}
                 >
+                  {/* Empty slot click areas for paste mode */}
+                  {isPasteMode && timeSlots.map((time, idx) => {
+                    const isOccupied = slotOccupancy[idx] !== null;
+                    if (isOccupied) return null;
+                    return (
+                      <div
+                        key={`empty-${time}`}
+                        className="cursor-pointer hover:bg-primary/10 transition-colors border border-transparent hover:border-primary/30 rounded-sm mx-0.5"
+                        style={{ gridRow: `${idx + 1} / span 1` }}
+                        onClick={() => onEmptySlotClick?.(time, key, dentist.name)}
+                      />
+                    );
+                  })}
                   {/* Render consultation blocks using grid-row span */}
                   {primarySlots.map(({ slot, startIdx, spanCount }) => {
                     const isBlocked = slot.status === 'bloqueado';

@@ -12,6 +12,7 @@ import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { HealthView } from '@/components/health/HealthView';
+import { NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { TriageInline } from '@/components/triage/TriageInline';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
@@ -184,6 +185,8 @@ export function PatientCalendar() {
           <SettingsView userRole="patient" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="patient" /></div>
+        ) : activeTab === 'notificacoes' ? (
+          <NotificationsFullView onBack={() => handleTabChange('home')} />
         ) : activeTab === 'plano' ? (
           <ManagePlanView userRole="patient" />
         ) : activeTab === 'loja' ? (

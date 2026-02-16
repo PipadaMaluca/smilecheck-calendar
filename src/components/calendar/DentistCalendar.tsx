@@ -17,6 +17,7 @@ import { InviteView } from '@/components/settings/InviteView';
 import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { PrescriptionFlow } from '@/components/prescription/PrescriptionFlow';
+import { NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
@@ -312,6 +313,8 @@ export function DentistCalendar() {
           <div className="px-0"><RankingsView userRole="dentist" /></div>
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="dentist" /></div>
+        ) : activeTab === 'notificacoes' ? (
+          <NotificationsFullView onBack={() => setActiveTab('home')} />
         ) : activeTab === 'plano' ? (
           <ManagePlanView userRole="dentist" />
         ) : activeTab === 'loja' ? (
