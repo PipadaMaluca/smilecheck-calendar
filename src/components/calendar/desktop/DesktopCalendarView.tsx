@@ -443,7 +443,16 @@ export function DesktopCalendarView() {
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
+                  <div className="relative">
+                    <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
+                    {showNotificationDropdown && (
+                      <NotificationDropdown
+                        onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
+                        onClose={() => setShowNotificationDropdown(false)}
+                        onFeedbackAction={handleNotificationFeedback}
+                      />
+                    )}
+                  </div>
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                     <div className="text-right">
                       <p className="text-sm font-bold text-foreground">

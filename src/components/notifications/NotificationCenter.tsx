@@ -106,7 +106,20 @@ interface NotificationDropdownProps {
 
 export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction }: NotificationDropdownProps) {
   const [notifications, setNotifications] = useState(getInitialNotifications);
+  const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const recent = notifications.slice(0, 10);
+
+  const filteredRecent = useMemo(() => {
+    switch (activeFilter) {
+      case 'nao_lidas': return recent.filter((n) => !n.read);
+      case 'consultas': return recent.filter((n) => ['confirmacao', 'consulta_alterada', 'feedback'].includes(n.type));
+      case 'mensagens': return recent.filter((n) => n.type === 'mensagem');
+      case 'pontos': return recent.filter((n) => ['pontos', 'conquista'].includes(n.type));
+      default: return recent;
+    }
+  }, [recent, activeFilter]);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const markAsRead = (id: string) => {
     setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
@@ -122,8 +135,8 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction }: N
 
   return (
     <>
-      <div className="fixed inset-0 z-[49]" onClick={onClose} />
-      <div className="absolute right-0 top-full mt-2 w-[380px] bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in border-solid">
+      <div className="fixed inset-0 z-[998]" onClick={onClose} />
+      <div className="fixed right-4 top-14 w-[400px] bg-card border border-border rounded-xl shadow-2xl z-[999] overflow-hidden animate-fade-in">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="text-sm font-bold">Notificações</h3>
           <Button variant="ghost" size="sm" className="text-xs text-primary" onClick={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}>
@@ -131,35 +144,60 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction }: N
             Marcar todas como lidas
           </Button>
         </div>
-        <div className="max-h-[400px] overflow-y-auto">
-          {recent.map((notification) => {
-            const Icon = NOTIFICATION_ICONS[notification.type];
-            return (
-              <button
-                key={notification.id}
-                onClick={() => handleClick(notification)}
-                className={cn(
-                  'w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-accent/30 transition-colors border-b border-border/50 last:border-0',
-                  !notification.read && 'bg-primary/5'
-                )}
-              >
-                <div className={cn('w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5', !notification.read ? 'bg-primary/20' : 'bg-secondary')}>
-                  <Icon className={cn('w-4 h-4', !notification.read ? 'text-primary' : 'text-muted-foreground')} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className={cn('text-sm truncate', !notification.read ? 'font-bold' : 'font-medium')}>{notification.title}</p>
-                    {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
-                  </div>
-                  <p className="text-xs text-muted-foreground truncate">{notification.description}</p>
-                  <p className="text-[10px] text-muted-foreground/60 mt-0.5">{notification.time}</p>
-                  {notification.actionLabel && !notification.read && (
-                    <Badge className="mt-1.5 text-[10px] h-5 cursor-pointer">{notification.actionLabel}</Badge>
+        {/* Filters */}
+        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/50 overflow-x-auto">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setActiveFilter(f.id)}
+              className={cn(
+                'px-2.5 py-1 text-[11px] font-medium rounded-full whitespace-nowrap transition-colors',
+                activeFilter === f.id
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
+              )}
+            >
+              {f.label}
+              {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-0.5">({unreadCount})</span>}
+            </button>
+          ))}
+        </div>
+        <div className="max-h-[420px] overflow-y-auto">
+          {filteredRecent.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
+              <p className="text-xs">Sem notificações</p>
+            </div>
+          ) : (
+            filteredRecent.map((notification) => {
+              const Icon = NOTIFICATION_ICONS[notification.type];
+              return (
+                <button
+                  key={notification.id}
+                  onClick={() => handleClick(notification)}
+                  className={cn(
+                    'w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-accent/30 transition-colors border-b border-border/50 last:border-0',
+                    !notification.read && 'bg-primary/5'
                   )}
-                </div>
-              </button>
-            );
-          })}
+                >
+                  <div className={cn('w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5', !notification.read ? 'bg-primary/20' : 'bg-secondary')}>
+                    <Icon className={cn('w-4 h-4', !notification.read ? 'text-primary' : 'text-muted-foreground')} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className={cn('text-sm truncate', !notification.read ? 'font-bold' : 'font-medium')}>{notification.title}</p>
+                      {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
+                    </div>
+                    <p className="text-xs text-muted-foreground truncate">{notification.description}</p>
+                    <p className="text-[10px] text-muted-foreground/60 mt-0.5">{notification.time}</p>
+                    {notification.actionLabel && !notification.read && (
+                      <Badge className="mt-1.5 text-[10px] h-5 cursor-pointer">{notification.actionLabel}</Badge>
+                    )}
+                  </div>
+                </button>
+              );
+            })
+          )}
         </div>
         <div className="border-t border-border">
           <button onClick={() => { onViewAll(); onClose(); }} className="w-full py-2.5 text-sm text-primary font-medium hover:bg-accent/30 transition-colors">
