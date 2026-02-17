@@ -17,6 +17,14 @@ export const FEEDBACK_CHECKBOXES: FeedbackCheckbox[] = [
   { id: 'urgencia_abusiva', label: 'Histórico de urgências abusivas?', points: -2, isNegative: true, urgencyOnly: true },
 ];
 
+export type FeedbackStatus = 'pending' | 'completed' | 'expired';
+
+export interface PatientFeedback {
+  rating: number; // 1-5 stars
+  comment?: string;
+  submittedAt?: Date;
+}
+
 export interface ConsultationScore {
   id: string;
   consultationId: string;
@@ -25,6 +33,9 @@ export interface ConsultationScore {
   clinicName: string;
   totalPoints: number;
   breakdown: ScoreBreakdownItem[];
+  feedbackStatus: FeedbackStatus;
+  patientFeedback?: PatientFeedback;
+  dentistFeedbackDate?: Date;
 }
 
 export interface ScoreBreakdownItem {
@@ -33,7 +44,6 @@ export interface ScoreBreakdownItem {
 }
 
 export type ConfirmationStatus = 'pending' | 'confirmed' | 'declined';
-
 export interface ConsultationConfirmation {
   consultationId: string;
   patientName: string;
@@ -52,6 +62,8 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     totalPoints: 15,
+    feedbackStatus: 'pending',
+    dentistFeedbackDate: new Date(2026, 0, 31, 17, 0),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -63,12 +75,32 @@ export const mockScoreHistory: ConsultationScore[] = [
     ],
   },
   {
+    id: 'sc-6',
+    consultationId: 'sa-1',
+    date: new Date(2026, 0, 28),
+    dentistName: 'Dra. Sofia Almeida',
+    clinicName: 'Clínica SmileCheck',
+    totalPoints: 11,
+    feedbackStatus: 'pending',
+    dentistFeedbackDate: new Date(2026, 0, 28, 16, 30),
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Compareceu', points: 5 },
+      { label: 'Chegou a horas', points: 2 },
+      { label: 'Colaborou durante a consulta', points: 2 },
+      { label: 'Higiene oral adequada', points: 1 },
+    ],
+  },
+  {
     id: 'sc-2',
     consultationId: 'ab-1',
     date: new Date(2026, 0, 24),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     totalPoints: 10,
+    feedbackStatus: 'completed',
+    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: new Date(2026, 0, 25) },
+    dentistFeedbackDate: new Date(2026, 0, 24, 11, 0),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Compareceu', points: 5 },
@@ -83,6 +115,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
     totalPoints: -9,
+    feedbackStatus: 'completed',
+    patientFeedback: { rating: 3, submittedAt: new Date(2026, 0, 18) },
+    dentistFeedbackDate: new Date(2026, 0, 17, 10, 0),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Falta (base)', points: -8 },
@@ -97,6 +132,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     totalPoints: 12,
+    feedbackStatus: 'completed',
+    patientFeedback: { rating: 4, comment: 'Muito bom', submittedAt: new Date(2026, 0, 11) },
+    dentistFeedbackDate: new Date(2026, 0, 10, 15, 0),
     breakdown: [
       { label: 'Confirmação 1h', points: 1 },
       { label: 'Compareceu', points: 5 },
@@ -112,12 +150,12 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     totalPoints: 0,
+    feedbackStatus: 'expired',
     breakdown: [
       { label: 'Cancelamento >24h antes', points: 0 },
     ],
   },
 ];
-
 // Mock confirmations for clinic dashboard
 export const mockConfirmations: ConsultationConfirmation[] = [
   { consultationId: 'gp-1', patientName: 'Pedro Almeida', dentistName: 'Dr. Gonçalo Pipo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed' },

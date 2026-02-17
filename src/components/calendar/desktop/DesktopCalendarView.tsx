@@ -13,6 +13,8 @@ import { EditConsultationModal } from '../EditConsultationModal';
 import { CopyPasteBanner } from '../CopyPasteBanner';
 import { PasteConfirmationModal } from '../PasteConfirmationModal';
 import { DentistFeedbackModal } from '../DentistFeedbackModal';
+import { PatientFeedbackModal } from '../PatientFeedbackModal';
+import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -85,7 +87,15 @@ export function DesktopCalendarView() {
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+  const [patientFeedbackScore, setPatientFeedbackScore] = useState<ConsultationScore | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
+
+  const handleNotificationFeedback = useCallback((scoreId: string) => {
+    const score = mockScoreHistory.find(s => s.id === scoreId);
+    if (score) {
+      setPatientFeedbackScore(score);
+    }
+  }, []);
 
   // Check if "Todos" is effectively selected
   const presentKeys = getPresentDentistKeys();
@@ -358,6 +368,7 @@ export function DesktopCalendarView() {
                     <NotificationDropdown
                       onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
                       onClose={() => setShowNotificationDropdown(false)}
+                      onFeedbackAction={handleNotificationFeedback}
                     />
                   )}
                 </div>
@@ -629,7 +640,7 @@ export function DesktopCalendarView() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader('Notificações')}
             <div className="flex-1 overflow-y-auto p-4">
-              <NotificationsFullView inline />
+              <NotificationsFullView inline onFeedbackAction={handleNotificationFeedback} />
             </div>
           </div>
         );
@@ -698,6 +709,17 @@ export function DesktopCalendarView() {
         onSubmit={(id, checked, points) => {
           console.log('Feedback submitted:', { id, checked, points });
           setFeedbackConsultation(null);
+        }}
+      />
+
+      {/* Patient Feedback Modal (from notifications) */}
+      <PatientFeedbackModal
+        score={patientFeedbackScore}
+        isOpen={!!patientFeedbackScore}
+        onClose={() => setPatientFeedbackScore(null)}
+        onSubmit={(scoreId, rating, comment) => {
+          console.log('Patient feedback:', { scoreId, rating, comment });
+          setPatientFeedbackScore(null);
         }}
       />
     </div>
