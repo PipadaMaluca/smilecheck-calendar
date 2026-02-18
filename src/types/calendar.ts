@@ -161,7 +161,7 @@ export const LEGEND_ORDER: ConsultationCategory[] = [
 ];
 
 // View mode type
-export type ViewMode = 'list' | 'day' | 'three-day';
+export type ViewMode = 'list' | 'day' | 'three-day' | 'week' | 'month';
 
 // Family member type
 export interface FamilyMember {
