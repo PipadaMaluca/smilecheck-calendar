@@ -6,6 +6,8 @@ import { DesktopNavSidebar } from './DesktopNavSidebar';
 import { DesktopCalendarSidebar } from './DesktopCalendarSidebar';
 import { PatientSidebar } from './PatientSidebar';
 import { DesktopTimeline } from './DesktopTimeline';
+import { DesktopWeekView } from './DesktopWeekView';
+import { DesktopMonthView } from './DesktopMonthView';
 import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
 import { CategoryLegend } from '../CategoryLegend';
@@ -35,15 +37,15 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
-import { Consultation, TimeSlot, UserRole, ConsultationStatus } from '@/types/calendar';
+import { Consultation, TimeSlot, UserRole, ConsultationStatus, ViewMode } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
-import { isSameDay } from 'date-fns';
+import { isSameDay, startOfWeek, endOfWeek, addDays, addWeeks, subWeeks, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
-type ViewMode = 'list' | 'day' | 'week' | 'month';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -200,9 +202,53 @@ export function DesktopCalendarView() {
     if (slot.consultation) setSelectedConsultation(slot.consultation);
   };
 
-  const goToPreviousDay = () => { const d = new Date(selectedDate); d.setDate(d.getDate() - 1); setSelectedDate(d); };
-  const goToNextDay = () => { const d = new Date(selectedDate); d.setDate(d.getDate() + 1); setSelectedDate(d); };
+  const goToPrevious = () => {
+    if (viewMode === 'week') {
+      setSelectedDate(d => subWeeks(d, 1));
+    } else if (viewMode === 'month') {
+      setSelectedDate(d => { const nd = new Date(d); nd.setMonth(nd.getMonth() - 1); return nd; });
+    } else {
+      setSelectedDate(d => { const nd = new Date(d); nd.setDate(nd.getDate() - 1); return nd; });
+    }
+  };
+  const goToNext = () => {
+    if (viewMode === 'week') {
+      setSelectedDate(d => addWeeks(d, 1));
+    } else if (viewMode === 'month') {
+      setSelectedDate(d => { const nd = new Date(d); nd.setMonth(nd.getMonth() + 1); return nd; });
+    } else {
+      setSelectedDate(d => { const nd = new Date(d); nd.setDate(nd.getDate() + 1); return nd; });
+    }
+  };
   const goToToday = () => { setSelectedDate(new Date()); };
+
+  const getHeaderDateLabel = () => {
+    if (viewMode === 'week') {
+      const ws = startOfWeek(selectedDate, { weekStartsOn: 1 });
+      const we = addDays(ws, 5);
+      return `Semana de ${format(ws, 'd', { locale: pt })} - ${format(we, 'd MMM yyyy', { locale: pt })}`;
+    }
+    if (viewMode === 'month') {
+      return format(selectedDate, 'MMMM yyyy', { locale: pt });
+    }
+    return selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  };
+
+  // Get the first selected dentist key for single-dentist views
+  const singleDentistKey = useMemo(() => {
+    if (selectedDentistIds.length > 0) return selectedDentistIds[0];
+    return '1-1'; // default
+  }, [selectedDentistIds]);
+
+  // Enforce single dentist for week/month
+  useEffect(() => {
+    if ((viewMode === 'week' || viewMode === 'month') && selectedDentistIds.length > 1) {
+      setSelectedDentistIds([selectedDentistIds[0]]);
+    }
+    if ((viewMode === 'week' || viewMode === 'month') && selectedDentistIds.length === 0) {
+      setSelectedDentistIds(['1-1']);
+    }
+  }, [viewMode]);
 
   const renderSidebar = () => {
     if (!isNavExpanded) return null;
@@ -221,6 +267,25 @@ export function DesktopCalendarView() {
     }
     if (viewMode === 'list') {
       return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map(d => d.dentist)} onConsultationClick={setSelectedConsultation} />;
+    }
+    if (viewMode === 'week') {
+      return <DesktopWeekView
+        selectedDate={selectedDate}
+        selectedDentistKey={singleDentistKey}
+        onSlotClick={handleSlotClick}
+        onDateChange={setSelectedDate}
+        onViewModeChange={(m) => setViewMode(m)}
+        onStatusChange={(c, s) => { if (s === 'visto') { setFeedbackConsultation(c); } toast.success(`Estado de ${c.patient.name} alterado`); }}
+        onCopy={(c) => { setClipboardConsultation(c); toast.info('Clique num slot vazio para colar a consulta'); }}
+      />;
+    }
+    if (viewMode === 'month') {
+      return <DesktopMonthView
+        selectedDate={selectedDate}
+        selectedDentistKey={singleDentistKey}
+        onDateSelect={setSelectedDate}
+        onSwitchToDay={(date) => { setSelectedDate(date); setViewMode('day'); }}
+      />;
     }
     return <DesktopTimeline
       dentistColumns={dentistsForTimeline}
@@ -406,11 +471,11 @@ export function DesktopCalendarView() {
                   <div className="h-6 w-px bg-border" />
                   <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">Hoje</Button>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={goToPreviousDay}><ChevronLeft className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={goToNextDay}><ChevronRight className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
+                    <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
                   <span className="text-sm font-medium capitalize text-foreground">
-                    {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                    {getHeaderDateLabel()}
                   </span>
                 </div>
                 <div className="items-center gap-4 flex flex-row">
