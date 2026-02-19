@@ -16,6 +16,8 @@ import { CopyPasteBanner } from '../CopyPasteBanner';
 import { PasteConfirmationModal } from '../PasteConfirmationModal';
 import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { PatientFeedbackModal } from '../PatientFeedbackModal';
+import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from '../AgendaSettingsModal';
+import { TimeBlockModal, TimeBlock, TimeBlockDeleteConfirm } from '../TimeBlockModal';
 import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
@@ -90,6 +92,14 @@ export function DesktopCalendarView() {
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
   const [patientFeedbackScore, setPatientFeedbackScore] = useState<ConsultationScore | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockInitialDate, setBlockInitialDate] = useState<Date | undefined>();
+  const [blockInitialTime, setBlockInitialTime] = useState<string | undefined>();
+  const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
+  const [editingBlock, setEditingBlock] = useState<TimeBlock | null>(null);
+  const [deletingBlock, setDeletingBlock] = useState<TimeBlock | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   const handleNotificationFeedback = useCallback((scoreId: string) => {
@@ -498,7 +508,7 @@ export function DesktopCalendarView() {
                       <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
                       <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
                     </ToggleGroup>
-                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground">
+                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground" onClick={() => setShowSettings(true)}>
                       <CalendarClock className="w-4 h-4" /> Modificar horários
                     </Button>
                     <div className="relative cursor-pointer" onClick={() => setActiveNavTab('pesquisa')}>
@@ -795,6 +805,55 @@ export function DesktopCalendarView() {
           console.log('Patient feedback:', { scoreId, rating, comment });
           setPatientFeedbackScore(null);
         }}
+      />
+
+      {/* Agenda Settings Modal */}
+      <AgendaSettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+        settings={agendaSettings}
+        onSave={setAgendaSettings}
+        userRole={activeRole}
+        isPro={false}
+      />
+
+      {/* Time Block Modal */}
+      <TimeBlockModal
+        isOpen={showBlockModal}
+        onClose={() => { setShowBlockModal(false); setEditingBlock(null); setBlockInitialDate(undefined); setBlockInitialTime(undefined); }}
+        onSave={(block) => {
+          if (editingBlock) {
+            setTimeBlocks(prev => prev.map(b => b.id === block.id ? block : b));
+          } else {
+            setTimeBlocks(prev => [...prev, block]);
+          }
+          setEditingBlock(null);
+        }}
+        userRole={activeRole}
+        initialDate={blockInitialDate}
+        initialTime={blockInitialTime}
+        editingBlock={editingBlock}
+      />
+
+      {/* Time Block Delete Confirm */}
+      <TimeBlockDeleteConfirm
+        isOpen={!!deletingBlock}
+        onClose={() => setDeletingBlock(null)}
+        onDeleteSingle={() => {
+          if (deletingBlock) {
+            setTimeBlocks(prev => prev.filter(b => b.id !== deletingBlock.id));
+            toast.success('Bloqueio eliminado');
+          }
+          setDeletingBlock(null);
+        }}
+        onDeleteAll={() => {
+          if (deletingBlock) {
+            setTimeBlocks(prev => prev.filter(b => b.id !== deletingBlock.id));
+            toast.success('Todos os bloqueios eliminados');
+          }
+          setDeletingBlock(null);
+        }}
+        isRecurring={!!deletingBlock?.repeat}
       />
     </div>
   );
