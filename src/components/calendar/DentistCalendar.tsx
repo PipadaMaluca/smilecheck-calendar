@@ -7,6 +7,8 @@ import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
 import { CategoryLegend } from './CategoryLegend';
 import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
+import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from './AgendaSettingsModal';
+import { TimeBlockModal, TimeBlock } from './TimeBlockModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
@@ -53,6 +55,10 @@ export function DentistCalendar() {
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -428,6 +434,27 @@ export function DentistCalendar() {
             console.log('Cancelled consultation:', consultation);
             setSelectedConsultation(null);
           }}
+        />
+
+        {/* Agenda Settings Modal */}
+        <AgendaSettingsModal
+          isOpen={showSettings}
+          onClose={() => setShowSettings(false)}
+          settings={agendaSettings}
+          onSave={setAgendaSettings}
+          userRole="dentist"
+          isPro={false}
+        />
+
+        {/* Time Block Modal */}
+        <TimeBlockModal
+          isOpen={showBlockModal}
+          onClose={() => setShowBlockModal(false)}
+          onSave={(block) => {
+            setTimeBlocks(prev => [...prev, block]);
+          }}
+          userRole="dentist"
+          initialDate={selectedDate}
         />
       </div>
     </div>
