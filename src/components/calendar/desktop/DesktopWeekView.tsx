@@ -14,11 +14,18 @@ interface DesktopWeekViewProps {
   onViewModeChange: (mode: 'day') => void;
   onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
   onCopy?: (consultation: Consultation) => void;
+  onDragMove?: (consultation: Consultation, fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void;
 }
 
 const SLOT_HEIGHT = 40;
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
 const TOTAL_SLOTS = 28;
+
+const TIME_SLOTS: string[] = [];
+for (let h = 8; h < 22; h++) {
+  TIME_SLOTS.push(`${String(h).padStart(2, '0')}:00`);
+  TIME_SLOTS.push(`${String(h).padStart(2, '0')}:30`);
+}
 
 export function DesktopWeekView({
   selectedDate,
@@ -28,11 +35,14 @@ export function DesktopWeekView({
   onViewModeChange,
   onStatusChange,
   onCopy,
+  onDragMove,
 }: DesktopWeekViewProps) {
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const weekDays = Array.from({ length: 6 }, (_, i) => addDays(weekStart, i));
 
   const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; position: { x: number; y: number } } | null>(null);
+  const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDate: Date; fromTime: string } | null>(null);
+  const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
 
   const [clinicId, dentistId] = useMemo(() => {
     const parts = selectedDentistKey.split('-');
@@ -115,6 +125,21 @@ export function DesktopWeekView({
             const slots = weekSlots[dayKey] || [];
             const isToday = isSameDay(day, today);
 
+            // Build occupancy
+            const occupiedIndices = new Set<number>();
+            const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
+            slots.forEach(slot => {
+              if (slot.status === 'ocupado' && slot.consultation) {
+                const [h, m] = slot.time.split(':').map(Number);
+                const startIdx = (h - 8) * 2 + (m >= 30 ? 1 : 0);
+                const spanCount = Math.ceil(slot.consultation.duration / 30);
+                if (!occupiedIndices.has(startIdx)) {
+                  primarySlots.push({ slot, startIdx, spanCount });
+                  for (let i = 0; i < spanCount; i++) occupiedIndices.add(startIdx + i);
+                }
+              }
+            });
+
             return (
               <div
                 key={dayKey}
@@ -133,33 +158,62 @@ export function DesktopWeekView({
                   />
                 ))}
 
+                {/* Empty drop targets */}
+                {TIME_SLOTS.map((time, idx) => {
+                  if (occupiedIndices.has(idx)) return null;
+                  const slotId = `${dayKey}-${time}`;
+                  return (
+                    <div
+                      key={`drop-${time}`}
+                      className={cn(
+                        "absolute left-0.5 right-0.5 transition-colors rounded-sm",
+                        dragOverSlot === slotId && "bg-primary/20 border border-primary/50"
+                      )}
+                      style={{ top: idx * SLOT_HEIGHT, height: SLOT_HEIGHT }}
+                      onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
+                      onDragLeave={() => setDragOverSlot(null)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setDragOverSlot(null);
+                        if (draggedConsultation && onDragMove) {
+                          onDragMove(draggedConsultation.consultation, draggedConsultation.fromDate, draggedConsultation.fromTime, day, time);
+                        }
+                        setDraggedConsultation(null);
+                      }}
+                    />
+                  );
+                })}
+
                 {/* Consultation blocks */}
-                {slots.map((slot) => {
-                  if (!slot.consultation) return null;
-                  const c = slot.consultation;
-                  const [h, m] = slot.time.split(':').map(Number);
-                  const slotIndex = (h - 8) * 2 + (m >= 30 ? 1 : 0);
-                  const spanSlots = Math.ceil(c.duration / 30);
+                {primarySlots.map(({ slot, startIdx, spanCount }) => {
+                  const c = slot.consultation!;
                   const category = c.category || 'restauracao';
                   const colors = CATEGORY_COLORS[category] || CATEGORY_COLORS.restauracao;
 
                   return (
                     <div
                       key={c.id}
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = 'move';
+                        setDraggedConsultation({ consultation: c, fromDate: day, fromTime: slot.time });
+                      }}
+                      onDragEnd={() => setDraggedConsultation(null)}
                       className={cn(
-                        'absolute left-0.5 right-0.5 rounded cursor-pointer overflow-hidden transition-opacity hover:opacity-90',
-                        colors.bg, colors.text
+                        'absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing overflow-hidden transition-opacity hover:opacity-90',
+                        colors.bg, colors.text,
+                        draggedConsultation?.consultation.id === c.id && 'opacity-40 border-2 border-dashed border-primary'
                       )}
                       style={{
-                        top: slotIndex * SLOT_HEIGHT + 1,
-                        height: spanSlots * SLOT_HEIGHT - 2,
+                        top: startIdx * SLOT_HEIGHT + 1,
+                        height: spanCount * SLOT_HEIGHT - 2,
                       }}
                       onClick={() => onSlotClick(slot)}
                       onContextMenu={(e) => handleContextMenu(e, c)}
                     >
                       <div className="px-1.5 py-0.5 text-[10px] leading-tight truncate">
                         <div className="font-semibold truncate">{c.time} {c.patient.name.split(' ')[0]}</div>
-                        {spanSlots > 1 && (
+                        {spanCount > 1 && (
                           <div className="truncate opacity-80">{CATEGORY_LABELS[category]}</div>
                         )}
                       </div>

@@ -18,6 +18,7 @@ import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { PatientFeedbackModal } from '../PatientFeedbackModal';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from '../AgendaSettingsModal';
 import { TimeBlockModal, TimeBlock, TimeBlockDeleteConfirm } from '../TimeBlockModal';
+import { MoveConsultationModal, OverlapWarningModal, DragMoveInfo } from '../MoveConsultationModal';
 import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
@@ -100,6 +101,9 @@ export function DesktopCalendarView() {
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const [editingBlock, setEditingBlock] = useState<TimeBlock | null>(null);
   const [deletingBlock, setDeletingBlock] = useState<TimeBlock | null>(null);
+  const [pendingMove, setPendingMove] = useState<DragMoveInfo | null>(null);
+  const [overlapConsultation, setOverlapConsultation] = useState<Consultation | null>(null);
+  const [pendingOverlapMove, setPendingOverlapMove] = useState<DragMoveInfo | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   const handleNotificationFeedback = useCallback((scoreId: string) => {
@@ -208,6 +212,83 @@ export function DesktopCalendarView() {
     }
   };
 
+  // Get the first selected dentist key for single-dentist views
+  const singleDentistKey = useMemo(() => {
+    if (selectedDentistIds.length > 0) return selectedDentistIds[0];
+    return '1-1'; // default
+  }, [selectedDentistIds]);
+
+  // Drag-and-drop move handler for day view (DesktopTimeline)
+  const handleTimelineDragMove = useCallback((
+    consultation: Consultation, fromTime: string, fromKey: string, fromName: string,
+    toTime: string, toKey: string, toName: string
+  ) => {
+    // Check for overlap at target
+    const [toClinicId, toDentistId] = toKey.split('-');
+    const existing = mockConsultations.find(c =>
+      isSameDay(c.date, selectedDate) && c.time === toTime &&
+      c.dentist.id === toDentistId && c.clinic.id === toClinicId &&
+      c.id !== consultation.id
+    );
+
+    const moveInfo: DragMoveInfo = {
+      consultation,
+      fromDate: selectedDate, fromTime, fromDentistName: fromName,
+      toDate: selectedDate, toTime, toDentistName: toName,
+      toDentistKey: toKey,
+    };
+
+    if (existing) {
+      setPendingOverlapMove(moveInfo);
+      setOverlapConsultation(existing);
+    } else {
+      setPendingMove(moveInfo);
+    }
+  }, [selectedDate]);
+
+  // Drag-and-drop for week view
+  const handleWeekDragMove = useCallback((
+    consultation: Consultation, fromDate: Date, fromTime: string, toDate: Date, toTime: string
+  ) => {
+    const dentistKey = singleDentistKey;
+    const [clinicId, dentistId] = dentistKey.split('-');
+    const dentist = mockDentists.find(d => d.id === dentistId);
+    const dentistName = dentist?.name || 'Dentista';
+
+    const existing = mockConsultations.find(c =>
+      isSameDay(c.date, toDate) && c.time === toTime &&
+      c.dentist.id === dentistId && c.clinic.id === clinicId &&
+      c.id !== consultation.id
+    );
+
+    const moveInfo: DragMoveInfo = {
+      consultation,
+      fromDate, fromTime, fromDentistName: dentistName,
+      toDate, toTime, toDentistName: dentistName,
+      toDentistKey: dentistKey,
+    };
+
+    if (existing) {
+      setPendingOverlapMove(moveInfo);
+      setOverlapConsultation(existing);
+    } else {
+      setPendingMove(moveInfo);
+    }
+  }, [singleDentistKey]);
+
+  const confirmMove = useCallback((moveInfo: DragMoveInfo) => {
+    toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
+    setPendingMove(null);
+  }, []);
+
+  const confirmOverlap = useCallback(() => {
+    if (pendingOverlapMove) {
+      toast.success(`Consulta agendada com sobreposição às ${pendingOverlapMove.toTime}`);
+    }
+    setOverlapConsultation(null);
+    setPendingOverlapMove(null);
+  }, [pendingOverlapMove]);
+
   const handleSlotClick = (slot: TimeSlot) => {
     if (slot.consultation) setSelectedConsultation(slot.consultation);
   };
@@ -243,12 +324,6 @@ export function DesktopCalendarView() {
     }
     return selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
-
-  // Get the first selected dentist key for single-dentist views
-  const singleDentistKey = useMemo(() => {
-    if (selectedDentistIds.length > 0) return selectedDentistIds[0];
-    return '1-1'; // default
-  }, [selectedDentistIds]);
 
   // Enforce single dentist for week/month
   useEffect(() => {
@@ -287,6 +362,7 @@ export function DesktopCalendarView() {
         onViewModeChange={(m) => setViewMode(m)}
         onStatusChange={(c, s) => { if (s === 'visto') { setFeedbackConsultation(c); } toast.success(`Estado de ${c.patient.name} alterado`); }}
         onCopy={(c) => { setClipboardConsultation(c); toast.info('Clique num slot vazio para colar a consulta'); }}
+        onDragMove={handleWeekDragMove}
       />;
     }
     if (viewMode === 'month') {
@@ -310,6 +386,7 @@ export function DesktopCalendarView() {
           setPasteTarget({ time, dentistKey, dentistName });
         }
       }}
+      onDragMove={handleTimelineDragMove}
     />;
   };
 
@@ -854,6 +931,22 @@ export function DesktopCalendarView() {
           setDeletingBlock(null);
         }}
         isRecurring={!!deletingBlock?.repeat}
+      />
+
+      {/* Move Consultation Modal */}
+      <MoveConsultationModal
+        moveInfo={pendingMove}
+        isOpen={!!pendingMove}
+        onClose={() => setPendingMove(null)}
+        onConfirm={confirmMove}
+      />
+
+      {/* Overlap Warning Modal */}
+      <OverlapWarningModal
+        isOpen={!!overlapConsultation}
+        existingConsultation={overlapConsultation}
+        onClose={() => { setOverlapConsultation(null); setPendingOverlapMove(null); }}
+        onConfirm={confirmOverlap}
       />
     </div>
   );
