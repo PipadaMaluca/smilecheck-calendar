@@ -1,4 +1,5 @@
-import { Dentist, Clinic, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { useState } from 'react';
+import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { Video, AlertTriangle, Ban } from 'lucide-react';
 
@@ -13,6 +14,7 @@ interface MultiDentistGridProps {
   columns: DentistColumn[];
   onSlotClick?: (dentistId: string, clinicId: string, slot: TimeSlot) => void;
   showFullName?: boolean;
+  onDragMove?: (consultation: Consultation, fromDentistId: string, fromClinicId: string, fromTime: string, toDentistId: string, toClinicId: string, toTime: string) => void;
 }
 
 // FIXED: Slot height is constant and immutable (38px tablet)
@@ -29,8 +31,11 @@ function timeToSlotIndex(time: string): number {
 export function MultiDentistGrid({
   columns,
   onSlotClick,
-  showFullName = false
+  showFullName = false,
+  onDragMove,
 }: MultiDentistGridProps) {
+  const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
+  const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
   const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
@@ -182,11 +187,29 @@ export function MultiDentistGrid({
                     
                     if (isOccupied) return null;
                     
+                    const slotId = `${col.clinic.id}-${col.dentist.id}-${time}`;
                     return (
                       <div
                         key={time}
-                        className="bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center"
+                        className={cn(
+                          "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors",
+                          dragOverSlot === slotId && "bg-primary/20 border-primary/50"
+                        )}
                         style={{ gridRow: `${slotIdx + 1} / span 1` }}
+                        onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
+                        onDragLeave={() => setDragOverSlot(null)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setDragOverSlot(null);
+                          if (draggedConsultation && onDragMove) {
+                            onDragMove(
+                              draggedConsultation.consultation,
+                              draggedConsultation.fromDentistId, draggedConsultation.fromClinicId, draggedConsultation.fromTime,
+                              col.dentist.id, col.clinic.id, time
+                            );
+                          }
+                          setDraggedConsultation(null);
+                        }}
                       >
                         <span className="text-muted-foreground/40">—</span>
                       </div>
@@ -229,10 +252,17 @@ export function MultiDentistGrid({
                     return (
                       <div
                         key={consultation.id}
+                        draggable
+                        onDragStart={(e) => {
+                          e.dataTransfer.effectAllowed = 'move';
+                          setDraggedConsultation({ consultation, fromDentistId: col.dentist.id, fromClinicId: col.clinic.id, fromTime: slot.time });
+                        }}
+                        onDragEnd={() => setDraggedConsultation(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
-                          "rounded-md flex flex-col justify-center cursor-pointer hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
-                          isSingleColumn ? "px-1.5" : "px-2"
+                          "rounded-md flex flex-col justify-center cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          isSingleColumn ? "px-1.5" : "px-2",
+                          draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{
                           gridRow: `${startIdx + 1} / span ${spanCount}`,

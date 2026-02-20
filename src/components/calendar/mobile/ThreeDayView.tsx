@@ -1,4 +1,5 @@
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -8,6 +9,7 @@ interface ThreeDayViewProps {
   selectedDate: Date;
   getSlots: (date: Date) => TimeSlot[];
   onSlotClick?: (slot: TimeSlot) => void;
+  onDragMove?: (consultation: Consultation, fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void;
 }
 
 // FIXED: Slot height is constant and immutable (35px mobile)
@@ -21,7 +23,9 @@ function timeToSlotIndex(time: string): number {
   return hoursFromStart * 2 + halfHours;
 }
 
-export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayViewProps) {
+export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }: ThreeDayViewProps) {
+  const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDate: Date; fromTime: string } | null>(null);
+  const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   const days = [
     subDays(selectedDate, 1),
     selectedDate,
@@ -139,20 +143,32 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                 {timeSlots.map((time, slotIdx) => {
                   if (occupiedIndices.has(slotIdx)) return null;
                   
-                  return (
-                    <div
-                      key={time}
-                      className={cn(
-                        'rounded flex items-center justify-center',
-                        isToday 
-                          ? 'bg-primary/5 border border-dashed border-primary/20' 
-                          : 'bg-muted/20 border border-dashed border-muted-foreground/10'
-                      )}
-                      style={{ gridRow: `${slotIdx + 1} / span 1` }}
-                    >
-                      <span className="text-muted-foreground/40">—</span>
-                    </div>
-                  );
+                    const slotId = `${dayIdx}-${time}`;
+                    return (
+                      <div
+                        key={time}
+                        className={cn(
+                          'rounded flex items-center justify-center transition-colors',
+                          isToday 
+                            ? 'bg-primary/5 border border-dashed border-primary/20' 
+                            : 'bg-muted/20 border border-dashed border-muted-foreground/10',
+                          dragOverSlot === slotId && 'bg-primary/20 border-primary/50'
+                        )}
+                        style={{ gridRow: `${slotIdx + 1} / span 1` }}
+                        onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
+                        onDragLeave={() => setDragOverSlot(null)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setDragOverSlot(null);
+                          if (draggedConsultation && onDragMove) {
+                            onDragMove(draggedConsultation.consultation, draggedConsultation.fromDate, draggedConsultation.fromTime, day, time);
+                          }
+                          setDraggedConsultation(null);
+                        }}
+                      >
+                        <span className="text-muted-foreground/40">—</span>
+                      </div>
+                    );
                 })}
                 
                 {/* Consultation blocks using grid-row span */}
@@ -188,8 +204,17 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick }: ThreeDayVi
                   return (
                     <div
                       key={consultation.id}
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = 'move';
+                        setDraggedConsultation({ consultation, fromDate: day, fromTime: slot.time });
+                      }}
+                      onDragEnd={() => setDraggedConsultation(null)}
                       onClick={() => onSlotClick?.(slot)}
-                      className="rounded cursor-pointer hover:opacity-80 transition-all overflow-hidden px-0.5"
+                      className={cn(
+                        "rounded cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden px-0.5",
+                        draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
+                      )}
                       style={{
                         gridRow: `${startIdx + 1} / span ${spanCount}`,
                         backgroundColor: `${colors.hex}20`,

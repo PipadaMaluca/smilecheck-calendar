@@ -26,6 +26,7 @@ interface DesktopTimelineProps {
   onCopy?: (consultation: Consultation) => void;
   isPasteMode?: boolean;
   onEmptySlotClick?: (time: string, dentistKey: string, dentistName: string) => void;
+  onDragMove?: (consultation: Consultation, fromTime: string, fromDentistKey: string, fromDentistName: string, toTime: string, toDentistKey: string, toDentistName: string) => void;
 }
 
 // FIXED: Slot heights - fixed and immutable (40px desktop)
@@ -68,10 +69,13 @@ export function DesktopTimeline({
   onCopy,
   isPasteMode,
   onEmptySlotClick,
+  onDragMove,
 }: DesktopTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
   const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; x: number; y: number } | null>(null);
+  const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromTime: string; fromKey: string; fromName: string } | null>(null);
+  const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
 
   // Fixed hours 8h-22h
   const workingHours = useMemo(() => {
@@ -264,16 +268,35 @@ export function DesktopTimeline({
                     gridTemplateRows: `repeat(${TOTAL_SLOTS}, ${SLOT_HEIGHT}px)`,
                   }}
                 >
-                  {/* Empty slot click areas for paste mode */}
-                  {isPasteMode && timeSlots.map((time, idx) => {
+                  {/* Empty slot click/drop areas */}
+                  {timeSlots.map((time, idx) => {
                     const isOccupied = slotOccupancy[idx] !== null;
                     if (isOccupied) return null;
+                    const slotId = `${key}-${time}`;
                     return (
                       <div
                         key={`empty-${time}`}
-                        className="cursor-pointer hover:bg-primary/10 transition-colors border border-transparent hover:border-primary/30 rounded-sm mx-0.5"
+                        className={cn(
+                          "transition-colors border rounded-sm mx-0.5",
+                          isPasteMode && "cursor-pointer hover:bg-primary/10 hover:border-primary/30",
+                          dragOverSlot === slotId ? "bg-primary/20 border-primary/50" : "border-transparent"
+                        )}
                         style={{ gridRow: `${idx + 1} / span 1` }}
-                        onClick={() => onEmptySlotClick?.(time, key, dentist.name)}
+                        onClick={() => isPasteMode && onEmptySlotClick?.(time, key, dentist.name)}
+                        onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
+                        onDragLeave={() => setDragOverSlot(null)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          setDragOverSlot(null);
+                          if (draggedConsultation && onDragMove) {
+                            onDragMove(
+                              draggedConsultation.consultation,
+                              draggedConsultation.fromTime, draggedConsultation.fromKey, draggedConsultation.fromName,
+                              time, key, dentist.name
+                            );
+                          }
+                          setDraggedConsultation(null);
+                        }}
                       />
                     );
                   })}
@@ -308,23 +331,32 @@ export function DesktopTimeline({
                     const consultStatus = consultation.status || 'agendada';
                     const statusCfg = STATUS_CONFIG[consultStatus];
                     
-                    return (
-                      <div
-                        key={consultation.id}
-                        onClick={() => onSlotClick(slot)}
-                        onContextMenu={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setContextMenu({ consultation, x: e.clientX, y: e.clientY });
-                        }}
-                        className="mx-0.5 rounded cursor-pointer transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden"
-                        style={{
-                          gridRow: `${startIdx + 1} / span ${spanCount}`,
-                          borderLeftWidth: '3px',
-                          borderLeftColor: styles.borderColor,
-                          backgroundColor: `${styles.borderColor}30`,
-                        }}
-                      >
+                      return (
+                        <div
+                          key={consultation.id}
+                          draggable
+                          onDragStart={(e) => {
+                            e.dataTransfer.effectAllowed = 'move';
+                            setDraggedConsultation({ consultation, fromTime: slot.time, fromKey: key, fromName: dentist.name });
+                          }}
+                          onDragEnd={() => setDraggedConsultation(null)}
+                          onClick={() => onSlotClick(slot)}
+                          onContextMenu={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setContextMenu({ consultation, x: e.clientX, y: e.clientY });
+                          }}
+                          className={cn(
+                            "mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
+                            draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
+                          )}
+                          style={{
+                            gridRow: `${startIdx + 1} / span ${spanCount}`,
+                            borderLeftWidth: '3px',
+                            borderLeftColor: styles.borderColor,
+                            backgroundColor: `${styles.borderColor}30`,
+                          }}
+                        >
                         <div className="flex items-start justify-between gap-0.5 p-1.5 h-full">
                           <div className="flex-1 min-w-0 overflow-hidden">
                             {/* Line 1: time + name (age) */}
