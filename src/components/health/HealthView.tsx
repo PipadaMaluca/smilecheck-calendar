@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { mockFamilyMembers } from '@/data/mockData';
+import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 
 interface HealthViewProps {
@@ -239,20 +240,51 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {data.allergies.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma alergia registada</p>
-              ) : (
-                <div className="flex flex-wrap gap-2">
-                  {data.allergies.map((a, i) => (
+              {/* Predefined allergy checkboxes */}
+              <div className="space-y-2">
+                {PREDEFINED_ALLERGIES.map(allergy => {
+                  const isChecked = data.allergies.includes(allergy);
+                  return (
+                    <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
+                      <button
+                        onClick={() => {
+                          updateData(d => ({
+                            ...d,
+                            allergies: isChecked
+                              ? d.allergies.filter(a => a !== allergy)
+                              : [...d.allergies, allergy],
+                          }));
+                        }}
+                        className={cn(
+                          'h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors',
+                          isChecked
+                            ? 'bg-primary border-primary text-primary-foreground'
+                            : 'border-muted-foreground/40'
+                        )}
+                      >
+                        {isChecked && <Check className="h-3 w-3" />}
+                      </button>
+                      <span className="text-sm">{allergy}</span>
+                    </label>
+                  );
+                })}
+              </div>
+
+              {/* Custom allergies (non-predefined) */}
+              {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).map((a, i) => (
                     <Badge key={i} variant="secondary" className="gap-1 pr-1">
                       {a}
-                      <RemoveButton onClick={() => updateData(d => ({ ...d, allergies: d.allergies.filter((_, idx) => idx !== i) }))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, allergies: d.allergies.filter(al => al !== a) }))} />
                     </Badge>
                   ))}
                 </div>
               )}
+
+              {/* Add custom allergy */}
               <div className="flex gap-2">
-                <Input placeholder="Nova alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
+                <Input placeholder="Outra alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
                 <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
