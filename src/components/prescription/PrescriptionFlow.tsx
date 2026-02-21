@@ -1,17 +1,24 @@
 import { useState, useMemo } from 'react';
-import { X, Search, User, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send } from 'lucide-react';
+import { X, Search, User, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { mockConsultations, mockDentists, mockClinics } from '@/data/mockData';
+import {
+  MEDICATIONS_WITH_TAGS,
+  getMedicationAllergyBlock,
+  getMedicationInteractions,
+  type MedicationDef,
+  type InteractionWarning,
+} from '@/data/drugSafetyData';
 
 interface PrescriptionFlowProps {
   onClose: () => void;
   onGoHome?: () => void;
-  /** If set, skip patient selection */
   preSelectedPatient?: { id: string; name: string; age: number };
   inline?: boolean;
 }
@@ -25,20 +32,35 @@ interface Medication {
   posology: string;
 }
 
-const COMMON_MEDICATIONS = [
-  { name: 'Amoxicilina', dosage: '500mg' },
-  { name: 'Ibuprofeno', dosage: '600mg' },
-  { name: 'Paracetamol', dosage: '1g' },
-  { name: 'Nimesulida', dosage: '100mg' },
-  { name: 'Clindamicina', dosage: '300mg' },
-  { name: 'Metronidazol', dosage: '500mg' },
-  { name: 'Azitromicina', dosage: '500mg' },
-  { name: 'Cetorolac', dosage: '10mg' },
-  { name: 'Prednisolona', dosage: '20mg' },
-  { name: 'Clorexidina', dosage: '0.12%' },
-  { name: 'Tramadol', dosage: '50mg' },
-  { name: 'Diclofenac', dosage: '50mg' },
-];
+// Mock patient health data (mirrors HealthView's defaultHealthData)
+const PATIENT_HEALTH: Record<string, {
+  allergies: string[];
+  medications: { name: string; dosage: string }[];
+}> = {
+  'fm1': {
+    allergies: ['Penicilina', 'Látex'],
+    medications: [{ name: 'Ibuprofeno', dosage: '400mg' }, { name: 'Omeprazol', dosage: '20mg' }],
+  },
+  'fm2': {
+    allergies: ['Aspirina'],
+    medications: [],
+  },
+  'gp-p2': {
+    allergies: ['Penicilina'],
+    medications: [{ name: 'Varfarina', dosage: '5mg' }],
+  },
+  'gp-p4': {
+    allergies: ['Anti-inflamatórios não esteróides (AINEs)'],
+    medications: [{ name: 'Losartan', dosage: '50mg' }],
+  },
+  'ab-p4': {
+    allergies: [],
+    medications: [{ name: 'Sertralina', dosage: '50mg' }],
+  },
+};
+
+const getPatientHealth = (patientId: string) =>
+  PATIENT_HEALTH[patientId] || { allergies: [], medications: [] };
 
 // Extract recent patients from consultations
 const getRecentPatients = () => {
@@ -80,10 +102,16 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     return recentPatients.filter(p => p.name.toLowerCase().includes(q));
   }, [patientSearch, recentPatients]);
 
+  // Patient health data for allergy/interaction checks
+  const patientHealth = useMemo(() => {
+    if (!selectedPatient) return { allergies: [], medications: [] };
+    return getPatientHealth(selectedPatient.id);
+  }, [selectedPatient]);
+
   const filteredMeds = useMemo(() => {
-    if (!medSearch) return COMMON_MEDICATIONS;
+    if (!medSearch) return MEDICATIONS_WITH_TAGS;
     const q = medSearch.toLowerCase();
-    return COMMON_MEDICATIONS.filter(m => m.name.toLowerCase().includes(q) || m.dosage.toLowerCase().includes(q));
+    return MEDICATIONS_WITH_TAGS.filter(m => m.name.toLowerCase().includes(q) || m.dosage.toLowerCase().includes(q));
   }, [medSearch]);
 
   const steps: PrescriptionStep[] = skipPatient
@@ -91,7 +119,6 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     : ['patient', 'medications', 'preview', 'success'];
 
   const stepIndex = steps.indexOf(currentStep);
-  const totalSteps = steps.length - 1; // exclude success
 
   const addMedication = (name: string, dosage: string) => {
     setMedications(prev => [...prev, {
@@ -188,6 +215,97 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     </div>
   );
 
+  // Medication item with allergy/interaction checks
+  const MedicationListItem = ({ med }: { med: MedicationDef }) => {
+    const alreadyAdded = medications.some(m => m.name === med.name && m.dosage === med.dosage);
+    const allergyBlock = getMedicationAllergyBlock(med, patientHealth.allergies);
+    const interactions = getMedicationInteractions(med, patientHealth.medications);
+    const isBlocked = !!allergyBlock;
+    const hasInteraction = interactions.length > 0;
+
+    const content = (
+      <button
+        key={`${med.name}-${med.dosage}`}
+        onClick={() => !alreadyAdded && !isBlocked && addMedication(med.name, med.dosage)}
+        disabled={alreadyAdded || isBlocked}
+        className={cn(
+          'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-all',
+          isBlocked
+            ? 'opacity-50 cursor-not-allowed bg-muted/30'
+            : alreadyAdded
+              ? 'bg-primary/10 text-primary cursor-default'
+              : hasInteraction
+                ? 'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5'
+                : 'hover:bg-muted/50 border border-transparent hover:border-border'
+        )}
+      >
+        <div className="flex items-center gap-2">
+          {isBlocked ? (
+            <AlertTriangle className="w-4 h-4 text-destructive" />
+          ) : hasInteraction ? (
+            <AlertTriangle className="w-4 h-4 text-amber-500" />
+          ) : (
+            <Pill className="w-4 h-4 text-muted-foreground" />
+          )}
+          <span className={cn(isBlocked && 'line-through text-muted-foreground')}>{med.name} {med.dosage}</span>
+        </div>
+        {isBlocked ? (
+          <span className="text-[10px] font-medium text-destructive">BLOQUEADO</span>
+        ) : hasInteraction ? (
+          <span className="text-[10px] font-medium text-amber-500">INTERAÇÃO</span>
+        ) : alreadyAdded ? (
+          <Check className="w-4 h-4 text-primary" />
+        ) : (
+          <Plus className="w-4 h-4 text-muted-foreground" />
+        )}
+      </button>
+    );
+
+    // Wrap with tooltip if blocked or has interaction
+    if (isBlocked) {
+      return (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>{content}</TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs p-3 space-y-1">
+              <p className="text-sm font-semibold text-destructive flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5" /> ALERGIA DETECTADA
+              </p>
+              <p className="text-xs">Paciente alérgico a: <strong>{allergyBlock!.matchedAllergy}</strong></p>
+              <p className="text-xs">Este medicamento contém <strong>{allergyBlock!.matchedTag}</strong></p>
+              <p className="text-xs text-muted-foreground mt-1">Prescrição bloqueada por segurança</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    if (hasInteraction && !alreadyAdded) {
+      return (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>{content}</TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs p-3 space-y-1">
+              <p className="text-sm font-semibold text-amber-500 flex items-center gap-1.5">
+                <AlertTriangle className="w-3.5 h-3.5" /> INTERAÇÃO MEDICAMENTOSA
+              </p>
+              {interactions.map((w, i) => (
+                <div key={i} className="text-xs space-y-0.5">
+                  <p>Paciente toma: <strong>{w.currentMedName}</strong></p>
+                  <p>Interação com: <strong>{w.prescribedMedName}</strong></p>
+                  <p className="text-muted-foreground">Risco: {w.risk}</p>
+                </div>
+              ))}
+              <p className="text-xs text-muted-foreground mt-1">Pode prescrever com precaução</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    return content;
+  };
+
   // Step 2: Medications
   const renderMedicationsStep = () => (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -201,9 +319,33 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
               {selectedPatient.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
             </AvatarFallback>
           </Avatar>
-          <div>
+          <div className="flex-1">
             <p className="text-sm font-medium">{selectedPatient.name}</p>
             <p className="text-xs text-muted-foreground">{selectedPatient.age} anos</p>
+          </div>
+          {/* Allergy badges */}
+          {patientHealth.allergies.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {patientHealth.allergies.map(a => (
+                <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
+                  ⚠️ {a}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Current medication warning */}
+      {patientHealth.medications.length > 0 && (
+        <div className="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/5">
+          <p className="text-xs font-medium text-amber-600 mb-1">Medicação actual do paciente:</p>
+          <div className="flex flex-wrap gap-1">
+            {patientHealth.medications.map(m => (
+              <span key={m.name} className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
+                {m.name} {m.dosage}
+              </span>
+            ))}
           </div>
         </div>
       )}
@@ -221,32 +363,9 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             />
           </div>
           <div className="space-y-1 max-h-[300px] overflow-y-auto">
-            {filteredMeds.map(med => {
-              const alreadyAdded = medications.some(m => m.name === med.name && m.dosage === med.dosage);
-              return (
-                <button
-                  key={`${med.name}-${med.dosage}`}
-                  onClick={() => !alreadyAdded && addMedication(med.name, med.dosage)}
-                  disabled={alreadyAdded}
-                  className={cn(
-                    'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-all',
-                    alreadyAdded
-                      ? 'bg-primary/10 text-primary cursor-default'
-                      : 'hover:bg-muted/50 border border-transparent hover:border-border'
-                  )}
-                >
-                  <div className="flex items-center gap-2">
-                    <Pill className="w-4 h-4 text-muted-foreground" />
-                    <span>{med.name} {med.dosage}</span>
-                  </div>
-                  {alreadyAdded ? (
-                    <Check className="w-4 h-4 text-primary" />
-                  ) : (
-                    <Plus className="w-4 h-4 text-muted-foreground" />
-                  )}
-                </button>
-              );
-            })}
+            {filteredMeds.map(med => (
+              <MedicationListItem key={`${med.name}-${med.dosage}`} med={med} />
+            ))}
           </div>
 
           {/* Manual add */}
@@ -277,22 +396,38 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             </div>
           ) : (
             <div className="space-y-3">
-              {medications.map(med => (
-                <div key={med.id} className="p-3 rounded-lg border border-border bg-card space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{med.name} {med.dosage}</span>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeMedication(med.id)}>
-                      <X className="w-3.5 h-3.5" />
-                    </Button>
+              {medications.map(med => {
+                // Check interaction for already-added meds
+                const medDef = MEDICATIONS_WITH_TAGS.find(m => m.name === med.name);
+                const interactions = medDef ? getMedicationInteractions(medDef, patientHealth.medications) : [];
+                return (
+                  <div key={med.id} className={cn(
+                    'p-3 rounded-lg border bg-card space-y-2',
+                    interactions.length > 0 ? 'border-amber-500/50' : 'border-border'
+                  )}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        {interactions.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
+                        <span className="text-sm font-medium">{med.name} {med.dosage}</span>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeMedication(med.id)}>
+                        <X className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                    {interactions.length > 0 && (
+                      <p className="text-[10px] text-amber-500 font-medium">
+                        ⚠️ Interação com {interactions.map(w => w.currentMedName).join(', ')} — {interactions[0].risk}
+                      </p>
+                    )}
+                    <Input
+                      placeholder="Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)"
+                      value={med.posology}
+                      onChange={e => updatePosology(med.id, e.target.value)}
+                      className="text-xs h-8"
+                    />
                   </div>
-                  <Input
-                    placeholder="Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)"
-                    value={med.posology}
-                    onChange={e => updatePosology(med.id, e.target.value)}
-                    className="text-xs h-8"
-                  />
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -324,6 +459,9 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         <div className="border-b border-gray-200 pb-2">
           <p className="text-sm"><span className="font-semibold">Paciente:</span> {selectedPatient?.name}</p>
           <p className="text-xs text-gray-600">{selectedPatient?.age} anos</p>
+          {patientHealth.allergies.length > 0 && (
+            <p className="text-xs text-red-600 mt-1">⚠️ Alergias: {patientHealth.allergies.join(', ')}</p>
+          )}
         </div>
 
         {/* Medications */}
