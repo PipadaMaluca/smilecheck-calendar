@@ -4,6 +4,8 @@ import {
   Lock, UserPlus, Trash2, Gift
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
+import { AppearanceSection } from '@/components/settings/AppearanceSection';
+import { RegionalSection } from '@/components/settings/RegionalSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -29,24 +31,6 @@ function ToggleRow({ icon: Icon, label, defaultChecked = false }: {
         <span className="text-sm text-foreground">{label}</span>
       </div>
       <Switch checked={checked} onCheckedChange={setChecked} />
-    </div>
-  );
-}
-
-function SettingsRow({ icon: Icon, label, value, action }: {
-  icon: React.ElementType;
-  label: string;
-  value?: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center justify-between py-3">
-      <div className="flex items-center gap-3 min-w-0">
-        <Icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-        <span className="text-sm text-foreground">{label}</span>
-      </div>
-      {value && <span className="text-sm text-muted-foreground truncate ml-4">{value}</span>}
-      {action}
     </div>
   );
 }
@@ -79,10 +63,17 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           <CardHeader className="pb-2"><CardTitle className="text-sm">Preferências</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
             <ToggleRow icon={Bell} label="Notificações" defaultChecked={true} />
-            <SettingsRow icon={Globe} label="Idioma" value="Português" action={<ChevronRight className="w-4 h-4 text-muted-foreground" />} />
-            <ToggleRow icon={Moon} label="Modo Escuro" defaultChecked={true} />
           </CardContent>
         </Card>
+
+        {/* Appearance */}
+        <AppearanceSection
+          isPremium={true}
+          onViewPlans={() => onNavigate?.('plano')}
+        />
+
+        {/* Regional */}
+        <RegionalSection />
 
         {/* Calendar Sync */}
         {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
