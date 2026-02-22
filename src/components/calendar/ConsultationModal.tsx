@@ -1,6 +1,7 @@
 import { X, Video, MapPin, Calendar, Clock, User, Phone, Star, Camera, MessageCircle, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation } from '@/types/calendar';
+import { ConsultationExportDropdown } from '@/components/export/ConsultationExportDropdown';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -174,6 +175,7 @@ export function ConsultationModal({ consultation, isOpen, onClose }: Consultatio
             <FileText className="w-4 h-4" />
             Notas
           </Button>
+          <ConsultationExportDropdown consultation={consultation} />
         </div>
       </div>
     </>

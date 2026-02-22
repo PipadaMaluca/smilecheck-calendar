@@ -37,6 +37,7 @@ import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { UnifiedSearch } from '@/components/search/UnifiedSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
+import { ExportReportsView } from '@/components/export/ExportReportsView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
@@ -743,6 +744,16 @@ export function DesktopCalendarView() {
                 onToggleFavorite={toggleFavorite}
                 onViewProfile={d => setViewDentistProfile(d)}
               />
+            </div>
+          </div>
+        );
+
+      case 'exportar':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Exportar Relatórios')}
+            <div className="flex-1 overflow-y-auto">
+              <ExportReportsView userRole={activeRole} />
             </div>
           </div>
         );
