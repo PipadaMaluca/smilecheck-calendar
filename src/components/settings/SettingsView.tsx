@@ -3,6 +3,7 @@ import {
   Bell, Globe, Moon, HelpCircle, FileText, Shield, LogOut, ChevronRight,
   Lock, UserPlus, Trash2, Gift
 } from 'lucide-react';
+import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -82,6 +83,9 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
             <ToggleRow icon={Moon} label="Modo Escuro" defaultChecked={true} />
           </CardContent>
         </Card>
+
+        {/* Calendar Sync */}
+        {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
 
         {/* Security */}
         <Card className="bg-card/80 backdrop-blur border-border">
