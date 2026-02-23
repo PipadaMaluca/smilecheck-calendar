@@ -13,6 +13,7 @@ export interface DentistColumn {
 interface MultiDentistGridProps {
   columns: DentistColumn[];
   onSlotClick?: (dentistId: string, clinicId: string, slot: TimeSlot) => void;
+  onEmptySlotClick?: (dentistId: string, clinicId: string, time: string) => void;
   showFullName?: boolean;
   onDragMove?: (consultation: Consultation, fromDentistId: string, fromClinicId: string, fromTime: string, toDentistId: string, toClinicId: string, toTime: string) => void;
 }
@@ -31,6 +32,7 @@ function timeToSlotIndex(time: string): number {
 export function MultiDentistGrid({
   columns,
   onSlotClick,
+  onEmptySlotClick,
   showFullName = false,
   onDragMove,
 }: MultiDentistGridProps) {
@@ -192,10 +194,11 @@ export function MultiDentistGrid({
                       <div
                         key={time}
                         className={cn(
-                          "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors",
+                          "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors cursor-pointer hover:bg-primary/10",
                           dragOverSlot === slotId && "bg-primary/20 border-primary/50"
                         )}
                         style={{ gridRow: `${slotIdx + 1} / span 1` }}
+                        onClick={() => onEmptySlotClick?.(col.dentist.id, col.clinic.id, time)}
                         onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
                         onDragLeave={() => setDragOverSlot(null)}
                         onDrop={(e) => {

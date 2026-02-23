@@ -38,6 +38,7 @@ import { UnifiedSearch } from '@/components/search/UnifiedSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { ExportReportsView } from '@/components/export/ExportReportsView';
+import { SlotCreationScreen } from '../creation/SlotCreationScreen';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
@@ -105,6 +106,7 @@ export function DesktopCalendarView() {
   const [pendingMove, setPendingMove] = useState<DragMoveInfo | null>(null);
   const [overlapConsultation, setOverlapConsultation] = useState<Consultation | null>(null);
   const [pendingOverlapMove, setPendingOverlapMove] = useState<DragMoveInfo | null>(null);
+  const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
   const appointmentDates = mockConsultations.map(c => c.date);
 
   const handleNotificationFeedback = useCallback((scoreId: string) => {
@@ -382,9 +384,11 @@ export function DesktopCalendarView() {
       onStatusChange={(c, s) => { if (s === 'visto') { setFeedbackConsultation(c); } toast.success(`Estado de ${c.patient.name} alterado`); }}
       onCopy={(c) => { setClipboardConsultation(c); setActiveNavTab('agenda'); toast.info('Clique num slot vazio para colar a consulta'); }}
       isPasteMode={!!clipboardConsultation}
-      onEmptySlotClick={(time, dentistKey, dentistName) => {
+      onEmptySlotClick={(time, dKey, dName) => {
         if (clipboardConsultation) {
-          setPasteTarget({ time, dentistKey, dentistName });
+          setPasteTarget({ time, dentistKey: dKey, dentistName: dName });
+        } else {
+          setSlotCreation({ date: selectedDate, time, dentistKey: dKey, dentistName: dName });
         }
       }}
       onDragMove={handleTimelineDragMove}
@@ -959,6 +963,19 @@ export function DesktopCalendarView() {
         onClose={() => { setOverlapConsultation(null); setPendingOverlapMove(null); }}
         onConfirm={confirmOverlap}
       />
+
+      {/* Slot Creation Screen */}
+      {slotCreation && (
+        <SlotCreationScreen
+          isOpen={true}
+          onClose={() => setSlotCreation(null)}
+          userRole={activeRole}
+          initialDate={slotCreation.date}
+          initialTime={slotCreation.time}
+          dentistKey={slotCreation.dentistKey}
+          dentistName={slotCreation.dentistName}
+        />
+      )}
     </div>
   );
 }

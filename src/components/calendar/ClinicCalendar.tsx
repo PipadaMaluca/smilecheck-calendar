@@ -32,6 +32,7 @@ import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSea
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
+import { SlotCreationScreen } from './creation/SlotCreationScreen';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -49,6 +50,7 @@ export function ClinicCalendar() {
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfileId, setViewClinicProfileId] = useState<string | null>(null);
+  const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists
@@ -111,6 +113,16 @@ export function ClinicCalendar() {
     if (slot.consultation) {
       setSelectedConsultation(slot.consultation);
     }
+  };
+
+  const handleEmptySlotClick = (dentistId: string, clinicId: string, time: string) => {
+    const dentist = mockDentists.find(d => d.id === dentistId);
+    setSlotCreation({
+      date: selectedDate,
+      time,
+      dentistKey: `${clinicId}-${dentistId}`,
+      dentistName: dentist?.name,
+    });
   };
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
@@ -249,6 +261,7 @@ export function ClinicCalendar() {
               <MultiDentistGrid
                 columns={columns}
                 onSlotClick={handleSlotClick}
+                onEmptySlotClick={handleEmptySlotClick}
                 showFullName
               />
             )}
@@ -397,6 +410,19 @@ export function ClinicCalendar() {
         onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
         onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
       />
+
+      {/* Slot Creation Screen */}
+      {slotCreation && (
+        <SlotCreationScreen
+          isOpen={true}
+          onClose={() => setSlotCreation(null)}
+          userRole="clinic"
+          initialDate={slotCreation.date}
+          initialTime={slotCreation.time}
+          dentistKey={slotCreation.dentistKey}
+          dentistName={slotCreation.dentistName}
+        />
+      )}
     </div>
   );
 }
