@@ -277,12 +277,12 @@ export function DesktopTimeline({
                       <div
                         key={`empty-${time}`}
                         className={cn(
-                          "transition-colors border rounded-sm mx-0.5",
-                          isPasteMode && "cursor-pointer hover:bg-primary/10 hover:border-primary/30",
+                          "transition-colors border rounded-sm mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30",
+                          isPasteMode && "cursor-pointer",
                           dragOverSlot === slotId ? "bg-primary/20 border-primary/50" : "border-transparent"
                         )}
                         style={{ gridRow: `${idx + 1} / span 1` }}
-                        onClick={() => isPasteMode && onEmptySlotClick?.(time, key, dentist.name)}
+                        onClick={() => onEmptySlotClick?.(time, key, dentist.name)}
                         onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
                         onDragLeave={() => setDragOverSlot(null)}
                         onDrop={(e) => {

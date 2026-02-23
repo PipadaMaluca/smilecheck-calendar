@@ -37,6 +37,7 @@ import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSea
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
+import { SlotCreationScreen } from './creation/SlotCreationScreen';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -59,6 +60,7 @@ export function DentistCalendar() {
   const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
+  const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -142,6 +144,16 @@ export function DentistCalendar() {
     }
   };
 
+  const handleEmptySlotClick = (dentistId: string, clinicId: string, time: string) => {
+    const dentist = mockDentists.find(d => d.id === dentistId);
+    setSlotCreation({
+      date: selectedDate,
+      time,
+      dentistKey: `${clinicId}-${dentistId}`,
+      dentistName: dentist?.name,
+    });
+  };
+
   const getSlots = (date: Date) => {
     // For 3-day view, use selected dentist
     if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
@@ -222,6 +234,7 @@ export function DentistCalendar() {
       <MultiDentistGrid
         columns={columns}
         onSlotClick={handleGridSlotClick}
+        onEmptySlotClick={handleEmptySlotClick}
         showFullName
       />
     );
@@ -456,6 +469,19 @@ export function DentistCalendar() {
           userRole="dentist"
           initialDate={selectedDate}
         />
+
+        {/* Slot Creation Screen */}
+        {slotCreation && (
+          <SlotCreationScreen
+            isOpen={true}
+            onClose={() => setSlotCreation(null)}
+            userRole="dentist"
+            initialDate={slotCreation.date}
+            initialTime={slotCreation.time}
+            dentistKey={slotCreation.dentistKey}
+            dentistName={slotCreation.dentistName}
+          />
+        )}
       </div>
     </div>
   );
