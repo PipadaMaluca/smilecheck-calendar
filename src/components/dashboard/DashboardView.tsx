@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { Progress } from '@/components/ui/progress';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations } from '@/data/mockData';
-import { isSameDay, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { mockConfirmations } from '@/types/scoring';
+import { isSameDay } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ClinicConfirmations } from './ClinicConfirmations';
 import { PatientScoreHistory } from './PatientScoreHistory';
 
 interface DashboardViewProps {
@@ -36,6 +36,13 @@ function getUserName(role: UserRole): string {
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
+// Mock waiting list data
+const MOCK_WAITING_LIST = [
+  { id: 'wl-1', patientName: 'Rita Oliveira', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+  { id: 'wl-2', patientName: 'Bruno Pereira', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+  { id: 'wl-3', patientName: 'Sofia Lopes', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false },
+];
+
 export function DashboardView({ userRole, onNavigate, onStartTriage }: DashboardViewProps) {
   const greeting = getGreeting();
   const userName = getUserName(userRole);
@@ -44,75 +51,29 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     mockConsultations.filter(c => isSameDay(c.date, DEMO_DATE)),
   []);
 
-  const todayTeleconsultas = useMemo(() =>
-    todayConsultations.filter(c => c.type === 'teleconsulta'),
-  [todayConsultations]);
-
   const stats = useMemo(() => {
-    switch (userRole) {
-      case 'dentist': {
-        const dentistCons = todayConsultations.filter(c => c.dentist.id === mockDentists[0].id);
-        const dentistTele = dentistCons.filter(c => c.type === 'teleconsulta');
-        return [
-          { label: 'Consultas Hoje', value: dentistCons.length.toString(), icon: Calendar },
-          { label: 'Teleconsultas Hoje', value: dentistTele.length.toString(), icon: Video },
-          { label: 'Pacientes Aguardam', value: '3', icon: Users },
-          { label: 'Rating', value: '4.9', icon: Star, isStar: true },
-        ];
-      }
-      case 'clinic':
-        return [
-          { label: 'Consultas Hoje', value: todayConsultations.length.toString(), icon: Calendar },
-          { label: 'Teleconsultas Hoje', value: todayTeleconsultas.length.toString(), icon: Video },
-          { label: 'Dentistas Activos', value: '7', icon: Users },
-          { label: 'Rating Médio', value: '4.6', icon: Star, isStar: true },
-        ];
-      case 'patient':
-        return [
-          { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
-          { label: 'Pontos', value: '450', icon: Trophy },
-          { label: 'Nível', value: 'Bronze', icon: Award },
-          { label: 'Streak', value: '7 dias', icon: Flame },
-        ];
+    if (userRole === 'patient') {
+      return [
+        { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
+        { label: 'Pontos', value: '450', icon: Trophy },
+        { label: 'Nível', value: 'Bronze', icon: Award },
+        { label: 'Streak', value: '7 dias', icon: Flame },
+      ];
     }
-  }, [userRole, todayConsultations, todayTeleconsultas]);
-
-  const upcomingItems = useMemo(() => {
-    switch (userRole) {
-      case 'dentist': {
-        return todayConsultations
-          .filter(c => c.dentist.id === mockDentists[0].id)
-          .sort((a, b) => a.time.localeCompare(b.time))
-          .slice(0, 4);
-      }
-      case 'clinic': {
-        return todayConsultations
-          .sort((a, b) => a.time.localeCompare(b.time))
-          .slice(0, 4);
-      }
-      case 'patient': {
-        return mockPatientConsultations
-          .sort((a, b) => a.time.localeCompare(b.time))
-          .slice(0, 4);
-      }
-    }
-  }, [userRole, todayConsultations]);
-
-  const sectionTitle = userRole === 'dentist' ? 'Próximos Pacientes' : userRole === 'clinic' ? 'Consultas de Hoje' : 'Próximas Consultas';
+    return null; // dentist/clinic use the 3-column layout instead
+  }, [userRole]);
 
   const quickActions = useMemo(() => {
     switch (userRole) {
       case 'dentist':
         return [
-          { label: 'Ver Agenda Completa', action: () => onNavigate('agenda') },
-          { label: 'Nova Teleconsulta', action: () => {} },
-          { label: 'Prescrever Receita', action: () => {} },
+          { label: 'Ver Agenda de Hoje', action: () => onNavigate('agenda') },
+          { label: 'Pesquisar', action: () => onNavigate('pesquisa') },
+          { label: 'Ver Todas as Notificações', action: () => onNavigate('notificacoes') },
         ];
       case 'clinic':
         return [
-          { label: 'Ver Agenda Completa', action: () => onNavigate('agenda') },
-          { label: 'Gerir Equipa', action: () => onNavigate('team') },
-          { label: 'Ver Estatísticas', action: () => {} },
+          { label: 'Ver Estatísticas', action: () => onNavigate('estatisticas') },
         ];
       case 'patient':
         return [
@@ -121,52 +82,145 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           { label: 'Minha Saúde', action: () => onNavigate('saude') },
         ];
     }
-  }, [userRole, onNavigate]);
+  }, [userRole, onNavigate, onStartTriage]);
 
-  return (
-    <ScrollArea className="flex-1">
-      <div className="p-6 max-w-7xl mx-auto space-y-8">
-        {/* Greeting */}
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {greeting}, {userName}!
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1 capitalize">
-            {DEMO_DATE.toLocaleDateString('pt-PT', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-            })}
-          </p>
-        </div>
+  // ─── Dentist / Clinic: 3-column dashboard ───
+  const renderProfessionalDashboard = () => {
+    const dentistCons = userRole === 'dentist'
+      ? todayConsultations.filter(c => c.dentist.id === mockDentists[0].id)
+      : todayConsultations;
 
+    const confirmed = mockConfirmations.filter(c => c.status24h === 'confirmed' && c.status1h === 'confirmed').length;
+    const total = mockConfirmations.length;
+    const notConfirmed = mockConfirmations.filter(c => c.status24h === 'pending' || c.status1h === 'pending');
+    const confirmRate = total > 0 ? Math.round((confirmed / total) * 100) : 0;
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Section 1: Consultas de Hoje */}
+        <Card className="bg-card/80 border-border">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
+              <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
+            </div>
+            <div className="space-y-2 max-h-[300px] overflow-y-auto">
+              {dentistCons.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map(c => {
+                const statusCfg = c.status ? STATUS_CONFIG[c.status] : null;
+                const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                return (
+                  <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                    <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{c.time}</span>
+                    {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
+                      <p className="text-[10px] text-muted-foreground truncate">
+                        {c.category ? CATEGORY_LABELS[c.category] : c.type}
+                      </p>
+                    </div>
+                    {statusCfg && (
+                      <span className="text-[10px]">{statusCfg.icon}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Section 2: Confirmações */}
+        <Card className="bg-card/80 border-border">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
+              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
+              </Badge>
+            </div>
+            <div className="text-center py-2">
+              <p className="text-2xl font-bold text-foreground">{confirmed} <span className="text-sm font-normal text-muted-foreground">/ {total}</span></p>
+              <p className="text-xs text-muted-foreground">Confirmados</p>
+              <Progress value={confirmRate} className="h-2 mt-2" />
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Não confirmados</p>
+              {notConfirmed.slice(0, 5).map(c => (
+                <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                  <Clock className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                  <span className="text-xs text-foreground flex-1 truncate">{c.patientName}</span>
+                  <span className="text-[10px] text-muted-foreground">{c.time}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Section 3: Lista de Espera */}
+        <Card className="bg-card/80 border-border">
+          <CardContent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
+              <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length} pacientes</Badge>
+            </div>
+            <div className="space-y-2">
+              {MOCK_WAITING_LIST.map(wl => (
+                <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <p className="text-xs font-medium text-foreground truncate">{wl.patientName}</p>
+                      {wl.isUrgent && (
+                        <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />
+                      )}
+                    </div>
+                    <p className="text-[10px] text-muted-foreground">Atual: {wl.currentDate} às {wl.currentTime}</p>
+                  </div>
+                  <Badge variant={wl.priority === 'alta' ? 'destructive' : 'secondary'} className="text-[10px] h-5">
+                    {wl.priority === 'alta' ? 'Prioritário' : 'Normal'}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-foreground italic">
+              Útil quando alguém cancela uma consulta
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
+  // ─── Patient: original layout ───
+  const renderPatientDashboard = () => {
+    const upcomingItems = mockPatientConsultations
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .slice(0, 4);
+
+    return (
+      <>
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
-                <CardContent className="p-4 flex flex-col gap-2">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Icon className="w-4 h-4" />
-                    <span className="text-xs font-medium">{stat.label}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {stat.isStar && <Star className="w-4 h-4 text-amber-400 fill-amber-400" />}
+        {stats && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+                  <CardContent className="p-4 flex flex-col gap-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Icon className="w-4 h-4" />
+                      <span className="text-xs font-medium">{stat.label}</span>
+                    </div>
                     <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
 
-        {/* Content row: Upcoming + Quick Actions */}
+        {/* Content row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Upcoming List */}
           <div className="lg:col-span-2">
-            <h2 className="text-lg font-semibold text-foreground mb-4">{sectionTitle}</h2>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Próximas Consultas</h2>
             <div className="space-y-3">
               {upcomingItems.map((item) => {
                 const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
@@ -174,34 +228,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                 return (
                   <Card key={item.id} className="bg-card/80 backdrop-blur border-border hover:border-primary/30 transition-colors cursor-pointer">
                     <CardContent className="p-4 flex items-center gap-4">
-                      {/* Time */}
                       <div className="flex-shrink-0 w-14 text-center">
                         <span className="text-sm font-bold text-foreground">{item.time}</span>
                       </div>
-
-                      {/* Color bar */}
-                      {catColor && (
-                        <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />
-                      )}
-
-                      {/* Info */}
+                      {catColor && <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">
-                          {userRole === 'patient' ? (
-                            <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
-                          ) : (
-                            item.patient.name
-                          )}
+                          <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
                         <p className="text-xs text-muted-foreground truncate">
-                          {userRole === 'clinic' && (
-                            <><ClickableDentistName name={item.dentist.name} className="text-xs text-muted-foreground" /> {' • '}</>
-                          )}
                           <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
                         </p>
                       </div>
-
-                      {/* Category badge */}
                       {catColor && (
                         <Badge
                           className="text-[10px] px-2 py-0.5 border-0 flex-shrink-0"
@@ -217,17 +255,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             </div>
           </div>
 
-          {/* Quick Actions */}
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-4">Acções Rápidas</h2>
             <div className="flex flex-col gap-3">
               {quickActions.map((action) => (
-                <Button
-                  key={action.label}
-                  variant="outline"
-                  className="justify-start h-12 text-sm font-medium"
-                  onClick={action.action}
-                >
+                <Button key={action.label} variant="outline" className="justify-start h-12 text-sm font-medium" onClick={action.action}>
                   {action.label}
                 </Button>
               ))}
@@ -235,16 +267,47 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           </div>
         </div>
 
-        {/* Clinic: Real-time confirmations */}
-        {userRole === 'clinic' && <ClinicConfirmations />}
-
         {/* Patient: Score history */}
-        {userRole === 'patient' && (
+        <div>
+          <h2 className="text-lg font-semibold text-foreground mb-4">Nível e Pontuação</h2>
+          <PatientScoreHistory />
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <ScrollArea className="flex-1">
+      <div className="p-6 max-w-7xl mx-auto space-y-8">
+        {/* Greeting */}
+        <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-foreground mb-4">Nível e Pontuação</h2>
-            <PatientScoreHistory />
+            <h1 className="text-2xl font-bold text-foreground">
+              {greeting}, {userName}!
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1 capitalize">
+              {DEMO_DATE.toLocaleDateString('pt-PT', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </p>
           </div>
-        )}
+          {/* Quick actions for dentist/clinic inline */}
+          {(userRole === 'dentist' || userRole === 'clinic') && (
+            <div className="flex gap-2">
+              {quickActions.map(a => (
+                <Button key={a.label} variant="outline" size="sm" className="text-xs" onClick={a.action}>
+                  {a.label}
+                </Button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Role-specific content */}
+        {userRole === 'patient' ? renderPatientDashboard() : renderProfessionalDashboard()}
       </div>
     </ScrollArea>
   );

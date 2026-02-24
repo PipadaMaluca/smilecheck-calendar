@@ -576,13 +576,13 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       'flex flex-col bg-background',
       isMobile
         ? 'fixed inset-0 z-[55]'
-        : 'fixed inset-0 z-50 flex items-center justify-center bg-black/50'
+        : 'flex-1'
     )}>
       <div className={cn(
         'flex flex-col bg-background overflow-hidden',
         isMobile
           ? 'w-full h-full pb-[60px]'
-          : 'w-full max-w-2xl max-h-[90vh] rounded-xl border border-border shadow-2xl'
+          : 'w-full h-full max-w-2xl mx-auto'
       )}>
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
