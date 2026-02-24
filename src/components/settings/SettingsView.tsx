@@ -6,6 +6,7 @@ import {
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';
+import { NotificationSettingsSection } from '@/components/settings/NotificationSettingsSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -58,13 +59,8 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
         <h1 className="text-xl font-bold text-foreground">Configurações</h1>
 
-        {/* Preferences */}
-        <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Preferências</CardTitle></CardHeader>
-          <CardContent className="space-y-0 divide-y divide-border">
-            <ToggleRow icon={Bell} label="Notificações" defaultChecked={true} />
-          </CardContent>
-        </Card>
+        {/* Notifications */}
+        <NotificationSettingsSection userRole={userRole} />
 
         {/* Appearance */}
         <AppearanceSection
