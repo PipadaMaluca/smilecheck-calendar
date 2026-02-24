@@ -115,9 +115,8 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
     totalPoints: -9,
-    feedbackStatus: 'completed',
-    patientFeedback: { rating: 3, submittedAt: new Date(2026, 0, 18) },
-    dentistFeedbackDate: new Date(2026, 0, 17, 10, 0),
+    // Faltas: paciente NÃO recebe notificação para dar feedback, apenas perde pontos
+    feedbackStatus: 'completed', // auto-completed (no feedback requested)
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Falta (base)', points: -8 },

@@ -281,7 +281,10 @@ export function DentistCalendar() {
         />
 
         {activeTab === 'home' ? (
-          <DashboardView userRole="dentist" onNavigate={setActiveTab} />
+          <DashboardView userRole="dentist" onNavigate={(tab) => {
+            if (tab === 'pesquisa') { setShowSearch(true); return; }
+            setActiveTab(tab);
+          }} />
         ) : activeTab === 'agenda' ? (
           <>
             <DateNavigator

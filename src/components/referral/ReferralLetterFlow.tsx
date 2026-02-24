@@ -74,7 +74,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
   if (completed) {
     return (
-      <div className="fixed inset-0 bg-background z-[70] flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center bg-background">
         <div className="text-center space-y-4 p-6 max-w-md">
           <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto">
             <Check className="w-8 h-8 text-emerald-500" />
@@ -316,7 +316,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-[70] flex flex-col">
+    <div className="flex-1 flex flex-col bg-background">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <div className="flex items-center gap-3">

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { DateNavigator } from './DateNavigator';
 import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
 import { TimeSlotView } from './TimeSlotView';
@@ -329,6 +330,8 @@ export function ClinicCalendar() {
           onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
           onViewProfile={d => setViewDentistProfile(d)}
         />
+      ) : activeTab === 'estatisticas' ? (
+        <StatisticsView />
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <p className="text-lg">Secção em construção...</p>

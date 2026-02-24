@@ -39,6 +39,7 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { ExportReportsView } from '@/components/export/ExportReportsView';
 import { SlotCreationScreen } from '../creation/SlotCreationScreen';
+import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
@@ -818,6 +819,14 @@ export function DesktopCalendarView() {
             <div className="flex-1 overflow-y-auto p-4">
               <NotificationsFullView inline onFeedbackAction={handleNotificationFeedback} />
             </div>
+          </div>
+        );
+
+      case 'estatisticas':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Estatísticas')}
+            <StatisticsView />
           </div>
         );
 
