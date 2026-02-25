@@ -36,7 +36,7 @@ export function PatientSidebar({
   onMemberToggle,
   onSelectAllMembers,
   appointmentDates = [],
-  onNewConsultation,
+  onNewConsultation
 }: PatientSidebarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFamilyOpen, setIsFamilyOpen] = useState(true);
@@ -44,7 +44,7 @@ export function PatientSidebar({
   const today = new Date();
 
   const filteredMembers = familyMembers.filter((m) =>
-    m.name.toLowerCase().includes(searchQuery.toLowerCase())
+  m.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const allSelected = familyMembers.every((m) => selectedMemberIds.includes(m.id));
 
@@ -68,11 +68,11 @@ export function PatientSidebar({
   }
 
   const hasAppointment = (date: Date) =>
-    appointmentDates.some((d) => isSameDay(d, date));
+  appointmentDates.some((d) => isSameDay(d, date));
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
   return (
-    <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
+    <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex items-center justify-center">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
         <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
@@ -89,8 +89,8 @@ export function PatientSidebar({
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
-          >
+            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+
             <ChevronLeft className="w-3 h-3" />
           </Button>
           <span className="text-xs font-medium capitalize">
@@ -100,22 +100,22 @@ export function PatientSidebar({
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
-          >
+            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+
             <ChevronRight className="w-3 h-3" />
           </Button>
         </div>
 
         {/* Week Days Header */}
         <div className="grid grid-cols-7 gap-0.5 mb-1">
-          {weekDays.map((d, i) => (
-            <div
-              key={`${d}-${i}`}
-              className="text-center text-[10px] font-medium text-muted-foreground py-0.5"
-            >
+          {weekDays.map((d, i) =>
+          <div
+            key={`${d}-${i}`}
+            className="text-center text-[10px] font-medium text-muted-foreground py-0.5">
+
               {d}
             </div>
-          ))}
+          )}
         </div>
 
         {/* Calendar Grid */}
@@ -136,14 +136,14 @@ export function PatientSidebar({
                   isCurrentMonth && 'text-foreground hover:bg-[#152238]',
                   isToday && 'bg-primary text-primary-foreground font-semibold',
                   isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
-                )}
-              >
+                )}>
+
                 {format(date, 'd')}
-                {hasAppt && !isToday && (
-                  <span className="absolute bottom-0 w-1 h-1 rounded-full bg-primary" />
-                )}
-              </button>
-            );
+                {hasAppt && !isToday &&
+                <span className="absolute bottom-0 w-1 h-1 rounded-full bg-primary" />
+                }
+              </button>);
+
           })}
         </div>
       </div>
@@ -165,8 +165,8 @@ export function PatientSidebar({
             placeholder="Pesquisar"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-7 h-7 text-xs bg-[#152238] border-[#1E3A5F]"
-          />
+            className="pl-7 h-7 text-xs bg-[#152238] border-[#1E3A5F]" />
+
         </div>
       </div>
 
@@ -175,12 +175,12 @@ export function PatientSidebar({
         {/* All checkbox */}
         <div
           className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
-          onClick={onSelectAllMembers}
-        >
+          onClick={onSelectAllMembers}>
+
           <Checkbox
             checked={allSelected}
-            className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-          />
+            className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+
           <span className="text-xs font-medium">Todos</span>
         </div>
 
@@ -191,25 +191,25 @@ export function PatientSidebar({
               className={cn(
                 'w-3 h-3 text-muted-foreground transition-transform',
                 !isFamilyOpen && '-rotate-90'
-              )}
-            />
+              )} />
+
             <span className="text-xs text-muted-foreground">Família</span>
           </CollapsibleTrigger>
           <CollapsibleContent className="pl-3">
             {filteredMembers.map((member) => {
               const isSelected = selectedMemberIds.includes(member.id);
-              
+
               return (
                 <div
                   key={member.id}
                   className="flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
-                  onClick={() => onMemberToggle(member.id, false)}
-                >
+                  onClick={() => onMemberToggle(member.id, false)}>
+
                   <Checkbox
                     checked={isSelected}
                     className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                    onClick={(e) => { e.stopPropagation(); onMemberToggle(member.id, true); }}
-                  />
+                    onClick={(e) => {e.stopPropagation();onMemberToggle(member.id, true);}} />
+
                   <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                     <User className="w-2.5 h-2.5 text-primary" />
                   </div>
@@ -219,8 +219,8 @@ export function PatientSidebar({
                     </span>
                     <span className="text-[9px] text-muted-foreground">{member.relation}</span>
                   </div>
-                </div>
-              );
+                </div>);
+
             })}
           </CollapsibleContent>
         </Collapsible>
@@ -230,6 +230,6 @@ export function PatientSidebar({
       <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
         <p className="text-[9px] text-muted-foreground">SmileCheck © 2026</p>
       </div>
-    </aside>
-  );
+    </aside>);
+
 }
