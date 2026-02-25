@@ -79,7 +79,7 @@ function DentistCard({
   return (
     <Card className="group hover:shadow-md transition-shadow border-border/50">
       <CardContent className="p-4">
-        <div className="gap-3 px-[5px] pr-0 pl-[2px] flex-row flex items-start justify-start">
+        <div className="pr-0 flex-row flex items-start justify-start px-[3px] pl-[3px] gap-[5px]">
           <div className="h-12 w-12 rounded-full bg-primary/10 flex-shrink-0 flex items-center justify-center">
             <User className="w-6 h-6 text-primary" />
           </div>
