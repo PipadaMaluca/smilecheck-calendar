@@ -915,7 +915,7 @@ export function DesktopCalendarView() {
         settings={agendaSettings}
         onSave={setAgendaSettings}
         userRole={activeRole}
-        isPro={false}
+        userPlan="free"
       />
 
       {/* Time Block Modal */}

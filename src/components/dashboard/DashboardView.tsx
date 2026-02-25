@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3 } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { Card, CardContent } from '@/components/ui/card';
@@ -67,19 +67,21 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     switch (userRole) {
       case 'dentist':
         return [
-          { label: 'Ver Agenda de Hoje', action: () => onNavigate('agenda') },
-          { label: 'Pesquisar', action: () => onNavigate('pesquisa') },
-          { label: 'Ver Todas as Notificações', action: () => onNavigate('notificacoes') },
+          { label: 'Ver Agenda de Hoje', icon: Calendar, action: () => onNavigate('agenda') },
+          { label: 'Pesquisar', icon: Search, action: () => onNavigate('pesquisa') },
+          { label: 'Ver Todas as Notificações', icon: Bell, action: () => onNavigate('notificacoes') },
         ];
       case 'clinic':
         return [
-          { label: 'Ver Estatísticas', action: () => onNavigate('estatisticas') },
+          { label: 'Ver Agenda Completa', icon: Calendar, action: () => onNavigate('agenda') },
+          { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
+          { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') },
         ];
       case 'patient':
         return [
-          { label: 'Marcar Consulta', action: () => onStartTriage?.() },
-          { label: 'Ver Recompensas', action: () => onNavigate('loja') },
-          { label: 'Minha Saúde', action: () => onNavigate('saude') },
+          { label: 'Marcar Consulta', icon: Calendar, action: () => onStartTriage?.() },
+          { label: 'Ver Recompensas', icon: Trophy, action: () => onNavigate('loja') },
+          { label: 'Minha Saúde', icon: Star, action: () => onNavigate('saude') },
         ];
     }
   }, [userRole, onNavigate, onStartTriage]);
@@ -258,11 +260,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-4">Acções Rápidas</h2>
             <div className="flex flex-col gap-3">
-              {quickActions.map((action) => (
-                <Button key={action.label} variant="outline" className="justify-start h-12 text-sm font-medium" onClick={action.action}>
-                  {action.label}
-                </Button>
-              ))}
+              {quickActions.map((action) => {
+                const ActionIcon = action.icon;
+                return (
+                  <Button key={action.label} variant="outline" className="justify-start h-12 text-sm font-medium gap-2" onClick={action.action}>
+                    <ActionIcon className="w-4 h-4" />
+                    {action.label}
+                  </Button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -296,12 +302,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           </div>
           {/* Quick actions for dentist/clinic inline */}
           {(userRole === 'dentist' || userRole === 'clinic') && (
-            <div className="flex gap-2">
-              {quickActions.map(a => (
-                <Button key={a.label} variant="outline" size="sm" className="text-xs" onClick={a.action}>
-                  {a.label}
-                </Button>
-              ))}
+            <div className="flex flex-wrap gap-2">
+              {quickActions.map(a => {
+                const ActionIcon = a.icon;
+                return (
+                  <Button key={a.label} variant="outline" size="sm" className="text-xs gap-1.5" onClick={a.action}>
+                    <ActionIcon className="w-3.5 h-3.5" />
+                    {a.label}
+                  </Button>
+                );
+              })}
             </div>
           )}
         </div>
