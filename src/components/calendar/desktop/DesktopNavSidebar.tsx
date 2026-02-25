@@ -113,7 +113,7 @@ export function DesktopNavSidebar({
       )}>
 
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 gap-1 px-[15px] py-[13px]">
+      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 gap-1 px-[15px] py-[14px]">
         <img
           src={smileIcon}
           alt="SmileCheck"
