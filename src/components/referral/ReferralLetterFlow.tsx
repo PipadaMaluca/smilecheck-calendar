@@ -22,18 +22,18 @@ interface ReferralLetterFlowProps {
 }
 
 const MOCK_PATIENTS = [
-  { id: 'p1', name: 'Maria Silva', age: 34, lastConsultation: '15 Jan 2026' },
-  { id: 'p2', name: 'João Costa', age: 28, lastConsultation: '10 Jan 2026' },
-  { id: 'p3', name: 'Ana Ferreira', age: 51, lastConsultation: '8 Jan 2026' },
-  { id: 'p4', name: 'Carlos Santos', age: 39, lastConsultation: '5 Jan 2026' },
-  { id: 'p5', name: 'Pedro Almeida', age: 34, lastConsultation: '3 Jan 2026' },
-];
+{ id: 'p1', name: 'Maria Silva', age: 34, lastConsultation: '15 Jan 2026' },
+{ id: 'p2', name: 'João Costa', age: 28, lastConsultation: '10 Jan 2026' },
+{ id: 'p3', name: 'Ana Ferreira', age: 51, lastConsultation: '8 Jan 2026' },
+{ id: 'p4', name: 'Carlos Santos', age: 39, lastConsultation: '5 Jan 2026' },
+{ id: 'p5', name: 'Pedro Almeida', age: 34, lastConsultation: '3 Jan 2026' }];
+
 
 const SPECIALTIES = [
-  'Dentisteria Generalista', 'Dentisteria Estética', 'Cirurgia Oral', 'Endodontia',
-  'Implantologia', 'Odontopediatria', 'Ortodontia', 'Periodontologia',
-  'Prostodontia Fixa', 'Prostodontia Removível',
-];
+'Dentisteria Generalista', 'Dentisteria Estética', 'Cirurgia Oral', 'Endodontia',
+'Implantologia', 'Odontopediatria', 'Ortodontia', 'Periodontologia',
+'Prostodontia Fixa', 'Prostodontia Removível'];
+
 
 export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite }: ReferralLetterFlowProps) {
   const isMobile = useIsMobile();
@@ -50,22 +50,22 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   const [completed, setCompleted] = useState(false);
   const [dentistFilter, setDentistFilter] = useState<'all' | 'favorites'>('all');
 
-  const filteredPatients = MOCK_PATIENTS.filter(p =>
-    p.name.toLowerCase().includes(patientSearch.toLowerCase())
+  const filteredPatients = MOCK_PATIENTS.filter((p) =>
+  p.name.toLowerCase().includes(patientSearch.toLowerCase())
   );
 
-  const filteredDentists = MOCK_DENTIST_RESULTS
-    .filter(d => {
-      if (dentistFilter === 'favorites') return favorites.includes(d.id);
-      return true;
-    })
-    .sort((a, b) => {
-      const aFav = favorites.includes(a.id) ? 0 : 1;
-      const bFav = favorites.includes(b.id) ? 0 : 1;
-      if (aFav !== bFav) return aFav - bFav;
-      if (a.rating !== b.rating) return b.rating - a.rating;
-      return a.distance - b.distance;
-    });
+  const filteredDentists = MOCK_DENTIST_RESULTS.
+  filter((d) => {
+    if (dentistFilter === 'favorites') return favorites.includes(d.id);
+    return true;
+  }).
+  sort((a, b) => {
+    const aFav = favorites.includes(a.id) ? 0 : 1;
+    const bFav = favorites.includes(b.id) ? 0 : 1;
+    if (aFav !== bFav) return aFav - bFav;
+    if (a.rating !== b.rating) return b.rating - a.rating;
+    return a.distance - b.distance;
+  });
 
   const handleSend = () => {
     setCompleted(true);
@@ -85,19 +85,19 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           </p>
           <div className="flex gap-3 pt-4">
             <Button variant="outline" className="flex-1" onClick={() => {
-              setStep(1); setSelectedPatient(null); setSelectedSpecialty('');
-              setSelectedDentist(null); setReason(''); setNotes('');
+              setStep(1);setSelectedPatient(null);setSelectedSpecialty('');
+              setSelectedDentist(null);setReason('');setNotes('');
               setCompleted(false);
             }}>
               Nova Referência
             </Button>
-            <Button className="flex-1" onClick={() => { onClose(); onGoHome?.(); }}>
+            <Button className="flex-1" onClick={() => {onClose();onGoHome?.();}}>
               Voltar ao Início
             </Button>
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   const renderStep = () => {
@@ -110,21 +110,21 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 value={patientSearch}
-                onChange={e => setPatientSearch(e.target.value)}
+                onChange={(e) => setPatientSearch(e.target.value)}
                 placeholder="Pesquisar paciente..."
-                className="pl-10"
-              />
+                className="pl-10" />
+
             </div>
             <div className="space-y-1">
-              {filteredPatients.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedPatient(p)}
-                  className={cn(
-                    'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left',
-                    selectedPatient?.id === p.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
-                  )}
-                >
+              {filteredPatients.map((p) =>
+              <button
+                key={p.id}
+                onClick={() => setSelectedPatient(p)}
+                className={cn(
+                  'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left',
+                  selectedPatient?.id === p.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
+                )}>
+
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <User className="w-5 h-5 text-primary" />
                   </div>
@@ -134,33 +134,33 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                   </div>
                   {selectedPatient?.id === p.id && <Check className="w-5 h-5 text-primary ml-auto" />}
                 </button>
-              ))}
+              )}
             </div>
-          </div>
-        );
+          </div>);
+
 
       case 2: // Select Specialty
         return (
           <div className="space-y-4">
             <h3 className="text-base font-semibold">Qual a especialidade necessária?</h3>
             <div className="grid grid-cols-2 gap-2">
-              {SPECIALTIES.map(s => (
-                <button
-                  key={s}
-                  onClick={() => setSelectedSpecialty(s)}
-                  className={cn(
-                    'p-3 rounded-lg border text-sm text-left transition-colors',
-                    selectedSpecialty === s
-                      ? 'border-primary bg-primary/10 text-primary font-medium'
-                      : 'border-border hover:border-primary/50'
-                  )}
-                >
+              {SPECIALTIES.map((s) =>
+              <button
+                key={s}
+                onClick={() => setSelectedSpecialty(s)}
+                className={cn(
+                  'p-3 rounded-lg border text-sm text-left transition-colors',
+                  selectedSpecialty === s ?
+                  'border-primary bg-primary/10 text-primary font-medium' :
+                  'border-border hover:border-primary/50'
+                )}>
+
                   {s}
                 </button>
-              ))}
+              )}
             </div>
-          </div>
-        );
+          </div>);
+
 
       case 3: // Select Dentist
         return (
@@ -169,18 +169,18 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             <div className="flex gap-2">
               <button
                 onClick={() => setDentistFilter('all')}
-                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}
-              >Todos</button>
+                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
+                Todos</button>
               <button
                 onClick={() => setDentistFilter('favorites')}
-                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}
-              >⭐ Só Favoritos</button>
+                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
+                ⭐ Só Favoritos</button>
             </div>
             <div className="space-y-1">
-              {filteredDentists.map(d => {
+              {filteredDentists.map((d) => {
                 const levelCfg = LEVEL_CONFIG[d.level];
                 const isFav = favorites.includes(d.id);
-                const initials = d.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map(n => n[0]).join('');
+                const initials = d.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('');
                 return (
                   <button
                     key={d.id}
@@ -188,8 +188,8 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                     className={cn(
                       'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left',
                       selectedDentist?.id === d.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
-                    )}
-                  >
+                    )}>
+
                     <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-sm font-bold text-primary flex-shrink-0">
                       {initials}
                     </div>
@@ -208,16 +208,16 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
-                      <button onClick={e => { e.stopPropagation(); onToggleFavorite?.(d.id); }} className="p-1">
+                      <button onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
                         <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
                       </button>
                     </div>
-                  </button>
-                );
+                  </button>);
+
               })}
             </div>
-          </div>
-        );
+          </div>);
+
 
       case 4: // Reason
         return (
@@ -225,14 +225,14 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             <h3 className="text-base font-semibold">Detalhes da referência</h3>
             <div>
               <label className="text-xs text-muted-foreground mb-1.5 block">Motivo da Referência *</label>
-              <Textarea value={reason} onChange={e => setReason(e.target.value)} rows={4} placeholder="Descreva o motivo da referência..." />
+              <Textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={4} placeholder="Descreva o motivo da referência..." />
             </div>
             <div>
               <label className="text-xs text-muted-foreground mb-1.5 block">Observações Clínicas (opcional)</label>
-              <Textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} placeholder="Observações adicionais..." />
+              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Observações adicionais..." />
             </div>
-          </div>
-        );
+          </div>);
+
 
       case 5: // Preview
         return (
@@ -268,12 +268,12 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 <p className="text-xs text-muted-foreground uppercase font-semibold">Motivo:</p>
                 <p className="text-muted-foreground">{reason}</p>
               </div>
-              {notes && (
-                <div>
+              {notes &&
+              <div>
                   <p className="text-xs text-muted-foreground uppercase font-semibold">Observações:</p>
                   <p className="text-muted-foreground">{notes}</p>
                 </div>
-              )}
+              }
               <Separator />
               <div className="flex justify-between items-end">
                 <p className="text-xs text-muted-foreground">Assinatura: _______________</p>
@@ -287,31 +287,31 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             <div className="space-y-3">
               <p className="text-xs font-semibold text-muted-foreground">Opções de envio:</p>
               <label className="flex items-center gap-3 cursor-pointer">
-                <Checkbox checked={sendToHealth} onCheckedChange={v => setSendToHealth(!!v)} />
+                <Checkbox checked={sendToHealth} onCheckedChange={(v) => setSendToHealth(!!v)} />
                 <span className="text-sm">Enviar para a área Saúde do paciente</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer">
-                <Checkbox checked={sendEmail} onCheckedChange={v => setSendEmail(!!v)} />
+                <Checkbox checked={sendEmail} onCheckedChange={(v) => setSendEmail(!!v)} />
                 <span className="text-sm">Enviar por Email</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer">
-                <Checkbox checked={downloadPdf} onCheckedChange={v => setDownloadPdf(!!v)} />
+                <Checkbox checked={downloadPdf} onCheckedChange={(v) => setDownloadPdf(!!v)} />
                 <span className="text-sm">Download PDF</span>
               </label>
             </div>
-          </div>
-        );
+          </div>);
+
     }
   };
 
   const canProceed = () => {
     switch (step) {
-      case 1: return !!selectedPatient;
-      case 2: return !!selectedSpecialty;
-      case 3: return !!selectedDentist;
-      case 4: return reason.trim().length > 0;
-      case 5: return true;
-      default: return false;
+      case 1:return !!selectedPatient;
+      case 2:return !!selectedSpecialty;
+      case 3:return !!selectedDentist;
+      case 4:return reason.trim().length > 0;
+      case 5:return true;
+      default:return false;
     }
   };
 
@@ -323,10 +323,10 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           <h2 className="text-base font-semibold text-center">Carta de Referência</h2>
           <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
           {/* Progress */}
-          <div className="flex gap-1 justify-center">
-            {[1, 2, 3, 4, 5].map(s => (
-              <div key={s} className={cn('h-1.5 w-8 rounded-full', s <= step ? 'bg-primary' : 'bg-secondary')} />
-            ))}
+          <div className="flex justify-center gap-[10px]">
+            {[1, 2, 3, 4, 5].map((s) =>
+            <div key={s} className={cn('h-1.5 w-8 rounded-full', s <= step ? 'bg-primary' : 'bg-secondary')} />
+            )}
           </div>
         </div>
       </div>
@@ -349,19 +349,19 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             className="flex-1"
             disabled={!canProceed()}
             onClick={() => {
-              if (step === 5) handleSend();
-              else setStep(step + 1);
-            }}
-          >
-            {step === 5 ? (
-              <>
+              if (step === 5) handleSend();else
+              setStep(step + 1);
+            }}>
+
+            {step === 5 ?
+            <>
                 <Send className="w-4 h-4 mr-1" />
                 Assinar e Enviar
-              </>
-            ) : step === 4 ? 'Pré-visualizar' : 'Seguinte'}
+              </> :
+            step === 4 ? 'Pré-visualizar' : 'Seguinte'}
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
