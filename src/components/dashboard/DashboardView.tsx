@@ -302,7 +302,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           </div>
           {/* Quick actions for dentist/clinic inline */}
           {(userRole === 'dentist' || userRole === 'clinic') &&
-          <div className="flex-wrap gap-[3px] flex items-center justify-center">
+          <div className="flex-wrap flex items-center justify-center gap-[5px]">
               {quickActions.map((a) => {
               const ActionIcon = a.icon;
               return (
