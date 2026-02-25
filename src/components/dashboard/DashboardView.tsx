@@ -288,7 +288,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
         {/* Greeting */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-foreground text-xl">
+            <h1 className="font-bold text-foreground text-center text-lg">
               {greeting}, {userName}!
             </h1>
             <p className="text-sm text-muted-foreground mt-1 capitalize">
@@ -302,7 +302,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           </div>
           {/* Quick actions for dentist/clinic inline */}
           {(userRole === 'dentist' || userRole === 'clinic') &&
-          <div className="flex-wrap gap-px flex items-center justify-center">
+          <div className="flex-wrap gap-[3px] flex items-center justify-center">
               {quickActions.map((a) => {
               const ActionIcon = a.icon;
               return (
