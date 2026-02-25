@@ -32,21 +32,21 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
           e.stopPropagation();
           setShowProfile(true);
         }}
-        className={cn(
-          'text-left hover:underline hover:text-primary transition-colors cursor-pointer',
-          className
-        )}
-      >
+        className={cn("hover:underline hover:text-primary transition-colors cursor-pointer text-left",
+
+        className
+        )}>
+
         {children || name}
       </button>
-      {showProfile && (
-        <DentistProfileView
-          dentist={dentist}
-          isOpen={true}
-          onClose={() => setShowProfile(false)}
-          onGoHome={onGoHome}
-        />
-      )}
-    </>
-  );
+      {showProfile &&
+      <DentistProfileView
+        dentist={dentist}
+        isOpen={true}
+        onClose={() => setShowProfile(false)}
+        onGoHome={onGoHome} />
+
+      }
+    </>);
+
 }

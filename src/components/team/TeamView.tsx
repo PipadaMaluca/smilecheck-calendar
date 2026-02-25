@@ -84,7 +84,7 @@ function DentistCard({
             <User className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start justify-between gap-[5px]">
               <div>
                 <p className="font-semibold text-sm text-foreground">
                   <ClickableDentistName name={dentist.name} className="font-semibold text-sm text-foreground" />
