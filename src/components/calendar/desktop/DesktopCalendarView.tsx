@@ -502,7 +502,7 @@ export function DesktopCalendarView() {
       case 'home':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 py-[52px]">
+            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 py-[52px] border">
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
