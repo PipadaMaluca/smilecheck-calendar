@@ -286,7 +286,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-7xl mx-auto space-y-8">
         {/* Greeting */}
-        <div className="items-center justify-between flex flex-col">
+        <div className="items-center justify-between flex flex-col gap-[5px]">
           <div>
             <h1 className="font-bold text-foreground text-center text-xl">
               {greeting}, {userName}!
