@@ -291,7 +291,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             <h1 className="font-bold text-foreground text-center text-lg">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize">
+            <p className="text-sm text-muted-foreground mt-1 capitalize my-[5px] text-center">
               {DEMO_DATE.toLocaleDateString('pt-PT', {
                 weekday: 'long',
                 day: 'numeric',
