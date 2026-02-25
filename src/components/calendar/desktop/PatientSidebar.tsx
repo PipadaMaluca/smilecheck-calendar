@@ -22,7 +22,7 @@ interface PatientSidebarProps {
   onDateSelect: (date: Date) => void;
   familyMembers: FamilyMember[];
   selectedMemberIds: string[];
-  onMemberToggle: (memberId: string) => void;
+  onMemberToggle: (memberId: string, isCheckbox: boolean) => void;
   onSelectAllMembers: () => void;
   appointmentDates?: Date[];
   onNewConsultation?: () => void;
@@ -179,7 +179,7 @@ export function PatientSidebar({
         >
           <Checkbox
             checked={allSelected}
-            className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+            className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary"
           />
           <span className="text-xs font-medium">Todos</span>
         </div>
@@ -203,11 +203,12 @@ export function PatientSidebar({
                 <div
                   key={member.id}
                   className="flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
-                  onClick={() => onMemberToggle(member.id)}
+                  onClick={() => onMemberToggle(member.id, false)}
                 >
                   <Checkbox
                     checked={isSelected}
-                    className="border-muted-foreground h-3.5 w-3.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    onClick={(e) => { e.stopPropagation(); onMemberToggle(member.id, true); }}
                   />
                   <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                     <User className="w-2.5 h-2.5 text-primary" />

@@ -198,14 +198,20 @@ export function DesktopCalendarView() {
     setSelectedDentistIds(getPresentDentistKeys());
   }, []);
 
-  const handleFamilyMemberToggle = (memberId: string) => {
-    setSelectedFamilyMemberIds(prev => {
-      if (prev.includes(memberId)) {
-        if (prev.length === 1) return prev;
-        return prev.filter(id => id !== memberId);
-      }
-      return [...prev, memberId];
-    });
+  const handleFamilyMemberToggle = (memberId: string, isCheckbox: boolean) => {
+    if (isCheckbox) {
+      // Checkbox click: toggle this member without affecting others
+      setSelectedFamilyMemberIds(prev => {
+        if (prev.includes(memberId)) {
+          if (prev.length === 1) return prev; // keep at least one
+          return prev.filter(id => id !== memberId);
+        }
+        return [...prev, memberId];
+      });
+    } else {
+      // Name click: select only this member
+      setSelectedFamilyMemberIds([memberId]);
+    }
   };
 
   const handleSelectAllFamilyMembers = () => {
