@@ -431,15 +431,7 @@ export function DesktopCalendarView() {
         </Button>
       </div>
       <div className="flex items-center gap-2">
-        <div className="relative">
-          <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
-          {showNotificationDropdown && (
-            <NotificationDropdown
-              onViewAll={() => setActiveNavTab('notificacoes')}
-              onClose={() => setShowNotificationDropdown(false)}
-            />
-          )}
-        </div>
+        <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
         <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
           <div className="text-right">
             <p className="text-sm font-bold text-foreground">
@@ -520,16 +512,7 @@ export function DesktopCalendarView() {
                 </Button>
               </div>
               <div className="flex items-center gap-2">
-                <div className="relative">
-                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
-                  {showNotificationDropdown && (
-                    <NotificationDropdown
-                      onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
-                      onClose={() => setShowNotificationDropdown(false)}
-                      onFeedbackAction={handleNotificationFeedback}
-                    />
-                  )}
-                </div>
+                <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
                     <p className="text-sm font-bold text-foreground">
@@ -601,16 +584,7 @@ export function DesktopCalendarView() {
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="relative">
-                    <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} />
-                    {showNotificationDropdown && (
-                      <NotificationDropdown
-                        onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
-                        onClose={() => setShowNotificationDropdown(false)}
-                        onFeedbackAction={handleNotificationFeedback}
-                      />
-                    )}
-                  </div>
+                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                     <div className="text-right">
                       <p className="text-sm font-bold text-foreground">
@@ -861,6 +835,17 @@ export function DesktopCalendarView() {
       />
 
       {renderMainArea()}
+
+      {/* Notification Dropdown - rendered at root level to avoid z-index/stacking context issues from backdrop-blur */}
+      {showNotificationDropdown && (
+        <NotificationDropdown
+          onViewAll={() => { setActiveNavTab('notificacoes'); setShowNotificationDropdown(false); }}
+          onClose={() => setShowNotificationDropdown(false)}
+          onFeedbackAction={handleNotificationFeedback}
+          onNavigate={(target) => { handleNavTabChange(target); setShowNotificationDropdown(false); }}
+          userRole={activeRole}
+        />
+      )}
 
       {/* Edit Consultation Modal - this one stays as modal */}
       <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={updated => {

@@ -318,57 +318,49 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   return (
     <div className="flex-1 flex flex-col bg-background">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        <div className="flex items-center gap-3">
-          {step > 1 ? (
-            <Button variant="ghost" size="icon" onClick={() => setStep(step - 1)}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          ) : (
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
-            </Button>
-          )}
-          <div>
-            <h2 className="text-base font-semibold">Carta de Referência</h2>
-            <p className="text-xs text-muted-foreground">Passo {step} de 5</p>
+      <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
+        <div className="w-full max-w-[600px] space-y-2">
+          <h2 className="text-base font-semibold text-center">Carta de Referência</h2>
+          <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
+          {/* Progress */}
+          <div className="flex gap-1 justify-center">
+            {[1, 2, 3, 4, 5].map(s => (
+              <div key={s} className={cn('h-1.5 w-8 rounded-full', s <= step ? 'bg-primary' : 'bg-secondary')} />
+            ))}
           </div>
-        </div>
-        {/* Progress */}
-        <div className="flex gap-1">
-          {[1, 2, 3, 4, 5].map(s => (
-            <div key={s} className={cn('h-1.5 w-8 rounded-full', s <= step ? 'bg-primary' : 'bg-secondary')} />
-          ))}
         </div>
       </div>
 
       {/* Content */}
       <ScrollArea className="flex-1">
-        <div className="p-4 md:p-6 max-w-2xl mx-auto">
+        <div className="p-4 md:p-6 max-w-[600px] mx-auto">
           {renderStep()}
         </div>
       </ScrollArea>
 
       {/* Footer */}
-      <div className="border-t border-border p-4 flex gap-3 flex-shrink-0">
-        <Button variant="outline" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
-          {step > 1 ? 'Anterior' : 'Cancelar'}
-        </Button>
-        <Button
-          className="flex-1"
-          disabled={!canProceed()}
-          onClick={() => {
-            if (step === 5) handleSend();
-            else setStep(step + 1);
-          }}
-        >
-          {step === 5 ? (
-            <>
-              <Send className="w-4 h-4 mr-1" />
-              Assinar e Enviar
-            </>
-          ) : step === 4 ? 'Pré-visualizar' : 'Seguinte'}
-        </Button>
+      <div className="border-t border-border flex justify-center p-3 flex-shrink-0">
+        <div className="flex gap-2 w-full max-w-[600px]">
+          <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
+            {step > 1 ? 'Anterior' : 'Cancelar'}
+          </Button>
+          <Button
+            size="sm"
+            className="flex-1"
+            disabled={!canProceed()}
+            onClick={() => {
+              if (step === 5) handleSend();
+              else setStep(step + 1);
+            }}
+          >
+            {step === 5 ? (
+              <>
+                <Send className="w-4 h-4 mr-1" />
+                Assinar e Enviar
+              </>
+            ) : step === 4 ? 'Pré-visualizar' : 'Seguinte'}
+          </Button>
+        </div>
       </div>
     </div>
   );

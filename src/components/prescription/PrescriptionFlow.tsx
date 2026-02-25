@@ -552,21 +552,23 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
     return (
       <div className={cn(
-        'p-4 border-t border-border bg-card flex gap-3',
-        isMobile && 'fixed bottom-[60px] left-0 right-0 z-[60]'
+        'border-t border-border bg-card flex justify-center',
+        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4' : 'p-3'
       )}>
-        {currentStep === steps[0] ? (
-          <Button variant="outline" className="flex-1" onClick={onClose}>Cancelar</Button>
-        ) : (
-          <Button variant="outline" className="flex-1" onClick={goPrev}>Anterior</Button>
-        )}
-        {currentStep === 'patient' ? (
-          <Button className="flex-1" disabled={!selectedPatient} onClick={goNext}>Seguinte</Button>
-        ) : currentStep === 'medications' ? (
-          <Button className="flex-1" disabled={medications.length === 0} onClick={goNext}>Pré-visualizar</Button>
-        ) : currentStep === 'preview' ? (
-          <Button className="flex-1" onClick={goNext}>Assinar e Enviar</Button>
-        ) : null}
+        <div className="flex gap-2 w-full max-w-[600px]">
+          {currentStep === steps[0] ? (
+            <Button variant="outline" size="sm" className="flex-1" onClick={onClose}>Cancelar</Button>
+          ) : (
+            <Button variant="outline" size="sm" className="flex-1" onClick={goPrev}>Anterior</Button>
+          )}
+          {currentStep === 'patient' ? (
+            <Button size="sm" className="flex-1" disabled={!selectedPatient} onClick={goNext}>Seguinte</Button>
+          ) : currentStep === 'medications' ? (
+            <Button size="sm" className="flex-1" disabled={medications.length === 0} onClick={goNext}>Pré-visualizar</Button>
+          ) : currentStep === 'preview' ? (
+            <Button size="sm" className="flex-1" onClick={goNext}>Assinar e Enviar</Button>
+          ) : null}
+        </div>
       </div>
     );
   };
@@ -585,14 +587,13 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           : 'w-full h-full max-w-2xl mx-auto'
       )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h1 className="text-base font-bold">Prescrever Receita</h1>
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="w-5 h-5" />
-          </Button>
+        <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
+          <div className="w-full max-w-[600px]">
+            <h1 className="text-base font-bold text-center">Prescrever Receita</h1>
+          </div>
         </div>
 
-        <ProgressBar />
+        <div className="max-w-[600px] mx-auto w-full"><ProgressBar /></div>
 
         {/* Step content */}
         {currentStep === 'patient' && renderPatientStep()}
