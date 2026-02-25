@@ -39,7 +39,7 @@ const TWO_LINE_LABELS: Record<string, [string, string]> = {
   'loja': ['Loja de', 'Recompensas'],
   'referencia': ['Carta de', 'Referência'],
   'prescrever': ['Prescrever', 'Receita'],
-  'exportar': ['Exportar', 'Relatórios'],
+  'exportar': ['Exportar', 'Relatórios']
 };
 
 // Alphabetical secondary items per role
@@ -113,7 +113,7 @@ export function DesktopNavSidebar({
       )}>
 
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 gap-1">
+      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 gap-1 px-[15px] py-[13px]">
         <img
           src={smileIcon}
           alt="SmileCheck"
