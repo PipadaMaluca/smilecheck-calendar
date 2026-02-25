@@ -28,9 +28,9 @@ function getGreeting(): string {
 
 function getUserName(role: UserRole): string {
   switch (role) {
-    case 'dentist': return `Dr. ${mockDentists[0].name.split(' ')[1]}`;
-    case 'clinic': return mockClinics[0].name;
-    case 'patient': return mockFamilyMembers[0].name.split(' ')[0];
+    case 'dentist':return `Dr. ${mockDentists[0].name.split(' ')[1]}`;
+    case 'clinic':return mockClinics[0].name;
+    case 'patient':return mockFamilyMembers[0].name.split(' ')[0];
   }
 }
 
@@ -38,27 +38,27 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 // Mock waiting list data
 const MOCK_WAITING_LIST = [
-  { id: 'wl-1', patientName: 'Rita Oliveira', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-  { id: 'wl-2', patientName: 'Bruno Pereira', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-  { id: 'wl-3', patientName: 'Sofia Lopes', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false },
-];
+{ id: 'wl-1', patientName: 'Rita Oliveira', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+{ id: 'wl-2', patientName: 'Bruno Pereira', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+{ id: 'wl-3', patientName: 'Sofia Lopes', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
+
 
 export function DashboardView({ userRole, onNavigate, onStartTriage }: DashboardViewProps) {
   const greeting = getGreeting();
   const userName = getUserName(userRole);
 
   const todayConsultations = useMemo(() =>
-    mockConsultations.filter(c => isSameDay(c.date, DEMO_DATE)),
+  mockConsultations.filter((c) => isSameDay(c.date, DEMO_DATE)),
   []);
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-        { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
-        { label: 'Pontos', value: '450', icon: Trophy },
-        { label: 'Nível', value: 'Bronze', icon: Award },
-        { label: 'Streak', value: '7 dias', icon: Flame },
-      ];
+      { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
+      { label: 'Pontos', value: '450', icon: Trophy },
+      { label: 'Nível', value: 'Bronze', icon: Award },
+      { label: 'Streak', value: '7 dias', icon: Flame }];
+
     }
     return null; // dentist/clinic use the 3-column layout instead
   }, [userRole]);
@@ -67,35 +67,35 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     switch (userRole) {
       case 'dentist':
         return [
-          { label: 'Ver Agenda de Hoje', icon: Calendar, action: () => onNavigate('agenda') },
-          { label: 'Pesquisar', icon: Search, action: () => onNavigate('pesquisa') },
-          { label: 'Ver Todas as Notificações', icon: Bell, action: () => onNavigate('notificacoes') },
-        ];
+        { label: 'Ver Agenda de Hoje', icon: Calendar, action: () => onNavigate('agenda') },
+        { label: 'Pesquisar', icon: Search, action: () => onNavigate('pesquisa') },
+        { label: 'Ver Todas as Notificações', icon: Bell, action: () => onNavigate('notificacoes') }];
+
       case 'clinic':
         return [
-          { label: 'Ver Agenda Completa', icon: Calendar, action: () => onNavigate('agenda') },
-          { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
-          { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') },
-        ];
+        { label: 'Ver Agenda Completa', icon: Calendar, action: () => onNavigate('agenda') },
+        { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
+        { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') }];
+
       case 'patient':
         return [
-          { label: 'Marcar Consulta', icon: Calendar, action: () => onStartTriage?.() },
-          { label: 'Ver Recompensas', icon: Trophy, action: () => onNavigate('loja') },
-          { label: 'Minha Saúde', icon: Star, action: () => onNavigate('saude') },
-        ];
+        { label: 'Marcar Consulta', icon: Calendar, action: () => onStartTriage?.() },
+        { label: 'Ver Recompensas', icon: Trophy, action: () => onNavigate('loja') },
+        { label: 'Minha Saúde', icon: Star, action: () => onNavigate('saude') }];
+
     }
   }, [userRole, onNavigate, onStartTriage]);
 
   // ─── Dentist / Clinic: 3-column dashboard ───
   const renderProfessionalDashboard = () => {
-    const dentistCons = userRole === 'dentist'
-      ? todayConsultations.filter(c => c.dentist.id === mockDentists[0].id)
-      : todayConsultations;
+    const dentistCons = userRole === 'dentist' ?
+    todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id) :
+    todayConsultations;
 
-    const confirmed = mockConfirmations.filter(c => c.status24h === 'confirmed' && c.status1h === 'confirmed').length;
+    const confirmed = mockConfirmations.filter((c) => c.status24h === 'confirmed' && c.status1h === 'confirmed').length;
     const total = mockConfirmations.length;
-    const notConfirmed = mockConfirmations.filter(c => c.status24h === 'pending' || c.status1h === 'pending');
-    const confirmRate = total > 0 ? Math.round((confirmed / total) * 100) : 0;
+    const notConfirmed = mockConfirmations.filter((c) => c.status24h === 'pending' || c.status1h === 'pending');
+    const confirmRate = total > 0 ? Math.round(confirmed / total * 100) : 0;
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -107,7 +107,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
             </div>
             <div className="space-y-2 max-h-[300px] overflow-y-auto">
-              {dentistCons.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map(c => {
+              {dentistCons.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
                 const statusCfg = c.status ? STATUS_CONFIG[c.status] : null;
                 const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                 return (
@@ -120,11 +120,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                         {c.category ? CATEGORY_LABELS[c.category] : c.type}
                       </p>
                     </div>
-                    {statusCfg && (
-                      <span className="text-[10px]">{statusCfg.icon}</span>
-                    )}
-                  </div>
-                );
+                    {statusCfg &&
+                    <span className="text-[10px]">{statusCfg.icon}</span>
+                    }
+                  </div>);
+
               })}
             </div>
           </CardContent>
@@ -146,13 +146,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             </div>
             <div className="space-y-1.5">
               <p className="text-[10px] font-semibold text-muted-foreground uppercase">Não confirmados</p>
-              {notConfirmed.slice(0, 5).map(c => (
-                <div key={c.consultationId} className="flex items-center gap-2 py-1">
+              {notConfirmed.slice(0, 5).map((c) =>
+              <div key={c.consultationId} className="flex items-center gap-2 py-1">
                   <Clock className="w-3 h-3 text-amber-400 flex-shrink-0" />
                   <span className="text-xs text-foreground flex-1 truncate">{c.patientName}</span>
                   <span className="text-[10px] text-muted-foreground">{c.time}</span>
                 </div>
-              ))}
+              )}
             </div>
           </CardContent>
         </Card>
@@ -165,14 +165,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length} pacientes</Badge>
             </div>
             <div className="space-y-2">
-              {MOCK_WAITING_LIST.map(wl => (
-                <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+              {MOCK_WAITING_LIST.map((wl) =>
+              <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
                       <p className="text-xs font-medium text-foreground truncate">{wl.patientName}</p>
-                      {wl.isUrgent && (
-                        <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />
-                      )}
+                      {wl.isUrgent &&
+                    <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />
+                    }
                     </div>
                     <p className="text-[10px] text-muted-foreground">Atual: {wl.currentDate} às {wl.currentTime}</p>
                   </div>
@@ -180,32 +180,32 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                     {wl.priority === 'alta' ? 'Prioritário' : 'Normal'}
                   </Badge>
                 </div>
-              ))}
+              )}
             </div>
             <p className="text-[10px] text-muted-foreground italic">
               Útil quando alguém cancela uma consulta
             </p>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   };
 
   // ─── Patient: original layout ───
   const renderPatientDashboard = () => {
-    const upcomingItems = mockPatientConsultations
-      .sort((a, b) => a.time.localeCompare(b.time))
-      .slice(0, 4);
+    const upcomingItems = mockPatientConsultations.
+    sort((a, b) => a.time.localeCompare(b.time)).
+    slice(0, 4);
 
     return (
       <>
         {/* Stats Cards */}
-        {stats && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats &&
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+            const Icon = stat.icon;
+            return (
+              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Icon className="w-4 h-4" />
@@ -213,11 +213,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                     </div>
                     <span className="text-2xl font-bold text-foreground">{stat.value}</span>
                   </CardContent>
-                </Card>
-              );
-            })}
+                </Card>);
+
+          })}
           </div>
-        )}
+        }
 
         {/* Content row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -242,17 +242,17 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                           <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
                         </p>
                       </div>
-                      {catColor && (
-                        <Badge
-                          className="text-[10px] px-2 py-0.5 border-0 flex-shrink-0"
-                          style={{ backgroundColor: catColor.hex, color: catColor.text === 'text-white' ? 'white' : 'black' }}
-                        >
+                      {catColor &&
+                      <Badge
+                        className="text-[10px] px-2 py-0.5 border-0 flex-shrink-0"
+                        style={{ backgroundColor: catColor.hex, color: catColor.text === 'text-white' ? 'white' : 'black' }}>
+
                           {catLabel}
                         </Badge>
-                      )}
+                      }
                     </CardContent>
-                  </Card>
-                );
+                  </Card>);
+
               })}
             </div>
           </div>
@@ -266,8 +266,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                   <Button key={action.label} variant="outline" className="justify-start h-12 text-sm font-medium gap-2" onClick={action.action}>
                     <ActionIcon className="w-4 h-4" />
                     {action.label}
-                  </Button>
-                );
+                  </Button>);
+
               })}
             </div>
           </div>
@@ -278,8 +278,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
           <h2 className="text-lg font-semibold text-foreground mb-4">Nível e Pontuação</h2>
           <PatientScoreHistory />
         </div>
-      </>
-    );
+      </>);
+
   };
 
   return (
@@ -288,7 +288,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
         {/* Greeting */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">
+            <h1 className="font-bold text-foreground text-xl">
               {greeting}, {userName}!
             </h1>
             <p className="text-sm text-muted-foreground mt-1 capitalize">
@@ -296,29 +296,29 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long',
-                year: 'numeric',
+                year: 'numeric'
               })}
             </p>
           </div>
           {/* Quick actions for dentist/clinic inline */}
-          {(userRole === 'dentist' || userRole === 'clinic') && (
-            <div className="flex flex-wrap gap-2">
-              {quickActions.map(a => {
-                const ActionIcon = a.icon;
-                return (
-                  <Button key={a.label} variant="outline" size="sm" className="text-xs gap-1.5" onClick={a.action}>
+          {(userRole === 'dentist' || userRole === 'clinic') &&
+          <div className="flex-wrap gap-px flex items-center justify-center">
+              {quickActions.map((a) => {
+              const ActionIcon = a.icon;
+              return (
+                <Button key={a.label} variant="outline" size="sm" className="text-xs gap-1.5" onClick={a.action}>
                     <ActionIcon className="w-3.5 h-3.5" />
                     {a.label}
-                  </Button>
-                );
-              })}
+                  </Button>);
+
+            })}
             </div>
-          )}
+          }
         </div>
 
         {/* Role-specific content */}
         {userRole === 'patient' ? renderPatientDashboard() : renderProfessionalDashboard()}
       </div>
-    </ScrollArea>
-  );
+    </ScrollArea>);
+
 }
