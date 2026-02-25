@@ -269,7 +269,7 @@ function ClinicTeamView() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mx-[5px] my-[15px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mx-[5px] my-[15px] mt-[10px] mb-[10px]">
         {clinicDentistsList.map((d) =>
         <div key={d.id} className="relative pl-[5px] pb-0 pt-[3px] pr-[3px] border px-[3px] py-px bg-popover">
             <DentistCard
