@@ -459,7 +459,7 @@ export function DentistCalendar() {
           settings={agendaSettings}
           onSave={setAgendaSettings}
           userRole="dentist"
-          isPro={false}
+          userPlan="free"
         />
 
         {/* Time Block Modal */}

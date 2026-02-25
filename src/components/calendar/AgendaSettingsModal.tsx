@@ -5,8 +5,9 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Slider } from '@/components/ui/slider';
+import { Input } from '@/components/ui/input';
 import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, LEGEND_ORDER, UserRole } from '@/types/calendar';
-import { mockDentists } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -19,7 +20,6 @@ export interface AgendaSettings {
   showBlocks: boolean;
   density: 'compact' | 'normal' | 'expanded';
   categoryColors: Record<string, string>;
-  dentistColors: Record<string, string>;
   blockColor: string;
 }
 
@@ -34,9 +34,14 @@ export const DEFAULT_SETTINGS: AgendaSettings = {
   categoryColors: Object.fromEntries(
     Object.entries(CATEGORY_COLORS).map(([k, v]) => [k, v.hex])
   ),
-  dentistColors: {},
   blockColor: '#9E9E9E',
 };
+
+// Plan-based color palettes
+const PRO_PALETTE = [
+  '#EF4444', '#F97316', '#EAB308', '#22C55E', '#06B6D4',
+  '#3B82F6', '#6366F1', '#8B5CF6', '#9E9E9E', '#000000', '#FFFFFF',
+];
 
 interface AgendaSettingsModalProps {
   isOpen: boolean;
@@ -44,16 +49,47 @@ interface AgendaSettingsModalProps {
   settings: AgendaSettings;
   onSave: (settings: AgendaSettings) => void;
   userRole: UserRole;
-  isPro?: boolean;
+  userPlan?: 'free' | 'pro' | 'premium';
 }
 
-export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRole, isPro = false }: AgendaSettingsModalProps) {
+export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRole, userPlan = 'free' }: AgendaSettingsModalProps) {
   const [local, setLocal] = useState<AgendaSettings>({ ...settings });
+  const [editingCategory, setEditingCategory] = useState<string | null>(null);
+  const [rgbValues, setRgbValues] = useState({ r: 0, g: 0, b: 0 });
 
   if (!isOpen) return null;
 
+  const canEditColors = userPlan === 'pro' || userPlan === 'premium';
+  const hasPremiumPicker = userPlan === 'premium';
+
   const update = <K extends keyof AgendaSettings>(key: K, val: AgendaSettings[K]) => {
     setLocal(prev => ({ ...prev, [key]: val }));
+  };
+
+  const setCategoryColor = (cat: string, color: string) => {
+    setLocal(prev => ({
+      ...prev,
+      categoryColors: { ...prev.categoryColors, [cat]: color }
+    }));
+  };
+
+  const openRgbPicker = (cat: string) => {
+    const hex = local.categoryColors[cat] || CATEGORY_COLORS[cat as ConsultationCategory]?.hex || '#3B82F6';
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    setRgbValues({ r, g, b });
+    setEditingCategory(cat);
+  };
+
+  const rgbToHex = (r: number, g: number, b: number) =>
+    '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+
+  const applyRgb = () => {
+    if (editingCategory) {
+      setCategoryColor(editingCategory, rgbToHex(rgbValues.r, rgbValues.g, rgbValues.b));
+      setEditingCategory(null);
+    }
   };
 
   const handleSave = () => {
@@ -73,10 +109,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
 
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 bg-black/50 z-[60]" onClick={onClose} />
-
-      {/* Slide-in Panel */}
       <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border z-[61] flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -86,7 +119,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           </Button>
         </div>
 
-        {/* Scrollable Content */}
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* VISUALIZAÇÃO */}
           <section>
@@ -96,7 +129,6 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 <Label>Mostrar Domingos</Label>
                 <Switch checked={local.showSundays} onCheckedChange={v => update('showSundays', v)} />
               </div>
-
               <div className="flex items-center justify-between">
                 <Label>Hora de início do dia</Label>
                 <Select value={String(local.startHour)} onValueChange={v => update('startHour', Number(v))}>
@@ -108,7 +140,6 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="flex items-center justify-between">
                 <Label>Hora de fim do dia</Label>
                 <Select value={String(local.endHour)} onValueChange={v => update('endHour', Number(v))}>
@@ -120,7 +151,6 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="flex items-center justify-between">
                 <Label>Duração padrão dos slots</Label>
                 <Select value={String(local.slotDuration)} onValueChange={v => update('slotDuration', Number(v))}>
@@ -132,12 +162,10 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                   </SelectContent>
                 </Select>
               </div>
-
               <div className="flex items-center justify-between">
                 <Label>Mostrar slots livres</Label>
                 <Switch checked={local.showFreeSlots} onCheckedChange={v => update('showFreeSlots', v)} />
               </div>
-
               <div className="flex items-center justify-between">
                 <Label>Mostrar pausas/bloqueios</Label>
                 <Switch checked={local.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
@@ -164,14 +192,14 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
             </RadioGroup>
           </section>
 
-          {/* CORES */}
+          {/* CORES POR TIPO DE CONSULTA */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Personalizar Cores</h3>
-              {!isPro && <Lock className="w-3.5 h-3.5 text-muted-foreground" />}
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Cores por Tipo de Consulta</h3>
+              {!canEditColors && <Lock className="w-3.5 h-3.5 text-muted-foreground" />}
             </div>
 
-            {!isPro && (
+            {!canEditColors && (
               <div className="bg-secondary/50 rounded-lg p-3 mb-3">
                 <p className="text-xs text-muted-foreground">
                   Personalizar cores disponível em <span className="text-primary font-semibold">Pro/Premium</span>.{' '}
@@ -180,26 +208,37 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
               </div>
             )}
 
-            {/* Category colors */}
-            <p className="text-xs font-medium text-muted-foreground mb-2">Cores por tipo de consulta</p>
             <div className="space-y-2 mb-4">
               {LEGEND_ORDER.map(cat => {
-                const color = local.categoryColors[cat] || CATEGORY_COLORS[cat].hex;
+                const defaultColor = CATEGORY_COLORS[cat].hex;
+                const color = local.categoryColors[cat] || defaultColor;
                 return (
                   <div key={cat} className="flex items-center justify-between">
                     <span className="text-xs text-foreground">{CATEGORY_LABELS[cat]}</span>
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: color }} />
-                      {isPro && (
-                        <input
-                          type="color"
-                          value={color}
-                          onChange={e => setLocal(prev => ({
-                            ...prev,
-                            categoryColors: { ...prev.categoryColors, [cat]: e.target.value }
-                          }))}
-                          className="w-6 h-6 rounded cursor-pointer border-0 p-0"
-                        />
+                      {canEditColors && (
+                        <div className="flex items-center gap-1">
+                          {/* Pro palette swatches */}
+                          <div className="flex gap-0.5">
+                            {PRO_PALETTE.slice(0, 5).map(c => (
+                              <button
+                                key={c}
+                                className={cn('w-4 h-4 rounded-sm border', color === c ? 'border-primary ring-1 ring-primary' : 'border-border/50')}
+                                style={{ backgroundColor: c }}
+                                onClick={() => setCategoryColor(cat, c)}
+                              />
+                            ))}
+                          </div>
+                          {hasPremiumPicker && (
+                            <button
+                              className="text-[9px] text-primary underline ml-1"
+                              onClick={() => openRgbPicker(cat)}
+                            >
+                              RGB
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -207,54 +246,66 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
               })}
             </div>
 
-            {/* Dentist colors (clinic only) */}
-            {userRole === 'clinic' && (
-              <>
-                <p className="text-xs font-medium text-muted-foreground mb-2">Cores por dentista</p>
-                <div className="space-y-2 mb-4">
-                  {mockDentists.map(d => {
-                    const color = local.dentistColors[d.id] || '#4A90D9';
-                    return (
-                      <div key={d.id} className="flex items-center justify-between">
-                        <span className="text-xs text-foreground">{d.name}</span>
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: color }} />
-                          {isPro && (
-                            <input
-                              type="color"
-                              value={color}
-                              onChange={e => setLocal(prev => ({
-                                ...prev,
-                                dentistColors: { ...prev.dentistColors, [d.id]: e.target.value }
-                              }))}
-                              className="w-6 h-6 rounded cursor-pointer border-0 p-0"
-                            />
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-
             {/* Block color */}
             <p className="text-xs font-medium text-muted-foreground mb-2">Cor dos bloqueios</p>
             <div className="flex items-center justify-between">
               <span className="text-xs text-foreground">Bloqueios</span>
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: local.blockColor }} />
-                {isPro && (
-                  <input
-                    type="color"
-                    value={local.blockColor}
-                    onChange={e => update('blockColor', e.target.value)}
-                    className="w-6 h-6 rounded cursor-pointer border-0 p-0"
-                  />
+                {canEditColors && (
+                  <div className="flex gap-0.5">
+                    {PRO_PALETTE.slice(0, 5).map(c => (
+                      <button
+                        key={c}
+                        className={cn('w-4 h-4 rounded-sm border', local.blockColor === c ? 'border-primary ring-1 ring-primary' : 'border-border/50')}
+                        style={{ backgroundColor: c }}
+                        onClick={() => update('blockColor', c)}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
           </section>
+
+          {/* Premium RGB Picker Modal */}
+          {editingCategory && hasPremiumPicker && (
+            <section className="bg-secondary/30 rounded-xl p-4 space-y-3 border border-border">
+              <h4 className="text-xs font-semibold text-foreground">
+                Cor RGB — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
+              </h4>
+              <div
+                className="w-full h-10 rounded-lg border border-border"
+                style={{ backgroundColor: rgbToHex(rgbValues.r, rgbValues.g, rgbValues.b) }}
+              />
+              {(['r', 'g', 'b'] as const).map(channel => (
+                <div key={channel} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs uppercase">{channel}</Label>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={255}
+                      value={rgbValues[channel]}
+                      onChange={e => setRgbValues(prev => ({ ...prev, [channel]: Math.min(255, Math.max(0, Number(e.target.value))) }))}
+                      className="w-16 h-7 text-xs text-center"
+                    />
+                  </div>
+                  <Slider
+                    min={0}
+                    max={255}
+                    step={1}
+                    value={[rgbValues[channel]]}
+                    onValueChange={([v]) => setRgbValues(prev => ({ ...prev, [channel]: v }))}
+                  />
+                </div>
+              ))}
+              <div className="flex gap-2 justify-end">
+                <Button variant="ghost" size="sm" onClick={() => setEditingCategory(null)}>Cancelar</Button>
+                <Button size="sm" onClick={applyRgb}>Aplicar</Button>
+              </div>
+            </section>
+          )}
         </div>
 
         {/* Footer */}
