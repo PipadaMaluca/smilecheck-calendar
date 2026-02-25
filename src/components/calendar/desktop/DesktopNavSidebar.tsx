@@ -125,8 +125,8 @@ export function DesktopNavSidebar({
         <span className={cn(
           'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
           isExpanded ? 'text-[9px] px-2.5 py-0.5' : 'text-[7px] px-1.5 py-0'
-        )}>
-          Pro
+        )}>Pro
+
         </span>
       </div>
 

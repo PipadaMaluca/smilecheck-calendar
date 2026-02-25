@@ -517,9 +517,9 @@ export function DesktopCalendarView() {
                   <Building2 className="w-4 h-4" /> Clínica
                 </Button>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-[10px] border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
-                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
+                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
                     <p className="text-sm font-bold text-foreground">
                       {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
@@ -528,7 +528,7 @@ export function DesktopCalendarView() {
                       {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
                     </p>
                   </div>
-                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2">
                     <User className="w-5 h-5 text-primary" />
                   </div>
                 </button>
