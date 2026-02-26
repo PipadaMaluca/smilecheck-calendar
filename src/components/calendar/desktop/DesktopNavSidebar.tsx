@@ -53,6 +53,7 @@ const SECONDARY_NAV_BY_ROLE = {
   { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
   { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
+  { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
   { id: 'exportar', icon: Download, label: 'Exportar Relatórios' },
   { id: 'favoritos', icon: Star, label: 'Favoritos' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },

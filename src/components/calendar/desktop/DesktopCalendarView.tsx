@@ -846,7 +846,7 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader('Estatísticas')}
-            <StatisticsView />
+            <StatisticsView userRole={activeRole} />
           </div>);
 
 
