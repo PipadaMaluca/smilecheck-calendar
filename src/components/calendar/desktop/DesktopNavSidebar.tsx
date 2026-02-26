@@ -131,7 +131,7 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Main Navigation */}
-      <nav className="gap-1 p-2 flex-1 items-center justify-start flex flex-col py-[10px] px-[4px] border">
+      <nav className="gap-1 p-2 flex-1 items-center justify-start flex flex-col py-[10px] px-[4px] border border-secondary">
         {mainItems.map((item) => renderNavButton(item))}
 
         <Separator className="my-1 bg-[#1E3A5F]" />

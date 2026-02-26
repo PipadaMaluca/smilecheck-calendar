@@ -140,7 +140,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
   return (
     <button
       onClick={onClick}
-      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border", className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary", className)}>
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
       {unreadCount > 0 &&

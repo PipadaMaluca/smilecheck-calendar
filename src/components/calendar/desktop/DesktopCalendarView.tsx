@@ -502,7 +502,7 @@ export function DesktopCalendarView() {
       case 'home':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 border py-[50px]">
+            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 py-[50px] border">
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
@@ -528,7 +528,7 @@ export function DesktopCalendarView() {
                       {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
                     </p>
                   </div>
-                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2">
+                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2 border-secondary">
                     <User className="w-5 h-5 text-primary" />
                   </div>
                 </button>
