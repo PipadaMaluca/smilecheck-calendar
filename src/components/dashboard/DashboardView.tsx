@@ -55,13 +55,30 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     if (userRole === 'patient') {
       return [
       { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
-      { label: 'Pontos', value: '450', icon: Trophy },
       { label: 'Nível', value: 'Bronze', icon: Award },
+      { label: 'Pontos', value: '450', icon: Trophy },
       { label: 'Streak', value: '7 dias', icon: Flame }];
-
     }
-    return null; // dentist/clinic use the 3-column layout instead
-  }, [userRole]);
+    if (userRole === 'dentist') {
+      const dentistCons = todayConsultations.filter(c => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
+      const next = dentistCons[0];
+      return [
+      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar },
+      { label: 'Nível', value: 'Prata', icon: Award },
+      { label: 'Pontos', value: '1 250', icon: Trophy },
+      { label: 'Streak', value: '14 dias', icon: Flame }];
+    }
+    if (userRole === 'clinic') {
+      const pres = todayConsultations.filter(c => c.type === 'presencial').length;
+      const tele = todayConsultations.filter(c => c.type === 'teleconsulta').length;
+      return [
+      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} pres · ${tele} tele`, icon: Calendar },
+      { label: 'Nível', value: 'Ouro', icon: Award },
+      { label: 'Pontos', value: '3 800', icon: Trophy },
+      { label: 'Streak', value: '30 dias', icon: Flame }];
+    }
+    return null;
+  }, [userRole, todayConsultations]);
 
   const quickActions = useMemo(() => {
     switch (userRole) {
@@ -98,6 +115,30 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     const confirmRate = total > 0 ? Math.round(confirmed / total * 100) : 0;
 
     return (
+      <div className="space-y-6">
+        {/* Summary cards row */}
+        {stats && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {stats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+                  <CardContent className="p-4 flex flex-col gap-2">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Icon className="w-4 h-4" />
+                      <span className="text-xs font-medium">{stat.label}</span>
+                    </div>
+                    <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                    {'subtitle' in stat && stat.subtitle && (
+                      <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Section 1: Consultas de Hoje */}
         <Card className="bg-card/80 border-border">
@@ -187,6 +228,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             </p>
           </CardContent>
         </Card>
+      </div>
       </div>);
 
   };
@@ -212,6 +254,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                       <span className="text-xs font-medium">{stat.label}</span>
                     </div>
                     <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                    {'subtitle' in stat && stat.subtitle && (
+                      <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
+                    )}
                   </CardContent>
                 </Card>);
 
