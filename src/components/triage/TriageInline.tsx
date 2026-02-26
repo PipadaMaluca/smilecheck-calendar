@@ -107,7 +107,7 @@ export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
 
   // Show search view
   if (showSearch) {
-    return <SearchDentistView onBack={() => setShowSearch(false)} onGoHome={onGoHome} />;
+    return <SearchDentistView onBack={() => setShowSearch(false)} onGoHome={onGoHome} triageData={triageData} />;
   }
 
   return (

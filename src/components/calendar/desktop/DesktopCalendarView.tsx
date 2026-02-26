@@ -42,6 +42,8 @@ import { SlotCreationScreen } from '../creation/SlotCreationScreen';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
+import { ConsultationDetailView } from './ConsultationDetailView';
+import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, TimeSlot, UserRole, ConsultationStatus, ViewMode } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
@@ -108,6 +110,8 @@ export function DesktopCalendarView() {
   const [overlapConsultation, setOverlapConsultation] = useState<Consultation | null>(null);
   const [pendingOverlapMove, setPendingOverlapMove] = useState<DragMoveInfo | null>(null);
   const [slotCreation, setSlotCreation] = useState<{date: Date;time: string;dentistKey?: string;dentistName?: string;} | null>(null);
+  const [detailConsultation, setDetailConsultation] = useState<Consultation | null>(null);
+  const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
 
   const handleNotificationFeedback = useCallback((scoreId: string) => {
@@ -300,7 +304,13 @@ export function DesktopCalendarView() {
   }, [pendingOverlapMove]);
 
   const handleSlotClick = (slot: TimeSlot) => {
-    if (slot.consultation) setSelectedConsultation(slot.consultation);
+    if (slot.consultation) {
+      if (activeRole === 'dentist' || activeRole === 'clinic') {
+        setDetailConsultation(slot.consultation);
+      } else {
+        setSelectedConsultation(slot.consultation);
+      }
+    }
   };
 
   const goToPrevious = () => {
@@ -361,7 +371,7 @@ export function DesktopCalendarView() {
       return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
     }
     if (viewMode === 'list') {
-      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={setSelectedConsultation} />;
+      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => { if (activeRole === 'dentist' || activeRole === 'clinic') { setDetailConsultation(c); } else { setSelectedConsultation(c); } }} />;
     }
     if (viewMode === 'week') {
       return <DesktopWeekView
@@ -457,6 +467,36 @@ export function DesktopCalendarView() {
 
   // Render the main content area based on active nav tab
   const renderMainArea = () => {
+    // Consultation Detail View (full screen for dentist/clinic)
+    if (detailConsultation && (activeRole === 'dentist' || activeRole === 'clinic')) {
+      return (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {renderStandardHeader('Detalhes da Consulta')}
+          <ConsultationDetailView
+            consultation={detailConsultation}
+            onClose={() => setDetailConsultation(null)}
+            onViewDossier={(patientId) => { setDossierPatientId(patientId); setDetailConsultation(null); }}
+            onNavigate={(tab) => { setDetailConsultation(null); handleNavTabChange(tab); }}
+            onCopy={(c) => { setClipboardConsultation(c); setDetailConsultation(null); setActiveNavTab('agenda'); toast.info('Clique num slot vazio para colar a consulta'); }}
+          />
+        </div>
+      );
+    }
+
+    // Patient Dossier View (full screen for dentist/clinic)
+    if (dossierPatientId && (activeRole === 'dentist' || activeRole === 'clinic')) {
+      return (
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {renderStandardHeader('Dossier do Paciente')}
+          <PatientDossierView
+            patientId={dossierPatientId}
+            onClose={() => setDossierPatientId(null)}
+            onNavigate={(tab) => { setDossierPatientId(null); handleNavTabChange(tab); }}
+          />
+        </div>
+      );
+    }
+
     // Viewing a specific dentist profile (inline)
     if (viewDentistProfile) {
       return (
