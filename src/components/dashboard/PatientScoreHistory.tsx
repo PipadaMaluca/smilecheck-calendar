@@ -9,7 +9,12 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
 
-export function PatientScoreHistory() {
+interface PatientScoreHistoryProps {
+  mode?: 'full' | 'pending-only' | 'history-only';
+  onNavigateHistory?: () => void;
+}
+
+export function PatientScoreHistory({ mode = 'full', onNavigateHistory }: PatientScoreHistoryProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [scores, setScores] = useState(mockScoreHistory);
   const [feedbackScore, setFeedbackScore] = useState<ConsultationScore | null>(null);
@@ -30,25 +35,31 @@ export function PatientScoreHistory() {
     setFeedbackScore(null);
   };
 
+  const showSummary = mode === 'full';
+  const showPending = mode === 'full' || mode === 'pending-only';
+  const showHistory = mode === 'full' || mode === 'history-only';
+
   return (
     <div className="space-y-6">
       {/* Summary */}
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
-          <Trophy className="w-7 h-7 text-primary" />
+      {showSummary && (
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <Trophy className="w-7 h-7 text-primary" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-foreground">{completedPoints} pontos</p>
+            <p className="text-sm text-muted-foreground">Total acumulado</p>
+          </div>
         </div>
-        <div>
-          <p className="text-2xl font-bold text-foreground">{completedPoints} pontos</p>
-          <p className="text-sm text-muted-foreground">Total acumulado</p>
-        </div>
-      </div>
+      )}
 
       {/* Pending feedback section */}
-      {pendingScores.length > 0 && (
+      {showPending && pendingScores.length > 0 && (
         <Card className="border-amber-500/30 bg-amber-500/5">
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-amber-500" />
+              <span className="text-base">⏳</span>
               <h3 className="text-sm font-bold text-foreground">Pontos Pendentes</h3>
               <Badge variant="outline" className="text-xs border-amber-500/30 text-amber-600 bg-amber-500/10">
                 +{pendingPoints} pts
@@ -67,7 +78,8 @@ export function PatientScoreHistory() {
                 </div>
                 <Button
                   size="sm"
-                  className="h-7 text-xs flex-shrink-0"
+                  variant="outline"
+                  className="h-7 text-xs flex-shrink-0 border-amber-500/30 text-amber-600 hover:bg-amber-500/10"
                   onClick={() => setFeedbackScore(score)}
                 >
                   Dar Feedback
@@ -79,20 +91,29 @@ export function PatientScoreHistory() {
       )}
 
       {/* History */}
-      <div className="space-y-3">
-        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-          Histórico por consulta
-        </h3>
-        {scores.map((score) => (
-          <ScoreCard
-            key={score.id}
-            score={score}
-            isExpanded={expandedId === score.id}
-            onToggle={() => setExpandedId(prev => prev === score.id ? null : score.id)}
-            onGiveFeedback={() => setFeedbackScore(score)}
-          />
-        ))}
-      </div>
+      {showHistory && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Histórico por Consulta
+            </h3>
+            {mode === 'history-only' && (
+              <button className="text-xs text-primary hover:underline" onClick={onNavigateHistory}>
+                Ver Histórico Completo ›
+              </button>
+            )}
+          </div>
+          {scores.map((score) => (
+            <ScoreCard
+              key={score.id}
+              score={score}
+              isExpanded={expandedId === score.id}
+              onToggle={() => setExpandedId(prev => prev === score.id ? null : score.id)}
+              onGiveFeedback={() => setFeedbackScore(score)}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Patient feedback modal */}
       <PatientFeedbackModal

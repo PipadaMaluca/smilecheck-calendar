@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3 } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { Card, CardContent } from '@/components/ui/card';
@@ -233,21 +233,27 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
 
   };
 
-  // ─── Patient: original layout ───
+  // ─── Patient: new layout ───
   const renderPatientDashboard = () => {
-    const upcomingItems = mockPatientConsultations.
-    sort((a, b) => a.time.localeCompare(b.time)).
-    slice(0, 4);
+    const upcomingItems = mockPatientConsultations
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .slice(0, 6);
+
+    const patientActions = [
+      { label: 'Marcar Consulta', icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
+      { label: 'Ver Recompensas', icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
+      { label: 'Minha Saúde', icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') },
+    ];
 
     return (
       <>
         {/* Stats Cards */}
-        {stats &&
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+              const Icon = stat.icon;
+              return (
+                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Icon className="w-4 h-4" />
@@ -258,73 +264,80 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                       <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
                     )}
                   </CardContent>
-                </Card>);
-
-          })}
+                </Card>
+              );
+            })}
           </div>
-        }
+        )}
 
-        {/* Content row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <h2 className="text-lg font-semibold text-foreground mb-4">Próximas Consultas</h2>
-            <div className="space-y-3">
-              {upcomingItems.map((item) => {
-                const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
-                const catLabel = item.category ? CATEGORY_LABELS[item.category] : '';
-                return (
-                  <Card key={item.id} className="bg-card/80 backdrop-blur border-border hover:border-primary/30 transition-colors cursor-pointer">
-                    <CardContent className="p-4 flex items-center gap-4">
-                      <div className="flex-shrink-0 w-14 text-center">
-                        <span className="text-sm font-bold text-foreground">{item.time}</span>
-                      </div>
-                      {catColor && <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
+        {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* LEFT: Próximas Consultas */}
+          <Card className="bg-card/80 backdrop-blur border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Próximas Consultas</h3>
+                <Badge variant="outline" className="text-[10px]">{upcomingItems.length} consultas</Badge>
+              </div>
+              <div className="space-y-2">
+                {upcomingItems.map((item) => {
+                  const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
+                  const catLabel = item.category ? CATEGORY_LABELS[item.category] : '';
+                  return (
+                    <div key={item.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
+                      <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
+                      {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">
                           <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          <ClickableClinicName name={item.clinic.name} className="text-xs text-muted-foreground" />
-                        </p>
+                        <p className="text-xs text-muted-foreground truncate">{catLabel}</p>
                       </div>
-                      {catColor &&
-                      <Badge
-                        className="text-[10px] px-2 py-0.5 border-0 flex-shrink-0"
-                        style={{ backgroundColor: catColor.hex, color: catColor.text === 'text-white' ? 'white' : 'black' }}>
+                      <Badge variant="outline" className="text-[10px] flex-shrink-0">
+                        {item.status === 'confirmada' ? 'Confirmada' : 'Agendada'}
+                      </Badge>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
 
-                          {catLabel}
-                        </Badge>
-                      }
-                    </CardContent>
-                  </Card>);
+          {/* RIGHT: Ações Rápidas + Feedback Pendente */}
+          <div className="space-y-6">
+            {/* Ações Rápidas */}
+            <Card className="bg-card/80 backdrop-blur border-border">
+              <CardContent className="p-4 space-y-3">
+                <h3 className="text-sm font-bold text-foreground">Ações Rápidas</h3>
+                <div className="flex flex-col gap-2">
+                  {patientActions.map((action) => {
+                    const ActionIcon = action.icon;
+                    return (
+                      <button
+                        key={action.label}
+                        onClick={action.action}
+                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
+                      >
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.color}`}>
+                          <ActionIcon className="w-4.5 h-4.5" />
+                        </div>
+                        <span className="text-sm font-medium text-foreground">{action.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
 
-              })}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-foreground mb-4">Acções Rápidas</h2>
-            <div className="flex flex-col gap-3">
-              {quickActions.map((action) => {
-                const ActionIcon = action.icon;
-                return (
-                  <Button key={action.label} variant="outline" className="justify-start h-12 text-sm font-medium gap-2" onClick={action.action}>
-                    <ActionIcon className="w-4 h-4" />
-                    {action.label}
-                  </Button>);
-
-              })}
-            </div>
+            {/* Feedback Pendente */}
+            <PatientScoreHistory mode="pending-only" onNavigateHistory={() => {}} />
           </div>
         </div>
 
-        {/* Patient: Score history */}
-        <div>
-          <h2 className="text-lg font-semibold text-foreground mb-4">Nível e Pontuação</h2>
-          <PatientScoreHistory />
-        </div>
-      </>);
-
+        {/* Full width: Histórico por Consulta */}
+        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} />
+      </>
+    );
   };
 
   return (
