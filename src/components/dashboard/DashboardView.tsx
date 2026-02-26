@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
+import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay } from 'date-fns';
@@ -38,9 +39,9 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 // Mock waiting list data
 const MOCK_WAITING_LIST = [
-{ id: 'wl-1', patientName: 'Rita Oliveira', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-{ id: 'wl-2', patientName: 'Bruno Pereira', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-{ id: 'wl-3', patientName: 'Sofia Lopes', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
+{ id: 'wl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+{ id: 'wl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+{ id: 'wl-3', patientName: 'Sofia Lopes', detail: 'Qualquer horário manhã', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
 
 
 export function DashboardView({ userRole, onNavigate, onStartTriage }: DashboardViewProps) {
@@ -103,12 +104,161 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
     }
   }, [userRole, onNavigate, onStartTriage]);
 
-  // ─── Dentist / Clinic: 3-column dashboard ───
-  const renderProfessionalDashboard = () => {
-    const dentistCons = userRole === 'dentist' ?
-    todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id) :
-    todayConsultations;
+  // Shared stats cards renderer
+  const renderStatsCards = () => {
+    if (!stats) return null;
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+              <CardContent className="p-4 flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Icon className="w-4 h-4" />
+                  <span className="text-xs font-medium">{stat.label}</span>
+                </div>
+                <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                {'subtitle' in stat && stat.subtitle && (
+                  <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  };
 
+  // Status badge helper
+  const getStatusBadge = (status?: string) => {
+    const configs: Record<string, { label: string; className: string }> = {
+      confirmada: { label: 'Confirmada', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+      em_sala_espera: { label: 'Em sala de espera', className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
+      em_consulta: { label: 'Em consulta', className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
+      visto: { label: 'Visto', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+    };
+    const cfg = status ? configs[status] : null;
+    return (
+      <Badge variant="outline" className={`text-[10px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
+        {cfg?.label || 'Agendada'}
+      </Badge>
+    );
+  };
+
+  // Abbreviate name: "Maria Silva" → "Maria S."
+  const abbreviateName = (name: string) => {
+    const parts = name.split(' ');
+    if (parts.length <= 1) return name;
+    return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+  };
+
+  // Confirmation indicator
+  const confirmIndicator = (status: ConfirmationStatus, isIrrelevant = false) => {
+    if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[10px] text-muted-foreground font-bold">—</span>;
+    if (status === 'confirmed') return <span className="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[10px] text-emerald-400 font-bold">✓</span>;
+    if (status === 'declined') return <span className="w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[10px] text-red-400 font-bold">✗</span>;
+    return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[10px] text-orange-400 font-bold">●</span>;
+  };
+
+  // ─── Dentist dashboard ───
+  const renderDentistDashboard = () => {
+    const dentistCons = todayConsultations
+      .filter((c) => c.dentist.id === mockDentists[0].id)
+      .sort((a, b) => a.time.localeCompare(b.time));
+
+    const dentistConfirmations = mockConfirmations.filter(c => c.dentistName === mockDentists[0].name);
+
+    return (
+      <div className="space-y-6">
+        {renderStatsCards()}
+
+        {/* 3-column grid: 50% + 25% + 25% */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* LEFT: Consultas de Hoje (spans 2 cols) */}
+          <Card className="bg-card/80 border-border lg:col-span-2">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
+                <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
+              </div>
+              <div className="space-y-1 max-h-[320px] overflow-y-auto">
+                {dentistCons.slice(0, 10).map((c) => {
+                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                  return (
+                    <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                      <span className="text-xs font-bold text-primary w-10 flex-shrink-0">{c.time}</span>
+                      {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">
+                          {c.duration}min · {c.category ? CATEGORY_LABELS[c.category] : c.type}
+                        </p>
+                      </div>
+                      {getStatusBadge(c.status)}
+                    </div>
+                  );
+                })}
+              </div>
+              <button className="text-xs text-primary hover:underline w-full text-left" onClick={() => onNavigate('agenda')}>
+                Ver agenda completa ›
+              </button>
+            </CardContent>
+          </Card>
+
+          {/* CENTER: Confirmações */}
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
+                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
+                </Badge>
+              </div>
+              {/* Header row */}
+              <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
+                <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
+                <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
+              </div>
+              <div className="space-y-1.5">
+                {dentistConfirmations.map((c) => (
+                  <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                    <span className="text-xs text-foreground flex-1 truncate">{abbreviateName(c.patientName)}</span>
+                    {confirmIndicator(c.status24h)}
+                    {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* RIGHT: Lista de Espera */}
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
+                <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
+              </div>
+              <div className="space-y-2">
+                {MOCK_WAITING_LIST.map((wl) => (
+                  <div key={wl.id} className="py-1.5 border-b border-border/50 last:border-0">
+                    <p className="text-xs font-medium text-foreground">{wl.patientName}</p>
+                    <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Full width: Score history */}
+        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} />
+      </div>
+    );
+  };
+
+  // ─── Clinic dashboard ───
+  const renderClinicDashboard = () => {
     const confirmed = mockConfirmations.filter((c) => c.status24h === 'confirmed' && c.status1h === 'confirmed').length;
     const total = mockConfirmations.length;
     const notConfirmed = mockConfirmations.filter((c) => c.status24h === 'pending' || c.status1h === 'pending');
@@ -116,121 +266,93 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
 
     return (
       <div className="space-y-6">
-        {/* Summary cards row */}
-        {stats && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
-                  <CardContent className="p-4 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Icon className="w-4 h-4" />
-                      <span className="text-xs font-medium">{stat.label}</span>
+        {renderStatsCards()}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Section 1: Consultas de Hoje */}
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
+                <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
+              </div>
+              <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                {todayConsultations.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
+                  const statusCfg = c.status ? STATUS_CONFIG[c.status] : null;
+                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                  return (
+                    <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                      <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{c.time}</span>
+                      {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">
+                          {c.category ? CATEGORY_LABELS[c.category] : c.type}
+                        </p>
+                      </div>
+                      {statusCfg && <span className="text-[10px]">{statusCfg.icon}</span>}
                     </div>
-                    <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-                    {'subtitle' in stat && stat.subtitle && (
-                      <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        )}
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Section 1: Consultas de Hoje */}
-        <Card className="bg-card/80 border-border">
-          <CardContent className="p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
-              <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
-            </div>
-            <div className="space-y-2 max-h-[300px] overflow-y-auto">
-              {dentistCons.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
-                const statusCfg = c.status ? STATUS_CONFIG[c.status] : null;
-                const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                return (
-                  <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
-                    <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{c.time}</span>
-                    {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
-                      <p className="text-[10px] text-muted-foreground truncate">
-                        {c.category ? CATEGORY_LABELS[c.category] : c.type}
-                      </p>
-                    </div>
-                    {statusCfg &&
-                    <span className="text-[10px]">{statusCfg.icon}</span>
-                    }
-                  </div>);
-
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Section 2: Confirmações */}
-        <Card className="bg-card/80 border-border">
-          <CardContent className="p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
-              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
-              </Badge>
-            </div>
-            <div className="text-center py-2">
-              <p className="text-2xl font-bold text-foreground">{confirmed} <span className="text-sm font-normal text-muted-foreground">/ {total}</span></p>
-              <p className="text-xs text-muted-foreground">Confirmados</p>
-              <Progress value={confirmRate} className="h-2 mt-2" />
-            </div>
-            <div className="space-y-1.5">
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Não confirmados</p>
-              {notConfirmed.slice(0, 5).map((c) =>
-              <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                  <Clock className="w-3 h-3 text-amber-400 flex-shrink-0" />
-                  <span className="text-xs text-foreground flex-1 truncate">{c.patientName}</span>
-                  <span className="text-[10px] text-muted-foreground">{c.time}</span>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Section 3: Lista de Espera */}
-        <Card className="bg-card/80 border-border">
-          <CardContent className="p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
-              <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length} pacientes</Badge>
-            </div>
-            <div className="space-y-2">
-              {MOCK_WAITING_LIST.map((wl) =>
-              <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <p className="text-xs font-medium text-foreground truncate">{wl.patientName}</p>
-                      {wl.isUrgent &&
-                    <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />
-                    }
-                    </div>
-                    <p className="text-[10px] text-muted-foreground">Atual: {wl.currentDate} às {wl.currentTime}</p>
+          {/* Section 2: Confirmações */}
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
+                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
+                </Badge>
+              </div>
+              <div className="text-center py-2">
+                <p className="text-2xl font-bold text-foreground">{confirmed} <span className="text-sm font-normal text-muted-foreground">/ {total}</span></p>
+                <p className="text-xs text-muted-foreground">Confirmados</p>
+                <Progress value={confirmRate} className="h-2 mt-2" />
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase">Não confirmados</p>
+                {notConfirmed.slice(0, 5).map((c) =>
+                  <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                    <Clock className="w-3 h-3 text-amber-400 flex-shrink-0" />
+                    <span className="text-xs text-foreground flex-1 truncate">{c.patientName}</span>
+                    <span className="text-[10px] text-muted-foreground">{c.time}</span>
                   </div>
-                  <Badge variant={wl.priority === 'alta' ? 'destructive' : 'secondary'} className="text-[10px] h-5">
-                    {wl.priority === 'alta' ? 'Prioritário' : 'Normal'}
-                  </Badge>
-                </div>
-              )}
-            </div>
-            <p className="text-[10px] text-muted-foreground italic">
-              Útil quando alguém cancela uma consulta
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-      </div>);
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
+          {/* Section 3: Lista de Espera */}
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
+                <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length} pacientes</Badge>
+              </div>
+              <div className="space-y-2">
+                {MOCK_WAITING_LIST.map((wl) =>
+                  <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-xs font-medium text-foreground truncate">{wl.patientName}</p>
+                        {wl.isUrgent && <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />}
+                      </div>
+                      <p className="text-[10px] text-muted-foreground">Atual: {wl.currentDate} às {wl.currentTime}</p>
+                    </div>
+                    <Badge variant={wl.priority === 'alta' ? 'destructive' : 'secondary'} className="text-[10px] h-5">
+                      {wl.priority === 'alta' ? 'Prioritário' : 'Normal'}
+                    </Badge>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
   };
 
   // ─── Patient: new layout ───
@@ -375,7 +497,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
         </div>
 
         {/* Role-specific content */}
-        {userRole === 'patient' ? renderPatientDashboard() : renderProfessionalDashboard()}
+        {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
       </div>
     </ScrollArea>);
 
