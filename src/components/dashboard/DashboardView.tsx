@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
-import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations } from '@/data/mockData';
+import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -259,46 +259,86 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
 
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
-    const confirmed = mockConfirmations.filter((c) => c.status24h === 'confirmed' && c.status1h === 'confirmed').length;
-    const total = mockConfirmations.length;
-    const notConfirmed = mockConfirmations.filter((c) => c.status24h === 'pending' || c.status1h === 'pending');
-    const confirmRate = total > 0 ? Math.round(confirmed / total * 100) : 0;
+    const clinicDentists = getDentistsForClinic('1');
+    const presCount = todayConsultations.filter(c => c.type === 'presencial').length;
+    const teleCount = todayConsultations.filter(c => c.type === 'teleconsulta').length;
+
+    // Per-dentist consultation counts
+    const dentistConsCounts = clinicDentists.map(d => {
+      const dCons = todayConsultations.filter(c => c.dentist.id === d.id);
+      return {
+        ...d,
+        pres: dCons.filter(c => c.type === 'presencial').length,
+        tele: dCons.filter(c => c.type === 'teleconsulta').length,
+        total: dCons.length,
+      };
+    }).filter(d => d.total > 0);
+
+    // Group confirmations by dentist
+    const confirmationsByDentist = clinicDentists.map(d => ({
+      dentist: d,
+      confirmations: mockConfirmations.filter(c => c.dentistName === d.name),
+    })).filter(g => g.confirmations.length > 0);
+
+    // Mock waitlist grouped by dentist
+    const CLINIC_WAITLIST: Record<string, typeof MOCK_WAITING_LIST> = {
+      'Dr. Gonçalo Pipo': [
+        { id: 'cwl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+        { id: 'cwl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+        { id: 'cwl-3', patientName: 'André Gomes', detail: 'Qualquer horário manhã', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
+      ],
+      'Dr. Alexandre Bernardo': [
+        { id: 'cwl-4', patientName: 'Sofia Lopes', detail: 'Quer antecipar', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true },
+        { id: 'cwl-5', patientName: 'Helena Nunes', detail: 'Disponível tardes', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false },
+        { id: 'cwl-6', patientName: 'Carlos Santos', detail: 'Qualquer dia', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+      ],
+      'Dr. Gil Santos': [
+        { id: 'cwl-7', patientName: 'Teresa Martins', detail: 'Disponível 3ª e 5ª', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
+        { id: 'cwl-8', patientName: 'Paulo Dias', detail: 'Quer antecipar', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
+        { id: 'cwl-9', patientName: 'Diana Cruz', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
+      ],
+    };
+    const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
+
+    // Mock history for table
+    const historyItems = todayConsultations.slice(0, 6).map(c => {
+      const isCompleted = c.status === 'visto';
+      const isFalta = c.status === 'falta_justificada' || c.status === 'falta_nao_justificada';
+      const points = isCompleted ? Math.floor(Math.random() * 10) + 5 : isFalta ? -(Math.floor(Math.random() * 5) + 3) : 0;
+      return { ...c, points, isCompleted, isFalta };
+    });
 
     return (
       <div className="space-y-6">
         {renderStatsCards()}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Section 1: Consultas de Hoje */}
+          {/* LEFT: Dentistas a Trabalhar Hoje */}
           <Card className="bg-card/80 border-border">
             <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
-                <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
+              <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
+              {/* Summary bar */}
+              <div className="flex items-center gap-4 text-xs pb-2 border-b border-border/50">
+                <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
+                <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
+                <span>👥 Total: <span className="font-bold text-foreground">{todayConsultations.length}</span></span>
               </div>
-              <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                {todayConsultations.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
-                  const statusCfg = c.status ? STATUS_CONFIG[c.status] : null;
-                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                  return (
-                    <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
-                      <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{c.time}</span>
-                      {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
-                        <p className="text-[10px] text-muted-foreground truncate">
-                          {c.category ? CATEGORY_LABELS[c.category] : c.type}
-                        </p>
-                      </div>
-                      {statusCfg && <span className="text-[10px]">{statusCfg.icon}</span>}
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Por Dentista</p>
+              <div className="space-y-1.5">
+                {dentistConsCounts.map(d => (
+                  <div key={d.id} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
+                    <span className="text-xs font-medium text-foreground truncate">{d.name}</span>
+                    <div className="flex items-center gap-2 text-[10px] flex-shrink-0">
+                      {d.tele > 0 && <span className="text-blue-400">{d.tele} tele</span>}
+                      {d.pres > 0 && <span className="text-orange-400">{d.pres} pres</span>}
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Section 2: Confirmações */}
+          {/* CENTER: Confirmações grouped by dentist */}
           <Card className="bg-card/80 border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
@@ -307,48 +347,118 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
                 </Badge>
               </div>
-              <div className="text-center py-2">
-                <p className="text-2xl font-bold text-foreground">{confirmed} <span className="text-sm font-normal text-muted-foreground">/ {total}</span></p>
-                <p className="text-xs text-muted-foreground">Confirmados</p>
-                <Progress value={confirmRate} className="h-2 mt-2" />
-              </div>
-              <div className="space-y-1.5">
-                <p className="text-[10px] font-semibold text-muted-foreground uppercase">Não confirmados</p>
-                {notConfirmed.slice(0, 5).map((c) =>
-                  <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                    <Clock className="w-3 h-3 text-amber-400 flex-shrink-0" />
-                    <span className="text-xs text-foreground flex-1 truncate">{c.patientName}</span>
-                    <span className="text-[10px] text-muted-foreground">{c.time}</span>
+              <div className="space-y-2 max-h-[280px] overflow-y-auto">
+                {confirmationsByDentist.map(({ dentist, confirmations }) => (
+                  <div key={dentist.id}>
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1">{dentist.name}</p>
+                    {confirmations.slice(0, 3).map(c => (
+                      <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                        <span className="text-xs text-foreground flex-1 truncate">{abbreviateName(c.patientName)}</span>
+                        {confirmIndicator(c.status24h)}
+                        {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                      </div>
+                    ))}
                   </div>
-                )}
+                ))}
               </div>
+              <button
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
+              >
+                Ver Tudo →
+              </button>
             </CardContent>
           </Card>
 
-          {/* Section 3: Lista de Espera */}
+          {/* RIGHT: Lista de Espera grouped by dentist */}
           <Card className="bg-card/80 border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
-                <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length} pacientes</Badge>
+                <Badge variant="outline" className="text-[10px]">{totalWaitlist} pacientes</Badge>
               </div>
-              <div className="space-y-2">
-                {MOCK_WAITING_LIST.map((wl) =>
-                  <div key={wl.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-xs font-medium text-foreground truncate">{wl.patientName}</p>
-                        {wl.isUrgent && <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />}
+              <div className="space-y-2 max-h-[280px] overflow-y-auto">
+                {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) => (
+                  <div key={dentistName}>
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1">{dentistName}</p>
+                    {patients.slice(0, 2).map(wl => (
+                      <div key={wl.id} className="py-1 border-b border-border/50 last:border-0">
+                        <p className="text-xs font-medium text-foreground">{wl.patientName}</p>
+                        <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
                       </div>
-                      <p className="text-[10px] text-muted-foreground">Atual: {wl.currentDate} às {wl.currentTime}</p>
-                    </div>
-                    <Badge variant={wl.priority === 'alta' ? 'destructive' : 'secondary'} className="text-[10px] h-5">
-                      {wl.priority === 'alta' ? 'Prioritário' : 'Normal'}
-                    </Badge>
+                    ))}
                   </div>
-                )}
+                ))}
               </div>
+              <button
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
+              >
+                Ver Tudo →
+              </button>
             </CardContent>
+          </Card>
+        </div>
+
+        {/* Full width: Histórico de Pacientes do Dia */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Histórico de Pacientes do Dia (e pontos)
+            </h3>
+            <button className="text-xs text-primary hover:underline">
+              Ver Histórico Completo ›
+            </button>
+          </div>
+          <Card className="bg-[hsl(var(--card))] border-border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Data</th>
+                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Paciente</th>
+                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Dentista</th>
+                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Consulta</th>
+                    <th className="text-center text-[10px] font-semibold text-muted-foreground uppercase p-3">Pontos</th>
+                    <th className="text-center text-[10px] font-semibold text-muted-foreground uppercase p-3">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historyItems.map(c => {
+                    const initials = c.dentist.name.split(' ').filter(w => w.length > 2).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+                    return (
+                      <tr key={c.id} className="border-b border-border/50 last:border-0">
+                        <td className="p-3 text-xs text-muted-foreground">{c.time}</td>
+                        <td className="p-3 text-xs font-medium text-foreground">{c.patient.name}</td>
+                        <td className="p-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[9px] font-bold flex-shrink-0">
+                              {initials}
+                            </div>
+                            <span className="text-xs text-foreground truncate">{c.dentist.name}</span>
+                          </div>
+                        </td>
+                        <td className="p-3 text-xs text-muted-foreground">{c.category ? CATEGORY_LABELS[c.category] : c.type}</td>
+                        <td className="p-3 text-center">
+                          <span className={`text-xs font-bold ${c.points > 0 ? 'text-emerald-400' : c.points < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
+                            {c.points > 0 ? '+' : ''}{c.points}
+                          </span>
+                        </td>
+                        <td className="p-3 text-center">
+                          <Badge variant="outline" className={`text-[10px] ${
+                            c.isCompleted ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
+                            c.isFalta ? 'bg-red-500/15 text-red-400 border-red-500/30' :
+                            'bg-orange-500/15 text-orange-400 border-orange-500/30'
+                          }`}>
+                            {c.isCompleted ? 'Concluída' : c.isFalta ? 'Falta' : 'Pendente'}
+                          </Badge>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </Card>
         </div>
       </div>

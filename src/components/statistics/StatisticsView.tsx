@@ -77,6 +77,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
             {SUB_TABS.map(t => (
               <button
                 key={t.id}
+                data-subtab={t.id}
                 onClick={() => setActiveSubTab(t.id)}
                 className={cn(
                   'px-4 py-1.5 text-xs font-medium rounded-md transition-colors',
