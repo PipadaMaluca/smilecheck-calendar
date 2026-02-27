@@ -258,7 +258,7 @@ function ClinicTeamView() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="items-center justify-between flex flex-row gap-0 py-0 pb-[10px]">
         <div>
           <h2 className="text-lg font-bold text-foreground">Gerir Equipa</h2>
           <p className="text-sm text-muted-foreground">{clinicDentistsList.length} dentistas activos</p>
@@ -320,7 +320,7 @@ function PatientTeamView() {
 export function TeamView({ userRole, onNavigate }: TeamViewProps) {
   return (
     <ScrollArea className="flex-1">
-      <div className="p-6 max-w-3xl mx-auto pb-8">
+      <div className="p-6 max-w-3xl mx-auto pb-8 px-px">
         {userRole === 'patient' && <PatientTeamView />}
         {userRole === 'dentist' && <DentistTeamView />}
         {userRole === 'clinic' && <ClinicTeamView />}
