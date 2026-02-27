@@ -497,7 +497,7 @@ export function DesktopCalendarView() {
       );
     }
 
-    // Viewing a specific dentist profile (inline)
+    // Viewing a specific dentist profile (inline full-screen)
     if (viewDentistProfile) {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
@@ -510,11 +510,10 @@ export function DesktopCalendarView() {
               isFavorite={favorites.includes(viewDentistProfile.id)}
               onToggleFavorite={() => toggleFavorite(viewDentistProfile.id)}
               onGoHome={() => {setViewDentistProfile(null);setActiveNavTab('home');}}
+              onReferralLetter={activeRole === 'dentist' ? () => {setViewDentistProfile(null);setActiveNavTab('referencia');} : undefined}
               inline />
-
           </div>
         </div>);
-
     }
 
     // Viewing a specific clinic profile (inline)
@@ -701,6 +700,23 @@ export function DesktopCalendarView() {
 
 
       case 'perfil':
+        if (activeRole === 'dentist') {
+          // Show own dentist profile using DentistProfileView
+          const ownDentist = MOCK_DENTIST_RESULTS.find(d => d.id === '1') || MOCK_DENTIST_RESULTS[0];
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader('Meu Perfil')}
+              <div className="flex-1 overflow-y-auto">
+                <DentistProfileView
+                  dentist={ownDentist}
+                  isOpen={true}
+                  onClose={() => setActiveNavTab('home')}
+                  isOwnProfile
+                  onEditProfile={() => setActiveNavTab('editarPerfil')}
+                  inline />
+              </div>
+            </div>);
+        }
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader('Meu Perfil')}
@@ -712,7 +728,6 @@ export function DesktopCalendarView() {
                 inline
                 onViewClinicProfile={(id) => {setViewClinicProfile(id);}}
                 onViewDentistProfile={(d) => {setViewDentistProfile(d);}} />
-
             </div>
           </div>);
 

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { X, ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Accessibility, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Accessibility } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { mockDentists, mockClinics, getDentistsForClinic } from '@/data/mockData';
@@ -16,6 +17,8 @@ interface ClinicProfileViewProps {
   onClose: () => void;
   onViewDentistProfile?: (dentistId: string) => void;
   inline?: boolean;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
 }
 
 const CLINIC_EXTRA: Record<string, {
@@ -82,12 +85,11 @@ const CLINIC_REVIEWS = [
   { id: 'cr5', patientName: 'Sofia R.', rating: 4, date: '2026-01-10', comment: 'Muito profissionais.' },
 ];
 
-// Mock ratings for dentists to sort by
 const DENTIST_RATINGS: Record<string, number> = {
-  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.4, '7': 4.3, '8': 4.2, '9': 4.1, '10': 4.0,
+  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.4, '7': 4.3,
 };
 
-export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline }: ClinicProfileViewProps) {
+export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite }: ClinicProfileViewProps) {
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);
   const extra = CLINIC_EXTRA[clinicId] || CLINIC_EXTRA['1'];
@@ -105,7 +107,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   if (!isOpen || !clinic) return null;
 
   const profileContent = (
-    <>
+    <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -124,11 +126,17 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </Badge>
         </div>
         <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
-          <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar</Button>
+          <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
           <Button variant="outline" className="flex-1"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
           <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${extra.phone}`)}>
             <Phone className="w-4 h-4 mr-1" /> Ligar
           </Button>
+          {onToggleFavorite && (
+            <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
+              <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
+              {isMobile && <span className="ml-1">Favoritos</span>}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -169,7 +177,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       <Separator />
 
-      {/* Team - sorted by rating */}
+      {/* Team */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold">Equipa Médica</h4>
         <div className="space-y-2">
@@ -262,7 +270,12 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           {CLINIC_REVIEWS.map(r => (
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold">{r.patientName}</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
+                    {r.patientName[0]}
+                  </div>
+                  <span className="text-xs font-semibold">{r.patientName}</span>
+                </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: r.rating }).map((_, i) => (
                     <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
@@ -275,44 +288,29 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 
   // Inline mode
   if (inline) {
     return (
-      <div className="p-5 space-y-6 max-w-3xl mx-auto">
+      <div className="p-5">
         {profileContent}
       </div>
     );
   }
 
-  if (isMobile) {
-    return (
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-          <h2 className="text-base font-semibold">Perfil da Clínica</h2>
-          <div className="w-10" />
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-5 space-y-6">{profileContent}</div>
-        </div>
-      </div>
-    );
-  }
-
+  // Full-screen for all devices
   return (
-    <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[700px] max-h-[90vh] md:max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold">Perfil da Clínica</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-5 space-y-6">{profileContent}</div>
-        </div>
+    <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
+      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <h2 className="text-base font-semibold">Perfil da Clínica</h2>
+        <div className="w-10" />
       </div>
+      <ScrollArea className="flex-1">
+        <div className="p-5">{profileContent}</div>
+      </ScrollArea>
     </div>
   );
 }

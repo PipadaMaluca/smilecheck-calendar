@@ -98,8 +98,8 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                 </div>
                 <div className="flex items-center gap-3 text-xs">
                   <span className="text-emerald-400">✓ {confirmed} confirmados</span>
-                  <span className="text-red-400">✗ {cancelled} cancelados</span>
                   <span className="text-orange-400">● {pending} pendentes</span>
+                  <span className="text-red-400">✗ {cancelled} cancelados</span>
                 </div>
               </div>
               {displayCons.length > 0 ? (
