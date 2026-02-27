@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus } from 'lucide-react';
+import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +10,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
+import { cn } from '@/lib/utils';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
@@ -46,10 +47,32 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h4 className="text-sm font-semibold text-foreground mb-3">{children}</h4>;
 }
 
-function FieldGroup({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+function FieldGroup({ label, children, className, privacyField, isPublic, onToggleVisibility }: { 
+  label: string; 
+  children: React.ReactNode; 
+  className?: string;
+  privacyField?: string;
+  isPublic?: boolean;
+  onToggleVisibility?: (field: string) => void;
+}) {
   return (
     <div className={className}>
-      <Label className="text-xs text-muted-foreground mb-1.5 block">{label}</Label>
+      <div className="flex items-center justify-between mb-1.5">
+        <Label className="text-xs text-muted-foreground">{label}</Label>
+        {privacyField && onToggleVisibility && (
+          <button
+            type="button"
+            onClick={() => onToggleVisibility(privacyField)}
+            className={cn('flex items-center gap-1 text-[10px] px-1.5 py-0.5 rounded transition-colors', 
+              isPublic ? 'text-emerald-400 hover:bg-emerald-500/10' : 'text-muted-foreground hover:bg-accent'
+            )}
+            title={isPublic ? 'Visível para outros' : 'Privado'}
+          >
+            {isPublic ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+            {isPublic ? 'Público' : 'Privado'}
+          </button>
+        )}
+      </div>
       {children}
     </div>
   );
@@ -121,6 +144,26 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [clinicAcceptsNewPatients, setClinicAcceptsNewPatients] = useState(true);
   const [clinicXrayServices, setClinicXrayServices] = useState(['Raio-X Panorâmico', 'Raio-X Periapical']);
   const [clinicAccessibility, setClinicAccessibility] = useState(['Acesso a cadeira de rodas', 'Elevador']);
+
+  // Privacy visibility toggles
+  const [fieldVisibility, setFieldVisibility] = useState<Record<string, boolean>>({
+    // Private by default
+    email: false,
+    phone: false,
+    birthDate: false,
+    orderNumber: false,
+    // Public by default
+    specialties: true,
+    bio: true,
+    languages: true,
+    locations: true,
+    tariffs: true,
+    reviews: true,
+  });
+
+  const toggleFieldVisibility = (field: string) => {
+    setFieldVisibility(prev => ({ ...prev, [field]: !prev[field] }));
+  };
 
   if (!isOpen) return null;
 
@@ -248,20 +291,20 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <FieldGroup label="Nome completo">
                   <Input value={dentistName} onChange={e => setDentistName(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Email">
+                <FieldGroup label="Email" privacyField="email" isPublic={fieldVisibility.email} onToggleVisibility={toggleFieldVisibility}>
                   <Input type="email" value={dentistEmail} onChange={e => setDentistEmail(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Telefone">
+                <FieldGroup label="Telefone" privacyField="phone" isPublic={fieldVisibility.phone} onToggleVisibility={toggleFieldVisibility}>
                   <Input value={dentistPhone} onChange={e => setDentistPhone(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Data de nascimento">
+                <FieldGroup label="Data de nascimento" privacyField="birthDate" isPublic={fieldVisibility.birthDate} onToggleVisibility={toggleFieldVisibility}>
                   <Input type="date" value={dentistBirthDate} onChange={e => setDentistBirthDate(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <SectionTitle>Dados Profissionais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Número da Ordem">
+                <FieldGroup label="Número da Ordem" privacyField="orderNumber" isPublic={fieldVisibility.orderNumber} onToggleVisibility={toggleFieldVisibility}>
                   <Input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País da Ordem">

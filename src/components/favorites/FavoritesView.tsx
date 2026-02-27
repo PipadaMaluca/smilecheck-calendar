@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Star, MapPin, X, Building2 } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Star, MapPin, X, Building2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
 import { cn } from '@/lib/utils';
@@ -20,8 +21,21 @@ interface FavoritesViewProps {
 export function FavoritesView({ favorites, onToggleFavorite, onViewProfile, clinicFavorites = ['1'], onToggleClinicFavorite }: FavoritesViewProps) {
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState<'dentists' | 'clinics'>('dentists');
+  const [searchQuery, setSearchQuery] = useState('');
   const favoriteDentists = MOCK_DENTIST_RESULTS.filter(d => favorites.includes(d.id));
   const favoriteClinics = mockClinics.filter(c => clinicFavorites.includes(c.id));
+
+  // Search results
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return { dentists: [], clinics: [] };
+    const q = searchQuery.toLowerCase();
+    return {
+      dentists: MOCK_DENTIST_RESULTS.filter(d => d.name.toLowerCase().includes(q)),
+      clinics: mockClinics.filter(c => c.name.toLowerCase().includes(q)),
+    };
+  }, [searchQuery]);
+
+  const hasSearchResults = searchResults.dentists.length > 0 || searchResults.clinics.length > 0;
 
   return (
     <div className="p-4 md:p-6 space-y-4">
@@ -29,6 +43,71 @@ export function FavoritesView({ favorites, onToggleFavorite, onViewProfile, clin
         <Star className="w-5 h-5 fill-amber-400 text-amber-400" />
         <h2 className="text-lg font-bold text-foreground">Favoritos</h2>
       </div>
+
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Input
+          placeholder="Pesquisar dentistas e clínicas..."
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          className="pl-10"
+        />
+      </div>
+
+      {/* Search Results */}
+      {searchQuery.trim() && (
+        <div className="border border-border rounded-lg bg-card divide-y divide-border max-h-64 overflow-y-auto">
+          {!hasSearchResults && (
+            <p className="p-3 text-sm text-muted-foreground text-center">Nenhum resultado encontrado.</p>
+          )}
+          {searchResults.dentists.map(d => {
+            const isFav = favorites.includes(d.id);
+            const levelCfg = LEVEL_CONFIG[d.level];
+            return (
+              <div key={`search-d-${d.id}`} className="flex items-center gap-3 p-3 hover:bg-accent/30 transition-colors">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{d.name}</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-xs text-muted-foreground">Dentista</span>
+                    <div className="flex items-center gap-0.5">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <span className="text-xs">{d.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => onToggleFavorite(d.id)}
+                >
+                  <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+                </Button>
+              </div>
+            );
+          })}
+          {searchResults.clinics.map(c => {
+            const isFav = clinicFavorites.includes(c.id);
+            return (
+              <div key={`search-c-${c.id}`} className="flex items-center gap-3 p-3 hover:bg-accent/30 transition-colors">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
+                  <span className="text-xs text-muted-foreground">Clínica</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => onToggleClinicFavorite?.(c.id)}
+                >
+                  <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-2 border-b border-border">

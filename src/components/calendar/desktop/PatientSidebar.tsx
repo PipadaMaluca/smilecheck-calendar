@@ -72,7 +72,7 @@ export function PatientSidebar({
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
   return (
-    <aside className="h-full w-[200px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex items-center justify-center">
+    <aside className="h-full w-[400px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex items-center justify-center">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
         <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">

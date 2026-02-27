@@ -1,17 +1,18 @@
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
 import { Download, Calendar, CheckCircle2, XCircle, Star, TrendingUp } from 'lucide-react';
-import { mockConsultations, getDentistsForClinic } from '@/data/mockData';
+import { mockConsultations, getDentistsForClinic, mockClinics, clinicDentists, mockDentists } from '@/data/mockData';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole } from '@/types/calendar';
 import { ConfirmationsTab } from './ConfirmationsTab';
 import { WaitingListTab } from './WaitingListTab';
+import { ExportReportModal } from './ExportReportModal';
 
 type Period = 'today' | 'week' | 'month';
 type SubTab = 'geral' | 'confirmacoes' | 'lista_espera';
@@ -24,18 +25,36 @@ interface StatisticsViewProps {
 
 export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   const [period, setPeriod] = useState<Period>('today');
+  const [selectedClinic, setSelectedClinic] = useState('all');
   const [selectedDentist, setSelectedDentist] = useState('all');
   const [activeSubTab, setActiveSubTab] = useState<SubTab>('geral');
+  const [showExportModal, setShowExportModal] = useState(false);
 
-  const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
+  // Get dentists available for the selected clinic
+  const availableDentists = useMemo(() => {
+    if (selectedClinic === 'all') {
+      // Return all dentists grouped by clinic
+      return mockDentists;
+    }
+    return getDentistsForClinic(selectedClinic);
+  }, [selectedClinic]);
+
+  // Reset dentist when clinic changes
+  const handleClinicChange = (clinicId: string) => {
+    setSelectedClinic(clinicId);
+    setSelectedDentist('all');
+  };
 
   // ===== Geral tab data =====
   const filteredConsultations = useMemo(() => {
-    let cons = mockConsultations.filter(c => c.clinic.id === '1');
+    let cons = mockConsultations.filter(c => {
+      if (selectedClinic !== 'all' && c.clinic.id !== selectedClinic) return false;
+      return true;
+    });
     if (period === 'today') cons = cons.filter(c => isSameDay(c.date, DEMO_DATE));
     if (selectedDentist !== 'all') cons = cons.filter(c => c.dentist.id === selectedDentist);
     return cons;
-  }, [period, selectedDentist]);
+  }, [period, selectedDentist, selectedClinic]);
 
   const totalConsultations = filteredConsultations.length;
   const confirmed = filteredConsultations.filter(c => c.status === 'confirmada' || c.status === 'visto' || c.status === 'em_consulta' || c.status === 'em_sala_espera').length;
@@ -44,13 +63,16 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   const faltaRate = totalConsultations > 0 ? Math.round((faltas / totalConsultations) * 100) : 0;
   const revenue = filteredConsultations.reduce((sum, c) => sum + c.price, 0);
 
+  const clinicDentistsList = useMemo(() => getDentistsForClinic('1'), []);
+
   const dentistStats = useMemo(() => {
-    return clinicDentists.map(d => {
+    const dentistsToUse = selectedClinic === 'all' ? clinicDentistsList : getDentistsForClinic(selectedClinic);
+    return dentistsToUse.map(d => {
       const dCons = filteredConsultations.filter(c => c.dentist.id === d.id);
       const dFaltas = dCons.filter(c => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
       return { ...d, consultations: dCons.length, faltas: dFaltas, rating: (4 + Math.random() * 0.9).toFixed(1) };
     }).filter(d => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
-  }, [filteredConsultations, clinicDentists]);
+  }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
   const topPatients = useMemo(() => {
     const map = new Map<string, { name: string; count: number; rating: number }>();
@@ -114,21 +136,49 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
             </div>
           )}
 
-          {/* Dentist dropdown - all tabs */}
+          {/* Clinic dropdown */}
+          <Select value={selectedClinic} onValueChange={handleClinicChange}>
+            <SelectTrigger className="w-[200px] h-9 text-xs">
+              <SelectValue placeholder="Todas as clínicas" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todas as clínicas</SelectItem>
+              {mockClinics.map(c => (
+                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Dentist dropdown */}
           <Select value={selectedDentist} onValueChange={setSelectedDentist}>
             <SelectTrigger className="w-[200px] h-9 text-xs">
               <SelectValue placeholder="Todos os dentistas" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todos os dentistas</SelectItem>
-              {clinicDentists.map(d => (
-                <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-              ))}
+              {selectedClinic === 'all' ? (
+                // Group by clinic
+                mockClinics.map(clinic => {
+                  const dentists = getDentistsForClinic(clinic.id);
+                  return (
+                    <SelectGroup key={clinic.id}>
+                      <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
+                      {dentists.map(d => (
+                        <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  );
+                })
+              ) : (
+                availableDentists.map(d => (
+                  <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
 
           <div className="flex-1" />
-          <Button variant="outline" size="sm" className="gap-2 text-xs">
+          <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setShowExportModal(true)}>
             <Download className="w-3.5 h-3.5" /> Exportar Relatório
           </Button>
         </div>
@@ -252,6 +302,8 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
           <WaitingListTab selectedDentist={selectedDentist} userRole={userRole} />
         )}
       </div>
+
+      <ExportReportModal isOpen={showExportModal} onClose={() => setShowExportModal(false)} userRole={userRole} />
     </ScrollArea>
   );
 }

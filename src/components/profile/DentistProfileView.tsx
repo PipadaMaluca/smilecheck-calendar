@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { X, ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, Video, Globe, Clock, Accessibility, CreditCard, GraduationCap, Languages } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { DentistSearchResult, LEVEL_CONFIG, getReviewsForDentist } from '@/data/mockDentistSearch';
@@ -18,6 +19,9 @@ interface DentistProfileViewProps {
   onToggleFavorite?: () => void;
   onGoHome?: () => void;
   inline?: boolean;
+  isOwnProfile?: boolean;
+  onEditProfile?: () => void;
+  onReferralLetter?: () => void;
 }
 
 const DENTIST_EXTRA = {
@@ -32,6 +36,13 @@ const DENTIST_EXTRA = {
   presencialPrice: 'Variável conforme tratamento',
   paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
   insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
+  personalInfo: {
+    email: 'goncalo.pipo@smilecheck.pt',
+    phone: '+351 910 000 000',
+    birthDate: '22/07/1985',
+    orderNumber: 'OMD-12345',
+    orderCountry: 'Portugal',
+  },
   clinicSchedules: [
     {
       clinicId: '1',
@@ -58,10 +69,20 @@ const DENTIST_EXTRA = {
       ],
       accessibility: ['Cadeira de rodas', 'Estacionamento gratuito'],
     },
+    {
+      clinicId: '3',
+      clinicName: 'Clínica Montfermeil',
+      address: 'Avenue Jean Jaurès 78, Montfermeil',
+      distance: 6.0,
+      days: [
+        { day: 'Sábado', hours: '14:00 - 18:00' },
+      ],
+      accessibility: ['Cadeira de rodas', 'WC adaptado'],
+    },
   ],
 };
 
-export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline }: DentistProfileViewProps) {
+export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline, isOwnProfile, onEditProfile, onReferralLetter }: DentistProfileViewProps) {
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
@@ -90,7 +111,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   }
 
   const profileContent = (
-    <>
+    <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
@@ -118,16 +139,26 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </Badge>
         </div>
         <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
-          <Button className="flex-1" onClick={() => setShowBooking(true)}>
-            <Calendar className="w-4 h-4 mr-1" /> Marcar
-          </Button>
-          <Button variant="outline" className="flex-1">
-            <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
-          </Button>
-          <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
-            <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
-            {isMobile && <span className="ml-1">Favoritos</span>}
-          </Button>
+          {isOwnProfile ? (
+            <Button variant="outline" className="flex-1" onClick={onEditProfile}>
+              Editar Perfil
+            </Button>
+          ) : (
+            <>
+              {onReferralLetter && (
+                <Button variant="outline" className="flex-1" onClick={onReferralLetter}>
+                  <FileText className="w-4 h-4 mr-1" /> Carta de Referência
+                </Button>
+              )}
+              <Button variant="outline" className="flex-1">
+                <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
+              </Button>
+              <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
+                <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
+                {isMobile && <span className="ml-1">Favoritos</span>}
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -255,7 +286,12 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           {reviews.slice(0, 5).map(r => (
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold">{r.patientName}</span>
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
+                    {r.patientName[0]}
+                  </div>
+                  <span className="text-xs font-semibold">{r.patientName}</span>
+                </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: r.rating }).map((_, i) => (
                     <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
@@ -268,44 +304,46 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           ))}
         </div>
       </section>
-    </>
+
+      {/* Personal Info - own profile only */}
+      {isOwnProfile && (
+        <>
+          <Separator />
+          <section className="space-y-3">
+            <h4 className="text-sm font-semibold text-foreground">Informação Pessoal</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Nascimento</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Nº Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">País Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
+            </div>
+          </section>
+        </>
+      )}
+    </div>
   );
 
-  // Inline mode: render content directly without modal wrapper
+  // Always render full-screen (inline fills the content area)
   if (inline) {
     return (
-      <div className="p-5 space-y-6 max-w-3xl mx-auto">
+      <div className="p-5">
         {profileContent}
       </div>
     );
   }
 
-  if (isMobile) {
-    return (
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-          <h2 className="text-base font-semibold">Perfil do Dentista</h2>
-          <div className="w-10" />
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-5 space-y-6">{profileContent}</div>
-        </div>
-      </div>
-    );
-  }
-
+  // Full-screen layout for all devices
   return (
-    <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[700px] max-h-[90vh] md:max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold">Perfil do Dentista</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-5 space-y-6">{profileContent}</div>
-        </div>
+    <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
+      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <h2 className="text-base font-semibold">Perfil do Dentista</h2>
+        <div className="w-10" />
       </div>
+      <ScrollArea className="flex-1">
+        <div className="p-5">{profileContent}</div>
+      </ScrollArea>
     </div>
   );
 }
