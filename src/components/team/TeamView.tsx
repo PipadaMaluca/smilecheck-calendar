@@ -79,7 +79,7 @@ function DentistCard({
   return (
     <Card className="group hover:shadow-md transition-shadow border-border/50">
       <CardContent className="p-4">
-        <div className="pr-0 items-start justify-start flex flex-row px-0 pl-0 gap-[10px]">
+        <div className="pr-0 flex-row px-0 pl-0 flex items-start justify-start gap-[7px]">
           <div className="h-12 w-12 rounded-full bg-primary/10 flex-shrink-0 flex items-center justify-center">
             <User className="w-6 h-6 text-primary" />
           </div>
@@ -269,9 +269,9 @@ function ClinicTeamView() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mx-[5px] my-[15px] mt-[10px] mb-[10px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-[10px] mb-[10px] my-px mx-[10px]">
         {clinicDentistsList.map((d) =>
-        <div key={d.id} className="relative pl-[5px] pb-0 pt-[3px] pr-[3px] border px-[3px] py-px bg-popover border-secondary">
+        <div key={d.id} className="relative pl-[5px] border py-px bg-popover border-secondary px-[3px] pr-px pt-px pb-px">
             <DentistCard
             dentist={d}
             extras={dentistExtras[d.id] || { rating: 4.0, level: 'Lata', consultationsThisMonth: 0 }}
