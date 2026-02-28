@@ -38,7 +38,7 @@ const MAIN_NAV_ITEMS_BY_ROLE = {
 const TWO_LINE_LABELS: Record<string, [string, string]> = {
   'loja': ['Loja de', 'Recompensas'],
   'referencia': ['Carta de', 'Referência'],
-  'prescrever': ['Prescrever', 'Receita'],
+  'prescrever': ['Prescrever', 'Receita']
 };
 
 // Alphabetical secondary items per role
@@ -112,7 +112,7 @@ export function DesktopNavSidebar({
       )}>
 
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 px-[15px] border gap-[5px] py-[11px]">
+      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 border py-[11px] px-[10px] gap-[5px]">
         <img
           src={smileIcon}
           alt="SmileCheck"
