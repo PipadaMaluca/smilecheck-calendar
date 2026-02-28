@@ -6,8 +6,8 @@ import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet } from 'lucide-re
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
-} from '@/components/ui/dialog';
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from
+'@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -37,157 +37,157 @@ interface Plan {
 }
 
 // Tooth icon component
-const ToothIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+const ToothIcon = ({ className }: {className?: string;}) =>
+<svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 2C9.5 2 7 3.5 7 6c0 2-1 4-2 6s-1 5 1 7c1.5 1.5 3 1 4-1 .5-1 1-2 2-2s1.5 1 2 2c1 2 2.5 2.5 4 1 2-2 2-5 1-7s-2-4-2-6c0-2.5-2.5-4-5-4z" />
-  </svg>
-);
+  </svg>;
+
 
 const PLANS_BY_ROLE: Record<string, Plan[]> = {
   patient: [
-    {
-      id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-      features: [
-        { text: 'Acesso à app', included: true },
-        { text: 'Marcar consultas', included: true },
-        { text: '1 teleconsulta/mês', included: true },
-        { text: 'Sistema de pontos básico', included: true },
-        { text: 'Notificações: App, Push, Email', included: true },
-        { text: 'Tema claro/escuro', included: true },
-        { text: '10 cores de consulta (fixas)', included: true },
-        { text: 'Reset anual de pontos', included: false },
-        { text: 'Sem bónus de pontos', included: false },
-        { text: 'Com anúncios', included: false },
-      ],
-    },
-    {
-      id: 'pro', name: 'Pro', monthlyPrice: 4.99, annualPrice: 50.90, icon: Star, popular: true, badge: 'Popular',
-      features: [
-        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-        { text: 'Teleconsultas ilimitadas', included: true },
-        { text: 'Mantém pontos (sem reset anual)', included: true },
-        { text: 'Notificações SMS incluídas', included: true },
-        { text: 'Prioridade nas marcações', included: true },
-        { text: 'Sem anúncios', included: true },
-        { text: 'Histórico completo', included: true },
-        { text: '13 cores de consulta (editáveis)', included: true },
-        { text: 'Sem bónus de pontos', included: false },
-      ],
-    },
-    {
-      id: 'premium', name: 'Premium', monthlyPrice: 9.99, annualPrice: 101.90, icon: Crown, badge: 'Melhor',
-      features: [
-        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-        { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-        { text: 'Teleconsultas com 10% desconto', included: true },
-        { text: 'Descontos em consultas', included: true },
-        { text: 'Prioridade máxima em pesquisas', included: true },
-        { text: 'Prioridade máxima nas marcações', included: true },
-        { text: 'Prioridade máxima nas urgências', included: true },
-        { text: 'Suporte prioritário', included: true },
-        { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-        { text: 'Badge Premium no perfil', included: true },
-        { text: 'Recompensas exclusivas', included: true },
-      ],
-    },
-  ],
+  {
+    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    features: [
+    { text: 'Acesso à app', included: true },
+    { text: 'Marcar consultas', included: true },
+    { text: '1 teleconsulta/mês', included: true },
+    { text: 'Sistema de pontos básico', included: true },
+    { text: 'Notificações: App, Push, Email', included: true },
+    { text: 'Tema claro/escuro', included: true },
+    { text: '10 cores de consulta (fixas)', included: true },
+    { text: 'Reset anual de pontos', included: false },
+    { text: 'Sem bónus de pontos', included: false },
+    { text: 'Com anúncios', included: false }]
+
+  },
+  {
+    id: 'pro', name: 'Pro', monthlyPrice: 4.99, annualPrice: 50.90, icon: Star, popular: true, badge: 'Popular',
+    features: [
+    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
+    { text: 'Teleconsultas ilimitadas', included: true },
+    { text: 'Mantém pontos (sem reset anual)', included: true },
+    { text: 'Notificações SMS incluídas', included: true },
+    { text: 'Prioridade nas marcações', included: true },
+    { text: 'Sem anúncios', included: true },
+    { text: 'Histórico completo', included: true },
+    { text: '13 cores de consulta (editáveis)', included: true },
+    { text: 'Sem bónus de pontos', included: false }]
+
+  },
+  {
+    id: 'premium', name: 'Premium', monthlyPrice: 9.99, annualPrice: 101.90, icon: Crown, badge: 'Melhor',
+    features: [
+    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
+    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
+    { text: 'Teleconsultas com 10% desconto', included: true },
+    { text: 'Descontos em consultas', included: true },
+    { text: 'Prioridade máxima em pesquisas', included: true },
+    { text: 'Prioridade máxima nas marcações', included: true },
+    { text: 'Prioridade máxima nas urgências', included: true },
+    { text: 'Suporte prioritário', included: true },
+    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
+    { text: 'Badge Premium no perfil', included: true },
+    { text: 'Recompensas exclusivas', included: true }]
+
+  }],
+
   dentist: [
-    {
-      id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-      features: [
-        { text: '10 teleconsultas/mês', included: true },
-        { text: '1 clínica', included: true },
-        { text: 'Sistema de pontos básico', included: true },
-        { text: 'Notificações: App, Push, Email', included: true },
-        { text: '10 cores de consulta (fixas)', included: true },
-        { text: 'Tema claro/escuro', included: true },
-        { text: 'Exportar relatórios básicos (PDF)', included: true },
-        { text: 'Prescrições limitadas', included: true },
-        { text: 'Reset anual de pontos', included: false },
-        { text: 'Sem bónus de pontos', included: false },
-        { text: 'Com anúncios', included: false },
-      ],
-    },
-    {
-      id: 'pro', name: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badge: 'Popular',
-      features: [
-        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-        { text: 'Teleconsultas ilimitadas', included: true },
-        { text: 'Até 3 clínicas', included: true },
-        { text: 'Mantém pontos (sem reset anual)', included: true },
-        { text: 'Notificações SMS', included: true },
-        { text: 'Estatísticas', included: true },
-        { text: 'Prescrições ilimitadas', included: true },
-        { text: '13 cores de consulta (editáveis)', included: true },
-        { text: 'Exportar todos os relatórios (PDF, Excel)', included: true },
-        { text: 'Sem anúncios', included: true },
-        { text: 'Sem bónus de pontos', included: false },
-      ],
-    },
-    {
-      id: 'premium', name: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badge: 'Melhor',
-      features: [
-        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-        { text: 'Clínicas ilimitadas', included: true },
-        { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-        { text: 'Prioridade máxima em pesquisas', included: true },
-        { text: 'Prioridade máxima nas marcações', included: true },
-        { text: 'Prioridade máxima nas urgências', included: true },
-        { text: 'Estatísticas avançadas', included: true },
-        { text: 'Destaque nos resultados de pesquisa', included: true },
-        { text: 'Suporte prioritário', included: true },
-        { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-        { text: 'Sincronização calendário externo', included: true },
-      ],
-    },
-  ],
+  {
+    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    features: [
+    { text: '10 teleconsultas/mês', included: true },
+    { text: '1 clínica', included: true },
+    { text: 'Sistema de pontos básico', included: true },
+    { text: 'Notificações: App, Push, Email', included: true },
+    { text: '10 cores de consulta (fixas)', included: true },
+    { text: 'Tema claro/escuro', included: true },
+    { text: 'Exportar relatórios básicos (PDF)', included: true },
+    { text: 'Prescrições limitadas', included: true },
+    { text: 'Reset anual de pontos', included: false },
+    { text: 'Sem bónus de pontos', included: false },
+    { text: 'Com anúncios', included: false }]
+
+  },
+  {
+    id: 'pro', name: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badge: 'Popular',
+    features: [
+    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
+    { text: 'Teleconsultas ilimitadas', included: true },
+    { text: 'Até 3 clínicas', included: true },
+    { text: 'Mantém pontos (sem reset anual)', included: true },
+    { text: 'Notificações SMS', included: true },
+    { text: 'Estatísticas', included: true },
+    { text: 'Prescrições ilimitadas', included: true },
+    { text: '13 cores de consulta (editáveis)', included: true },
+    { text: 'Exportar todos os relatórios (PDF, Excel)', included: true },
+    { text: 'Sem anúncios', included: true },
+    { text: 'Sem bónus de pontos', included: false }]
+
+  },
+  {
+    id: 'premium', name: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badge: 'Melhor',
+    features: [
+    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
+    { text: 'Clínicas ilimitadas', included: true },
+    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
+    { text: 'Prioridade máxima em pesquisas', included: true },
+    { text: 'Prioridade máxima nas marcações', included: true },
+    { text: 'Prioridade máxima nas urgências', included: true },
+    { text: 'Estatísticas avançadas', included: true },
+    { text: 'Destaque nos resultados de pesquisa', included: true },
+    { text: 'Suporte prioritário', included: true },
+    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
+    { text: 'Sincronização calendário externo', included: true }]
+
+  }],
+
   clinic: [
-    {
-      id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-      features: [
-        { text: 'Até 3 dentistas', included: true },
-        { text: 'Funcionalidades básicas', included: true },
-        { text: 'Sistema de pontos básico', included: true },
-        { text: '10 cores de consulta (fixas)', included: true },
-        { text: 'Tema claro/escuro', included: true },
-        { text: 'Reset anual de pontos', included: false },
-        { text: 'Sem bónus de pontos', included: false },
-        { text: 'Com anúncios', included: false },
-      ],
-    },
-    {
-      id: 'pro', name: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badge: 'Popular',
-      features: [
-        { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-        { text: 'Até 5 dentistas', included: true },
-        { text: 'Mantém pontos (sem reset anual)', included: true },
-        { text: 'Estatísticas', included: true },
-        { text: 'Relatórios mensais', included: true },
-        { text: 'Notificações SMS', included: true },
-        { text: '13 cores de consulta (editáveis)', included: true },
-        { text: 'Exportar relatórios (PDF, Excel)', included: true },
-        { text: 'Dashboard confirmações em tempo real', included: true },
-        { text: 'Sem anúncios', included: true },
-        { text: 'Sem bónus de pontos', included: false },
-      ],
-    },
-    {
-      id: 'premium', name: 'Premium', monthlyPrice: 49.99, annualPrice: 509.90, icon: Crown, badge: 'Melhor',
-      features: [
-        { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-        { text: 'Dentistas ilimitados', included: true },
-        { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-        { text: 'Prioridade máxima em pesquisas', included: true },
-        { text: 'Prioridade máxima nas marcações', included: true },
-        { text: 'Prioridade máxima nas urgências', included: true },
-        { text: 'Estatísticas avançadas', included: true },
-        { text: 'Suporte prioritário', included: true },
-        { text: 'Destaque nos resultados', included: true },
-        { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-        { text: 'Sincronização calendário externo', included: true },
-      ],
-    },
-  ],
+  {
+    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    features: [
+    { text: 'Até 3 dentistas', included: true },
+    { text: 'Funcionalidades básicas', included: true },
+    { text: 'Sistema de pontos básico', included: true },
+    { text: '10 cores de consulta (fixas)', included: true },
+    { text: 'Tema claro/escuro', included: true },
+    { text: 'Reset anual de pontos', included: false },
+    { text: 'Sem bónus de pontos', included: false },
+    { text: 'Com anúncios', included: false }]
+
+  },
+  {
+    id: 'pro', name: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badge: 'Popular',
+    features: [
+    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
+    { text: 'Até 5 dentistas', included: true },
+    { text: 'Mantém pontos (sem reset anual)', included: true },
+    { text: 'Estatísticas', included: true },
+    { text: 'Relatórios mensais', included: true },
+    { text: 'Notificações SMS', included: true },
+    { text: '13 cores de consulta (editáveis)', included: true },
+    { text: 'Exportar relatórios (PDF, Excel)', included: true },
+    { text: 'Dashboard confirmações em tempo real', included: true },
+    { text: 'Sem anúncios', included: true },
+    { text: 'Sem bónus de pontos', included: false }]
+
+  },
+  {
+    id: 'premium', name: 'Premium', monthlyPrice: 49.99, annualPrice: 509.90, icon: Crown, badge: 'Melhor',
+    features: [
+    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
+    { text: 'Dentistas ilimitados', included: true },
+    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
+    { text: 'Prioridade máxima em pesquisas', included: true },
+    { text: 'Prioridade máxima nas marcações', included: true },
+    { text: 'Prioridade máxima nas urgências', included: true },
+    { text: 'Estatísticas avançadas', included: true },
+    { text: 'Suporte prioritário', included: true },
+    { text: 'Destaque nos resultados', included: true },
+    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
+    { text: 'Sincronização calendário externo', included: true }]
+
+  }]
+
 };
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
@@ -203,7 +203,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
     if (isAnnual) {
       return {
         main: `€${plan.annualPrice.toFixed(2)}/ano`,
-        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/mês`,
+        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/mês`
       };
     }
     return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: '/mês' };
@@ -219,9 +219,9 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6 pb-28">
+    <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6 pb-28 py-[20px] px-[20px]">
       {/* Header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-[10px]">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-foreground">O Seu Plano</h2>
           <p className="text-sm text-muted-foreground">Escolha o plano ideal para si</p>
@@ -237,35 +237,35 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       </div>
 
       {/* Billing toggle */}
-      <div className="flex items-center justify-center gap-2">
+      <div className="items-start justify-center flex flex-row gap-[7px]">
         <button
           onClick={() => setIsAnnual(false)}
           className={cn(
             'px-4 py-2 rounded-l-lg text-sm font-medium transition-colors border',
-            !isAnnual
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
-          )}
-        >
+            !isAnnual ?
+            'bg-primary text-primary-foreground border-primary' :
+            'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
+          )}>
+
           Mensal
         </button>
         <button
           onClick={() => setIsAnnual(true)}
           className={cn(
             'px-4 py-2 rounded-r-lg text-sm font-medium transition-colors border relative',
-            isAnnual
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
-          )}
-        >
+            isAnnual ?
+            'bg-primary text-primary-foreground border-primary' :
+            'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
+          )}>
+
           Anual
           <span className="ml-1.5 text-xs font-bold text-emerald-400">-15%</span>
         </button>
       </div>
 
       {/* Current plan info */}
-      {currentPlan !== 'free' && (
-        <Card className="border-primary/30 bg-primary/5">
+      {currentPlan !== 'free' &&
+      <Card className="border-primary/30 bg-primary/5">
           <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div>
               <p className="text-sm font-medium text-foreground">
@@ -278,7 +278,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </Button>
           </CardContent>
         </Card>
-      )}
+      }
 
       {/* Plan cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -286,8 +286,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           const isCurrent = plan.id === currentPlan;
           const Icon = plan.icon;
           const price = formatPrice(plan);
-          const includedFeatures = plan.features.filter(f => f.included);
-          const excludedFeatures = plan.features.filter(f => !f.included);
+          const includedFeatures = plan.features.filter((f) => f.included);
+          const excludedFeatures = plan.features.filter((f) => !f.included);
 
           return (
             <Card
@@ -296,15 +296,15 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                 'relative transition-all duration-200 flex flex-col',
                 isCurrent && 'border-primary ring-2 ring-primary/20',
                 plan.badge && !isCurrent && 'border-amber-500/30'
-              )}
-            >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              )}>
+
+              {plan.badge &&
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-amber-500 text-white border-0 text-[10px] px-3">
                     {plan.badge}
                   </Badge>
                 </div>
-              )}
+              }
               <CardHeader className="text-center pb-2 pt-6">
                 <div className={cn(
                   'mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-2',
@@ -321,61 +321,61 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                 </div>
                 <CardTitle className="text-lg">{plan.name}</CardTitle>
                 <div className="mt-1">
-                  <span className={cn(
-                    "font-bold text-foreground",
-                    isAnnual && plan.monthlyPrice > 0 ? "text-xl" : "text-2xl"
+                  <span className={cn("font-bold text-foreground text-center",
+
+                  isAnnual && plan.monthlyPrice > 0 ? "text-xl" : "text-2xl"
                   )}>
                     {price.main}
                   </span>
-                  {price.sub && (
-                    <span className={cn(
-                      "text-muted-foreground",
-                      isAnnual && plan.monthlyPrice > 0 ? "block text-xs mt-0.5" : "text-sm ml-0.5"
-                    )}>
+                  {price.sub &&
+                  <span className={cn(
+                    "text-muted-foreground",
+                    isAnnual && plan.monthlyPrice > 0 ? "block text-xs mt-0.5" : "text-sm ml-0.5"
+                  )}>
                       {price.sub}
                     </span>
-                  )}
+                  }
                 </div>
               </CardHeader>
               <CardContent className="flex flex-col flex-1 pt-2 px-4">
                 <div className="space-y-1.5 flex-1">
                   {/* Included features */}
-                  {includedFeatures.map((feat, i) => (
-                    <div key={i} className={cn("flex items-start gap-2 text-sm", feat.isInherited && "mb-1")}>
-                      {feat.isInherited ? (
-                        <span className="text-muted-foreground text-xs italic">{feat.text}</span>
-                      ) : (
-                        <>
+                  {includedFeatures.map((feat, i) =>
+                  <div key={i} className={cn("flex items-start gap-2 text-sm", feat.isInherited && "mb-1")}>
+                      {feat.isInherited ?
+                    <span className="text-muted-foreground text-xs italic">{feat.text}</span> :
+
+                    <>
                           <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                           <span className="text-foreground">{feat.text}</span>
                         </>
-                      )}
+                    }
                     </div>
-                  ))}
+                  )}
 
                   {/* Excluded features */}
-                  {excludedFeatures.length > 0 && (
-                    <div className="border-t border-border/50 mt-3 pt-2 space-y-1.5">
-                      {excludedFeatures.map((feat, i) => (
-                        <div key={i} className="flex items-start gap-2 text-sm">
+                  {excludedFeatures.length > 0 &&
+                  <div className="border-t border-border/50 mt-3 pt-2 space-y-1.5">
+                      {excludedFeatures.map((feat, i) =>
+                    <div key={i} className="flex items-start gap-2 text-sm">
                           <X className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
                           <span className="text-muted-foreground line-through">{feat.text}</span>
                         </div>
-                      ))}
+                    )}
                     </div>
-                  )}
+                  }
                 </div>
                 <Button
                   className="w-full mt-4"
                   variant={isCurrent ? 'outline' : 'default'}
                   disabled={isCurrent}
-                  onClick={() => !isCurrent && setCheckoutPlan(plan)}
-                >
-                  {isCurrent ? 'Plano Actual' : plan.monthlyPrice > (plans.find(p => p.id === currentPlan)?.monthlyPrice || 0) ? 'Subscrever' : 'Escolher'}
+                  onClick={() => !isCurrent && setCheckoutPlan(plan)}>
+
+                  {isCurrent ? 'Plano Actual' : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? 'Subscrever' : 'Escolher'}
                 </Button>
               </CardContent>
-            </Card>
-          );
+            </Card>);
+
         })}
       </div>
 
@@ -409,18 +409,18 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                 </div>
               </RadioGroup>
             </div>
-            {paymentMethod === 'card' && (
-              <div className="space-y-3">
+            {paymentMethod === 'card' &&
+            <div className="space-y-3">
                 <div><Label className="text-xs">Número do cartão</Label><Input placeholder="4242 4242 4242 4242" /></div>
                 <div className="grid grid-cols-2 gap-3">
                   <div><Label className="text-xs">Validade</Label><Input placeholder="MM/AA" /></div>
                   <div><Label className="text-xs">CVC</Label><Input placeholder="123" /></div>
                 </div>
               </div>
-            )}
-            {paymentMethod === 'mbway' && (
-              <div><Label className="text-xs">Número de telemóvel</Label><Input placeholder="+351 912 345 678" /></div>
-            )}
+            }
+            {paymentMethod === 'mbway' &&
+            <div><Label className="text-xs">Número de telemóvel</Label><Input placeholder="+351 912 345 678" /></div>
+            }
             <div className="bg-secondary/50 rounded-lg p-3 space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Plano {checkoutPlan?.name} ({isAnnual ? 'anual' : 'mensal'})</span>
@@ -438,6 +438,6 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>);
+
 }
