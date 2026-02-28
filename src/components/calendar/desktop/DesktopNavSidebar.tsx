@@ -112,7 +112,7 @@ export function DesktopNavSidebar({
       )}>
 
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 py-[11px] px-[10px] gap-[5px] border-0">
+      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 py-[11px] gap-[6px] border px-px">
         <img
           src={smileIcon}
           alt="SmileCheck"
@@ -130,7 +130,7 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Main Navigation */}
-      <nav className="gap-1 p-2 flex-1 items-center justify-start flex flex-col py-[10px] px-[4px] border border-secondary">
+      <nav className="p-2 flex-1 items-center justify-start flex flex-col py-[10px] border border-secondary px-[4px] gap-[5px]">
         {mainItems.map((item) => renderNavButton(item))}
 
         <Separator className="my-1 bg-[#1E3A5F]" />
