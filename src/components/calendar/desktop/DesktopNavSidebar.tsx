@@ -112,7 +112,7 @@ export function DesktopNavSidebar({
       )}>
 
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 border py-[11px] px-[10px] gap-[5px]">
+      <div className="flex flex-col items-center justify-center p-3 border-b border-[#1E3A5F] flex-shrink-0 py-[11px] px-[10px] gap-[5px] border-0">
         <img
           src={smileIcon}
           alt="SmileCheck"
@@ -146,7 +146,7 @@ export function DesktopNavSidebar({
       </nav>
 
       {/* Bottom: Configurações */}
-      <div className="border-t border-[#1E3A5F] p-2 flex-shrink-0 px-[4px] py-[10px] rounded-none border">
+      <div className="border-t p-2 flex-shrink-0 px-[4px] py-[10px] rounded-none border border-secondary">
         {renderNavButton({ id: 'configuracoes', icon: Settings, label: 'Configurações' })}
       </div>
     </aside>);

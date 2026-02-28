@@ -371,7 +371,7 @@ export function DesktopCalendarView() {
       return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
     }
     if (viewMode === 'list') {
-      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => { if (activeRole === 'dentist' || activeRole === 'clinic') { setDetailConsultation(c); } else { setSelectedConsultation(c); } }} />;
+      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => {if (activeRole === 'dentist' || activeRole === 'clinic') {setDetailConsultation(c);} else {setSelectedConsultation(c);}}} />;
     }
     if (viewMode === 'week') {
       return <DesktopWeekView
@@ -475,12 +475,12 @@ export function DesktopCalendarView() {
           <ConsultationDetailView
             consultation={detailConsultation}
             onClose={() => setDetailConsultation(null)}
-            onViewDossier={(patientId) => { setDossierPatientId(patientId); setDetailConsultation(null); }}
-            onNavigate={(tab) => { setDetailConsultation(null); handleNavTabChange(tab); }}
-            onCopy={(c) => { setClipboardConsultation(c); setDetailConsultation(null); setActiveNavTab('agenda'); toast.info('Clique num slot vazio para colar a consulta'); }}
-          />
-        </div>
-      );
+            onViewDossier={(patientId) => {setDossierPatientId(patientId);setDetailConsultation(null);}}
+            onNavigate={(tab) => {setDetailConsultation(null);handleNavTabChange(tab);}}
+            onCopy={(c) => {setClipboardConsultation(c);setDetailConsultation(null);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}} />
+
+        </div>);
+
     }
 
     // Patient Dossier View (full screen for dentist/clinic)
@@ -491,10 +491,10 @@ export function DesktopCalendarView() {
           <PatientDossierView
             patientId={dossierPatientId}
             onClose={() => setDossierPatientId(null)}
-            onNavigate={(tab) => { setDossierPatientId(null); handleNavTabChange(tab); }}
-          />
-        </div>
-      );
+            onNavigate={(tab) => {setDossierPatientId(null);handleNavTabChange(tab);}} />
+
+        </div>);
+
     }
 
     // Viewing a specific dentist profile (inline full-screen)
@@ -541,7 +541,7 @@ export function DesktopCalendarView() {
       case 'home':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 py-[50px] border">
+            <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row px-[25px] gap-0 py-[50px] border border-secondary">
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
@@ -702,7 +702,7 @@ export function DesktopCalendarView() {
       case 'perfil':
         if (activeRole === 'dentist') {
           // Show own dentist profile using DentistProfileView
-          const ownDentist = MOCK_DENTIST_RESULTS.find(d => d.id === '1') || MOCK_DENTIST_RESULTS[0];
+          const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === '1') || MOCK_DENTIST_RESULTS[0];
           return (
             <div className="flex-1 flex flex-col overflow-hidden">
               {renderStandardHeader('Meu Perfil')}
