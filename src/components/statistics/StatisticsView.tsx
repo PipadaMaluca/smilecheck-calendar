@@ -32,16 +32,11 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   const [activeSubTab, setActiveSubTab] = useState<SubTab>('geral');
   const [showExportModal, setShowExportModal] = useState(false);
 
-  // Get dentists available for the selected clinic
   const availableDentists = useMemo(() => {
-    if (selectedClinic === 'all') {
-      // Return all dentists grouped by clinic
-      return mockDentists;
-    }
+    if (selectedClinic === 'all') return mockDentists;
     return getDentistsForClinic(selectedClinic);
   }, [selectedClinic]);
 
-  // Reset dentist when clinic changes
   const handleClinicChange = (clinicId: string) => {
     setSelectedClinic(clinicId);
     setSelectedDentist('all');
@@ -94,17 +89,17 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
   return (
     <ScrollArea className="flex-1">
-      <div className="p-6 max-w-7xl mx-auto space-y-6">
-        {/* Sub-tab bar */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex gap-1 bg-secondary/50 rounded-lg p-1">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        {/* Sub-tab bar — horizontal scrollable on mobile */}
+        <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit min-w-full sm:min-w-0">
             {SUB_TABS.map(t => (
               <button
                 key={t.id}
                 data-subtab={t.id}
                 onClick={() => setActiveSubTab(t.id)}
                 className={cn(
-                  'px-4 py-1.5 text-xs font-medium rounded-md transition-colors',
+                  'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
                   activeSubTab === t.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
                 )}
               >
@@ -114,73 +109,80 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
           </div>
         </div>
 
-        {/* Filters row */}
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Filters row — stacks on mobile */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
           {/* Period filters - only on Geral */}
           {activeSubTab === 'geral' && (
-            <div className="flex gap-1 bg-secondary/50 rounded-lg p-1">
-              {([
-                { id: 'today' as Period, label: 'Hoje' },
-                { id: 'week' as Period, label: 'Esta semana' },
-                { id: 'month' as Period, label: 'Este mês' },
-              ]).map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => setPeriod(p.id)}
-                  className={cn(
-                    'px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
-                    period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-                  )}
-                >
-                  {p.label}
-                </button>
-              ))}
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit">
+                {([
+                  { id: 'today' as Period, label: 'Hoje' },
+                  { id: 'week' as Period, label: 'Esta semana' },
+                  { id: 'month' as Period, label: 'Este mês' },
+                ]).map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => setPeriod(p.id)}
+                    className={cn(
+                      'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
+                      period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                    )}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Clinic dropdown */}
-          <Select value={selectedClinic} onValueChange={handleClinicChange}>
-            <SelectTrigger className="w-[200px] h-9 text-xs">
-              <SelectValue placeholder="Todas as clínicas" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todas as clínicas</SelectItem>
-              {mockClinics.map(c => (
-                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {/* Dropdowns — full width on mobile, inline on desktop */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-3">
+            <Select value={selectedClinic} onValueChange={handleClinicChange}>
+              <SelectTrigger className="w-full sm:w-[200px] h-9 text-xs">
+                <SelectValue placeholder="Todas as clínicas" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todas as clínicas</SelectItem>
+                {mockClinics.map(c => (
+                  <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-          {/* Dentist dropdown */}
-          <Select value={selectedDentist} onValueChange={setSelectedDentist}>
-            <SelectTrigger className="w-[200px] h-9 text-xs">
-              <SelectValue placeholder="Todos os dentistas" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos os dentistas</SelectItem>
-              {selectedClinic === 'all' ? (
-                // Group by clinic
-                mockClinics.map(clinic => {
-                  const dentists = getDentistsForClinic(clinic.id);
-                  return (
-                    <SelectGroup key={clinic.id}>
-                      <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
-                      {dentists.map(d => (
-                        <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
-                      ))}
-                    </SelectGroup>
-                  );
-                })
-              ) : (
-                availableDentists.map(d => (
-                  <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-                ))
-              )}
-            </SelectContent>
-          </Select>
+            <Select value={selectedDentist} onValueChange={setSelectedDentist}>
+              <SelectTrigger className="w-full sm:w-[200px] h-9 text-xs">
+                <SelectValue placeholder="Todos os dentistas" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos os dentistas</SelectItem>
+                {selectedClinic === 'all' ? (
+                  mockClinics.map(clinic => {
+                    const dentists = getDentistsForClinic(clinic.id);
+                    return (
+                      <SelectGroup key={clinic.id}>
+                        <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
+                        {dentists.map(d => (
+                          <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
+                        ))}
+                      </SelectGroup>
+                    );
+                  })
+                ) : (
+                  availableDentists.map(d => (
+                    <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+          </div>
 
-          <div className="flex-1" />
-          <Button variant="outline" size="sm" className="gap-2 text-xs" onClick={() => setShowExportModal(true)}>
+          <div className="hidden sm:flex flex-1" />
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 text-xs w-full sm:w-auto"
+            onClick={() => setShowExportModal(true)}
+          >
             <Download className="w-3.5 h-3.5" /> Exportar Relatório
           </Button>
         </div>
@@ -188,8 +190,8 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
         {/* Tab content */}
         {activeSubTab === 'geral' && (
           <div className="space-y-6">
-            {/* Summary cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Summary cards — 1 col mobile, 2 col tablet, 4 col desktop */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
@@ -234,39 +236,41 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               </Card>
             </div>
 
-            {/* Per dentist table */}
+            {/* Per dentist table — horizontal scroll on small screens */}
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-3">Por Dentista</h2>
               <Card className="bg-card/80 border-border overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-xs">Dentista</TableHead>
-                      <TableHead className="text-xs text-center">Consultas</TableHead>
-                      <TableHead className="text-xs text-center">Faltas</TableHead>
-                      <TableHead className="text-xs text-center">Rating</TableHead>
-                      <TableHead className="text-xs">Desempenho</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {dentistStats.map(d => (
-                      <TableRow key={d.id}>
-                        <TableCell className="text-sm font-medium"><ClickableDentistName name={d.name} className="text-sm font-medium" /></TableCell>
-                        <TableCell className="text-sm text-center">{d.consultations}</TableCell>
-                        <TableCell className="text-sm text-center">{d.faltas}</TableCell>
-                        <TableCell className="text-center">
-                          <div className="flex items-center justify-center gap-1">
-                            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                            <span className="text-sm">{d.rating}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Progress value={(d.consultations / Math.max(totalConsultations, 1)) * 100} className="h-2" />
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-xs">Dentista</TableHead>
+                        <TableHead className="text-xs text-center">Consultas</TableHead>
+                        <TableHead className="text-xs text-center">Faltas</TableHead>
+                        <TableHead className="text-xs text-center">Rating</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">Desempenho</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {dentistStats.map(d => (
+                        <TableRow key={d.id}>
+                          <TableCell className="text-sm font-medium"><ClickableDentistName name={d.name} className="text-sm font-medium" /></TableCell>
+                          <TableCell className="text-sm text-center">{d.consultations}</TableCell>
+                          <TableCell className="text-sm text-center">{d.faltas}</TableCell>
+                          <TableCell className="text-center">
+                            <div className="flex items-center justify-center gap-1">
+                              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                              <span className="text-sm">{d.rating}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <Progress value={(d.consultations / Math.max(totalConsultations, 1)) * 100} className="h-2" />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </Card>
             </div>
 

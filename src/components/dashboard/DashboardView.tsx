@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -222,13 +222,25 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
               </div>
               <div className="space-y-1.5">
-                {dentistConfirmations.map((c) => (
-                  <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                    <span className="text-xs text-foreground flex-1 truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                    {confirmIndicator(c.status24h)}
-                    {confirmIndicator(c.status1h, c.status24h === 'declined')}
-                  </div>
-                ))}
+                {dentistConfirmations.map((c) => {
+                  const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
+                  const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
+                  return (
+                    <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                      <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                        <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
+                        {catLabel && (
+                          <>
+                            <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
+                            <span className="text-[10px] font-medium truncate flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
+                          </>
+                        )}
+                      </div>
+                      {confirmIndicator(c.status24h)}
+                      {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                    </div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>
@@ -352,13 +364,25 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                 {confirmationsByDentist.map(({ dentist, confirmations }) => (
                   <div key={dentist.id}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {confirmations.slice(0, 3).map(c => (
-                      <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                        <span className="text-xs text-foreground flex-1 truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                        {confirmIndicator(c.status24h)}
-                        {confirmIndicator(c.status1h, c.status24h === 'declined')}
-                      </div>
-                    ))}
+                    {confirmations.slice(0, 3).map(c => {
+                      const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
+                      const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
+                      return (
+                        <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                          <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                            <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
+                            {catLabel && (
+                              <>
+                                <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
+                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
+                              </>
+                            )}
+                          </div>
+                          {confirmIndicator(c.status24h)}
+                          {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
