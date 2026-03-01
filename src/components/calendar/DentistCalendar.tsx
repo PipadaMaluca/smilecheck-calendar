@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Plus, PauseCircle } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
@@ -278,6 +278,8 @@ export function DentistCalendar() {
           onMenuClick={() => setSidebarOpen(true)}
           {...(activeTab === 'agenda' ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
           userRole="dentist"
+          showNewConsultation={activeTab === 'agenda'}
+          onNewConsultation={() => setSlotCreation({ date: selectedDate, time: '09:00' })}
         />
 
         {activeTab === 'home' ? (
@@ -311,19 +313,6 @@ export function DentistCalendar() {
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="fixed bottom-24 right-4 flex flex-col gap-3 z-20">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="w-12 h-12 rounded-full shadow-lg"
-              >
-                <PauseCircle className="w-5 h-5" />
-              </Button>
-              <Button className="floating-button animate-pulse-glow" style={{ position: 'relative', bottom: 0, right: 0 }}>
-                <Plus className="w-6 h-6" />
-              </Button>
-            </div>
           </>
         ) : activeTab === 'equipa' ? (
           <TeamView userRole="dentist" onNavigate={setActiveTab} />
