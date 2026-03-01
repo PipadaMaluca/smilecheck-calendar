@@ -31,6 +31,9 @@ export interface ConsultationScore {
   date: Date;
   dentistName: string;
   clinicName: string;
+  patientName?: string;
+  category?: string;
+  consultationTime?: string;
   totalPoints: number;
   breakdown: ScoreBreakdownItem[];
   feedbackStatus: FeedbackStatus;
@@ -62,6 +65,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'Pedro Almeida',
+    category: 'destartarizacao',
+    consultationTime: '09:00',
     totalPoints: 15,
     feedbackStatus: 'pending',
     dentistFeedbackDate: new Date(2026, 0, 31, 17, 0),
@@ -81,6 +87,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 28),
     dentistName: 'Dra. Sofia Almeida',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'Ana Costa',
+    category: 'restauracao',
+    consultationTime: '10:00',
     totalPoints: 11,
     feedbackStatus: 'pending',
     dentistFeedbackDate: new Date(2026, 0, 28, 16, 30),
@@ -98,6 +107,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 24),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'Marta Santos',
+    category: 'primeira_consulta',
+    consultationTime: '11:00',
     totalPoints: 10,
     feedbackStatus: 'completed',
     patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: new Date(2026, 0, 25) },
@@ -115,9 +127,11 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 17),
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'Rui Silva',
+    category: 'urgencia',
+    consultationTime: '09:30',
     totalPoints: -9,
-    // Faltas: paciente NÃO recebe notificação para dar feedback, apenas perde pontos
-    feedbackStatus: 'completed', // auto-completed (no feedback requested)
+    feedbackStatus: 'completed',
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Falta (base)', points: -8 },
@@ -131,6 +145,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 10),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'João Mendes',
+    category: 'endodontia',
+    consultationTime: '10:15',
     totalPoints: 12,
     feedbackStatus: 'completed',
     patientFeedback: { rating: 4, comment: 'Muito bom', submittedAt: new Date(2026, 0, 11) },
@@ -149,6 +166,9 @@ export const mockScoreHistory: ConsultationScore[] = [
     date: new Date(2026, 0, 3),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
+    patientName: 'Inês Marques',
+    category: 'ortodontia',
+    consultationTime: '09:30',
     totalPoints: 0,
     feedbackStatus: 'expired',
     breakdown: [
