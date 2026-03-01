@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, ArrowLeft, User, Mail, Phone, Calendar, Hash, Stethoscope, Building2, MapPin, Globe, Clock, Video, Star } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, Calendar, Hash, Stethoscope, Building2, MapPin, Globe, Clock, Video, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -239,28 +239,14 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
     return <div className="max-w-lg mx-auto">{profileBody}</div>;
   }
 
-  if (isMobile) {
-    return (
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-          <h2 className="text-base font-semibold">Meu Perfil</h2>
-          <div className="w-10" />
-        </div>
-        <ScrollArea className="flex-1">{profileBody}</ScrollArea>
-      </div>
-    );
-  }
-
   return (
-    <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center" onClick={onClose}>
-      <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[500px] max-h-[85vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold">Meu Perfil</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
-        </div>
-        <ScrollArea className="flex-1">{profileBody}</ScrollArea>
+    <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
+      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <h2 className="text-base font-semibold">Meu Perfil</h2>
+        <div className="w-10" />
       </div>
+      <ScrollArea className="flex-1">{profileBody}</ScrollArea>
     </div>
   );
 }
