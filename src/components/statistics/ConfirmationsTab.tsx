@@ -89,7 +89,8 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
   }, [clinicDentists, selectedDentist, userRole]);
 
   const todayConsultations = useMemo(() =>
-    mockConsultations.filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE)),
+    mockConsultations.filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE))
+      .filter(c => c.status !== 'visto' && c.status !== 'falta_justificada' && c.status !== 'falta_nao_justificada'),
   []);
 
   return (
