@@ -56,7 +56,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     { text: 'Notificações: App, Push, Email', included: true },
     { text: 'Tema claro/escuro', included: true },
     { text: '10 cores de consulta (fixas)', included: true },
-    { text: 'Reset anual de pontos', included: false },
+    { text: 'Reset anual de pontos', included: false, isWarning: true },
     { text: 'Sem bónus de pontos', included: false },
     { text: 'Com anúncios', included: false }]
 
