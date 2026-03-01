@@ -266,7 +266,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         </div>
 
         {/* Full width: Score history */}
-        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
+        <PatientScoreHistory mode="history-only" userRole="dentist" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
       </div>
     );
   };
@@ -314,13 +314,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
 
-    // Mock history for table — sorted by time asc, then dentist name
-    const historyItems = todayConsultations.map(c => {
-      const isCompleted = c.status === 'visto';
-      const isFalta = c.status === 'falta_justificada' || c.status === 'falta_nao_justificada';
-      const points = isCompleted ? Math.floor(Math.random() * 10) + 5 : isFalta ? -(Math.floor(Math.random() * 5) + 3) : 0;
-      return { ...c, points, isCompleted, isFalta };
-    }).sort((a, b) => a.time.localeCompare(b.time) || a.dentist.name.localeCompare(b.dentist.name)).slice(0, 6);
+
+
 
     return (
       <div className="space-y-6">
@@ -426,67 +421,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
         </div>
 
-        {/* Full width: Histórico de Pacientes do Dia */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-              Histórico de Pacientes do Dia (e pontos)
-            </h3>
-            <button className="text-xs text-primary hover:underline" onClick={onViewFullHistory}>
-              Ver Histórico Completo ›
-            </button>
-          </div>
-          <Card className="bg-[hsl(var(--card))] border-border overflow-hidden min-w-0">
-            <div className="overflow-x-auto">
-              <table className="min-w-[500px] w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Hora</th>
-                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Paciente</th>
-                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Dentista</th>
-                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Consulta</th>
-                    <th className="text-center text-[10px] font-semibold text-muted-foreground uppercase p-3">Pontos</th>
-                    <th className="text-center text-[10px] font-semibold text-muted-foreground uppercase p-3">Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historyItems.map(c => {
-                    const initials = c.dentist.name.split(' ').filter(w => w.length > 2).map(w => w[0]).join('').slice(0, 2).toUpperCase();
-                    return (
-                      <tr key={c.id} className="border-b border-border/50 last:border-0">
-                        <td className="p-3 text-xs text-muted-foreground">{c.time}</td>
-                        <td className="p-3 text-xs font-medium text-foreground"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" /></td>
-                        <td className="p-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[9px] font-bold flex-shrink-0">
-                              {initials}
-                            </div>
-                            <ClickableDentistName name={c.dentist.name} className="text-xs text-foreground truncate" />
-                          </div>
-                        </td>
-                        <td className="p-3 text-xs text-muted-foreground">{c.category ? CATEGORY_LABELS[c.category] : c.type}</td>
-                        <td className="p-3 text-center">
-                          <span className={`text-xs font-bold ${c.points > 0 ? 'text-emerald-400' : c.points < 0 ? 'text-red-400' : 'text-muted-foreground'}`}>
-                            {c.points > 0 ? '+' : ''}{c.points}
-                          </span>
-                        </td>
-                        <td className="p-3 text-center">
-                          <Badge variant="outline" className={`text-[10px] ${
-                            c.isCompleted ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
-                            c.isFalta ? 'bg-red-500/15 text-red-400 border-red-500/30' :
-                            'bg-orange-500/15 text-orange-400 border-orange-500/30'
-                          }`}>
-                            {c.isCompleted ? 'Concluída' : c.isFalta ? 'Falta' : 'Pendente'}
-                          </Badge>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        </div>
+        {/* Full width: Histórico de Pacientes do Dia — card style */}
+        <PatientScoreHistory mode="history-only" userRole="clinic" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
       </div>
     );
   };
