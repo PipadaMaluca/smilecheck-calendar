@@ -311,7 +311,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       'Dr. Gil Santos': [
         { id: 'cwl-7', patientName: 'Teresa Martins', detail: 'Disponível 3ª e 5ª', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
         { id: 'cwl-8', patientName: 'Paulo Dias', detail: 'Quer antecipar', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
-        { id: 'cwl-9', patientName: 'Diana Cruz', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
+        { id: 'cwl-9', patientName: 'Beatriz Nunes', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
       ],
     };
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
