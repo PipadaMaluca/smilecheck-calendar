@@ -34,6 +34,7 @@ import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -260,6 +261,10 @@ export function DentistCalendar() {
   };
 
   return (
+    <ProfileNavigationProvider
+      onOpenDentistProfile={(d) => setViewDentistProfile(d)}
+      onOpenClinicProfile={(id) => setViewClinicProfile(id)}
+    >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
       {/* Background Watermark Logo */}
       <div 
@@ -476,5 +481,6 @@ export function DentistCalendar() {
         )}
       </div>
     </div>
+    </ProfileNavigationProvider>
   );
 }

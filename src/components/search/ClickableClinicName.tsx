@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
+import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 import { mockClinics } from '@/data/mockData';
 
 interface ClickableClinicNameProps {
@@ -11,41 +10,32 @@ interface ClickableClinicNameProps {
 }
 
 /**
- * Makes a clinic name clickable to open its full profile modal.
- * Matches by name or clinicId.
+ * Makes a clinic name clickable to open its full profile page.
+ * Uses ProfileNavigationContext to navigate at the top level — never renders inline.
  */
 export function ClickableClinicName({ name, clinicId, className, children }: ClickableClinicNameProps) {
-  const [showProfile, setShowProfile] = useState(false);
+  const nav = useProfileNavigation();
 
   const clinic = clinicId
     ? mockClinics.find(c => c.id === clinicId)
     : mockClinics.find(c => c.name.toLowerCase() === name.toLowerCase());
 
-  if (!clinic) {
+  if (!clinic || !nav) {
     return <span className={className}>{children || name}</span>;
   }
 
   return (
-    <>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setShowProfile(true);
-        }}
-        className={cn(
-          'text-left hover:underline hover:text-primary transition-colors cursor-pointer',
-          className
-        )}
-      >
-        {children || name}
-      </button>
-      {showProfile && (
-        <ClinicProfileView
-          clinicId={clinic.id}
-          isOpen={true}
-          onClose={() => setShowProfile(false)}
-        />
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        nav.openClinicProfile(clinic.id);
+      }}
+      className={cn(
+        'text-left hover:underline hover:text-primary transition-colors cursor-pointer',
+        className
       )}
-    </>
+    >
+      {children || name}
+    </button>
   );
 }

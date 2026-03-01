@@ -48,6 +48,7 @@ import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@
 import { Consultation, TimeSlot, UserRole, ConsultationStatus, ViewMode } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { isSameDay, startOfWeek, endOfWeek, addDays, addWeeks, subWeeks, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { Input } from '@/components/ui/input';
@@ -875,6 +876,10 @@ export function DesktopCalendarView() {
   };
 
   return (
+    <ProfileNavigationProvider
+      onOpenDentistProfile={(d) => setViewDentistProfile(d)}
+      onOpenClinicProfile={(id) => setViewClinicProfile(id)}
+    >
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}
       <div
@@ -1031,6 +1036,7 @@ export function DesktopCalendarView() {
         dentistName={slotCreation.dentistName} />
 
       }
-    </div>);
+    </div>
+    </ProfileNavigationProvider>);
 
 }
