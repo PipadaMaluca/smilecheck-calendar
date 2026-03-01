@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Gift } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { REWARD_TABS, RewardProduct } from '@/data/rewardsData';
+import { REWARD_TABS, RewardProduct, getAllProductsForRole } from '@/data/rewardsData';
 import { ProductGrid } from './ProductGrid';
 import { BrandsList } from './BrandsList';
 import { RedeemModal } from './RedeemModal';
 import { RewardsHistory } from './RewardsHistory';
+import { AllProductsList } from './AllProductsList';
 
 interface RewardsStoreViewProps {
   userRole: UserRole;
@@ -17,6 +18,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const [redeemProduct, setRedeemProduct] = useState<RewardProduct | null>(null);
 
   const tabs = REWARD_TABS[userRole] || REWARD_TABS.patient;
+  const allProducts = getAllProductsForRole(userRole);
 
   const handleRedeem = (product: RewardProduct) => {
     setRedeemProduct(product);
@@ -51,13 +53,19 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsList>
 
         <TabsContent value="loja" className="mt-4">
-          {/* Category tabs per role */}
-          <Tabs defaultValue={tabs[0]?.key} className="w-full">
-            <TabsList className={`w-full grid ${tabs.length === 2 ? 'grid-cols-2' : tabs.length === 3 ? 'grid-cols-3' : 'grid-cols-4'}`}>
+          {/* Category tabs per role — "Todos" first */}
+          <Tabs defaultValue="todos" className="w-full">
+            <TabsList className={`w-full grid`} style={{ gridTemplateColumns: `repeat(${tabs.length + 1}, minmax(0, 1fr))` }}>
+              <TabsTrigger value="todos">Todos</TabsTrigger>
               {tabs.map(tab => (
                 <TabsTrigger key={tab.key} value={tab.key}>{tab.label}</TabsTrigger>
               ))}
             </TabsList>
+
+            {/* "Todos" tab content */}
+            <TabsContent value="todos" className="mt-4">
+              <AllProductsList products={allProducts} userPoints={userPoints} onRedeem={handleRedeem} />
+            </TabsContent>
 
             {tabs.map(tab => (
               <TabsContent key={tab.key} value={tab.key} className="mt-4">
