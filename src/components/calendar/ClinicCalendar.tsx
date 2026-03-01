@@ -36,6 +36,7 @@ import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
+import { FullHistoryView } from '@/components/history/FullHistoryView';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -55,6 +56,7 @@ export function ClinicCalendar() {
   const [viewClinicProfileId, setViewClinicProfileId] = useState<string | null>(null);
   const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
+  const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists
@@ -241,8 +243,10 @@ export function ClinicCalendar() {
         userRole="clinic"
       />
 
-      {activeTab === 'home' ? (
-        <DashboardView userRole="clinic" onNavigate={setActiveTab} />
+      {showFullHistory ? (
+        <FullHistoryView userRole="clinic" onBack={() => setShowFullHistory(false)} />
+      ) : activeTab === 'home' ? (
+        <DashboardView userRole="clinic" onNavigate={setActiveTab} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
         <>
           <DateNavigator

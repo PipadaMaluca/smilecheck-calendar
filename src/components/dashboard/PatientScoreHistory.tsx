@@ -12,9 +12,10 @@ import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal
 interface PatientScoreHistoryProps {
   mode?: 'full' | 'pending-only' | 'history-only';
   onNavigateHistory?: () => void;
+  onViewFullHistory?: () => void;
 }
 
-export function PatientScoreHistory({ mode = 'full', onNavigateHistory }: PatientScoreHistoryProps) {
+export function PatientScoreHistory({ mode = 'full', onNavigateHistory, onViewFullHistory }: PatientScoreHistoryProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [scores, setScores] = useState(mockScoreHistory);
   const [feedbackScore, setFeedbackScore] = useState<ConsultationScore | null>(null);
@@ -98,7 +99,7 @@ export function PatientScoreHistory({ mode = 'full', onNavigateHistory }: Patien
               Histórico por Consulta
             </h3>
             {mode === 'history-only' && (
-              <button className="text-xs text-primary hover:underline" onClick={onNavigateHistory}>
+              <button className="text-xs text-primary hover:underline" onClick={onViewFullHistory || onNavigateHistory}>
                 Ver Histórico Completo ›
               </button>
             )}

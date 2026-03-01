@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
 import { PatientConsultationDetail } from './PatientConsultationDetail';
@@ -43,6 +44,7 @@ export function PatientCalendar() {
   const [showInvite, setShowInvite] = useState(false);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
+  const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -119,10 +121,12 @@ export function PatientCalendar() {
           onNewConsultation={() => { setShowTriage(true); setActiveTab('consultas'); }}
         />
 
-        {showTriage ? (
+        {showFullHistory ? (
+          <FullHistoryView userRole="patient" onBack={() => setShowFullHistory(false)} />
+        ) : showTriage ? (
           <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => { setShowTriage(false); setActiveTab('home'); }} />
         ) : activeTab === 'home' ? (
-          <DashboardView userRole="patient" onNavigate={handleTabChange} onStartTriage={() => setShowTriage(true)} />
+          <DashboardView userRole="patient" onNavigate={handleTabChange} onStartTriage={() => setShowTriage(true)} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'consultas' ? (
           <>
             {/* Calendar */}

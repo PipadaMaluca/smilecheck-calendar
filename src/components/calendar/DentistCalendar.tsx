@@ -40,6 +40,7 @@ import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
+import { FullHistoryView } from '@/components/history/FullHistoryView';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -64,6 +65,7 @@ export function DentistCalendar() {
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
+  const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -290,11 +292,13 @@ export function DentistCalendar() {
           onNewConsultation={() => setSlotCreation({ date: selectedDate, time: '09:00' })}
         />
 
-        {activeTab === 'home' ? (
+        {showFullHistory ? (
+          <FullHistoryView userRole="dentist" onBack={() => setShowFullHistory(false)} />
+        ) : activeTab === 'home' ? (
           <DashboardView userRole="dentist" onNavigate={(tab) => {
             if (tab === 'pesquisa') { setShowSearch(true); return; }
             setActiveTab(tab);
-          }} />
+          }} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'agenda' ? (
           <>
             <DateNavigator

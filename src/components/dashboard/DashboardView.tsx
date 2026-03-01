@@ -19,6 +19,7 @@ interface DashboardViewProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
   onStartTriage?: () => void;
+  onViewFullHistory?: () => void;
 }
 
 function getGreeting(): string {
@@ -45,7 +46,7 @@ const MOCK_WAITING_LIST = [
 { id: 'wl-3', patientName: 'Sofia Lopes', detail: 'Qualquer horário manhã', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
 
 
-export function DashboardView({ userRole, onNavigate, onStartTriage }: DashboardViewProps) {
+export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const greeting = getGreeting();
   const userName = getUserName(userRole);
 
@@ -265,7 +266,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
         </div>
 
         {/* Full width: Score history */}
-        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} />
+        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
       </div>
     );
   };
@@ -431,7 +432,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
               Histórico de Pacientes do Dia (e pontos)
             </h3>
-            <button className="text-xs text-primary hover:underline">
+            <button className="text-xs text-primary hover:underline" onClick={onViewFullHistory}>
               Ver Histórico Completo ›
             </button>
           </div>
@@ -592,7 +593,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
         </div>
 
         {/* Full width: Histórico por Consulta */}
-        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} />
+        <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
       </>
     );
   };
