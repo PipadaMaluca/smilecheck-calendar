@@ -40,6 +40,7 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { ExportReportsView } from '@/components/export/ExportReportsView';
 import { SlotCreationScreen } from '../creation/SlotCreationScreen';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
+import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { ConsultationDetailView } from './ConsultationDetailView';
@@ -574,7 +575,7 @@ export function DesktopCalendarView() {
                 </button>
               </div>
             </header>
-            <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => {setShowTriage(true);setActiveNavTab('agenda');}} />
+            <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => {setShowTriage(true);setActiveNavTab('agenda');}} onViewFullHistory={() => handleNavTabChange('historico')} />
           </div>);
 
 
@@ -798,6 +799,13 @@ export function DesktopCalendarView() {
             </div>
           </div>);
 
+
+      case 'historico':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Histórico Completo')}
+            <FullHistoryView userRole={activeRole} onBack={() => handleNavTabChange('home')} inline />
+          </div>);
 
       case 'pesquisa':
         return (
