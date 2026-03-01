@@ -314,13 +314,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
 
-    // Mock history for table
-    const historyItems = todayConsultations.slice(0, 6).map(c => {
+    // Mock history for table — sorted by time asc, then dentist name
+    const historyItems = todayConsultations.map(c => {
       const isCompleted = c.status === 'visto';
       const isFalta = c.status === 'falta_justificada' || c.status === 'falta_nao_justificada';
       const points = isCompleted ? Math.floor(Math.random() * 10) + 5 : isFalta ? -(Math.floor(Math.random() * 5) + 3) : 0;
       return { ...c, points, isCompleted, isFalta };
-    });
+    }).sort((a, b) => a.time.localeCompare(b.time) || a.dentist.name.localeCompare(b.dentist.name)).slice(0, 6);
 
     return (
       <div className="space-y-6">
@@ -438,10 +438,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </div>
           <Card className="bg-[hsl(var(--card))] border-border overflow-hidden min-w-0">
             <div className="overflow-x-auto">
-              <table className="min-w-[600px] w-full text-sm">
+              <table className="min-w-[500px] w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Data</th>
+                    <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Hora</th>
                     <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Paciente</th>
                     <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Dentista</th>
                     <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Consulta</th>
