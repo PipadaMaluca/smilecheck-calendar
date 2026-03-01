@@ -75,7 +75,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const pres = todayConsultations.filter(c => c.type === 'presencial').length;
       const tele = todayConsultations.filter(c => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} pres · ${tele} tele`, icon: Calendar },
+      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
       { label: 'Pontos', value: '3 800', icon: Trophy },
       { label: 'Streak', value: '30 dias', icon: Flame }];
@@ -330,8 +330,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
               {/* Summary bar */}
               <div className="flex items-center gap-2 sm:gap-4 text-xs pb-2 border-b border-border/50 flex-wrap">
-                <span>📍 Pres: <span className="font-bold text-orange-400">{presCount}</span></span>
-                <span>💻 Tele: <span className="font-bold text-blue-400">{teleCount}</span></span>
+                <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
+                <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
                 <span>👥 Total: <span className="font-bold text-foreground">{todayConsultations.length}</span></span>
               </div>
               <p className="text-[10px] font-semibold text-muted-foreground uppercase">Por Dentista</p>
@@ -340,8 +340,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <div key={d.id} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
                     <span className="text-xs font-medium text-foreground truncate"><ClickableDentistName name={d.name} className="text-xs font-medium text-foreground" /></span>
                     <div className="flex items-center gap-2 text-[10px] flex-shrink-0">
-                      {d.tele > 0 && <span className="text-blue-400">{d.tele} tele</span>}
-                      {d.pres > 0 && <span className="text-orange-400">{d.pres} pres</span>}
+                      {d.tele > 0 && <span className="text-blue-400">{d.tele} Teleconsultas</span>}
+                      {d.pres > 0 && <span className="text-orange-400">{d.pres} Presenciais</span>}
                     </div>
                   </div>
                 ))}
