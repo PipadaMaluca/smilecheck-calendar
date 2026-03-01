@@ -44,48 +44,48 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
   // ===== Geral tab data =====
   const filteredConsultations = useMemo(() => {
-    let cons = mockConsultations.filter(c => {
+    let cons = mockConsultations.filter((c) => {
       if (selectedClinic !== 'all' && c.clinic.id !== selectedClinic) return false;
       return true;
     });
-    if (period === 'today') cons = cons.filter(c => isSameDay(c.date, DEMO_DATE));
-    if (selectedDentist !== 'all') cons = cons.filter(c => c.dentist.id === selectedDentist);
+    if (period === 'today') cons = cons.filter((c) => isSameDay(c.date, DEMO_DATE));
+    if (selectedDentist !== 'all') cons = cons.filter((c) => c.dentist.id === selectedDentist);
     return cons;
   }, [period, selectedDentist, selectedClinic]);
 
   const totalConsultations = filteredConsultations.length;
-  const confirmed = filteredConsultations.filter(c => c.status === 'confirmada' || c.status === 'visto' || c.status === 'em_consulta' || c.status === 'em_sala_espera').length;
-  const faltas = filteredConsultations.filter(c => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
-  const confirmRate = totalConsultations > 0 ? Math.round((confirmed / totalConsultations) * 100) : 0;
-  const faltaRate = totalConsultations > 0 ? Math.round((faltas / totalConsultations) * 100) : 0;
+  const confirmed = filteredConsultations.filter((c) => c.status === 'confirmada' || c.status === 'visto' || c.status === 'em_consulta' || c.status === 'em_sala_espera').length;
+  const faltas = filteredConsultations.filter((c) => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
+  const confirmRate = totalConsultations > 0 ? Math.round(confirmed / totalConsultations * 100) : 0;
+  const faltaRate = totalConsultations > 0 ? Math.round(faltas / totalConsultations * 100) : 0;
   const revenue = filteredConsultations.reduce((sum, c) => sum + c.price, 0);
 
   const clinicDentistsList = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistStats = useMemo(() => {
     const dentistsToUse = selectedClinic === 'all' ? clinicDentistsList : getDentistsForClinic(selectedClinic);
-    return dentistsToUse.map(d => {
-      const dCons = filteredConsultations.filter(c => c.dentist.id === d.id);
-      const dFaltas = dCons.filter(c => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
+    return dentistsToUse.map((d) => {
+      const dCons = filteredConsultations.filter((c) => c.dentist.id === d.id);
+      const dFaltas = dCons.filter((c) => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
       return { ...d, consultations: dCons.length, faltas: dFaltas, rating: (4 + Math.random() * 0.9).toFixed(1) };
-    }).filter(d => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
+    }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
   }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
   const topPatients = useMemo(() => {
-    const map = new Map<string, { name: string; count: number; rating: number }>();
-    filteredConsultations.forEach(c => {
+    const map = new Map<string, {name: string;count: number;rating: number;}>();
+    filteredConsultations.forEach((c) => {
       const existing = map.get(c.patient.id);
-      if (existing) existing.count++;
-      else map.set(c.patient.id, { name: c.patient.name, count: 1, rating: c.patient.rating });
+      if (existing) existing.count++;else
+      map.set(c.patient.id, { name: c.patient.name, count: 1, rating: c.patient.rating });
     });
     return Array.from(map.values()).sort((a, b) => b.count - a.count).slice(0, 5);
   }, [filteredConsultations]);
 
-  const SUB_TABS: { id: SubTab; label: string }[] = [
-    { id: 'geral', label: 'Geral' },
-    { id: 'confirmacoes', label: 'Confirmações' },
-    { id: 'lista_espera', label: 'Lista de Espera' },
-  ];
+  const SUB_TABS: {id: SubTab;label: string;}[] = [
+  { id: 'geral', label: 'Geral' },
+  { id: 'confirmacoes', label: 'Confirmações' },
+  { id: 'lista_espera', label: 'Lista de Espera' }];
+
 
   return (
     <ScrollArea className="flex-1">
@@ -93,47 +93,47 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
         {/* Sub-tab bar — horizontal scrollable on mobile */}
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
           <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit min-w-full sm:min-w-0">
-            {SUB_TABS.map(t => (
-              <button
-                key={t.id}
-                data-subtab={t.id}
-                onClick={() => setActiveSubTab(t.id)}
-                className={cn(
-                  'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
-                  activeSubTab === t.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-                )}
-              >
+            {SUB_TABS.map((t) =>
+            <button
+              key={t.id}
+              data-subtab={t.id}
+              onClick={() => setActiveSubTab(t.id)}
+              className={cn(
+                'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
+                activeSubTab === t.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+              )}>
+
                 {t.label}
               </button>
-            ))}
+            )}
           </div>
         </div>
 
         {/* Filters row — stacks on mobile */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
           {/* Period filters - only on Geral */}
-          {activeSubTab === 'geral' && (
-            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          {activeSubTab === 'geral' &&
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit">
-                {([
-                  { id: 'today' as Period, label: 'Hoje' },
-                  { id: 'week' as Period, label: 'Esta semana' },
-                  { id: 'month' as Period, label: 'Este mês' },
-                ]).map(p => (
-                  <button
-                    key={p.id}
-                    onClick={() => setPeriod(p.id)}
-                    className={cn(
-                      'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
-                      period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-                    )}
-                  >
+                {[
+              { id: 'today' as Period, label: 'Hoje' },
+              { id: 'week' as Period, label: 'Esta semana' },
+              { id: 'month' as Period, label: 'Este mês' }].
+              map((p) =>
+              <button
+                key={p.id}
+                onClick={() => setPeriod(p.id)}
+                className={cn(
+                  'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
+                  period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                )}>
+
                     {p.label}
                   </button>
-                ))}
+              )}
               </div>
             </div>
-          )}
+          }
 
           {/* Dropdowns — full width on mobile, inline on desktop */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-3">
@@ -143,9 +143,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas as clínicas</SelectItem>
-                {mockClinics.map(c => (
-                  <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
-                ))}
+                {mockClinics.map((c) =>
+                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                )}
               </SelectContent>
             </Select>
 
@@ -155,23 +155,23 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos os dentistas</SelectItem>
-                {selectedClinic === 'all' ? (
-                  mockClinics.map(clinic => {
-                    const dentists = getDentistsForClinic(clinic.id);
-                    return (
-                      <SelectGroup key={clinic.id}>
+                {selectedClinic === 'all' ?
+                mockClinics.map((clinic) => {
+                  const dentists = getDentistsForClinic(clinic.id);
+                  return (
+                    <SelectGroup key={clinic.id}>
                         <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
-                        {dentists.map(d => (
-                          <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
-                        ))}
-                      </SelectGroup>
-                    );
-                  })
-                ) : (
-                  availableDentists.map(d => (
-                    <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-                  ))
-                )}
+                        {dentists.map((d) =>
+                      <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
+                      )}
+                      </SelectGroup>);
+
+                }) :
+
+                availableDentists.map((d) =>
+                <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                )
+                }
               </SelectContent>
             </Select>
           </div>
@@ -181,15 +181,15 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
             variant="outline"
             size="sm"
             className="gap-2 text-xs w-full sm:w-auto"
-            onClick={() => setShowExportModal(true)}
-          >
+            onClick={() => setShowExportModal(true)}>
+
             <Download className="w-3.5 h-3.5" /> Exportar Relatório
           </Button>
         </div>
 
         {/* Tab content */}
-        {activeSubTab === 'geral' && (
-          <div className="space-y-6">
+        {activeSubTab === 'geral' &&
+        <div className="space-y-6">
             {/* Summary cards — 1 col mobile, 2 col tablet, 4 col desktop */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="bg-card/80 border-border">
@@ -252,22 +252,22 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {dentistStats.map(d => (
-                        <TableRow key={d.id}>
+                      {dentistStats.map((d) =>
+                    <TableRow key={d.id}>
                           <TableCell className="text-sm font-medium"><ClickableDentistName name={d.name} className="text-sm font-medium" /></TableCell>
                           <TableCell className="text-sm text-center">{d.consultations}</TableCell>
                           <TableCell className="text-sm text-center">{d.faltas}</TableCell>
                           <TableCell className="text-center">
-                            <div className="flex items-center justify-center gap-1">
+                            <div className="flex items-center justify-center gap-[5px]">
                               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                               <span className="text-sm">{d.rating}</span>
                             </div>
                           </TableCell>
                           <TableCell className="hidden sm:table-cell">
-                            <Progress value={(d.consultations / Math.max(totalConsultations, 1)) * 100} className="h-2" />
+                            <Progress value={d.consultations / Math.max(totalConsultations, 1) * 100} className="h-2" />
                           </TableCell>
                         </TableRow>
-                      ))}
+                    )}
                     </TableBody>
                   </Table>
                 </div>
@@ -280,8 +280,8 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4">
                   <div className="space-y-3">
-                    {topPatients.map((p, i) => (
-                      <div key={p.name} className="flex items-center gap-3">
+                    {topPatients.map((p, i) =>
+                  <div key={p.name} className="flex items-center gap-3">
                         <span className="text-xs font-bold text-muted-foreground w-6">#{i + 1}</span>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-foreground"><ClickablePatientName name={p.name} className="text-sm font-medium text-foreground" /></p>
@@ -292,24 +292,24 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <span className="text-xs">{p.rating.toFixed(1)}</span>
                         </div>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
-        )}
+        }
 
-        {activeSubTab === 'confirmacoes' && (
-          <ConfirmationsTab selectedDentist={selectedDentist} userRole={userRole} />
-        )}
+        {activeSubTab === 'confirmacoes' &&
+        <ConfirmationsTab selectedDentist={selectedDentist} userRole={userRole} />
+        }
 
-        {activeSubTab === 'lista_espera' && (
-          <WaitingListTab selectedDentist={selectedDentist} userRole={userRole} />
-        )}
+        {activeSubTab === 'lista_espera' &&
+        <WaitingListTab selectedDentist={selectedDentist} userRole={userRole} />
+        }
       </div>
 
       <ExportReportModal isOpen={showExportModal} onClose={() => setShowExportModal(false)} userRole={userRole} />
-    </ScrollArea>
-  );
+    </ScrollArea>);
+
 }
