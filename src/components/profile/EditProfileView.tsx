@@ -142,22 +142,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        {isMobile ?
-      <>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <h2 className="text-base font-semibold">Editar Perfil</h2>
-            <div className="w-10" />
-          </> :
-
-      <>
-            <h2 className="text-base font-semibold">Editar Perfil</h2>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
-            </Button>
-          </>
-      }
+        <Button variant="ghost" size="icon" onClick={onClose}>
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <h2 className="text-base font-semibold">Editar Perfil</h2>
+        <div className="w-10" />
       </div>
 
       <ScrollArea className="flex-1">
@@ -617,22 +606,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
     return <div className="max-w-2xl mx-auto">{content}</div>;
   }
 
-  if (isMobile) {
-    return (
-      <div className="fixed inset-0 bg-background z-[65] flex flex-col pb-[60px]">
-        {content}
-      </div>);
-
-  }
-
   return (
-    <div className="fixed inset-0 bg-black/50 z-[65] flex items-center justify-center" onClick={onClose}>
-      <div
-        className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[600px] max-h-[90vh] flex flex-col overflow-hidden"
-        onClick={(e) => e.stopPropagation()}>
-
-        {content}
-      </div>
-    </div>);
-
+    <div className="fixed inset-0 bg-background z-[65] flex flex-col pb-[60px]">
+      {content}
+    </div>
+  );
 }
