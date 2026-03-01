@@ -63,6 +63,13 @@ export function MobileHeader({
             </Button>
           </div>
       }
+
+        {/* New Consultation button - right side (dentist/clinic agenda with view mode) */}
+        {showNewConsultation && onNewConsultation && onViewModeChange &&
+          <Button variant="ghost" size="icon" onClick={onNewConsultation} className="absolute right-4 text-primary hover:text-primary/80 flex-shrink-0">
+            <Plus className="w-5 h-5" />
+          </Button>
+        }
       </div>
     </div>;
 }
