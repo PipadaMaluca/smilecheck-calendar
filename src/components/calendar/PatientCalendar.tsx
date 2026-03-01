@@ -19,8 +19,12 @@ import { EditProfileView } from '@/components/profile/EditProfileView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
+import { DentistProfileView } from '@/components/profile/DentistProfileView';
+import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
+import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -37,6 +41,8 @@ export function PatientCalendar() {
   const [showProfile, setShowProfile] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
+  const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
+  const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
@@ -88,6 +94,10 @@ export function PatientCalendar() {
   };
 
   return (
+    <ProfileNavigationProvider
+      onOpenDentistProfile={(d) => setViewDentistProfile(d)}
+      onOpenClinicProfile={(id) => setViewClinicProfile(id)}
+    >
     <div className="min-h-screen bg-background pb-24 relative">
       {/* Background Watermark Logo */}
       <div 
@@ -230,7 +240,24 @@ export function PatientCalendar() {
         <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
         {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
+
+        {viewDentistProfile && (
+          <DentistProfileView
+            dentist={viewDentistProfile}
+            isOpen={true}
+            onClose={() => setViewDentistProfile(null)}
+          />
+        )}
+
+        {viewClinicProfile && (
+          <ClinicProfileView
+            clinicId={viewClinicProfile}
+            isOpen={true}
+            onClose={() => setViewClinicProfile(null)}
+          />
+        )}
       </div>
     </div>
+    </ProfileNavigationProvider>
   );
 }

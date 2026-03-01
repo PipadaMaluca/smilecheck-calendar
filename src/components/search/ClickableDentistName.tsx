@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { DentistProfileView } from '@/components/profile/DentistProfileView';
-import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
+import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
+import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 
 interface ClickableDentistNameProps {
   name: string;
@@ -12,41 +11,31 @@ interface ClickableDentistNameProps {
 
 /**
  * Makes a dentist name clickable to open their full profile view.
- * Works for all roles (patient, dentist, clinic).
+ * Uses ProfileNavigationContext to navigate at the top level — never renders inline.
  */
 export function ClickableDentistName({ name, className, children, onGoHome }: ClickableDentistNameProps) {
-  const [showProfile, setShowProfile] = useState(false);
+  const nav = useProfileNavigation();
 
   const dentist = MOCK_DENTIST_RESULTS.find(
     (d) => d.name.toLowerCase() === name.toLowerCase()
   );
 
-  if (!dentist) {
+  if (!dentist || !nav) {
     return <span className={className}>{children || name}</span>;
   }
 
   return (
-    <>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setShowProfile(true);
-        }}
-        className={cn("hover:underline hover:text-primary transition-colors cursor-pointer text-left",
-
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        nav.openDentistProfile(dentist);
+      }}
+      className={cn(
+        'hover:underline hover:text-primary transition-colors cursor-pointer text-left',
         className
-        )}>
-
-        {children || name}
-      </button>
-      {showProfile &&
-      <DentistProfileView
-        dentist={dentist}
-        isOpen={true}
-        onClose={() => setShowProfile(false)}
-        onGoHome={onGoHome} />
-
-      }
-    </>);
-
+      )}
+    >
+      {children || name}
+    </button>
+  );
 }
