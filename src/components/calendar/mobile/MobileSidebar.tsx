@@ -286,6 +286,7 @@ export function MobileSidebar({
               <MenuItem icon={FileText} label="Carta de Referência" onClick={() => {onClose();onNavigate?.('referencia');}} />
               <MenuItem icon={Trophy} label="Classificações" onClick={() => {onClose();onNavigate?.('classificacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
+              <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
               <MenuItem icon={Star} label="Favoritos" onClick={() => {onClose();onNavigate?.('favoritos');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
@@ -307,7 +308,7 @@ export function MobileSidebar({
               {/* Alphabetical - NO Carta de Referência, NO Prescrever Receita */}
               <MenuItem icon={Trophy} label="Classificações" onClick={() => {onClose();onNavigate?.('classificacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
-              <MenuItem icon={BarChart3} label="Estatísticas" />
+              <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
               <MenuItem icon={Star} label="Favoritos" onClick={() => {onClose();onNavigate?.('favoritos');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
