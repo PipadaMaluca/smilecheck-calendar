@@ -71,7 +71,8 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
         const isFalta = c.status === 'falta_justificada' || c.status === 'falta_nao_justificada';
         const points = isCompleted ? Math.floor(Math.random() * 10) + 5 : isFalta ? -(Math.floor(Math.random() * 5) + 3) : 0;
         return { ...c, points, isCompleted, isFalta };
-      });
+      })
+      .sort((a, b) => a.time.localeCompare(b.time) || a.dentist.name.localeCompare(b.dentist.name));
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       items = items.filter(c => c.patient.name.toLowerCase().includes(q));
@@ -136,7 +137,7 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-xs">Data</TableHead>
+                  <TableHead className="text-xs">Hora</TableHead>
                   <TableHead className="text-xs">Paciente</TableHead>
                   <TableHead className="text-xs">Dentista</TableHead>
                   <TableHead className="text-xs hidden sm:table-cell">Consulta</TableHead>
