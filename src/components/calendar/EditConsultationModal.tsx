@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Calendar, Clock, User, Phone, Star, Save } from 'lucide-react';
+import { X, Calendar, Clock, User, Phone, Star, Save, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -95,23 +95,14 @@ export function EditConsultationModal({
   };
 
   const modalContent = (
-    <div className={cn(
-      'bg-card flex flex-col',
-      isMobile 
-        ? 'fixed inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh] animate-slide-up-modal z-50'
-        : 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-[95%] max-w-lg max-h-[90vh] z-50'
-    )}>
+    <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
-        <h2 className="text-lg font-bold">Editar Consulta</h2>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onClose}
-          className="text-muted-foreground hover:text-foreground"
-        >
-          <X className="w-5 h-5" />
+      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        <Button variant="ghost" size="icon" onClick={onClose}>
+          <ArrowLeft className="w-5 h-5" />
         </Button>
+        <h2 className="text-base font-semibold">Detalhes da Consulta</h2>
+        <div className="w-10" />
       </div>
 
       {/* Content */}
@@ -250,14 +241,5 @@ export function EditConsultationModal({
     </div>
   );
 
-  return (
-    <>
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
-        onClick={onClose}
-      />
-      {modalContent}
-    </>
-  );
+  return modalContent;
 }
