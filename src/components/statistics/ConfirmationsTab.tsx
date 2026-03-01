@@ -6,7 +6,8 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
-import { UserRole } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory } from '@/types/calendar';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -42,6 +43,16 @@ const getCategoryLabel = (cat: string) => {
   return labels[cat] || cat;
 };
 
+const getCategoryLabelShort = (cat: string) => {
+  const labels: Record<string, string> = {
+    primeira_consulta: '1ª Cons.', restauracao: 'Restaur.', destartarizacao: 'Destart.',
+    endodontia: 'Endod.', cirurgia: 'Cirurgia', protese: 'Prótese', ortodontia: 'Ortodon.',
+    urgencia: 'Urgência', teleconsulta: 'Telecons.', odontopediatria: 'Odontoped.',
+    implante: 'Implante', branqueamento: 'Branq.', followup: 'Follow-up',
+  };
+  return labels[cat] || cat;
+};
+
 function get24hStatus(status?: string): BadgeStatus {
   if (!status) return 'pending';
   if (status === 'falta_justificada' || status === 'falta_nao_justificada') return 'cancelled';
@@ -56,16 +67,23 @@ function get1hStatus(s24h: BadgeStatus, status?: string): BadgeStatus {
   return 'pending';
 }
 
+const abbreviateName = (name: string) => {
+  const parts = name.split(' ');
+  if (parts.length <= 1) return name;
+  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+};
+
 interface ConfirmationsTabProps {
   selectedDentist: string;
   userRole: UserRole;
 }
 
 export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTabProps) {
+  const isMobile = useIsMobile();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistsToShow = useMemo(() => {
-    if (userRole === 'dentist') return clinicDentists.filter(d => d.id === '1'); // logged-in dentist
+    if (userRole === 'dentist') return clinicDentists.filter(d => d.id === '1');
     if (selectedDentist !== 'all') return clinicDentists.filter(d => d.id === selectedDentist);
     return clinicDentists;
   }, [clinicDentists, selectedDentist, userRole]);
@@ -91,46 +109,56 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
         return (
           <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">
             <CardContent className="p-0">
-              <div className="flex items-center justify-between p-4 border-b border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-border gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
+                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {initials}
                   </div>
                   <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
-                <div className="flex items-center gap-3 text-xs">
-                  <span className="text-emerald-400">✓ {confirmed} confirmados</span>
-                  <span className="text-orange-400">● {pending} pendentes</span>
-                  <span className="text-red-400">✗ {cancelled} cancelados</span>
+                <div className="flex items-center gap-3 text-xs flex-shrink-0">
+                  <span className="text-emerald-400">✓ {confirmed}</span>
+                  <span className="text-orange-400">● {pending}</span>
+                  <span className="text-red-400">✗ {cancelled}</span>
                 </div>
               </div>
               {displayCons.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-xs">Hora</TableHead>
-                      <TableHead className="text-xs">Paciente</TableHead>
-                      <TableHead className="text-xs">Tipo de Consulta</TableHead>
-                      <TableHead className="text-xs text-center">24h</TableHead>
-                      <TableHead className="text-xs text-center">1h</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {displayCons.map(c => {
-                      const s24 = get24hStatus(c.status);
-                      const s1 = get1hStatus(s24, c.status);
-                      return (
-                        <TableRow key={c.id}>
-                          <TableCell className="text-sm font-medium">{c.time}</TableCell>
-                          <TableCell className="text-sm"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-sm" /></TableCell>
-                          <TableCell className="text-sm">{getCategoryLabel(c.category)}</TableCell>
-                          <TableCell className="text-center">{statusBadge(s24)}</TableCell>
-                          <TableCell className="text-center">{statusBadge(s1)}</TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-xs">Hora</TableHead>
+                        <TableHead className="text-xs">Paciente</TableHead>
+                        <TableHead className="text-xs">Tipo</TableHead>
+                        <TableHead className="text-xs text-center">24h</TableHead>
+                        <TableHead className="text-xs text-center">1h</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {displayCons.map(c => {
+                        const s24 = get24hStatus(c.status);
+                        const s1 = get1hStatus(s24, c.status);
+                        const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                        const catLabel = c.category ? (isMobile ? getCategoryLabelShort(c.category) : getCategoryLabel(c.category)) : '';
+                        return (
+                          <TableRow key={c.id}>
+                            <TableCell className="text-sm font-medium">{c.time}</TableCell>
+                            <TableCell className="text-sm">
+                              <ClickablePatientName name={isMobile ? abbreviateName(c.patient.name) : c.patient.name} patientId={c.patient.id} className="text-sm" />
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-xs font-medium whitespace-nowrap" style={{ color: catColor?.hex }}>
+                                {catLabel}
+                              </span>
+                            </TableCell>
+                            <TableCell className="text-center">{statusBadge(s24)}</TableCell>
+                            <TableCell className="text-center">{statusBadge(s1)}</TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
               ) : (
                 <p className="p-4 text-sm text-muted-foreground">Sem consultas hoje.</p>
               )}

@@ -51,6 +51,7 @@ export interface ConsultationConfirmation {
   time: string;
   status24h: ConfirmationStatus;
   status1h: ConfirmationStatus;
+  category?: string;
 }
 
 // Mock score history for patient view
@@ -157,14 +158,14 @@ export const mockScoreHistory: ConsultationScore[] = [
 ];
 // Mock confirmations for clinic dashboard
 export const mockConfirmations: ConsultationConfirmation[] = [
-  { consultationId: 'gp-1', patientName: 'Pedro Almeida', dentistName: 'Dr. Gonçalo Pipo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed' },
-  { consultationId: 'gp-2', patientName: 'Maria Silva', dentistName: 'Dr. Gonçalo Pipo', time: '09:30', status24h: 'confirmed', status1h: 'confirmed' },
-  { consultationId: 'gp-3', patientName: 'João Costa', dentistName: 'Dr. Gonçalo Pipo', time: '10:00', status24h: 'confirmed', status1h: 'pending' },
-  { consultationId: 'gp-4', patientName: 'Ana Ferreira', dentistName: 'Dr. Gonçalo Pipo', time: '10:30', status24h: 'confirmed', status1h: 'pending' },
-  { consultationId: 'gp-5', patientName: 'Carlos Santos', dentistName: 'Dr. Gonçalo Pipo', time: '11:00', status24h: 'pending', status1h: 'pending' },
-  { consultationId: 'ab-1', patientName: 'Beatriz Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed' },
-  { consultationId: 'ab-2', patientName: 'Fernando Costa', dentistName: 'Dr. Alexandre Bernardo', time: '09:30', status24h: 'confirmed', status1h: 'pending' },
-  { consultationId: 'ab-3', patientName: 'Catarina Reis', dentistName: 'Dr. Alexandre Bernardo', time: '10:00', status24h: 'declined', status1h: 'pending' },
-  { consultationId: 'gs-1', patientName: 'Ricardo Oliveira', dentistName: 'Dr. Gil Santos', time: '09:00', status24h: 'confirmed', status1h: 'confirmed' },
-  { consultationId: 'gs-2', patientName: 'Marta Alves', dentistName: 'Dr. Gil Santos', time: '09:30', status24h: 'pending', status1h: 'pending' },
+  { consultationId: 'gp-1', patientName: 'Pedro Almeida', dentistName: 'Dr. Gonçalo Pipo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'primeira_consulta' },
+  { consultationId: 'gp-2', patientName: 'Maria Silva', dentistName: 'Dr. Gonçalo Pipo', time: '09:30', status24h: 'confirmed', status1h: 'confirmed', category: 'restauracao' },
+  { consultationId: 'gp-3', patientName: 'João Costa', dentistName: 'Dr. Gonçalo Pipo', time: '10:00', status24h: 'confirmed', status1h: 'pending', category: 'destartarizacao' },
+  { consultationId: 'gp-4', patientName: 'Ana Ferreira', dentistName: 'Dr. Gonçalo Pipo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'urgencia' },
+  { consultationId: 'gp-5', patientName: 'Carlos Santos', dentistName: 'Dr. Gonçalo Pipo', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'endodontia' },
+  { consultationId: 'ab-1', patientName: 'Beatriz Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'destartarizacao' },
+  { consultationId: 'ab-2', patientName: 'Fernando Costa', dentistName: 'Dr. Alexandre Bernardo', time: '09:30', status24h: 'confirmed', status1h: 'pending', category: 'restauracao' },
+  { consultationId: 'ab-3', patientName: 'Catarina Reis', dentistName: 'Dr. Alexandre Bernardo', time: '10:00', status24h: 'declined', status1h: 'pending', category: 'primeira_consulta' },
+  { consultationId: 'gs-1', patientName: 'Ricardo Oliveira', dentistName: 'Dr. Gil Santos', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'ortodontia' },
+  { consultationId: 'gs-2', patientName: 'Marta Alves', dentistName: 'Dr. Gil Santos', time: '09:30', status24h: 'pending', status1h: 'pending', category: 'protese' },
 ];

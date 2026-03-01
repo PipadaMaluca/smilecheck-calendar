@@ -64,48 +64,50 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
         return (
           <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">
             <CardContent className="p-0">
-              <div className="flex items-center justify-between p-4 border-b border-border">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-border gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
+                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {initials}
                   </div>
                   <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
-                <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
+                <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 self-start sm:self-auto">
                   {patients.length} pacientes
                 </Badge>
               </div>
               {patients.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-xs">Paciente</TableHead>
-                      <TableHead className="text-xs">Consulta Pretendida</TableHead>
-                      <TableHead className="text-xs">Disponibilidade</TableHead>
-                      <TableHead className="text-xs">Prioridade</TableHead>
-                      <TableHead className="text-xs">Data Pedido</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {patients.map(p => (
-                      <TableRow key={p.id}>
-                        <TableCell className="text-sm font-medium"><ClickablePatientName name={p.name} className="text-sm font-medium" /></TableCell>
-                        <TableCell className="text-sm">{p.consultationType}</TableCell>
-                        <TableCell>
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                            {p.availability}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className={cn('text-xs px-2 py-0.5 rounded-full border', priorityStyles[p.priority])}>
-                            {p.priority}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">{p.requestDate}</TableCell>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="text-xs">Paciente</TableHead>
+                        <TableHead className="text-xs">Consulta</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">Disponibilidade</TableHead>
+                        <TableHead className="text-xs">Prioridade</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">Data Pedido</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {patients.map(p => (
+                        <TableRow key={p.id}>
+                          <TableCell className="text-sm font-medium"><ClickablePatientName name={p.name} className="text-sm font-medium" /></TableCell>
+                          <TableCell className="text-sm">{p.consultationType}</TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                              {p.availability}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <span className={cn('text-xs px-2 py-0.5 rounded-full border whitespace-nowrap', priorityStyles[p.priority])}>
+                              {p.priority}
+                            </span>
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground hidden sm:table-cell">{p.requestDate}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               ) : (
                 <p className="p-4 text-sm text-muted-foreground">Sem pacientes em lista de espera.</p>
               )}
