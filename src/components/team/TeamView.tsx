@@ -258,7 +258,7 @@ function ClinicTeamView() {
 
   return (
     <div className="space-y-4">
-      <div className="items-center justify-between flex flex-row gap-0 py-0 pb-[10px]">
+      <div className="items-center justify-between flex flex-row gap-0 py-0 pb-[10px] px-[10px]">
         <div>
           <h2 className="text-lg font-bold text-foreground">Gerir Equipa</h2>
           <p className="text-sm text-muted-foreground">{clinicDentistsList.length} dentistas activos</p>
