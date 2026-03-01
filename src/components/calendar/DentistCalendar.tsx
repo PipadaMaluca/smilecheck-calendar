@@ -39,6 +39,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
+import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -62,6 +63,7 @@ export function DentistCalendar() {
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const [slotCreation, setSlotCreation] = useState<{ date: Date; time: string; dentistKey?: string; dentistName?: string } | null>(null);
+  const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -264,6 +266,7 @@ export function DentistCalendar() {
     <ProfileNavigationProvider
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
+      onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
       {/* Background Watermark Logo */}
@@ -479,6 +482,12 @@ export function DentistCalendar() {
             dentistName={slotCreation.dentistName}
           />
         )}
+
+        <MobilePatientDossier
+          patientId={viewPatientDossier || ''}
+          isOpen={!!viewPatientDossier}
+          onClose={() => setViewPatientDossier(null)}
+        />
       </div>
     </div>
     </ProfileNavigationProvider>

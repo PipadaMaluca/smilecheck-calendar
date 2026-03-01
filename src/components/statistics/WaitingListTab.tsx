@@ -3,6 +3,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { getDentistsForClinic } from '@/data/mockData';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 
@@ -67,7 +69,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
                     {initials}
                   </div>
-                  <span className="text-sm font-semibold text-foreground">{dentist.name}</span>
+                  <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
                 <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">
                   {patients.length} pacientes
@@ -87,7 +89,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <TableBody>
                     {patients.map(p => (
                       <TableRow key={p.id}>
-                        <TableCell className="text-sm font-medium">{p.name}</TableCell>
+                        <TableCell className="text-sm font-medium"><ClickablePatientName name={p.name} className="text-sm font-medium" /></TableCell>
                         <TableCell className="text-sm">{p.consultationType}</TableCell>
                         <TableCell>
                           <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">

@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Progress } from '@/components/ui/progress';
 import { Download, Calendar, CheckCircle2, XCircle, Star, TrendingUp } from 'lucide-react';
 import { mockConsultations, getDentistsForClinic, mockClinics, clinicDentists, mockDentists } from '@/data/mockData';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
@@ -249,7 +251,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                   <TableBody>
                     {dentistStats.map(d => (
                       <TableRow key={d.id}>
-                        <TableCell className="text-sm font-medium">{d.name}</TableCell>
+                        <TableCell className="text-sm font-medium"><ClickableDentistName name={d.name} className="text-sm font-medium" /></TableCell>
                         <TableCell className="text-sm text-center">{d.consultations}</TableCell>
                         <TableCell className="text-sm text-center">{d.faltas}</TableCell>
                         <TableCell className="text-center">
@@ -278,7 +280,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                       <div key={p.name} className="flex items-center gap-3">
                         <span className="text-xs font-bold text-muted-foreground w-6">#{i + 1}</span>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-foreground">{p.name}</p>
+                          <p className="text-sm font-medium text-foreground"><ClickablePatientName name={p.name} className="text-sm font-medium text-foreground" /></p>
                           <p className="text-xs text-muted-foreground">{p.count} consultas</p>
                         </div>
                         <div className="flex items-center gap-1">

@@ -5,6 +5,7 @@ import { mockClinics } from '@/data/mockData';
 interface ProfileNavigationContextType {
   openDentistProfile: (dentistNameOrResult: string | DentistSearchResult) => void;
   openClinicProfile: (clinicNameOrId: string) => void;
+  openPatientProfile: (patientId: string) => void;
 }
 
 const ProfileNavigationContext = createContext<ProfileNavigationContextType | null>(null);
@@ -12,11 +13,13 @@ const ProfileNavigationContext = createContext<ProfileNavigationContextType | nu
 export function ProfileNavigationProvider({ 
   children, 
   onOpenDentistProfile, 
-  onOpenClinicProfile 
+  onOpenClinicProfile,
+  onOpenPatientProfile,
 }: { 
   children: React.ReactNode;
   onOpenDentistProfile: (dentist: DentistSearchResult) => void;
   onOpenClinicProfile: (clinicId: string) => void;
+  onOpenPatientProfile?: (patientId: string) => void;
 }) {
   const openDentistProfile = useCallback((nameOrResult: string | DentistSearchResult) => {
     if (typeof nameOrResult === 'string') {
@@ -39,8 +42,12 @@ export function ProfileNavigationProvider({
     }
   }, [onOpenClinicProfile]);
 
+  const openPatientProfile = useCallback((patientId: string) => {
+    onOpenPatientProfile?.(patientId);
+  }, [onOpenPatientProfile]);
+
   return (
-    <ProfileNavigationContext.Provider value={{ openDentistProfile, openClinicProfile }}>
+    <ProfileNavigationContext.Provider value={{ openDentistProfile, openClinicProfile, openPatientProfile }}>
       {children}
     </ProfileNavigationContext.Provider>
   );

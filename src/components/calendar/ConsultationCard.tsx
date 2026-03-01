@@ -5,6 +5,7 @@ import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ConsultationContextMenu } from './ConsultationContextMenu';
 import { toast } from 'sonner';
 
@@ -138,7 +139,11 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         ) : (
           <>
             {/* For dentist/clinic: show patient with age and notes */}
-            <p className="text-sm font-bold text-white">{patientNameWithAge}</p>
+            <p className="text-sm font-bold text-white">
+              <ClickablePatientName name={consultation.patient.name} patientId={consultation.patient.id} className="text-sm font-bold text-white">
+                {patientNameWithAge}
+              </ClickablePatientName>
+            </p>
             {consultation.notes && (
               <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
             )}

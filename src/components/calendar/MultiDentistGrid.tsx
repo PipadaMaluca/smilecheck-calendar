@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { Video, AlertTriangle, Ban } from 'lucide-react';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 export interface DentistColumn {
   dentist: Dentist;
@@ -88,8 +90,8 @@ export function MultiDentistGrid({
                     : "flex-1 min-w-[180px]"
                 )}
               >
-                <p className="text-xs font-semibold truncate">{col.dentist.name}</p>
-                <p className="text-[9px] text-muted-foreground truncate">{col.clinic.name}</p>
+                <p className="text-xs font-semibold truncate"><ClickableDentistName name={col.dentist.name} className="text-xs font-semibold" /></p>
+                <p className="text-[9px] text-muted-foreground truncate"><ClickableClinicName name={col.clinic.name} clinicId={col.clinic.id} className="text-[9px] text-muted-foreground" /></p>
                 <p className="text-[9px] text-muted-foreground">{col.dentist.workingHours || '9h-21h'}</p>
               </div>
             ))}
