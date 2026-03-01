@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
-import { EditConsultationModal } from './EditConsultationModal';
+import { PatientConsultationDetail } from './PatientConsultationDetail';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
@@ -218,21 +218,14 @@ export function PatientCalendar() {
           activeTab={activeTab}
         />
 
-        {/* Edit Modal */}
-        <EditConsultationModal
-          consultation={selectedConsultation}
-          isOpen={!!selectedConsultation}
-          onClose={() => setSelectedConsultation(null)}
-          isMobile={isMobile}
-          onSave={(updated) => {
-            console.log('Saved consultation:', updated);
-            setSelectedConsultation(null);
-          }}
-          onCancel={(consultation) => {
-            console.log('Cancelled consultation:', consultation);
-            setSelectedConsultation(null);
-          }}
-        />
+        {/* Patient Consultation Detail */}
+        {selectedConsultation && (
+          <PatientConsultationDetail
+            consultation={selectedConsultation}
+            isOpen={!!selectedConsultation}
+            onClose={() => setSelectedConsultation(null)}
+          />
+        )}
 
         <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
