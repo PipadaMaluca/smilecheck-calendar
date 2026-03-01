@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet } from 'lucide-react';
+import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet, AlertTriangle } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import {
@@ -23,6 +23,7 @@ interface PlanFeature {
   text: string;
   included: boolean;
   isInherited?: boolean;
+  isWarning?: boolean;
 }
 
 interface Plan {
@@ -103,7 +104,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     { text: 'Tema claro/escuro', included: true },
     { text: 'Exportar relatórios básicos (PDF)', included: true },
     { text: 'Prescrições limitadas', included: true },
-    { text: 'Reset anual de pontos', included: false },
+    { text: 'Reset anual de pontos', included: false, isWarning: true },
     { text: 'Sem bónus de pontos', included: false },
     { text: 'Com anúncios', included: false }]
 
@@ -150,7 +151,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     { text: 'Sistema de pontos básico', included: true },
     { text: '10 cores de consulta (fixas)', included: true },
     { text: 'Tema claro/escuro', included: true },
-    { text: 'Reset anual de pontos', included: false },
+    { text: 'Reset anual de pontos', included: false, isWarning: true },
     { text: 'Sem bónus de pontos', included: false },
     { text: 'Com anúncios', included: false }]
 
@@ -287,7 +288,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           const Icon = plan.icon;
           const price = formatPrice(plan);
           const includedFeatures = plan.features.filter((f) => f.included);
-          const excludedFeatures = plan.features.filter((f) => !f.included);
+          const warningFeatures = plan.features.filter((f) => !f.included && f.isWarning);
+          const excludedFeatures = plan.features.filter((f) => !f.included && !f.isWarning);
 
           return (
             <Card
@@ -353,9 +355,23 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                     </div>
                   )}
 
+                  {/* Warning features */}
+                  {warningFeatures.length > 0 &&
+                  <div className="border-t border-amber-500/30 mt-3 pt-2 pb-2 border-b border-b-amber-500/30 space-y-1.5">
+                      <div className="rounded-md bg-amber-500/10 border border-amber-500/20 px-3 py-2">
+                        {warningFeatures.map((feat, i) =>
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                          <span className="text-amber-400 font-medium">{feat.text}</span>
+                        </div>
+                        )}
+                      </div>
+                    </div>
+                  }
+
                   {/* Excluded features */}
                   {excludedFeatures.length > 0 &&
-                  <div className="border-t border-border/50 mt-3 pt-2 space-y-1.5">
+                  <div className="mt-2 space-y-1.5">
                       {excludedFeatures.map((feat, i) =>
                     <div key={i} className="flex items-start gap-2 text-sm">
                           <X className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
