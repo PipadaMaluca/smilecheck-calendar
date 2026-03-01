@@ -41,12 +41,12 @@ export function CalendarDemo() {
 
   // On mobile/tablet, show the original tabbed interface
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
       {showSplash && <SplashScreen userRole={splashRole} onFinish={handleSplashFinish} />}
 
       {/* View Selector */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-        <Tabs value={activeView} onValueChange={setActiveView} className="w-full">
+        <Tabs value={activeView} onValueChange={setActiveView} className="w-full max-w-full overflow-x-hidden">
           <TabsList className="w-full h-14 bg-card/50 rounded-none grid grid-cols-3">
             <TabsTrigger
               value="patient"
