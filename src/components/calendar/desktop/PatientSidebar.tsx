@@ -72,54 +72,51 @@ export function PatientSidebar({
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
   return (
-    <aside className="h-full w-[400px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex items-center justify-center">
+    <aside className="h-full w-[400px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex">
       {/* Find Slot Button */}
-      <div className="p-3 flex-shrink-0">
-        <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
-          <Plus className="w-4 h-4" />
+      <div className="px-5 pt-4 pb-3 flex-shrink-0">
+        <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-sm h-10">
+          <Plus className="w-5 h-5" />
           NOVA CONSULTA
         </Button>
       </div>
 
       {/* Mini Calendar */}
-      <div className="px-3 pb-3 border-b border-[#1E3A5F] flex-shrink-0">
+      <div className="px-5 pb-4 border-b border-[#1E3A5F] flex-shrink-0">
         {/* Month Navigation */}
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
-
-            <ChevronLeft className="w-3 h-3" />
+            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+            <ChevronLeft className="w-4 h-4" />
           </Button>
-          <span className="text-xs font-medium capitalize">
+          <span className="text-sm font-semibold capitalize">
             {format(currentMonth, 'MMMM yyyy', { locale: pt })}
           </span>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
-
-            <ChevronRight className="w-3 h-3" />
+            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+            <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
 
         {/* Week Days Header */}
-        <div className="grid grid-cols-7 gap-0.5 mb-1">
+        <div className="grid grid-cols-7 gap-1 mb-1">
           {weekDays.map((d, i) =>
           <div
             key={`${d}-${i}`}
-            className="text-center text-[10px] font-medium text-muted-foreground py-0.5">
-
+            className="text-center text-xs font-medium text-muted-foreground py-1">
               {d}
             </div>
           )}
         </div>
 
         {/* Calendar Grid */}
-        <div className="grid grid-cols-7 gap-0.5">
+        <div className="grid grid-cols-7 gap-1">
           {rows.flat().map((date, idx) => {
             const isCurrentMonth = isSameMonth(date, currentMonth);
             const isToday = isSameDay(date, today);
@@ -131,96 +128,87 @@ export function PatientSidebar({
                 key={idx}
                 onClick={() => onDateSelect(date)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center w-6 h-6 rounded text-[10px] transition-all',
+                  'relative flex flex-col items-center justify-center aspect-square w-full rounded-md text-sm transition-all',
                   !isCurrentMonth && 'text-muted-foreground/40',
                   isCurrentMonth && 'text-foreground hover:bg-[#152238]',
                   isToday && 'bg-primary text-primary-foreground font-semibold',
                   isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
                 )}>
-
                 {format(date, 'd')}
                 {hasAppt && !isToday &&
-                <span className="absolute bottom-0 w-1 h-1 rounded-full bg-primary" />
+                <span className="absolute bottom-0.5 w-1.5 h-1.5 rounded-full bg-primary" />
                 }
               </button>);
-
           })}
         </div>
       </div>
 
       {/* Family Section */}
-      <div className="p-3 border-b border-[#1E3A5F] flex-shrink-0">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-muted-foreground">
+      <div className="px-5 py-3 border-b border-[#1E3A5F] flex-shrink-0">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-semibold text-muted-foreground">
             Filtrar por membro:
           </span>
         </div>
       </div>
 
       {/* Search */}
-      <div className="px-3 py-2 flex-shrink-0">
+      <div className="px-5 py-3 flex-shrink-0">
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Pesquisar"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-7 h-7 text-xs bg-[#152238] border-[#1E3A5F]" />
-
+            className="pl-9 h-9 text-sm bg-[#152238] border-[#1E3A5F]" />
         </div>
       </div>
 
       {/* Family Members List */}
-      <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto px-5 pb-4 scrollbar-hide">
         {/* All checkbox */}
         <div
-          className="flex items-center gap-2 py-1.5 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
+          className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#152238] rounded-md px-2 -mx-2"
           onClick={onSelectAllMembers}>
-
           <Checkbox
             checked={allSelected}
             className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-
-          <span className="text-xs font-medium">Todos</span>
+          <span className="text-sm font-medium">Todos</span>
         </div>
 
         {/* Family Group */}
         <Collapsible open={isFamilyOpen} onOpenChange={setIsFamilyOpen}>
-          <CollapsibleTrigger className="flex items-center gap-1.5 py-1.5 w-full text-left">
+          <CollapsibleTrigger className="flex items-center gap-2 py-2 w-full text-left">
             <ChevronDown
               className={cn(
-                'w-3 h-3 text-muted-foreground transition-transform',
+                'w-4 h-4 text-muted-foreground transition-transform',
                 !isFamilyOpen && '-rotate-90'
               )} />
-
-            <span className="text-xs text-muted-foreground">Família</span>
+            <span className="text-sm text-muted-foreground">Família</span>
           </CollapsibleTrigger>
-          <CollapsibleContent className="pl-3">
+          <CollapsibleContent className="pl-4">
             {filteredMembers.map((member) => {
               const isSelected = selectedMemberIds.includes(member.id);
 
               return (
                 <div
                   key={member.id}
-                  className="flex items-center gap-2 py-1 cursor-pointer hover:bg-[#152238] rounded px-1.5 -mx-1.5"
+                  className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#152238] rounded-md px-2 -mx-2"
                   onClick={() => onMemberToggle(member.id, false)}>
-
                   <Checkbox
                     checked={isSelected}
                     className="border-muted-foreground h-5 w-5 rounded-md data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     onClick={(e) => {e.stopPropagation();onMemberToggle(member.id, true);}} />
-
-                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                    <User className="w-2.5 h-2.5 text-primary" />
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                    <User className="w-3 h-3 text-primary" />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    <span className={cn('text-xs truncate', isSelected && 'font-medium')}>
+                    <span className={cn('text-sm truncate', isSelected && 'font-medium')}>
                       {member.name} ({member.age} anos)
                     </span>
-                    <span className="text-[9px] text-muted-foreground">{member.relation}</span>
+                    <span className="text-xs text-muted-foreground">{member.relation}</span>
                   </div>
                 </div>);
-
             })}
           </CollapsibleContent>
         </Collapsible>
