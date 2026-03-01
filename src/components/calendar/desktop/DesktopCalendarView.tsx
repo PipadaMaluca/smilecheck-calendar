@@ -879,6 +879,7 @@ export function DesktopCalendarView() {
     <ProfileNavigationProvider
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
+      onOpenPatientProfile={(id) => { setDossierPatientId(id); }}
     >
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}

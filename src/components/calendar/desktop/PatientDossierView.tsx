@@ -7,6 +7,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
 interface PatientDossierViewProps {
   patientId: string;
@@ -200,7 +202,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
                   <div key={rx.id} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                     <div>
                       <p className="text-sm font-medium">{rx.date}</p>
-                      <p className="text-xs text-muted-foreground">{rx.dentist}</p>
+                      <p className="text-xs text-muted-foreground"><ClickableDentistName name={rx.dentist} className="text-xs text-muted-foreground" /></p>
                       <p className="text-xs text-muted-foreground mt-0.5">{rx.medications.join(', ')}</p>
                     </div>
                     <Button variant="ghost" size="sm" className="gap-1.5 text-xs" onClick={() => setPreviewPrescription(rx)}>
@@ -213,7 +215,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
                 {data.referrals.map((ref: any) => (
                   <div key={ref.id} className="p-3 bg-secondary/30 rounded-lg">
                     <p className="text-sm font-medium">{ref.date}</p>
-                    <p className="text-xs text-muted-foreground">De: {ref.from} → Para: {ref.to}</p>
+                    <p className="text-xs text-muted-foreground">De: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → Para: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
                     <p className="text-xs text-muted-foreground mt-0.5">{ref.reason}</p>
                   </div>
                 ))}
@@ -281,7 +283,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
                             {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground">{c.type} • {c.dentist} • {c.clinic}</p>
+                        <p className="text-xs text-muted-foreground">{c.type} • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /> • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
                       </div>
                     </button>
                     {isExpanded && (

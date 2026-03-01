@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2 } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -251,6 +252,8 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                             <ClickableDentistName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
                           ) : conversation.type === 'Clínica' ? (
                             <ClickableClinicName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
+                          ) : conversation.type === 'Paciente' ? (
+                            <ClickablePatientName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} />
                           ) : (
                             conversation.name
                           )}
@@ -306,6 +309,8 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                        <ClickableDentistName name={selectedConversation.name} className="text-sm font-semibold" />
                      ) : selectedConversation.type === 'Clínica' ? (
                        <ClickableClinicName name={selectedConversation.name} className="text-sm font-semibold" />
+                     ) : selectedConversation.type === 'Paciente' ? (
+                       <ClickablePatientName name={selectedConversation.name} className="text-sm font-semibold" />
                      ) : (
                        selectedConversation.name
                      )}

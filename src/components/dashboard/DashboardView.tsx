@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -190,7 +191,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                       <span className="text-xs font-bold text-primary w-10 flex-shrink-0">{c.time}</span>
                       {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-foreground truncate">{c.patient.name}</p>
+                        <p className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" /></p>
                         <p className="text-[10px] text-muted-foreground truncate">
                           {c.duration}min · {c.category ? CATEGORY_LABELS[c.category] : c.type}
                         </p>
@@ -223,7 +224,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <div className="space-y-1.5">
                 {dentistConfirmations.map((c) => (
                   <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                    <span className="text-xs text-foreground flex-1 truncate">{abbreviateName(c.patientName)}</span>
+                    <span className="text-xs text-foreground flex-1 truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                     {confirmIndicator(c.status24h)}
                     {confirmIndicator(c.status1h, c.status24h === 'declined')}
                   </div>
@@ -242,7 +243,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <div className="space-y-2">
                 {MOCK_WAITING_LIST.map((wl) => (
                   <div key={wl.id} className="py-1.5 border-b border-border/50 last:border-0">
-                    <p className="text-xs font-medium text-foreground">{wl.patientName}</p>
+                    <p className="text-xs font-medium text-foreground"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></p>
                     <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
                   </div>
                 ))}
@@ -327,7 +328,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <div className="space-y-1.5">
                 {dentistConsCounts.map(d => (
                   <div key={d.id} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
-                    <span className="text-xs font-medium text-foreground truncate">{d.name}</span>
+                    <span className="text-xs font-medium text-foreground truncate"><ClickableDentistName name={d.name} className="text-xs font-medium text-foreground" /></span>
                     <div className="flex items-center gap-2 text-[10px] flex-shrink-0">
                       {d.tele > 0 && <span className="text-blue-400">{d.tele} tele</span>}
                       {d.pres > 0 && <span className="text-orange-400">{d.pres} pres</span>}
@@ -350,10 +351,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <div className="space-y-2 max-h-[280px] overflow-y-auto">
                 {confirmationsByDentist.map(({ dentist, confirmations }) => (
                   <div key={dentist.id}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1">{dentist.name}</p>
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {confirmations.slice(0, 3).map(c => (
                       <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                        <span className="text-xs text-foreground flex-1 truncate">{abbreviateName(c.patientName)}</span>
+                        <span className="text-xs text-foreground flex-1 truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                         {confirmIndicator(c.status24h)}
                         {confirmIndicator(c.status1h, c.status24h === 'declined')}
                       </div>
@@ -380,10 +381,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
               <div className="space-y-2 max-h-[280px] overflow-y-auto">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) => (
                   <div key={dentistName}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1">{dentistName}</p>
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map(wl => (
                       <div key={wl.id} className="py-1 border-b border-border/50 last:border-0">
-                        <p className="text-xs font-medium text-foreground">{wl.patientName}</p>
+                        <p className="text-xs font-medium text-foreground"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></p>
                         <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
                       </div>
                     ))}
@@ -429,13 +430,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage }: Dashboard
                     return (
                       <tr key={c.id} className="border-b border-border/50 last:border-0">
                         <td className="p-3 text-xs text-muted-foreground">{c.time}</td>
-                        <td className="p-3 text-xs font-medium text-foreground">{c.patient.name}</td>
+                        <td className="p-3 text-xs font-medium text-foreground"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" /></td>
                         <td className="p-3">
                           <div className="flex items-center gap-2">
                             <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[9px] font-bold flex-shrink-0">
                               {initials}
                             </div>
-                            <span className="text-xs text-foreground truncate">{c.dentist.name}</span>
+                            <ClickableDentistName name={c.dentist.name} className="text-xs text-foreground truncate" />
                           </div>
                         </td>
                         <td className="p-3 text-xs text-muted-foreground">{c.category ? CATEGORY_LABELS[c.category] : c.type}</td>

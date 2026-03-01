@@ -2,6 +2,8 @@ import { useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { mockConsultations, getDentistsForClinic } from '@/data/mockData';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole } from '@/types/calendar';
@@ -94,7 +96,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
                     {initials}
                   </div>
-                  <span className="text-sm font-semibold text-foreground">{dentist.name}</span>
+                  <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
                 <div className="flex items-center gap-3 text-xs">
                   <span className="text-emerald-400">✓ {confirmed} confirmados</span>
@@ -120,7 +122,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                       return (
                         <TableRow key={c.id}>
                           <TableCell className="text-sm font-medium">{c.time}</TableCell>
-                          <TableCell className="text-sm">{c.patient.name}</TableCell>
+                          <TableCell className="text-sm"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-sm" /></TableCell>
                           <TableCell className="text-sm">{getCategoryLabel(c.category)}</TableCell>
                           <TableCell className="text-center">{statusBadge(s24)}</TableCell>
                           <TableCell className="text-center">{statusBadge(s1)}</TableCell>
