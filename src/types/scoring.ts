@@ -277,21 +277,6 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
       { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
     ],
   },
-  {
-    id: 'ch-exp-2',
-    consultationId: 'prev-exp-ab',
-    date: new Date(2025, 11, 28),
-    dentistName: 'Dr. Alexandre Bernardo',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Diana Cruz',
-    category: 'protese',
-    consultationTime: '',
-    totalPoints: 0,
-    feedbackStatus: 'expired',
-    breakdown: [
-      { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
-    ],
-  },
   // --- Today 09:00 ---
   {
     id: 'ch-1',
