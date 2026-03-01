@@ -3,7 +3,7 @@ import { Trophy, Clock, Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
+import { mockScoreHistory, mockDentistScoreHistory, mockClinicScoreHistory, ConsultationScore } from '@/types/scoring';
 import { UserRole } from '@/types/calendar';
 import { HistoryScoreCard } from '@/components/history/HistoryScoreCard';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
@@ -17,7 +17,8 @@ interface PatientScoreHistoryProps {
 
 export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNavigateHistory, onViewFullHistory }: PatientScoreHistoryProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [scores, setScores] = useState(mockScoreHistory);
+  const initialScores = userRole === 'dentist' ? mockDentistScoreHistory : userRole === 'clinic' ? mockClinicScoreHistory : mockScoreHistory;
+  const [scores, setScores] = useState(initialScores);
   const [feedbackScore, setFeedbackScore] = useState<ConsultationScore | null>(null);
 
   const completedPoints = scores

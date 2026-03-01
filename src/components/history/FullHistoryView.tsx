@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
-import { mockConsultations, getDentistsForClinic } from '@/data/mockData';
-import { CATEGORY_LABELS, UserRole } from '@/types/calendar';
+import { mockScoreHistory, mockDentistScoreHistory, mockClinicScoreHistory, ConsultationScore } from '@/types/scoring';
+import { getDentistsForClinic } from '@/data/mockData';
+import { UserRole } from '@/types/calendar';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
 import { HistoryScoreCard } from '@/components/history/HistoryScoreCard';
 import { format, subMonths, isAfter, isSameDay } from 'date-fns';
@@ -39,7 +39,8 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedDentist, setSelectedDentist] = useState('all');
   const [feedbackScore, setFeedbackScore] = useState<ConsultationScore | null>(null);
-  const [scores, setScores] = useState(mockScoreHistory);
+  const initialScores = userRole === 'dentist' ? mockDentistScoreHistory : userRole === 'clinic' ? mockClinicScoreHistory : mockScoreHistory;
+  const [scores, setScores] = useState(initialScores);
   const [currentPage, setCurrentPage] = useState(1);
 
   const filterDate = getFilterDate(period);
@@ -57,54 +58,21 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
         (s.patientName && s.patientName.toLowerCase().includes(q))
       );
     }
-    return items.sort((a, b) => b.date.getTime() - a.date.getTime());
-  }, [scores, filterDate, searchQuery]);
-
-  // Clinic history — convert consultations to ConsultationScore format
-  const clinicScores = useMemo(() => {
-    let items: ConsultationScore[] = mockConsultations
-      .filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE))
-      .map(c => {
-        const isCompleted = c.status === 'visto';
-        const isFalta = c.status === 'falta_justificada' || c.status === 'falta_nao_justificada';
-        const points = isCompleted ? Math.floor(Math.random() * 10) + 5 : isFalta ? -(Math.floor(Math.random() * 5) + 3) : 0;
-        const breakdown = isCompleted
-          ? [
-              { label: 'Compareceu', points: 5 },
-              { label: 'Pontualidade', points: Math.floor(Math.random() * 3) },
-              { label: 'Colaboração', points: Math.floor(Math.random() * 3) },
-            ]
-          : isFalta
-          ? [{ label: 'Falta', points: -points }]
-          : [{ label: 'Pendente', points: 0 }];
-        return {
-          id: c.id,
-          consultationId: c.id,
-          date: c.date,
-          dentistName: c.dentist.name,
-          clinicName: c.clinic.name,
-          patientName: c.patient.name,
-          category: c.category,
-          consultationTime: c.time,
-          totalPoints: points,
-          breakdown,
-          feedbackStatus: (isCompleted ? 'completed' : isFalta ? 'completed' : 'pending') as 'completed' | 'pending',
-        };
-      })
-      .sort((a, b) => (a.consultationTime || '').localeCompare(b.consultationTime || '') || a.dentistName.localeCompare(b.dentistName));
-
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      items = items.filter(c => c.patientName?.toLowerCase().includes(q));
+    if (userRole === 'clinic' && selectedDentist !== 'all') {
+      items = items.filter(s => s.dentistName === clinicDentistsList.find(d => d.id === selectedDentist)?.name);
     }
-    if (selectedDentist !== 'all') {
-      items = items.filter(c => {
-        const dentist = mockConsultations.find(mc => mc.id === c.id)?.dentist;
-        return dentist?.id === selectedDentist;
-      });
-    }
+    // Sort: today first by time ascending, then past days by date descending
+    items.sort((a, b) => {
+      const aIsToday = isSameDay(a.date, DEMO_DATE);
+      const bIsToday = isSameDay(b.date, DEMO_DATE);
+      if (aIsToday && !bIsToday) return -1;
+      if (!aIsToday && bIsToday) return 1;
+      if (aIsToday && bIsToday) return (a.consultationTime || '').localeCompare(b.consultationTime || '');
+      return b.date.getTime() - a.date.getTime();
+    });
     return items;
-  }, [searchQuery, selectedDentist]);
+  }, [scores, filterDate, searchQuery, userRole, selectedDentist, clinicDentistsList]);
+
 
   const handlePatientFeedback = (scoreId: string, rating: number, comment: string) => {
     setScores(prev => prev.map(s =>
@@ -141,9 +109,23 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
 
   // ===== CLINIC VIEW =====
   if (userRole === 'clinic') {
-    const pagedClinic = clinicScores.slice(0, currentPage * ITEMS_PER_PAGE);
+    const pagedClinic = filteredScores.slice(0, currentPage * ITEMS_PER_PAGE);
     return (
       <HistoryShell title={title} onBack={onBack} inline={inline}>
+        {/* Summary */}
+        <div className="flex items-center gap-4 p-4 bg-card/80 rounded-xl border border-border">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Trophy className="w-6 h-6 text-primary" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xl font-bold text-foreground">{totalPoints} pts</p>
+            <p className="text-xs text-muted-foreground">Total de pontos</p>
+          </div>
+          <div className="flex gap-4 text-xs">
+            <span className="text-primary font-bold">+{totalPositive}</span>
+            <span className="text-destructive font-bold">{totalNegative}</span>
+          </div>
+        </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {periodFilter}
           <Select value={selectedDentist} onValueChange={setSelectedDentist}>
@@ -166,10 +148,10 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
             />
           ))}
         </div>
-        {pagedClinic.length < clinicScores.length && (
-          <Button variant="outline" className="w-full text-xs" onClick={() => setCurrentPage(p => p + 1)}>Carregar mais ({clinicScores.length - pagedClinic.length} restantes)</Button>
+        {pagedClinic.length < filteredScores.length && (
+          <Button variant="outline" className="w-full text-xs" onClick={() => setCurrentPage(p => p + 1)}>Carregar mais ({filteredScores.length - pagedClinic.length} restantes)</Button>
         )}
-        {clinicScores.length === 0 && <p className="text-center text-sm text-muted-foreground py-8">Sem resultados.</p>}
+        {filteredScores.length === 0 && <p className="text-center text-sm text-muted-foreground py-8">Sem resultados.</p>}
       </HistoryShell>
     );
   }
