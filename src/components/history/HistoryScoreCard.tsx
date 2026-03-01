@@ -66,7 +66,12 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
           <Clock className="w-2.5 h-2.5 mr-0.5" /> Pendente
         </Badge>
       )}
-      {score.feedbackStatus === 'completed' && (
+      {score.feedbackStatus === 'completed' && score.totalPoints < 0 && (
+        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
+          <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> Falta
+        </Badge>
+      )}
+      {score.feedbackStatus === 'completed' && score.totalPoints >= 0 && (
         <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
           <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> Concluído
         </Badge>

@@ -139,6 +139,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       em_sala_espera: { label: 'Em sala de espera', className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
       em_consulta: { label: 'Em consulta', className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
       visto: { label: 'Visto', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+      falta_justificada: { label: 'Falta justificada', className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
+      falta_nao_justificada: { label: 'Falta', className: 'bg-red-500/15 text-red-400 border-red-500/30' },
     };
     const cfg = status ? configs[status] : null;
     return (
@@ -238,7 +240,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         )}
                       </div>
                       {confirmIndicator(c.status24h)}
-                      {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                      {confirmIndicator(c.status1h, c.isNoShow === true)}
                     </div>
                   );
                 })}
@@ -375,7 +377,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             )}
                           </div>
                           {confirmIndicator(c.status24h)}
-                          {confirmIndicator(c.status1h, c.status24h === 'declined')}
+                          {confirmIndicator(c.status1h, c.isNoShow === true)}
                         </div>
                       );
                     })}

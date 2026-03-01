@@ -61,8 +61,13 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
     if (userRole === 'clinic' && selectedDentist !== 'all') {
       items = items.filter(s => s.dentistName === clinicDentistsList.find(d => d.id === selectedDentist)?.name);
     }
-    // Sort: today first by time ascending, then past days by date descending
+    // Sort: expired first, then today by time ascending, then past by date descending
     items.sort((a, b) => {
+      const aExpired = a.feedbackStatus === 'expired';
+      const bExpired = b.feedbackStatus === 'expired';
+      if (aExpired && !bExpired) return -1;
+      if (!aExpired && bExpired) return 1;
+      if (aExpired && bExpired) return b.date.getTime() - a.date.getTime();
       const aIsToday = isSameDay(a.date, DEMO_DATE);
       const bIsToday = isSameDay(b.date, DEMO_DATE);
       if (aIsToday && !bIsToday) return -1;

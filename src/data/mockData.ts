@@ -195,7 +195,7 @@ export const mockConsultations: Consultation[] = [
     price: 60,
     isPaid: true,
     notes: 'Dente 15, face oclusal',
-    status: 'em_consulta' as ConsultationStatus,
+    status: 'falta_nao_justificada' as ConsultationStatus,
   },
   {
     id: 'gp-3',
@@ -210,7 +210,7 @@ export const mockConsultations: Consultation[] = [
     price: 50,
     isPaid: false,
     notes: 'Limpeza semestral',
-    status: 'confirmada' as ConsultationStatus,
+    status: 'em_consulta' as ConsultationStatus,
   },
   {
     id: 'gp-4',

@@ -55,6 +55,8 @@ export interface ConsultationConfirmation {
   status24h: ConfirmationStatus;
   status1h: ConfirmationStatus;
   category?: string;
+  /** true when the patient was a no-show (falta) — makes 1h column irrelevant */
+  isNoShow?: boolean;
 }
 
 // Mock score history for patient view
@@ -66,7 +68,7 @@ export const mockScoreHistory: ConsultationScore[] = [
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Pedro Almeida',
-    category: 'destartarizacao',
+    category: 'primeira_consulta',
     consultationTime: '09:00',
     totalPoints: 15,
     feedbackStatus: 'pending',
@@ -122,24 +124,6 @@ export const mockScoreHistory: ConsultationScore[] = [
     ],
   },
   {
-    id: 'sc-3',
-    consultationId: 'pat-3',
-    date: new Date(2026, 0, 17),
-    dentistName: 'Dr. Gil Santos',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Rui Silva',
-    category: 'urgencia',
-    consultationTime: '09:30',
-    totalPoints: -9,
-    feedbackStatus: 'completed',
-    breakdown: [
-      { label: 'Confirmação 24h', points: 1 },
-      { label: 'Falta (base)', points: -8 },
-      { label: 'Penalização por confirmação', points: -1 },
-      { label: 'Cancelamento tardio', points: -1 },
-    ],
-  },
-  {
     id: 'sc-4',
     consultationId: 'pat-1',
     date: new Date(2026, 0, 10),
@@ -178,8 +162,25 @@ export const mockScoreHistory: ConsultationScore[] = [
 ];
 
 // ===== DENTIST HISTORY =====
-// Matches Dr. Gonçalo Pipo's "Consultas de Hoje" + past examples
+// Dr. Gonçalo Pipo — sorted: expirados first, then today by time, then past by date desc
 export const mockDentistScoreHistory: ConsultationScore[] = [
+  // Expirado (previous month — feedback expired yesterday)
+  {
+    id: 'dh-exp',
+    consultationId: 'prev-exp',
+    date: new Date(2025, 11, 31),
+    dentistName: 'Dr. Gonçalo Pipo',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'Sofia Rodrigues',
+    category: 'ortodontia',
+    consultationTime: '10:00',
+    totalPoints: 0,
+    feedbackStatus: 'expired',
+    breakdown: [
+      { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
+    ],
+  },
+  // Today 09:00 — Pedro Almeida — Concluído +15
   {
     id: 'dh-1',
     consultationId: 'gp-1',
@@ -203,6 +204,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
       { label: 'Seguiu recomendações anteriores', points: 2 },
     ],
   },
+  // Today 09:30 — Maria Silva — Falta -9
   {
     id: 'dh-2',
     consultationId: 'gp-2',
@@ -212,6 +214,25 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
     patientName: 'Maria Silva',
     category: 'restauracao',
     consultationTime: '09:30',
+    totalPoints: -9,
+    feedbackStatus: 'completed',
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Falta (base)', points: -8 },
+      { label: 'Penalização por confirmação', points: -1 },
+      { label: 'Cancelamento tardio', points: -1 },
+    ],
+  },
+  // Today 10:00 — João Costa — Pendente (em consulta) +2
+  {
+    id: 'dh-3',
+    consultationId: 'gp-3',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Gonçalo Pipo',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'João Costa',
+    category: 'destartarizacao',
+    consultationTime: '10:00',
     totalPoints: 2,
     feedbackStatus: 'pending',
     breakdown: [
@@ -219,8 +240,9 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
       { label: 'Confirmação 1h', points: 1 },
     ],
   },
+  // Today 10:30 — Ana Ferreira — Pendente (sala de espera) +1
   {
-    id: 'dh-5',
+    id: 'dh-4',
     consultationId: 'gp-4',
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
@@ -234,45 +256,43 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
       { label: 'Confirmação 24h', points: 1 },
     ],
   },
+];
+
+// ===== CLINIC HISTORY =====
+// All dentists combined, sorted: expirados first, then today by time, then past by date desc
+export const mockClinicScoreHistory: ConsultationScore[] = [
+  // --- Expirados ---
   {
-    id: 'dh-3',
-    consultationId: 'prev-1',
-    date: new Date(2026, 0, 30),
-    dentistName: 'Dr. Gonçalo Pipo',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Rui Silva',
-    category: 'urgencia',
-    consultationTime: '09:00',
-    totalPoints: -9,
-    feedbackStatus: 'completed',
-    breakdown: [
-      { label: 'Confirmação 24h', points: 1 },
-      { label: 'Falta (base)', points: -8 },
-      { label: 'Penalização por confirmação', points: -1 },
-      { label: 'Cancelamento tardio', points: -1 },
-    ],
-  },
-  {
-    id: 'dh-4',
-    consultationId: 'prev-2',
-    date: new Date(2026, 0, 25),
+    id: 'ch-exp-1',
+    consultationId: 'prev-exp-gp',
+    date: new Date(2025, 11, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Sofia Rodrigues',
     category: 'ortodontia',
-    consultationTime: '10:00',
+    consultationTime: '',
     totalPoints: 0,
     feedbackStatus: 'expired',
     breakdown: [
       { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
     ],
   },
-];
-
-// ===== CLINIC HISTORY =====
-// Multi-dentist view, sorted by time (today first, then past days)
-export const mockClinicScoreHistory: ConsultationScore[] = [
-  // --- Today (31 Jan) ---
+  {
+    id: 'ch-exp-2',
+    consultationId: 'prev-exp-ab',
+    date: new Date(2025, 11, 28),
+    dentistName: 'Dr. Alexandre Bernardo',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'Diana Cruz',
+    category: 'protese',
+    consultationTime: '',
+    totalPoints: 0,
+    feedbackStatus: 'expired',
+    breakdown: [
+      { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
+    ],
+  },
+  // --- Today 09:00 ---
   {
     id: 'ch-1',
     consultationId: 'gp-1',
@@ -298,33 +318,12 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   },
   {
     id: 'ch-2',
-    consultationId: 'ab-1',
-    date: new Date(2026, 0, 31),
-    dentistName: 'Dr. Alexandre Bernardo',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Beatriz Lopes',
-    category: 'destartarizacao',
-    consultationTime: '09:00',
-    totalPoints: 13,
-    feedbackStatus: 'completed',
-    patientFeedback: { rating: 4, comment: 'Muito boa limpeza', submittedAt: new Date(2026, 0, 31, 11, 0) },
-    breakdown: [
-      { label: 'Confirmação 24h', points: 1 },
-      { label: 'Confirmação 1h', points: 1 },
-      { label: 'Compareceu', points: 5 },
-      { label: 'Chegou a horas', points: 2 },
-      { label: 'Colaborou durante a consulta', points: 2 },
-      { label: 'Higiene oral adequada', points: 2 },
-    ],
-  },
-  {
-    id: 'ch-3',
     consultationId: 'gs-1',
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
-    patientName: 'Ricardo Oliveira',
-    category: 'ortodontia',
+    patientName: 'André Gomes',
+    category: 'destartarizacao',
     consultationTime: '09:00',
     totalPoints: 12,
     feedbackStatus: 'completed',
@@ -339,14 +338,71 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
     ],
   },
   {
+    id: 'ch-3',
+    consultationId: 'ab-1c',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Alexandre Bernardo',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'Inês Marques',
+    category: 'protese',
+    consultationTime: '09:00',
+    totalPoints: 10,
+    feedbackStatus: 'completed',
+    patientFeedback: { rating: 4, comment: 'Muito boa consulta', submittedAt: new Date(2026, 0, 31, 11, 0) },
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Confirmação 1h', points: 1 },
+      { label: 'Compareceu', points: 5 },
+      { label: 'Chegou a horas', points: 2 },
+      { label: 'Higiene oral adequada', points: 1 },
+    ],
+  },
+  // --- Today 09:30 ---
+  {
     id: 'ch-4',
-    consultationId: 'gp-2',
+    consultationId: 'gp-2c',
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Maria Silva',
     category: 'restauracao',
     consultationTime: '09:30',
+    totalPoints: -9,
+    feedbackStatus: 'completed',
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Falta (base)', points: -8 },
+      { label: 'Penalização por confirmação', points: -1 },
+      { label: 'Cancelamento tardio', points: -1 },
+    ],
+  },
+  {
+    id: 'ch-5',
+    consultationId: 'gs-2c',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Gil Santos',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'Mariana Reis',
+    category: 'primeira_consulta',
+    consultationTime: '09:30',
+    totalPoints: -8,
+    feedbackStatus: 'completed',
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Falta (base)', points: -8 },
+      { label: 'Penalização por confirmação', points: -1 },
+    ],
+  },
+  // --- Today 10:00 ---
+  {
+    id: 'ch-6',
+    consultationId: 'gp-3c',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Gonçalo Pipo',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'João Costa',
+    category: 'destartarizacao',
+    consultationTime: '10:00',
     totalPoints: 2,
     feedbackStatus: 'pending',
     breakdown: [
@@ -355,23 +411,41 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
     ],
   },
   {
-    id: 'ch-5',
-    consultationId: 'ab-2',
+    id: 'ch-7',
+    consultationId: 'ab-2c',
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
-    patientName: 'Fernando Costa',
-    category: 'restauracao',
-    consultationTime: '09:30',
-    totalPoints: 1,
+    patientName: 'Miguel Almeida',
+    category: 'cirurgia',
+    consultationTime: '10:00',
+    totalPoints: 2,
     feedbackStatus: 'pending',
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
+      { label: 'Confirmação 1h', points: 1 },
     ],
   },
   {
-    id: 'ch-6',
-    consultationId: 'gp-4',
+    id: 'ch-8',
+    consultationId: 'gs-3c',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Gil Santos',
+    clinicName: 'Clínica SmileCheck',
+    patientName: 'Catarina Dias',
+    category: 'endodontia',
+    consultationTime: '10:00',
+    totalPoints: 2,
+    feedbackStatus: 'pending',
+    breakdown: [
+      { label: 'Confirmação 24h', points: 1 },
+      { label: 'Confirmação 1h', points: 1 },
+    ],
+  },
+  // --- Today 10:30 ---
+  {
+    id: 'ch-9',
+    consultationId: 'gp-4c',
     date: new Date(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
@@ -384,67 +458,40 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
       { label: 'Confirmação 24h', points: 1 },
     ],
   },
-  // --- Previous days ---
   {
-    id: 'ch-7',
-    consultationId: 'prev-1',
-    date: new Date(2026, 0, 30),
-    dentistName: 'Dr. Gonçalo Pipo',
+    id: 'ch-10',
+    consultationId: 'ab-3c',
+    date: new Date(2026, 0, 31),
+    dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
-    patientName: 'Rui Silva',
-    category: 'urgencia',
-    consultationTime: '09:00',
-    totalPoints: -9,
-    feedbackStatus: 'completed',
+    patientName: 'Bruno Cardoso',
+    category: 'restauracao',
+    consultationTime: '10:30',
+    totalPoints: 1,
+    feedbackStatus: 'pending',
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
-      { label: 'Falta (base)', points: -8 },
-      { label: 'Penalização por confirmação', points: -1 },
-      { label: 'Cancelamento tardio', points: -1 },
-    ],
-  },
-  {
-    id: 'ch-8',
-    consultationId: 'prev-3',
-    date: new Date(2026, 0, 29),
-    dentistName: 'Dr. Gil Santos',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Mariana Tavares',
-    category: 'protese',
-    consultationTime: '11:00',
-    totalPoints: 0,
-    feedbackStatus: 'expired',
-    breakdown: [
-      { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
-    ],
-  },
-  {
-    id: 'ch-9',
-    consultationId: 'prev-2',
-    date: new Date(2026, 0, 25),
-    dentistName: 'Dr. Gonçalo Pipo',
-    clinicName: 'Clínica SmileCheck',
-    patientName: 'Sofia Rodrigues',
-    category: 'ortodontia',
-    consultationTime: '10:00',
-    totalPoints: 0,
-    feedbackStatus: 'expired',
-    breakdown: [
-      { label: 'Período de feedback expirado — pontos não atribuídos', points: 0 },
     ],
   },
 ];
 
-// Mock confirmations for clinic dashboard
+// Mock confirmations — Dentist: Dr. Gonçalo Pipo
 export const mockConfirmations: ConsultationConfirmation[] = [
   { consultationId: 'gp-1', patientName: 'Pedro Almeida', dentistName: 'Dr. Gonçalo Pipo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'primeira_consulta' },
-  { consultationId: 'gp-2', patientName: 'Maria Silva', dentistName: 'Dr. Gonçalo Pipo', time: '09:30', status24h: 'confirmed', status1h: 'confirmed', category: 'restauracao' },
-  { consultationId: 'gp-3', patientName: 'João Costa', dentistName: 'Dr. Gonçalo Pipo', time: '10:00', status24h: 'confirmed', status1h: 'pending', category: 'destartarizacao' },
+  { consultationId: 'gp-2', patientName: 'Maria Silva', dentistName: 'Dr. Gonçalo Pipo', time: '09:30', status24h: 'confirmed', status1h: 'pending', category: 'restauracao', isNoShow: true },
+  { consultationId: 'gp-3', patientName: 'João Costa', dentistName: 'Dr. Gonçalo Pipo', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'destartarizacao' },
   { consultationId: 'gp-4', patientName: 'Ana Ferreira', dentistName: 'Dr. Gonçalo Pipo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'urgencia' },
   { consultationId: 'gp-5', patientName: 'Carlos Santos', dentistName: 'Dr. Gonçalo Pipo', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'endodontia' },
-  { consultationId: 'ab-1', patientName: 'Beatriz Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'destartarizacao' },
-  { consultationId: 'ab-2', patientName: 'Fernando Costa', dentistName: 'Dr. Alexandre Bernardo', time: '09:30', status24h: 'confirmed', status1h: 'pending', category: 'restauracao' },
-  { consultationId: 'ab-3', patientName: 'Catarina Reis', dentistName: 'Dr. Alexandre Bernardo', time: '10:00', status24h: 'declined', status1h: 'pending', category: 'primeira_consulta' },
-  { consultationId: 'gs-1', patientName: 'Ricardo Oliveira', dentistName: 'Dr. Gil Santos', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'ortodontia' },
-  { consultationId: 'gs-2', patientName: 'Marta Alves', dentistName: 'Dr. Gil Santos', time: '09:30', status24h: 'pending', status1h: 'pending', category: 'protese' },
+  // Dr. Alexandre Bernardo
+  { consultationId: 'ab-c1', patientName: 'Inês Marques', dentistName: 'Dr. Alexandre Bernardo', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'protese' },
+  { consultationId: 'ab-c2', patientName: 'Miguel Almeida', dentistName: 'Dr. Alexandre Bernardo', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'cirurgia' },
+  { consultationId: 'ab-c3', patientName: 'Teresa Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'controlo' },
+  { consultationId: 'ab-c4', patientName: 'Bruno Cardoso', dentistName: 'Dr. Alexandre Bernardo', time: '11:00', status24h: 'confirmed', status1h: 'pending', category: 'restauracao' },
+  { consultationId: 'ab-c5', patientName: 'Filipa Costa', dentistName: 'Dr. Alexandre Bernardo', time: '11:30', status24h: 'pending', status1h: 'pending', category: 'ortodontia' },
+  // Dr. Gil Santos
+  { consultationId: 'gs-c1', patientName: 'André Gomes', dentistName: 'Dr. Gil Santos', time: '09:00', status24h: 'confirmed', status1h: 'confirmed', category: 'destartarizacao' },
+  { consultationId: 'gs-c2', patientName: 'Mariana Reis', dentistName: 'Dr. Gil Santos', time: '09:30', status24h: 'confirmed', status1h: 'pending', category: 'primeira_consulta', isNoShow: true },
+  { consultationId: 'gs-c3', patientName: 'Catarina Dias', dentistName: 'Dr. Gil Santos', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'endodontia' },
+  { consultationId: 'gs-c4', patientName: 'Hugo Ferreira', dentistName: 'Dr. Gil Santos', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'teleconsulta' },
+  { consultationId: 'gs-c5', patientName: 'Joana Ribeiro', dentistName: 'Dr. Gil Santos', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'urgencia' },
 ];
