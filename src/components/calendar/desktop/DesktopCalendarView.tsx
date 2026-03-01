@@ -415,8 +415,9 @@ export function DesktopCalendarView() {
   };
 
   const handleNavTabChange = useCallback((tab: string) => {
-    // All tabs now render inline, including referencia and prescrever
-    setActiveNavTab(tab);
+    // Map mobile tab names to desktop tab names
+    const mapped = tab === 'equipa' ? 'team' : tab;
+    setActiveNavTab(mapped);
     setShowTriage(false);
     setViewDentistProfile(null);
     setViewClinicProfile(null);

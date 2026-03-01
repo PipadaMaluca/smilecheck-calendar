@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Plus } from 'lucide-react';
+import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { Button } from '@/components/ui/button';
 import { DateNavigator } from './DateNavigator';
 import { TimeSlotView } from './TimeSlotView';
@@ -41,6 +42,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -301,6 +303,14 @@ export function DentistCalendar() {
           }} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'agenda' ? (
           <>
+            {/* Dentist Agenda Dropdown Filter */}
+            <DentistAgendaDropdown
+              currentDentistId={mockDentists[0].id}
+              selectedDentistIds={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+              onDentistToggle={handleDentistToggle}
+              viewMode={viewMode}
+            />
+
             <DateNavigator
               date={selectedDate}
               onDateChange={setSelectedDate}
@@ -351,6 +361,8 @@ export function DentistCalendar() {
             }}
             onViewProfile={d => setViewDentistProfile(d)}
           />
+        ) : activeTab === 'estatisticas' ? (
+          <StatisticsView />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
