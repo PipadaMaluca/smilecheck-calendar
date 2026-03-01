@@ -136,13 +136,10 @@ const patientBrands: Brand[] = [
 // ═══════════════════════════════════════
 
 const dentistSubscricao: RewardProduct[] = [
-  { id: 'ds1', name: '1 mês Pro grátis', points: 1000, category: 'Subscrição', emoji: '⭐' },
-  { id: 'ds2', name: '1 mês Premium grátis', points: 2000, category: 'Subscrição', emoji: '👑' },
-];
-
-const dentistDestaque: RewardProduct[] = [
-  { id: 'dd1', name: 'Destaque no perfil 1 semana', points: 300, category: 'Destaque', emoji: '📍' },
-  { id: 'dd2', name: 'Destaque no perfil 1 mês', points: 1000, category: 'Destaque', emoji: '📍' },
+  { id: 'dd1', name: 'Destaque no perfil 1 semana', points: 300, category: 'Subscrição', emoji: '📍' },
+  { id: 'dd2', name: 'Destaque no perfil 1 mês', points: 1000, category: 'Subscrição', emoji: '📍' },
+  { id: 'ds1', name: '1 mês Pro grátis', points: 2000, category: 'Subscrição', emoji: '⭐' },
+  { id: 'ds2', name: '1 mês Premium grátis', points: 3000, category: 'Subscrição', emoji: '👑' },
 ];
 
 const dentistEquipamento: RewardProduct[] = [
@@ -189,13 +186,10 @@ const dentistFormacao: RewardProduct[] = [
 // ═══════════════════════════════════════
 
 const clinicSubscricao: RewardProduct[] = [
-  { id: 'cs1', name: '1 mês Pro grátis', points: 2000, category: 'Subscrição', emoji: '⭐' },
-  { id: 'cs2', name: '1 mês Premium grátis', points: 4000, category: 'Subscrição', emoji: '👑' },
-];
-
-const clinicDestaque: RewardProduct[] = [
-  { id: 'cd1', name: 'Destaque nos resultados 1 semana', points: 500, category: 'Destaque', emoji: '📍' },
-  { id: 'cd2', name: 'Destaque nos resultados 1 mês', points: 1800, category: 'Destaque', emoji: '📍' },
+  { id: 'cd1', name: 'Destaque nos resultados 1 semana', points: 500, category: 'Subscrição', emoji: '📍' },
+  { id: 'cd2', name: 'Destaque nos resultados 1 mês', points: 1800, category: 'Subscrição', emoji: '📍' },
+  { id: 'cs1', name: '1 mês Pro grátis', points: 4000, category: 'Subscrição', emoji: '⭐' },
+  { id: 'cs2', name: '1 mês Premium grátis', points: 5000, category: 'Subscrição', emoji: '👑' },
 ];
 
 const clinicEquipamento: RewardProduct[] = [
@@ -243,25 +237,40 @@ const clinicSoftware: RewardProduct[] = [
 // TABS CONFIG PER ROLE
 // ═══════════════════════════════════════
 
+const patientSubscricao: RewardProduct[] = [
+  { id: 'ps1', name: '1 mês Pro grátis', points: 500, category: 'Subscrição', emoji: '⭐' },
+  { id: 'ps2', name: '1 mês Premium grátis', points: 1000, category: 'Subscrição', emoji: '👑' },
+];
+
 export const REWARD_TABS: Record<string, RewardsTabConfig[]> = {
   patient: [
     { key: 'consultas', label: 'Consultas', type: 'products', products: patientConsultas },
     { key: 'higiene', label: 'Higiene Oral', type: 'products', products: patientHigieneOral },
     { key: 'marcas', label: 'Marcas', type: 'brands', brands: patientBrands },
+    { key: 'subscricao', label: 'Subscrição', type: 'products', products: patientSubscricao },
   ],
   dentist: [
-    { key: 'destaque', label: 'Destaque', type: 'products', products: dentistDestaque },
     { key: 'equipamento', label: 'Equipamento', type: 'products', products: dentistEquipamento },
     { key: 'formacao', label: 'Formação', type: 'products', products: dentistFormacao },
     { key: 'subscricao', label: 'Subscrição', type: 'products', products: dentistSubscricao },
   ],
   clinic: [
-    { key: 'destaque', label: 'Destaque', type: 'products', products: clinicDestaque },
     { key: 'equipamento', label: 'Equipamento', type: 'products', products: clinicEquipamento },
     { key: 'software', label: 'Software', type: 'products', products: clinicSoftware },
     { key: 'subscricao', label: 'Subscrição', type: 'products', products: clinicSubscricao },
   ],
 };
+
+/** Collect ALL products for a role, sorted by points ascending */
+export function getAllProductsForRole(role: string): RewardProduct[] {
+  const tabs = REWARD_TABS[role] || REWARD_TABS.patient;
+  const all: RewardProduct[] = [];
+  tabs.forEach(tab => {
+    if (tab.products) all.push(...tab.products);
+    if (tab.brands) tab.brands.forEach(b => all.push(...b.products));
+  });
+  return all.sort((a, b) => a.points - b.points);
+}
 
 // ═══════════════════════════════════════
 // MOCK HISTORY
