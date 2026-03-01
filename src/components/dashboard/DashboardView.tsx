@@ -110,19 +110,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const renderStatsCards = () => {
     if (!stats) return null;
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
-              <CardContent className="p-4 flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Icon className="w-4 h-4" />
-                  <span className="text-xs font-medium">{stat.label}</span>
+            <Card key={stat.label} className="bg-card/80 backdrop-blur border-border min-w-0">
+              <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
+                <div className="flex items-center gap-2 text-muted-foreground min-w-0">
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  <span className="text-[10px] sm:text-xs font-medium truncate">{stat.label}</span>
                 </div>
-                <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                <span className="text-xl sm:text-2xl font-bold text-foreground truncate">{stat.value}</span>
                 {'subtitle' in stat && stat.subtitle && (
-                  <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground -mt-1 truncate">{stat.subtitle}</span>
                 )}
               </CardContent>
             </Card>
@@ -332,9 +332,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 space-y-3">
               <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
               {/* Summary bar */}
-              <div className="flex items-center gap-4 text-xs pb-2 border-b border-border/50">
-                <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
-                <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
+              <div className="flex items-center gap-2 sm:gap-4 text-xs pb-2 border-b border-border/50 flex-wrap">
+                <span>📍 Pres: <span className="font-bold text-orange-400">{presCount}</span></span>
+                <span>💻 Tele: <span className="font-bold text-blue-400">{teleCount}</span></span>
                 <span>👥 Total: <span className="font-bold text-foreground">{todayConsultations.length}</span></span>
               </div>
               <p className="text-[10px] font-semibold text-muted-foreground uppercase">Por Dentista</p>
@@ -436,9 +436,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               Ver Histórico Completo ›
             </button>
           </div>
-          <Card className="bg-[hsl(var(--card))] border-border overflow-hidden">
+          <Card className="bg-[hsl(var(--card))] border-border overflow-hidden min-w-0">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="min-w-[600px] w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
                     <th className="text-left text-[10px] font-semibold text-muted-foreground uppercase p-3">Data</th>
@@ -599,12 +599,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   };
 
   return (
-    <ScrollArea className="flex-1">
-      <div className="p-6 max-w-7xl mx-auto space-y-8">
+    <div className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0">
         {/* Greeting */}
-        <div className="items-center justify-between flex flex-col gap-[5px]">
+        <div className="items-center justify-between flex flex-col gap-[5px] min-w-0">
           <div>
-            <h1 className="font-bold text-foreground text-center text-xl">
+            <h1 className="font-bold text-foreground text-center text-xl truncate max-w-full">
               {greeting}, {userName}!
             </h1>
             <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-[5px]">
@@ -618,7 +618,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </div>
           {/* Quick actions for dentist/clinic inline */}
           {(userRole === 'dentist' || userRole === 'clinic') &&
-          <div className="flex-wrap flex items-center justify-center gap-[5px]">
+          <div className="flex-wrap flex items-center justify-center gap-[5px] max-w-full">
               {quickActions.map((a) => {
               const ActionIcon = a.icon;
               return (
@@ -635,6 +635,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* Role-specific content */}
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
       </div>
-    </ScrollArea>);
+    </div>);
 
 }

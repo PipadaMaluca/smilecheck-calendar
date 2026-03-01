@@ -225,7 +225,7 @@ export function ClinicCalendar() {
       onOpenClinicProfile={(id) => setViewClinicProfileId(id)}
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
-    <div className="min-h-screen bg-background pb-24 overflow-x-hidden relative">
+    <div className="min-h-screen bg-background pb-24 overflow-x-hidden relative max-w-[100vw]">
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
