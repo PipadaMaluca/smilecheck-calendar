@@ -131,7 +131,7 @@ export function getCategoryTextStyle(hex: string): import('react').CSSProperties
 export function getCategoryBadgeStyle(hex: string): import('react').CSSProperties {
   if (hex === '#212121') {
     return {
-      backgroundColor: `${hex}30`,
+      backgroundColor: hex,
       color: '#fff',
     };
   }
