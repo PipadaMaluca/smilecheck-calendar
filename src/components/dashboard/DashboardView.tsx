@@ -171,6 +171,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       .filter((c) => c.dentist.id === mockDentists[0].id)
       .sort((a, b) => a.time.localeCompare(b.time));
 
+    // Morning consultations (before 13:00)
+    const morningCons = dentistCons.filter(c => c.time < '13:00');
+
     const dentistConfirmations = mockConfirmations.filter(c => c.dentistName === mockDentists[0].name);
 
     return (
@@ -180,14 +183,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 3-column grid: 50% + 25% + 25% */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* LEFT: Consultas de Hoje (spans 2 cols) */}
-          <Card className="bg-card/80 border-border lg:col-span-2">
+          <Card className="bg-card/80 border-border lg:col-span-2 flex flex-col">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
               </div>
               <div className="space-y-0">
-                {dentistCons.slice(0, 6).map((c) => {
+                {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   return (
                     <div key={c.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
@@ -208,7 +211,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* CENTER: Confirmações */}
-          <Card className="bg-card/80 border-border">
+          <Card className="bg-card/80 border-border flex flex-col" style={{ minHeight: 'auto' }}>
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
