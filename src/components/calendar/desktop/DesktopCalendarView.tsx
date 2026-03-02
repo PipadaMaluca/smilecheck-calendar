@@ -418,9 +418,25 @@ export function DesktopCalendarView() {
     // Map mobile tab names to desktop tab names
     const mapped = tab === 'equipa' ? 'team' : tab;
     setActiveNavTab(mapped);
+    // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowTriage(false);
     setViewDentistProfile(null);
     setViewClinicProfile(null);
+    setDetailConsultation(null);
+    setDossierPatientId(null);
+    setSelectedConsultation(null);
+    setShowEditProfile(false);
+    setShowSettings(false);
+    setShowBlockModal(false);
+    setSlotCreation(null);
+    setClipboardConsultation(null);
+    setPasteTarget(null);
+    setFeedbackConsultation(null);
+    setPatientFeedbackScore(null);
+    setShowNotificationDropdown(false);
+    setPendingMove(null);
+    setOverlapConsultation(null);
+    setPendingOverlapMove(null);
   }, []);
 
   const toggleFavorite = useCallback((id: string) => {

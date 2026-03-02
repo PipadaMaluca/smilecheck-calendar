@@ -91,7 +91,15 @@ export function PatientCalendar() {
   };
 
   const handleTabChange = (tab: string) => {
+    // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowTriage(false);
+    setSelectedConsultation(null);
+    setShowProfile(false);
+    setShowEditProfile(false);
+    setShowInvite(false);
+    setViewDentistProfile(null);
+    setViewClinicProfile(null);
+    setShowFullHistory(false);
     setActiveTab(tab);
   };
 

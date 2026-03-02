@@ -266,6 +266,25 @@ export function DentistCalendar() {
     setViewMode(mode);
   };
 
+  const handleTabChange = (tab: string) => {
+    // Clear ALL overlay/sub-screen states so navigation is always direct
+    setShowPrescription(false);
+    setShowReferral(false);
+    setShowSearch(false);
+    setShowProfile(false);
+    setShowEditProfile(false);
+    setShowInvite(false);
+    setSelectedConsultation(null);
+    setViewDentistProfile(null);
+    setViewClinicProfile(null);
+    setSlotCreation(null);
+    setViewPatientDossier(null);
+    setShowFullHistory(false);
+    setShowSettings(false);
+    setShowBlockModal(false);
+    setActiveTab(tab);
+  };
+
   return (
     <ProfileNavigationProvider
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
@@ -299,7 +318,7 @@ export function DentistCalendar() {
         ) : activeTab === 'home' ? (
           <DashboardView userRole="dentist" onNavigate={(tab) => {
             if (tab === 'pesquisa') { setShowSearch(true); return; }
-            setActiveTab(tab);
+            handleTabChange(tab);
           }} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'agenda' ? (
           <>
@@ -337,11 +356,11 @@ export function DentistCalendar() {
 
           </>
         ) : activeTab === 'equipa' ? (
-          <TeamView userRole="dentist" onNavigate={setActiveTab} />
+          <TeamView userRole="dentist" onNavigate={handleTabChange} />
         ) : activeTab === 'conversas' ? (
-          <ConversationsView userRole="dentist" onNavigate={setActiveTab} />
+          <ConversationsView userRole="dentist" onNavigate={handleTabChange} />
         ) : activeTab === 'configuracoes' ? (
-          <SettingsView userRole="dentist" onNavigate={setActiveTab} onInvite={() => setShowInvite(true)} />
+          <SettingsView userRole="dentist" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
         ) : activeTab === 'classificacoes' ? (
           <div className="px-0"><RankingsView userRole="dentist" /></div>
         ) : activeTab === 'conquistas' ? (
@@ -373,7 +392,7 @@ export function DentistCalendar() {
         <BottomNavigation
           userRole="dentist"
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
 
         {/* Mobile Sidebar */}
@@ -391,16 +410,16 @@ export function DentistCalendar() {
           onProfileClick={() => setShowProfile(true)}
           activeTab={activeTab}
           onNavigate={(tab) => {
-            if (tab === 'pesquisa') { setShowSearch(true); return; }
-            if (tab === 'referencia') { setShowReferral(true); return; }
-            setActiveTab(tab);
+            if (tab === 'pesquisa') { handleTabChange(activeTab); setShowSearch(true); return; }
+            if (tab === 'referencia') { handleTabChange(activeTab); setShowReferral(true); return; }
+            handleTabChange(tab);
           }}
         />
 
         {showPrescription && (
           <PrescriptionFlow
             onClose={() => setShowPrescription(false)}
-            onGoHome={() => { setShowPrescription(false); setActiveTab('home'); }}
+            onGoHome={() => { setShowPrescription(false); handleTabChange('home'); }}
           />
         )}
 
