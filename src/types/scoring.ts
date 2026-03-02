@@ -460,21 +460,16 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   },
 ];
 
-// Mock confirmations — only upcoming (not yet seen/missed)
+// Mock confirmations — only upcoming (agendada/confirmada, not em_consulta/em_sala_espera/visto/falta)
 export const mockConfirmations: ConsultationConfirmation[] = [
   // Dr. Gonçalo Pipo
-  { consultationId: 'gp-3', patientName: 'João Costa', dentistName: 'Dr. Gonçalo Pipo', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'destartarizacao' },
-  { consultationId: 'gp-4', patientName: 'Ana Ferreira', dentistName: 'Dr. Gonçalo Pipo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'urgencia' },
   { consultationId: 'gp-5', patientName: 'Carlos Santos', dentistName: 'Dr. Gonçalo Pipo', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'endodontia' },
   { consultationId: 'gp-6', patientName: 'Rita Oliveira', dentistName: 'Dr. Gonçalo Pipo', time: '11:30', status24h: 'pending', status1h: 'pending', category: 'teleconsulta' },
   { consultationId: 'gp-7', patientName: 'Lucas Mendes', dentistName: 'Dr. Gonçalo Pipo', time: '14:00', status24h: 'pending', status1h: 'pending', category: 'odontopediatria' },
   // Dr. Alexandre Bernardo
-  { consultationId: 'ab-c2', patientName: 'Miguel Almeida', dentistName: 'Dr. Alexandre Bernardo', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'cirurgia' },
   { consultationId: 'ab-c3', patientName: 'Teresa Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'controlo' },
-  { consultationId: 'ab-c4', patientName: 'Bruno Cardoso', dentistName: 'Dr. Alexandre Bernardo', time: '11:00', status24h: 'confirmed', status1h: 'pending', category: 'restauracao' },
   { consultationId: 'ab-c5', patientName: 'Filipa Costa', dentistName: 'Dr. Alexandre Bernardo', time: '11:30', status24h: 'pending', status1h: 'pending', category: 'ortodontia' },
   // Dr. Gil Santos
-  { consultationId: 'gs-c3', patientName: 'Catarina Dias', dentistName: 'Dr. Gil Santos', time: '10:00', status24h: 'confirmed', status1h: 'confirmed', category: 'endodontia' },
   { consultationId: 'gs-c4', patientName: 'Hugo Ferreira', dentistName: 'Dr. Gil Santos', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'teleconsulta' },
   { consultationId: 'gs-c5', patientName: 'Joana Ribeiro', dentistName: 'Dr. Gil Santos', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'urgencia' },
 ];
