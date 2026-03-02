@@ -59,7 +59,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       return [
       { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
       { label: 'Nível', value: 'Bronze', icon: Award },
-      { label: 'Pontos', value: '450', icon: Trophy },
+      { label: 'Pontuação', value: '450 pts', icon: Trophy },
       { label: 'Streak', value: '7 dias', icon: Flame }];
     }
     if (userRole === 'dentist') {
@@ -68,7 +68,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       return [
       { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar },
       { label: 'Nível', value: 'Prata', icon: Award },
-      { label: 'Pontos', value: '1 250', icon: Trophy },
+      { label: 'Pontuação', value: '1 250 pts', icon: Trophy },
       { label: 'Streak', value: '14 dias', icon: Flame }];
     }
     if (userRole === 'clinic') {
@@ -77,7 +77,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       return [
       { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
-      { label: 'Pontos', value: '3 800', icon: Trophy },
+      { label: 'Pontuação', value: '3 800 pts', icon: Trophy },
       { label: 'Streak', value: '30 dias', icon: Flame }];
     }
     return null;
