@@ -160,17 +160,23 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const today = new Date();
   const rxCode = `RX${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
+  const totalVisibleSteps = steps.filter(s => s !== 'success').length;
+  const currentStepNumber = Math.min(stepIndex + 1, totalVisibleSteps);
+
   // Progress bar
   const ProgressBar = () => (
-    <div className="flex items-center gap-2 px-4 py-3">
-      {steps.filter(s => s !== 'success').map((step, i) => (
-        <div key={step} className="flex-1 flex items-center gap-2">
-          <div className={cn(
-            'h-1.5 rounded-full flex-1 transition-all',
-            i <= stepIndex && currentStep !== 'success' ? 'bg-primary' : i < stepIndex ? 'bg-primary' : 'bg-muted'
-          )} />
-        </div>
-      ))}
+    <div className="space-y-2 px-4 py-3">
+      <p className="text-xs text-muted-foreground text-center">Passo {currentStepNumber} de {totalVisibleSteps}</p>
+      <div className="flex items-center gap-2">
+        {steps.filter(s => s !== 'success').map((step, i) => (
+          <div key={step} className="flex-1">
+            <div className={cn(
+              'h-1.5 rounded-full transition-all',
+              i <= stepIndex && currentStep !== 'success' ? 'bg-primary' : 'bg-muted'
+            )} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 

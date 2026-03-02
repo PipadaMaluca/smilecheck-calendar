@@ -316,16 +316,33 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-background">
+    <div className={cn(
+      'flex flex-col bg-background',
+      isMobile
+        ? 'fixed inset-0 z-[55]'
+        : 'flex-1'
+    )}>
+    <div className={cn(
+      'flex flex-col bg-background overflow-hidden',
+      isMobile
+        ? 'w-full h-full pb-[60px]'
+        : 'w-full h-full max-w-2xl mx-auto'
+    )}>
       {/* Header */}
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
-        <div className="w-full max-w-[600px] space-y-2">
-          <h2 className="text-base font-semibold text-center">Carta de Referência</h2>
+        <div className="w-full max-w-[600px]">
+          <h1 className="text-base font-bold text-center">Carta de Referência</h1>
+        </div>
+      </div>
+
+      <div className="max-w-[600px] mx-auto w-full">
+        <div className="space-y-2 px-4 py-3">
           <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
-          {/* Progress */}
-          <div className="flex justify-center gap-[10px]">
+          <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
-            <div key={s} className={cn('h-1.5 w-8 rounded-full', s <= step ? 'bg-primary' : 'bg-secondary')} />
+            <div key={s} className="flex-1">
+              <div className={cn('h-1.5 rounded-full transition-all', s <= step ? 'bg-primary' : 'bg-muted')} />
+            </div>
             )}
           </div>
         </div>
@@ -339,7 +356,10 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </ScrollArea>
 
       {/* Footer */}
-      <div className="border-t border-border flex justify-center p-3 flex-shrink-0">
+      <div className={cn(
+        'border-t border-border flex justify-center flex-shrink-0',
+        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
+      )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
             {step > 1 ? 'Anterior' : 'Cancelar'}
@@ -362,6 +382,8 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           </Button>
         </div>
       </div>
-    </div>);
+    </div>
+    </div>
+    );
 
 }
