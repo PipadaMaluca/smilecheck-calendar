@@ -121,23 +121,23 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                 </div>
                 <span className="text-xl font-bold text-foreground truncate sm:text-3xl">{stat.value}</span>
-                {'subtitle' in stat && stat.subtitle && (
-                  <span className="text-[10px] text-muted-foreground truncate sm:text-xs">
+                {'subtitle' in stat && stat.subtitle &&
+                <span className="text-[10px] text-muted-foreground truncate sm:text-xs">
                     {String(stat.subtitle).split('·').map((part, i) => {
-                      const trimmed = part.trim();
-                      const isPresencial = trimmed.includes('Presenciais');
-                      const isTeleconsulta = trimmed.includes('Teleconsultas');
-                      return (
-                        <span key={i}>
+                    const trimmed = part.trim();
+                    const isPresencial = trimmed.includes('Presenciais');
+                    const isTeleconsulta = trimmed.includes('Teleconsultas');
+                    return (
+                      <span key={i}>
                           {i > 0 && <span className="text-muted-foreground"> · </span>}
                           <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
                             {trimmed}
                           </span>
-                        </span>
-                      );
-                    })}
+                        </span>);
+
+                  })}
                   </span>
-                )}
+                }
               </CardContent>
             </Card>);
 
@@ -251,7 +251,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                         {catLabel &&
-                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
                         }
                       </div>
                       {confirmIndicator(c.status24h)}
@@ -350,22 +350,22 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {(() => {
-                  const dentistData: { id: string; name: string; pres: number; tele: number }[] = [
-                    { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                    { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                    { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 },
-                  ];
-                  return dentistData.map((d) => (
-                    <div
-                      key={d.id}
-                      className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
-                      onClick={() => onNavigate('agenda')}>
+                  const dentistData: {id: string;name: string;pres: number;tele: number;}[] = [
+                  { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
+                  { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
+                  { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }];
+
+                  return dentistData.map((d) =>
+                  <div
+                    key={d.id}
+                    className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
+                    onClick={() => onNavigate('agenda')}>
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
                       <span className="text-xs font-bold text-presencial">{d.pres} Presenciais</span>
                       <span className="text-[10px] text-muted-foreground">·</span>
                       <span className="text-xs font-bold text-teleconsulta">{d.tele} Teleconsultas</span>
                     </div>
-                  ));
+                  );
                 })()}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
@@ -395,8 +395,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                             {catLabel &&
-                              <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
-                            }
+                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                          }
                           </div>
                           {confirmIndicator(c.status24h)}
                           {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -473,11 +473,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             return (
               <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="text-muted-foreground gap-[10px] flex items-center justify-start">
                       <Icon className="w-4 h-4" />
-                      <span className="text-xs font-medium">{stat.label}</span>
+                      <span className="font-medium text-lg text-left">{stat.label}</span>
                     </div>
-                    <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                    <span className="font-bold text-foreground text-3xl">{stat.value}</span>
                     {'subtitle' in stat && stat.subtitle &&
                   <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
                   }
