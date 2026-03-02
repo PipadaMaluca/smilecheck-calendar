@@ -212,9 +212,9 @@ export function DesktopWeekView({
                       onContextMenu={(e) => handleContextMenu(e, c)}
                     >
                       <div className="px-1.5 py-0.5 text-[10px] leading-tight truncate">
-                        <div className="font-semibold truncate">{c.time} {c.patient.name.split(' ')[0]}</div>
+                        <div className="font-semibold truncate category-text-contrast">{c.time} {c.patient.name.split(' ')[0]}</div>
                         {spanCount > 1 && (
-                          <div className="truncate opacity-80">{CATEGORY_LABELS[category]}</div>
+                          <div className="truncate opacity-80 category-text-contrast">{CATEGORY_LABELS[category]}</div>
                         )}
                       </div>
                     </div>
