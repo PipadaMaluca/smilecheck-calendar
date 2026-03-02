@@ -245,6 +245,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   );
                 })}
               </div>
+              <button
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
+              >
+                Ver Tudo →
+              </button>
             </CardContent>
           </Card>
 
@@ -263,6 +269,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   </div>
                 ))}
               </div>
+              <button
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
+              >
+                Ver Tudo →
+              </button>
             </CardContent>
           </Card>
         </div>
