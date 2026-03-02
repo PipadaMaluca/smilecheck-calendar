@@ -118,11 +118,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
                 <div className="flex items-center gap-2 text-muted-foreground min-w-0">
                   <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
+                  <span className="text-[10px] sm:text-xs font-medium truncate">{stat.label}</span>
                 </div>
-                <span className="text-xl font-bold text-foreground truncate sm:text-3xl">{stat.value}</span>
-                {'subtitle' in stat && stat.subtitle
-
+                <span className="text-xl sm:text-2xl font-bold text-foreground truncate">{stat.value}</span>
+                {'subtitle' in stat && stat.subtitle &&
+                <span className="text-[10px] sm:text-xs text-muted-foreground -mt-1 truncate">{stat.subtitle}</span>
                 }
               </CardContent>
             </Card>);
@@ -338,9 +338,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
               </div>
               {/* Summary bar */}
-              <div className="gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] sm:gap-[30px] flex items-center justify-center">
-                <span className="text-blue-400"><span className="font-bold text-orange-400">{presCount}</span></span>
-                <span className="text-orange-400">14<span className="font-bold text-blue-400">{teleCount}</span></span>
+              <div className="flex items-center gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] sm:gap-[25px]">
+                <span className="text-blue-400">📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
+                <span className="text-orange-400">💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {clinicDentists.map((d) => {
@@ -351,7 +351,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div
                       key={d.id}
-                      className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
+                      className="flex items-center gap-2 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px]"
                       onClick={() => onNavigate('agenda')}>
                       
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
@@ -424,7 +424,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
-                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                  <div key={wl.id} className="flex items-center gap-1.5 py-0.5 border-b border-border/50 last:border-0">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                         <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                       </div>
