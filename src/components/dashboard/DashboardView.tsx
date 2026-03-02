@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryTextStyle } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -214,7 +214,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
                       </span>
                       <div className="flex items-center gap-1.5 truncate text-left">
-                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                         <span className="text-[10px] text-muted-foreground">— {c.duration}min</span>
                       </div>
                       {getStatusBadge(c.status)}
@@ -251,7 +251,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                         {catLabel &&
-                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                         }
                       </div>
                       {confirmIndicator(c.status24h)}
@@ -395,7 +395,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                             {catLabel &&
-                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                           }
                           </div>
                           {confirmIndicator(c.status24h)}
@@ -509,7 +509,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <p className="text-sm font-medium text-foreground truncate">
                           <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
-                        {catLabel && <span className="text-[10px] font-medium px-1.5 py-0 rounded-full inline-block" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>}
+                        {catLabel && <span className="text-[10px] font-medium px-1.5 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>}
                       </div>
                       <Badge variant="outline" className="text-[10px] flex-shrink-0">
                         {item.status === 'confirmada' ? 'Confirmada' : 'Agendada'}
