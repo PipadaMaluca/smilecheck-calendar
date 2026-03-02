@@ -181,39 +181,41 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {renderStatsCards()}
 
         {/* 3-column grid: 50% + 25% + 25% */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {/* LEFT: Consultas de Hoje (spans 2 cols) */}
           <Card className="bg-card/80 border-border lg:col-span-2 flex flex-col">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
               </div>
-              <div className="space-y-0">
+              <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                  const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
                   return (
-                    <div key={c.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
+                    <div key={c.id} className="flex items-center gap-2 py-1 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors">
                       <span className="text-xs font-bold text-primary w-10 flex-shrink-0">{c.time}</span>
-                      {catColor && <div className="w-1 h-4 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
-                      <span className="text-xs text-foreground truncate flex-1 min-w-0"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" /></span>
+                      <span className="text-xs text-foreground truncate min-w-0 flex-1">
+                        <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
+                      </span>
+                      <span className="text-[10px] font-medium flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
                       <span className="text-[10px] text-muted-foreground flex-shrink-0">{c.duration}min</span>
-                      <span className="text-[10px] font-medium flex-shrink-0" style={{ color: catColor?.hex }}>{c.category ? CATEGORY_LABELS[c.category] : c.type}</span>
                       {getStatusBadge(c.status)}
                     </div>
                   );
                 })}
               </div>
-              <button className="text-xs text-primary hover:underline w-full text-left" onClick={() => onNavigate('agenda')}>
+              <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
                 Ver agenda completa ›
               </button>
             </CardContent>
           </Card>
 
-          {/* CENTER: Confirmações */}
-          <Card className="bg-card/80 border-border flex flex-col" style={{ minHeight: 'auto' }}>
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
+          {/* CENTER: Confirmações — stretches to match left card */}
+          <Card className="bg-card/80 border-border flex flex-col">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
                 <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
@@ -224,7 +226,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                   const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
@@ -246,7 +248,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 })}
               </div>
               <button
-                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
               >
                 Ver Tudo →
@@ -255,13 +257,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* RIGHT: Lista de Espera */}
-          <Card className="bg-card/80 border-border">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
+          <Card className="bg-card/80 border-border flex flex-col">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
                 <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
               </div>
-              <div className="space-y-0">
+              <div className="space-y-0 flex-1">
                 {MOCK_WAITING_LIST.map((wl) => (
                   <div key={wl.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
@@ -270,7 +272,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 ))}
               </div>
               <button
-                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
               >
                 Ver Tudo →
@@ -335,19 +337,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       <div className="space-y-6">
         {renderStatsCards()}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {/* LEFT: Dentistas a Trabalhar Hoje */}
-          <Card className="bg-card/80 border-border">
-            <CardContent className="p-4 space-y-3">
-              <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
+          <Card className="bg-card/80 border-border flex flex-col">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <h3 className="text-sm font-bold text-foreground mb-3">Dentistas a Trabalhar Hoje</h3>
               {/* Summary bar */}
               <div className="flex items-center gap-2 sm:gap-4 text-xs pb-2 border-b border-border/50 flex-wrap">
                 <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
                 <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
                 <span>👥 Total: <span className="font-bold text-foreground">{todayConsultations.length}</span></span>
               </div>
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase">Por Dentista</p>
-              <div className="space-y-1.5">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase mt-2">Por Dentista</p>
+              <div className="space-y-1.5 flex-1">
                 {dentistConsCounts.map(d => (
                   <div key={d.id} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
                     <span className="text-xs font-medium text-foreground truncate"><ClickableDentistName name={d.name} className="text-xs font-medium text-foreground" /></span>
@@ -362,15 +364,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* CENTER: Confirmações grouped by dentist */}
-          <Card className="bg-card/80 border-border">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
+          <Card className="bg-card/80 border-border flex flex-col">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
                 <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
                 </Badge>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {confirmationsByDentist.map(({ dentist, confirmations }) => (
                   <div key={dentist.id}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
@@ -397,7 +399,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 ))}
               </div>
               <button
-                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
               >
                 Ver Tudo →
@@ -406,13 +408,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* RIGHT: Lista de Espera grouped by dentist */}
-          <Card className="bg-card/80 border-border">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
+          <Card className="bg-card/80 border-border flex flex-col">
+            <CardContent className="p-4 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
                 <Badge variant="outline" className="text-[10px]">{totalWaitlist} pacientes</Badge>
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) => (
                   <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
@@ -426,7 +428,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 ))}
               </div>
               <button
-                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium"
+                className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
               >
                 Ver Tudo →
