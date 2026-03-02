@@ -473,11 +473,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             return (
               <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
-                    <div className="text-muted-foreground gap-[10px] flex items-center justify-start">
+                    <div className="text-muted-foreground gap-[10px] flex items-center justify-center">
                       <Icon className="w-4 h-4" />
-                      <span className="font-medium text-lg text-left">{stat.label}</span>
+                      <span className="font-medium text-lg text-center">{stat.label}</span>
                     </div>
-                    <span className="font-bold text-foreground text-3xl">{stat.value}</span>
+                    <span className="font-bold text-foreground text-3xl text-center">{stat.value}</span>
                     {'subtitle' in stat && stat.subtitle &&
                   <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
                   }
