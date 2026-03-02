@@ -219,6 +219,22 @@ export function ClinicCalendar() {
     setViewMode(mode);
   };
 
+  const handleTabChange = (tab: string) => {
+    // Clear ALL overlay/sub-screen states so navigation is always direct
+    setShowReferral(false);
+    setShowSearch(false);
+    setShowProfile(false);
+    setShowEditProfile(false);
+    setShowInvite(false);
+    setSelectedConsultation(null);
+    setViewDentistProfile(null);
+    setViewClinicProfileId(null);
+    setSlotCreation(null);
+    setViewPatientDossier(null);
+    setShowFullHistory(false);
+    setActiveTab(tab);
+  };
+
   return (
     <ProfileNavigationProvider
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
@@ -246,7 +262,7 @@ export function ClinicCalendar() {
       {showFullHistory ? (
         <FullHistoryView userRole="clinic" onBack={() => setShowFullHistory(false)} />
       ) : activeTab === 'home' ? (
-        <DashboardView userRole="clinic" onNavigate={setActiveTab} onViewFullHistory={() => setShowFullHistory(true)} />
+        <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
         <>
           <DateNavigator
@@ -321,11 +337,11 @@ export function ClinicCalendar() {
           </div>
         </>
       ) : activeTab === 'equipa' ? (
-        <TeamView userRole="clinic" onNavigate={setActiveTab} />
+        <TeamView userRole="clinic" onNavigate={handleTabChange} />
       ) : activeTab === 'conversas' ? (
-        <ConversationsView userRole="clinic" onNavigate={setActiveTab} />
+        <ConversationsView userRole="clinic" onNavigate={handleTabChange} />
       ) : activeTab === 'configuracoes' ? (
-        <SettingsView userRole="clinic" onNavigate={setActiveTab} onInvite={() => setShowInvite(true)} />
+        <SettingsView userRole="clinic" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
       ) : activeTab === 'classificacoes' ? (
         <div className="px-0"><RankingsView userRole="clinic" /></div>
       ) : activeTab === 'conquistas' ? (
@@ -350,7 +366,7 @@ export function ClinicCalendar() {
         </div>
       )}
 
-      <BottomNavigation userRole="clinic" activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNavigation userRole="clinic" activeTab={activeTab} onTabChange={handleTabChange} />
 
       <MobileSidebar
         isOpen={sidebarOpen}
@@ -365,9 +381,9 @@ export function ClinicCalendar() {
         onProfileClick={() => setShowProfile(true)}
         activeTab={activeTab}
         onNavigate={(tab) => {
-          if (tab === 'pesquisa') { setShowSearch(true); return; }
-          if (tab === 'referencia') { setShowReferral(true); return; }
-          setActiveTab(tab);
+          if (tab === 'pesquisa') { handleTabChange(activeTab); setShowSearch(true); return; }
+          if (tab === 'referencia') { handleTabChange(activeTab); setShowReferral(true); return; }
+          handleTabChange(tab);
         }}
       />
 
