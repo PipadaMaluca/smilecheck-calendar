@@ -2,7 +2,7 @@ import { ArrowLeft, Calendar, Clock, MapPin, Video, Star, Phone, MessageCircle, 
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryTextStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -45,7 +45,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
             </span>
             <span
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
-              style={{ backgroundColor: `${colors.hex}20`, color: colors.hex }}
+              style={{ backgroundColor: `${colors.hex}20`, ...getCategoryTextStyle(colors.hex) }}
             >
               {isTeleconsulta ? <Video className="w-3.5 h-3.5" /> : <MapPin className="w-3.5 h-3.5" />}
               {isTeleconsulta ? 'Teleconsulta' : 'Presencial'}
@@ -65,7 +65,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               )}
             </div>
             <div>
-              <p className="text-lg font-bold" style={{ color: colors.hex }}>
+              <p className="text-lg font-bold" style={getCategoryTextStyle(colors.hex)}>
                 {categoryLabel}
               </p>
               <p className="text-sm text-muted-foreground">

@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConsultationScore } from '@/types/scoring';
-import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, UserRole } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, UserRole, getCategoryTextStyle } from '@/types/calendar';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
@@ -51,7 +51,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   const renderSecondLine = () => (
     <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
       {catLabel && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-0" style={{ backgroundColor: `${catColor?.hex}20`, color: catColor?.hex }}>
+        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>
           {catLabel}
         </Badge>
       )}

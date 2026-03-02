@@ -117,6 +117,17 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
   outro: { bg: 'bg-[#9E9E9E]', text: 'text-white', hex: '#9E9E9E' },
 };
 
+// Helper: returns inline style for category-colored text, with white text-stroke for dark categories like Cirurgia
+export function getCategoryTextStyle(hex: string): import('react').CSSProperties {
+  if (hex === '#212121') {
+    return {
+      color: hex,
+      textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff',
+    };
+  }
+  return { color: hex };
+}
+
 export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   primeira_consulta: '1ª Consulta',
   destartarizacao: 'Destartarização',

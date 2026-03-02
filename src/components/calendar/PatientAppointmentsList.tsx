@@ -1,6 +1,6 @@
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -96,7 +96,7 @@ export function PatientAppointmentsList({
                         className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium"
                         style={{
                           backgroundColor: `${colors.hex}20`,
-                          color: colors.hex
+                          ...getCategoryTextStyle(colors.hex)
                         }}>
 
                           {isTeleconsulta && <Video className="w-3.5 h-3.5" />}

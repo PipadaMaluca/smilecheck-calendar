@@ -6,7 +6,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, getCategoryTextStyle } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const DEMO_DATE = new Date(2026, 0, 31);
@@ -148,7 +148,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                               <ClickablePatientName name={isMobile ? abbreviateName(c.patient.name) : c.patient.name} patientId={c.patient.id} className="text-sm" />
                             </TableCell>
                             <TableCell>
-                              <span className="text-xs font-medium whitespace-nowrap" style={{ color: catColor?.hex }}>
+                              <span className="text-xs font-medium whitespace-nowrap" style={getCategoryTextStyle(catColor?.hex || '')}>
                                 {catLabel}
                               </span>
                             </TableCell>

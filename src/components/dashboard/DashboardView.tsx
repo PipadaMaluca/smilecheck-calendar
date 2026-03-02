@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryTextStyle } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -200,7 +200,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
                       </span>
                       <span className="text-[10px] text-center truncate">
-                        <span className="font-medium" style={{ color: catColor?.hex }}>{catLabel}</span>
+                        <span className="font-medium" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                         <span className="text-muted-foreground"> — {c.duration}min</span>
                       </span>
                       {getStatusBadge(c.status)}
@@ -239,7 +239,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         {catLabel && (
                           <>
                             <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
-                            <span className="text-[10px] font-medium truncate flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
+                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                           </>
                         )}
                       </div>
@@ -342,24 +342,22 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
                 <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
               </div>
-              <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {todayConsultations.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
-                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                  const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
+              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
+                {clinicDentists.map((d) => {
+                  const dentistCons = todayConsultations.filter(c => c.dentist.id === d.id);
+                  const dPres = dentistCons.filter(c => c.type === 'presencial').length;
+                  const dTele = dentistCons.filter(c => c.type === 'teleconsulta').length;
+                  if (dPres + dTele === 0) return null;
                   return (
-                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer">
-                      <span className="text-xs font-bold text-primary">{c.time}</span>
-                      <div className="min-w-0 truncate">
-                        <span className="text-xs text-foreground">
-                          <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
-                        </span>
-                        <span className="text-[10px] text-muted-foreground ml-1">({abbreviateName(c.dentist.name)})</span>
-                      </div>
-                      <span className="text-[10px] text-center truncate">
-                        <span className="font-medium" style={{ color: catColor?.hex }}>{catLabel}</span>
-                        <span className="text-muted-foreground"> — {c.duration}min</span>
-                      </span>
-                      {getStatusBadge(c.status)}
+                    <div
+                      key={d.id}
+                      className="flex items-center gap-2 py-2 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded px-1 transition-colors cursor-pointer"
+                      onClick={() => onNavigate('agenda')}
+                    >
+                      <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
+                      <span className="text-xs font-bold text-blue-400">{dPres} Presenciais</span>
+                      <span className="text-[10px] text-muted-foreground">·</span>
+                      <span className="text-xs font-bold text-orange-400">{dTele} Teleconsultas</span>
                     </div>
                   );
                 })}
@@ -393,7 +391,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             {catLabel && (
                               <>
                                 <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
-                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
+                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                               </>
                             )}
                           </div>
