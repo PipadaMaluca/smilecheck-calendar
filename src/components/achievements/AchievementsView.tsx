@@ -290,21 +290,19 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
                   ✓
                 </span>
               )}
-            </div>
-            <p className="text-xs text-muted-foreground truncate">
-              {isSecret ? 'Conquista secreta' : achievement.description}
-            </p>
-            <div className="flex items-center justify-between mt-1.5">
               <span className={cn(
-                'text-[10px] font-bold',
+                'text-[10px] font-bold ml-auto flex-shrink-0',
                 achievement.unlocked ? 'text-amber-400' : 'text-muted-foreground'
               )}>
                 +{achievement.points} pts
               </span>
               {!achievement.unlocked && !isSecret && (
-                <Lock className="w-3 h-3 text-muted-foreground" />
+                <Lock className="w-3 h-3 text-muted-foreground flex-shrink-0" />
               )}
             </div>
+            <p className="text-xs text-muted-foreground truncate">
+              {isSecret ? 'Conquista secreta' : achievement.description}
+            </p>
             {achievement.progress && !isSecret && (
               <div className="mt-2">
                 <Progress
