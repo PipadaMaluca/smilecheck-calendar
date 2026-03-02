@@ -57,7 +57,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-      { label: 'Próxima Consulta', value: '31 Jan', icon: Calendar },
+      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar },
       { label: 'Nível', value: 'Bronze', icon: Award },
       { label: 'Pontuação', value: '450 pts', icon: Trophy },
       { label: 'Streak', value: '7 dias', icon: Flame }];
