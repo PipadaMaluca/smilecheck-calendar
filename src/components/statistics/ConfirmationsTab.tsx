@@ -90,7 +90,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
 
   const todayConsultations = useMemo(() =>
     mockConsultations.filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE))
-      .filter(c => c.status === 'agendada' || c.status === 'confirmada'),
+      .filter(c => !c.status || c.status === 'agendada' || c.status === 'confirmada'),
   []);
 
   return (
