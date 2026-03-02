@@ -194,13 +194,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
                   return (
-                    <div key={c.id} className="flex items-center gap-2 py-1 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors">
-                      <span className="text-xs font-bold text-primary w-10 flex-shrink-0">{c.time}</span>
-                      <span className="text-xs text-foreground truncate min-w-0 flex-1">
+                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer">
+                      <span className="text-xs font-bold text-primary">{c.time}</span>
+                      <span className="text-xs text-foreground truncate min-w-0">
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
                       </span>
-                      <span className="text-[10px] font-medium flex-shrink-0" style={{ color: catColor?.hex }}>{catLabel}</span>
-                      <span className="text-[10px] text-muted-foreground flex-shrink-0">{c.duration}min</span>
+                      <span className="text-[10px] text-center truncate">
+                        <span className="font-medium" style={{ color: catColor?.hex }}>{catLabel}</span>
+                        <span className="text-muted-foreground"> — {c.duration}min</span>
+                      </span>
                       {getStatusBadge(c.status)}
                     </div>
                   );
@@ -293,16 +295,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const presCount = todayConsultations.filter(c => c.type === 'presencial').length;
     const teleCount = todayConsultations.filter(c => c.type === 'teleconsulta').length;
 
-    // Per-dentist consultation counts
-    const dentistConsCounts = clinicDentists.map(d => {
-      const dCons = todayConsultations.filter(c => c.dentist.id === d.id);
-      return {
-        ...d,
-        pres: dCons.filter(c => c.type === 'presencial').length,
-        tele: dCons.filter(c => c.type === 'teleconsulta').length,
-        total: dCons.length,
-      };
-    }).filter(d => d.total > 0);
 
     // Group confirmations by dentist
     const confirmationsByDentist = clinicDentists.map(d => ({
@@ -338,28 +330,43 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {renderStatsCards()}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-          {/* LEFT: Dentistas a Trabalhar Hoje */}
+          {/* LEFT: Consultas de Hoje (all dentists) */}
           <Card className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
-              <h3 className="text-sm font-bold text-foreground mb-3">Dentistas a Trabalhar Hoje</h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
+                <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
+              </div>
               {/* Summary bar */}
               <div className="flex items-center gap-2 sm:gap-4 text-xs pb-2 border-b border-border/50 flex-wrap">
                 <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
                 <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
-                <span>👥 Total: <span className="font-bold text-foreground">{todayConsultations.length}</span></span>
               </div>
-              <p className="text-[10px] font-semibold text-muted-foreground uppercase mt-2">Por Dentista</p>
-              <div className="space-y-1.5 flex-1">
-                {dentistConsCounts.map(d => (
-                  <div key={d.id} className="flex items-center justify-between py-1.5 border-b border-border/50 last:border-0">
-                    <span className="text-xs font-medium text-foreground truncate"><ClickableDentistName name={d.name} className="text-xs font-medium text-foreground" /></span>
-                    <div className="flex items-center gap-2 text-[10px] flex-shrink-0">
-                      {d.tele > 0 && <span className="text-blue-400">{d.tele} Teleconsultas</span>}
-                      {d.pres > 0 && <span className="text-orange-400">{d.pres} Presenciais</span>}
+              <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
+                {todayConsultations.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
+                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
+                  const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
+                  return (
+                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer">
+                      <span className="text-xs font-bold text-primary">{c.time}</span>
+                      <div className="min-w-0 truncate">
+                        <span className="text-xs text-foreground">
+                          <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
+                        </span>
+                        <span className="text-[10px] text-muted-foreground ml-1">({abbreviateName(c.dentist.name)})</span>
+                      </div>
+                      <span className="text-[10px] text-center truncate">
+                        <span className="font-medium" style={{ color: catColor?.hex }}>{catLabel}</span>
+                        <span className="text-muted-foreground"> — {c.duration}min</span>
+                      </span>
+                      {getStatusBadge(c.status)}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
+              <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
+                Ver agenda completa ›
+              </button>
             </CardContent>
           </Card>
 

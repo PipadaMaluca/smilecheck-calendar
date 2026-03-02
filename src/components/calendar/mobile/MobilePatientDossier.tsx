@@ -3,18 +3,21 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientDossierView } from '@/components/calendar/desktop/PatientDossierView';
 
+import { UserRole } from '@/types/calendar';
+
 interface MobilePatientDossierProps {
   patientId: string;
   isOpen: boolean;
   onClose: () => void;
   onNavigate?: (tab: string) => void;
+  userRole?: UserRole;
 }
 
 /**
  * Full-screen wrapper for PatientDossierView on mobile/tablet.
  * Shows back arrow, bottom nav padding, and scrollable content.
  */
-export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate }: MobilePatientDossierProps) {
+export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate, userRole }: MobilePatientDossierProps) {
   if (!isOpen) return null;
 
   return (
@@ -30,6 +33,7 @@ export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate }:
         patientId={patientId}
         onClose={onClose}
         onNavigate={onNavigate || (() => {})}
+        userRole={userRole}
       />
     </div>
   );

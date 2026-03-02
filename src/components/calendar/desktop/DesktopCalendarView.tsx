@@ -507,10 +507,11 @@ export function DesktopCalendarView() {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
           {renderStandardHeader('Dossier do Paciente')}
-          <PatientDossierView
+           <PatientDossierView
             patientId={dossierPatientId}
             onClose={() => setDossierPatientId(null)}
-            onNavigate={(tab) => {setDossierPatientId(null);handleNavTabChange(tab);}} />
+            onNavigate={(tab) => {setDossierPatientId(null);handleNavTabChange(tab);}}
+            userRole={activeRole} />
 
         </div>);
 
