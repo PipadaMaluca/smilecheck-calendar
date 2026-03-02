@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -65,7 +65,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 </button>
                 <div className="flex items-center gap-3 mt-1">
                   {categoryColor && (
-                    <span className={cn('text-xs font-semibold px-2.5 py-1 rounded-full', categoryColor.bg, categoryColor.text)}>
+                    <span className={cn('text-xs font-semibold px-2.5 py-1 rounded-full', categoryColor.bg)} style={getCategoryTextStyle(categoryColor.hex)}>
                       {categoryLabel}
                     </span>
                   )}

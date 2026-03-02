@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus } from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import {
@@ -139,7 +139,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                         className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium"
                         style={{
                           backgroundColor: `${colors.hex}20`,
-                          color: colors.hex,
+                          ...getCategoryTextStyle(colors.hex),
                         }}
                       >
                         {isTeleconsulta && (

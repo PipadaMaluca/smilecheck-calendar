@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CATEGORY_COLORS, CATEGORY_LABELS } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -283,7 +283,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                       className="w-full flex items-center gap-3 p-3 text-left hover:bg-secondary/30 transition-colors"
                       onClick={() => setExpandedConsultation(isExpanded ? null : i)}
                     >
-                      <div className={cn('w-1 h-8 rounded-full shrink-0', catColor?.bg || 'bg-muted')} />
+                      <div className="w-1 h-8 rounded-full shrink-0" style={{ backgroundColor: catColor?.hex || undefined }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium">{c.date} — {c.time}</span>

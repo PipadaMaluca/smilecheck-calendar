@@ -128,7 +128,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
                 <div className="flex items-center gap-1.5 ml-4">
                   <span 
-                    className="text-[10px] font-bold"
+                    className="text-xs font-bold"
                     style={getCategoryTextStyle(colors.hex)}
                   >
                     {CATEGORY_LABELS[category]}
