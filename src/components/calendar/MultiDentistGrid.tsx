@@ -285,7 +285,7 @@ export function MultiDentistGrid({
                         </div>
                         {/* Line 2: Type (colored) + Notes (gray) */}
                         <div className="flex items-center gap-1">
-                          <span className="font-bold text-[9px] category-text-contrast" style={{ color: colors.hex }}>
+                          <span className="font-bold text-[9px]" style={{ color: colors.hex }}>
                             {CATEGORY_LABELS[category]}
                           </span>
                           {isTeleconsulta && (

@@ -95,7 +95,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               </p>
             ) : (
               <p
-                className="text-sm font-bold category-text-contrast"
+                className="text-sm font-bold"
                 style={{ color: colors.hex }}
               >
                 {categoryLabel}

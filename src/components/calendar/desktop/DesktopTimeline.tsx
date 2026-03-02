@@ -378,7 +378,7 @@ export function DesktopTimeline({
                             {/* Line 2: type (colored) + notes (gray) */}
                             <div className="flex items-center gap-1.5 mt-0.5">
                               <span 
-                                className="text-[9px] font-bold truncate category-text-contrast" 
+                                className="text-[9px] font-bold truncate" 
                                 style={{ color: styles.borderColor }}
                               >
                                 {getCategoryLabel(consultation)}
