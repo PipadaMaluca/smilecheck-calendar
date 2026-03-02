@@ -342,24 +342,32 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <span>📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
                 <span>💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
               </div>
+              {/* Per-dentist summary */}
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {todayConsultations.sort((a, b) => a.time.localeCompare(b.time)).slice(0, 8).map((c) => {
-                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                  const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
+                {clinicDentists.map((d) => {
+                  const dentistCons = todayConsultations.filter(c => c.dentist.id === d.id);
+                  if (dentistCons.length === 0) return null;
+                  const pres = dentistCons.filter(c => c.type === 'presencial').length;
+                  const tele = dentistCons.filter(c => c.type === 'teleconsulta').length;
                   return (
-                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer">
-                      <span className="text-xs font-bold text-primary">{c.time}</span>
-                      <div className="min-w-0 truncate">
-                        <span className="text-xs text-foreground">
-                          <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
+                    <div
+                      key={d.id}
+                      className="flex items-center gap-2 py-2 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer"
+                      onClick={() => onNavigate('agenda')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-[9px] font-bold text-primary">
+                          {d.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                         </span>
-                        <span className="text-[10px] text-muted-foreground ml-1">({abbreviateName(c.dentist.name)})</span>
                       </div>
-                      <span className="text-[10px] text-center truncate">
-                        <span className="font-medium" style={{ color: catColor?.hex }}>{catLabel}</span>
-                        <span className="text-muted-foreground"> — {c.duration}min</span>
+                      <span className="text-xs font-medium text-foreground truncate flex-1 min-w-0">
+                        <ClickableDentistName name={d.name} className="text-xs font-medium text-foreground" />
                       </span>
-                      {getStatusBadge(c.status)}
+                      <span className="text-[10px] text-muted-foreground flex-shrink-0">
+                        {pres > 0 && <span>{pres} presencial{pres > 1 ? 'is' : ''}</span>}
+                        {pres > 0 && tele > 0 && <span>, </span>}
+                        {tele > 0 && <span>{tele} teleconsulta{tele > 1 ? 's' : ''}</span>}
+                      </span>
                     </div>
                   );
                 })}
@@ -383,7 +391,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {confirmationsByDentist.map(({ dentist, confirmations }) => (
                   <div key={dentist.id}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {confirmations.slice(0, 2).map(c => {
+                    {confirmations.slice(0, 3).map(c => {
                       const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                       const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
                       return (
@@ -402,6 +410,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </div>
                       );
                     })}
+                    {confirmations.length > 3 && (
+                      <span className="text-[10px] text-primary font-medium pl-1">+{confirmations.length - 3} mais</span>
+                    )}
                   </div>
                 ))}
               </div>

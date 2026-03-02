@@ -233,7 +233,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                           {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                         </div>
                         {/* Line 2: TYPE (colored) */}
-                        <span className="text-[7px] font-bold truncate" style={{ color: colors.hex }}>
+                        <span className="text-[7px] font-bold truncate category-text-contrast" style={{ color: colors.hex }}>
                           {CATEGORY_LABELS[category]}
                         </span>
                       </div>
