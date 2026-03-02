@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -105,7 +105,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         </div>
         <div
           className="px-2 py-1 rounded-full text-xs font-medium"
-          style={{ backgroundColor: `${colors.hex}20`, ...getCategoryTextStyle(colors.hex) }}
+          style={getCategoryBadgeStyle(colors.hex)}
         >
           {consultation.duration} min
         </div>

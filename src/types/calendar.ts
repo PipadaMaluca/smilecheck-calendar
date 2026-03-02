@@ -128,6 +128,21 @@ export function getCategoryTextStyle(hex: string): import('react').CSSProperties
   return { color: hex };
 }
 
+// Helper: returns inline style for a full-opacity category badge/pill (solid background, white text, Cirurgia special case)
+export function getCategoryBadgeStyle(hex: string): import('react').CSSProperties {
+  if (hex === '#212121') {
+    return {
+      backgroundColor: hex,
+      color: '#fff',
+      textShadow: 'none',
+    };
+  }
+  return {
+    backgroundColor: hex,
+    color: '#fff',
+  };
+}
+
 export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   primeira_consulta: '1ª Consulta',
   destartarizacao: 'Destartarização',
