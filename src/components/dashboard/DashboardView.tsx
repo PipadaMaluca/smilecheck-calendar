@@ -75,7 +75,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
       const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
+      { label: 'Consultas de Hoje', value: '54', subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
       { label: 'Pontos', value: '3 800', icon: Trophy },
       { label: 'Streak', value: '30 dias', icon: Flame }];
@@ -339,8 +339,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               {/* Summary bar */}
               <div className="gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] flex items-center justify-center sm:gap-[30px]">
-                <span className="text-blue-400"><span className="font-bold text-orange-400">{presCount}</span></span>
-                <span className="text-orange-400">14 <span className="font-bold text-blue-400">{teleCount}</span></span>
+                <span className="text-blue-400"><span className="font-bold">{presCount}</span> Presenciais</span>
+                <span className="text-orange-400"><span className="font-bold">{teleCount}</span> Teleconsultas</span>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {clinicDentists.map((d) => {
