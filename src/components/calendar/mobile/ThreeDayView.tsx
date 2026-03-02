@@ -1,4 +1,4 @@
-import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
+import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
 import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -233,7 +233,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                           {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                         </div>
                         {/* Line 2: TYPE (colored) */}
-                        <span className="text-[7px] font-bold truncate" style={getCategoryTextStyle(colors.hex)}>
+                        <span className="text-[7px] font-bold truncate px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
                           {CATEGORY_LABELS[category]}
                         </span>
                       </div>

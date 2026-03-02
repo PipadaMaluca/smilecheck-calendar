@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -293,7 +293,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground">{c.type}{userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>} • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
+                        <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap"><span className="px-1.5 py-0 rounded-full text-[10px] font-medium inline-block" style={getCategoryBadgeStyle(catColor?.hex || '#9E9E9E')}>{c.type}</span>{userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>} • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
                       </div>
                     </button>
                     {isExpanded && (

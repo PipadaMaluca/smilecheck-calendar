@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
+import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { Video, AlertTriangle, Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -285,7 +285,7 @@ export function MultiDentistGrid({
                         </div>
                         {/* Line 2: Type (colored) + Notes (gray) */}
                         <div className="flex items-center gap-1">
-                          <span className="font-bold text-[9px]" style={getCategoryTextStyle(colors.hex)}>
+                          <span className="font-bold text-[9px] px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
                             {CATEGORY_LABELS[category]}
                           </span>
                           {isTeleconsulta && (
