@@ -116,13 +116,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           return (
             <Card key={stat.label} className="bg-card/80 backdrop-blur border-border min-w-0">
               <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
-                <div className="flex items-center text-muted-foreground min-w-0 gap-[10px]">
+                <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
                   <Icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                 </div>
-                <span className="text-xl font-bold text-foreground truncate sm:text-3xl">{stat.value}</span>
+                <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
                 {'subtitle' in stat && stat.subtitle &&
-                <span className="text-[10px] text-muted-foreground truncate sm:text-xs">
+                <span className="text-[10px] text-muted-foreground truncate text-center sm:text-base">
                     {String(stat.subtitle).split('·').map((part, i) => {
                     const trimmed = part.trim();
                     const isPresencial = trimmed.includes('Presenciais');

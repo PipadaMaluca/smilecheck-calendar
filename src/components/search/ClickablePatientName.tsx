@@ -25,12 +25,12 @@ export function ClickablePatientName({ name, patientId, className, children }: C
         e.stopPropagation();
         nav.openPatientProfile(patientId || 'default');
       }}
-      className={cn(
-        'hover:underline hover:text-primary transition-colors cursor-pointer text-left',
-        className
-      )}
-    >
+      className={cn("hover:underline hover:text-primary transition-colors cursor-pointer text-left text-sm",
+
+      className
+      )}>
+      
       {children || name}
-    </button>
-  );
+    </button>);
+
 }
