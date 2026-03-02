@@ -19,18 +19,18 @@ export function DaySummary({ summary, showRevenue = true, className }: DaySummar
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-secondary/30 rounded-lg p-3">
           <div className="flex items-center gap-2 mb-1">
-            <Video className="w-3.5 h-3.5 text-teleconsulta" />
-            <span className="text-xs text-muted-foreground">Teleconsultas</span>
-          </div>
-          <p className="text-xl font-bold text-teleconsulta">{summary.teleconsultas}</p>
-        </div>
-
-        <div className="bg-secondary/30 rounded-lg p-3">
-          <div className="flex items-center gap-2 mb-1">
             <MapPin className="w-3.5 h-3.5 text-presencial" />
             <span className="text-xs text-muted-foreground">Presenciais</span>
           </div>
           <p className="text-xl font-bold text-presencial">{summary.presenciais}</p>
+        </div>
+
+        <div className="bg-secondary/30 rounded-lg p-3">
+          <div className="flex items-center gap-2 mb-1">
+            <Video className="w-3.5 h-3.5 text-teleconsulta" />
+            <span className="text-xs text-muted-foreground">Teleconsultas</span>
+          </div>
+          <p className="text-xl font-bold text-teleconsulta">{summary.teleconsultas}</p>
         </div>
 
         <div className="bg-secondary/30 rounded-lg p-3">

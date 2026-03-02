@@ -75,7 +75,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
       const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
+      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
       { label: 'Pontos', value: '3 800', icon: Trophy },
       { label: 'Streak', value: '30 dias', icon: Flame }];
@@ -121,9 +121,23 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                 </div>
                 <span className="text-xl font-bold text-foreground truncate sm:text-3xl">{stat.value}</span>
-                {'subtitle' in stat && stat.subtitle
-
-                }
+                {'subtitle' in stat && stat.subtitle && (
+                  <span className="text-[10px] text-muted-foreground truncate sm:text-xs">
+                    {String(stat.subtitle).split('·').map((part, i) => {
+                      const trimmed = part.trim();
+                      const isPresencial = trimmed.includes('Presenciais');
+                      const isTeleconsulta = trimmed.includes('Teleconsultas');
+                      return (
+                        <span key={i}>
+                          {i > 0 && <span className="text-muted-foreground"> · </span>}
+                          <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
+                            {trimmed}
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </span>
+                )}
               </CardContent>
             </Card>);
 
@@ -335,32 +349,27 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
-                <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
-              </div>
-              {/* Summary bar */}
-              <div className="gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] sm:gap-[30px] flex items-center justify-center">
-                <span className="text-blue-400"><span className="font-bold text-orange-400">{presCount}</span></span>
-                <span className="text-orange-400">14<span className="font-bold text-blue-400">{teleCount}</span></span>
+                <Badge variant="outline" className="text-[10px]">54 total</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {clinicDentists.map((d) => {
-                  const dentistCons = todayConsultations.filter((c) => c.dentist.id === d.id);
-                  const dPres = dentistCons.filter((c) => c.type === 'presencial').length;
-                  const dTele = dentistCons.filter((c) => c.type === 'teleconsulta').length;
-                  if (dPres + dTele === 0) return null;
-                  return (
+                {(() => {
+                  const dentistData: { id: string; name: string; pres: number; tele: number }[] = [
+                    { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
+                    { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
+                    { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 },
+                  ];
+                  return dentistData.map((d) => (
                     <div
                       key={d.id}
                       className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
                       onClick={() => onNavigate('agenda')}>
-                      
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
-                      <span className="text-xs font-bold text-blue-400">{dPres} Presenciais</span>
+                      <span className="text-xs font-bold text-presencial">{d.pres} Presenciais</span>
                       <span className="text-[10px] text-muted-foreground">·</span>
-                      <span className="text-xs font-bold text-orange-400">{dTele} Teleconsultas</span>
-                    </div>);
-
-                })}
+                      <span className="text-xs font-bold text-teleconsulta">{d.tele} Teleconsultas</span>
+                    </div>
+                  ));
+                })()}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
                 Ver agenda completa ›
