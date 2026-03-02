@@ -186,19 +186,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
               </div>
-              <div className="space-y-1 max-h-[320px] overflow-y-auto">
-                {dentistCons.slice(0, 10).map((c) => {
+              <div className="space-y-0">
+                {dentistCons.slice(0, 6).map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   return (
-                    <div key={c.id} className="flex items-center gap-2 py-1.5 border-b border-border/50 last:border-0">
+                    <div key={c.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
                       <span className="text-xs font-bold text-primary w-10 flex-shrink-0">{c.time}</span>
-                      {catColor && <div className="w-1 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" /></p>
-                        <p className="text-[10px] text-muted-foreground truncate">
-                          {c.duration}min · {c.category ? CATEGORY_LABELS[c.category] : c.type}
-                        </p>
-                      </div>
+                      {catColor && <div className="w-1 h-4 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
+                      <span className="text-xs text-foreground truncate flex-1 min-w-0"><ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" /></span>
+                      <span className="text-[10px] text-muted-foreground flex-shrink-0">{c.duration}min</span>
+                      <span className="text-[10px] font-medium flex-shrink-0" style={{ color: catColor?.hex }}>{c.category ? CATEGORY_LABELS[c.category] : c.type}</span>
                       {getStatusBadge(c.status)}
                     </div>
                   );
@@ -261,11 +258,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
                 <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-0">
                 {MOCK_WAITING_LIST.map((wl) => (
-                  <div key={wl.id} className="py-1.5 border-b border-border/50 last:border-0">
-                    <p className="text-xs font-medium text-foreground"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></p>
-                    <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
+                  <div key={wl.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
+                    <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
+                    <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                   </div>
                 ))}
               </div>
@@ -370,16 +367,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
                 </Badge>
               </div>
-              <div className="space-y-2 max-h-[280px] overflow-y-auto">
+              <div className="space-y-1">
                 {confirmationsByDentist.map(({ dentist, confirmations }) => (
                   <div key={dentist.id}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {confirmations.slice(0, 3).map(c => {
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
+                    {confirmations.slice(0, 2).map(c => {
                       const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                       const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
                       return (
-                        <div key={c.consultationId} className="flex items-center gap-2 py-1">
-                          <div className="flex-1 min-w-0 flex items-center gap-1.5">
+                        <div key={c.consultationId} className="flex items-center gap-1.5 py-0.5">
+                          <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                             {catLabel && (
                               <>
@@ -412,14 +409,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
                 <Badge variant="outline" className="text-[10px]">{totalWaitlist} pacientes</Badge>
               </div>
-              <div className="space-y-2 max-h-[280px] overflow-y-auto">
+              <div className="space-y-1">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) => (
                   <div key={dentistName}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-1"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
+                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map(wl => (
-                      <div key={wl.id} className="py-1 border-b border-border/50 last:border-0">
-                        <p className="text-xs font-medium text-foreground"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></p>
-                        <p className="text-[10px] text-muted-foreground">{wl.detail}</p>
+                      <div key={wl.id} className="flex items-center gap-1.5 py-0.5 border-b border-border/50 last:border-0">
+                        <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
+                        <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                       </div>
                     ))}
                   </div>
