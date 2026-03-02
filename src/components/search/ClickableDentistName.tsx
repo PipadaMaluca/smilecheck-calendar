@@ -30,7 +30,7 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
         e.stopPropagation();
         nav.openDentistProfile(dentist);
       }}
-      className={cn("hover:underline hover:text-primary transition-colors cursor-pointer text-left text-base px-px py-[3px]",
+      className={cn("hover:underline transition-colors cursor-pointer px-px py-[3px] text-left text-[#008cff] text-sm",
 
       className
       )}>
