@@ -213,10 +213,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <span className="text-xs text-foreground truncate min-w-0">
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
                       </span>
-                      <span className="text-[10px] truncate text-left">
-                        <span className="font-medium" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
-                        <span className="text-muted-foreground"> — {c.duration}min</span>
-                      </span>
+                      <div className="flex items-center gap-1.5 truncate text-left">
+                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                        <span className="text-[10px] text-muted-foreground">— {c.duration}min</span>
+                      </div>
                       {getStatusBadge(c.status)}
                     </div>);
 
@@ -251,10 +251,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                         {catLabel &&
-                        <>
-                            <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
-                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
-                          </>
+                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
                         }
                       </div>
                       {confirmIndicator(c.status24h)}
@@ -398,11 +395,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                             {catLabel &&
-                          <>
-                                <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
-                                <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
-                              </>
-                          }
+                              <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>
+                            }
                           </div>
                           {confirmIndicator(c.status24h)}
                           {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -515,7 +509,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <p className="text-sm font-medium text-foreground truncate">
                           <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
-                        <p className="text-xs text-muted-foreground truncate">{catLabel}</p>
+                        {catLabel && <span className="text-[10px] font-medium px-1.5 py-0 rounded-full inline-block" style={{ backgroundColor: `${catColor?.hex}20`, ...getCategoryTextStyle(catColor?.hex || '') }}>{catLabel}</span>}
                       </div>
                       <Badge variant="outline" className="text-[10px] flex-shrink-0">
                         {item.status === 'confirmada' ? 'Confirmada' : 'Agendada'}

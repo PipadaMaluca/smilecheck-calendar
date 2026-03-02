@@ -91,7 +91,16 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                       {patients.map(p => (
                         <TableRow key={p.id}>
                           <TableCell className="text-sm font-medium"><ClickablePatientName name={p.name} className="text-sm font-medium" /></TableCell>
-                          <TableCell className="text-sm">{p.consultationType}</TableCell>
+                          <TableCell className="text-sm">
+                            <span className="text-xs font-medium px-1.5 py-0.5 rounded-full inline-block" style={(() => {
+                              const catMap: Record<string, string> = { 'Endodontia': '#E91E63', 'Destartarização': '#9C27B0', 'Restauração': '#2196F3', 'Cirurgia': '#212121', 'Prótese': '#2E7D32', 'Urgência': '#F44336', '1ª Consulta': '#FDD835', 'Ortodontia': '#8BC34A', 'Odontopediatria': '#E65100', 'Teleconsulta': '#FF9800' };
+                              const hex = catMap[p.consultationType] || '#9E9E9E';
+                              const textStyle = hex === '#212121' ? { color: hex, textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff' } : { color: hex };
+                              return { backgroundColor: `${hex}20`, ...textStyle };
+                            })()}>
+                              {p.consultationType}
+                            </span>
+                          </TableCell>
                           <TableCell className="hidden sm:table-cell">
                             <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
                               {p.availability}
