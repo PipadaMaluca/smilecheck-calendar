@@ -522,6 +522,7 @@ export function DentistCalendar() {
           patientId={viewPatientDossier || ''}
           isOpen={!!viewPatientDossier}
           onClose={() => setViewPatientDossier(null)}
+          userRole="dentist"
         />
       </div>
     </div>

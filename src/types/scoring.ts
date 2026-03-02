@@ -466,6 +466,8 @@ export const mockConfirmations: ConsultationConfirmation[] = [
   { consultationId: 'gp-5', patientName: 'Carlos Santos', dentistName: 'Dr. Gonçalo Pipo', time: '11:00', status24h: 'pending', status1h: 'pending', category: 'endodontia' },
   { consultationId: 'gp-6', patientName: 'Rita Oliveira', dentistName: 'Dr. Gonçalo Pipo', time: '11:30', status24h: 'pending', status1h: 'pending', category: 'teleconsulta' },
   { consultationId: 'gp-7', patientName: 'Lucas Mendes', dentistName: 'Dr. Gonçalo Pipo', time: '14:00', status24h: 'pending', status1h: 'pending', category: 'odontopediatria' },
+  { consultationId: 'gp-8', patientName: 'Helena Costa', dentistName: 'Dr. Gonçalo Pipo', time: '14:30', status24h: 'confirmed', status1h: 'pending', category: 'restauracao' },
+  { consultationId: 'gp-9', patientName: 'Tiago Nunes', dentistName: 'Dr. Gonçalo Pipo', time: '15:00', status24h: 'confirmed', status1h: 'pending', category: 'controlo' },
   // Dr. Alexandre Bernardo
   { consultationId: 'ab-c3', patientName: 'Teresa Lopes', dentistName: 'Dr. Alexandre Bernardo', time: '10:30', status24h: 'confirmed', status1h: 'pending', category: 'controlo' },
   { consultationId: 'ab-c5', patientName: 'Filipa Costa', dentistName: 'Dr. Alexandre Bernardo', time: '11:30', status24h: 'pending', status1h: 'pending', category: 'ortodontia' },

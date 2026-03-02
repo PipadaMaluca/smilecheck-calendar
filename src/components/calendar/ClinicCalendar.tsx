@@ -459,6 +459,7 @@ export function ClinicCalendar() {
         patientId={viewPatientDossier || ''}
         isOpen={!!viewPatientDossier}
         onClose={() => setViewPatientDossier(null)}
+        userRole="clinic"
       />
     </div>
     </ProfileNavigationProvider>

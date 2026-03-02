@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, X, Star } from 'lucide-react';
+import { UserRole } from '@/types/calendar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,6 +15,7 @@ interface PatientDossierViewProps {
   patientId: string;
   onClose: () => void;
   onNavigate: (tab: string) => void;
+  userRole?: UserRole;
 }
 
 // Mock patient full data
@@ -63,7 +65,7 @@ const MOCK_PATIENT_DATA: Record<string, any> = {
 
 const IMAGE_CATEGORIES = ['Radiografia Periapical', 'Ortopantomografia', 'Teleradiografia', 'CBCT', 'Foto Intraoral', 'Outro'];
 
-export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDossierViewProps) {
+export function PatientDossierView({ patientId, onClose, onNavigate, userRole }: PatientDossierViewProps) {
   const [clinicalNotes, setClinicalNotes] = useState('Paciente com boa higiene oral. Acompanhamento periodontal recomendado.');
   const [expandedConsultation, setExpandedConsultation] = useState<number | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -71,6 +73,14 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
   const [previewPrescription, setPreviewPrescription] = useState<any | null>(null);
 
   const data = MOCK_PATIENT_DATA.default;
+
+  // For dentist role, filter consultations to only show this dentist's consultations
+  const filteredConsultations = useMemo(() => {
+    if (userRole === 'dentist') {
+      return data.consultations.filter((c: any) => c.dentist === 'Dr. Gonçalo Pipo');
+    }
+    return data.consultations;
+  }, [userRole, data.consultations]);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -264,7 +274,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico de Consultas</h3>
             <div className="space-y-2">
-              {data.consultations.map((c: any, i: number) => {
+              {filteredConsultations.map((c: any, i: number) => {
                 const catColor = CATEGORY_COLORS[c.category as keyof typeof CATEGORY_COLORS];
                 const isExpanded = expandedConsultation === i;
                 return (
@@ -283,7 +293,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate }: PatientDo
                             {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground">{c.type} • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /> • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
+                        <p className="text-xs text-muted-foreground">{c.type}{userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>} • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
                       </div>
                     </button>
                     {isExpanded && (
