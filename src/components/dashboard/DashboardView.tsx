@@ -75,7 +75,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
       const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
+      { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
       { label: 'Pontos', value: '3 800', icon: Trophy },
       { label: 'Streak', value: '30 dias', icon: Flame }];
@@ -338,9 +338,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{todayConsultations.length} total</Badge>
               </div>
               {/* Summary bar */}
-              <div className="gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] flex items-center justify-center sm:gap-[30px]">
-                <span className="text-blue-400"><span className="font-bold">{presCount}</span> Presenciais</span>
-                <span className="text-orange-400"><span className="font-bold">{teleCount}</span> Teleconsultas</span>
+              <div className="flex items-center gap-2 text-xs pb-2 border-b border-border/50 flex-wrap px-[10px] sm:gap-[25px]">
+                <span className="text-blue-400">📍 Presenciais: <span className="font-bold text-orange-400">{presCount}</span></span>
+                <span className="text-orange-400">💻 Teleconsultas: <span className="font-bold text-blue-400">{teleCount}</span></span>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {clinicDentists.map((d) => {
@@ -351,7 +351,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div
                       key={d.id}
-                      className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
+                      className="flex items-center gap-2 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px]"
                       onClick={() => onNavigate('agenda')}>
                       
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
@@ -424,7 +424,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
-                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                  <div key={wl.id} className="flex items-center gap-1.5 py-0.5 border-b border-border/50 last:border-0">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                         <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                       </div>
