@@ -1,5 +1,5 @@
 import { Video, MapPin, Lock, AlertTriangle } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryTextStyle } from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
 interface TimeSlotViewProps {
@@ -128,8 +128,8 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
                 <div className="flex items-center gap-1.5 ml-4">
                   <span 
-                    className="text-xs font-bold"
-                    style={getCategoryTextStyle(colors.hex)}
+                    className="text-xs font-bold px-1.5 py-0 rounded-full inline-block"
+                    style={getCategoryBadgeStyle(colors.hex)}
                   >
                     {CATEGORY_LABELS[category]}
                   </span>

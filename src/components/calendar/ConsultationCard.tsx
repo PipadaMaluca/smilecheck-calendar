@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -95,8 +95,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               </p>
             ) : (
               <p
-                className="text-sm font-bold"
-                style={getCategoryTextStyle(colors.hex)}
+                className="text-sm font-bold px-1.5 py-0 rounded-full inline-block"
+                style={getCategoryBadgeStyle(colors.hex)}
               >
                 {categoryLabel}
               </p>
@@ -119,8 +119,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               <ClickableDentistName name={consultation.dentist.name} className="text-sm font-medium" />
             </p>
             <p 
-              className="text-xs font-bold"
-              style={getCategoryTextStyle(colors.hex)}
+              className="text-xs font-bold px-1.5 py-0 rounded-full inline-block"
+              style={getCategoryBadgeStyle(colors.hex)}
             >
               {categoryLabel}
             </p>

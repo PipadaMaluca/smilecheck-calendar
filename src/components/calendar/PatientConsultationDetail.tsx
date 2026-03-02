@@ -2,7 +2,7 @@ import { ArrowLeft, Calendar, Clock, MapPin, Video, Star, Phone, MessageCircle, 
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryTextStyle, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryBadgeStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -65,7 +65,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               )}
             </div>
             <div>
-              <p className="text-lg font-bold" style={getCategoryTextStyle(colors.hex)}>
+              <p className="text-lg font-bold px-2 py-0.5 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
                 {categoryLabel}
               </p>
               <p className="text-sm text-muted-foreground">

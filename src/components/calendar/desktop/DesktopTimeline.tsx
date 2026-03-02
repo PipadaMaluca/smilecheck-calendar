@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Video, Flag, AlertTriangle, Check, Ban } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
+import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -378,8 +378,8 @@ export function DesktopTimeline({
                             {/* Line 2: type (colored) + notes (gray) */}
                             <div className="flex items-center gap-1.5 mt-0.5">
                               <span 
-                                className="text-[10px] font-bold truncate" 
-                                style={getCategoryTextStyle(styles.borderColor)}
+                                className="text-[10px] font-bold truncate px-1 py-0 rounded-full inline-block" 
+                                style={getCategoryBadgeStyle(styles.borderColor)}
                               >
                                 {getCategoryLabel(consultation)}
                               </span>

@@ -117,29 +117,27 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
   outro: { bg: 'bg-[#9E9E9E]', text: 'text-white', hex: '#9E9E9E' },
 };
 
-// Helper: returns inline style for category-colored text, with white text-stroke for dark categories like Cirurgia
+// Helper: returns inline style for category-colored text (low-opacity bg pill style)
+// Cirurgia (#212121) uses white text; all others use the category color as text
 export function getCategoryTextStyle(hex: string): import('react').CSSProperties {
   if (hex === '#212121') {
-    return {
-      color: hex,
-      textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff',
-    };
+    return { color: '#fff' };
   }
   return { color: hex };
 }
 
-// Helper: returns inline style for a full-opacity category badge/pill (solid background, white text, Cirurgia special case)
+// Helper: returns inline style for a category badge/pill (low-opacity background + full-color text)
+// Cirurgia uses white text on low-opacity black bg
 export function getCategoryBadgeStyle(hex: string): import('react').CSSProperties {
   if (hex === '#212121') {
     return {
-      backgroundColor: hex,
+      backgroundColor: `${hex}30`,
       color: '#fff',
-      textShadow: 'none',
     };
   }
   return {
-    backgroundColor: hex,
-    color: '#fff',
+    backgroundColor: `${hex}30`,
+    color: hex,
   };
 }
 

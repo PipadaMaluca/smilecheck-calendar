@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import {
@@ -136,11 +136,8 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2">
                       <span
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium"
-                        style={{
-                          backgroundColor: `${colors.hex}20`,
-                          ...getCategoryTextStyle(colors.hex),
-                        }}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
+                        style={getCategoryBadgeStyle(colors.hex)}
                       >
                         {isTeleconsulta && (
                           <Video className="w-3 h-3" />

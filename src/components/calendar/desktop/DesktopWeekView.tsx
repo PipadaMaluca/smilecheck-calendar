@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { Consultation, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationStatus, getCategoryTextStyle } from '@/types/calendar';
+import { Consultation, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
 import { mockConsultations, generateTimeSlots } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { cn } from '@/lib/utils';
@@ -214,7 +214,7 @@ export function DesktopWeekView({
                       <div className="px-1.5 py-0.5 text-[10px] leading-tight truncate">
                         <div className="font-semibold truncate">{c.time} {c.patient.name.split(' ')[0]}</div>
                         {spanCount > 1 && (
-                          <div className="truncate opacity-80" style={getCategoryTextStyle(colors.hex)}>{CATEGORY_LABELS[category]}</div>
+                          <div className="truncate opacity-80 px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>{CATEGORY_LABELS[category]}</div>
                         )}
                       </div>
                     </div>

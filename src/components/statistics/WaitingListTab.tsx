@@ -6,7 +6,7 @@ import { getDentistsForClinic } from '@/data/mockData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
-import { UserRole } from '@/types/calendar';
+import { UserRole, getCategoryBadgeStyle } from '@/types/calendar';
 
 interface WaitlistPatient {
   id: string;
@@ -95,8 +95,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                             <span className="text-xs font-medium px-1.5 py-0.5 rounded-full inline-block" style={(() => {
                               const catMap: Record<string, string> = { 'Endodontia': '#E91E63', 'Destartarização': '#9C27B0', 'Restauração': '#2196F3', 'Cirurgia': '#212121', 'Prótese': '#2E7D32', 'Urgência': '#F44336', '1ª Consulta': '#FDD835', 'Ortodontia': '#8BC34A', 'Odontopediatria': '#E65100', 'Teleconsulta': '#FF9800' };
                               const hex = catMap[p.consultationType] || '#9E9E9E';
-                              const textStyle = hex === '#212121' ? { color: hex, textShadow: '-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff' } : { color: hex };
-                              return { backgroundColor: `${hex}20`, ...textStyle };
+                              return getCategoryBadgeStyle(hex);
                             })()}>
                               {p.consultationType}
                             </span>
