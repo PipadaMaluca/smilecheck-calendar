@@ -63,7 +63,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: 'Streak', value: '7 dias', icon: Flame }];
     }
     if (userRole === 'dentist') {
-      const dentistCons = todayConsultations.filter(c => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
+      const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
       { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar },
@@ -72,8 +72,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: 'Streak', value: '14 dias', icon: Flame }];
     }
     if (userRole === 'clinic') {
-      const pres = todayConsultations.filter(c => c.type === 'presencial').length;
-      const tele = todayConsultations.filter(c => c.type === 'teleconsulta').length;
+      const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
+      const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
       { label: 'Consultas de Hoje', value: String(todayConsultations.length), subtitle: `${pres} Presenciais · ${tele} Teleconsultas`, icon: Calendar },
       { label: 'Nível', value: 'Ouro', icon: Award },
@@ -121,33 +121,33 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="text-[10px] sm:text-xs font-medium truncate">{stat.label}</span>
                 </div>
                 <span className="text-xl sm:text-2xl font-bold text-foreground truncate">{stat.value}</span>
-                {'subtitle' in stat && stat.subtitle && (
-                  <span className="text-[10px] sm:text-xs text-muted-foreground -mt-1 truncate">{stat.subtitle}</span>
-                )}
+                {'subtitle' in stat && stat.subtitle &&
+                <span className="text-[10px] sm:text-xs text-muted-foreground -mt-1 truncate">{stat.subtitle}</span>
+                }
               </CardContent>
-            </Card>
-          );
+            </Card>);
+
         })}
-      </div>
-    );
+      </div>);
+
   };
 
   // Status badge helper
   const getStatusBadge = (status?: string) => {
-    const configs: Record<string, { label: string; className: string }> = {
+    const configs: Record<string, {label: string;className: string;}> = {
       confirmada: { label: 'Confirmada', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
       em_sala_espera: { label: 'Em sala de espera', className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
       em_consulta: { label: 'Em consulta', className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
       visto: { label: 'Visto', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
       falta_justificada: { label: 'Falta justificada', className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
-      falta_nao_justificada: { label: 'Falta', className: 'bg-red-500/15 text-red-400 border-red-500/30' },
+      falta_nao_justificada: { label: 'Falta', className: 'bg-red-500/15 text-red-400 border-red-500/30' }
     };
     const cfg = status ? configs[status] : null;
     return (
       <Badge variant="outline" className={`text-[10px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
         {cfg?.label || 'Agendada'}
-      </Badge>
-    );
+      </Badge>);
+
   };
 
   // Abbreviate name: "Maria Silva" → "Maria S."
@@ -167,14 +167,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   // ─── Dentist dashboard ───
   const renderDentistDashboard = () => {
-    const dentistCons = todayConsultations
-      .filter((c) => c.dentist.id === mockDentists[0].id)
-      .sort((a, b) => a.time.localeCompare(b.time));
+    const dentistCons = todayConsultations.
+    filter((c) => c.dentist.id === mockDentists[0].id).
+    sort((a, b) => a.time.localeCompare(b.time));
 
     // Morning consultations (before 13:00)
-    const morningCons = dentistCons.filter(c => c.time < '13:00');
+    const morningCons = dentistCons.filter((c) => c.time < '13:00');
 
-    const dentistConfirmations = mockConfirmations.filter(c => c.dentistName === mockDentists[0].name);
+    const dentistConfirmations = mockConfirmations.filter((c) => c.dentistName === mockDentists[0].name);
 
     return (
       <div className="space-y-6">
@@ -199,13 +199,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <span className="text-xs text-foreground truncate min-w-0">
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
                       </span>
-                      <span className="text-[10px] text-center truncate">
+                      <span className="text-[10px] truncate text-left">
                         <span className="font-medium" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                         <span className="text-muted-foreground"> — {c.duration}min</span>
                       </span>
                       {getStatusBadge(c.status)}
-                    </div>
-                  );
+                    </div>);
+
                 })}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
@@ -236,23 +236,23 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <div key={c.consultationId} className="flex items-center gap-2 py-1">
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                        {catLabel && (
-                          <>
+                        {catLabel &&
+                        <>
                             <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
                                 <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                           </>
-                        )}
+                        }
                       </div>
                       {confirmIndicator(c.status24h)}
                       {confirmIndicator(c.status1h, c.isNoShow === true)}
-                    </div>
-                  );
+                    </div>);
+
                 })}
               </div>
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
-                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
-              >
+                onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
+                
                 Ver Tudo →
               </button>
             </CardContent>
@@ -266,17 +266,17 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
               </div>
               <div className="space-y-0 flex-1">
-                {MOCK_WAITING_LIST.map((wl) => (
-                  <div key={wl.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
+                {MOCK_WAITING_LIST.map((wl) =>
+                <div key={wl.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                     <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                   </div>
-                ))}
+                )}
               </div>
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
-                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
-              >
+                onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
+                
                 Ver Tudo →
               </button>
             </CardContent>
@@ -285,40 +285,40 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         {/* Full width: Score history */}
         <PatientScoreHistory mode="history-only" userRole="dentist" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
-      </div>
-    );
+      </div>);
+
   };
 
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
     const clinicDentists = getDentistsForClinic('1');
-    const presCount = todayConsultations.filter(c => c.type === 'presencial').length;
-    const teleCount = todayConsultations.filter(c => c.type === 'teleconsulta').length;
+    const presCount = todayConsultations.filter((c) => c.type === 'presencial').length;
+    const teleCount = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
 
 
     // Group confirmations by dentist
-    const confirmationsByDentist = clinicDentists.map(d => ({
+    const confirmationsByDentist = clinicDentists.map((d) => ({
       dentist: d,
-      confirmations: mockConfirmations.filter(c => c.dentistName === d.name),
-    })).filter(g => g.confirmations.length > 0);
+      confirmations: mockConfirmations.filter((c) => c.dentistName === d.name)
+    })).filter((g) => g.confirmations.length > 0);
 
     // Mock waitlist grouped by dentist
     const CLINIC_WAITLIST: Record<string, typeof MOCK_WAITING_LIST> = {
       'Dr. Gonçalo Pipo': [
-        { id: 'cwl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-        { id: 'cwl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-        { id: 'cwl-3', patientName: 'André Gomes', detail: 'Qualquer horário manhã', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
-      ],
+      { id: 'cwl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-3', patientName: 'André Gomes', detail: 'Qualquer horário manhã', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }],
+
       'Dr. Alexandre Bernardo': [
-        { id: 'cwl-4', patientName: 'Sofia Lopes', detail: 'Quer antecipar', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true },
-        { id: 'cwl-5', patientName: 'Helena Nunes', detail: 'Disponível tardes', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false },
-        { id: 'cwl-6', patientName: 'Carlos Santos', detail: 'Qualquer dia', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-      ],
+      { id: 'cwl-4', patientName: 'Sofia Lopes', detail: 'Quer antecipar', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-5', patientName: 'Helena Nunes', detail: 'Disponível tardes', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-6', patientName: 'Carlos Santos', detail: 'Qualquer dia', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false }],
+
       'Dr. Gil Santos': [
-        { id: 'cwl-7', patientName: 'Teresa Martins', detail: 'Disponível 3ª e 5ª', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
-        { id: 'cwl-8', patientName: 'Paulo Dias', detail: 'Quer antecipar', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
-        { id: 'cwl-9', patientName: 'Beatriz Nunes', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false },
-      ],
+      { id: 'cwl-7', patientName: 'Teresa Martins', detail: 'Disponível 3ª e 5ª', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-8', patientName: 'Paulo Dias', detail: 'Quer antecipar', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-9', patientName: 'Beatriz Nunes', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }]
+
     };
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
 
@@ -344,22 +344,22 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {clinicDentists.map((d) => {
-                  const dentistCons = todayConsultations.filter(c => c.dentist.id === d.id);
-                  const dPres = dentistCons.filter(c => c.type === 'presencial').length;
-                  const dTele = dentistCons.filter(c => c.type === 'teleconsulta').length;
+                  const dentistCons = todayConsultations.filter((c) => c.dentist.id === d.id);
+                  const dPres = dentistCons.filter((c) => c.type === 'presencial').length;
+                  const dTele = dentistCons.filter((c) => c.type === 'teleconsulta').length;
                   if (dPres + dTele === 0) return null;
                   return (
                     <div
                       key={d.id}
                       className="flex items-center gap-2 py-2 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded px-1 transition-colors cursor-pointer"
-                      onClick={() => onNavigate('agenda')}
-                    >
+                      onClick={() => onNavigate('agenda')}>
+                      
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
                       <span className="text-xs font-bold text-blue-400">{dPres} Presenciais</span>
                       <span className="text-[10px] text-muted-foreground">·</span>
                       <span className="text-xs font-bold text-orange-400">{dTele} Teleconsultas</span>
-                    </div>
-                  );
+                    </div>);
+
                 })}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
@@ -378,35 +378,35 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 </Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
-                {confirmationsByDentist.map(({ dentist, confirmations }) => (
-                  <div key={dentist.id}>
+                {confirmationsByDentist.map(({ dentist, confirmations }) =>
+                <div key={dentist.id}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {confirmations.slice(0, 2).map(c => {
-                      const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                      const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
-                      return (
-                        <div key={c.consultationId} className="flex items-center gap-1.5 py-0.5">
+                    {confirmations.slice(0, 2).map((c) => {
+                    const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
+                    const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
+                    return (
+                      <div key={c.consultationId} className="flex items-center gap-1.5 py-0.5">
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                            {catLabel && (
-                              <>
+                            {catLabel &&
+                          <>
                                 <span className="text-[10px] text-muted-foreground flex-shrink-0">—</span>
                                 <span className="text-[10px] font-medium truncate flex-shrink-0" style={getCategoryTextStyle(catColor?.hex || '')}>{catLabel}</span>
                               </>
-                            )}
+                          }
                           </div>
                           {confirmIndicator(c.status24h)}
                           {confirmIndicator(c.status1h, c.isNoShow === true)}
-                        </div>
-                      );
-                    })}
+                        </div>);
+
+                  })}
                   </div>
-                ))}
+                )}
               </div>
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
-                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100); }}
-              >
+                onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
+                
                 Ver Tudo →
               </button>
             </CardContent>
@@ -420,22 +420,22 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{totalWaitlist} pacientes</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
-                {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) => (
-                  <div key={dentistName}>
+                {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
+                <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {patients.slice(0, 2).map(wl => (
-                      <div key={wl.id} className="flex items-center gap-1.5 py-0.5 border-b border-border/50 last:border-0">
+                    {patients.slice(0, 2).map((wl) =>
+                  <div key={wl.id} className="flex items-center gap-1.5 py-0.5 border-b border-border/50 last:border-0">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                         <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
                       </div>
-                    ))}
+                  )}
                   </div>
-                ))}
+                )}
               </div>
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
-                onClick={() => { onNavigate('estatisticas'); setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100); }}
-              >
+                onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
+                
                 Ver Tudo →
               </button>
             </CardContent>
@@ -444,46 +444,46 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         {/* Full width: Histórico de Pacientes do Dia — card style */}
         <PatientScoreHistory mode="history-only" userRole="clinic" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
-      </div>
-    );
+      </div>);
+
   };
 
   // ─── Patient: new layout ───
   const renderPatientDashboard = () => {
-    const upcomingItems = mockPatientConsultations
-      .sort((a, b) => a.time.localeCompare(b.time))
-      .slice(0, 6);
+    const upcomingItems = mockPatientConsultations.
+    sort((a, b) => a.time.localeCompare(b.time)).
+    slice(0, 6);
 
     const patientActions = [
-      { label: 'Marcar Consulta', icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
-      { label: 'Ver Recompensas', icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
-      { label: 'Minha Saúde', icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') },
-    ];
+    { label: 'Marcar Consulta', icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
+    { label: 'Ver Recompensas', icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
+    { label: 'Minha Saúde', icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') }];
+
 
     return (
       <>
         {/* Stats Cards */}
-        {stats && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats &&
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+            const Icon = stat.icon;
+            return (
+              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Icon className="w-4 h-4" />
                       <span className="text-xs font-medium">{stat.label}</span>
                     </div>
                     <span className="text-2xl font-bold text-foreground">{stat.value}</span>
-                    {'subtitle' in stat && stat.subtitle && (
-                      <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
-                    )}
+                    {'subtitle' in stat && stat.subtitle &&
+                  <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
+                  }
                   </CardContent>
-                </Card>
-              );
-            })}
+                </Card>);
+
+          })}
           </div>
-        )}
+        }
 
         {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -511,8 +511,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <Badge variant="outline" className="text-[10px] flex-shrink-0">
                         {item.status === 'confirmada' ? 'Confirmada' : 'Agendada'}
                       </Badge>
-                    </div>
-                  );
+                    </div>);
+
                 })}
               </div>
             </CardContent>
@@ -531,14 +531,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <button
                         key={action.label}
                         onClick={action.action}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left"
-                      >
+                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
+                        
                         <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.color}`}>
                           <ActionIcon className="w-4.5 h-4.5" />
                         </div>
                         <span className="text-sm font-medium text-foreground">{action.label}</span>
-                      </button>
-                    );
+                      </button>);
+
                   })}
                 </div>
               </CardContent>
@@ -551,8 +551,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         {/* Full width: Histórico por Consulta */}
         <PatientScoreHistory mode="history-only" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
-      </>
-    );
+      </>);
+
   };
 
   return (
