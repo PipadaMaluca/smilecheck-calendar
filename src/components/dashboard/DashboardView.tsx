@@ -358,7 +358,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end"
+                    className="border-b border-border/50 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end border"
                     onClick={() => onNavigate('agenda')}>
                       <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
                       <span className="text-xs font-bold text-presencial">{d.pres} Presenciais</span>
