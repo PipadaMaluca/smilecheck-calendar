@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight, Check, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -106,6 +106,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const [newVaccineName, setNewVaccineName] = useState('');
   const [newVaccineDate, setNewVaccineDate] = useState('');
   const [docFilter, setDocFilter] = useState('todos');
+  const [referralFilter, setReferralFilter] = useState('todas');
 
   const currentMember = members.find(m => m.id === selectedMemberId)!;
   const data = healthData[selectedMemberId] || emptyHealthData();
@@ -351,7 +352,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           </Card>
 
           {/* 5. Documentos Médicos */}
-          <Card className={cn(!isMobile && 'col-span-2')}>
+          <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base"><SectionIcon icon={FileText} label="Documentos Médicos" /></CardTitle>
             </CardHeader>
@@ -386,6 +387,54 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                   ))}
                 </div>
               )}
+              <Button variant="outline" size="sm" className="w-full gap-1.5">
+                <Upload className="w-4 h-4" /> Carregar Documento
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* 5b. Cartas de Referência */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base"><SectionIcon icon={Send} label="Cartas de Referência" /></CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Tabs value={referralFilter} onValueChange={setReferralFilter}>
+                <TabsList className="h-8">
+                  <TabsTrigger value="todas" className="text-xs px-3 h-7">Todas</TabsTrigger>
+                  <TabsTrigger value="recebidas" className="text-xs px-3 h-7">Recebidas</TabsTrigger>
+                  <TabsTrigger value="enviadas" className="text-xs px-3 h-7">Enviadas</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              {(() => {
+                const referrals = [
+                  { id: 'ref1', from: 'Dr. Gonçalo Pipo', to: 'Dr. Alexandre Bernardo', reason: 'Referência para Endodontia', date: '20 Jan 2026', direction: 'enviadas' as const },
+                  { id: 'ref2', from: 'Dr. Gil Santos', to: 'Dr. Gonçalo Pipo', reason: 'Referência para Cirurgia Oral', date: '10 Dez 2025', direction: 'recebidas' as const },
+                ];
+                const filtered = referralFilter === 'todas' ? referrals : referrals.filter(r => r.direction === referralFilter);
+                return filtered.length === 0 ? (
+                  <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhuma carta de referência</p>
+                ) : (
+                  <div className="space-y-2">
+                    {filtered.map(ref => (
+                      <div key={ref.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-1 text-sm">
+                            <ClickableDentistName name={ref.from} className="text-sm font-medium" />
+                            <span className="text-muted-foreground">→</span>
+                            <ClickableDentistName name={ref.to} className="text-sm font-medium" />
+                          </div>
+                          <p className="text-xs text-muted-foreground">{ref.reason}</p>
+                          <p className="text-xs text-muted-foreground">{ref.date}</p>
+                        </div>
+                        <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                          <Eye className="w-3.5 h-3.5" /> Ver PDF
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
               <Button variant="outline" size="sm" className="w-full gap-1.5">
                 <Upload className="w-4 h-4" /> Carregar Documento
               </Button>
