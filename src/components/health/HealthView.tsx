@@ -15,6 +15,7 @@ import { mockFamilyMembers } from '@/data/mockData';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 
+// Interfaces and types
 interface HealthViewProps {
   userRole: 'patient';
   onNavigate?: (tab: string) => void;
@@ -92,13 +93,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const [healthData, setHealthData] = useState<Record<string, MemberHealthData>>(defaultHealthData);
   const [profileChanged, setProfileChanged] = useState(false);
 
-  // Add member modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [newMemberName, setNewMemberName] = useState('');
   const [newMemberBirthYear, setNewMemberBirthYear] = useState('');
   const [newMemberRelation, setNewMemberRelation] = useState('');
 
-  // Input fields for adding items
   const [newAllergy, setNewAllergy] = useState('');
   const [newMedName, setNewMedName] = useState('');
   const [newMedDosage, setNewMedDosage] = useState('');
@@ -106,7 +105,6 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const [newVaccineName, setNewVaccineName] = useState('');
   const [newVaccineDate, setNewVaccineDate] = useState('');
   const [docFilter, setDocFilter] = useState('todos');
-  const [referralFilter, setReferralFilter] = useState('todas');
 
   const currentMember = members.find(m => m.id === selectedMemberId)!;
   const data = healthData[selectedMemberId] || emptyHealthData();
@@ -147,6 +145,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
       <span className="font-semibold text-base">{label}</span>
     </div>
   );
+
+  const referrals = [
+    { id: 'ref1', from: 'Dr. Gonçalo Pipo', to: 'Dr. Alexandre Bernardo', reason: 'Referência para Endodontia', date: '20 Jan 2026' },
+    { id: 'ref2', from: 'Dr. Gil Santos', to: 'Dr. Gonçalo Pipo', reason: 'Referência para Cirurgia Oral', date: '10 Dez 2025' },
+  ];
 
   return (
     <ScrollArea className="flex-1">
@@ -198,7 +201,118 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         {/* Grid: 2 cols on desktop/tablet, 1 col on mobile */}
         <div className={cn('grid gap-4 animate-fade-in', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
 
-          {/* 1. Perfil de Saúde */}
+          {/* ROW 1 LEFT: Alergias e Intolerâncias */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-2">
+                {PREDEFINED_ALLERGIES.map(allergy => {
+                  const isChecked = data.allergies.includes(allergy);
+                  return (
+                    <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
+                      <button
+                        onClick={() => {
+                          updateData(d => ({
+                            ...d,
+                            allergies: isChecked
+                              ? d.allergies.filter(a => a !== allergy)
+                              : [...d.allergies, allergy],
+                          }));
+                        }}
+                        className={cn(
+                          'h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors',
+                          isChecked
+                            ? 'bg-primary border-primary text-primary-foreground'
+                            : 'border-muted-foreground/40'
+                        )}
+                      >
+                        {isChecked && <Check className="h-3 w-3" />}
+                      </button>
+                      <span className="text-sm">{allergy}</span>
+                    </label>
+                  );
+                })}
+              </div>
+              {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).map((a, i) => (
+                    <Badge key={i} variant="secondary" className="gap-1 pr-1">
+                      {a}
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, allergies: d.allergies.filter(al => al !== a) }))} />
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input placeholder="Outra alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
+                <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
+                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* ROW 1 RIGHT: Condições Médicas */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base"><SectionIcon icon={Activity} label="Condições Médicas" /></CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {data.conditions.length === 0 ? (
+                <p className="text-sm text-muted-foreground italic">Nenhuma condição registada</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {data.conditions.map((c, i) => (
+                    <Badge key={i} variant="secondary" className="gap-1 pr-1">
+                      {c}
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, conditions: d.conditions.filter((_, idx) => idx !== i) }))} />
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input placeholder="Nova condição..." value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
+                <Button size="sm" onClick={() => { if (newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} disabled={!newCondition.trim()} className="gap-1">
+                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* ROW 2 LEFT: Medicação Actual */}
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base"><SectionIcon icon={Pill} label="Medicação Actual" /></CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {data.medications.length === 0 ? (
+                <p className="text-sm text-muted-foreground italic">Nenhuma medicação registada</p>
+              ) : (
+                <div className="space-y-2">
+                  {data.medications.map((m, i) => (
+                    <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
+                      <div>
+                        <p className="text-sm font-medium">{m.name}</p>
+                        <p className="text-xs text-muted-foreground">{m.dosage}</p>
+                      </div>
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, medications: d.medications.filter((_, idx) => idx !== i) }))} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input placeholder="Medicamento..." value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder="Dosagem..." value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
+                <Button size="sm" onClick={() => { if (newMedName.trim()) { updateData(d => ({ ...d, medications: [...d.medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }] })); setNewMedName(''); setNewMedDosage(''); } }} disabled={!newMedName.trim()} className="gap-1">
+                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* ROW 2 RIGHT: Perfil de Saúde */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base"><SectionIcon icon={Droplets} label="Perfil de Saúde" /></CardTitle>
@@ -235,123 +349,38 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardContent>
           </Card>
 
-          {/* 2. Alergias e Intolerâncias */}
+          {/* ROW 3 LEFT: Histórico de Vacinas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Syringe} label="Histórico de Vacinas" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {/* Predefined allergy checkboxes */}
-              <div className="space-y-2">
-                {PREDEFINED_ALLERGIES.map(allergy => {
-                  const isChecked = data.allergies.includes(allergy);
-                  return (
-                    <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
-                      <button
-                        onClick={() => {
-                          updateData(d => ({
-                            ...d,
-                            allergies: isChecked
-                              ? d.allergies.filter(a => a !== allergy)
-                              : [...d.allergies, allergy],
-                          }));
-                        }}
-                        className={cn(
-                          'h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors',
-                          isChecked
-                            ? 'bg-primary border-primary text-primary-foreground'
-                            : 'border-muted-foreground/40'
-                        )}
-                      >
-                        {isChecked && <Check className="h-3 w-3" />}
-                      </button>
-                      <span className="text-sm">{allergy}</span>
-                    </label>
-                  );
-                })}
-              </div>
-
-              {/* Custom allergies (non-predefined) */}
-              {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {data.allergies.filter(a => !PREDEFINED_ALLERGIES.includes(a as any)).map((a, i) => (
-                    <Badge key={i} variant="secondary" className="gap-1 pr-1">
-                      {a}
-                      <RemoveButton onClick={() => updateData(d => ({ ...d, allergies: d.allergies.filter(al => al !== a) }))} />
-                    </Badge>
-                  ))}
-                </div>
-              )}
-
-              {/* Add custom allergy */}
-              <div className="flex gap-2">
-                <Input placeholder="Outra alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
-                <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 3. Medicação Actual */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Pill} label="Medicação Actual" /></CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {data.medications.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma medicação registada</p>
+              {data.vaccines.length === 0 ? (
+                <p className="text-sm text-muted-foreground italic">Nenhuma vacina registada</p>
               ) : (
                 <div className="space-y-2">
-                  {data.medications.map((m, i) => (
+                  {data.vaccines.map((v, i) => (
                     <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
                       <div>
-                        <p className="text-sm font-medium">{m.name}</p>
-                        <p className="text-xs text-muted-foreground">{m.dosage}</p>
+                        <p className="text-sm font-medium">{v.name}</p>
+                        <p className="text-xs text-muted-foreground">{v.date}</p>
                       </div>
-                      <RemoveButton onClick={() => updateData(d => ({ ...d, medications: d.medications.filter((_, idx) => idx !== i) }))} />
+                      <RemoveButton onClick={() => updateData(d => ({ ...d, vaccines: d.vaccines.filter((_, idx) => idx !== i) }))} />
                     </div>
                   ))}
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Medicamento..." value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Dosagem..." value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
-                <Button size="sm" onClick={() => { if (newMedName.trim()) { updateData(d => ({ ...d, medications: [...d.medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }] })); setNewMedName(''); setNewMedDosage(''); } }} disabled={!newMedName.trim()} className="gap-1">
+                <Input placeholder="Vacina..." value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder="Data..." value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
+                <Button size="sm" onClick={() => { if (newVaccineName.trim()) { updateData(d => ({ ...d, vaccines: [...d.vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }] })); setNewVaccineName(''); setNewVaccineDate(''); } }} disabled={!newVaccineName.trim()} className="gap-1">
                   <Plus className="w-3.5 h-3.5" /> Adicionar
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* 4. Condições Médicas */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Activity} label="Condições Médicas" /></CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {data.conditions.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma condição registada</p>
-              ) : (
-                <div className="flex flex-wrap gap-2">
-                  {data.conditions.map((c, i) => (
-                    <Badge key={i} variant="secondary" className="gap-1 pr-1">
-                      {c}
-                      <RemoveButton onClick={() => updateData(d => ({ ...d, conditions: d.conditions.filter((_, idx) => idx !== i) }))} />
-                    </Badge>
-                  ))}
-                </div>
-              )}
-              <div className="flex gap-2">
-                <Input placeholder="Nova condição..." value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
-                <Button size="sm" onClick={() => { if (newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} disabled={!newCondition.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 5. Documentos Médicos */}
+          {/* ROW 3 RIGHT: Documentos Médicos */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base"><SectionIcon icon={FileText} label="Documentos Médicos" /></CardTitle>
@@ -393,55 +422,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardContent>
           </Card>
 
-          {/* 5b. Cartas de Referência */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Send} label="Cartas de Referência" /></CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Tabs value={referralFilter} onValueChange={setReferralFilter}>
-                <TabsList className="h-8">
-                  <TabsTrigger value="todas" className="text-xs px-3 h-7">Todas</TabsTrigger>
-                  <TabsTrigger value="recebidas" className="text-xs px-3 h-7">Recebidas</TabsTrigger>
-                  <TabsTrigger value="enviadas" className="text-xs px-3 h-7">Enviadas</TabsTrigger>
-                </TabsList>
-              </Tabs>
-              {(() => {
-                const referrals = [
-                  { id: 'ref1', from: 'Dr. Gonçalo Pipo', to: 'Dr. Alexandre Bernardo', reason: 'Referência para Endodontia', date: '20 Jan 2026', direction: 'enviadas' as const },
-                  { id: 'ref2', from: 'Dr. Gil Santos', to: 'Dr. Gonçalo Pipo', reason: 'Referência para Cirurgia Oral', date: '10 Dez 2025', direction: 'recebidas' as const },
-                ];
-                const filtered = referralFilter === 'todas' ? referrals : referrals.filter(r => r.direction === referralFilter);
-                return filtered.length === 0 ? (
-                  <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhuma carta de referência</p>
-                ) : (
-                  <div className="space-y-2">
-                    {filtered.map(ref => (
-                      <div key={ref.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-1 text-sm">
-                            <ClickableDentistName name={ref.from} className="text-sm font-medium" />
-                            <span className="text-muted-foreground">→</span>
-                            <ClickableDentistName name={ref.to} className="text-sm font-medium" />
-                          </div>
-                          <p className="text-xs text-muted-foreground">{ref.reason}</p>
-                          <p className="text-xs text-muted-foreground">{ref.date}</p>
-                        </div>
-                        <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                          <Eye className="w-3.5 h-3.5" /> Ver PDF
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                );
-              })()}
-              <Button variant="outline" size="sm" className="w-full gap-1.5">
-                <Upload className="w-4 h-4" /> Carregar Documento
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* 6. Receitas Médicas */}
+          {/* ROW 4 LEFT: Receitas Médicas */}
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label="Receitas Médicas" /></CardTitle>
@@ -468,34 +449,37 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardContent>
           </Card>
 
-          {/* 7. Histórico de Vacinas */}
+          {/* ROW 4 RIGHT: Cartas de Referência */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Syringe} label="Histórico de Vacinas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Send} label="Cartas de Referência" /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {data.vaccines.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma vacina registada</p>
+              {referrals.length === 0 ? (
+                <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhuma carta de referência</p>
               ) : (
                 <div className="space-y-2">
-                  {data.vaccines.map((v, i) => (
-                    <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-secondary/50">
-                      <div>
-                        <p className="text-sm font-medium">{v.name}</p>
-                        <p className="text-xs text-muted-foreground">{v.date}</p>
+                  {referrals.map(ref => (
+                    <div key={ref.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-1 text-sm">
+                          <ClickableDentistName name={ref.from} className="text-sm font-medium" />
+                          <span className="text-muted-foreground">→</span>
+                          <ClickableDentistName name={ref.to} className="text-sm font-medium" />
+                        </div>
+                        <p className="text-xs text-muted-foreground">{ref.reason}</p>
+                        <p className="text-xs text-muted-foreground">{ref.date}</p>
                       </div>
-                      <RemoveButton onClick={() => updateData(d => ({ ...d, vaccines: d.vaccines.filter((_, idx) => idx !== i) }))} />
+                      <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                        <Eye className="w-3.5 h-3.5" /> Ver PDF
+                      </Button>
                     </div>
                   ))}
                 </div>
               )}
-              <div className="flex gap-2">
-                <Input placeholder="Vacina..." value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Data..." value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
-                <Button size="sm" onClick={() => { if (newVaccineName.trim()) { updateData(d => ({ ...d, vaccines: [...d.vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }] })); setNewVaccineName(''); setNewVaccineDate(''); } }} disabled={!newVaccineName.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
-                </Button>
-              </div>
+              <Button variant="outline" size="sm" className="w-full gap-1.5">
+                <Upload className="w-4 h-4" /> Carregar Documento
+              </Button>
             </CardContent>
           </Card>
         </div>
