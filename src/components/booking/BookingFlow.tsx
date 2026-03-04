@@ -89,11 +89,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const currentIdx = visibleSteps.indexOf(step as any);
   const progress = step === 'success' ? 100 : ((currentIdx + 1) / visibleSteps.length) * 100;
 
-  const initials = dentist.name
-    .split(' ')
-    .filter((_, i, a) => i === 0 || i === a.length - 1)
-    .map(n => n[0])
-    .join('');
+  const initials = (() => {
+    const parts = dentist.name.split(' ').filter(n => !['dr.', 'dr', 'dra.', 'dra'].includes(n.toLowerCase()));
+    if (parts.length <= 1) return parts[0]?.[0]?.toUpperCase() || '?';
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  })();
 
   const totalPrice = data.consultationType === 'teleconsulta'
     ? dentist.teleconsultaPrice + (data.isUrgent ? 5 : 0)

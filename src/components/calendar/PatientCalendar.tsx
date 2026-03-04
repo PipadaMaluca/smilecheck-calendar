@@ -25,6 +25,7 @@ import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -213,6 +214,14 @@ export function PatientCalendar() {
           <ManagePlanView userRole="patient" />
         ) : activeTab === 'loja' ? (
           <RewardsStoreView userRole="patient" />
+        ) : activeTab === 'pesquisa' ? (
+          <FavoritesView
+            favorites={[]}
+            onToggleFavorite={() => {}}
+            onViewProfile={d => setViewDentistProfile(d)}
+            onBookDentist={d => setViewDentistProfile(d)}
+            userRole="patient"
+          />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>

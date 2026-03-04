@@ -352,12 +352,13 @@ export function ClinicCalendar() {
         <ManagePlanView userRole="clinic" />
       ) : activeTab === 'loja' ? (
         <RewardsStoreView userRole="clinic" />
-      ) : activeTab === 'favoritos' ? (
+      ) : activeTab === 'pesquisa' ? (
         <FavoritesView
           favorites={favorites}
           onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
           onViewProfile={d => setViewDentistProfile(d)}
           onBookDentist={d => setViewDentistProfile(d)}
+          userRole="clinic"
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />
@@ -382,7 +383,6 @@ export function ClinicCalendar() {
         onProfileClick={() => setShowProfile(true)}
         activeTab={activeTab}
         onNavigate={(tab) => {
-          if (tab === 'pesquisa') { handleTabChange(activeTab); setShowSearch(true); return; }
           if (tab === 'referencia') { handleTabChange(activeTab); setShowReferral(true); return; }
           handleTabChange(tab);
         }}

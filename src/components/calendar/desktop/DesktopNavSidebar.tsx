@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, Star, FileText, BarChart3 } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -46,24 +46,25 @@ const SECONDARY_NAV_BY_ROLE = {
   patient: [
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
-  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' }],
+  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }],
 
   dentist: [
   { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
   { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
-  { id: 'favoritos', icon: Star, label: 'Favoritos' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
-  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' }],
+  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }],
 
   clinic: [
   { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
-  { id: 'favoritos', icon: Star, label: 'Favoritos' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
-  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' }]
+  { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }]
 
 };
 

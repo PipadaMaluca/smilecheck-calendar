@@ -2,6 +2,7 @@ import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DentistSearchResult, LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 
 interface DentistCardProps {
   dentist: DentistSearchResult;
@@ -10,6 +11,8 @@ interface DentistCardProps {
 
 export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
   const levelCfg = LEVEL_CONFIG[dentist.level];
+  const initials = getDentistInitials(dentist.name);
+  const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
 
   return (
     <div
@@ -22,9 +25,13 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
       {/* Top row: avatar + info */}
       <div className="flex gap-3">
         {/* Avatar */}
-        <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary shrink-0">
-          {dentist.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map(n => n[0]).join('')}
-        </div>
+        {photo ? (
+          <img src={photo} alt={dentist.name} className="w-14 h-14 rounded-full object-cover shrink-0" />
+        ) : (
+          <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary shrink-0">
+            {initials}
+          </div>
+        )}
 
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
