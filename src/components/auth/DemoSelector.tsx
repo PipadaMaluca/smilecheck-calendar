@@ -4,9 +4,9 @@ import { AuthBackground } from './AuthBackground';
 import smileLogo from '@/assets/smilecheck-logo-full.png';
 
 const options = [
-  { icon: User, label: 'Paciente João Silva', path: '/?role=patient' },
-  { icon: Stethoscope, label: 'Dentista Dr. Gonçalo Pipo', path: '/?role=dentist' },
-  { icon: Building2, label: 'Clínica SmileCheck', path: '/?role=clinic' },
+  { icon: User, label: 'Paciente João Silva', path: '/app?role=patient' },
+  { icon: Stethoscope, label: 'Dentista Dr. Gonçalo Pipo', path: '/app?role=dentist' },
+  { icon: Building2, label: 'Clínica SmileCheck', path: '/app?role=clinic' },
 ];
 
 export function DemoSelector() {

@@ -7,6 +7,8 @@ import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { OnboardingCarousel } from "@/components/onboarding/OnboardingCarousel";
 import { OnboardingTooltips } from "@/components/onboarding/OnboardingTooltips";
 import Index from "./pages/Index";
+import AppPage from "./pages/AppPage";
+import Landing from "./pages/Landing";
 import Triagem from "./pages/Triagem";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
           <Route path="/demo" element={<DemoSelector />} />
           <Route path="/" element={<Index />} />
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/app" element={<AppPage />} />
           <Route path="/triagem" element={<Triagem />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
