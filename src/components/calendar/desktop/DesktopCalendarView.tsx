@@ -93,7 +93,10 @@ export function DesktopCalendarView() {
   const [clipboardConsultation, setClipboardConsultation] = useState<Consultation | null>(null);
   const [pasteTarget, setPasteTarget] = useState<{time: string;dentistKey: string;dentistName: string;} | null>(null);
   const [feedbackConsultation, setFeedbackConsultation] = useState<Consultation | null>(null);
-  const [activeRole, setActiveRole] = useState<UserRole>('clinic');
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlRole = urlParams.get('role');
+  const initialRole: UserRole = (urlRole === 'patient' || urlRole === 'dentist' || urlRole === 'clinic') ? urlRole : 'clinic';
+  const [activeRole, setActiveRole] = useState<UserRole>(initialRole);
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);

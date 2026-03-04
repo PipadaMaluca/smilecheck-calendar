@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PatientCalendar } from './PatientCalendar';
 import { DentistCalendar } from './DentistCalendar';
@@ -8,7 +9,10 @@ import { SplashScreen } from '@/components/splash/SplashScreen';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
-  const [activeView, setActiveView] = useState('patient');
+  const [searchParams] = useSearchParams();
+  const roleParam = searchParams.get('role');
+  const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
+  const [activeView, setActiveView] = useState(initialRole);
   const [isDesktop, setIsDesktop] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
 

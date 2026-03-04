@@ -117,11 +117,12 @@ export function HeroSection() {
                 SmileCheck Dashboard
               </span>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label: 'Consultas Hoje', value: '8' },
                 { label: 'Pontos', value: '1 250' },
                 { label: 'Nível', value: 'Ouro' },
+                { label: '🔥 Streak', value: '7 dias' },
               ].map((c) => (
                 <div
                   key={c.label}
