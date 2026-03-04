@@ -14,7 +14,14 @@ interface RewardsStoreViewProps {
 }
 
 export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
-  const [userPoints, setUserPoints] = useState(450);
+  const getInitialPoints = () => {
+    switch (userRole) {
+      case 'patient': return 450;
+      case 'dentist': return 1250;
+      case 'clinic': return 3800;
+    }
+  };
+  const [userPoints, setUserPoints] = useState(getInitialPoints());
   const [redeemProduct, setRedeemProduct] = useState<RewardProduct | null>(null);
 
   const tabs = REWARD_TABS[userRole] || REWARD_TABS.patient;
