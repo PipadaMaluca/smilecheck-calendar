@@ -20,14 +20,14 @@ import { toast } from 'sonner';
 // Mock job data - clinic offers (seen by dentists)
 const MOCK_CLINIC_OFFERS = [
   {
-    id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.8, level: 'gold' as const,
+    id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.8, level: 'ouro' as const,
     location: 'Av. da Liberdade 120, Lisboa', distance: 2.1,
     contractType: 'Tempo Parcial', schedule: 'Seg-Qua-Sex 09:00-13:00',
     salary: '35% por consulta', specialties: ['Generalista'],
     benefits: ['Seguro', 'Formação'], publishedAgo: 'há 2 dias',
   },
   {
-    id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.5, level: 'silver' as const,
+    id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.5, level: 'prata' as const,
     location: 'Rue de Paris 45, Mitry-Mory', distance: 5.3,
     contractType: 'Tempo Inteiro', schedule: 'Seg-Sex 09:00-19:00',
     salary: '€3.200/mês', specialties: ['Cirurgia', 'Endodontia'],
@@ -45,21 +45,21 @@ const MOCK_CLINIC_OFFERS = [
 // Mock dentist availability (seen by clinics)
 const MOCK_DENTIST_AVAILABILITY = [
   {
-    id: 'da1', dentistId: '4', name: 'Dr. Fábio Lobo', rating: 4.6, level: 'gold' as const,
+    id: 'da1', dentistId: '4', name: 'Dr. Fábio Lobo', rating: 4.6, level: 'ouro' as const,
     specialties: ['Cirurgia', 'Prótese', 'Implantologia'],
     availability: 'Tempo Parcial', availabilityDetail: 'Tardes disponíveis',
     schedule: 'Seg-Qua-Sex 14:00-20:00', experience: '12 anos de experiência',
     teleconsultas: true, salary: '', publishedAgo: 'há 3 dias',
   },
   {
-    id: 'da2', dentistId: '7', name: 'Dra. Catarina Fernandes', rating: 4.4, level: 'silver' as const,
+    id: 'da2', dentistId: '7', name: 'Dra. Catarina Fernandes', rating: 4.4, level: 'prata' as const,
     specialties: ['Ortodontia', 'Odontopediatria'],
     availability: 'Freelancer', availabilityDetail: 'Sábados',
     schedule: 'Sáb 09:00-14:00', experience: '6 anos de experiência',
     teleconsultas: false, salary: '', publishedAgo: 'há 1 semana',
   },
   {
-    id: 'da3', dentistId: '5', name: 'Dr. Frederico Cardoso', rating: 4.7, level: 'gold' as const,
+    id: 'da3', dentistId: '5', name: 'Dr. Frederico Cardoso', rating: 4.7, level: 'ouro' as const,
     specialties: ['Cirurgia', 'Prótese'],
     availability: 'Tempo Inteiro', availabilityDetail: 'Seg-Sex',
     schedule: 'Seg-Sex 09:00-19:00', experience: '15 anos de experiência',
