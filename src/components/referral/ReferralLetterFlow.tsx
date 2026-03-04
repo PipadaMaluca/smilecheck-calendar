@@ -433,11 +433,11 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </div>
 
       {/* Content */}
-      <ScrollArea className="flex-1">
+      <div className="flex-1 overflow-y-auto">
         <div className="p-4 md:p-6 max-w-[600px] mx-auto">
           {renderStep()}
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Footer */}
       <div className={cn(
