@@ -25,7 +25,7 @@ interface ReferralLetterFlowProps {
 
 // Extract recent patients from consultations (same as PrescriptionFlow)
 const getRecentPatients = () => {
-  const seen = new Map<string, {id: string; name: string; age: number; lastDate: Date;}>();
+  const seen = new Map<string, {id: string;name: string;age: number;lastDate: Date;}>();
   mockConsultations.forEach((c) => {
     if (!seen.has(c.patient.id) || c.date > seen.get(c.patient.id)!.lastDate) {
       seen.set(c.patient.id, {
@@ -58,7 +58,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   const isMobile = useIsMobile();
   const [step, setStep] = useState(1);
   const [patientSearch, setPatientSearch] = useState('');
-  const [selectedPatient, setSelectedPatient] = useState<{id: string; name: string; age: number; lastDate: Date;} | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<{id: string;name: string;age: number;lastDate: Date;} | null>(null);
   const [selectedSpecialty, setSelectedSpecialty] = useState('');
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
   const [reason, setReason] = useState('');
@@ -69,9 +69,9 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   const [completed, setCompleted] = useState(false);
   const [dentistFilter, setDentistFilter] = useState<'all' | 'favorites'>('all');
   const [attachments, setAttachments] = useState<MockAttachment[]>([
-    { id: 'a1', name: 'Radiografia_panoramica.jpg', size: '2.3 MB' },
-    { id: 'a2', name: 'Foto_intraoral_36.png', size: '1.1 MB' },
-  ]);
+  { id: 'a1', name: 'Radiografia_panoramica.jpg', size: '2.3 MB' },
+  { id: 'a2', name: 'Foto_intraoral_36.png', size: '1.1 MB' }]
+  );
 
   const filteredPatients = (() => {
     const patients = RECENT_PATIENTS.slice(0, 10);
@@ -279,22 +279,22 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               </div>
 
               {/* Attached files list */}
-              {attachments.length > 0 && (
-                <div className="space-y-2">
-                  {attachments.map((file) => (
-                    <div key={file.id} className="flex items-center gap-3 p-2.5 rounded-lg border border-border bg-card">
+              {attachments.length > 0 &&
+              <div className="space-y-2">
+                  {attachments.map((file) =>
+                <div key={file.id} className="flex items-center gap-3 p-2.5 rounded-lg border border-border bg-card">
                       <Paperclip className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="text-sm flex-1 truncate">{file.name}</span>
                       <span className="text-xs text-muted-foreground">{file.size}</span>
                       <button
-                        onClick={() => setAttachments((prev) => prev.filter((a) => a.id !== file.id))}
-                        className="text-muted-foreground hover:text-destructive transition-colors p-1">
+                    onClick={() => setAttachments((prev) => prev.filter((a) => a.id !== file.id))}
+                    className="text-muted-foreground hover:text-destructive transition-colors p-1">
                         <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                  ))}
+                )}
                 </div>
-              )}
+              }
 
               <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => {
                 const newId = `a${Date.now()}`;
@@ -420,7 +420,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </div>
 
       <div className="max-w-[600px] mx-auto w-full">
-        <div className="space-y-2 px-4 py-3">
+        <div className="space-y-2 py-[10px] px-[15px]">
           <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
@@ -434,7 +434,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4 md:p-6 max-w-[600px] mx-auto">
+        <div className="p-4 md:p-6 max-w-[600px] mx-auto py-[20px] px-[20px]">
           {renderStep()}
         </div>
       </div>
