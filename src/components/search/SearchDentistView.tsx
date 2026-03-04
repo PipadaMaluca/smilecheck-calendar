@@ -201,49 +201,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
               </div>
             ) : (
               <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2')}>
-                {filteredDentists.map(dentist => {
-                  const availability = getAvailabilityForDentist(dentist.id);
-                  const todaySlots = availability[0]?.slots || [];
-                  return (
-                    <div key={dentist.id} className="space-y-0">
-                      <DentistCard dentist={dentist} onViewProfile={setSelectedDentist} />
-                      {/* Clickable time slots */}
-                      {todaySlots.length > 0 && (
-                        <div className="bg-card border border-t-0 border-border rounded-b-xl px-4 pb-3 -mt-3 pt-4">
-                          <p className="text-[10px] text-muted-foreground mb-1.5">{availability[0].dayLabel}:</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {todaySlots.slice(0, 5).map(slot => (
-                              <button
-                                key={slot}
-                                className="px-2.5 py-1 rounded-md text-xs font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (onQuickBook) {
-                                    onQuickBook(dentist, availability[0].dayLabel, slot);
-                                  } else {
-                                    setSelectedDentist(dentist);
-                                  }
-                                }}
-                              >
-                                {slot}
-                              </button>
-                            ))}
-                          </div>
-                          {/* Mostrar mais horários */}
-                          <button
-                            className="mt-1.5 text-[10px] text-primary hover:text-primary/80 font-medium transition-colors"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedDentist(dentist);
-                            }}
-                          >
-                            + Mostrar mais horários
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                {filteredDentists.map(dentist => (
+                  <DentistCard key={dentist.id} dentist={dentist} onViewProfile={setSelectedDentist} />
+                ))}
               </div>
             )}
           </div>
