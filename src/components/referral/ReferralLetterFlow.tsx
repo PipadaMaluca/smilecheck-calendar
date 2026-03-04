@@ -434,7 +434,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4 md:p-6 max-w-[600px] mx-auto py-[15px] px-[15px]">
+        <div className="p-4 md:p-6 max-w-[600px] mx-auto py-[15px] px-[15px] pb-[5px] pt-[10px]">
           {renderStep()}
         </div>
       </div>
