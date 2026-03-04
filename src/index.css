@@ -91,6 +91,29 @@
 }
 
 @layer components {
+  .glass-card {
+    @apply bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card-strong {
+    @apply bg-card/60 backdrop-blur-2xl border border-white/15 rounded-2xl;
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(207 90% 54% / 0.3), 0 0 40px hsl(207 90% 54% / 0.1);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.1);
+  }
+
+
   .calendar-day {
     @apply relative flex flex-col items-center justify-center w-10 h-10 rounded-full transition-all duration-200;
   }
@@ -240,6 +263,26 @@
   .animate-scale-in {
     animation: scaleIn 0.2s ease-out;
   }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-rocket {
+    animation: rocket 2s ease-in-out infinite;
+  }
+
+  .animate-countdown {
+    animation: countdown-pulse 1s ease-in-out infinite;
+  }
 }
 
 @keyframes fadeIn {
@@ -282,6 +325,33 @@
 
 .animate-slide-up-modal {
   animation: slideUpModal 0.3s ease-out;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px currentColor); }
+  50% { opacity: 0.8; filter: drop-shadow(0 0 20px currentColor); }
+}
+
+@keyframes rocket {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  25% { transform: translateY(-8px) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(5deg); }
+  75% { transform: translateY(-10px) rotate(0deg); }
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
 /* MOBILE ONLY - max-width 480px */
