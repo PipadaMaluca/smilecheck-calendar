@@ -206,18 +206,19 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
                 ⭐ Só Favoritos</button>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {filteredDentists.map((d) => {
                 const levelCfg = LEVEL_CONFIG[d.level];
                 const isFav = favorites.includes(d.id);
-                const initials = d.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('');
+                const nameParts = d.name.split(' ').filter((n) => n.toLowerCase() !== 'dr.' && n.toLowerCase() !== 'dr' && n.toLowerCase() !== 'dra.' && n.toLowerCase() !== 'dra');
+                const initials = nameParts.filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('');
                 return (
                   <button
                     key={d.id}
                     onClick={() => setSelectedDentist(d)}
                     className={cn(
-                      'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left',
-                      selectedDentist?.id === d.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
+                      'w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left',
+                      selectedDentist?.id === d.id ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50'
                     )}>
 
                     <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-sm font-bold text-primary flex-shrink-0">
