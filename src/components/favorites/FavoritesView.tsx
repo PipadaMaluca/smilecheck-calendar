@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
 import { cn } from '@/lib/utils';
@@ -40,7 +39,7 @@ export function FavoritesView({
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
-  const [typeFilter, setTypeFilter] = useState<'all' | 'dentists' | 'clinics'>('all');
+  const [typeFilter, setTypeFilter] = useState<'all' | 'dentists' | 'clinics'>('dentists');
   const [removeTarget, setRemoveTarget] = useState<{ type: 'dentist' | 'clinic'; id: string; name: string } | null>(null);
   const [callClinic, setCallClinic] = useState<{ id: string; name: string; address: string; phone: string } | null>(null);
   const [copied, setCopied] = useState(false);
@@ -185,25 +184,19 @@ export function FavoritesView({
         <Input placeholder="Pesquisar dentistas ou clínicas..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
       </div>
 
-      {/* Filter tabs: Todos | ⭐ Favoritos */}
-      <div className="flex gap-2">
-        <button onClick={() => setFilterTab('todos')} className={cn('px-4 py-2 text-sm font-medium rounded-lg border transition-colors', filterTab === 'todos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
-          Todos
-        </button>
-        <button onClick={() => setFilterTab('favoritos')} className={cn('px-4 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
+      {/* Tabs: Dentistas | Clínicas + Favoritos toggle */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-1 bg-muted rounded-lg p-1">
+          <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+            Dentistas
+          </button>
+          <button onClick={() => setTypeFilter('clinics')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'clinics' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+            Clínicas
+          </button>
+        </div>
+        <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
           <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> Favoritos
         </button>
-        {/* Type filter */}
-        <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
-          <SelectTrigger className="w-32 h-9 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="dentists">Dentistas</SelectItem>
-            <SelectItem value="clinics">Clínicas</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
       {/* Results count */}
