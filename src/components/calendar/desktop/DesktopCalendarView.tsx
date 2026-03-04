@@ -57,7 +57,6 @@ import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManager';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -590,7 +589,7 @@ export function DesktopCalendarView() {
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
                 <span id="onboarding-points-counter" className="font-medium text-primary text-sm border border-primary border-dashed mx-0 px-[5px] py-[5px]">⭐ 1 250 pts</span>
-                <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+                
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
                     <p className="text-sm font-bold text-foreground">
@@ -919,8 +918,7 @@ export function DesktopCalendarView() {
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
       onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
-    <TeleconsultaManager userRole={activeRole}>
-    {(startTeleconsulta) => (
+      
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}
       <div
@@ -1078,8 +1076,6 @@ export function DesktopCalendarView() {
 
         }
     </div>
-    )}
-    </TeleconsultaManager>
     </ProfileNavigationProvider>);
 
 }
