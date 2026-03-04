@@ -165,7 +165,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
   // Progress bar
   const ProgressBar = () =>
-  <div className="space-y-2 px-4 py-3">
+  <div className="space-y-2 px-[15px] py-[10px]">
       <p className="text-xs text-muted-foreground text-center">Passo {currentStepNumber} de {totalVisibleSteps}</p>
       <div className="flex items-center gap-2">
         {steps.filter((s) => s !== 'success').map((step, i) =>
