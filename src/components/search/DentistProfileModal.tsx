@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Star, MapPin, Clock, Video, X, Calendar, MessageCircle } from 'lucide-react';
+import { Star, MapPin, Clock, Video, X, Calendar, MessageCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -10,6 +10,7 @@ import {
 } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BookingFlow } from '@/components/booking/BookingFlow';
+import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 
 interface DentistProfileModalProps {
   dentist: DentistSearchResult;
@@ -25,11 +26,8 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
   const reviews = getReviewsForDentist(dentist.id);
   const availability = getAvailabilityForDentist(dentist.id);
 
-  const initials = dentist.name
-    .split(' ')
-    .filter((_, i, a) => i === 0 || i === a.length - 1)
-    .map((n) => n[0])
-    .join('');
+  const initials = getDentistInitials(dentist.name);
+  const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
 
   if (showBooking) {
     return (
@@ -46,9 +44,13 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
     <div className="space-y-6">
       {/* Header with avatar */}
       <div className="flex flex-col items-center text-center space-y-3 pt-2">
-        <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary">
-          {initials}
-        </div>
+        {photo ? (
+          <img src={photo} alt={dentist.name} className="w-24 h-24 rounded-full object-cover" />
+        ) : (
+          <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary">
+            {initials}
+          </div>
+        )}
         <div>
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
           <div className="flex items-center justify-center gap-2 mt-1">
@@ -116,30 +118,49 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div>
         <h3 className="text-sm font-semibold text-foreground mb-2">Horários Disponíveis</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-          {availability.map((day) => (
-            <div key={day.date} className="bg-secondary rounded-lg p-2.5">
-              <p className="text-xs font-semibold text-foreground mb-1.5">{day.dayLabel}</p>
-              <div className="flex flex-wrap gap-1">
-                {day.slots.map((slot) => (
-                  <button
-                    key={slot}
-                    className="text-[10px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (onQuickBook) {
-                        onQuickBook(dentist, day.dayLabel, slot);
-                      } else {
-                        setShowBooking(true);
-                      }
-                    }}
-                  >
-                    {slot}
-                  </button>
-                ))}
+          {availability.map((day) => {
+            const isSunday = day.dayLabel === 'Dom';
+            return (
+              <div key={day.date} className="bg-secondary rounded-lg p-2.5">
+                <p className="text-xs font-semibold text-foreground mb-1.5">
+                  {day.dayLabel}
+                  {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
+                </p>
+                {isSunday && (
+                  <p className="text-[9px] text-primary mb-1">📱 Apenas teleconsultas ao domingo</p>
+                )}
+                <div className="flex flex-wrap gap-1">
+                  {day.slots.map((slot) => (
+                    <button
+                      key={slot}
+                      className="text-[10px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onQuickBook) {
+                          onQuickBook(dentist, day.dayLabel, slot);
+                        } else {
+                          setShowBooking(true);
+                        }
+                      }}
+                    >
+                      {slot}
+                    </button>
+                  ))}
+                  {day.slots.length === 0 && (
+                    <span className="text-[10px] text-muted-foreground">Sem horários</span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+        {/* Mostrar mais horários */}
+        <button
+          className="mt-2 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
+          onClick={() => setShowBooking(true)}
+        >
+          + Mostrar mais horários
+        </button>
       </div>
 
       {/* Reviews */}

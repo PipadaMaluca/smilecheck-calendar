@@ -35,6 +35,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
   {
     id: '1',
     name: 'Dr. Gonçalo Pipo',
+    avatar: 'goncalo',
     rating: 4.9,
     reviewCount: 127,
     level: 'ouro',
@@ -50,6 +51,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
   {
     id: '2',
     name: 'Dr. Alexandre Bernardo',
+    avatar: 'alexandre',
     rating: 4.8,
     reviewCount: 95,
     level: 'ouro',
@@ -65,6 +67,7 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
   {
     id: '3',
     name: 'Dr. Gil Santos',
+    avatar: 'gil',
     rating: 4.7,
     reviewCount: 82,
     level: 'prata',
@@ -167,14 +170,28 @@ export function getReviewsForDentist(dentistId: string): DentistReview[] {
   return MOCK_REVIEWS[dentistId] || defaultReviews;
 }
 
-export function getAvailabilityForDentist(_dentistId: string): DentistAvailability[] {
+// Deterministic availability based on dentist ID (seeded)
+const AVAILABILITY_MAP: Record<string, string[][]> = {
+  '1': [['09:00', '14:30', '15:00'], ['10:00', '11:00'], ['09:30', '14:00', '16:00'], ['10:00', '15:30'], ['09:00', '11:00', '14:30'], ['10:00'], ['18:00', '19:00']],
+  '2': [['09:30', '14:00', '17:00'], ['09:00', '10:30'], ['11:00', '14:30', '16:30'], ['09:00', '15:00'], ['10:30', '14:00'], ['11:00'], ['17:00', '19:30']],
+  '3': [['10:00', '15:00'], ['09:30', '11:00', '14:00'], ['09:00', '16:00'], ['10:30', '14:30'], ['09:00', '15:30', '17:00'], ['09:30'], ['18:30']],
+  '4': [['09:00', '10:30', '14:00'], ['11:00', '15:00'], ['09:30', '14:30'], ['10:00', '16:00'], ['09:00', '14:00', '15:30'], ['10:30'], ['17:30', '19:00']],
+  '5': [['10:00', '14:30'], ['09:00', '11:00', '15:00'], ['10:30', '16:00'], ['09:30', '14:00'], ['10:00', '15:00', '17:00'], ['09:00'], ['18:00']],
+  '6': [['09:30', '11:00', '15:00'], ['10:00', '14:30'], ['09:00', '15:30', '17:00'], ['10:30', '14:00'], ['09:30', '16:00'], ['11:00'], ['17:00', '19:00']],
+  '7': [['09:00', '10:30', '14:00'], ['11:00', '14:30', '16:00'], ['09:30', '15:00'], ['10:00', '17:00'], ['09:00', '14:30', '15:30'], ['10:00'], ['18:00', '19:30']],
+};
+
+export function getAvailabilityForDentist(dentistId: string): DentistAvailability[] {
   const days = ['Hoje', 'Amanhã', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  const dentistSlots = AVAILABILITY_MAP[dentistId] || AVAILABILITY_MAP['1'];
   return days.map((dayLabel, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
-    const slotsCount = Math.floor(Math.random() * 4) + 1;
-    const possibleSlots = ['09:00', '09:30', '10:00', '10:30', '11:00', '14:00', '14:30', '15:00', '15:30', '16:00', '17:00'];
-    const slots = possibleSlots.sort(() => Math.random() - 0.5).slice(0, slotsCount).sort();
+    const isSunday = dayLabel === 'Dom';
+    // Sunday: only teleconsulta slots (evening times)
+    const slots = isSunday
+      ? (dentistSlots[i] || []).filter(s => s >= '17:00')
+      : (dentistSlots[i] || []);
     return {
       date: date.toISOString().split('T')[0],
       dayLabel,

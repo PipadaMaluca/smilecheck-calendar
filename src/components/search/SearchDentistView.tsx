@@ -229,6 +229,16 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                               </button>
                             ))}
                           </div>
+                          {/* Mostrar mais horários */}
+                          <button
+                            className="mt-1.5 text-[10px] text-primary hover:text-primary/80 font-medium transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedDentist(dentist);
+                            }}
+                          >
+                            + Mostrar mais horários
+                          </button>
                         </div>
                       )}
                     </div>

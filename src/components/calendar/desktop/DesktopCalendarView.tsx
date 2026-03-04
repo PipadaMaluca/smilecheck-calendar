@@ -812,9 +812,10 @@ export function DesktopCalendarView() {
 
 
       case 'favoritos':
+      case 'pesquisa':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Favoritos')}
+            {renderStandardHeader('Pesquisa')}
             <div className="flex-1 overflow-y-auto">
               <FavoritesView
                 favorites={favorites}
@@ -825,8 +826,8 @@ export function DesktopCalendarView() {
                   setReferralPreSelectedDentist(d);
                   setActiveNavTab('referencia');
                 }}
+                userRole={activeRole}
               />
-
             </div>
           </div>);
 
@@ -848,23 +849,8 @@ export function DesktopCalendarView() {
             <FullHistoryView userRole={activeRole} onBack={() => handleNavTabChange('home')} inline />
           </div>);
 
-      case 'pesquisa':
-        return (
-          <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Pesquisar')}
-            <div className="flex-1 overflow-y-auto">
-              <UnifiedSearch
-                userRole={activeRole}
-                isOpen={true}
-                onClose={() => setActiveNavTab('home')}
-                favorites={favorites}
-                onToggleFavorite={toggleFavorite}
-                onViewDentistProfile={(d) => {setViewDentistProfile(d);}}
-                onViewClinicProfile={(id) => {setViewClinicProfile(id);}}
-                inline />
 
-            </div>
-          </div>);
+
 
 
       case 'prescrever':

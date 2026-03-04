@@ -373,7 +373,7 @@ export function DentistCalendar() {
           <ManagePlanView userRole="dentist" />
         ) : activeTab === 'loja' ? (
           <RewardsStoreView userRole="dentist" />
-        ) : activeTab === 'favoritos' ? (
+        ) : activeTab === 'pesquisa' ? (
           <FavoritesView
             favorites={favorites}
             onToggleFavorite={id => {
@@ -385,6 +385,7 @@ export function DentistCalendar() {
               setReferralPreSelectedDentist(d);
               setShowReferral(true);
             }}
+            userRole="dentist"
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />
@@ -416,7 +417,6 @@ export function DentistCalendar() {
           onProfileClick={() => setShowProfile(true)}
           activeTab={activeTab}
           onNavigate={(tab) => {
-            if (tab === 'pesquisa') { handleTabChange(activeTab); setShowSearch(true); return; }
             if (tab === 'referencia') { handleTabChange(activeTab); setShowReferral(true); return; }
             handleTabChange(tab);
           }}

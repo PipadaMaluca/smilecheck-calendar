@@ -265,6 +265,7 @@ export function MobileSidebar({
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
+              <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">
@@ -287,10 +288,9 @@ export function MobileSidebar({
               <MenuItem icon={Trophy} label="Classificações" onClick={() => {onClose();onNavigate?.('classificacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
-              <MenuItem icon={Star} label="Favoritos" onClick={() => {onClose();onNavigate?.('favoritos');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
-              <MenuItem icon={Search} label="Pesquisar" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">
@@ -309,10 +309,9 @@ export function MobileSidebar({
               <MenuItem icon={Trophy} label="Classificações" onClick={() => {onClose();onNavigate?.('classificacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
-              <MenuItem icon={Star} label="Favoritos" onClick={() => {onClose();onNavigate?.('favoritos');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
-              <MenuItem icon={Search} label="Pesquisar" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">
