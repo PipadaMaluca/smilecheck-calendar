@@ -13,13 +13,13 @@ import {
   getMedicationAllergyBlock,
   getMedicationInteractions,
   type MedicationDef,
-  type InteractionWarning,
-} from '@/data/drugSafetyData';
+  type InteractionWarning } from
+'@/data/drugSafetyData';
 
 interface PrescriptionFlowProps {
   onClose: () => void;
   onGoHome?: () => void;
-  preSelectedPatient?: { id: string; name: string; age: number };
+  preSelectedPatient?: {id: string;name: string;age: number;};
   inline?: boolean;
 }
 
@@ -35,43 +35,43 @@ interface Medication {
 // Mock patient health data (mirrors HealthView's defaultHealthData)
 const PATIENT_HEALTH: Record<string, {
   allergies: string[];
-  medications: { name: string; dosage: string }[];
+  medications: {name: string;dosage: string;}[];
 }> = {
   'fm1': {
     allergies: ['Penicilina', 'Látex'],
-    medications: [{ name: 'Ibuprofeno', dosage: '400mg' }, { name: 'Omeprazol', dosage: '20mg' }],
+    medications: [{ name: 'Ibuprofeno', dosage: '400mg' }, { name: 'Omeprazol', dosage: '20mg' }]
   },
   'fm2': {
     allergies: ['Aspirina'],
-    medications: [],
+    medications: []
   },
   'gp-p2': {
     allergies: ['Penicilina'],
-    medications: [{ name: 'Varfarina', dosage: '5mg' }],
+    medications: [{ name: 'Varfarina', dosage: '5mg' }]
   },
   'gp-p4': {
     allergies: ['Anti-inflamatórios não esteróides (AINEs)'],
-    medications: [{ name: 'Losartan', dosage: '50mg' }],
+    medications: [{ name: 'Losartan', dosage: '50mg' }]
   },
   'ab-p4': {
     allergies: [],
-    medications: [{ name: 'Sertralina', dosage: '50mg' }],
-  },
+    medications: [{ name: 'Sertralina', dosage: '50mg' }]
+  }
 };
 
 const getPatientHealth = (patientId: string) =>
-  PATIENT_HEALTH[patientId] || { allergies: [], medications: [] };
+PATIENT_HEALTH[patientId] || { allergies: [], medications: [] };
 
 // Extract recent patients from consultations
 const getRecentPatients = () => {
-  const seen = new Map<string, { id: string; name: string; age: number; lastDate: Date }>();
-  mockConsultations.forEach(c => {
+  const seen = new Map<string, {id: string;name: string;age: number;lastDate: Date;}>();
+  mockConsultations.forEach((c) => {
     if (!seen.has(c.patient.id) || c.date > seen.get(c.patient.id)!.lastDate) {
       seen.set(c.patient.id, {
         id: c.patient.id,
         name: c.patient.name,
         age: c.patient.age || 30,
-        lastDate: c.date,
+        lastDate: c.date
       });
     }
   });
@@ -83,7 +83,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const skipPatient = !!preSelectedPatient;
 
   const [currentStep, setCurrentStep] = useState<PrescriptionStep>(skipPatient ? 'medications' : 'patient');
-  const [selectedPatient, setSelectedPatient] = useState<{ id: string; name: string; age: number } | null>(preSelectedPatient || null);
+  const [selectedPatient, setSelectedPatient] = useState<{id: string;name: string;age: number;} | null>(preSelectedPatient || null);
   const [patientSearch, setPatientSearch] = useState('');
   const [medications, setMedications] = useState<Medication[]>([]);
   const [medSearch, setMedSearch] = useState('');
@@ -99,7 +99,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const filteredPatients = useMemo(() => {
     if (!patientSearch) return recentPatients.slice(0, 10);
     const q = patientSearch.toLowerCase();
-    return recentPatients.filter(p => p.name.toLowerCase().includes(q));
+    return recentPatients.filter((p) => p.name.toLowerCase().includes(q));
   }, [patientSearch, recentPatients]);
 
   // Patient health data for allergy/interaction checks
@@ -111,30 +111,30 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const filteredMeds = useMemo(() => {
     if (!medSearch) return MEDICATIONS_WITH_TAGS;
     const q = medSearch.toLowerCase();
-    return MEDICATIONS_WITH_TAGS.filter(m => m.name.toLowerCase().includes(q) || m.dosage.toLowerCase().includes(q));
+    return MEDICATIONS_WITH_TAGS.filter((m) => m.name.toLowerCase().includes(q) || m.dosage.toLowerCase().includes(q));
   }, [medSearch]);
 
-  const steps: PrescriptionStep[] = skipPatient
-    ? ['medications', 'preview', 'success']
-    : ['patient', 'medications', 'preview', 'success'];
+  const steps: PrescriptionStep[] = skipPatient ?
+  ['medications', 'preview', 'success'] :
+  ['patient', 'medications', 'preview', 'success'];
 
   const stepIndex = steps.indexOf(currentStep);
 
   const addMedication = (name: string, dosage: string) => {
-    setMedications(prev => [...prev, {
+    setMedications((prev) => [...prev, {
       id: `med-${Date.now()}-${Math.random()}`,
       name,
       dosage,
-      posology: '',
+      posology: ''
     }]);
   };
 
   const removeMedication = (id: string) => {
-    setMedications(prev => prev.filter(m => m.id !== id));
+    setMedications((prev) => prev.filter((m) => m.id !== id));
   };
 
   const updatePosology = (id: string, posology: string) => {
-    setMedications(prev => prev.map(m => m.id === id ? { ...m, posology } : m));
+    setMedications((prev) => prev.map((m) => m.id === id ? { ...m, posology } : m));
   };
 
   const addManualMedication = () => {
@@ -160,52 +160,52 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const today = new Date();
   const rxCode = `RX${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
-  const totalVisibleSteps = steps.filter(s => s !== 'success').length;
+  const totalVisibleSteps = steps.filter((s) => s !== 'success').length;
   const currentStepNumber = Math.min(stepIndex + 1, totalVisibleSteps);
 
   // Progress bar
-  const ProgressBar = () => (
-    <div className="space-y-2 px-4 py-3">
+  const ProgressBar = () =>
+  <div className="space-y-2 px-4 py-3">
       <p className="text-xs text-muted-foreground text-center">Passo {currentStepNumber} de {totalVisibleSteps}</p>
       <div className="flex items-center gap-2">
-        {steps.filter(s => s !== 'success').map((step, i) => (
-          <div key={step} className="flex-1">
+        {steps.filter((s) => s !== 'success').map((step, i) =>
+      <div key={step} className="flex-1">
             <div className={cn(
-              'h-1.5 rounded-full transition-all',
-              i <= stepIndex && currentStep !== 'success' ? 'bg-primary' : 'bg-muted'
-            )} />
+          'h-1.5 rounded-full transition-all',
+          i <= stepIndex && currentStep !== 'success' ? 'bg-primary' : 'bg-muted'
+        )} />
           </div>
-        ))}
+      )}
       </div>
-    </div>
-  );
+    </div>;
+
 
   // Step 1: Patient Selection
-  const renderPatientStep = () => (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+  const renderPatientStep = () =>
+  <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <h2 className="text-lg font-bold">Para quem é a receita?</h2>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Pesquisar paciente..."
-          value={patientSearch}
-          onChange={e => setPatientSearch(e.target.value)}
-          className="pl-9"
-        />
+        placeholder="Pesquisar paciente..."
+        value={patientSearch}
+        onChange={(e) => setPatientSearch(e.target.value)}
+        className="pl-9" />
+      
       </div>
       <div className="space-y-2">
-        {filteredPatients.map(patient => (
-          <button
-            key={patient.id}
-            onClick={() => { setSelectedPatient(patient); goNext(); }}
-            className={cn(
-              'w-full flex items-center gap-3 p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5',
-              selectedPatient?.id === patient.id ? 'border-primary bg-primary/10' : 'border-border'
-            )}
-          >
+        {filteredPatients.map((patient) =>
+      <button
+        key={patient.id}
+        onClick={() => {setSelectedPatient(patient);goNext();}}
+        className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
+
+        selectedPatient?.id === patient.id ? 'border-primary bg-primary/10' : 'border-border'
+        )}>
+        
             <Avatar className="h-10 w-10">
               <AvatarFallback className="bg-primary/20 text-primary text-xs">
-                {patient.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                {patient.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
               </AvatarFallback>
             </Avatar>
             <div className="text-left flex-1">
@@ -216,56 +216,56 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
               {patient.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
             </p>
           </button>
-        ))}
+      )}
       </div>
-    </div>
-  );
+    </div>;
+
 
   // Medication item with allergy/interaction checks
-  const MedicationListItem = ({ med }: { med: MedicationDef }) => {
-    const alreadyAdded = medications.some(m => m.name === med.name && m.dosage === med.dosage);
+  const MedicationListItem = ({ med }: {med: MedicationDef;}) => {
+    const alreadyAdded = medications.some((m) => m.name === med.name && m.dosage === med.dosage);
     const allergyBlock = getMedicationAllergyBlock(med, patientHealth.allergies);
     const interactions = getMedicationInteractions(med, patientHealth.medications);
     const isBlocked = !!allergyBlock;
     const hasInteraction = interactions.length > 0;
 
-    const content = (
-      <button
-        key={`${med.name}-${med.dosage}`}
-        onClick={() => !alreadyAdded && !isBlocked && addMedication(med.name, med.dosage)}
-        disabled={alreadyAdded || isBlocked}
-        className={cn(
-          'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-all',
-          isBlocked
-            ? 'opacity-50 cursor-not-allowed bg-muted/30'
-            : alreadyAdded
-              ? 'bg-primary/10 text-primary cursor-default'
-              : hasInteraction
-                ? 'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5'
-                : 'hover:bg-muted/50 border border-transparent hover:border-border'
-        )}
-      >
+    const content =
+    <button
+      key={`${med.name}-${med.dosage}`}
+      onClick={() => !alreadyAdded && !isBlocked && addMedication(med.name, med.dosage)}
+      disabled={alreadyAdded || isBlocked}
+      className={cn(
+        'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-all',
+        isBlocked ?
+        'opacity-50 cursor-not-allowed bg-muted/30' :
+        alreadyAdded ?
+        'bg-primary/10 text-primary cursor-default' :
+        hasInteraction ?
+        'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5' :
+        'hover:bg-muted/50 border border-transparent hover:border-border'
+      )}>
+      
         <div className="flex items-center gap-2">
-          {isBlocked ? (
-            <AlertTriangle className="w-4 h-4 text-destructive" />
-          ) : hasInteraction ? (
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
-          ) : (
-            <Pill className="w-4 h-4 text-muted-foreground" />
-          )}
+          {isBlocked ?
+        <AlertTriangle className="w-4 h-4 text-destructive" /> :
+        hasInteraction ?
+        <AlertTriangle className="w-4 h-4 text-amber-500" /> :
+
+        <Pill className="w-4 h-4 text-muted-foreground" />
+        }
           <span className={cn(isBlocked && 'line-through text-muted-foreground')}>{med.name} {med.dosage}</span>
         </div>
-        {isBlocked ? (
-          <span className="text-[10px] font-medium text-destructive">BLOQUEADO</span>
-        ) : hasInteraction ? (
-          <span className="text-[10px] font-medium text-amber-500">INTERAÇÃO</span>
-        ) : alreadyAdded ? (
-          <Check className="w-4 h-4 text-primary" />
-        ) : (
-          <Plus className="w-4 h-4 text-muted-foreground" />
-        )}
-      </button>
-    );
+        {isBlocked ?
+      <span className="text-[10px] font-medium text-destructive">BLOQUEADO</span> :
+      hasInteraction ?
+      <span className="text-[10px] font-medium text-amber-500">INTERAÇÃO</span> :
+      alreadyAdded ?
+      <Check className="w-4 h-4 text-primary" /> :
+
+      <Plus className="w-4 h-4 text-muted-foreground" />
+      }
+      </button>;
+
 
     // Wrap with tooltip if blocked or has interaction
     if (isBlocked) {
@@ -282,8 +282,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
               <p className="text-xs text-muted-foreground mt-1">Prescrição bloqueada por segurança</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-      );
+        </TooltipProvider>);
+
     }
 
     if (hasInteraction && !alreadyAdded) {
@@ -295,34 +295,34 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
               <p className="text-sm font-semibold text-amber-500 flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" /> INTERAÇÃO MEDICAMENTOSA
               </p>
-              {interactions.map((w, i) => (
-                <div key={i} className="text-xs space-y-0.5">
+              {interactions.map((w, i) =>
+              <div key={i} className="text-xs space-y-0.5">
                   <p>Paciente toma: <strong>{w.currentMedName}</strong></p>
                   <p>Interação com: <strong>{w.prescribedMedName}</strong></p>
                   <p className="text-muted-foreground">Risco: {w.risk}</p>
                 </div>
-              ))}
+              )}
               <p className="text-xs text-muted-foreground mt-1">Pode prescrever com precaução</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-      );
+        </TooltipProvider>);
+
     }
 
     return content;
   };
 
   // Step 2: Medications
-  const renderMedicationsStep = () => (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+  const renderMedicationsStep = () =>
+  <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <h2 className="text-lg font-bold">Prescrever medicamentos</h2>
 
       {/* Patient banner */}
-      {selectedPatient && (
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border">
+      {selectedPatient &&
+    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border">
           <Avatar className="h-8 w-8">
             <AvatarFallback className="bg-primary/20 text-primary text-xs">
-              {selectedPatient.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+              {selectedPatient.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1">
@@ -330,31 +330,31 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             <p className="text-xs text-muted-foreground">{selectedPatient.age} anos</p>
           </div>
           {/* Allergy badges */}
-          {patientHealth.allergies.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {patientHealth.allergies.map(a => (
-                <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
+          {patientHealth.allergies.length > 0 &&
+      <div className="flex flex-wrap gap-1">
+              {patientHealth.allergies.map((a) =>
+        <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
                   ⚠️ {a}
                 </span>
-              ))}
+        )}
             </div>
-          )}
+      }
         </div>
-      )}
+    }
 
       {/* Current medication warning */}
-      {patientHealth.medications.length > 0 && (
-        <div className="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/5">
+      {patientHealth.medications.length > 0 &&
+    <div className="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/5">
           <p className="text-xs font-medium text-amber-600 mb-1">Medicação actual do paciente:</p>
           <div className="flex flex-wrap gap-1">
-            {patientHealth.medications.map(m => (
-              <span key={m.name} className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
+            {patientHealth.medications.map((m) =>
+        <span key={m.name} className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
                 {m.name} {m.dosage}
               </span>
-            ))}
+        )}
           </div>
         </div>
-      )}
+    }
 
       <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2')}>
         {/* Left: medication list */}
@@ -362,33 +362,33 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Pesquisar medicamento..."
-              value={medSearch}
-              onChange={e => setMedSearch(e.target.value)}
-              className="pl-9"
-            />
+            placeholder="Pesquisar medicamento..."
+            value={medSearch}
+            onChange={(e) => setMedSearch(e.target.value)}
+            className="pl-9" />
+          
           </div>
           <div className="space-y-1 max-h-[300px] overflow-y-auto">
-            {filteredMeds.map(med => (
-              <MedicationListItem key={`${med.name}-${med.dosage}`} med={med} />
-            ))}
+            {filteredMeds.map((med) =>
+          <MedicationListItem key={`${med.name}-${med.dosage}`} med={med} />
+          )}
           </div>
 
           {/* Manual add */}
-          {manualMode ? (
-            <div className="space-y-2 p-3 rounded-lg border border-border bg-card">
-              <Input placeholder="Nome do medicamento" value={manualName} onChange={e => setManualName(e.target.value)} />
-              <Input placeholder="Dosagem (ex: 500mg)" value={manualDosage} onChange={e => setManualDosage(e.target.value)} />
+          {manualMode ?
+        <div className="space-y-2 p-3 rounded-lg border border-border bg-card">
+              <Input placeholder="Nome do medicamento" value={manualName} onChange={(e) => setManualName(e.target.value)} />
+              <Input placeholder="Dosagem (ex: 500mg)" value={manualDosage} onChange={(e) => setManualDosage(e.target.value)} />
               <div className="flex gap-2">
                 <Button size="sm" onClick={addManualMedication} disabled={!manualName.trim()}>Adicionar</Button>
                 <Button size="sm" variant="outline" onClick={() => setManualMode(false)}>Cancelar</Button>
               </div>
-            </div>
-          ) : (
-            <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => setManualMode(true)}>
+            </div> :
+
+        <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => setManualMode(true)}>
               <Plus className="w-4 h-4" /> Adicionar medicamento manualmente
             </Button>
-          )}
+        }
         </div>
 
         {/* Right: current prescription */}
@@ -396,21 +396,21 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <h3 className="text-sm font-semibold flex items-center gap-2">
             <FileText className="w-4 h-4" /> Receita actual ({medications.length})
           </h3>
-          {medications.length === 0 ? (
-            <div className="p-6 text-center text-sm text-muted-foreground border border-dashed border-border rounded-lg">
+          {medications.length === 0 ?
+        <div className="p-6 text-center text-sm text-muted-foreground border border-dashed border-border rounded-lg">
               Adicione medicamentos à receita
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {medications.map(med => {
-                // Check interaction for already-added meds
-                const medDef = MEDICATIONS_WITH_TAGS.find(m => m.name === med.name);
-                const interactions = medDef ? getMedicationInteractions(medDef, patientHealth.medications) : [];
-                return (
-                  <div key={med.id} className={cn(
-                    'p-3 rounded-lg border bg-card space-y-2',
-                    interactions.length > 0 ? 'border-amber-500/50' : 'border-border'
-                  )}>
+            </div> :
+
+        <div className="space-y-3">
+              {medications.map((med) => {
+            // Check interaction for already-added meds
+            const medDef = MEDICATIONS_WITH_TAGS.find((m) => m.name === med.name);
+            const interactions = medDef ? getMedicationInteractions(medDef, patientHealth.medications) : [];
+            return (
+              <div key={med.id} className={cn(
+                'p-3 rounded-lg border bg-card space-y-2',
+                interactions.length > 0 ? 'border-amber-500/50' : 'border-border'
+              )}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {interactions.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
@@ -420,30 +420,30 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
                         <X className="w-3.5 h-3.5" />
                       </Button>
                     </div>
-                    {interactions.length > 0 && (
-                      <p className="text-[10px] text-amber-500 font-medium">
-                        ⚠️ Interação com {interactions.map(w => w.currentMedName).join(', ')} — {interactions[0].risk}
+                    {interactions.length > 0 &&
+                <p className="text-[10px] text-amber-500 font-medium">
+                        ⚠️ Interação com {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
                       </p>
-                    )}
+                }
                     <Input
-                      placeholder="Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)"
-                      value={med.posology}
-                      onChange={e => updatePosology(med.id, e.target.value)}
-                      className="text-xs h-8"
-                    />
-                  </div>
-                );
-              })}
+                  placeholder="Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)"
+                  value={med.posology}
+                  onChange={(e) => updatePosology(med.id, e.target.value)}
+                  className="text-xs h-8" />
+                
+                  </div>);
+
+          })}
             </div>
-          )}
+        }
         </div>
       </div>
-    </div>
-  );
+    </div>;
+
 
   // Step 3: Preview
-  const renderPreviewStep = () => (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+  const renderPreviewStep = () =>
+  <div className="flex-1 overflow-y-auto p-4 space-y-4">
       <h2 className="text-lg font-bold">Pré-visualização da receita</h2>
 
       {/* PDF Preview */}
@@ -465,20 +465,20 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         <div className="border-b border-gray-200 pb-2">
           <p className="text-sm"><span className="font-semibold">Paciente:</span> {selectedPatient?.name}</p>
           <p className="text-xs text-gray-600">{selectedPatient?.age} anos</p>
-          {patientHealth.allergies.length > 0 && (
-            <p className="text-xs text-red-600 mt-1">⚠️ Alergias: {patientHealth.allergies.join(', ')}</p>
-          )}
+          {patientHealth.allergies.length > 0 &&
+        <p className="text-xs text-red-600 mt-1">⚠️ Alergias: {patientHealth.allergies.join(', ')}</p>
+        }
         </div>
 
         {/* Medications */}
         <div className="space-y-3">
           <h4 className="text-sm font-semibold">Medicamentos:</h4>
-          {medications.map((med, i) => (
-            <div key={med.id} className="pl-3 border-l-2 border-primary space-y-0.5">
+          {medications.map((med, i) =>
+        <div key={med.id} className="pl-3 border-l-2 border-primary space-y-0.5">
               <p className="text-sm font-medium">{i + 1}. {med.name} {med.dosage}</p>
               {med.posology && <p className="text-xs text-gray-600 italic">{med.posology}</p>}
             </div>
-          ))}
+        )}
         </div>
 
         {/* Signature area */}
@@ -513,12 +513,12 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <span className="text-sm">Download PDF</span>
         </label>
       </div>
-    </div>
-  );
+    </div>;
+
 
   // Success
-  const renderSuccessStep = () => (
-    <div className="flex-1 flex items-center justify-center p-6">
+  const renderSuccessStep = () =>
+  <div className="flex-1 flex items-center justify-center p-6">
       <div className="text-center space-y-4 max-w-sm">
         <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto">
           <Check className="w-8 h-8 text-green-500" />
@@ -529,28 +529,28 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         </p>
         <div className="text-left bg-muted/30 rounded-lg p-4 space-y-1">
           <p className="text-xs font-semibold text-muted-foreground mb-2">Medicamentos prescritos:</p>
-          {medications.map(med => (
-            <p key={med.id} className="text-sm">• {med.name} {med.dosage}</p>
-          ))}
+          {medications.map((med) =>
+        <p key={med.id} className="text-sm">• {med.name} {med.dosage}</p>
+        )}
         </div>
         <div className="flex gap-3 pt-2">
           <Button variant="outline" className="flex-1" onClick={() => {
-            setCurrentStep(skipPatient ? 'medications' : 'patient');
-            setSelectedPatient(preSelectedPatient || null);
-            setMedications([]);
-          }}>
+          setCurrentStep(skipPatient ? 'medications' : 'patient');
+          setSelectedPatient(preSelectedPatient || null);
+          setMedications([]);
+        }}>
             Nova Receita
           </Button>
           <Button className="flex-1" onClick={() => {
-            if (onGoHome) onGoHome();
-            else onClose();
-          }}>
+          if (onGoHome) onGoHome();else
+          onClose();
+        }}>
             Voltar ao Início
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
+
 
   // Bottom buttons
   const renderBottomButtons = () => {
@@ -562,35 +562,35 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4' : 'p-3'
       )}>
         <div className="flex gap-2 w-full max-w-[600px]">
-          {currentStep === steps[0] ? (
-            <Button variant="outline" size="sm" className="flex-1" onClick={onClose}>Cancelar</Button>
-          ) : (
-            <Button variant="outline" size="sm" className="flex-1" onClick={goPrev}>Anterior</Button>
-          )}
-          {currentStep === 'patient' ? (
-            <Button size="sm" className="flex-1" disabled={!selectedPatient} onClick={goNext}>Seguinte</Button>
-          ) : currentStep === 'medications' ? (
-            <Button size="sm" className="flex-1" disabled={medications.length === 0} onClick={goNext}>Pré-visualizar</Button>
-          ) : currentStep === 'preview' ? (
-            <Button size="sm" className="flex-1" onClick={goNext}>Assinar e Enviar</Button>
-          ) : null}
+          {currentStep === steps[0] ?
+          <Button variant="outline" size="sm" className="flex-1" onClick={onClose}>Cancelar</Button> :
+
+          <Button variant="outline" size="sm" className="flex-1" onClick={goPrev}>Anterior</Button>
+          }
+          {currentStep === 'patient' ?
+          <Button size="sm" className="flex-1" disabled={!selectedPatient} onClick={goNext}>Seguinte</Button> :
+          currentStep === 'medications' ?
+          <Button size="sm" className="flex-1" disabled={medications.length === 0} onClick={goNext}>Pré-visualizar</Button> :
+          currentStep === 'preview' ?
+          <Button size="sm" className="flex-1" onClick={goNext}>Assinar e Enviar</Button> :
+          null}
         </div>
-      </div>
-    );
+      </div>);
+
   };
 
   return (
     <div className={cn(
       'flex flex-col bg-background',
-      isMobile
-        ? 'fixed inset-0 z-[55]'
-        : 'flex-1'
+      isMobile ?
+      'fixed inset-0 z-[55]' :
+      'flex-1'
     )}>
       <div className={cn(
         'flex flex-col bg-background overflow-hidden',
-        isMobile
-          ? 'w-full h-full pb-[60px]'
-          : 'w-full h-full max-w-2xl mx-auto'
+        isMobile ?
+        'w-full h-full pb-[60px]' :
+        'w-full h-full max-w-2xl mx-auto'
       )}>
         {/* Header */}
         <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
@@ -610,6 +610,6 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         {/* Bottom buttons */}
         {renderBottomButtons()}
       </div>
-    </div>
-  );
+    </div>);
+
 }
