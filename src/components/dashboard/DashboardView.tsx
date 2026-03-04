@@ -342,6 +342,35 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       <div className="space-y-6">
         {renderStatsCards()}
 
+        {/* Dentistas a Trabalhar Hoje — clinic only */}
+        <div id="onboarding-dentistas-hoje">
+          <Card className="bg-card/80 border-border">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
+                <Badge variant="outline" className="text-[10px]">{clinicDentists.length} dentistas</Badge>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {[
+                  { name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
+                  { name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
+                  { name: 'Dr. Gil Santos', pres: 14, tele: 4 },
+                ].map((d) => (
+                  <div key={d.name} className="flex items-center gap-2 p-2 rounded-lg border border-border/50 bg-muted/20">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
+                      {d.name.split(' ').slice(1, 2).map(n => n[0]).join('')}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-foreground truncate">{d.name}</p>
+                      <p className="text-[10px] text-muted-foreground">{d.pres + d.tele} consultas</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {/* LEFT: Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
