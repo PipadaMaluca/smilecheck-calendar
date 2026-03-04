@@ -131,7 +131,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       case 1: // Select Patient
         return (
           <div className="space-y-4">
-            <h3 className="font-bold text-lg">Para quem é a referência?</h3>
+            <h3 className="font-bold text-lg text-center">Para quem é a referência?</h3>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -415,7 +415,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       {/* Header */}
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
         <div className="w-full max-w-[600px]">
-          <h1 className="font-bold text-center text-lg">Carta de Referência</h1>
+          <h1 className="font-bold text-lg text-center">Carta de Referência</h1>
         </div>
       </div>
 
