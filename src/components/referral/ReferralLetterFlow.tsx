@@ -120,9 +120,9 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <button
                 key={p.id}
                 onClick={() => setSelectedPatient(p)}
-                className={cn(
-                  'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left',
-                  selectedPatient?.id === p.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
+                className={cn("w-full flex items-center p-3 rounded-lg transition-colors text-left px-[10px] py-[10px] gap-[10px]",
+
+                selectedPatient?.id === p.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
                 )}>
 
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -318,16 +318,16 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   return (
     <div className={cn(
       'flex flex-col bg-background',
-      isMobile
-        ? 'fixed inset-0 z-[55]'
-        : 'flex-1'
+      isMobile ?
+      'fixed inset-0 z-[55]' :
+      'flex-1'
     )}>
     <div className={cn(
-      'flex flex-col bg-background overflow-hidden',
-      isMobile
-        ? 'w-full h-full pb-[60px]'
-        : 'w-full h-full max-w-2xl mx-auto'
-    )}>
+        'flex flex-col bg-background overflow-hidden',
+        isMobile ?
+        'w-full h-full pb-[60px]' :
+        'w-full h-full max-w-2xl mx-auto'
+      )}>
       {/* Header */}
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
         <div className="w-full max-w-[600px]">
@@ -340,10 +340,10 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
-            <div key={s} className="flex-1">
+              <div key={s} className="flex-1">
               <div className={cn('h-1.5 rounded-full transition-all', s <= step ? 'bg-primary' : 'bg-muted')} />
             </div>
-            )}
+              )}
           </div>
         </div>
       </div>
@@ -357,33 +357,33 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
       {/* Footer */}
       <div className={cn(
-        'border-t border-border flex justify-center flex-shrink-0',
-        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
-      )}>
+          'border-t border-border flex justify-center flex-shrink-0',
+          isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
+        )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
             {step > 1 ? 'Anterior' : 'Cancelar'}
           </Button>
           <Button
-            size="sm"
-            className="flex-1"
-            disabled={!canProceed()}
-            onClick={() => {
-              if (step === 5) handleSend();else
-              setStep(step + 1);
-            }}>
+              size="sm"
+              className="flex-1"
+              disabled={!canProceed()}
+              onClick={() => {
+                if (step === 5) handleSend();else
+                setStep(step + 1);
+              }}>
 
             {step === 5 ?
-            <>
+              <>
                 <Send className="w-4 h-4 mr-1" />
                 Assinar e Enviar
               </> :
-            step === 4 ? 'Pré-visualizar' : 'Seguinte'}
+              step === 4 ? 'Pré-visualizar' : 'Seguinte'}
           </Button>
         </div>
       </div>
     </div>
-    </div>
-    );
+    </div>);
+
 
 }
