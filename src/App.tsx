@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Triagem from "./pages/Triagem";
 import NotFound from "./pages/NotFound";
+import { LoginScreen } from "./components/auth/LoginScreen";
+import { SignUpScreen } from "./components/auth/SignUpScreen";
+import { ForgotPasswordScreen } from "./components/auth/ForgotPasswordScreen";
+import { DemoSelector } from "./components/auth/DemoSelector";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +20,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/signup" element={<SignUpScreen />} />
+          <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+          <Route path="/demo" element={<DemoSelector />} />
           <Route path="/" element={<Index />} />
           <Route path="/triagem" element={<Triagem />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
