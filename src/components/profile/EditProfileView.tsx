@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus } from 'lucide-react';
+import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -41,6 +41,185 @@ const SPECIALTIES = [
 const LANGUAGES = ['Português', 'Inglês', 'Francês', 'Espanhol', 'Alemão', 'Italiano'];
 
 const WEEKDAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+
+const JOB_TYPES = ['Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição'];
+const JOB_PERIODS = ['Manhãs', 'Tardes', 'Noites', 'Fins de semana'];
+const BENEFITS_OPTIONS = ['Seguro de saúde', 'Formação contínua paga', 'Participação em congressos', 'Material clínico incluído', 'Estacionamento', 'Alimentação'];
+
+function DentistJobToggles() {
+  const [enabled, setEnabled] = useState(false);
+  const [jobTypes, setJobTypes] = useState<string[]>([]);
+  const [periods, setPeriods] = useState<string[]>([]);
+  const [specificHours, setSpecificHours] = useState('');
+  const [teleconsultas, setTeleconsultas] = useState(false);
+  const [showSalary, setShowSalary] = useState(false);
+  const [salary, setSalary] = useState('');
+  const [negotiable, setNegotiable] = useState(true);
+  const [availableDate, setAvailableDate] = useState('');
+  const [note, setNote] = useState('');
+
+  const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
+    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SearchIcon className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm font-medium">Disponível para novas oportunidades</span>
+        </div>
+        <Switch checked={enabled} onCheckedChange={setEnabled} />
+      </div>
+      {enabled && (
+        <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Tipo pretendido</Label>
+            <div className="flex flex-wrap gap-2">
+              {JOB_TYPES.map(t => (
+                <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Disponibilidade horária</Label>
+            <div className="flex flex-wrap gap-2">
+              {JOB_PERIODS.map(p => (
+                <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs">Horários específicos (opcional)</Label>
+            <Input placeholder="Ex: Seg e Qua tardes" value={specificHours} onChange={e => setSpecificHours(e.target.value)} />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm">Disponível para teleconsultas</span>
+            <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm">Mostrar expectativa salarial?</span>
+            <Switch checked={showSalary} onCheckedChange={setShowSalary} />
+          </div>
+          {showSalary && (
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label className="text-xs">Expectativa (€)</Label>
+                <Input type="number" placeholder="Ex: 2500" value={salary} onChange={e => setSalary(e.target.value)} />
+              </div>
+              <div className="flex items-center gap-2 self-end">
+                <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded" />
+                <span className="text-xs">Negociável</span>
+              </div>
+            </div>
+          )}
+          <div>
+            <Label className="text-xs">Data de disponibilidade</Label>
+            <Input type="date" value={availableDate} onChange={e => setAvailableDate(e.target.value)} />
+          </div>
+          <div>
+            <Label className="text-xs">Nota adicional</Label>
+            <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
+          </div>
+          <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+            ⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho. Pacientes nunca veem esta informação.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ClinicJobToggles() {
+  const [enabled, setEnabled] = useState(false);
+  const [contractTypes, setContractTypes] = useState<string[]>([]);
+  const [specialties, setSpecialties] = useState<string[]>([]);
+  const [schedule, setSchedule] = useState('');
+  const [salaryValue, setSalaryValue] = useState('');
+  const [salaryType, setSalaryType] = useState('Mensal');
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState('');
+  const [description, setDescription] = useState('');
+
+  const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
+    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SearchIcon className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm font-medium">À procura de dentistas</span>
+        </div>
+        <Switch checked={enabled} onCheckedChange={setEnabled} />
+      </div>
+      {enabled && (
+        <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Tipo de contrato oferecido</Label>
+            <div className="flex flex-wrap gap-2">
+              {JOB_TYPES.map(t => (
+                <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Especialidades procuradas</Label>
+            <div className="flex flex-wrap gap-2">
+              {SPECIALTIES.map(s => (
+                <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs">Horário</Label>
+            <Input placeholder="Ex: Seg-Sex 14:00-20:00" value={schedule} onChange={e => setSchedule(e.target.value)} />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label className="text-xs">Remuneração base</Label>
+              <Input type="number" placeholder="Valor" value={salaryValue} onChange={e => setSalaryValue(e.target.value)} />
+            </div>
+            <div>
+              <Label className="text-xs">Tipo</Label>
+              <Select value={salaryType} onValueChange={setSalaryType}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Mensal">€/mês</SelectItem>
+                  <SelectItem value="Por consulta">€/consulta</SelectItem>
+                  <SelectItem value="Percentagem">%/consulta</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs mb-2 block">Benefícios oferecidos</Label>
+            <div className="grid grid-cols-2 gap-2">
+              {BENEFITS_OPTIONS.map(b => (
+                <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
+                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
+                  {b}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs">Data de início</Label>
+            <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+          </div>
+          <div>
+            <Label className="text-xs">Descrição da vaga</Label>
+            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
+          </div>
+          <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+            ⚠️ Esta informação é visível apenas para dentistas na secção Propostas de Trabalho. Pacientes nunca veem esta informação.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SectionTitle({ children }: {children: React.ReactNode;}) {
   return <h4 className="text-sm font-semibold text-foreground mb-3">{children}</h4>;
@@ -377,7 +556,13 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <span className="text-sm">Alertas de marcações</span>
                   <Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} />
                 </div>
-              </div>
+               </div>
+
+              <Separator />
+              <SectionTitle>
+                <span className="flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Disponibilidade Profissional</span>
+              </SectionTitle>
+              <DentistJobToggles />
             </>
         }
 
@@ -558,7 +743,13 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <span className="text-sm">Marcações online</span>
                   <Switch checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} />
                 </div>
-              </div>
+               </div>
+
+              <Separator />
+              <SectionTitle>
+                <span className="flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Recrutamento</span>
+              </SectionTitle>
+              <ClinicJobToggles />
             </>
         }
 

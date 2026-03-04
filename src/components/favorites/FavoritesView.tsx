@@ -1,17 +1,18 @@
 import { useState, useMemo } from 'react';
-import { Star, MapPin, X, Building2, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Eye, Share2 } from 'lucide-react';
+import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Share2, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getDentistInitials, getClinicInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { toast } from 'sonner';
 import { UserRole } from '@/types/calendar';
+import { JobMarketView } from '@/components/jobs/JobMarketView';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -20,6 +21,7 @@ interface FavoritesViewProps {
   clinicFavorites?: string[];
   onToggleClinicFavorite?: (id: string) => void;
   onBookDentist?: (dentist: DentistSearchResult) => void;
+  onBookClinic?: (clinicId: string) => void;
   onRecommendPatient?: (dentist: DentistSearchResult) => void;
   onSendMessage?: (name: string) => void;
   userRole?: UserRole;
@@ -33,50 +35,35 @@ const CLINIC_PHONES: Record<string, string> = {
 
 export function FavoritesView({
   favorites, onToggleFavorite, onViewProfile, clinicFavorites = ['1'],
-  onToggleClinicFavorite, onBookDentist, onRecommendPatient, onSendMessage,
+  onToggleClinicFavorite, onBookDentist, onBookClinic, onRecommendPatient, onSendMessage,
   userRole = 'patient'
 }: FavoritesViewProps) {
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
-  const [typeFilter, setTypeFilter] = useState<'all' | 'dentists' | 'clinics'>('dentists');
-  const [removeTarget, setRemoveTarget] = useState<{ type: 'dentist' | 'clinic'; id: string; name: string } | null>(null);
+  const [typeFilter, setTypeFilter] = useState<'dentists' | 'clinics'>('dentists');
   const [callClinic, setCallClinic] = useState<{ id: string; name: string; address: string; phone: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
   const [inviteMessage, setInviteMessage] = useState('');
+  const [showJobs, setShowJobs] = useState(false);
 
   const filteredResults = useMemo(() => {
     let dentists = [...MOCK_DENTIST_RESULTS];
     let clinics = [...mockClinics];
-
-    // Search filter
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       dentists = dentists.filter(d => d.name.toLowerCase().includes(q) || d.specialties.some(s => s.toLowerCase().includes(q)));
       clinics = clinics.filter(c => c.name.toLowerCase().includes(q) || c.address.toLowerCase().includes(q));
     }
-
-    // Favorites filter
     if (filterTab === 'favoritos') {
       dentists = dentists.filter(d => favorites.includes(d.id));
       clinics = clinics.filter(c => clinicFavorites.includes(c.id));
     }
-
-    // Type filter
     if (typeFilter === 'dentists') clinics = [];
     if (typeFilter === 'clinics') dentists = [];
-
     return { dentists, clinics };
   }, [searchQuery, filterTab, typeFilter, favorites, clinicFavorites]);
-
-  const handleConfirmRemove = () => {
-    if (!removeTarget) return;
-    if (removeTarget.type === 'dentist') onToggleFavorite(removeTarget.id);
-    else onToggleClinicFavorite?.(removeTarget.id);
-    toast.success(`${removeTarget.name} removido dos favoritos`);
-    setRemoveTarget(null);
-  };
 
   const handleCopyPhone = (phone: string) => {
     navigator.clipboard.writeText(phone);
@@ -92,48 +79,44 @@ export function FavoritesView({
     setInviteMessage('');
   };
 
+  // Show job market view
+  if (showJobs) {
+    return <JobMarketView userRole={userRole} onBack={() => setShowJobs(false)} onSendMessage={onSendMessage} />;
+  }
+
   const renderDentistActions = (d: DentistSearchResult) => {
     if (userRole === 'patient') {
       return (
-        <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" className="flex-1 text-xs gap-1" onClick={() => onBookDentist?.(d)}>
+        <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookDentist?.(d); }}>
             <Calendar className="w-3 h-3" /> Marcar Consulta
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
             <MessageCircle className="w-3 h-3" /> Enviar Mensagem
-          </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => toast.info('Link de recomendação copiado!')}>
-            <Share2 className="w-3 h-3" /> Recomendar a Amigo
           </Button>
         </div>
       );
     }
     if (userRole === 'dentist') {
       return (
-        <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
+        <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
             <MessageCircle className="w-3 h-3" /> Enviar Mensagem
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => onRecommendPatient?.(d)}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onRecommendPatient?.(d); }}>
             <FileText className="w-3 h-3" /> Recomendar Paciente
-          </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => onViewProfile(d)}>
-            <Eye className="w-3 h-3" /> Ver Perfil
           </Button>
         </div>
       );
     }
     // clinic
     return (
-      <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
+      <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
           <MessageCircle className="w-3 h-3" /> Enviar Mensagem
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { setInviteTarget(d); setInviteMessage(`Gostaríamos de convidá-lo a juntar-se à nossa equipa.`); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); setInviteTarget(d); setInviteMessage(`Gostaríamos de convidá-lo a juntar-se à nossa equipa.`); }}>
           <Users className="w-3 h-3" /> Convidar para Equipa
-        </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => onViewProfile(d)}>
-          <Eye className="w-3 h-3" /> Ver Perfil
         </Button>
       </div>
     );
@@ -142,30 +125,36 @@ export function FavoritesView({
   const renderClinicActions = (c: typeof mockClinics[0]) => {
     if (userRole === 'patient') {
       return (
-        <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" className="flex-1 text-xs gap-1" onClick={() => toast.info('Selecione um dentista desta clínica para marcar consulta.')}>
+        <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info('Selecione um dentista desta clínica para marcar consulta.'); }}>
             <Calendar className="w-3 h-3" /> Marcar Consulta
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => toast.info('Funcionalidade de mensagens em breve!')}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info('Funcionalidade de mensagens em breve!'); }}>
             <MessageCircle className="w-3 h-3" /> Enviar Mensagem
-          </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
-            <Phone className="w-3 h-3" /> Ligar
           </Button>
         </div>
       );
     }
-    // dentist or clinic viewing clinic cards
+    if (userRole === 'dentist') {
+      return (
+        <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
+            <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+          </Button>
+          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info('Booking flow com clínica pré-selecionada.'); }}>
+            <Calendar className="w-3 h-3" /> Marcar nesta Clínica
+          </Button>
+        </div>
+      );
+    }
+    // clinic viewing clinic
     return (
-      <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => toast.info('Funcionalidade de mensagens em breve!')}>
+      <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info('Funcionalidade de mensagens em breve!'); }}>
           <MessageCircle className="w-3 h-3" /> Enviar Mensagem
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
           <Phone className="w-3 h-3" /> Ligar
-        </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => toast.info('Perfil da clínica em construção')}>
-          <Eye className="w-3 h-3" /> Ver Perfil
         </Button>
       </div>
     );
@@ -184,8 +173,8 @@ export function FavoritesView({
         <Input placeholder="Pesquisar dentistas ou clínicas..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
       </div>
 
-      {/* Tabs: Dentistas | Clínicas + Favoritos toggle */}
-      <div className="flex items-center justify-between gap-2">
+      {/* Tabs: Dentistas | Clínicas + Propostas button + Favoritos toggle */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
         <div className="flex gap-1 bg-muted rounded-lg p-1">
           <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
             Dentistas
@@ -194,9 +183,16 @@ export function FavoritesView({
             Clínicas
           </button>
         </div>
-        <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
-          <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> Favoritos
-        </button>
+        <div className="flex gap-2">
+          {userRole !== 'patient' && (
+            <Button size="sm" className="gap-1.5 text-xs" onClick={() => setShowJobs(true)}>
+              <Briefcase className="w-3.5 h-3.5" /> Propostas de Trabalho
+            </Button>
+          )}
+          <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
+            <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> Favoritos
+          </button>
+        </div>
       </div>
 
       {/* Results count */}
@@ -219,20 +215,21 @@ export function FavoritesView({
             const initials = getDentistInitials(d.name);
             const photo = DENTIST_AVATAR_PHOTOS[d.id];
             const isFav = favorites.includes(d.id);
-            const availability = getAvailabilityForDentist(d.id);
-            const todaySlots = availability[0]?.slots || [];
 
             return (
-              <div key={d.id} className="bg-card border border-border rounded-xl p-4 space-y-3 relative">
+              <div key={d.id}
+                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
+                onClick={() => onViewProfile(d)}
+              >
                 {/* Star toggle top-right */}
                 <button
-                  onClick={() => onToggleFavorite(d.id)}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all"
+                  onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
+                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-amber-400 scale-110' : 'text-muted-foreground hover:text-amber-400')} />
                 </button>
 
-                <div className="flex items-start gap-3 pr-10" onClick={() => onViewProfile(d)}>
+                <div className="flex items-start gap-3 pr-10">
                   {photo ? (
                     <img src={photo} alt={d.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
                   ) : (
@@ -241,7 +238,7 @@ export function FavoritesView({
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-foreground truncate cursor-pointer hover:text-primary">{d.name}</p>
+                    <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-medium">{d.rating}</span>
@@ -259,25 +256,7 @@ export function FavoritesView({
                   </div>
                 </div>
 
-                {/* Quick time slots */}
-                {todaySlots.length > 0 && (
-                  <div>
-                    <p className="text-[10px] text-muted-foreground mb-1">{availability[0].dayLabel}:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {todaySlots.slice(0, 4).map(slot => (
-                        <button
-                          key={slot}
-                          className="px-2 py-0.5 rounded text-[10px] font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                          onClick={() => onBookDentist?.(d)}
-                        >
-                          {slot}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Action buttons */}
+                {/* Action buttons — no time slots */}
                 {renderDentistActions(d)}
               </div>
             );
@@ -288,11 +267,14 @@ export function FavoritesView({
             const isFav = clinicFavorites.includes(c.id);
             const initials = getClinicInitials(c.name);
             return (
-              <div key={`c-${c.id}`} className="bg-card border border-border rounded-xl p-4 space-y-3 relative">
+              <div key={`c-${c.id}`}
+                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
+                onClick={() => toast.info('Perfil da clínica')}
+              >
                 {/* Star toggle top-right */}
                 <button
-                  onClick={() => onToggleClinicFavorite?.(c.id)}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all"
+                  onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
+                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-amber-400 scale-110' : 'text-muted-foreground hover:text-amber-400')} />
                 </button>
@@ -319,22 +301,6 @@ export function FavoritesView({
         </div>
       )}
 
-      {/* Remove Confirmation Dialog */}
-      <Dialog open={!!removeTarget} onOpenChange={() => setRemoveTarget(null)}>
-        <DialogContent className="sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle>Remover dos favoritos?</DialogTitle>
-            <DialogDescription>
-              Remover <span className="font-semibold text-foreground">{removeTarget?.name}</span> dos favoritos?
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex gap-2 sm:gap-2">
-            <Button variant="outline" onClick={() => setRemoveTarget(null)}>Cancelar</Button>
-            <Button variant="destructive" onClick={handleConfirmRemove}>Confirmar</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       {/* Call Clinic Modal */}
       <Dialog open={!!callClinic} onOpenChange={() => { setCallClinic(null); setCopied(false); }}>
         <DialogContent className="sm:max-w-sm">
@@ -360,8 +326,7 @@ export function FavoritesView({
                 </Button>
                 <Button className="flex-1 gap-2" asChild>
                   <a href={`tel:${callClinic.phone.replace(/\s/g, '')}`}>
-                    <Phone className="w-4 h-4" />
-                    Ligar agora
+                    <Phone className="w-4 h-4" /> Ligar agora
                   </a>
                 </Button>
               </div>
@@ -385,12 +350,7 @@ export function FavoritesView({
           <div className="space-y-3">
             <div>
               <label className="text-sm font-medium text-foreground mb-1 block">Mensagem (opcional)</label>
-              <Textarea
-                value={inviteMessage}
-                onChange={(e) => setInviteMessage(e.target.value)}
-                placeholder="Escreva uma mensagem..."
-                rows={3}
-              />
+              <Textarea value={inviteMessage} onChange={(e) => setInviteMessage(e.target.value)} placeholder="Escreva uma mensagem..." rows={3} />
             </div>
           </div>
           <DialogFooter className="flex gap-2 sm:gap-2">
