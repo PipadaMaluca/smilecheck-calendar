@@ -119,6 +119,7 @@ export function DesktopCalendarView() {
   const [slotCreation, setSlotCreation] = useState<{date: Date;time: string;dentistKey?: string;dentistName?: string;} | null>(null);
   const [detailConsultation, setDetailConsultation] = useState<Consultation | null>(null);
   const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
+  const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
 
   // Onboarding: trigger on first visit per role
@@ -818,7 +819,13 @@ export function DesktopCalendarView() {
               <FavoritesView
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
-                onViewProfile={(d) => setViewDentistProfile(d)} />
+                onViewProfile={(d) => setViewDentistProfile(d)}
+                onBookDentist={(d) => setViewDentistProfile(d)}
+                onRecommendPatient={(d) => {
+                  setReferralPreSelectedDentist(d);
+                  setActiveNavTab('referencia');
+                }}
+              />
 
             </div>
           </div>);
@@ -880,10 +887,11 @@ export function DesktopCalendarView() {
             {renderStandardHeader('Carta de Referência')}
             <div className="flex-1 overflow-y-auto">
               <ReferralLetterFlow
-                onClose={() => setActiveNavTab('home')}
-                onGoHome={() => setActiveNavTab('home')}
+                onClose={() => { setActiveNavTab('home'); setReferralPreSelectedDentist(null); }}
+                onGoHome={() => { setActiveNavTab('home'); setReferralPreSelectedDentist(null); }}
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
+                preSelectedDentist={referralPreSelectedDentist || undefined}
                 inline />
 
             </div>

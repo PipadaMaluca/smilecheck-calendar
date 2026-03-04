@@ -17,6 +17,8 @@ interface BookingFlowProps {
   onClose: () => void;
   onComplete: () => void;
   onGoHome?: () => void;
+  initialTime?: string;
+  initialDayLabel?: string;
 }
 
 type BookingStep = 'clinic' | 'type' | 'datetime' | 'confirm' | 'payment' | 'success';
@@ -37,17 +39,39 @@ const ALL_SLOTS = [
 
 const OCCUPIED_SLOTS = ['09:30', '10:30', '14:30', '16:00', '17:30', '19:30'];
 
-export function BookingFlow({ dentist, onClose, onComplete, onGoHome }: BookingFlowProps) {
+export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTime, initialDayLabel }: BookingFlowProps) {
   const isMobile = useIsMobile();
   const skipClinic = dentist.clinics.length <= 1;
-  
-  const [step, setStep] = useState<BookingStep>(skipClinic ? 'type' : 'clinic');
+
+  // Resolve initial date from dayLabel
+  const resolveDate = (label?: string): Date | undefined => {
+    if (!label) return undefined;
+    const lower = label.toLowerCase();
+    const today = new Date();
+    if (lower === 'hoje') return today;
+    if (lower === 'amanhã') { const d = new Date(today); d.setDate(d.getDate() + 1); return d; }
+    // Try day-of-week matching
+    const dayNames = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+    const idx = dayNames.findIndex(n => lower.startsWith(n));
+    if (idx >= 0) {
+      const d = new Date(today);
+      const diff = (idx - d.getDay() + 7) % 7 || 7;
+      d.setDate(d.getDate() + diff);
+      return d;
+    }
+    return undefined;
+  };
+
+  const hasQuickBook = !!(initialTime && initialDayLabel);
+  const quickDate = resolveDate(initialDayLabel);
+
+  const [step, setStep] = useState<BookingStep>(hasQuickBook ? 'confirm' : (skipClinic ? 'type' : 'clinic'));
   const [data, setData] = useState<BookingData>({
     clinic: skipClinic ? dentist.clinics[0] : null,
-    consultationType: null,
+    consultationType: hasQuickBook ? 'presencial' : null,
     isUrgent: false,
-    date: undefined,
-    time: null,
+    date: quickDate,
+    time: initialTime || null,
   });
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);

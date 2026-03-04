@@ -17,6 +17,7 @@ interface SearchDentistViewProps {
   onBack: () => void;
   onGoHome?: () => void;
   triageData?: TriageData;
+  onQuickBook?: (dentist: DentistSearchResult, dayLabel: string, slot: string) => void;
 }
 
 const LANGUAGES = [
@@ -26,7 +27,7 @@ const LANGUAGES = [
   { code: 'es', label: 'Español', flag: '🇪🇸' },
 ];
 
-export function SearchDentistView({ onBack, onGoHome, triageData }: SearchDentistViewProps) {
+export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }: SearchDentistViewProps) {
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [specialty, setSpecialty] = useState('Todas');
@@ -217,8 +218,11 @@ export function SearchDentistView({ onBack, onGoHome, triageData }: SearchDentis
                                 className="px-2.5 py-1 rounded-md text-xs font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  // Would navigate to booking confirmation
-                                  console.log('Book slot:', slot, dentist.name);
+                                  if (onQuickBook) {
+                                    onQuickBook(dentist, availability[0].dayLabel, slot);
+                                  } else {
+                                    setSelectedDentist(dentist);
+                                  }
                                 }}
                               >
                                 {slot}

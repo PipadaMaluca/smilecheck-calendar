@@ -357,6 +357,7 @@ export function ClinicCalendar() {
           favorites={favorites}
           onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
           onViewProfile={d => setViewDentistProfile(d)}
+          onBookDentist={d => setViewDentistProfile(d)}
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />
