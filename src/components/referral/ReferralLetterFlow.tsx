@@ -415,7 +415,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       {/* Header */}
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
         <div className="w-full max-w-[600px]">
-          <h1 className="text-base font-bold text-center">Carta de Referência</h1>
+          <h1 className="font-bold text-center text-lg">Carta de Referência</h1>
         </div>
       </div>
 
