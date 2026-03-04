@@ -57,6 +57,7 @@ import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManager';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -918,7 +919,8 @@ export function DesktopCalendarView() {
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
       onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
-      
+    <TeleconsultaManager userRole={activeRole}>
+    {(startTeleconsulta) => (
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}
       <div
@@ -1076,6 +1078,8 @@ export function DesktopCalendarView() {
 
         }
     </div>
+    )}
+    </TeleconsultaManager>
     </ProfileNavigationProvider>);
 
 }

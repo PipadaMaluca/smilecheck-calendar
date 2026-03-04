@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, X, Star } from 'lucide-react';
+import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, X, Star, Video } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -10,6 +10,7 @@ import { CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 
 interface PatientDossierViewProps {
   patientId: string;
@@ -71,8 +72,12 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [previewPrescription, setPreviewPrescription] = useState<any | null>(null);
+  const startTeleconsulta = useTeleconsulta();
 
   const data = MOCK_PATIENT_DATA.default;
+
+  // Check if patient has teleconsulta today
+  const hasTeleconsultaToday = data.consultations.some((c: any) => c.category === 'teleconsulta' && c.date === '05 Jun 2025');
 
   // For dentist role, filter consultations to only show this dentist's consultations
   const filteredConsultations = useMemo(() => {
@@ -106,7 +111,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     <MapPin className="w-3.5 h-3.5" /> {data.address}
                   </span>
                 </div>
-                <div className="flex gap-2 mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                  <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
+                    <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                  </Button>
                   <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
                     <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
                   </Button>

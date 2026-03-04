@@ -8,6 +8,7 @@ import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, Consulta
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 
 interface ConsultationDetailViewProps {
   consultation: Consultation;
@@ -37,6 +38,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
+  const startTeleconsulta = useTeleconsulta();
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
@@ -92,9 +94,12 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
 
           {/* Teleconsulta CTA */}
           {isTeleconsulta && (
-            <Button className="w-full gap-2 bg-[hsl(var(--teleconsulta))] hover:bg-[hsl(var(--teleconsulta))]/90 text-white py-5 text-base font-semibold">
+            <Button
+              className="w-full gap-2 bg-[hsl(var(--teleconsulta))] hover:bg-[hsl(var(--teleconsulta))]/90 text-white py-5 text-base font-semibold"
+              onClick={() => startTeleconsulta(consultation.patient.name)}
+            >
               <Video className="w-5 h-5" />
-              Começar Teleconsulta
+              Iniciar Teleconsulta
             </Button>
           )}
 
