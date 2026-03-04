@@ -434,15 +434,15 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4 md:p-6 max-w-[600px] mx-auto py-[20px] px-[20px]">
+        <div className="p-4 md:p-6 max-w-[600px] mx-auto px-[20px] py-[20px]">
           {renderStep()}
         </div>
       </div>
 
       {/* Footer */}
-      <div className={cn(
-          'border-t border-border flex justify-center flex-shrink-0',
-          isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
+      <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center",
+
+        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
         )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
