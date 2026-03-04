@@ -197,7 +197,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 3-column grid: 50% + 25% + 25% */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {/* LEFT: Consultas de Hoje (spans 2 cols) */}
-          <Card className="bg-card/80 border-border lg:col-span-2 flex flex-col">
+          <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border lg:col-span-2 flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
@@ -229,7 +229,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* CENTER: Confirmações — stretches to match left card */}
-          <Card className="bg-card/80 border-border flex flex-col">
+          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
@@ -270,7 +270,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* RIGHT: Lista de Espera */}
-          <Card className="bg-card/80 border-border flex flex-col">
+          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
@@ -295,7 +295,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         </div>
 
         {/* Full width: Score history */}
-        <PatientScoreHistory mode="history-only" userRole="dentist" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
+        <div id="onboarding-historico">
+          <PatientScoreHistory mode="history-only" userRole="dentist" onNavigateHistory={() => {}} onViewFullHistory={onViewFullHistory} />
+        </div>
       </div>);
 
   };
@@ -342,7 +344,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {/* LEFT: Consultas de Hoje (all dentists) */}
-          <Card className="bg-card/80 border-border flex flex-col">
+          <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
@@ -375,7 +377,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* CENTER: Confirmações grouped by dentist */}
-          <Card className="bg-card/80 border-border flex flex-col">
+          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
@@ -416,7 +418,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* RIGHT: Lista de Espera grouped by dentist */}
-          <Card className="bg-card/80 border-border flex flex-col">
+          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
@@ -491,7 +493,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* LEFT: Próximas Consultas */}
-          <Card className="bg-card/80 backdrop-blur border-border">
+          <Card id="onboarding-consultas-hoje" className="bg-card/80 backdrop-blur border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-foreground">Próximas Consultas</h3>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2
+  Lock, Trash2, BookOpen
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
@@ -11,7 +11,9 @@ import { InviteView } from '@/components/settings/InviteView';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
+import { useOnboarding } from '@/contexts/OnboardingContext';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -37,6 +39,8 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 }
 
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
+  const { replayFull, replayTooltips } = useOnboarding();
+
   return (
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
@@ -64,6 +68,19 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 5. Sincronização */}
         {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
+
+        {/* Tutorial */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Tutorial</CardTitle></CardHeader>
+          <CardContent className="space-y-2">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayFull(userRole)}>
+              <BookOpen className="w-4 h-4" /> Rever Tutorial
+            </Button>
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayTooltips(userRole)}>
+              <HelpCircle className="w-4 h-4" /> Rever Dicas
+            </Button>
+          </CardContent>
+        </Card>
 
         {/* 6. Outros */}
         <Card className="bg-card/80 backdrop-blur border-border">

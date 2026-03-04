@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -56,6 +56,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
+import { useOnboarding } from '@/contexts/OnboardingContext';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -115,6 +116,16 @@ export function DesktopCalendarView() {
   const [detailConsultation, setDetailConsultation] = useState<Consultation | null>(null);
   const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
+
+  // Onboarding: trigger on first visit per role
+  const { hasCompletedOnboarding, startCarousel, showCarousel, showTooltips } = useOnboarding();
+  const onboardingTriggeredRef = useRef<Set<UserRole>>(new Set());
+  useEffect(() => {
+    if (!onboardingTriggeredRef.current.has(activeRole) && !hasCompletedOnboarding(activeRole) && !showCarousel && !showTooltips) {
+      onboardingTriggeredRef.current.add(activeRole);
+      startCarousel(activeRole);
+    }
+  }, [activeRole, hasCompletedOnboarding, startCarousel, showCarousel, showTooltips]);
 
   const handleNotificationFeedback = useCallback((scoreId: string) => {
     const score = mockScoreHistory.find((s) => s.id === scoreId);
@@ -576,7 +587,8 @@ export function DesktopCalendarView() {
                   <Building2 className="w-4 h-4" /> Clínica
                 </Button>
               </div>
-              <div className="flex items-center gap-[10px] border-0">
+              <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
+                <span id="onboarding-points-counter" className="text-xs font-medium text-primary">⭐ 1 250 pts</span>
                 <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
