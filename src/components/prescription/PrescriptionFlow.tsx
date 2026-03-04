@@ -182,7 +182,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
   // Step 1: Patient Selection
   const renderPatientStep = () =>
-  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+  <div className="flex-1 overflow-y-auto p-4 space-y-4 py-[15px] px-[15px]">
       <h2 className="text-lg font-bold">Para quem é a receita?</h2>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
