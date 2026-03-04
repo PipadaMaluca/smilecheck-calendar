@@ -1,7 +1,7 @@
-import { CalendarDemo } from '@/components/calendar/CalendarDemo';
+import Landing from './Landing';
 
 const Index = () => {
-  return <CalendarDemo />;
+  return <Landing />;
 };
 
 export default Index;
