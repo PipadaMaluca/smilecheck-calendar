@@ -8,6 +8,7 @@ import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 
 interface PatientConsultationDetailProps {
   consultation: Consultation;
@@ -16,6 +17,7 @@ interface PatientConsultationDetailProps {
 }
 
 export function PatientConsultationDetail({ consultation, isOpen, onClose }: PatientConsultationDetailProps) {
+  const startTeleconsulta = useTeleconsulta();
   if (!isOpen) return null;
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
@@ -162,7 +164,10 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               <MessageCircle className="w-4 h-4" /> Mensagem
             </Button>
             {isTeleconsulta && (
-              <Button className="gap-2 bg-[hsl(var(--teleconsulta))] hover:bg-[hsl(var(--teleconsulta))]/90 text-white">
+              <Button
+                className="gap-2 bg-[hsl(var(--teleconsulta))] hover:bg-[hsl(var(--teleconsulta))]/90 text-white"
+                onClick={() => startTeleconsulta(consultation.dentist.name)}
+              >
                 <Video className="w-4 h-4" /> Iniciar
               </Button>
             )}
