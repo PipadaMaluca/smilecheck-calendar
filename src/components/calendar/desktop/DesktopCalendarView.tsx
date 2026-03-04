@@ -57,7 +57,6 @@ import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManager';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -589,10 +588,10 @@ export function DesktopCalendarView() {
                 </Button>
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
-                <button id="onboarding-points-counter" onClick={() => handleNavTabChange('loja')} className="font-medium text-primary text-sm border border-primary border-dashed mx-0 px-[5px] py-[5px] cursor-pointer transition-all hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 rounded">⭐ {activeRole === 'patient' ? '450' : activeRole === 'dentist' ? '1 250' : '3 800'} pts</button>
-                <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+                <span id="onboarding-points-counter" className="font-medium text-primary text-sm border border-primary border-dashed mx-0 px-[5px] py-[5px]">⭐ 1 250 pts</span>
+                
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
-                  <div className="text-right">
+                  <div className="text-right border border-primary rounded-lg border-none px-[5px] py-[5px]">
                     <p className="text-sm font-bold text-foreground">
                       {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
                     </p>
@@ -919,8 +918,7 @@ export function DesktopCalendarView() {
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
       onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
-    <TeleconsultaManager userRole={activeRole}>
-    {(startTeleconsulta) => (
+      
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}
       <div
@@ -1078,8 +1076,6 @@ export function DesktopCalendarView() {
 
         }
     </div>
-    )}
-    </TeleconsultaManager>
     </ProfileNavigationProvider>);
 
 }
