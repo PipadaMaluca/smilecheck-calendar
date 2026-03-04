@@ -15,9 +15,10 @@ interface DentistProfileModalProps {
   dentist: DentistSearchResult;
   onClose: () => void;
   onGoHome?: () => void;
+  onQuickBook?: (dentist: DentistSearchResult, dayLabel: string, slot: string) => void;
 }
 
-export function DentistProfileModal({ dentist, onClose, onGoHome }: DentistProfileModalProps) {
+export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }: DentistProfileModalProps) {
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
@@ -123,6 +124,14 @@ export function DentistProfileModal({ dentist, onClose, onGoHome }: DentistProfi
                   <button
                     key={slot}
                     className="text-[10px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onQuickBook) {
+                        onQuickBook(dentist, day.dayLabel, slot);
+                      } else {
+                        setShowBooking(true);
+                      }
+                    }}
                   >
                     {slot}
                   </button>

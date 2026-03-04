@@ -58,6 +58,8 @@ export function DentistCalendar() {
   const [showInvite, setShowInvite] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
+  const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
+  const [quickBookDentist, setQuickBookDentist] = useState<{ dentist: DentistSearchResult; dayLabel: string; slot: string } | null>(null);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
@@ -376,9 +378,13 @@ export function DentistCalendar() {
             favorites={favorites}
             onToggleFavorite={id => {
               setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
-              toast.success(favorites.includes(id) ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
             }}
             onViewProfile={d => setViewDentistProfile(d)}
+            onBookDentist={d => setViewDentistProfile(d)}
+            onRecommendPatient={d => {
+              setReferralPreSelectedDentist(d);
+              setShowReferral(true);
+            }}
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />
@@ -438,10 +444,11 @@ export function DentistCalendar() {
 
         {showReferral && (
           <ReferralLetterFlow
-            onClose={() => setShowReferral(false)}
-            onGoHome={() => { setShowReferral(false); setActiveTab('home'); }}
+            onClose={() => { setShowReferral(false); setReferralPreSelectedDentist(null); }}
+            onGoHome={() => { setShowReferral(false); setReferralPreSelectedDentist(null); setActiveTab('home'); }}
             favorites={favorites}
             onToggleFavorite={id => { setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]); }}
+            preSelectedDentist={referralPreSelectedDentist || undefined}
           />
         )}
 

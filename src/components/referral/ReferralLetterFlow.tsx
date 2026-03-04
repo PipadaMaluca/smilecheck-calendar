@@ -21,6 +21,7 @@ interface ReferralLetterFlowProps {
   favorites?: string[];
   onToggleFavorite?: (id: string) => void;
   inline?: boolean;
+  preSelectedDentist?: DentistSearchResult;
 }
 
 // Extract recent patients from consultations (same as PrescriptionFlow)
@@ -54,13 +55,13 @@ const SPECIALTIES = [
 'Prostodontia Fixa', 'Prostodontia Removível'];
 
 
-export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite }: ReferralLetterFlowProps) {
+export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite, preSelectedDentist }: ReferralLetterFlowProps) {
   const isMobile = useIsMobile();
   const [step, setStep] = useState(1);
   const [patientSearch, setPatientSearch] = useState('');
   const [selectedPatient, setSelectedPatient] = useState<{id: string;name: string;age: number;lastDate: Date;} | null>(null);
   const [selectedSpecialty, setSelectedSpecialty] = useState('');
-  const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
+  const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(preSelectedDentist || null);
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
   const [sendToHealth, setSendToHealth] = useState(true);
