@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, X, Search, User, Check, Star, MapPin, FileText, Send, Download, Mail, ChevronRight } from 'lucide-react';
+import { ArrowLeft, X, Search, User, Check, Star, MapPin, FileText, Send, Download, Mail, ChevronRight, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,10 +7,12 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { mockDentists, mockClinics, mockConsultations } from '@/data/mockData';
 import { toast } from 'sonner';
 
 interface ReferralLetterFlowProps {
@@ -21,12 +23,29 @@ interface ReferralLetterFlowProps {
   inline?: boolean;
 }
 
-const MOCK_PATIENTS = [
-{ id: 'p1', name: 'Maria Silva', age: 34, lastConsultation: '15 Jan 2026' },
-{ id: 'p2', name: 'João Costa', age: 28, lastConsultation: '10 Jan 2026' },
-{ id: 'p3', name: 'Ana Ferreira', age: 51, lastConsultation: '8 Jan 2026' },
-{ id: 'p4', name: 'Carlos Santos', age: 39, lastConsultation: '5 Jan 2026' },
-{ id: 'p5', name: 'Pedro Almeida', age: 34, lastConsultation: '3 Jan 2026' }];
+// Extract recent patients from consultations (same as PrescriptionFlow)
+const getRecentPatients = () => {
+  const seen = new Map<string, {id: string; name: string; age: number; lastDate: Date;}>();
+  mockConsultations.forEach((c) => {
+    if (!seen.has(c.patient.id) || c.date > seen.get(c.patient.id)!.lastDate) {
+      seen.set(c.patient.id, {
+        id: c.patient.id,
+        name: c.patient.name,
+        age: c.patient.age || 30,
+        lastDate: c.date
+      });
+    }
+  });
+  return Array.from(seen.values()).sort((a, b) => b.lastDate.getTime() - a.lastDate.getTime());
+};
+
+const RECENT_PATIENTS = getRecentPatients();
+
+interface MockAttachment {
+  id: string;
+  name: string;
+  size: string;
+}
 
 
 const SPECIALTIES = [
@@ -39,7 +58,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   const isMobile = useIsMobile();
   const [step, setStep] = useState(1);
   const [patientSearch, setPatientSearch] = useState('');
-  const [selectedPatient, setSelectedPatient] = useState<typeof MOCK_PATIENTS[0] | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<{id: string; name: string; age: number; lastDate: Date;} | null>(null);
   const [selectedSpecialty, setSelectedSpecialty] = useState('');
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
   const [reason, setReason] = useState('');
@@ -49,10 +68,17 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
   const [downloadPdf, setDownloadPdf] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [dentistFilter, setDentistFilter] = useState<'all' | 'favorites'>('all');
+  const [attachments, setAttachments] = useState<MockAttachment[]>([
+    { id: 'a1', name: 'Radiografia_panoramica.jpg', size: '2.3 MB' },
+    { id: 'a2', name: 'Foto_intraoral_36.png', size: '1.1 MB' },
+  ]);
 
-  const filteredPatients = MOCK_PATIENTS.filter((p) =>
-  p.name.toLowerCase().includes(patientSearch.toLowerCase())
-  );
+  const filteredPatients = (() => {
+    const patients = RECENT_PATIENTS.slice(0, 10);
+    if (!patientSearch) return patients;
+    const q = patientSearch.toLowerCase();
+    return patients.filter((p) => p.name.toLowerCase().includes(q));
+  })();
 
   const filteredDentists = MOCK_DENTIST_RESULTS.
   filter((d) => {
@@ -113,26 +139,30 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 onChange={(e) => setPatientSearch(e.target.value)}
                 placeholder="Pesquisar paciente..."
                 className="pl-10" />
-
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {filteredPatients.map((p) =>
               <button
                 key={p.id}
                 onClick={() => setSelectedPatient(p)}
-                className={cn("w-full flex items-center p-3 rounded-lg transition-colors text-left px-[10px] py-[10px] gap-[10px]",
-
-                selectedPatient?.id === p.id ? 'bg-primary/10 border border-primary/30' : 'hover:bg-secondary/50'
+                className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
+                selectedPatient?.id === p.id ? 'border-primary bg-primary/10' : 'border-border'
                 )}>
-
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
+                  <Avatar className="h-10 w-10">
+                    <AvatarFallback className="bg-primary/20 text-primary text-xs">
+                      {p.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="text-left flex-1">
                     <p className="text-sm font-medium">{p.name}</p>
-                    <p className="text-xs text-muted-foreground">{p.age} anos · Última consulta: {p.lastConsultation}</p>
+                    <p className="text-xs text-muted-foreground">{p.age} anos</p>
                   </div>
-                  {selectedPatient?.id === p.id && <Check className="w-5 h-5 text-primary ml-auto" />}
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-muted-foreground">
+                      {p.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                    </p>
+                    {selectedPatient?.id === p.id && <Check className="w-5 h-5 text-primary" />}
+                  </div>
                 </button>
               )}
             </div>
@@ -219,7 +249,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           </div>);
 
 
-      case 4: // Reason
+      case 4: // Reason + Attachments
         return (
           <div className="space-y-4">
             <h3 className="text-base font-semibold">Detalhes da referência</h3>
@@ -231,12 +261,65 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <label className="text-xs text-muted-foreground mb-1.5 block">Observações Clínicas (opcional)</label>
               <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Observações adicionais..." />
             </div>
+
+            {/* Attachments Section */}
+            <Separator />
+            <div className="space-y-3">
+              <div>
+                <h4 className="text-sm font-semibold">Anexos</h4>
+                <p className="text-xs text-muted-foreground">Anexe radiografias, fotografias ou documentos relevantes</p>
+              </div>
+
+              {/* Drop zone */}
+              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer">
+                <Upload className="w-6 h-6 mx-auto text-muted-foreground mb-2" />
+                <p className="text-sm text-muted-foreground">Arraste ficheiros ou clique para selecionar</p>
+                <p className="text-xs text-muted-foreground mt-1">PDF, JPG, PNG, DICOM · Máx. 10MB por ficheiro</p>
+              </div>
+
+              {/* Attached files list */}
+              {attachments.length > 0 && (
+                <div className="space-y-2">
+                  {attachments.map((file) => (
+                    <div key={file.id} className="flex items-center gap-3 p-2.5 rounded-lg border border-border bg-card">
+                      <Paperclip className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                      <span className="text-sm flex-1 truncate">{file.name}</span>
+                      <span className="text-xs text-muted-foreground">{file.size}</span>
+                      <button
+                        onClick={() => setAttachments((prev) => prev.filter((a) => a.id !== file.id))}
+                        className="text-muted-foreground hover:text-destructive transition-colors p-1">
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => {
+                const newId = `a${Date.now()}`;
+                setAttachments((prev) => [...prev, { id: newId, name: `Documento_${prev.length + 1}.pdf`, size: '0.5 MB' }]);
+              }}>
+                <Plus className="w-4 h-4" /> Adicionar ficheiro
+              </Button>
+            </div>
           </div>);
 
 
       case 5: // Preview
         return (
           <div className="space-y-4">
+            {/* OMD Warning Banner */}
+            <Alert className="border-amber-500/50 bg-amber-500/10">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <AlertTitle className="text-sm font-semibold text-amber-600">Nº da Ordem em falta</AlertTitle>
+              <AlertDescription className="text-xs text-muted-foreground">
+                O seu Nº da Ordem dos Médicos Dentistas não está preenchido. Este número é obrigatório para emitir cartas de referência oficiais.
+                <button className="block mt-1 text-xs font-medium text-primary hover:underline">
+                  Completar perfil profissional →
+                </button>
+              </AlertDescription>
+            </Alert>
+
             <h3 className="text-base font-semibold">Pré-visualizar Carta</h3>
             {/* PDF Preview */}
             <div className="border border-border rounded-xl bg-card p-5 space-y-4 text-sm">
