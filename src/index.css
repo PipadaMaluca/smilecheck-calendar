@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Russo+One&display=swap');
 
 @layer base {
   :root {
@@ -51,6 +51,27 @@
     --urgente: 4 90% 58%;
     --prioritario: 49 98% 60%;
     --rotina: 207 90% 54%;
+
+    /* Gaming/Onboarding colors */
+    --gaming-dark: 213 56% 10%;
+    --gaming-darker: 213 60% 7%;
+    --gaming-card: 213 40% 15%;
+    --gaming-green: 162 100% 43%;
+    --gaming-gold: 45 100% 50%;
+    --gaming-orange: 25 100% 50%;
+    --gaming-red: 0 72% 51%;
+    --gaming-purple: 270 70% 60%;
+    --gaming-diamond: 195 100% 70%;
+    --gaming-platinum: 270 50% 70%;
+
+    /* Level colors */
+    --level-can: 213 30% 45%;
+    --level-bronze: 30 60% 45%;
+    --level-silver: 0 0% 70%;
+    --level-gold: 45 100% 50%;
+    --level-platinum: 270 50% 70%;
+    --level-diamond: 195 100% 70%;
+    --level-adamantine: 270 100% 65%;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(207 80% 45%));
@@ -111,6 +132,46 @@
 
   .glow-gold {
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.1);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 20px rgba(0, 217, 165, 0.3), 0 0 40px rgba(0, 217, 165, 0.1);
+  }
+
+  .btn-gaming {
+    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--gaming-green)), hsl(var(--gaming-green) / 0.8));
+    @apply text-background;
+    @apply hover:scale-105 active:scale-95;
+    box-shadow: 0 0 30px rgba(0, 217, 165, 0.2);
+  }
+  .btn-gaming:hover {
+    box-shadow: 0 0 30px rgba(0, 217, 165, 0.4);
+  }
+
+  .btn-gaming-gold {
+    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--gaming-gold)), hsl(var(--gaming-gold) / 0.8));
+    @apply text-background;
+    @apply hover:scale-105 active:scale-95;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+  }
+  .btn-gaming-gold:hover {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+
+  .text-gradient-green {
+    background: linear-gradient(to right, hsl(var(--gaming-green)), hsl(150 80% 50%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(to right, hsl(var(--gaming-gold)), hsl(50 100% 70%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
 

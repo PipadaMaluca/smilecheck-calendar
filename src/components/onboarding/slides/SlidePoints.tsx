@@ -5,61 +5,90 @@ interface SlidePointsProps {
   userRole: UserRole;
 }
 
-const POINTS_DATA: Record<UserRole, { icon: string; label: string; points: string }[]> = {
-  patient: [
-    { icon: '⭐', label: 'Avaliação 5★', points: '+5 pts' },
-    { icon: '✅', label: 'Confirmar consulta', points: '+1 pt' },
-    { icon: '📝', label: 'Deixar avaliação', points: '+1 pt' },
-    { icon: '👥', label: 'Convidar amigo', points: '+10 pts' },
-    { icon: '🔥', label: 'Streak 7 dias', points: '+5 pts' },
-    { icon: '🏥', label: 'Ir à consulta', points: '+3 pts' },
-  ],
-  dentist: [
-    { icon: '⭐', label: 'Avaliação 5★ do paciente', points: '+5 pts' },
-    { icon: '✅', label: 'Confirmar paciente', points: '+1 pt' },
-    { icon: '📱', label: 'Teleconsulta realizada', points: '+3 pts' },
-    { icon: '📝', label: 'Prescrição enviada', points: '+1 pt' },
-    { icon: '👥', label: 'Convidar colega', points: '+10 pts' },
-    { icon: '🔥', label: 'Streak 7 dias', points: '+5 pts' },
-  ],
-  clinic: [
-    { icon: '⭐', label: 'Avaliação média 4.5+', points: '+10 pts' },
-    { icon: '✅', label: 'Taxa confirmação >90%', points: '+5 pts' },
-    { icon: '📱', label: 'Teleconsultas da equipa', points: '+2 pts' },
-    { icon: '👥', label: 'Convidar clínica', points: '+20 pts' },
-    { icon: '🔥', label: 'Streak 30 dias', points: '+15 pts' },
-  ],
+interface PointItem {
+  icon: string;
+  label: string;
+  points: string;
+}
+
+const PATIENT_POINTS: PointItem[] = [
+  { icon: '⭐', label: 'Avaliação 5★', points: '+5 pts' },
+  { icon: '⭐', label: 'Avaliação 4★', points: '+3 pts' },
+  { icon: '✅', label: 'Confirmação 24h', points: '+1 pt' },
+  { icon: '✅', label: 'Confirmação 1h', points: '+1 pt' },
+  { icon: '🏃', label: 'Compareceu', points: '+5 pts' },
+  { icon: '⏰', label: 'Chegou a horas', points: '+2 pts' },
+  { icon: '🤝', label: 'Colaborou durante a consulta', points: '+2 pts' },
+  { icon: '🪥', label: 'Higiene oral adequada', points: '+2 pts' },
+  { icon: '📋', label: 'Seguiu recomendações', points: '+2 pts' },
+];
+
+const DENTIST_POINTS: PointItem[] = [
+  { icon: '📋', label: 'Consulta concluída', points: '+8 pts' },
+  { icon: '📱', label: 'Teleconsulta realizada', points: '+10 pts' },
+  { icon: '💬', label: 'Responder mensagem em 24h', points: '+2 pts' },
+  { icon: '📝', label: 'Emitir receita', points: '+1 pt' },
+  { icon: '📄', label: 'Carta de referência', points: '+2 pts' },
+  { icon: '⭐', label: 'Avaliação 5★ de paciente', points: '+5 pts' },
+  { icon: '🔥', label: 'Streak 7 dias', points: '+10 pts' },
+];
+
+const CLINIC_POINTS: PointItem[] = [
+  { icon: '📋', label: 'Consulta concluída na clínica', points: '+3 pts' },
+  { icon: '📱', label: 'Teleconsulta realizada', points: '+5 pts' },
+  { icon: '⭐', label: 'Avaliação 5★ de paciente', points: '+5 pts' },
+  { icon: '👨‍⚕️', label: 'Novo dentista ativo', points: '+15 pts' },
+  { icon: '📊', label: 'Taxa confirmação > 90%', points: '+10 pts/sem' },
+  { icon: '🏆', label: 'Dentista no Top 100', points: '+20 pts' },
+];
+
+const POINTS_BY_ROLE: Record<UserRole, PointItem[]> = {
+  patient: PATIENT_POINTS,
+  dentist: DENTIST_POINTS,
+  clinic: CLINIC_POINTS,
+};
+
+const BOTTOM_TEXT: Record<UserRole, string> = {
+  patient: 'Quanto melhor o teu comportamento, mais pontos ganhas!',
+  dentist: 'Quanto mais ativo e dedicado, mais pontos ganhas!',
+  clinic: 'Quanto melhor a operação da clínica, mais pontos ganha!',
+};
+
+const TITLE: Record<UserRole, string> = {
+  patient: '💰 GANHA PONTOS',
+  dentist: '💰 GANHA PONTOS',
+  clinic: '💰 GANHE PONTOS',
 };
 
 export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
-  const data = POINTS_DATA[userRole];
+  const pointsData = POINTS_BY_ROLE[userRole];
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6">
-      <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-8 flex items-center gap-2">
-        💰 GANHA PONTOS
+    <div className="h-full flex flex-col items-center justify-center px-6 overflow-y-auto py-8">
+      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2">
+        {TITLE[userRole]}
       </h2>
 
-      <div className="glass-card p-6 w-full max-w-sm space-y-3">
-        {data.map((item, index) => (
+      <div className="glass-card p-4 w-full max-w-sm space-y-2">
+        {pointsData.map((item, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10"
+            className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 transition-all duration-300"
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{item.icon}</span>
+              <span className="text-xl">{item.icon}</span>
               <span className="text-foreground font-medium text-sm">{item.label}</span>
             </div>
-            <span className="font-bold text-emerald-400 text-sm">{item.points}</span>
+            <span className="font-bold text-sm text-gaming-green">
+              {item.points}
+            </span>
           </div>
         ))}
       </div>
 
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">
-        {userRole === 'patient'
-          ? <>100 pontos = <span className="text-primary font-bold">€10 em recompensas!</span></>
-          : <>Acumule pontos e <span className="text-primary font-bold">suba nos rankings!</span></>
-        }
+        {BOTTOM_TEXT[userRole].split('mais pontos')[0]}
+        <span className="font-bold text-gaming-green">mais pontos ganhas!</span>
       </p>
     </div>
   );

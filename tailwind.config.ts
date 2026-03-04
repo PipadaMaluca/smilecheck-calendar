@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        gaming: ['Russo One', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -73,6 +74,27 @@ export default {
         urgente: "hsl(var(--urgente))",
         prioritario: "hsl(var(--prioritario))",
         rotina: "hsl(var(--rotina))",
+        gaming: {
+          dark: "hsl(var(--gaming-dark))",
+          darker: "hsl(var(--gaming-darker))",
+          card: "hsl(var(--gaming-card))",
+          green: "hsl(var(--gaming-green))",
+          gold: "hsl(var(--gaming-gold))",
+          orange: "hsl(var(--gaming-orange))",
+          red: "hsl(var(--gaming-red))",
+          purple: "hsl(var(--gaming-purple))",
+          diamond: "hsl(var(--gaming-diamond))",
+          platinum: "hsl(var(--gaming-platinum))",
+        },
+        level: {
+          can: "hsl(var(--level-can))",
+          bronze: "hsl(var(--level-bronze))",
+          silver: "hsl(var(--level-silver))",
+          gold: "hsl(var(--level-gold))",
+          platinum: "hsl(var(--level-platinum))",
+          diamond: "hsl(var(--level-diamond))",
+          adamantine: "hsl(var(--level-adamantine))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
