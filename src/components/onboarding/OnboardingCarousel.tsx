@@ -3,64 +3,53 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { SlideWelcome } from './slides/SlideWelcome';
-import { SlideFeature } from './slides/SlideFeature';
 import { SlidePoints } from './slides/SlidePoints';
 import { SlideLevels } from './slides/SlideLevels';
+import { SlideRewards } from './slides/SlideRewards';
 import { SlideRankings } from './slides/SlideRankings';
+import { SlideRating } from './slides/SlideRating';
 import { SlideStart } from './slides/SlideStart';
 import { UserRole } from '@/types/calendar';
 
-// Define slide configs per role
+// Slide types
 type SlideConfig =
   | { type: 'welcome' }
-  | { type: 'feature'; emoji: string; title: string; description: string; items?: { icon: string; label: string; detail: string }[] }
   | { type: 'points' }
   | { type: 'levels' }
+  | { type: 'rewards' }
   | { type: 'rankings' }
+  | { type: 'rating' }
   | { type: 'start' };
 
+// Patient: 6 slides (no Rankings)
 const PATIENT_SLIDES: SlideConfig[] = [
   { type: 'welcome' },
-  { type: 'feature', emoji: '📅', title: 'As suas consultas', description: 'Marque, confirme e acompanhe todas as suas consultas presenciais e teleconsultas num só lugar.', items: [
-    { icon: '🏥', label: 'Presenciais', detail: 'Na clínica, com confirmação automática' },
-    { icon: '📱', label: 'Teleconsultas', detail: 'Por videochamada, a apenas €20' },
-  ]},
   { type: 'points' },
   { type: 'levels' },
-  { type: 'feature', emoji: '❤️', title: 'A sua saúde oral', description: 'Mantenha o seu perfil de saúde atualizado: alergias, medicação, vacinas e documentos médicos sempre acessíveis.' },
-  { type: 'rankings' },
-  { type: 'feature', emoji: '🎁', title: 'Loja de recompensas', description: 'Troque os seus pontos por descontos em consultas, produtos de higiene oral e muito mais.', items: [
-    { icon: '🪥', label: 'Produtos', detail: 'Escovas, pastas e fio dentário' },
-    { icon: '💰', label: 'Descontos', detail: '100 pts = €10 em recompensas' },
-  ]},
+  { type: 'rewards' },
+  { type: 'rating' },
   { type: 'start' },
 ];
 
+// Dentist: 7 slides (all)
 const DENTIST_SLIDES: SlideConfig[] = [
   { type: 'welcome' },
-  { type: 'feature', emoji: '📅', title: 'A sua agenda inteligente', description: 'Visualize o dia, semana ou mês. Arraste consultas, filtre por clínica e nunca perca um compromisso.', items: [
-    { icon: '📋', label: 'Vista Diária', detail: 'Timeline por dentista com drag & drop' },
-    { icon: '📅', label: 'Vista Semanal/Mensal', detail: 'Planeamento a longo prazo' },
-  ]},
-  { type: 'feature', emoji: '✅', title: 'Confirmações automáticas', description: 'Acompanhe as confirmações dos pacientes a 24h e 1h em tempo real. Menos faltas, mais eficiência.' },
-  { type: 'feature', emoji: '👤', title: 'Gestão de pacientes', description: 'Aceda ao dossier completo: saúde, alergias, histórico, receitas e cartas de referência.' },
   { type: 'points' },
   { type: 'levels' },
+  { type: 'rewards' },
   { type: 'rankings' },
+  { type: 'rating' },
   { type: 'start' },
 ];
 
+// Clinic: 7 slides (all)
 const CLINIC_SLIDES: SlideConfig[] = [
   { type: 'welcome' },
-  { type: 'feature', emoji: '📋', title: 'Visão geral da clínica', description: 'Acompanhe consultas de hoje, confirmações e lista de espera de toda a equipa num só ecrã.' },
-  { type: 'feature', emoji: '👥', title: 'Gestão de equipa', description: 'Visualize a agenda de cada dentista, acompanhe desempenho e gerir disponibilidades.', items: [
-    { icon: '🩺', label: 'Por Dentista', detail: 'Consultas, confirmações e estatísticas' },
-    { icon: '📊', label: 'Relatórios', detail: 'Exporte em PDF ou Excel' },
-  ]},
-  { type: 'feature', emoji: '✅', title: 'Confirmações por dentista', description: 'Monitorize as confirmações de cada profissional. Identifique padrões e reduza faltas.' },
   { type: 'points' },
   { type: 'levels' },
+  { type: 'rewards' },
   { type: 'rankings' },
+  { type: 'rating' },
   { type: 'start' },
 ];
 
@@ -115,14 +104,16 @@ export function OnboardingCarousel() {
     switch (config.type) {
       case 'welcome':
         return <SlideWelcome isActive={isActive} userRole={carouselRole} />;
-      case 'feature':
-        return <SlideFeature isActive={isActive} emoji={config.emoji} title={config.title} description={config.description} items={config.items} />;
       case 'points':
         return <SlidePoints isActive={isActive} userRole={carouselRole} />;
       case 'levels':
         return <SlideLevels isActive={isActive} />;
+      case 'rewards':
+        return <SlideRewards isActive={isActive} />;
       case 'rankings':
-        return <SlideRankings isActive={isActive} />;
+        return <SlideRankings isActive={isActive} userRole={carouselRole} />;
+      case 'rating':
+        return <SlideRating isActive={isActive} userRole={carouselRole} />;
       case 'start':
         return <SlideStart isActive={isActive} userRole={carouselRole} onComplete={handleComplete} />;
     }
@@ -132,9 +123,9 @@ export function OnboardingCarousel() {
     <div className="fixed inset-0 z-[100] bg-gradient-to-b from-background to-background/95">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-40 right-10 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />
+        <div className="absolute bottom-40 right-10 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.05)' }} />
       </div>
 
       <div className="relative h-full max-w-lg mx-auto flex flex-col">
@@ -142,7 +133,7 @@ export function OnboardingCarousel() {
         {!isLast && (
           <button
             onClick={handleComplete}
-            className="absolute top-4 right-4 z-20 text-muted-foreground hover:text-foreground text-sm transition-colors"
+            className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors"
           >
             Saltar tutorial
           </button>
@@ -167,9 +158,10 @@ export function OnboardingCarousel() {
               onClick={() => scrollTo(index)}
               className={`h-2.5 rounded-full transition-all duration-300 ${
                 index === currentSlide
-                  ? 'bg-primary w-8 shadow-[0_0_15px_hsl(207_90%_54%/0.5)]'
+                  ? 'bg-gaming-diamond w-8'
                   : 'w-2.5 bg-muted hover:bg-muted-foreground/50'
               }`}
+              style={index === currentSlide ? { boxShadow: '0 0 15px hsla(195, 100%, 70%, 0.5)' } : {}}
             />
           ))}
         </div>
@@ -179,7 +171,8 @@ export function OnboardingCarousel() {
           <div className="flex flex-col items-center gap-2 px-6 pb-6">
             <button
               onClick={scrollNext}
-              className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-primary text-primary-foreground hover:scale-105 hover:shadow-[0_0_30px_hsl(207_90%_54%/0.4)] active:scale-95"
+              className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-gaming-diamond text-background hover:scale-105 active:scale-95"
+              style={{ boxShadow: '0 0 30px hsla(195, 100%, 70%, 0.3)' }}
             >
               Próximo
               <ChevronRight className="w-4 h-4" />
