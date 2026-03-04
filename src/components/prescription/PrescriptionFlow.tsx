@@ -598,7 +598,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         {/* Header */}
         <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
           <div className="w-full max-w-[600px]">
-            <h1 className="text-base font-bold text-center">Prescrever Receita</h1>
+            <h1 className="font-bold text-center text-lg">Prescrever Receita</h1>
           </div>
         </div>
 
