@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { AuthBackground } from './AuthBackground';
-import smileLogo from '@/assets/smilecheck-logo.png';
+import smileLogo from '@/assets/smilecheck-logo-full.png';
 import { cn } from '@/lib/utils';
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
@@ -99,7 +99,7 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col items-center animate-fade-in">
-          <img src={smileLogo} alt="SmileCheck" className="h-14 mb-6" />
+          <img src={smileLogo} alt="SmileCheck" className="w-full max-w-[280px] mb-6" />
           <h1 className="text-xl font-bold text-foreground mb-1">Criar Conta</h1>
           <p className="text-sm text-muted-foreground mb-6">Escolha o tipo de conta</p>
 

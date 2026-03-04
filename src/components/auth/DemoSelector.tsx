@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 import { AuthBackground } from './AuthBackground';
-import smileLogo from '@/assets/smilecheck-logo.png';
+import smileLogo from '@/assets/smilecheck-logo-full.png';
 
 const options = [
   { icon: User, label: 'Paciente João Silva', path: '/?role=patient' },
