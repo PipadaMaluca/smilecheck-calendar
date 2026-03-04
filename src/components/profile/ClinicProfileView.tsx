@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Accessibility } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Accessibility, Camera, Video, TrendingUp, Users, Stethoscope } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +19,8 @@ interface ClinicProfileViewProps {
   inline?: boolean;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
+  isOwnProfile?: boolean;
+  onEditProfile?: () => void;
 }
 
 const CLINIC_EXTRA: Record<string, {
@@ -37,10 +39,10 @@ const CLINIC_EXTRA: Record<string, {
   photos: string[];
 }> = {
   '1': {
-    description: 'Clínica dentária moderna localizada no coração de Lisboa, oferecendo uma gama completa de serviços dentários com tecnologia de ponta.',
+    description: 'Clínica dentária de referência com mais de 10 anos de experiência. Especializada em ortodontia, implantologia e estética dentária. Equipamento de última geração e equipa altamente qualificada.',
     founded: 2015,
-    rating: 4.9,
-    reviewCount: 312,
+    rating: 4.8,
+    reviewCount: 125,
     acceptsNewPatients: true,
     phone: '+351 211 000 000',
     email: 'info@smilecheck.pt',
@@ -49,10 +51,10 @@ const CLINIC_EXTRA: Record<string, {
     specialties: ['Generalista', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Implantologia', 'Odontopediatria'],
     hours: [
       { day: 'Segunda a Sexta', hours: '08:00 - 20:00' },
-      { day: 'Sábado', hours: '09:00 - 13:00' },
-      { day: 'Domingo', hours: 'Encerrado' },
+      { day: 'Sábado', hours: '09:00 - 14:00' },
+      { day: 'Domingo', hours: 'Fechado' },
     ],
-    accessibility: ['Acesso a cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
+    accessibility: ['Acesso para cadeiras de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
     photos: [],
   },
   '2': {
@@ -62,7 +64,7 @@ const CLINIC_EXTRA: Record<string, {
     xrayServices: ['Raio-X Panorâmico', 'Raio-X Periapical'],
     specialties: ['Cirurgia Oral', 'Prótese', 'Endodontia'],
     hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }, { day: 'Sábado', hours: '09:00 - 12:00' }],
-    accessibility: ['Acesso a cadeira de rodas', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
+    accessibility: ['Acesso para cadeiras de rodas', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
     photos: [],
   },
   '3': {
@@ -72,24 +74,49 @@ const CLINIC_EXTRA: Record<string, {
     xrayServices: ['Raio-X Panorâmico', 'TAC Dentário'],
     specialties: ['Ortodontia', 'Cirurgia Oral', 'Prótese', 'Implantologia'],
     hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }],
-    accessibility: ['Acesso a cadeira de rodas', 'WC adaptado', 'Próximo de transportes públicos'],
+    accessibility: ['Acesso para cadeiras de rodas', 'WC adaptado', 'Próximo de transportes públicos'],
     photos: [],
   },
 };
 
 const CLINIC_REVIEWS = [
-  { id: 'cr1', patientName: 'Ana M.', rating: 5, date: '2026-01-28', comment: 'Clínica excelente, muito moderna e limpa.' },
+  { id: 'cr1', patientName: 'Ana M.', rating: 5, date: '2026-01-28', comment: 'Clínica excelente, muito moderna e limpa. Recomendo a todos!' },
   { id: 'cr2', patientName: 'Pedro S.', rating: 5, date: '2026-01-25', comment: 'Equipa fantástica, recomendo a todos!' },
-  { id: 'cr3', patientName: 'Maria L.', rating: 4, date: '2026-01-20', comment: 'Bom atendimento, boas instalações.' },
+  { id: 'cr3', patientName: 'Maria L.', rating: 4, date: '2026-01-20', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
   { id: 'cr4', patientName: 'João P.', rating: 5, date: '2026-01-15', comment: 'Nunca tive uma experiência tão boa num dentista.' },
-  { id: 'cr5', patientName: 'Sofia R.', rating: 4, date: '2026-01-10', comment: 'Muito profissionais.' },
 ];
 
 const DENTIST_RATINGS: Record<string, number> = {
-  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.4, '7': 4.3,
+  '1': 4.9, '2': 4.7, '3': 4.8, '4': 4.6, '5': 4.5, '6': 4.4, '7': 4.3,
 };
 
-export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite }: ClinicProfileViewProps) {
+const DENTIST_SPECIALTIES: Record<string, string[]> = {
+  '1': ['Cirurgia', 'Endodontia'],
+  '2': ['Ortodontia', 'Prótese'],
+  '3': ['Restauração', 'Odontopediatria'],
+};
+
+const CLINIC_SERVICES = [
+  { name: 'Consulta de avaliação', price: 'desde €30' },
+  { name: 'Teleconsulta', price: '€20' },
+  { name: 'Destartarização', price: 'desde €50' },
+  { name: 'Restauração dentária', price: 'desde €60' },
+  { name: 'Endodontia', price: 'desde €150' },
+  { name: 'Cirurgia oral', price: 'desde €200' },
+  { name: 'Ortodontia', price: 'consultar' },
+  { name: 'Implantologia', price: 'consultar' },
+  { name: 'Prótese dentária', price: 'desde €180' },
+  { name: 'Odontopediatria', price: 'desde €50' },
+];
+
+const CLINIC_STATS = {
+  totalConsultations: '3 200+',
+  confirmationRate: '92%',
+  avgWaitTime: '8 min',
+  activePatients: '850+',
+};
+
+export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);
   const extra = CLINIC_EXTRA[clinicId] || CLINIC_EXTRA['1'];
@@ -97,10 +124,10 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     .sort((a, b) => (DENTIST_RATINGS[b.id] || 4.0) - (DENTIST_RATINGS[a.id] || 4.0));
 
   const breakdown = [
-    { stars: 5, pct: 80 },
-    { stars: 4, pct: 13 },
-    { stars: 3, pct: 4 },
-    { stars: 2, pct: 2 },
+    { stars: 5, pct: 72 },
+    { stars: 4, pct: 18 },
+    { stars: 3, pct: 6 },
+    { stars: 2, pct: 3 },
     { stars: 1, pct: 1 },
   ];
 
@@ -121,16 +148,30 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="text-sm font-bold">{extra.rating}</span>
             <span className="text-xs text-muted-foreground">({extra.reviewCount} avaliações)</span>
           </div>
-          <Badge variant={extra.acceptsNewPatients ? 'default' : 'destructive'} className="mt-2 text-xs">
-            {extra.acceptsNewPatients ? '✓ Aceita novos pacientes' : '✗ Não aceita novos pacientes'}
-          </Badge>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
+            <Badge variant="secondary" className="text-xs bg-amber-500/15 text-amber-400 border-amber-500/30">Ouro</Badge>
+            <span className="text-xs font-medium text-primary">3 800 pts</span>
+          </div>
+          <div className="flex items-center justify-center md:justify-start gap-1 mt-1">
+            <MapPin className="w-3 h-3 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">{clinic.address}</span>
+          </div>
+          {extra.acceptsNewPatients && (
+            <Badge variant="default" className="mt-2 text-xs">✓ Aceita novos pacientes</Badge>
+          )}
         </div>
         <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
-          <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
-          <Button variant="outline" className="flex-1"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
-          <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${extra.phone}`)}>
-            <Phone className="w-4 h-4 mr-1" /> Ligar
-          </Button>
+          {isOwnProfile ? (
+            <Button variant="outline" className="flex-1" onClick={onEditProfile}>Editar Perfil</Button>
+          ) : (
+            <>
+              <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
+              <Button variant="outline" className="flex-1"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
+              <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${extra.phone}`)}>
+                <Phone className="w-4 h-4 mr-1" /> Ligar
+              </Button>
+            </>
+          )}
           {onToggleFavorite && (
             <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
               <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
@@ -169,7 +210,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           {extra.hours.map(h => (
             <div key={h.day} className="flex justify-between text-sm">
               <span className="text-muted-foreground">{h.day}</span>
-              <span className={h.hours === 'Encerrado' ? 'text-destructive' : 'font-medium'}>{h.hours}</span>
+              <span className={h.hours === 'Fechado' ? 'text-destructive' : 'font-medium'}>{h.hours}</span>
             </div>
           ))}
         </div>
@@ -188,7 +229,9 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               </div>
               <div className="flex-1">
                 <ClickableDentistName name={d.name} className="text-sm font-medium" />
-                <p className="text-xs text-muted-foreground">{d.specialty}</p>
+                <p className="text-xs text-muted-foreground">
+                  {DENTIST_SPECIALTIES[d.id]?.join(', ') || d.specialty}
+                </p>
                 {DENTIST_RATINGS[d.id] && (
                   <div className="flex items-center gap-1 mt-0.5">
                     <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
@@ -197,6 +240,48 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 )}
               </div>
               <Badge variant="outline" className="text-[10px]">Aceita pacientes</Badge>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Serviços e Tarifas */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold">Tarifas</h4>
+        <div className="space-y-1">
+          {CLINIC_SERVICES.map(s => (
+            <div key={s.name} className="flex justify-between text-sm py-1 border-b border-border/30 last:border-0">
+              <span className="text-muted-foreground">{s.name}</span>
+              <span className="font-medium">{s.price}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-sm">
+          <Video className="w-4 h-4 text-emerald-400" />
+          <span>Teleconsultas disponíveis: <span className="font-medium">Sim (€20)</span></span>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Estatísticas Públicas */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold">Estatísticas</h4>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { label: 'Total consultas realizadas', value: CLINIC_STATS.totalConsultations, icon: Stethoscope },
+            { label: 'Taxa de confirmação', value: CLINIC_STATS.confirmationRate, icon: TrendingUp },
+            { label: 'Tempo médio de espera', value: CLINIC_STATS.avgWaitTime, icon: Clock },
+            { label: 'Pacientes ativos', value: CLINIC_STATS.activePatients, icon: Users },
+          ].map(stat => (
+            <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <stat.icon className="w-3.5 h-3.5 text-primary" />
+                <span className="text-[10px] text-muted-foreground">{stat.label}</span>
+              </div>
+              <span className="text-lg font-bold">{stat.value}</span>
             </div>
           ))}
         </div>
@@ -236,6 +321,27 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <div key={a} className="flex items-center gap-2 text-sm">
               <span className="text-emerald-500">✓</span>
               <span>{a}</span>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-1 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-500">✓</span>
+            <span>Transportes públicos: Metro Avenida (5 min a pé)</span>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Galeria */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold">Galeria</h4>
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+          {['Receção', 'Consultório 1', 'Equipamento', 'Equipa', 'Exterior'].map((label) => (
+            <div key={label} className="aspect-square bg-secondary/50 rounded-lg flex flex-col items-center justify-center text-muted-foreground">
+              <Camera className="w-5 h-5 mb-1" />
+              <span className="text-[9px]">{label}</span>
             </div>
           ))}
         </div>
@@ -287,6 +393,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             </div>
           ))}
         </div>
+        <button className="text-xs text-primary hover:underline">Ver todas as avaliações →</button>
       </section>
     </div>
   );
@@ -305,7 +412,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-        <h2 className="text-base font-semibold">Perfil da Clínica</h2>
+        <h2 className="text-base font-semibold">{isOwnProfile ? 'Meu Perfil' : 'Perfil da Clínica'}</h2>
         <div className="w-10" />
       </div>
       <ScrollArea className="flex-1">

@@ -588,7 +588,13 @@ export function DesktopCalendarView() {
                 </Button>
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
-                <span id="onboarding-points-counter" className="text-xs font-medium text-primary">⭐ 1 250 pts</span>
+                <button
+                  id="onboarding-points-counter"
+                  className="text-xs font-medium text-primary hover:text-primary/80 hover:drop-shadow-[0_0_6px_hsl(var(--primary)/0.4)] transition-all cursor-pointer"
+                  onClick={() => handleNavTabChange('loja')}
+                >
+                  ⭐ {activeRole === 'patient' ? '450' : activeRole === 'dentist' ? '1 250' : '3 800'} pts
+                </button>
                 <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
@@ -745,6 +751,25 @@ export function DesktopCalendarView() {
                   onClose={() => setActiveNavTab('home')}
                   isOwnProfile
                   onEditProfile={() => setActiveNavTab('editarPerfil')}
+                  inline />
+              </div>
+            </div>);
+        }
+        if (activeRole === 'clinic') {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader('Meu Perfil')}
+              <div className="flex-1 overflow-y-auto">
+                <ClinicProfileView
+                  clinicId="1"
+                  isOpen={true}
+                  onClose={() => setActiveNavTab('home')}
+                  isOwnProfile
+                  onEditProfile={() => setActiveNavTab('editarPerfil')}
+                  onViewDentistProfile={(id) => {
+                    const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === id);
+                    if (d) setViewDentistProfile(d);
+                  }}
                   inline />
               </div>
             </div>);
