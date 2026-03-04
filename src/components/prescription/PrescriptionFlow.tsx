@@ -197,7 +197,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         {filteredPatients.map((patient) =>
       <button
         key={patient.id}
-        onClick={() => {setSelectedPatient(patient);goNext();}}
+        onClick={() => setSelectedPatient(patient)}
         className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
 
         selectedPatient?.id === patient.id ? 'border-primary bg-primary/10' : 'border-border'
@@ -212,9 +212,12 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
               <p className="text-sm font-medium">{patient.name}</p>
               <p className="text-xs text-muted-foreground">{patient.age} anos</p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              {patient.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-muted-foreground">
+                {patient.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+              </p>
+              {selectedPatient?.id === patient.id && <Check className="w-5 h-5 text-primary" />}
+            </div>
           </button>
       )}
       </div>
