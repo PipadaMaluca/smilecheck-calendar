@@ -13,6 +13,8 @@ import { getDentistInitials, getClinicInitials, DENTIST_AVATAR_PHOTOS } from '@/
 import { toast } from 'sonner';
 import { UserRole } from '@/types/calendar';
 import { JobMarketView } from '@/components/jobs/JobMarketView';
+import { MiniBadges, getShowcasedAchievements } from '@/components/achievements/MiniBadges';
+import { dentistAchievements, clinicAchievements } from '@/components/achievements/AchievementsView';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -247,6 +249,15 @@ export function FavoritesView({
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
+                    <MiniBadges
+                      achievements={getShowcasedAchievements(
+                        dentistAchievements.flatMap(c => c.achievements),
+                        'dentist',
+                        3
+                      )}
+                      maxVisible={3}
+                      className="mt-1"
+                    />
                     {d.clinics[0] && (
                       <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                         <MapPin className="w-3 h-3" />

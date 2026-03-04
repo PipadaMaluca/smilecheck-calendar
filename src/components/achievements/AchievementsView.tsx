@@ -1,35 +1,23 @@
 import { useState } from 'react';
-import { Lock, HelpCircle } from 'lucide-react';
+import { Lock, HelpCircle, Star as StarIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import { Achievement, AchievementCategory } from './achievementData';
+import { BadgeSelectionModal } from './BadgeSelectionModal';
+import { DEFAULT_SHOWCASED } from './achievementData';
 
 interface AchievementsViewProps {
   userRole: UserRole;
 }
 
-interface Achievement {
-  id: string;
-  emoji: string;
-  name: string;
-  description: string;
-  points: number;
-  unlocked: boolean;
-  progress?: { current: number; target: number };
-  secret?: boolean;
-}
-
-interface AchievementCategory {
-  title: string;
-  achievements: Achievement[];
-}
-
 // --- Patient Achievements (35) ---
-const patientAchievements: AchievementCategory[] = [
+export const patientAchievements: AchievementCategory[] = [
   {
     title: 'Primeiros Passos',
     achievements: [
@@ -98,7 +86,7 @@ const patientAchievements: AchievementCategory[] = [
 ];
 
 // --- Dentist Achievements (35) ---
-const dentistAchievements: AchievementCategory[] = [
+export const dentistAchievements: AchievementCategory[] = [
   {
     title: 'Primeiros Passos',
     achievements: [
@@ -177,7 +165,7 @@ const dentistAchievements: AchievementCategory[] = [
 ];
 
 // --- Clinic Achievements (35) ---
-const clinicAchievements: AchievementCategory[] = [
+export const clinicAchievements: AchievementCategory[] = [
   {
     title: 'Fundação',
     achievements: [
@@ -321,14 +309,20 @@ function AchievementCard({ achievement }: { achievement: Achievement }) {
   );
 }
 
-export function AchievementsView({ userRole }: AchievementsViewProps) {
-  const isMobile = useIsMobile();
-
-  const categories = userRole === 'patient'
+export function getAchievementCategories(userRole: UserRole): AchievementCategory[] {
+  return userRole === 'patient'
     ? patientAchievements
     : userRole === 'dentist'
     ? dentistAchievements
     : clinicAchievements;
+}
+
+export function AchievementsView({ userRole }: AchievementsViewProps) {
+  const isMobile = useIsMobile();
+  const [showManageModal, setShowManageModal] = useState(false);
+  const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
+
+  const categories = getAchievementCategories(userRole);
 
   const totalAchievements = categories.reduce((sum, cat) => sum + cat.achievements.length, 0);
   const unlockedAchievements = categories.reduce(
@@ -340,11 +334,22 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
     <ScrollArea className="flex-1">
       <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32">
         {/* Header */}
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-foreground">Conquistas</h1>
+            <p className="text-sm text-muted-foreground">
+              {unlockedAchievements} de {totalAchievements} conquistas desbloqueadas
+            </p>
+          </div>
+          <Button size="sm" variant="outline" className="gap-1.5 text-xs flex-shrink-0" onClick={() => setShowManageModal(true)}>
+            <StarIcon className="w-3.5 h-3.5" /> Gerir Destaques
+          </Button>
+        </div>
         <div>
-          <h1 className="text-xl font-bold text-foreground">Conquistas</h1>
-          <p className="text-sm text-muted-foreground">
-            {unlockedAchievements} de {totalAchievements} conquistas desbloqueadas
-          </p>
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+            <span>Progresso geral</span>
+            <span>{progressPercent}%</span>
+          </div>
           <div className="mt-3">
             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
               <span>Progresso geral</span>
@@ -370,6 +375,15 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
           </div>
         ))}
       </div>
+
+      {/* Badge Selection Modal */}
+      <BadgeSelectionModal
+        open={showManageModal}
+        onOpenChange={setShowManageModal}
+        categories={categories}
+        selectedIds={showcasedIds}
+        onSave={setShowcasedIds}
+      />
     </ScrollArea>
   );
 }

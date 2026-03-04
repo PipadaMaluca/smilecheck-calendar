@@ -10,6 +10,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { DentistSearchResult, LEVEL_CONFIG, getReviewsForDentist } from '@/data/mockDentistSearch';
 import { BookingFlow } from '@/components/booking/BookingFlow';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
+import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -164,7 +166,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       <Separator />
 
-      {/* Sobre */}
+      {/* Badge Showcase */}
+      <BadgeShowcase
+        userRole="dentist"
+        categories={getAchievementCategories('dentist')}
+        isOwnProfile={isOwnProfile}
+      />
+
+      <Separator />
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
