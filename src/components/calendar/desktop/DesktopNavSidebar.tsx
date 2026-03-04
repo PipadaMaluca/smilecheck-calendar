@@ -82,9 +82,22 @@ export function DesktopNavSidebar({
     const isActive = activeTab === item.id;
     const twoLine = TWO_LINE_LABELS[item.id];
 
+    // Map nav item ids to onboarding target ids
+    const onboardingIdMap: Record<string, string> = {
+      'agenda': 'onboarding-nav-agenda',
+      'saude': 'onboarding-nav-saude',
+      'conquistas': 'onboarding-nav-conquistas',
+      'loja': 'onboarding-nav-loja',
+      'conversas': 'onboarding-nav-conversas',
+      'team': 'onboarding-nav-team',
+      'estatisticas': 'onboarding-nav-estatisticas',
+      'configuracoes': 'onboarding-nav-configuracoes',
+    };
+
     return (
       <Button
         key={item.id}
+        id={onboardingIdMap[item.id]}
         variant="ghost"
         onClick={onClick || (() => onTabChange(item.id))}
         className={cn(
