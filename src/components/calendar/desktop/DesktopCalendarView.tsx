@@ -576,7 +576,7 @@ export function DesktopCalendarView() {
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
-              <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+              <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-[5px]">
                 <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                   <User className="w-4 h-4" /> Paciente
                 </Button>
@@ -588,13 +588,7 @@ export function DesktopCalendarView() {
                 </Button>
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
-                <button
-                  id="onboarding-points-counter"
-                  className="text-xs font-medium text-primary hover:text-primary/80 hover:drop-shadow-[0_0_6px_hsl(var(--primary)/0.4)] transition-all cursor-pointer"
-                  onClick={() => handleNavTabChange('loja')}
-                >
-                  ⭐ {activeRole === 'patient' ? '450' : activeRole === 'dentist' ? '1 250' : '3 800'} pts
-                </button>
+                <span id="onboarding-points-counter" className="font-medium text-primary text-sm border border-primary border-dashed mx-0 px-[5px] py-[5px]">⭐ 1 250 pts</span>
                 <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
@@ -751,25 +745,6 @@ export function DesktopCalendarView() {
                   onClose={() => setActiveNavTab('home')}
                   isOwnProfile
                   onEditProfile={() => setActiveNavTab('editarPerfil')}
-                  inline />
-              </div>
-            </div>);
-        }
-        if (activeRole === 'clinic') {
-          return (
-            <div className="flex-1 flex flex-col overflow-hidden">
-              {renderStandardHeader('Meu Perfil')}
-              <div className="flex-1 overflow-y-auto">
-                <ClinicProfileView
-                  clinicId="1"
-                  isOpen={true}
-                  onClose={() => setActiveNavTab('home')}
-                  isOwnProfile
-                  onEditProfile={() => setActiveNavTab('editarPerfil')}
-                  onViewDentistProfile={(id) => {
-                    const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === id);
-                    if (d) setViewDentistProfile(d);
-                  }}
                   inline />
               </div>
             </div>);
@@ -942,164 +917,164 @@ export function DesktopCalendarView() {
     <ProfileNavigationProvider
       onOpenDentistProfile={(d) => setViewDentistProfile(d)}
       onOpenClinicProfile={(id) => setViewClinicProfile(id)}
-      onOpenPatientProfile={(id) => { setDossierPatientId(id); }}
-    >
+      onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
+      
     <div className="h-screen flex bg-background relative">
       {/* Background Watermark Logo */}
       <div
-        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
-        style={{
-          backgroundImage: `url(${smileIcon})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          backgroundSize: '60%'
-        }} />
+          className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+          style={{
+            backgroundImage: `url(${smileIcon})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundSize: '60%'
+          }} />
 
       {/* Sidebar */}
       <DesktopNavSidebar
-        isExpanded={isNavExpanded}
-        activeTab={activeNavTab}
-        onTabChange={handleNavTabChange}
-        userRole={activeRole}
-        onPrescribe={() => setActiveNavTab('prescrever')} />
+          isExpanded={isNavExpanded}
+          activeTab={activeNavTab}
+          onTabChange={handleNavTabChange}
+          userRole={activeRole}
+          onPrescribe={() => setActiveNavTab('prescrever')} />
 
 
       {renderMainArea()}
 
       {/* Notification Dropdown - rendered at root level to avoid z-index/stacking context issues from backdrop-blur */}
       {showNotificationDropdown &&
-      <NotificationDropdown
-        onViewAll={() => {setActiveNavTab('notificacoes');setShowNotificationDropdown(false);}}
-        onClose={() => setShowNotificationDropdown(false)}
-        onFeedbackAction={handleNotificationFeedback}
-        onNavigate={(target) => {handleNavTabChange(target);setShowNotificationDropdown(false);}}
-        userRole={activeRole} />
+        <NotificationDropdown
+          onViewAll={() => {setActiveNavTab('notificacoes');setShowNotificationDropdown(false);}}
+          onClose={() => setShowNotificationDropdown(false)}
+          onFeedbackAction={handleNotificationFeedback}
+          onNavigate={(target) => {handleNavTabChange(target);setShowNotificationDropdown(false);}}
+          userRole={activeRole} />
 
-      }
+        }
 
       {/* Edit Consultation Modal - this one stays as modal */}
       <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={(updated) => {
-        console.log('Saved consultation:', updated);
-        setSelectedConsultation(null);
-      }} onCancel={(consultation) => {
-        console.log('Cancelled consultation:', consultation);
-        setSelectedConsultation(null);
-      }} />
+          console.log('Saved consultation:', updated);
+          setSelectedConsultation(null);
+        }} onCancel={(consultation) => {
+          console.log('Cancelled consultation:', consultation);
+          setSelectedConsultation(null);
+        }} />
 
       {/* Paste Confirmation Modal */}
       <PasteConfirmationModal
-        consultation={clipboardConsultation}
-        targetDate={selectedDate}
-        targetTime={pasteTarget?.time || ''}
-        targetDentistName={pasteTarget?.dentistName}
-        isOpen={!!pasteTarget && !!clipboardConsultation}
-        onClose={() => setPasteTarget(null)}
-        onConfirm={(pasted) => {
-          console.log('Pasted consultation:', pasted);
-          setPasteTarget(null);
-          setClipboardConsultation(null);
-        }} />
+          consultation={clipboardConsultation}
+          targetDate={selectedDate}
+          targetTime={pasteTarget?.time || ''}
+          targetDentistName={pasteTarget?.dentistName}
+          isOpen={!!pasteTarget && !!clipboardConsultation}
+          onClose={() => setPasteTarget(null)}
+          onConfirm={(pasted) => {
+            console.log('Pasted consultation:', pasted);
+            setPasteTarget(null);
+            setClipboardConsultation(null);
+          }} />
 
 
       {/* Dentist Feedback Modal */}
       <DentistFeedbackModal
-        consultation={feedbackConsultation}
-        isOpen={!!feedbackConsultation}
-        onClose={() => setFeedbackConsultation(null)}
-        onSubmit={(id, checked, points) => {
-          console.log('Feedback submitted:', { id, checked, points });
-          setFeedbackConsultation(null);
-        }} />
+          consultation={feedbackConsultation}
+          isOpen={!!feedbackConsultation}
+          onClose={() => setFeedbackConsultation(null)}
+          onSubmit={(id, checked, points) => {
+            console.log('Feedback submitted:', { id, checked, points });
+            setFeedbackConsultation(null);
+          }} />
 
 
       {/* Patient Feedback Modal (from notifications) */}
       <PatientFeedbackModal
-        score={patientFeedbackScore}
-        isOpen={!!patientFeedbackScore}
-        onClose={() => setPatientFeedbackScore(null)}
-        onSubmit={(scoreId, rating, comment) => {
-          console.log('Patient feedback:', { scoreId, rating, comment });
-          setPatientFeedbackScore(null);
-        }} />
+          score={patientFeedbackScore}
+          isOpen={!!patientFeedbackScore}
+          onClose={() => setPatientFeedbackScore(null)}
+          onSubmit={(scoreId, rating, comment) => {
+            console.log('Patient feedback:', { scoreId, rating, comment });
+            setPatientFeedbackScore(null);
+          }} />
 
 
       {/* Agenda Settings Modal */}
       <AgendaSettingsModal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        settings={agendaSettings}
-        onSave={setAgendaSettings}
-        userRole={activeRole}
-        userPlan="free" />
+          isOpen={showSettings}
+          onClose={() => setShowSettings(false)}
+          settings={agendaSettings}
+          onSave={setAgendaSettings}
+          userRole={activeRole}
+          userPlan="free" />
 
 
       {/* Time Block Modal */}
       <TimeBlockModal
-        isOpen={showBlockModal}
-        onClose={() => {setShowBlockModal(false);setEditingBlock(null);setBlockInitialDate(undefined);setBlockInitialTime(undefined);}}
-        onSave={(block) => {
-          if (editingBlock) {
-            setTimeBlocks((prev) => prev.map((b) => b.id === block.id ? block : b));
-          } else {
-            setTimeBlocks((prev) => [...prev, block]);
-          }
-          setEditingBlock(null);
-        }}
-        userRole={activeRole}
-        initialDate={blockInitialDate}
-        initialTime={blockInitialTime}
-        editingBlock={editingBlock} />
+          isOpen={showBlockModal}
+          onClose={() => {setShowBlockModal(false);setEditingBlock(null);setBlockInitialDate(undefined);setBlockInitialTime(undefined);}}
+          onSave={(block) => {
+            if (editingBlock) {
+              setTimeBlocks((prev) => prev.map((b) => b.id === block.id ? block : b));
+            } else {
+              setTimeBlocks((prev) => [...prev, block]);
+            }
+            setEditingBlock(null);
+          }}
+          userRole={activeRole}
+          initialDate={blockInitialDate}
+          initialTime={blockInitialTime}
+          editingBlock={editingBlock} />
 
 
       {/* Time Block Delete Confirm */}
       <TimeBlockDeleteConfirm
-        isOpen={!!deletingBlock}
-        onClose={() => setDeletingBlock(null)}
-        onDeleteSingle={() => {
-          if (deletingBlock) {
-            setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
-            toast.success('Bloqueio eliminado');
-          }
-          setDeletingBlock(null);
-        }}
-        onDeleteAll={() => {
-          if (deletingBlock) {
-            setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
-            toast.success('Todos os bloqueios eliminados');
-          }
-          setDeletingBlock(null);
-        }}
-        isRecurring={!!deletingBlock?.repeat} />
+          isOpen={!!deletingBlock}
+          onClose={() => setDeletingBlock(null)}
+          onDeleteSingle={() => {
+            if (deletingBlock) {
+              setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
+              toast.success('Bloqueio eliminado');
+            }
+            setDeletingBlock(null);
+          }}
+          onDeleteAll={() => {
+            if (deletingBlock) {
+              setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
+              toast.success('Todos os bloqueios eliminados');
+            }
+            setDeletingBlock(null);
+          }}
+          isRecurring={!!deletingBlock?.repeat} />
 
 
       {/* Move Consultation Modal */}
       <MoveConsultationModal
-        moveInfo={pendingMove}
-        isOpen={!!pendingMove}
-        onClose={() => setPendingMove(null)}
-        onConfirm={confirmMove} />
+          moveInfo={pendingMove}
+          isOpen={!!pendingMove}
+          onClose={() => setPendingMove(null)}
+          onConfirm={confirmMove} />
 
 
       {/* Overlap Warning Modal */}
       <OverlapWarningModal
-        isOpen={!!overlapConsultation}
-        existingConsultation={overlapConsultation}
-        onClose={() => {setOverlapConsultation(null);setPendingOverlapMove(null);}}
-        onConfirm={confirmOverlap} />
+          isOpen={!!overlapConsultation}
+          existingConsultation={overlapConsultation}
+          onClose={() => {setOverlapConsultation(null);setPendingOverlapMove(null);}}
+          onConfirm={confirmOverlap} />
 
 
       {/* Slot Creation Screen */}
       {slotCreation &&
-      <SlotCreationScreen
-        isOpen={true}
-        onClose={() => setSlotCreation(null)}
-        userRole={activeRole}
-        initialDate={slotCreation.date}
-        initialTime={slotCreation.time}
-        dentistKey={slotCreation.dentistKey}
-        dentistName={slotCreation.dentistName} />
+        <SlotCreationScreen
+          isOpen={true}
+          onClose={() => setSlotCreation(null)}
+          userRole={activeRole}
+          initialDate={slotCreation.date}
+          initialTime={slotCreation.time}
+          dentistKey={slotCreation.dentistKey}
+          dentistName={slotCreation.dentistName} />
 
-      }
+        }
     </div>
     </ProfileNavigationProvider>);
 
