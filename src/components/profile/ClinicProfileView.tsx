@@ -10,6 +10,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { mockDentists, mockClinics, getDentistsForClinic } from '@/data/mockData';
 import { LEVEL_CONFIG, getReviewsForDentist, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
+import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 
 interface ClinicProfileViewProps {
   clinicId: string;
@@ -180,6 +182,15 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           )}
         </div>
       </div>
+
+      <Separator />
+
+      {/* Badge Showcase */}
+      <BadgeShowcase
+        userRole="clinic"
+        categories={getAchievementCategories('clinic')}
+        isOwnProfile={isOwnProfile}
+      />
 
       <Separator />
 

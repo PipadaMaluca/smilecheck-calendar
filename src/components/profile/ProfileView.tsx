@@ -11,6 +11,8 @@ import { EditProfileView } from './EditProfileView';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
+import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
+import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 
 interface ProfileViewProps {
   userRole: UserRole;
@@ -135,6 +137,15 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
           Editar Perfil
         </Button>
       </div>
+
+      <Separator />
+
+      {/* Badge Showcase */}
+      <BadgeShowcase
+        userRole={userRole}
+        categories={getAchievementCategories(userRole)}
+        isOwnProfile
+      />
 
       <Separator />
 
