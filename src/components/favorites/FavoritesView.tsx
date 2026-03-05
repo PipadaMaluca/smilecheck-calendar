@@ -26,6 +26,7 @@ interface FavoritesViewProps {
   onBookClinic?: (clinicId: string) => void;
   onRecommendPatient?: (dentist: DentistSearchResult) => void;
   onSendMessage?: (name: string) => void;
+  onViewClinicProfile?: (clinicId: string) => void;
   userRole?: UserRole;
 }
 
@@ -38,7 +39,7 @@ const CLINIC_PHONES: Record<string, string> = {
 export function FavoritesView({
   favorites, onToggleFavorite, onViewProfile, clinicFavorites = ['1'],
   onToggleClinicFavorite, onBookDentist, onBookClinic, onRecommendPatient, onSendMessage,
-  userRole = 'patient'
+  onViewClinicProfile, userRole = 'patient'
 }: FavoritesViewProps) {
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
@@ -280,7 +281,7 @@ export function FavoritesView({
             return (
               <div key={`c-${c.id}`}
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
-                onClick={() => toast.info('Perfil da clínica')}
+                onClick={() => onViewClinicProfile?.(c.id)}
               >
                 {/* Star toggle top-right */}
                 <button
