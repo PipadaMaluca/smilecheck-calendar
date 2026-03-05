@@ -386,6 +386,7 @@ export function DentistCalendar() {
               setShowReferral(true);
             }}
             userRole="dentist"
+            onViewClinicProfile={id => setViewClinicProfile(id)}
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />

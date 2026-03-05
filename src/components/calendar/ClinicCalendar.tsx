@@ -359,6 +359,7 @@ export function ClinicCalendar() {
           onViewProfile={d => setViewDentistProfile(d)}
           onBookDentist={d => setViewDentistProfile(d)}
           userRole="clinic"
+          onViewClinicProfile={id => setViewClinicProfileId(id)}
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />

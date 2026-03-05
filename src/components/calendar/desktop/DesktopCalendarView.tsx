@@ -827,6 +827,7 @@ export function DesktopCalendarView() {
                   setActiveNavTab('referencia');
                 }}
                 userRole={activeRole}
+                onViewClinicProfile={id => setViewClinicProfile(id)}
               />
             </div>
           </div>);

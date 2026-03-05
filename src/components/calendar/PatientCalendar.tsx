@@ -221,6 +221,7 @@ export function PatientCalendar() {
             onViewProfile={d => setViewDentistProfile(d)}
             onBookDentist={d => setViewDentistProfile(d)}
             userRole="patient"
+            onViewClinicProfile={id => setViewClinicProfile(id)}
           />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
