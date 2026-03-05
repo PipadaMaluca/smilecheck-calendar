@@ -754,6 +754,25 @@ export function DesktopCalendarView() {
               </div>
             </div>);
         }
+        if (activeRole === 'clinic') {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader('Meu Perfil')}
+              <div className="flex-1 overflow-y-auto">
+                <ClinicProfileView
+                  clinicId={mockClinics[0].id}
+                  isOpen={true}
+                  onClose={() => setActiveNavTab('home')}
+                  isOwnProfile
+                  onEditProfile={() => setActiveNavTab('editarPerfil')}
+                  onViewDentistProfile={(id) => {
+                    const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === id);
+                    if (d) setViewDentistProfile(d);
+                  }}
+                  inline />
+              </div>
+            </div>);
+        }
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader('Meu Perfil')}
