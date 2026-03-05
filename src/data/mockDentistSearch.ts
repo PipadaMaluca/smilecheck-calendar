@@ -233,3 +233,9 @@ export const LEVEL_CONFIG: Record<string, { label: string; color: string; bg: st
   prata: { label: 'Prata', color: 'text-slate-300', bg: 'bg-slate-300/15 border-slate-300/30' },
   bronze: { label: 'Bronze', color: 'text-orange-400', bg: 'bg-orange-400/15 border-orange-400/30' },
 };
+
+export const PLAN_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+  premium: { label: 'Premium', color: 'text-amber-300', bg: 'bg-amber-300/15 border-amber-300/30' },
+  pro: { label: 'Pro', color: 'text-blue-400', bg: 'bg-blue-400/15 border-blue-400/30' },
+  free: { label: 'Free', color: 'text-muted-foreground', bg: 'bg-muted/50 border-border' },
+};

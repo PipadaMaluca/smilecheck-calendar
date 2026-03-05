@@ -358,7 +358,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 ].map((d) => (
                   <div key={d.name} className="flex items-center gap-2 p-2 rounded-lg border border-border/50 bg-muted/20">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
-                      {d.name.split(' ').slice(1, 2).map(n => n[0]).join('')}
+                      {d.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase()}
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-semibold text-foreground truncate">{d.name}</p>
