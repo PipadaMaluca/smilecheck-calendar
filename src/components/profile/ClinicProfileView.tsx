@@ -50,12 +50,13 @@ const CLINIC_DATA: Record<string, {
   }[];
   specialties: string[];
   teleconsultaPrice: number;
+  presencialPrice: string;
   paymentMethods: string[];
   insurances: string[];
 }> = {
   '1': {
-    description: 'Clínica dentária de referência com mais de 10 anos de experiência. Especializada em ortodontia, implantologia e estética dentária. Equipamento de última geração e equipa altamente qualificada.',
-    founded: 2015,
+    description: 'Clínica dentária de referência com mais de 10 anos de experiência em Lisboa. Especializada em ortodontia, implantologia e estética dentária. Equipamento de última geração.',
+    founded: 2016,
     rating: 4.9,
     reviewCount: 312,
     acceptsNewPatients: true,
@@ -81,8 +82,33 @@ const CLINIC_DATA: Record<string, {
           { day: 'Sábado', hours: '09:00 - 13:00' },
           { day: 'Domingo', hours: 'Fechado' },
         ],
-        accessibility: ['Cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento'],
+        accessibility: ['Cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento gratuito'],
       },
+    ],
+    specialties: ['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Estética Dentária', 'Odontopediatria'],
+    teleconsultaPrice: 20,
+    presencialPrice: 'Variável conforme tratamento',
+    paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
+    insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
+  },
+  '2': {
+    description: 'Clínica familiar em Mitry-Mory com foco em atendimento personalizado e preços acessíveis. Ambiente acolhedor e equipa dedicada.',
+    founded: 2021,
+    rating: 4.6,
+    reviewCount: 89,
+    acceptsNewPatients: true,
+    phone: '+33 1 60 000 000',
+    email: 'contact@mitry-dental.fr',
+    nif: '—',
+    website: 'www.mitry-dental.fr',
+    level: 'prata',
+    plan: 'free',
+    certification: '',
+    languages: [
+      { code: '🇫🇷', name: 'Français' },
+      { code: '🇵🇹', name: 'Português' },
+    ],
+    locations: [
       {
         name: 'Clínica Mitry-Mory',
         address: 'Rue de Paris 45, Mitry-Mory',
@@ -94,57 +120,105 @@ const CLINIC_DATA: Record<string, {
         accessibility: ['Cadeira de rodas', 'Estacionamento gratuito'],
       },
     ],
-    specialties: ['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Estética Dentária', 'Odontopediatria'],
+    specialties: ['Cirurgia', 'Prótese', 'Endodontia', 'Restauração'],
     teleconsultaPrice: 20,
-    paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
-    insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
-  },
-  '2': {
-    description: 'Clínica dentária de referência na região de Mitry-Mory, com foco em cirurgia e prótese dentária.',
-    founded: 2018, rating: 4.7, reviewCount: 185, acceptsNewPatients: true,
-    phone: '+33 1 60 000 000', email: 'contact@mitry-dental.fr', nif: '—', website: 'www.mitry-dental.fr',
-    level: 'prata', plan: 'pro', certification: '', languages: [{ code: '🇫🇷', name: 'Français' }, { code: '🇵🇹', name: 'Português' }],
-    locations: [{ name: 'Clínica Mitry-Mory', address: 'Rue de Paris 45, Mitry-Mory', distance: 4.2,
-      hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }, { day: 'Sábado', hours: '09:00 - 12:00' }],
-      accessibility: ['Cadeira de rodas', 'Estacionamento gratuito'] }],
-    specialties: ['Cirurgia Oral', 'Prótese', 'Endodontia'], teleconsultaPrice: 22,
-    paymentMethods: ['Cartão', 'Multibanco'], insurances: ['Médis'],
+    presencialPrice: 'Desde €25',
+    paymentMethods: ['Cartão', 'Espèces'],
+    insurances: ['Mutuelle générale'],
   },
   '3': {
-    description: 'Centro dentário especializado em ortodontia e cirurgia oral em Montfermeil.',
-    founded: 2020, rating: 4.6, reviewCount: 143, acceptsNewPatients: true,
-    phone: '+33 1 43 000 000', email: 'contact@montfermeil-dental.fr', nif: '—', website: 'www.montfermeil-dental.fr',
-    level: 'prata', plan: 'free', certification: '', languages: [{ code: '🇫🇷', name: 'Français' }],
-    locations: [{ name: 'Clínica Montfermeil', address: 'Avenue Jean Jaurès 78, Montfermeil', distance: 6.0,
-      hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }],
-      accessibility: ['Cadeira de rodas', 'WC adaptado'] }],
-    specialties: ['Ortodontia', 'Cirurgia Oral', 'Prótese', 'Implantologia'], teleconsultaPrice: 25,
-    paymentMethods: ['Cartão'], insurances: [],
+    description: 'Centro dentário moderno em Montfermeil. Especializado em implantologia e cirurgia avançada. Tecnologia 3D e scanner intraoral de última geração.',
+    founded: 2018,
+    rating: 4.8,
+    reviewCount: 156,
+    acceptsNewPatients: true,
+    phone: '+33 1 43 000 000',
+    email: 'contact@montfermeil-dental.fr',
+    nif: '—',
+    website: 'www.montfermeil-dental.fr',
+    level: 'ouro',
+    plan: 'premium',
+    certification: 'Acreditação HAS',
+    languages: [
+      { code: '🇫🇷', name: 'Français' },
+      { code: '🇵🇹', name: 'Português' },
+      { code: '🇬🇧', name: 'English' },
+      { code: '🇪🇸', name: 'Español' },
+    ],
+    locations: [
+      {
+        name: 'Clínica Montfermeil',
+        address: 'Avenue Jean Moulin 12, Montfermeil',
+        distance: 6.0,
+        hours: [
+          { day: 'Segunda a Sexta', hours: '08:00 - 20:00' },
+          { day: 'Sábado', hours: '09:00 - 14:00' },
+          { day: 'Domingo', hours: 'Fechado' },
+        ],
+        accessibility: ['Cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento', 'Transporte público (Bus 601)'],
+      },
+    ],
+    specialties: ['Implantologia', 'Cirurgia Avançada', 'Prótese', 'Ortodontia', 'Estética'],
+    teleconsultaPrice: 20,
+    presencialPrice: 'Desde €30',
+    paymentMethods: ['Cartão', 'CB', 'Chèque'],
+    insurances: ['Mutuelle', 'MGEN', 'Harmonie'],
   },
 };
 
-const CLINIC_REVIEWS = [
-  { id: 'cr1', patientName: 'Ana M.', rating: 5, date: '28 Jan 2026', comment: 'Clínica excelente, muito moderna e limpa. Recomendo a todos!' },
-  { id: 'cr2', patientName: 'Pedro S.', rating: 5, date: '25 Jan 2026', comment: 'Equipa fantástica, recomendo a todos!' },
-  { id: 'cr3', patientName: 'Maria L.', rating: 4, date: '20 Jan 2026', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
-  { id: 'cr4', patientName: 'João P.', rating: 5, date: '15 Jan 2026', comment: 'Nunca tive uma experiência tão boa num dentista.' },
-  { id: 'cr5', patientName: 'Sofia R.', rating: 5, date: '10 Jan 2026', comment: 'Profissionais de excelência. Muito confiável.' },
-];
+const CLINIC_REVIEWS: Record<string, { id: string; patientName: string; rating: number; date: string; comment: string }[]> = {
+  '1': [
+    { id: 'cr1-1', patientName: 'Ana M.', rating: 5, date: '28 Jan 2026', comment: 'Clínica excelente, muito moderna e limpa. Recomendo a todos!' },
+    { id: 'cr1-2', patientName: 'Pedro S.', rating: 5, date: '25 Jan 2026', comment: 'Equipa fantástica, recomendo a todos!' },
+    { id: 'cr1-3', patientName: 'Maria L.', rating: 4, date: '20 Jan 2026', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
+    { id: 'cr1-4', patientName: 'João P.', rating: 5, date: '15 Jan 2026', comment: 'Nunca tive uma experiência tão boa num dentista.' },
+    { id: 'cr1-5', patientName: 'Sofia R.', rating: 5, date: '10 Jan 2026', comment: 'Profissionais de excelência. Muito confiável.' },
+  ],
+  '2': [
+    { id: 'cr2-1', patientName: 'Pierre D.', rating: 5, date: '26 Jan 2026', comment: 'Très bon cabinet, personnel accueillant et professionnel.' },
+    { id: 'cr2-2', patientName: 'Luísa F.', rating: 4, date: '22 Jan 2026', comment: 'Bom atendimento, preços acessíveis.' },
+    { id: 'cr2-3', patientName: 'Marc L.', rating: 5, date: '18 Jan 2026', comment: 'Excellent rapport qualité-prix.' },
+    { id: 'cr2-4', patientName: 'Helena A.', rating: 4, date: '12 Jan 2026', comment: 'Ambiente acolhedor, equipa simpática.' },
+  ],
+  '3': [
+    { id: 'cr3-1', patientName: 'Sophie M.', rating: 5, date: '27 Jan 2026', comment: 'Technologie de pointe, scanner 3D impressionnant. Très satisfaite.' },
+    { id: 'cr3-2', patientName: 'Carlos N.', rating: 5, date: '24 Jan 2026', comment: 'Centro muito moderno, profissionais de alto nível.' },
+    { id: 'cr3-3', patientName: 'Marie C.', rating: 5, date: '20 Jan 2026', comment: 'Mon implant a été posé parfaitement. Merci!' },
+    { id: 'cr3-4', patientName: 'Antoine B.', rating: 4, date: '16 Jan 2026', comment: 'Bon centre médical, horaires flexibles.' },
+    { id: 'cr3-5', patientName: 'Teresa R.', rating: 5, date: '10 Jan 2026', comment: 'Excelente clínica, recomendo vivamente!' },
+  ],
+};
+
+const CLINIC_BREAKDOWNS: Record<string, { stars: number; pct: number }[]> = {
+  '1': [
+    { stars: 5, pct: 78 }, { stars: 4, pct: 15 }, { stars: 3, pct: 4 }, { stars: 2, pct: 2 }, { stars: 1, pct: 1 },
+  ],
+  '2': [
+    { stars: 5, pct: 65 }, { stars: 4, pct: 22 }, { stars: 3, pct: 8 }, { stars: 2, pct: 3 }, { stars: 1, pct: 2 },
+  ],
+  '3': [
+    { stars: 5, pct: 75 }, { stars: 4, pct: 18 }, { stars: 3, pct: 5 }, { stars: 2, pct: 1 }, { stars: 1, pct: 1 },
+  ],
+};
 
 const DENTIST_SPECIALTIES: Record<string, string[]> = {
   '1': ['Generalista', 'Estética Dentária'],
   '2': ['Ortodontia', 'Multidisciplinar'],
   '3': ['Generalista'],
+  '4': ['Cirurgia', 'Prótese'],
+  '5': ['Endodontia'],
+  '6': ['Cirurgia', 'Prótese', 'Implantologia'],
+  '7': ['Ortodontia', 'Odontopediatria'],
 };
 
 const DENTIST_RATINGS: Record<string, number> = {
-  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.8, '7': 4.9,
+  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.8, '7': 4.7,
 };
 
 const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients: string; confirmationRate: string; activeDentists: number }> = {
   '1': { totalConsultations: '3 200+', activePatients: '850+', confirmationRate: '92%', activeDentists: 7 },
-  '2': { totalConsultations: '1 800+', activePatients: '420+', confirmationRate: '89%', activeDentists: 3 },
-  '3': { totalConsultations: '900+', activePatients: '280+', confirmationRate: '91%', activeDentists: 3 },
+  '2': { totalConsultations: '1 100+', activePatients: '320+', confirmationRate: '88%', activeDentists: 3 },
+  '3': { totalConsultations: '2 400+', activePatients: '620+', confirmationRate: '95%', activeDentists: 3 },
 };
 
 export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
@@ -152,18 +226,12 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   const clinic = mockClinics.find(c => c.id === clinicId);
   const data = CLINIC_DATA[clinicId] || CLINIC_DATA['1'];
   const stats = CLINIC_STATS[clinicId] || CLINIC_STATS['1'];
+  const reviews = CLINIC_REVIEWS[clinicId] || CLINIC_REVIEWS['1'];
+  const breakdown = CLINIC_BREAKDOWNS[clinicId] || CLINIC_BREAKDOWNS['1'];
   const dentists = getDentistsForClinic(clinicId)
     .sort((a, b) => (DENTIST_RATINGS[b.id] || 4.0) - (DENTIST_RATINGS[a.id] || 4.0));
   const levelCfg = LEVEL_CONFIG[data.level] || LEVEL_CONFIG['ouro'];
   const planCfg = PLAN_CONFIG[data.plan] || PLAN_CONFIG['free'];
-
-  const breakdown = [
-    { stars: 5, pct: 72 },
-    { stars: 4, pct: 18 },
-    { stars: 3, pct: 6 },
-    { stars: 2, pct: 3 },
-    { stars: 1, pct: 1 },
-  ];
 
   if (!isOpen || !clinic) return null;
 
@@ -172,7 +240,9 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-          <Building2 className="w-12 h-12 text-primary" />
+          <span className="text-3xl font-bold text-primary">
+            {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
+          </span>
         </div>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold">{clinic.name}</h3>
@@ -246,7 +316,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex items-center gap-2">
           <Languages className="w-4 h-4 text-muted-foreground" />
-          <div className="flex gap-1.5">
+          <div className="flex gap-1.5 flex-wrap">
             {data.languages.map(l => (
               <span key={l.name} className="text-sm">{l.code} {l.name}</span>
             ))}
@@ -374,7 +444,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Consulta presencial</span>
-            <span className="font-medium">Variável conforme tratamento</span>
+            <span className="font-medium">{data.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
             <span className="text-muted-foreground">Métodos aceites</span>
@@ -423,7 +493,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
         </div>
         <div className="space-y-2">
-          {CLINIC_REVIEWS.map(r => (
+          {reviews.map(r => (
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">

@@ -5,12 +5,14 @@ import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { UserRole } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { Achievement, AchievementCategory } from './achievementData';
+import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
-import { DEFAULT_SHOWCASED } from './achievementData';
+import { toast } from 'sonner';
 
 interface AchievementsViewProps {
   userRole: UserRole;
@@ -243,17 +245,28 @@ export const clinicAchievements: AchievementCategory[] = [
   },
 ];
 
-function AchievementCard({ achievement }: { achievement: Achievement }) {
+function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
   const isSecret = achievement.secret && !achievement.unlocked;
+  const tier = getBadgeTier(achievement);
+  const tierStyle = BADGE_TIER_STYLES[tier];
 
   return (
-    <Card className={cn(
-      'bg-card/80 backdrop-blur border-border transition-all duration-300',
-      achievement.unlocked
-        ? 'ring-1 ring-primary/20'
-        : 'opacity-60'
-    )}>
+    <Card
+      className={cn(
+        'bg-card/80 backdrop-blur border-border transition-all duration-300 relative',
+        achievement.unlocked
+          ? 'ring-1 ring-primary/20 hover:scale-[1.03] hover:shadow-lg hover:shadow-primary/10 cursor-pointer'
+          : 'opacity-60'
+      )}
+      onClick={achievement.unlocked && onClickCompleted ? onClickCompleted : undefined}
+    >
       <CardContent className="p-3">
+        {/* Showcased star indicator */}
+        {isShowcased && (
+          <div className="absolute top-1.5 right-1.5">
+            <span className="text-amber-400 text-xs">⭐</span>
+          </div>
+        )}
         <div className="flex items-start gap-3">
           <div className={cn(
             'h-10 w-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
@@ -321,6 +334,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
   const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
+  const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
 
   const categories = getAchievementCategories(userRole);
 
@@ -329,6 +343,56 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
     (sum, cat) => sum + cat.achievements.filter(a => a.unlocked).length, 0
   );
   const progressPercent = Math.round((unlockedAchievements / totalAchievements) * 100);
+
+  const allAchievements = categories.flatMap(c => c.achievements);
+  const completedCategories = categories.map(cat => ({
+    ...cat,
+    achievements: cat.achievements.filter(a => a.unlocked),
+  })).filter(cat => cat.achievements.length > 0);
+
+  const handleClickCompleted = (ach: Achievement) => {
+    if (showcasedIds.includes(ach.id)) {
+      // Already showcased — remove
+      setShowcasedIds(prev => prev.filter(id => id !== ach.id));
+      toast.info(`"${ach.name}" removido dos destaques`);
+    } else if (showcasedIds.length < 8) {
+      // Has empty slots — add directly
+      setShowcasedIds(prev => [...prev, ach.id]);
+      toast.success(`✅ "${ach.name}" adicionado aos destaques!`);
+    } else {
+      // All slots full — open full edit modal with this target
+      setAddToShowcaseTarget(ach);
+      setShowManageModal(true);
+    }
+  };
+
+  const renderAchievementGrid = (cats: AchievementCategory[], showClickHandler: boolean) => (
+    <>
+      {cats.map(category => {
+        const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
+        if (!hasVisible) return null;
+        return (
+          <div key={category.title}>
+            <Separator className="mb-4" />
+            <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
+            <div className={cn(
+              'grid gap-3',
+              isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'
+            )}>
+              {category.achievements.map(achievement => (
+                <AchievementCard
+                  key={achievement.id}
+                  achievement={achievement}
+                  isShowcased={showcasedIds.includes(achievement.id)}
+                  onClickCompleted={showClickHandler && achievement.unlocked ? () => handleClickCompleted(achievement) : undefined}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
 
   return (
     <ScrollArea className="flex-1">
@@ -345,35 +409,42 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
             <StarIcon className="w-3.5 h-3.5" /> Gerir Destaques
           </Button>
         </div>
+
+        {/* Progress */}
         <div>
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
             <span>Progresso geral</span>
             <span>{progressPercent}%</span>
           </div>
-          <div className="mt-3">
-            <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-              <span>Progresso geral</span>
-              <span>{progressPercent}%</span>
-            </div>
-            <Progress value={progressPercent} className="h-2" />
-          </div>
+          <Progress value={progressPercent} className="h-2" />
         </div>
 
-        {/* Categories */}
-        {categories.map(category => (
-          <div key={category.title}>
-            <Separator className="mb-4" />
-            <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
-            <div className={cn(
-              'grid gap-3',
-              isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'
-            )}>
-              {category.achievements.map(achievement => (
-                <AchievementCard key={achievement.id} achievement={achievement} />
-              ))}
-            </div>
-          </div>
-        ))}
+        {/* Tabs */}
+        <Tabs defaultValue="todas" className="w-full">
+          <TabsList className="w-full">
+            <TabsTrigger value="todas" className="flex-1">Todas</TabsTrigger>
+            <TabsTrigger value="completas" className="flex-1">Completas ({unlockedAchievements})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="todas" className="space-y-0 mt-4">
+            {renderAchievementGrid(categories, false)}
+          </TabsContent>
+
+          <TabsContent value="completas" className="space-y-0 mt-4">
+            {completedCategories.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground text-sm">Ainda não desbloqueou nenhuma conquista.</p>
+              </div>
+            ) : (
+              <>
+                <p className="text-xs text-muted-foreground mb-4">
+                  Clique numa conquista para adicioná-la ou removê-la dos destaques do perfil.
+                </p>
+                {renderAchievementGrid(completedCategories, true)}
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Badge Selection Modal */}

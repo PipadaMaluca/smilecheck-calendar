@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase } from 'lucide-react';
+import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase, Lock, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,16 +14,9 @@ import { mockDentists, mockClinics } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger } from
-'@/components/ui/alert-dialog';
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger
+} from '@/components/ui/alert-dialog';
 
 interface EditProfileViewProps {
   userRole: UserRole;
@@ -34,17 +27,19 @@ interface EditProfileViewProps {
 }
 
 const SPECIALTIES = [
-'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
-'Periodontia', 'Odontopediatria', 'Cirurgia Oral', 'Prostodontia', 'Estética Dentária'];
-
+  'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
+  'Periodontia', 'Odontopediatria', 'Cirurgia Oral', 'Prostodontia', 'Estética Dentária',
+];
 
 const LANGUAGES = ['Português', 'Inglês', 'Francês', 'Espanhol', 'Alemão', 'Italiano'];
-
 const WEEKDAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
-
 const JOB_TYPES = ['Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição'];
 const JOB_PERIODS = ['Manhãs', 'Tardes', 'Noites', 'Fins de semana'];
 const BENEFITS_OPTIONS = ['Seguro de saúde', 'Formação contínua paga', 'Participação em congressos', 'Material clínico incluído', 'Estacionamento', 'Alimentação'];
+const PAYMENT_METHODS = ['Cartão', 'MB WAY', 'Multibanco', 'Espèces', 'CB', 'Chèque', 'Transferência'];
+const INSURANCE_OPTIONS = ['Médis', 'Multicare', 'AdvanceCare', 'ADSE', 'Mutuelle générale', 'MGEN', 'Harmonie'];
+const ACCESSIBILITY_OPTIONS = ['Acesso a cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'];
+const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 function DentistJobToggles() {
   const [enabled, setEnabled] = useState(false);
@@ -122,7 +117,7 @@ function DentistJobToggles() {
             <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
           </div>
           <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-            ⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho. Pacientes nunca veem esta informação.
+            ⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho.
           </p>
         </div>
       )}
@@ -213,7 +208,7 @@ function ClinicJobToggles() {
             <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
           </div>
           <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-            ⚠️ Esta informação é visível apenas para dentistas na secção Propostas de Trabalho. Pacientes nunca veem esta informação.
+            ⚠️ Esta informação é visível apenas para dentistas na secção Propostas de Trabalho.
           </p>
         </div>
       )}
@@ -221,17 +216,33 @@ function ClinicJobToggles() {
   );
 }
 
-function SectionTitle({ children }: {children: React.ReactNode;}) {
+function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h4 className="text-sm font-semibold text-foreground mb-3">{children}</h4>;
 }
 
-function FieldGroup({ label, children, className }: {label: string;children: React.ReactNode;className?: string;}) {
+function FieldGroup({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
   return (
     <div className={className}>
       <Label className="text-xs text-muted-foreground mb-1.5 block">{label}</Label>
       {children}
-    </div>);
+    </div>
+  );
+}
 
+function PrivacyField({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+  const [isPrivate, setIsPrivate] = useState(true);
+  return (
+    <div className={className}>
+      <div className="flex items-center justify-between mb-1.5">
+        <Label className="text-xs text-muted-foreground">{label}</Label>
+        <button onClick={() => setIsPrivate(!isPrivate)} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors">
+          <Lock className="w-3 h-3" />
+          {isPrivate ? 'Privado' : 'Público'}
+        </button>
+      </div>
+      {children}
+    </div>
+  );
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
@@ -247,9 +258,17 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [patientPostalCode, setPatientPostalCode] = useState('1200-123');
   const [patientCity, setPatientCity] = useState('Lisboa');
   const [patientCountry, setPatientCountry] = useState('Portugal');
+  const [patientBio, setPatientBio] = useState('Paciente regular com foco em prevenção. Acompanhamento desde 2023.');
+  const [patientBloodType, setPatientBloodType] = useState('O+');
+  const [patientLanguages, setPatientLanguages] = useState<string[]>(['Português', 'Inglês']);
   const [notifEmail, setNotifEmail] = useState(true);
   const [notifSms, setNotifSms] = useState(false);
+  const [notifPush, setNotifPush] = useState(true);
   const [notifReminders, setNotifReminders] = useState(true);
+  const [familyMembers, setFamilyMembers] = useState([
+    { name: 'Maria Silva', age: '42', relation: 'Esposa' },
+    { name: 'Pedro Silva', age: '12', relation: 'Filho' },
+  ]);
 
   // Dentist state
   const [dentistName, setDentistName] = useState(mockDentists[0].name);
@@ -268,10 +287,13 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [dentistNotifSms, setDentistNotifSms] = useState(false);
   const [dentistNotifBookings, setDentistNotifBookings] = useState(true);
   const [acceptsNewPatients, setAcceptsNewPatients] = useState(true);
+  const [teleconsultaAvailable, setTeleconsultaAvailable] = useState(true);
+  const [dentistYearsExp, setDentistYearsExp] = useState('15');
+  const [dentistUniversity, setDentistUniversity] = useState('Universidade de Lisboa - Faculdade de Medicina Dentária');
   const [dentistSchedules, setDentistSchedules] = useState([
-  { clinic: 'Clínica SmileCheck', days: WEEKDAYS.map((d, i) => ({ day: d, active: i < 5, start: '09:00', end: '19:00' })) },
-  { clinic: 'Clínica Mitry-Mory', days: WEEKDAYS.map((d, i) => ({ day: d, active: i === 2 || i === 5, start: i === 2 ? '14:00' : '09:00', end: i === 2 ? '19:00' : '13:00' })) }]
-  );
+    { clinic: 'Clínica SmileCheck', days: WEEKDAYS.map((d, i) => ({ day: d, active: i < 5, start: '09:00', end: '19:00' })) },
+    { clinic: 'Clínica Mitry-Mory', days: WEEKDAYS.map((d, i) => ({ day: d, active: i === 2 || i === 5, start: i === 2 ? '14:00' : '09:00', end: i === 2 ? '19:00' : '13:00' })) },
+  ]);
 
   // Clinic state
   const [clinicName, setClinicName] = useState(mockClinics[0].name);
@@ -286,12 +308,19 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [clinicDescription, setClinicDescription] = useState('Clínica dentária moderna localizada no coração de Lisboa.');
   const [clinicServices, setClinicServices] = useState<string[]>(['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral']);
   const [newService, setNewService] = useState('');
+  const [clinicLanguages, setClinicLanguages] = useState<string[]>(['Português', 'Inglês', 'Francês']);
+  const [clinicYearsExp, setClinicYearsExp] = useState('10');
+  const [clinicCertifications, setClinicCertifications] = useState('ISO 9001');
+  const [clinicTeleconsultaPrice, setClinicTeleconsultaPrice] = useState('20');
+  const [clinicPaymentMethods, setClinicPaymentMethods] = useState<string[]>(['Cartão', 'MB WAY', 'Multibanco']);
+  const [clinicInsurances, setClinicInsurances] = useState<string[]>(['Médis', 'Multicare', 'AdvanceCare', 'ADSE']);
+  const [clinicTeleconsultas, setClinicTeleconsultas] = useState(true);
   const [clinicHours, setClinicHours] = useState(
     WEEKDAYS.map((day, i) => ({
       day,
       open: i < 6,
       start: i < 5 ? '09:00' : i === 5 ? '09:00' : '',
-      end: i < 5 ? '21:00' : i === 5 ? '13:00' : ''
+      end: i < 5 ? '21:00' : i === 5 ? '13:00' : '',
     }))
   );
   const [clinicNotifEmail, setClinicNotifEmail] = useState(true);
@@ -317,8 +346,16 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
     onClose();
   };
 
-  const content =
-  <div className="flex flex-col h-full">
+  const addFamilyMember = () => {
+    setFamilyMembers(prev => [...prev, { name: '', age: '', relation: '' }]);
+  };
+
+  const removeFamilyMember = (idx: number) => {
+    setFamilyMembers(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  const content = (
+    <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
@@ -344,22 +381,22 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           </div>
 
           {/* ===== PATIENT FIELDS ===== */}
-          {userRole === 'patient' &&
-        <>
+          {userRole === 'patient' && (
+            <>
               <SectionTitle>Dados Pessoais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome completo">
-                  <Input value={patientName} onChange={(e) => setPatientName(e.target.value)} />
+                  <Input value={patientName} onChange={e => setPatientName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Email">
-                  <Input type="email" value={patientEmail} onChange={(e) => setPatientEmail(e.target.value)} />
+                  <Input type="email" value={patientEmail} onChange={e => setPatientEmail(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Telefone">
-                  <Input value={patientPhone} onChange={(e) => setPatientPhone(e.target.value)} />
-                </FieldGroup>
-                <FieldGroup label="Data de nascimento">
-                  <Input type="date" value={patientBirthDate} onChange={(e) => setPatientBirthDate(e.target.value)} />
-                </FieldGroup>
+                <PrivacyField label="Telefone">
+                  <Input value={patientPhone} onChange={e => setPatientPhone(e.target.value)} />
+                </PrivacyField>
+                <PrivacyField label="Data de nascimento">
+                  <Input type="date" value={patientBirthDate} onChange={e => setPatientBirthDate(e.target.value)} />
+                </PrivacyField>
                 <FieldGroup label="Género">
                   <Select value={patientGender} onValueChange={setPatientGender}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
@@ -371,192 +408,199 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                     </SelectContent>
                   </Select>
                 </FieldGroup>
+                <FieldGroup label="Grupo sanguíneo">
+                  <Select value={patientBloodType} onValueChange={setPatientBloodType}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {BLOOD_TYPES.map(bt => <SelectItem key={bt} value={bt}>{bt}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </FieldGroup>
               </div>
+
+              <FieldGroup label={`Sobre (${patientBio.length}/500)`}>
+                <Textarea value={patientBio} onChange={e => e.target.value.length <= 500 && setPatientBio(e.target.value)} rows={3} placeholder="Descreva-se..." />
+              </FieldGroup>
 
               <SectionTitle>Morada</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Morada" className="md:col-span-2">
-                  <Input value={patientAddress} onChange={(e) => setPatientAddress(e.target.value)} />
-                </FieldGroup>
+                <PrivacyField label="Morada" className="md:col-span-2">
+                  <Input value={patientAddress} onChange={e => setPatientAddress(e.target.value)} />
+                </PrivacyField>
                 <FieldGroup label="Código postal">
-                  <Input value={patientPostalCode} onChange={(e) => setPatientPostalCode(e.target.value)} />
+                  <Input value={patientPostalCode} onChange={e => setPatientPostalCode(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Cidade">
-                  <Input value={patientCity} onChange={(e) => setPatientCity(e.target.value)} />
+                  <Input value={patientCity} onChange={e => setPatientCity(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País">
-                  <Input value={patientCountry} onChange={(e) => setPatientCountry(e.target.value)} />
+                  <Input value={patientCountry} onChange={e => setPatientCountry(e.target.value)} />
                 </FieldGroup>
+              </div>
+
+              <Separator />
+              <SectionTitle>Idiomas</SectionTitle>
+              <div className="flex flex-wrap gap-2">
+                {LANGUAGES.map(l => (
+                  <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
+                ))}
+              </div>
+
+              <Separator />
+              <SectionTitle>Familiares</SectionTitle>
+              <div className="space-y-3">
+                {familyMembers.map((fm, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input placeholder="Nome" value={fm.name} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], name: e.target.value }; setFamilyMembers(u); }} className="flex-1" />
+                    <Input placeholder="Idade" value={fm.age} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], age: e.target.value }; setFamilyMembers(u); }} className="w-20" />
+                    <Input placeholder="Relação" value={fm.relation} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], relation: e.target.value }; setFamilyMembers(u); }} className="w-28" />
+                    <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                  </div>
+                ))}
+                <Button variant="outline" size="sm" onClick={addFamilyMember} className="gap-1"><Plus className="w-3 h-3" /> Adicionar familiar</Button>
               </div>
 
               <Separator />
               <SectionTitle>Notificações</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Notificações por email</span>
-                  <Switch checked={notifEmail} onCheckedChange={setNotifEmail} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Notificações por SMS</span>
-                  <Switch checked={notifSms} onCheckedChange={setNotifSms} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Lembretes de consulta</span>
-                  <Switch checked={notifReminders} onCheckedChange={setNotifReminders} />
-                </div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações por email</span><Switch checked={notifEmail} onCheckedChange={setNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações push</span><Switch checked={notifPush} onCheckedChange={setNotifPush} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações por SMS</span><Switch checked={notifSms} onCheckedChange={setNotifSms} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Lembretes de consulta</span><Switch checked={notifReminders} onCheckedChange={setNotifReminders} /></div>
               </div>
             </>
-        }
+          )}
 
           {/* ===== DENTIST FIELDS ===== */}
-          {userRole === 'dentist' &&
-        <>
+          {userRole === 'dentist' && (
+            <>
               <SectionTitle>Dados Pessoais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome completo">
-                  <Input value={dentistName} onChange={(e) => setDentistName(e.target.value)} />
+                  <Input value={dentistName} onChange={e => setDentistName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Email">
-                  <Input type="email" value={dentistEmail} onChange={(e) => setDentistEmail(e.target.value)} />
+                  <Input type="email" value={dentistEmail} onChange={e => setDentistEmail(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Telefone">
-                  <Input value={dentistPhone} onChange={(e) => setDentistPhone(e.target.value)} />
-                </FieldGroup>
+                <PrivacyField label="Telefone">
+                  <Input value={dentistPhone} onChange={e => setDentistPhone(e.target.value)} />
+                </PrivacyField>
                 <FieldGroup label="Data de nascimento">
-                  <Input type="date" value={dentistBirthDate} onChange={(e) => setDentistBirthDate(e.target.value)} />
+                  <Input type="date" value={dentistBirthDate} onChange={e => setDentistBirthDate(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <SectionTitle>Dados Profissionais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Número da Ordem">
-                  <Input value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} />
+                  <Input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País da Ordem">
-                  <Input value={orderCountry} onChange={(e) => setOrderCountry(e.target.value)} />
+                  <Input value={orderCountry} onChange={e => setOrderCountry(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Anos de experiência">
+                  <Input type="number" value={dentistYearsExp} onChange={e => setDentistYearsExp(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Universidade / Formação">
+                  <Input value={dentistUniversity} onChange={e => setDentistUniversity(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Especialidades</Label>
                 <div className="flex flex-wrap gap-2">
-                  {SPECIALTIES.map((s) =>
-              <Badge
-                key={s}
-                variant={selectedSpecialties.includes(s) ? 'default' : 'outline'}
-                className="cursor-pointer transition-colors"
-                onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>
-
-                      {s}
-                    </Badge>
-              )}
+                  {SPECIALTIES.map(s => (
+                    <Badge key={s} variant={selectedSpecialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>{s}</Badge>
+                  ))}
                 </div>
               </div>
 
               <FieldGroup label={`Sobre (${dentistBio.length}/500)`}>
-                <Textarea
-              value={dentistBio}
-              onChange={(e) => e.target.value.length <= 500 && setDentistBio(e.target.value)}
-              rows={3}
-              placeholder="Descreva a sua experiência..." />
-
+                <Textarea value={dentistBio} onChange={e => e.target.value.length <= 500 && setDentistBio(e.target.value)} rows={3} placeholder="Descreva a sua experiência..." />
               </FieldGroup>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
                 <div className="flex flex-wrap gap-2">
-                  {LANGUAGES.map((l) =>
-              <Badge
-                key={l}
-                variant={selectedLanguages.includes(l) ? 'default' : 'outline'}
-                className="cursor-pointer transition-colors"
-                onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>
-
-                      {l}
-                    </Badge>
-              )}
+                  {LANGUAGES.map(l => (
+                    <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
+                  ))}
                 </div>
               </div>
 
               <Separator />
               <SectionTitle>Disponibilidade</SectionTitle>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium">Aceita novos pacientes</span>
-                <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Aceita novos pacientes</span>
+                  <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Disponível para teleconsultas</span>
+                  <Switch checked={teleconsultaAvailable} onCheckedChange={setTeleconsultaAvailable} />
+                </div>
               </div>
 
               <SectionTitle>Teleconsulta</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
-                  <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
+                  <Input type="number" value={teleconsultPrice} onChange={e => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
                 <div className="flex items-center justify-between md:items-end">
                   <span className="text-sm">Aceita urgências</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
-                {acceptsUrgencies &&
-            <FieldGroup label="Preço urgência (€)">
-                    <Input type="number" value={urgencyPrice} onChange={(e) => setUrgencyPrice(e.target.value)} />
+                {acceptsUrgencies && (
+                  <FieldGroup label="Preço urgência (€)">
+                    <Input type="number" value={urgencyPrice} onChange={e => setUrgencyPrice(e.target.value)} />
                   </FieldGroup>
-            }
+                )}
               </div>
 
               <Separator />
               <SectionTitle>Horários por Clínica</SectionTitle>
-              {dentistSchedules.map((sched, si) =>
-          <div key={sched.clinic} className="mb-4">
+              {dentistSchedules.map((sched, si) => (
+                <div key={sched.clinic} className="mb-4">
                   <p className="text-xs font-semibold text-muted-foreground mb-2">{sched.clinic}</p>
                   <div className="space-y-1.5">
-                    {sched.days.map((d, di) =>
-              <div key={d.day} className="flex items-center gap-2 text-sm">
+                    {sched.days.map((d, di) => (
+                      <div key={d.day} className="flex items-center gap-2 text-sm">
                         <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
-                        <Switch
-                  checked={d.active}
-                  onCheckedChange={(checked) => {
-                    const updated = [...dentistSchedules];
-                    updated[si].days[di] = { ...d, active: checked };
-                    setDentistSchedules(updated);
-                  }} />
-
-                        {d.active ?
-                <>
-                            <Input type="time" value={d.start} onChange={(e) => {
-                    const updated = [...dentistSchedules];
-                    updated[si].days[di] = { ...d, start: e.target.value };
-                    setDentistSchedules(updated);
-                  }} className="w-24 h-7 text-xs" />
+                        <Switch checked={d.active} onCheckedChange={(checked) => {
+                          const updated = [...dentistSchedules];
+                          updated[si].days[di] = { ...d, active: checked };
+                          setDentistSchedules(updated);
+                        }} />
+                        {d.active ? (
+                          <>
+                            <Input type="time" value={d.start} onChange={e => {
+                              const updated = [...dentistSchedules];
+                              updated[si].days[di] = { ...d, start: e.target.value };
+                              setDentistSchedules(updated);
+                            }} className="w-24 h-7 text-xs" />
                             <span className="text-muted-foreground">-</span>
-                            <Input type="time" value={d.end} onChange={(e) => {
-                    const updated = [...dentistSchedules];
-                    updated[si].days[di] = { ...d, end: e.target.value };
-                    setDentistSchedules(updated);
-                  }} className="w-24 h-7 text-xs" />
-                          </> :
-
-                <span className="text-destructive text-xs px-0 pl-[10px]">Não trabalha</span>
-                }
+                            <Input type="time" value={d.end} onChange={e => {
+                              const updated = [...dentistSchedules];
+                              updated[si].days[di] = { ...d, end: e.target.value };
+                              setDentistSchedules(updated);
+                            }} className="w-24 h-7 text-xs" />
+                          </>
+                        ) : (
+                          <span className="text-destructive text-xs pl-2">Não trabalha</span>
+                        )}
                       </div>
-              )}
+                    ))}
                   </div>
                 </div>
-          )}
+              ))}
 
               <Separator />
               <SectionTitle>Notificações</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Notificações por email</span>
-                  <Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Notificações por SMS</span>
-                  <Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Alertas de marcações</span>
-                  <Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} />
-                </div>
-               </div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações por email</span><Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações por SMS</span><Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Alertas de marcações</span><Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} /></div>
+              </div>
 
               <Separator />
               <SectionTitle>
@@ -564,89 +608,86 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </SectionTitle>
               <DentistJobToggles />
             </>
-        }
+          )}
 
           {/* ===== CLINIC FIELDS ===== */}
-          {userRole === 'clinic' &&
-        <>
+          {userRole === 'clinic' && (
+            <>
               <SectionTitle>Dados da Clínica</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome">
-                  <Input value={clinicName} onChange={(e) => setClinicName(e.target.value)} />
-                </FieldGroup>
-                <FieldGroup label="Email">
-                  <Input type="email" value={clinicEmail} onChange={(e) => setClinicEmail(e.target.value)} />
-                </FieldGroup>
-                <FieldGroup label="Telefone">
-                  <Input value={clinicPhone} onChange={(e) => setClinicPhone(e.target.value)} />
+                  <Input value={clinicName} onChange={e => setClinicName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="NIF/NIPC">
-                  <Input value={clinicNif} onChange={(e) => setClinicNif(e.target.value)} />
+                  <Input value={clinicNif} onChange={e => setClinicNif(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Email">
+                  <Input type="email" value={clinicEmail} onChange={e => setClinicEmail(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Telefone">
+                  <Input value={clinicPhone} onChange={e => setClinicPhone(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Website">
+                  <Input value={clinicWebsite} onChange={e => setClinicWebsite(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <SectionTitle>Morada</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Morada" className="md:col-span-2">
-                  <Input value={clinicAddress} onChange={(e) => setClinicAddress(e.target.value)} />
+                  <Input value={clinicAddress} onChange={e => setClinicAddress(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Código postal">
-                  <Input value={clinicPostalCode} onChange={(e) => setClinicPostalCode(e.target.value)} />
+                  <Input value={clinicPostalCode} onChange={e => setClinicPostalCode(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Cidade">
-                  <Input value={clinicCity} onChange={(e) => setClinicCity(e.target.value)} />
+                  <Input value={clinicCity} onChange={e => setClinicCity(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País">
-                  <Input value={clinicCountry} onChange={(e) => setClinicCountry(e.target.value)} />
-                </FieldGroup>
-                <FieldGroup label="Website">
-                  <Input value={clinicWebsite} onChange={(e) => setClinicWebsite(e.target.value)} />
+                  <Input value={clinicCountry} onChange={e => setClinicCountry(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <FieldGroup label={`Descrição (${clinicDescription.length}/1000)`}>
-                <Textarea
-              value={clinicDescription}
-              onChange={(e) => e.target.value.length <= 1000 && setClinicDescription(e.target.value)}
-              rows={3} />
-
+                <Textarea value={clinicDescription} onChange={e => e.target.value.length <= 1000 && setClinicDescription(e.target.value)} rows={3} />
               </FieldGroup>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FieldGroup label="Anos de experiência">
+                  <Input type="number" value={clinicYearsExp} onChange={e => setClinicYearsExp(e.target.value)} />
+                </FieldGroup>
+                <FieldGroup label="Certificações">
+                  <Input value={clinicCertifications} onChange={e => setClinicCertifications(e.target.value)} placeholder="Ex: ISO 9001" />
+                </FieldGroup>
+              </div>
+
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
+                <div className="flex flex-wrap gap-2">
+                  {LANGUAGES.map(l => (
+                    <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
+                  ))}
+                </div>
+              </div>
+
+              <Separator />
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Serviços oferecidos</Label>
                 <div className="flex flex-wrap gap-2 mb-2">
-                  {clinicServices.map((s) =>
-              <Badge key={s} variant="secondary" className="gap-1">
+                  {clinicServices.map(s => (
+                    <Badge key={s} variant="secondary" className="gap-1">
                       {s}
-                      <button onClick={() => setClinicServices(clinicServices.filter((x) => x !== s))} className="ml-1 hover:text-destructive">
+                      <button onClick={() => setClinicServices(clinicServices.filter(x => x !== s))} className="ml-1 hover:text-destructive">
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
-              )}
+                  ))}
                 </div>
                 <div className="flex gap-2">
-                  <Input
-                placeholder="Novo serviço..."
-                value={newService}
-                onChange={(e) => setNewService(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && newService.trim()) {
-                    setClinicServices([...clinicServices, newService.trim()]);
-                    setNewService('');
-                  }
-                }}
-                className="flex-1" />
-
-                  <Button
-                variant="outline"
-                size="icon"
-                onClick={() => {
-                  if (newService.trim()) {
-                    setClinicServices([...clinicServices, newService.trim()]);
-                    setNewService('');
-                  }
-                }}>
-
+                  <Input placeholder="Novo serviço..." value={newService} onChange={e => setNewService(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && newService.trim()) { setClinicServices([...clinicServices, newService.trim()]); setNewService(''); } }}
+                    className="flex-1" />
+                  <Button variant="outline" size="icon" onClick={() => { if (newService.trim()) { setClinicServices([...clinicServices, newService.trim()]); setNewService(''); } }}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -654,96 +695,98 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
               <Separator />
               <SectionTitle>Disponibilidade</SectionTitle>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium">Aceita novos pacientes</span>
-                <Switch checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Aceita novos pacientes</span>
+                  <Switch checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Teleconsultas disponíveis</span>
+                  <Switch checked={clinicTeleconsultas} onCheckedChange={setClinicTeleconsultas} />
+                </div>
               </div>
 
+              <SectionTitle>Tarifas</SectionTitle>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FieldGroup label="Preço teleconsulta (€)">
+                  <Input type="number" value={clinicTeleconsultaPrice} onChange={e => setClinicTeleconsultaPrice(e.target.value)} />
+                </FieldGroup>
+              </div>
+
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Métodos de pagamento</Label>
+                <div className="flex flex-wrap gap-2">
+                  {PAYMENT_METHODS.map(m => (
+                    <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Convenções / Seguros</Label>
+                <div className="flex flex-wrap gap-2">
+                  {INSURANCE_OPTIONS.map(ins => (
+                    <Badge key={ins} variant={clinicInsurances.includes(ins) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicInsurances, setClinicInsurances, ins)}>{ins}</Badge>
+                  ))}
+                </div>
+              </div>
+
+              <Separator />
               <SectionTitle>Tipos de Raio-X</SectionTitle>
               <div className="space-y-2">
-                {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
-            <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
+                {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map(xray => (
+                  <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
-                setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
-              }} className="rounded" />
+                      setClinicXrayServices(prev => prev.includes(xray) ? prev.filter(x => x !== xray) : [...prev, xray]);
+                    }} className="rounded" />
                     {xray}
                   </label>
-            )}
+                ))}
               </div>
 
               <SectionTitle>Acessibilidade</SectionTitle>
               <div className="space-y-2">
-                {['Acesso a cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'].map((acc) =>
-            <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
+                {ACCESSIBILITY_OPTIONS.map(acc => (
+                  <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
-                setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
-              }} className="rounded" />
+                      setClinicAccessibility(prev => prev.includes(acc) ? prev.filter(x => x !== acc) : [...prev, acc]);
+                    }} className="rounded" />
                     {acc}
                   </label>
-            )}
+                ))}
               </div>
 
               <Separator />
               <SectionTitle>Horário de Funcionamento</SectionTitle>
               <div className="space-y-2">
-                {clinicHours.map((h, i) =>
-            <div key={h.day} className="flex items-center gap-2 text-sm">
+                {clinicHours.map((h, i) => (
+                  <div key={h.day} className="flex items-center gap-2 text-sm">
                     <span className="w-20 text-muted-foreground">{h.day}</span>
-                    <Switch
-                checked={h.open}
-                onCheckedChange={(checked) => {
-                  const updated = [...clinicHours];
-                  updated[i] = { ...updated[i], open: checked };
-                  setClinicHours(updated);
-                }} />
-
-                    {h.open ?
-              <>
-                        <Input
-                  type="time"
-                  value={h.start}
-                  onChange={(e) => {
-                    const updated = [...clinicHours];
-                    updated[i] = { ...updated[i], start: e.target.value };
-                    setClinicHours(updated);
-                  }}
-                  className="w-28 h-8 text-xs" />
-
+                    <Switch checked={h.open} onCheckedChange={(checked) => {
+                      const updated = [...clinicHours];
+                      updated[i] = { ...updated[i], open: checked };
+                      setClinicHours(updated);
+                    }} />
+                    {h.open ? (
+                      <>
+                        <Input type="time" value={h.start} onChange={e => { const u = [...clinicHours]; u[i] = { ...u[i], start: e.target.value }; setClinicHours(u); }} className="w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input
-                  type="time"
-                  value={h.end}
-                  onChange={(e) => {
-                    const updated = [...clinicHours];
-                    updated[i] = { ...updated[i], end: e.target.value };
-                    setClinicHours(updated);
-                  }}
-                  className="w-28 h-8 text-xs" />
-
-                      </> :
-
-              <span className="text-destructive text-xs">Encerrado</span>
-              }
+                        <Input type="time" value={h.end} onChange={e => { const u = [...clinicHours]; u[i] = { ...u[i], end: e.target.value }; setClinicHours(u); }} className="w-28 h-8 text-xs" />
+                      </>
+                    ) : (
+                      <span className="text-destructive text-xs">Encerrado</span>
+                    )}
                   </div>
-            )}
+                ))}
               </div>
 
               <Separator />
               <SectionTitle>Notificações</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Notificações por email</span>
-                  <Switch checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Relatórios semanais</span>
-                  <Switch checked={clinicWeeklyReports} onCheckedChange={setClinicWeeklyReports} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Marcações online</span>
-                  <Switch checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} />
-                </div>
-               </div>
+                <div className="flex items-center justify-between"><span className="text-sm">Notificações por email</span><Switch checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Relatórios semanais</span><Switch checked={clinicWeeklyReports} onCheckedChange={setClinicWeeklyReports} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">Marcações online</span><Switch checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} /></div>
+              </div>
 
               <Separator />
               <SectionTitle>
@@ -751,19 +794,17 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </SectionTitle>
               <ClinicJobToggles />
             </>
-        }
+          )}
 
           <Separator />
 
           {/* Security section */}
           <div className="space-y-3">
             <Button variant="outline" className="w-full">Alterar password</Button>
-
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="w-full gap-2">
-                  <Trash2 className="w-4 h-4" />
-                  Eliminar conta
+                  <Trash2 className="w-4 h-4" /> Eliminar conta
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -790,8 +831,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
         <Button variant="outline" className="flex-1" onClick={onClose}>Cancelar</Button>
         <Button className="flex-1" onClick={handleSave}>Guardar Alterações</Button>
       </div>
-    </div>;
-
+    </div>
+  );
 
   if (inline) {
     return <div className="max-w-2xl mx-auto">{content}</div>;
