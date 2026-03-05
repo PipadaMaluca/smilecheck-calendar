@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Briefcase, MapPin, Star, Clock, Calendar, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check } from 'lucide-react';
+import { ArrowLeft, Briefcase, MapPin, Star, Clock, Calendar, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -20,50 +20,53 @@ import { toast } from 'sonner';
 // Mock job data - clinic offers (seen by dentists)
 const MOCK_CLINIC_OFFERS = [
   {
-    id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.8, level: 'ouro' as const,
-    location: 'Av. da Liberdade 120, Lisboa', distance: 2.1,
+    id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.9, level: 'ouro' as const,
+    location: 'Av. da Liberdade 123, Lisboa', distance: 2.5,
     contractType: 'Tempo Parcial', schedule: 'Seg-Qua-Sex 09:00-13:00',
-    salary: '35% por consulta', specialties: ['Generalista'],
-    benefits: ['Seguro', 'Formação'], publishedAgo: 'há 2 dias',
+    salary: '35% por consulta + Bónus teleconsulta €5', specialties: ['Generalista', 'Estética Dentária'],
+    benefits: ['Formação contínua', 'Material incluído'], publishedAgo: 'há 2 dias',
   },
   {
-    id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.5, level: 'prata' as const,
-    location: 'Rue de Paris 45, Mitry-Mory', distance: 5.3,
+    id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.6, level: 'prata' as const,
+    location: 'Rue de Paris 45, Mitry-Mory', distance: 4.2,
     contractType: 'Tempo Inteiro', schedule: 'Seg-Sex 09:00-19:00',
     salary: '€3.200/mês', specialties: ['Cirurgia', 'Endodontia'],
-    benefits: ['Seguro', 'Estacionamento', 'Congressos'], publishedAgo: 'há 5 dias',
+    benefits: ['Seguro saúde', 'Estacionamento', 'Congressos'], publishedAgo: 'há 5 dias',
   },
   {
-    id: 'co3', clinicId: '3', clinicName: 'Clínica Montfermeil', rating: 4.3, level: 'bronze' as const,
-    location: 'Av. Jean Moulin 12, Montfermeil', distance: 8.0,
+    id: 'co3', clinicId: '3', clinicName: 'Clínica Montfermeil', rating: 4.8, level: 'ouro' as const,
+    location: 'Avenue Jean Moulin 12, Montfermeil', distance: 6.0,
     contractType: 'Freelancer', schedule: 'Sáb 09:00-14:00',
-    salary: '€30/consulta', specialties: ['Ortodontia'],
-    benefits: [], publishedAgo: 'há 1 semana',
+    salary: '€30/consulta', specialties: ['Ortodontia', 'Implantologia'],
+    benefits: ['Material incluído'], publishedAgo: 'há 1 semana',
   },
 ];
 
 // Mock dentist availability (seen by clinics)
 const MOCK_DENTIST_AVAILABILITY = [
   {
-    id: 'da1', dentistId: '4', name: 'Dr. Fábio Lobo', rating: 4.6, level: 'ouro' as const,
+    id: 'da1', dentistId: '6', name: 'Dr. Fábio Lobo', rating: 4.8, level: 'prata' as const,
     specialties: ['Cirurgia', 'Prótese', 'Implantologia'],
-    availability: 'Tempo Parcial', availabilityDetail: 'Tardes disponíveis',
-    schedule: 'Seg-Qua-Sex 14:00-20:00', experience: '12 anos de experiência',
-    teleconsultas: true, salary: '', publishedAgo: 'há 3 dias',
+    availability: 'Tempo Parcial', availabilityDetail: 'Tardes disponíveis (Seg-Qui)',
+    schedule: 'Seg-Qui 14:00-20:00', experience: '12 anos de experiência',
+    teleconsultas: true, salary: 'A partir de €2.800/mês', publishedAgo: 'há 3 dias',
+    availableDate: '1 Mar 2026',
   },
   {
-    id: 'da2', dentistId: '7', name: 'Dra. Catarina Fernandes', rating: 4.4, level: 'prata' as const,
+    id: 'da2', dentistId: '7', name: 'Dra. Catarina Fernandes', rating: 4.7, level: 'ouro' as const,
     specialties: ['Ortodontia', 'Odontopediatria'],
-    availability: 'Freelancer', availabilityDetail: 'Sábados',
-    schedule: 'Sáb 09:00-14:00', experience: '6 anos de experiência',
-    teleconsultas: false, salary: '', publishedAgo: 'há 1 semana',
+    availability: 'Freelancer', availabilityDetail: 'Sábados inteiros',
+    schedule: 'Sáb 09:00-18:00', experience: '6 anos de experiência',
+    teleconsultas: true, salary: '€28/consulta', publishedAgo: 'há 1 semana',
+    availableDate: '15 Mar 2026',
   },
   {
-    id: 'da3', dentistId: '5', name: 'Dr. Frederico Cardoso', rating: 4.7, level: 'ouro' as const,
+    id: 'da3', dentistId: '4', name: 'Dr. Frederico Cardoso', rating: 4.6, level: 'prata' as const,
     specialties: ['Cirurgia', 'Prótese'],
-    availability: 'Tempo Inteiro', availabilityDetail: 'Seg-Sex',
+    availability: 'Tempo Inteiro', availabilityDetail: 'Seg-Sex disponível',
     schedule: 'Seg-Sex 09:00-19:00', experience: '15 anos de experiência',
-    teleconsultas: true, salary: 'A partir de €3.000/mês', publishedAgo: 'há 2 dias',
+    teleconsultas: false, salary: 'Negociável (mín. €3.000/mês)', publishedAgo: 'há 2 dias',
+    availableDate: '1 Abr 2026',
   },
 ];
 
@@ -71,6 +74,12 @@ const CONTRACT_TYPES = ['Todos', 'Tempo Inteiro', 'Tempo Parcial', 'Freelancer',
 const BENEFITS_OPTIONS = ['Seguro de saúde', 'Formação contínua paga', 'Participação em congressos', 'Material clínico incluído', 'Estacionamento', 'Alimentação'];
 const WEEKDAYS_SHORT = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 const TIME_PERIODS = ['Manhã', 'Tarde', 'Noite'];
+const SPECIALTIES = [
+  'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
+  'Cirurgia Oral', 'Prostodontia', 'Estética Dentária', 'Odontopediatria',
+];
+const JOB_TYPES = ['Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição'];
+const JOB_PERIODS = ['Manhãs', 'Tardes', 'Noites', 'Fins de semana'];
 
 interface JobMarketViewProps {
   userRole: UserRole;
@@ -78,10 +87,172 @@ interface JobMarketViewProps {
   onSendMessage?: (name: string) => void;
 }
 
+// Manage availability panel for dentists
+function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [enabled, setEnabled] = useState(false);
+  const [jobTypes, setJobTypes] = useState<string[]>([]);
+  const [periods, setPeriods] = useState<string[]>([]);
+  const [teleconsultas, setTeleconsultas] = useState(false);
+  const [showSalary, setShowSalary] = useState(false);
+  const [salary, setSalary] = useState('');
+  const [availableDate, setAvailableDate] = useState('');
+  const [note, setNote] = useState('');
+
+  const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
+    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> Gerir Disponibilidade</DialogTitle>
+          <DialogDescription>Configure a sua disponibilidade para propostas de clínicas</DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium">Disponível para novas oportunidades</span>
+            <Switch checked={enabled} onCheckedChange={setEnabled} />
+          </div>
+          {enabled && (
+            <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Tipo pretendido</Label>
+                <div className="flex flex-wrap gap-2">
+                  {JOB_TYPES.map(t => <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>)}
+                </div>
+              </div>
+              <div>
+                <Label className="text-xs text-muted-foreground mb-2 block">Disponibilidade horária</Label>
+                <div className="flex flex-wrap gap-2">
+                  {JOB_PERIODS.map(p => <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>)}
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm">Teleconsultas</span>
+                <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm">Mostrar expectativa salarial?</span>
+                <Switch checked={showSalary} onCheckedChange={setShowSalary} />
+              </div>
+              {showSalary && (
+                <div>
+                  <Label className="text-xs">Expectativa (€)</Label>
+                  <Input type="number" placeholder="Ex: 2500" value={salary} onChange={e => setSalary(e.target.value)} />
+                </div>
+              )}
+              <div>
+                <Label className="text-xs">Data de disponibilidade</Label>
+                <Input type="date" value={availableDate} onChange={e => setAvailableDate(e.target.value)} />
+              </div>
+              <div>
+                <Label className="text-xs">Nota adicional</Label>
+                <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
+              </div>
+            </div>
+          )}
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancelar</Button>
+          <Button onClick={() => { toast.success('Disponibilidade atualizada!'); onClose(); }}>Guardar</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// Publish vacancy panel for clinics
+function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [enabled, setEnabled] = useState(true);
+  const [contractTypes, setContractTypes] = useState<string[]>([]);
+  const [specialties, setSpecialties] = useState<string[]>([]);
+  const [schedule, setSchedule] = useState('');
+  const [salaryValue, setSalaryValue] = useState('');
+  const [salaryType, setSalaryType] = useState('Mensal');
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState('');
+  const [description, setDescription] = useState('');
+
+  const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
+    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> Publicar Vaga</DialogTitle>
+          <DialogDescription>Publique uma vaga para atrair dentistas qualificados</DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Tipo de contrato</Label>
+            <div className="flex flex-wrap gap-2">
+              {JOB_TYPES.map(t => <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>)}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Especialidades procuradas</Label>
+            <div className="flex flex-wrap gap-2">
+              {SPECIALTIES.map(s => <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>)}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs">Horário</Label>
+            <Input placeholder="Ex: Seg-Sex 14:00-20:00" value={schedule} onChange={e => setSchedule(e.target.value)} />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label className="text-xs">Remuneração</Label>
+              <Input type="number" placeholder="Valor" value={salaryValue} onChange={e => setSalaryValue(e.target.value)} />
+            </div>
+            <div>
+              <Label className="text-xs">Tipo</Label>
+              <Select value={salaryType} onValueChange={setSalaryType}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Mensal">€/mês</SelectItem>
+                  <SelectItem value="Por consulta">€/consulta</SelectItem>
+                  <SelectItem value="Percentagem">%/consulta</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs mb-2 block">Benefícios</Label>
+            <div className="grid grid-cols-2 gap-2">
+              {BENEFITS_OPTIONS.map(b => (
+                <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
+                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
+                  {b}
+                </label>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Label className="text-xs">Data de início</Label>
+            <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+          </div>
+          <div>
+            <Label className="text-xs">Descrição da vaga</Label>
+            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancelar</Button>
+          <Button onClick={() => { toast.success('Vaga publicada com sucesso!'); onClose(); }}>Publicar</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewProps) {
   const isMobile = useIsMobile();
   const [contractFilter, setContractFilter] = useState('Todos');
   const [sortBy, setSortBy] = useState('recent');
+  const [showManagePanel, setShowManagePanel] = useState(false);
 
   // Proposal flow state (clinic sending to dentist)
   const [proposalTarget, setProposalTarget] = useState<typeof MOCK_DENTIST_AVAILABILITY[0] | null>(null);
@@ -144,16 +315,21 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
   if (userRole === 'dentist') {
     return (
       <div className="p-4 md:p-6 space-y-4">
-        <div className="flex items-center gap-3">
-          <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
-            <ArrowLeft className="w-5 h-5 text-muted-foreground" />
-          </button>
-          <div>
-            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
-            </h2>
-            <p className="text-xs text-muted-foreground">Clínicas à procura de dentistas</p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
+              <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+            </button>
+            <div>
+              <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
+              </h2>
+              <p className="text-xs text-muted-foreground">Clínicas à procura de dentistas</p>
+            </div>
           </div>
+          <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowManagePanel(true)}>
+            <Settings className="w-3.5 h-3.5" /> Gerir Disponibilidade
+          </Button>
         </div>
 
         {/* Filters */}
@@ -241,6 +417,8 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
             </DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <DentistManagePanel open={showManagePanel} onClose={() => setShowManagePanel(false)} />
       </div>
     );
   }
@@ -248,16 +426,21 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
   // =================== CLINIC VIEW (sees dentist availability) ===================
   return (
     <div className="p-4 md:p-6 space-y-4">
-      <div className="flex items-center gap-3">
-        <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
-          <ArrowLeft className="w-5 h-5 text-muted-foreground" />
-        </button>
-        <div>
-          <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-            <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
-          </h2>
-          <p className="text-xs text-muted-foreground">Dentistas disponíveis</p>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+          </button>
+          <div>
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
+            </h2>
+            <p className="text-xs text-muted-foreground">Dentistas disponíveis</p>
+          </div>
         </div>
+        <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowManagePanel(true)}>
+          <Settings className="w-3.5 h-3.5" /> Publicar Vaga
+        </Button>
       </div>
 
       {/* Filters */}
@@ -311,8 +494,13 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   <Clock className="w-3 h-3" /><span>{d.schedule}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">{d.experience}</p>
-                {d.teleconsultas && <p className="text-[10px] text-primary font-medium">📱 Disponível para teleconsultas</p>}
+                {d.teleconsultas ? (
+                  <p className="text-[10px] text-primary font-medium">📱 Disponível para teleconsultas ✅</p>
+                ) : (
+                  <p className="text-[10px] text-muted-foreground">📱 Teleconsultas ❌</p>
+                )}
                 {d.salary && <p className="text-sm font-semibold text-primary">{d.salary}</p>}
+                <p className="text-[10px] text-muted-foreground">📅 Disponível desde: {d.availableDate}</p>
                 <p className="text-[10px] text-muted-foreground">{d.publishedAgo}</p>
               </div>
 
@@ -526,6 +714,8 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ClinicPublishPanel open={showManagePanel} onClose={() => setShowManagePanel(false)} />
     </div>
   );
 }
