@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, User, Mail, Phone, Calendar, Hash, Stethoscope, Building2, MapPin, Globe, Clock, Video, Star } from 'lucide-react';
+import { ArrowLeft, User, Mail, Phone, Calendar, Star, Building2, MapPin, Heart, Shield, Pill, Droplets, Stethoscope, Video, TrendingUp, Award, Lock, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { Progress } from '@/components/ui/progress';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,6 +14,9 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
+import { LEVEL_CONFIG, PLAN_CONFIG } from '@/data/mockDentistSearch';
+import { getPatientInitials } from '@/lib/avatarUtils';
+import { cn } from '@/lib/utils';
 
 interface ProfileViewProps {
   userRole: UserRole;
@@ -23,83 +27,59 @@ interface ProfileViewProps {
   onViewDentistProfile?: (dentist: DentistSearchResult) => void;
 }
 
-function getProfileData(role: UserRole) {
-  switch (role) {
-    case 'patient':
-      return {
-        name: 'João Silva',
-        subtitle: 'Paciente',
-        email: 'joao.silva@email.com',
-        phone: '+351 912 000 001',
-        birthDate: '15/03/1981',
-        age: 45,
-        gender: 'Masculino',
-        address: 'Rua das Flores 42, 3º Esq.',
-        postalCode: '1200-123',
-        city: 'Lisboa',
-        country: 'Portugal',
-      };
-    case 'dentist':
-      return {
-        name: mockDentists[0].name,
-        subtitle: 'Dentista',
-        email: 'goncalo.pipo@smilecheck.pt',
-        phone: '+351 910 000 000',
-        birthDate: '22/07/1985',
-        orderNumber: 'OMD-12345',
-        orderCountry: 'Portugal',
-        specialty: mockDentists[0].specialty,
-        specialties: ['Generalista', 'Endodontia', 'Cirurgia Oral'],
-        bio: 'Dentista com 12 anos de experiência em medicina dentária generalista. Especializado em tratamentos conservadores e endodontia.',
-        languages: ['Português', 'Inglês', 'Francês'],
-        teleconsultPrice: 20,
-        urgencyPrice: 40,
-        acceptsUrgencies: true,
-        clinics: [
-          { id: '1', name: mockClinics[0].name, role: 'Dentista Principal' },
-          { id: '2', name: mockClinics[1].name, role: 'Colaborador' },
-          { id: '3', name: mockClinics[2].name, role: 'Colaborador' },
-        ],
-        rating: 4.8,
-        totalReviews: 127,
-      };
-    case 'clinic':
-      return {
-        name: mockClinics[0].name,
-        subtitle: 'Clínica',
-        email: 'info@smilecheck.pt',
-        phone: '+351 211 000 000',
-        nif: '509 123 456',
-        address: mockClinics[0].address,
-        postalCode: '1250-096',
-        city: 'Lisboa',
-        country: 'Portugal',
-        website: 'www.smilecheck.pt',
-        description: 'Clínica dentária moderna localizada no coração de Lisboa, oferecendo uma gama completa de serviços dentários com tecnologia de ponta.',
-        services: ['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Estética Dentária', 'Odontopediatria'],
-        dentistCount: 7,
-        rating: 4.9,
-        totalReviews: 312,
-      };
-  }
-}
+const PATIENT_DATA = {
+  name: 'João Silva',
+  subtitle: 'Paciente',
+  email: 'joao.silva@email.com',
+  phone: '+351 912 000 001',
+  birthDate: '15/03/1981',
+  age: 45,
+  gender: 'Masculino',
+  address: 'Rua das Flores 42, 3º Esq.',
+  postalCode: '1200-123',
+  city: 'Lisboa',
+  country: 'Portugal',
+  rating: 4.7,
+  reviewCount: 8,
+  level: 'ouro' as const,
+  plan: 'pro' as const,
+  bio: 'Paciente regular com foco em prevenção. Acompanhamento desde 2023.',
+  family: [
+    { name: 'Maria Silva', age: 42 },
+    { name: 'Pedro Silva', age: 12, minor: true },
+  ],
+  health: {
+    bloodType: 'O+',
+    allergies: ['Penicilina', 'Látex'],
+    conditions: ['Hipertensão'],
+    medications: ['Ibuprofeno 400mg', 'Omeprazol 20mg'],
+  },
+  stats: {
+    totalConsultations: 23,
+    teleconsultations: 4,
+    attendanceRate: '96%',
+    points: '1 250',
+  },
+  mainDentist: { id: '1', name: 'Dr. Gonçalo Pipo', rating: 4.9, consultations: 12 },
+  mainClinic: { id: '1', name: 'Clínica SmileCheck' },
+  nextAppointment: '15 Mar 2026, 10:00 — Destartarização — Dr. Gonçalo Pipo',
+  reviews: [
+    { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente exemplar, pontual e colaborativo.', date: '28 Jan 2026' },
+    { dentistName: 'Dr. Alexandre Bernardo', rating: 4, comment: 'Boa higiene oral. Pode melhorar na regularidade.', date: '15 Jan 2026' },
+  ],
+};
 
-function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string | React.ReactNode }) {
-  return (
-    <div className="flex items-start justify-between py-2.5">
-      <div className="flex items-center gap-2.5 min-w-0">
-        <Icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-        <span className="text-sm text-muted-foreground">{label}</span>
-      </div>
-      <span className="text-sm text-foreground text-right ml-4">{value}</span>
-    </div>
-  );
-}
+const breakdown = [
+  { stars: 5, pct: 62 },
+  { stars: 4, pct: 25 },
+  { stars: 3, pct: 13 },
+  { stars: 2, pct: 0 },
+  { stars: 1, pct: 0 },
+];
 
 export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicProfile, onViewDentistProfile }: ProfileViewProps) {
   const [showEdit, setShowEdit] = useState(false);
   const isMobile = useIsMobile();
-  const data = getProfileData(userRole);
 
   if (!isOpen) return null;
 
@@ -115,27 +95,45 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
     );
   }
 
+  // Only patient profile is rendered here now; dentist/clinic use their own views
+  if (userRole !== 'patient') return null;
+
+  const data = PATIENT_DATA;
+  const levelCfg = LEVEL_CONFIG[data.level];
+  const planCfg = PLAN_CONFIG[data.plan];
+  const initials = getPatientInitials(data.name);
+
   const profileBody = (
-    <div className="p-5 space-y-5">
-      {/* Avatar + Name */}
-      <div className="flex flex-col items-center gap-3">
-        <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
-          {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
+    <div className="max-w-3xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+        <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
+          {initials}
         </div>
-        <div className="text-center">
-          <h3 className="text-lg font-bold text-foreground">{data.name}</h3>
+        <div className="flex-1 text-center md:text-left">
+          <h3 className="text-xl font-bold text-foreground">{data.name}</h3>
           <p className="text-sm text-muted-foreground">{data.subtitle}</p>
-          {('rating' in data && data.rating) && (
-            <div className="flex items-center justify-center gap-1 mt-1">
-              <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-              <span className="text-sm font-medium">{data.rating}</span>
-              <span className="text-xs text-muted-foreground">({'totalReviews' in data ? data.totalReviews : 0} avaliações)</span>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
+            <div className="flex items-center gap-1">
+              <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <span className="text-sm font-bold">{data.rating}</span>
+              <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
             </div>
-          )}
+          </div>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+              {levelCfg.label}
+            </span>
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
+              📋 {planCfg.label}
+            </span>
+          </div>
         </div>
-        <Button variant="outline" size="sm" onClick={() => setShowEdit(true)}>
-          Editar Perfil
-        </Button>
+        <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
+          <Button variant="outline" className="flex-1" onClick={() => setShowEdit(true)}>
+            Editar Perfil
+          </Button>
+        </div>
       </div>
 
       <Separator />
@@ -149,105 +147,192 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
 
       <Separator />
 
-      {/* Patient Info */}
-      {userRole === 'patient' && (
-        <div className="space-y-0 divide-y divide-border">
-          <InfoRow icon={Mail} label="Email" value={data.email} />
-          <InfoRow icon={Phone} label="Telefone" value={data.phone} />
-          <InfoRow icon={Calendar} label="Nascimento" value={`${data.birthDate} (${data.age} anos)`} />
-          <InfoRow icon={User} label="Género" value={data.gender!} />
-          <InfoRow icon={MapPin} label="Morada" value={`${data.address}, ${data.postalCode} ${data.city}`} />
+      {/* Sobre */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
+        <p className="text-sm text-muted-foreground">{data.bio}</p>
+        <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">Familiares:</span>
+          <div className="flex flex-wrap gap-1.5">
+            {data.family.map(f => (
+              <Badge key={f.name} variant="secondary" className="text-xs">
+                {f.name} ({f.age} anos{f.minor ? ' — Menor' : ''})
+              </Badge>
+            ))}
+          </div>
         </div>
-      )}
+      </section>
 
-      {/* Dentist Info */}
-      {userRole === 'dentist' && 'orderNumber' in data && (
-        <>
-          <div className="space-y-0 divide-y divide-border">
-            <InfoRow icon={Mail} label="Email" value={data.email} />
-            <InfoRow icon={Phone} label="Telefone" value={data.phone} />
-            <InfoRow icon={Calendar} label="Nascimento" value={data.birthDate!} />
-            <InfoRow icon={Hash} label="Nº Ordem" value={data.orderNumber} />
-            <InfoRow icon={Globe} label="País Ordem" value={data.orderCountry} />
+      <Separator />
+
+      {/* Resumo de Saúde */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Resumo de Saúde</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <div className="flex items-center gap-2">
+            <Droplets className="w-4 h-4 text-red-400" />
+            <span className="text-muted-foreground">Grupo sanguíneo:</span>
+            <span className="font-medium">{data.health.bloodType}</span>
           </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Shield className="w-4 h-4 text-red-400" />
+            <span className="text-muted-foreground">Alergias:</span>
+            {data.health.allergies.map(a => (
+              <Badge key={a} variant="destructive" className="text-[10px]">{a}</Badge>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Heart className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">Condições:</span>
+            {data.health.conditions.map(c => (
+              <Badge key={c} variant="secondary" className="text-[10px]">{c}</Badge>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Pill className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">Medicação:</span>
+            {data.health.medications.map(m => (
+              <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
+            ))}
+          </div>
+        </div>
+        <p className="text-[10px] text-muted-foreground bg-blue-500/10 border border-blue-500/20 rounded-lg p-2">
+          ℹ️ Informação visível apenas para si e os seus dentistas
+        </p>
+      </section>
 
-          <Separator />
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-2">Especialidades</h4>
-            <div className="flex flex-wrap gap-1.5">
-              {data.specialties.map(s => <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>)}
+      <Separator />
+
+      {/* Estatísticas */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
+            { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
+            { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp },
+            { label: 'Pontuação', value: `${data.stats.points} pts`, icon: Award },
+          ].map(stat => (
+            <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <stat.icon className="w-3.5 h-3.5 text-primary" />
+                <span className="text-[10px] text-muted-foreground">{stat.label}</span>
+              </div>
+              <span className="text-lg font-bold">{stat.value}</span>
             </div>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-1">Sobre</h4>
-            <p className="text-sm text-muted-foreground">{data.bio}</p>
-          </div>
+      <Separator />
 
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-2">Idiomas</h4>
-            <div className="flex flex-wrap gap-1.5">
-              {data.languages.map(l => <Badge key={l} variant="outline" className="text-xs">{l}</Badge>)}
-            </div>
-          </div>
-
-          <Separator />
-          <div className="space-y-0 divide-y divide-border">
-            <InfoRow icon={Video} label="Teleconsulta" value={`€${data.teleconsultPrice}`} />
-            <InfoRow icon={Video} label="Urgência" value={data.acceptsUrgencies ? `€${data.urgencyPrice}` : 'Não aceita'} />
-          </div>
-
-          <Separator />
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-2">Clínicas</h4>
-            <div className="space-y-2">
-              {data.clinics.map(c => (
-                <div key={c.name} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-muted-foreground" />
-                    <ClickableClinicName clinicId={c.id} name={c.name} className="text-sm" />
-                  </div>
-                  <span className="text-xs text-muted-foreground">{c.role}</span>
+      {/* Os Meus Profissionais */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Os Meus Profissionais</h4>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between bg-secondary/50 rounded-lg p-3">
+            <div className="flex items-center gap-3">
+              <Stethoscope className="w-4 h-4 text-primary" />
+              <div>
+                <ClickableDentistName name={data.mainDentist.name} className="text-sm font-medium" />
+                <div className="flex items-center gap-1 mt-0.5">
+                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  <span className="text-xs">{data.mainDentist.rating}</span>
+                  <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} consultas</span>
                 </div>
+              </div>
+            </div>
+            <Badge variant="secondary" className="text-[10px]">Principal</Badge>
+          </div>
+          <div className="flex items-center justify-between bg-secondary/50 rounded-lg p-3">
+            <div className="flex items-center gap-3">
+              <Building2 className="w-4 h-4 text-primary" />
+              <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
+            </div>
+            <Badge variant="secondary" className="text-[10px]">Principal</Badge>
+          </div>
+          <div className="flex items-center gap-3 bg-secondary/30 rounded-lg p-3">
+            <Calendar className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs text-muted-foreground">Próxima consulta: <span className="font-medium text-foreground">{data.nextAppointment}</span></span>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Avaliações */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Avaliações</h4>
+        <div className="flex items-center gap-4">
+          <div className="text-center">
+            <p className="text-3xl font-bold">{data.rating}</p>
+            <div className="flex justify-center">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className={cn('w-4 h-4', i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
               ))}
             </div>
+            <p className="text-xs text-muted-foreground mt-0.5">{data.reviewCount} avaliações</p>
           </div>
-        </>
-      )}
-
-      {/* Clinic Info */}
-      {userRole === 'clinic' && 'nif' in data && (
-        <>
-          <div className="space-y-0 divide-y divide-border">
-            <InfoRow icon={Mail} label="Email" value={data.email} />
-            <InfoRow icon={Phone} label="Telefone" value={data.phone} />
-            <InfoRow icon={Hash} label="NIF" value={data.nif} />
-            <InfoRow icon={MapPin} label="Morada" value={data.address} />
-            <InfoRow icon={Globe} label="Website" value={data.website} />
+          <div className="flex-1 space-y-1">
+            {breakdown.map(b => (
+              <div key={b.stars} className="flex items-center gap-2 text-xs">
+                <span className="w-3">{b.stars}★</span>
+                <Progress value={b.pct} className="h-2 flex-1" />
+                <span className="w-8 text-right text-muted-foreground">{b.pct}%</span>
+              </div>
+            ))}
           </div>
-
-          <Separator />
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-1">Sobre</h4>
-            <p className="text-sm text-muted-foreground">{data.description}</p>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-2">Serviços</h4>
-            <div className="flex flex-wrap gap-1.5">
-              {data.services.map(s => <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>)}
+        </div>
+        <div className="space-y-2 mt-3">
+          {data.reviews.map((r, idx) => (
+            <div key={idx} className="bg-secondary/50 rounded-lg p-3">
+              <div className="flex items-center justify-between mb-1">
+                <ClickableDentistName name={r.dentistName} className="text-xs font-semibold" />
+                <div className="flex gap-0.5">
+                  {Array.from({ length: r.rating }).map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">{r.comment}</p>
+              <p className="text-[10px] text-muted-foreground/60 mt-1">{r.date}</p>
             </div>
-          </div>
+          ))}
+        </div>
+      </section>
 
-          <InfoRow icon={User} label="Dentistas" value={`${data.dentistCount} activos`} />
-        </>
-      )}
+      <Separator />
+
+      {/* Informação Pessoal */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Informação Pessoal</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+          {[
+            { icon: Mail, label: 'Email', value: data.email },
+            { icon: Phone, label: 'Telefone', value: data.phone },
+            { icon: Calendar, label: 'Nascimento', value: `${data.birthDate} (${data.age} anos)` },
+            { icon: User, label: 'Género', value: data.gender },
+            { icon: MapPin, label: 'Morada', value: `${data.address}, ${data.postalCode} ${data.city}` },
+          ].map(item => (
+            <div key={item.label} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
+              <div className="flex items-center gap-2">
+                <item.icon className="w-4 h-4 text-muted-foreground" />
+                <span className="text-muted-foreground">{item.label}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-right">{item.value}</span>
+                <Lock className="w-3 h-3 text-muted-foreground/50" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 
-  // Inline mode: no modal wrapping
   if (inline) {
-    return <div className="max-w-lg mx-auto">{profileBody}</div>;
+    return <div className="p-5">{profileBody}</div>;
   }
 
   return (

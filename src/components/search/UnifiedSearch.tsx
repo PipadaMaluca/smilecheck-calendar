@@ -167,7 +167,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                       onClick={() => onViewDentistProfile?.(d)}
                     >
                       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 text-sm font-bold text-primary">
-                        {d.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map(n => n[0]).join('')}
+                        {d.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">

@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { DentistSearchResult, LEVEL_CONFIG, getReviewsForDentist } from '@/data/mockDentistSearch';
+import { DentistSearchResult, LEVEL_CONFIG, PLAN_CONFIG, getReviewsForDentist } from '@/data/mockDentistSearch';
 import { BookingFlow } from '@/components/booking/BookingFlow';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
+import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -35,6 +37,7 @@ const DENTIST_EXTRA = {
     { code: '🇬🇧', name: 'English' },
   ],
   acceptsNewPatients: true,
+  teleconsultaAvailable: true,
   presencialPrice: 'Variável conforme tratamento',
   paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
   insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
@@ -44,6 +47,12 @@ const DENTIST_EXTRA = {
     birthDate: '22/07/1985',
     orderNumber: 'OMD-12345',
     orderCountry: 'Portugal',
+  },
+  stats: {
+    totalConsultations: '1 247',
+    teleconsultations: '312',
+    confirmationRate: '94%',
+    avgDuration: '28 min',
   },
   clinicSchedules: [
     {
@@ -88,8 +97,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
+  const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
   const reviews = getReviewsForDentist(dentist.id);
-  const initials = dentist.name.split(' ').filter((_, i, a) => i === 0 || i === a.length - 1).map(n => n[0]).join('');
+  const initials = getDentistInitials(dentist.name);
+  const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
 
   const breakdown = [
     { stars: 5, pct: 78 },
@@ -116,9 +127,12 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-        <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
-          {initials}
-        </div>
+        <Avatar className="w-24 h-24 flex-shrink-0">
+          {photo && <AvatarImage src={photo} alt={dentist.name} />}
+          <AvatarFallback className="bg-secondary text-3xl font-bold text-primary">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold text-foreground">{dentist.name}</h3>
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mt-1">
@@ -132,13 +146,25 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <span className={cn('text-sm font-bold', levelCfg.color)}>{dentist.rating}</span>
               <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
             </div>
+          </div>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
               {levelCfg.label}
             </span>
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
+              📋 {planCfg.label}
+            </span>
           </div>
-          <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="mt-2 text-xs">
-            {DENTIST_EXTRA.acceptsNewPatients ? '✓ Aceita novos pacientes' : '✗ Não aceita novos pacientes'}
-          </Badge>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
+            <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="text-xs">
+              {DENTIST_EXTRA.acceptsNewPatients ? '✓ Aceita novos pacientes' : '✗ Não aceita novos pacientes'}
+            </Badge>
+            {DENTIST_EXTRA.teleconsultaAvailable && (
+              <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-400/30 bg-emerald-400/10">
+                📱 Teleconsultas
+              </Badge>
+            )}
+          </div>
         </div>
         <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
           {isOwnProfile ? (
@@ -174,6 +200,8 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       />
 
       <Separator />
+
+      {/* Sobre */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
@@ -194,6 +222,29 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <span key={l.name} className="text-sm">{l.code} {l.name}</span>
             ))}
           </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Estatísticas */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { label: 'Total consultas', value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
+            { label: 'Teleconsultas', value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
+            { label: 'Taxa confirmação', value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
+            { label: 'Tempo médio', value: DENTIST_EXTRA.stats.avgDuration, icon: Clock },
+          ].map(stat => (
+            <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <stat.icon className="w-3.5 h-3.5 text-primary" />
+                <span className="text-[10px] text-muted-foreground">{stat.label}</span>
+              </div>
+              <span className="text-lg font-bold">{stat.value}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -320,12 +371,12 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           <Separator />
           <section className="space-y-3">
             <h4 className="text-sm font-semibold text-foreground">Informação Pessoal</h4>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Nascimento</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Nº Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">País Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nascimento</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nº Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">País Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
             </div>
           </section>
         </>
@@ -333,16 +384,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     </div>
   );
 
-  // Always render full-screen (inline fills the content area)
   if (inline) {
-    return (
-      <div className="p-5">
-        {profileContent}
-      </div>
-    );
+    return <div className="p-5">{profileContent}</div>;
   }
 
-  // Full-screen layout for all devices
   return (
     <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">

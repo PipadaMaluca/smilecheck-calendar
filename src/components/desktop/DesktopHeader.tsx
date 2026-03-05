@@ -1,8 +1,9 @@
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
+import { getDentistInitials, getClinicInitials, getPatientInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 
 interface DesktopHeaderProps {
   userRole: UserRole;
@@ -65,8 +66,11 @@ export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
           <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
         </div>
         <Avatar className="h-9 w-9">
+          {userRole === 'dentist' && DENTIST_AVATAR_PHOTOS['1'] && (
+            <AvatarImage src={DENTIST_AVATAR_PHOTOS['1']} alt={userInfo.name} />
+          )}
           <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-            {userInfo.name.charAt(0)}
+            {userRole === 'dentist' ? getDentistInitials(userInfo.name) : userRole === 'clinic' ? getClinicInitials(userInfo.name) : getPatientInitials(userInfo.name)}
           </AvatarFallback>
         </Avatar>
       </div>

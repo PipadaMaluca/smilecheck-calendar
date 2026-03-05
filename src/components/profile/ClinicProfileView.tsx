@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Accessibility, Camera, Video, TrendingUp, Users, Stethoscope } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -8,10 +8,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { mockDentists, mockClinics, getDentistsForClinic } from '@/data/mockData';
-import { LEVEL_CONFIG, getReviewsForDentist, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { LEVEL_CONFIG, PLAN_CONFIG, getReviewsForDentist, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
+import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 interface ClinicProfileViewProps {
   clinicId: string;
@@ -25,7 +27,7 @@ interface ClinicProfileViewProps {
   onEditProfile?: () => void;
 }
 
-const CLINIC_EXTRA: Record<string, {
+const CLINIC_DATA: Record<string, {
   description: string;
   founded: number;
   rating: number;
@@ -33,97 +35,127 @@ const CLINIC_EXTRA: Record<string, {
   acceptsNewPatients: boolean;
   phone: string;
   email: string;
+  nif: string;
   website: string;
-  xrayServices: string[];
+  level: string;
+  plan: string;
+  certification: string;
+  languages: { code: string; name: string }[];
+  locations: {
+    name: string;
+    address: string;
+    distance: number;
+    hours: { day: string; hours: string }[];
+    accessibility: string[];
+  }[];
   specialties: string[];
-  hours: { day: string; hours: string }[];
-  accessibility: string[];
-  photos: string[];
+  teleconsultaPrice: number;
+  paymentMethods: string[];
+  insurances: string[];
 }> = {
   '1': {
     description: 'Clínica dentária de referência com mais de 10 anos de experiência. Especializada em ortodontia, implantologia e estética dentária. Equipamento de última geração e equipa altamente qualificada.',
     founded: 2015,
-    rating: 4.8,
-    reviewCount: 125,
+    rating: 4.9,
+    reviewCount: 312,
     acceptsNewPatients: true,
     phone: '+351 211 000 000',
     email: 'info@smilecheck.pt',
+    nif: '509 123 456',
     website: 'www.smilecheck.pt',
-    xrayServices: ['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'],
-    specialties: ['Generalista', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Implantologia', 'Odontopediatria'],
-    hours: [
-      { day: 'Segunda a Sexta', hours: '08:00 - 20:00' },
-      { day: 'Sábado', hours: '09:00 - 14:00' },
-      { day: 'Domingo', hours: 'Fechado' },
+    level: 'ouro',
+    plan: 'pro',
+    certification: 'ISO 9001',
+    languages: [
+      { code: '🇵🇹', name: 'Português' },
+      { code: '🇫🇷', name: 'Français' },
+      { code: '🇬🇧', name: 'English' },
     ],
-    accessibility: ['Acesso para cadeiras de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
-    photos: [],
+    locations: [
+      {
+        name: 'Clínica SmileCheck',
+        address: 'Av. da Liberdade 123, Lisboa',
+        distance: 2.5,
+        hours: [
+          { day: 'Segunda a Sexta', hours: '09:00 - 19:00' },
+          { day: 'Sábado', hours: '09:00 - 13:00' },
+          { day: 'Domingo', hours: 'Fechado' },
+        ],
+        accessibility: ['Cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento'],
+      },
+      {
+        name: 'Clínica Mitry-Mory',
+        address: 'Rue de Paris 45, Mitry-Mory',
+        distance: 4.2,
+        hours: [
+          { day: 'Quarta', hours: '14:00 - 19:00' },
+          { day: 'Sábado', hours: '09:00 - 13:00' },
+        ],
+        accessibility: ['Cadeira de rodas', 'Estacionamento gratuito'],
+      },
+    ],
+    specialties: ['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Estética Dentária', 'Odontopediatria'],
+    teleconsultaPrice: 20,
+    paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
+    insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
   },
   '2': {
     description: 'Clínica dentária de referência na região de Mitry-Mory, com foco em cirurgia e prótese dentária.',
     founded: 2018, rating: 4.7, reviewCount: 185, acceptsNewPatients: true,
-    phone: '+33 1 60 000 000', email: 'contact@mitry-dental.fr', website: 'www.mitry-dental.fr',
-    xrayServices: ['Raio-X Panorâmico', 'Raio-X Periapical'],
-    specialties: ['Cirurgia Oral', 'Prótese', 'Endodontia'],
-    hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }, { day: 'Sábado', hours: '09:00 - 12:00' }],
-    accessibility: ['Acesso para cadeiras de rodas', 'Estacionamento gratuito', 'Próximo de transportes públicos'],
-    photos: [],
+    phone: '+33 1 60 000 000', email: 'contact@mitry-dental.fr', nif: '—', website: 'www.mitry-dental.fr',
+    level: 'prata', plan: 'pro', certification: '', languages: [{ code: '🇫🇷', name: 'Français' }, { code: '🇵🇹', name: 'Português' }],
+    locations: [{ name: 'Clínica Mitry-Mory', address: 'Rue de Paris 45, Mitry-Mory', distance: 4.2,
+      hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }, { day: 'Sábado', hours: '09:00 - 12:00' }],
+      accessibility: ['Cadeira de rodas', 'Estacionamento gratuito'] }],
+    specialties: ['Cirurgia Oral', 'Prótese', 'Endodontia'], teleconsultaPrice: 22,
+    paymentMethods: ['Cartão', 'Multibanco'], insurances: ['Médis'],
   },
   '3': {
     description: 'Centro dentário especializado em ortodontia e cirurgia oral em Montfermeil.',
     founded: 2020, rating: 4.6, reviewCount: 143, acceptsNewPatients: true,
-    phone: '+33 1 43 000 000', email: 'contact@montfermeil-dental.fr', website: 'www.montfermeil-dental.fr',
-    xrayServices: ['Raio-X Panorâmico', 'TAC Dentário'],
-    specialties: ['Ortodontia', 'Cirurgia Oral', 'Prótese', 'Implantologia'],
-    hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }],
-    accessibility: ['Acesso para cadeiras de rodas', 'WC adaptado', 'Próximo de transportes públicos'],
-    photos: [],
+    phone: '+33 1 43 000 000', email: 'contact@montfermeil-dental.fr', nif: '—', website: 'www.montfermeil-dental.fr',
+    level: 'prata', plan: 'free', certification: '', languages: [{ code: '🇫🇷', name: 'Français' }],
+    locations: [{ name: 'Clínica Montfermeil', address: 'Avenue Jean Jaurès 78, Montfermeil', distance: 6.0,
+      hours: [{ day: 'Segunda a Sexta', hours: '09:00 - 19:00' }],
+      accessibility: ['Cadeira de rodas', 'WC adaptado'] }],
+    specialties: ['Ortodontia', 'Cirurgia Oral', 'Prótese', 'Implantologia'], teleconsultaPrice: 25,
+    paymentMethods: ['Cartão'], insurances: [],
   },
 };
 
 const CLINIC_REVIEWS = [
-  { id: 'cr1', patientName: 'Ana M.', rating: 5, date: '2026-01-28', comment: 'Clínica excelente, muito moderna e limpa. Recomendo a todos!' },
-  { id: 'cr2', patientName: 'Pedro S.', rating: 5, date: '2026-01-25', comment: 'Equipa fantástica, recomendo a todos!' },
-  { id: 'cr3', patientName: 'Maria L.', rating: 4, date: '2026-01-20', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
-  { id: 'cr4', patientName: 'João P.', rating: 5, date: '2026-01-15', comment: 'Nunca tive uma experiência tão boa num dentista.' },
+  { id: 'cr1', patientName: 'Ana M.', rating: 5, date: '28 Jan 2026', comment: 'Clínica excelente, muito moderna e limpa. Recomendo a todos!' },
+  { id: 'cr2', patientName: 'Pedro S.', rating: 5, date: '25 Jan 2026', comment: 'Equipa fantástica, recomendo a todos!' },
+  { id: 'cr3', patientName: 'Maria L.', rating: 4, date: '20 Jan 2026', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
+  { id: 'cr4', patientName: 'João P.', rating: 5, date: '15 Jan 2026', comment: 'Nunca tive uma experiência tão boa num dentista.' },
+  { id: 'cr5', patientName: 'Sofia R.', rating: 5, date: '10 Jan 2026', comment: 'Profissionais de excelência. Muito confiável.' },
 ];
-
-const DENTIST_RATINGS: Record<string, number> = {
-  '1': 4.9, '2': 4.7, '3': 4.8, '4': 4.6, '5': 4.5, '6': 4.4, '7': 4.3,
-};
 
 const DENTIST_SPECIALTIES: Record<string, string[]> = {
-  '1': ['Cirurgia', 'Endodontia'],
-  '2': ['Ortodontia', 'Prótese'],
-  '3': ['Restauração', 'Odontopediatria'],
+  '1': ['Generalista', 'Estética Dentária'],
+  '2': ['Ortodontia', 'Multidisciplinar'],
+  '3': ['Generalista'],
 };
 
-const CLINIC_SERVICES = [
-  { name: 'Consulta de avaliação', price: 'desde €30' },
-  { name: 'Teleconsulta', price: '€20' },
-  { name: 'Destartarização', price: 'desde €50' },
-  { name: 'Restauração dentária', price: 'desde €60' },
-  { name: 'Endodontia', price: 'desde €150' },
-  { name: 'Cirurgia oral', price: 'desde €200' },
-  { name: 'Ortodontia', price: 'consultar' },
-  { name: 'Implantologia', price: 'consultar' },
-  { name: 'Prótese dentária', price: 'desde €180' },
-  { name: 'Odontopediatria', price: 'desde €50' },
-];
+const DENTIST_RATINGS: Record<string, number> = {
+  '1': 4.9, '2': 4.8, '3': 4.7, '4': 4.6, '5': 4.5, '6': 4.8, '7': 4.9,
+};
 
-const CLINIC_STATS = {
-  totalConsultations: '3 200+',
-  confirmationRate: '92%',
-  avgWaitTime: '8 min',
-  activePatients: '850+',
+const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients: string; confirmationRate: string; activeDentists: number }> = {
+  '1': { totalConsultations: '3 200+', activePatients: '850+', confirmationRate: '92%', activeDentists: 7 },
+  '2': { totalConsultations: '1 800+', activePatients: '420+', confirmationRate: '89%', activeDentists: 3 },
+  '3': { totalConsultations: '900+', activePatients: '280+', confirmationRate: '91%', activeDentists: 3 },
 };
 
 export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);
-  const extra = CLINIC_EXTRA[clinicId] || CLINIC_EXTRA['1'];
+  const data = CLINIC_DATA[clinicId] || CLINIC_DATA['1'];
+  const stats = CLINIC_STATS[clinicId] || CLINIC_STATS['1'];
   const dentists = getDentistsForClinic(clinicId)
     .sort((a, b) => (DENTIST_RATINGS[b.id] || 4.0) - (DENTIST_RATINGS[a.id] || 4.0));
+  const levelCfg = LEVEL_CONFIG[data.level] || LEVEL_CONFIG['ouro'];
+  const planCfg = PLAN_CONFIG[data.plan] || PLAN_CONFIG['free'];
 
   const breakdown = [
     { stars: 5, pct: 72 },
@@ -147,20 +179,22 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           <p className="text-sm text-muted-foreground">Clínica Dentária</p>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-            <span className="text-sm font-bold">{extra.rating}</span>
-            <span className="text-xs text-muted-foreground">({extra.reviewCount} avaliações)</span>
+            <span className="text-sm font-bold">{data.rating}</span>
+            <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
           </div>
-          <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
-            <Badge variant="secondary" className="text-xs bg-amber-500/15 text-amber-400 border-amber-500/30">Ouro</Badge>
-            <span className="text-xs font-medium text-primary">3 800 pts</span>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+              {levelCfg.label}
+            </span>
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
+              📋 {planCfg.label}
+            </span>
           </div>
-          <div className="flex items-center justify-center md:justify-start gap-1 mt-1">
-            <MapPin className="w-3 h-3 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">{clinic.address}</span>
+          <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
+            {data.acceptsNewPatients && (
+              <Badge variant="default" className="text-xs">✓ Aceita novos pacientes</Badge>
+            )}
           </div>
-          {extra.acceptsNewPatients && (
-            <Badge variant="default" className="mt-2 text-xs">✓ Aceita novos pacientes</Badge>
-          )}
         </div>
         <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
           {isOwnProfile ? (
@@ -169,7 +203,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <>
               <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
               <Button variant="outline" className="flex-1"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
-              <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${extra.phone}`)}>
+              <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> Ligar
               </Button>
             </>
@@ -197,16 +231,24 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       {/* Sobre */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold">Sobre</h4>
-        <p className="text-sm text-muted-foreground">{extra.description}</p>
-        <p className="text-xs text-muted-foreground">Fundada em {extra.founded}</p>
-        <div>
-          <p className="text-xs font-semibold text-muted-foreground mb-1.5">Serviços</p>
-          <div className="flex flex-wrap gap-1.5">
-            {extra.xrayServices.map(s => (
-              <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>
-            ))}
-            {extra.specialties.map(s => (
-              <Badge key={s} variant="outline" className="text-xs">{s}</Badge>
+        <p className="text-sm text-muted-foreground">{data.description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} anos de experiência</span>
+          </div>
+          {data.certification && (
+            <div className="flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">Certificação {data.certification}</span>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <Languages className="w-4 h-4 text-muted-foreground" />
+          <div className="flex gap-1.5">
+            {data.languages.map(l => (
+              <span key={l.name} className="text-sm">{l.code} {l.name}</span>
             ))}
           </div>
         </div>
@@ -214,43 +256,35 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       <Separator />
 
-      {/* Hours */}
+      {/* Locais de Atendimento */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Horário de Funcionamento</h4>
-        <div className="space-y-1">
-          {extra.hours.map(h => (
-            <div key={h.day} className="flex justify-between text-sm">
-              <span className="text-muted-foreground">{h.day}</span>
-              <span className={h.hours === 'Fechado' ? 'text-destructive' : 'font-medium'}>{h.hours}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <Separator />
-
-      {/* Team */}
-      <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Equipa Médica</h4>
-        <div className="space-y-2">
-          {dentists.map(d => (
-            <div key={d.id} className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <User className="w-5 h-5 text-primary" />
+        <h4 className="text-sm font-semibold">Locais de Atendimento</h4>
+        <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
+          {data.locations.map((loc, i) => (
+            <div key={i} className="bg-secondary/50 rounded-xl p-4 space-y-3 border border-border">
+              <div>
+                <p className="text-sm font-semibold">{loc.name}</p>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                  <MapPin className="w-3 h-3" />
+                  <span>{loc.address} · {loc.distance} km</span>
+                </div>
               </div>
-              <div className="flex-1">
-                <ClickableDentistName name={d.name} className="text-sm font-medium" />
-                <p className="text-xs text-muted-foreground">
-                  {DENTIST_SPECIALTIES[d.id]?.join(', ') || d.specialty}
-                </p>
-                {DENTIST_RATINGS[d.id] && (
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-medium">{DENTIST_RATINGS[d.id]}</span>
+              <div className="space-y-1">
+                {loc.hours.map(h => (
+                  <div key={h.day} className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">{h.day}</span>
+                    <span className={h.hours === 'Fechado' ? 'text-destructive' : 'font-medium'}>{h.hours}</span>
                   </div>
-                )}
+                ))}
               </div>
-              <Badge variant="outline" className="text-[10px]">Aceita pacientes</Badge>
+              <div className="flex flex-wrap gap-1">
+                {loc.accessibility.map(a => (
+                  <Badge key={a} variant="outline" className="text-[10px]">♿ {a}</Badge>
+                ))}
+              </div>
+              <Button size="sm" variant="outline" className="w-full text-xs">
+                Marcar nesta clínica
+              </Button>
             </div>
           ))}
         </div>
@@ -258,34 +292,64 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       <Separator />
 
-      {/* Serviços e Tarifas */}
+      {/* Equipa */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Tarifas</h4>
-        <div className="space-y-1">
-          {CLINIC_SERVICES.map(s => (
-            <div key={s.name} className="flex justify-between text-sm py-1 border-b border-border/30 last:border-0">
-              <span className="text-muted-foreground">{s.name}</span>
-              <span className="font-medium">{s.price}</span>
-            </div>
+        <h4 className="text-sm font-semibold">Equipa</h4>
+        <div className="space-y-2">
+          {dentists.map(d => {
+            const dInitials = getDentistInitials(d.name);
+            const photo = DENTIST_AVATAR_PHOTOS[d.id];
+            const rating = DENTIST_RATINGS[d.id];
+            const specs = DENTIST_SPECIALTIES[d.id]?.join(', ') || d.specialty;
+            return (
+              <div key={d.id} className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
+                <Avatar className="w-10 h-10">
+                  {photo && <AvatarImage src={photo} alt={d.name} />}
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">{dInitials}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <ClickableDentistName name={d.name} className="text-sm font-medium" />
+                  <p className="text-xs text-muted-foreground">{specs}</p>
+                  {rating && (
+                    <div className="flex items-center gap-1 mt-0.5">
+                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <span className="text-xs font-medium">{rating}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Serviços */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold">Serviços</h4>
+        <div className="flex flex-wrap gap-1.5">
+          {data.specialties.map(s => (
+            <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>
           ))}
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Video className="w-4 h-4 text-emerald-400" />
-          <span>Teleconsultas disponíveis: <span className="font-medium">Sim (€20)</span></span>
+          <span>Teleconsultas disponíveis ✅</span>
         </div>
       </section>
 
       <Separator />
 
-      {/* Estatísticas Públicas */}
+      {/* Estatísticas */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold">Estatísticas</h4>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Total consultas realizadas', value: CLINIC_STATS.totalConsultations, icon: Stethoscope },
-            { label: 'Taxa de confirmação', value: CLINIC_STATS.confirmationRate, icon: TrendingUp },
-            { label: 'Tempo médio de espera', value: CLINIC_STATS.avgWaitTime, icon: Clock },
-            { label: 'Pacientes ativos', value: CLINIC_STATS.activePatients, icon: Users },
+            { label: 'Total consultas', value: stats.totalConsultations, icon: Stethoscope },
+            { label: 'Pacientes ativos', value: stats.activePatients, icon: Users },
+            { label: 'Taxa confirmação', value: stats.confirmationRate, icon: TrendingUp },
+            { label: 'Dentistas ativos', value: String(stats.activeDentists), icon: User },
           ].map(stat => (
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
@@ -300,78 +364,53 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       <Separator />
 
-      {/* Contact */}
+      {/* Tarifas e Pagamentos */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Contactos e Localização</h4>
+        <h4 className="text-sm font-semibold">Tarifas e Pagamentos</h4>
         <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            <span>{clinic.address}</span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="font-medium">€{data.teleconsultaPrice}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Phone className="w-4 h-4 text-muted-foreground" />
-            <a href={`tel:${extra.phone}`} className="text-primary hover:underline">{extra.phone}</a>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Consulta presencial</span>
+            <span className="font-medium">Variável conforme tratamento</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-muted-foreground" />
-            <span>{extra.website}</span>
-          </div>
-        </div>
-        <div className="h-40 bg-secondary rounded-xl flex items-center justify-center text-muted-foreground text-sm">
-          <MapPin className="w-5 h-5 mr-2" /> Mapa interactivo
-        </div>
-      </section>
-
-      <Separator />
-
-      {/* Accessibility */}
-      <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Acessibilidade</h4>
-        <div className="grid grid-cols-2 gap-2">
-          {extra.accessibility.map(a => (
-            <div key={a} className="flex items-center gap-2 text-sm">
-              <span className="text-emerald-500">✓</span>
-              <span>{a}</span>
+          <div className="flex justify-between items-start">
+            <span className="text-muted-foreground">Métodos aceites</span>
+            <div className="flex flex-wrap gap-1 justify-end">
+              {data.paymentMethods.map(m => (
+                <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="space-y-1 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-500">✓</span>
-            <span>Transportes públicos: Metro Avenida (5 min a pé)</span>
           </div>
-        </div>
-      </section>
-
-      <Separator />
-
-      {/* Galeria */}
-      <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Galeria</h4>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
-          {['Receção', 'Consultório 1', 'Equipamento', 'Equipa', 'Exterior'].map((label) => (
-            <div key={label} className="aspect-square bg-secondary/50 rounded-lg flex flex-col items-center justify-center text-muted-foreground">
-              <Camera className="w-5 h-5 mb-1" />
-              <span className="text-[9px]">{label}</span>
+          {data.insurances.length > 0 && (
+            <div className="flex justify-between items-start">
+              <span className="text-muted-foreground">Convenções</span>
+              <div className="flex flex-wrap gap-1 justify-end">
+                {data.insurances.map(s => (
+                  <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>
+                ))}
+              </div>
             </div>
-          ))}
+          )}
         </div>
       </section>
 
       <Separator />
 
-      {/* Reviews */}
+      {/* Avaliações */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold">Avaliações</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
-            <p className="text-3xl font-bold">{extra.rating}</p>
+            <p className="text-3xl font-bold">{data.rating}</p>
             <div className="flex justify-center">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className={cn('w-4 h-4', i < Math.floor(extra.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+                <Star key={i} className={cn('w-4 h-4', i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{extra.reviewCount}</p>
+            <p className="text-xs text-muted-foreground">{data.reviewCount} avaliações</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map(b => (
@@ -404,21 +443,28 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             </div>
           ))}
         </div>
-        <button className="text-xs text-primary hover:underline">Ver todas as avaliações →</button>
+      </section>
+
+      <Separator />
+
+      {/* Informação */}
+      <section className="space-y-3">
+        <h4 className="text-sm font-semibold">Informação</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{data.email}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><a href={`tel:${data.phone}`} className="text-primary hover:underline">{data.phone}</a></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">NIF</span><span>{data.nif}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Website</span><span>{data.website}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30 md:col-span-2"><span className="text-muted-foreground">Morada</span><span>{clinic.address}</span></div>
+        </div>
       </section>
     </div>
   );
 
-  // Inline mode
   if (inline) {
-    return (
-      <div className="p-5">
-        {profileContent}
-      </div>
-    );
+    return <div className="p-5">{profileContent}</div>;
   }
 
-  // Full-screen for all devices
   return (
     <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">

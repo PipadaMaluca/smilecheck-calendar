@@ -59,7 +59,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     <div className="space-y-4">
       {dentistsToShow.map(dentist => {
         const patients = MOCK_WAITLIST[dentist.id] || [];
-        const initials = dentist.name.split(' ').filter(w => w.length > 2).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        const initials = dentist.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase();
 
         return (
           <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">
