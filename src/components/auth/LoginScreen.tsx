@@ -4,8 +4,9 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AuthBackground } from './AuthBackground';
-import smileLogo from '@/assets/smilecheck-logo-full.png';
 import { cn } from '@/lib/utils';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 export function LoginScreen() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export function LoginScreen() {
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
         {/* Logo */}
-        <img src={smileLogo} alt="SmileCheck" className="w-full mb-2" />
+        <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 mb-2" />
         <p className="text-muted-foreground text-sm mb-8">O seu sorriso, a nossa prioridade</p>
 
         {/* Form */}

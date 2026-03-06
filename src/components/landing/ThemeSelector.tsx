@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import smileIcon from '@/assets/smilecheck-icon.png';
 import { cn } from '@/lib/utils';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 interface ThemeSelectorProps {
   onSelect: (dark: boolean) => void;
@@ -25,16 +26,13 @@ export function ThemeSelector({ onSelect }: ThemeSelectorProps) {
     >
       <div className="flex flex-col items-center gap-8 animate-fade-in px-4">
         <img
-          src={smileIcon}
+          src={logoSrc}
           alt="SmileCheck"
-          className="w-24 h-24 drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)] animate-[pulse_3s_ease-in-out_infinite]"
+          className="h-24 sm:h-28 drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)] animate-[pulse_3s_ease-in-out_infinite]"
         />
 
         <div className="text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-            Bem-vindo ao SmileCheck
-          </h1>
-          <p className="text-[hsl(220,15%,55%)] text-base">
+          <p className="text-[hsl(220,15%,55%)] text-lg mt-2">
             Como prefere ver o nosso site?
           </p>
         </div>

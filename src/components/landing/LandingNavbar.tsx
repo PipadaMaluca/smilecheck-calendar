@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import smileLogo from '@/assets/smilecheck-logo-full.png';
 import { cn } from '@/lib/utils';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 interface LandingNavbarProps {
   isDark: boolean;
@@ -41,7 +42,14 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <a href="#" className="flex-shrink-0">
-            <img src={smileLogo} alt="SmileCheck" className="h-10 sm:h-12 lg:h-14" />
+            <img
+              src={logoSrc}
+              alt="SmileCheck"
+              className={cn(
+                'logo-light-adapt transition-all duration-300',
+                scrolled ? 'h-9 sm:h-10' : 'h-11 sm:h-12'
+              )}
+            />
           </a>
 
           {/* Desktop links */}

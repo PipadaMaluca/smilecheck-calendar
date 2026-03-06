@@ -92,6 +92,42 @@
     --sidebar-border: 214 30% 25%;
     --sidebar-ring: 207 90% 54%;
   }
+
+  /* Light mode for landing page - scoped via .light class */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 207 90% 54%;
+  }
+}
+
+/* Light mode logo: add dark pill behind it for contrast */
+.light .logo-light-adapt {
+  filter: brightness(0.15);
 }
 
 @layer base {
