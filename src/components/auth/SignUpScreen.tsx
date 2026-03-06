@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { AuthBackground } from './AuthBackground';
-import smileLogo from '@/assets/smilecheck-logo-full.png';
 import { cn } from '@/lib/utils';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
 
