@@ -25,6 +25,10 @@ export default function Landing() {
       document.documentElement.classList.toggle('dark', dark);
       document.documentElement.classList.toggle('light', !dark);
     }
+    return () => {
+      // Clean up light class when leaving landing
+      document.documentElement.classList.remove('light');
+    };
   }, []);
 
   const applyTheme = (dark: boolean) => {

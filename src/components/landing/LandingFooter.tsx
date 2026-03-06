@@ -33,20 +33,20 @@ export function LandingFooter() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-[hsl(222,47%,11%)] text-[hsl(210,40%,98%)]">
+      <footer className="border-t border-[hsl(214,30%,20%)] bg-[hsl(222,47%,11%)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Column 1 */}
             <div className="col-span-2 md:col-span-1">
               <img src={logoSrc} alt="SmileCheck" className="h-10 mb-3" />
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-sm text-[hsl(215,20%,65%)] mb-4">
                 A app que recompensa a sua saúde oral
               </p>
               <div className="flex gap-3">
                 {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) => (
                   <span
                     key={s}
-                    className="text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                    className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors"
                   >
                     {s}
                   </span>
@@ -56,7 +56,7 @@ export function LandingFooter() {
 
             {/* Column 2 */}
             <div>
-              <h4 className="font-semibold text-foreground text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
                 Produto
               </h4>
               <ul className="space-y-2">
@@ -70,7 +70,7 @@ export function LandingFooter() {
                   <li key={l}>
                     <a
                       href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
                     >
                       {l}
                     </a>
@@ -81,7 +81,7 @@ export function LandingFooter() {
 
             {/* Column 3 */}
             <div>
-              <h4 className="font-semibold text-foreground text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
                 Suporte
               </h4>
               <ul className="space-y-2">
@@ -89,7 +89,7 @@ export function LandingFooter() {
                   <li key={l}>
                     <a
                       href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
                     >
                       {l}
                     </a>
@@ -100,7 +100,7 @@ export function LandingFooter() {
 
             {/* Column 4 */}
             <div>
-              <h4 className="font-semibold text-foreground text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
                 Legal
               </h4>
               <ul className="space-y-2">
@@ -113,7 +113,7 @@ export function LandingFooter() {
                   <li key={l}>
                     <a
                       href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
                     >
                       {l}
                     </a>
@@ -124,7 +124,7 @@ export function LandingFooter() {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <div className="mt-10 pt-6 border-t border-[hsl(214,30%,20%)] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[hsl(215,20%,65%)]">
             <span>© 2026 SmileCheck. Todos os direitos reservados.</span>
             <span>Feito com ❤️ em Portugal</span>
           </div>
