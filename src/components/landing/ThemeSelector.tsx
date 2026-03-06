@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import smileIcon from '@/assets/smilecheck-icon.png';
 import { cn } from '@/lib/utils';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 interface ThemeSelectorProps {
   onSelect: (dark: boolean) => void;
