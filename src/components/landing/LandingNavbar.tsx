@@ -46,9 +46,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               src={logoSrc}
               alt="SmileCheck"
               className={cn(
-                'transition-all duration-300',
-                scrolled ? 'h-9 sm:h-10' : 'h-11 sm:h-12',
-                !isDark && 'brightness-0 dark:brightness-100'
+                'logo-light-adapt transition-all duration-300',
+                scrolled ? 'h-9 sm:h-10' : 'h-11 sm:h-12'
               )}
             />
           </a>

@@ -125,6 +125,11 @@
   }
 }
 
+/* Light mode logo: add dark pill behind it for contrast */
+.light .logo-light-adapt {
+  filter: brightness(0.15);
+}
+
 @layer base {
   * {
     @apply border-border;
