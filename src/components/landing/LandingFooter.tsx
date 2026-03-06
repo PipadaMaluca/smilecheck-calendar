@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import smileLogo from '@/assets/smilecheck-logo-full.png';
+
+const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
 export function LandingFooter() {
   const navigate = useNavigate();
