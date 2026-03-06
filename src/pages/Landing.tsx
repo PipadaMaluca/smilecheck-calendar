@@ -23,12 +23,14 @@ export default function Landing() {
       const dark = saved === 'dark';
       setIsDark(dark);
       document.documentElement.classList.toggle('dark', dark);
+      document.documentElement.classList.toggle('light', !dark);
     }
   }, []);
 
   const applyTheme = (dark: boolean) => {
     setIsDark(dark);
     document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.classList.toggle('light', !dark);
     localStorage.setItem('sc-theme', dark ? 'dark' : 'light');
     localStorage.setItem('sc-theme-set', '1');
     setThemeSelected(true);

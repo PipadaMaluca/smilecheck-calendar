@@ -32,10 +32,7 @@ export function ThemeSelector({ onSelect }: ThemeSelectorProps) {
         />
 
         <div className="text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-            Bem-vindo ao SmileCheck
-          </h1>
-          <p className="text-[hsl(220,15%,55%)] text-base">
+          <p className="text-[hsl(220,15%,55%)] text-lg mt-2">
             Como prefere ver o nosso site?
           </p>
         </div>

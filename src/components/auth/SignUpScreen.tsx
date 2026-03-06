@@ -100,7 +100,7 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col items-center animate-fade-in">
-          <img src={smileLogo} alt="SmileCheck" className="w-full mb-6" />
+          <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 mb-6" />
           <h1 className="text-xl font-bold text-foreground mb-1">Criar Conta</h1>
           <p className="text-sm text-muted-foreground mb-6">Escolha o tipo de conta</p>
 

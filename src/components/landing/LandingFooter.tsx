@@ -38,7 +38,7 @@ export function LandingFooter() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Column 1 */}
             <div className="col-span-2 md:col-span-1">
-              <img src={smileLogo} alt="SmileCheck" className="h-7 mb-3" />
+              <img src={logoSrc} alt="SmileCheck" className="h-10 mb-3" />
               <p className="text-sm text-muted-foreground mb-4">
                 A app que recompensa a sua saúde oral
               </p>

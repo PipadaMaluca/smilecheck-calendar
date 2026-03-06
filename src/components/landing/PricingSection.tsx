@@ -250,8 +250,10 @@ function PlanGrid({
             {plan.badge && (
               <Badge
                 className={cn(
-                  'absolute -top-3 left-1/2 -translate-x-1/2 text-xs',
-                  plan.badgeColor || 'bg-primary/10 text-primary border-primary/20'
+                  'absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0',
+                  plan.badge === 'Melhor'
+                    ? 'bg-amber-500 text-white'
+                    : 'bg-primary text-primary-foreground'
                 )}
               >
                 {plan.badge}
