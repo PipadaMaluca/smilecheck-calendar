@@ -21,8 +21,8 @@ export function LandingFooter() {
             <Button
               size="lg"
               className="text-base px-10 h-12"
-              onClick={() => navigate('/signup')}
-            >
+              onClick={() => navigate('/signup')}>
+              
               Criar Conta Grátis
             </Button>
             <p className="text-sm text-muted-foreground mt-4">
@@ -38,19 +38,19 @@ export function LandingFooter() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Column 1 */}
             <div className="col-span-2 md:col-span-1">
-              <img src={logoSrc} alt="SmileCheck" className="h-10 mb-3" />
+              <img src={logoSrc} alt="SmileCheck" className="h-10 mb-3 rounded-full" />
               <p className="text-sm text-[hsl(215,20%,65%)] mb-4">
                 A app que recompensa a sua saúde oral
               </p>
               <div className="flex gap-3">
-                {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) => (
-                  <span
-                    key={s}
-                    className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors"
-                  >
+                {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) =>
+                <span
+                  key={s}
+                  className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors">
+                  
                     {s}
                   </span>
-                ))}
+                )}
               </div>
             </div>
 
@@ -61,21 +61,21 @@ export function LandingFooter() {
               </h4>
               <ul className="space-y-2">
                 {[
-                  'Funcionalidades',
-                  'Planos e Preços',
-                  'Teleconsultas',
-                  'Para Dentistas',
-                  'Para Clínicas',
-                ].map((l) => (
-                  <li key={l}>
+                'Funcionalidades',
+                'Planos e Preços',
+                'Teleconsultas',
+                'Para Dentistas',
+                'Para Clínicas'].
+                map((l) =>
+                <li key={l}>
                     <a
-                      href="#"
-                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                    >
+                    href="#"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
+                    
                       {l}
                     </a>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
 
@@ -85,16 +85,16 @@ export function LandingFooter() {
                 Suporte
               </h4>
               <ul className="space-y-2">
-                {['FAQ', 'Contacto', 'Centro de Ajuda'].map((l) => (
-                  <li key={l}>
+                {['FAQ', 'Contacto', 'Centro de Ajuda'].map((l) =>
+                <li key={l}>
                     <a
-                      href="#"
-                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                    >
+                    href="#"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
+                    
                       {l}
                     </a>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
 
@@ -105,20 +105,20 @@ export function LandingFooter() {
               </h4>
               <ul className="space-y-2">
                 {[
-                  'Termos de Serviço',
-                  'Política de Privacidade',
-                  'RGPD',
-                  'Cookies',
-                ].map((l) => (
-                  <li key={l}>
+                'Termos de Serviço',
+                'Política de Privacidade',
+                'RGPD',
+                'Cookies'].
+                map((l) =>
+                <li key={l}>
                     <a
-                      href="#"
-                      className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                    >
+                    href="#"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
+                    
                       {l}
                     </a>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>
@@ -130,6 +130,6 @@ export function LandingFooter() {
           </div>
         </div>
       </footer>
-    </>
-  );
+    </>);
+
 }
