@@ -43,11 +43,11 @@ function useCountUp(end: number, duration = 2000) {
 }
 
 const stats = [
-  { end: 5000, prefix: '+', label: 'Pacientes' },
-  { end: 500, prefix: '+', label: 'Dentistas' },
-  { end: 50, prefix: '+', label: 'Clínicas' },
-  { end: 48, prefix: '⭐ ', label: 'Rating médio', isDecimal: true },
-];
+{ end: 5000, prefix: '+', label: 'Pacientes' },
+{ end: 500, prefix: '+', label: 'Dentistas' },
+{ end: 50, prefix: '+', label: 'Clínicas' },
+{ end: 48, prefix: '⭐ ', label: 'Rating médio', isDecimal: true }];
+
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -63,12 +63,12 @@ export function HeroSection() {
         <img
           src="/assets/smilecheck-logo-horizontal.png"
           alt="SmileCheck"
-          className="logo-light-adapt h-20 sm:h-24 mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)]"
-        />
+          className="logo-light-adapt h-20 sm:h-24 mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-3xl" />
+        
         <Badge
           variant="secondary"
-          className="mb-6 px-4 py-2 text-sm animate-fade-in cursor-default"
-        >
+          className="mb-6 px-4 py-2 text-sm animate-fade-in cursor-default">
+          
           <Rocket className="w-4 h-4 mr-2" />
           Novo — Teleconsultas disponíveis!
         </Badge>
@@ -87,16 +87,16 @@ export function HeroSection() {
           <Button
             size="lg"
             className="text-base px-8 h-12 w-full sm:w-auto"
-            onClick={() => navigate('/signup')}
-          >
+            onClick={() => navigate('/signup')}>
+            
             Criar Conta Grátis
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="text-base px-8 h-12 w-full sm:w-auto"
-            onClick={() => navigate('/demo')}
-          >
+            onClick={() => navigate('/demo')}>
+            
             Ver Demonstração
           </Button>
         </div>
@@ -105,8 +105,8 @@ export function HeroSection() {
           Já tem conta?{' '}
           <a
             onClick={() => navigate('/login')}
-            className="text-primary hover:underline cursor-pointer"
-          >
+            className="text-primary hover:underline cursor-pointer">
+            
             Entrar
           </a>
         </p>
@@ -124,19 +124,19 @@ export function HeroSection() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { label: 'Consultas Hoje', value: '8' },
-                { label: 'Pontos', value: '1 250' },
-                { label: 'Nível', value: 'Ouro' },
-                { label: '🔥 Streak', value: '7 dias' },
-              ].map((c) => (
-                <div
-                  key={c.label}
-                  className="rounded-lg bg-muted/50 p-3 text-center"
-                >
+              { label: 'Consultas Hoje', value: '8' },
+              { label: 'Pontos', value: '1 250' },
+              { label: 'Nível', value: 'Ouro' },
+              { label: '🔥 Streak', value: '7 dias' }].
+              map((c) =>
+              <div
+                key={c.label}
+                className="rounded-lg bg-muted/50 p-3 text-center">
+                
                   <p className="text-xs text-muted-foreground">{c.label}</p>
                   <p className="text-lg font-bold text-foreground">{c.value}</p>
                 </div>
-              ))}
+              )}
             </div>
             <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center">
               <span className="text-muted-foreground text-sm">
@@ -149,29 +149,29 @@ export function HeroSection() {
 
       {/* Stats bar */}
       <div className="relative z-10 w-full max-w-4xl mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-        {stats.map((s) => (
-          <StatItem key={s.label} {...s} />
-        ))}
+        {stats.map((s) =>
+        <StatItem key={s.label} {...s} />
+        )}
       </div>
-    </section>
-  );
+    </section>);
+
 }
 
 function StatItem({
   end,
   prefix,
   label,
-  isDecimal,
-}: {
-  end: number;
-  prefix: string;
-  label: string;
-  isDecimal?: boolean;
-}) {
+  isDecimal
+
+
+
+
+
+}: {end: number;prefix: string;label: string;isDecimal?: boolean;}) {
   const { count, ref } = useCountUp(end);
-  const display = isDecimal
-    ? (count / 10).toFixed(1)
-    : count.toLocaleString('pt-PT');
+  const display = isDecimal ?
+  (count / 10).toFixed(1) :
+  count.toLocaleString('pt-PT');
 
   return (
     <div ref={ref} className="text-center">
@@ -180,6 +180,6 @@ function StatItem({
         {display}
       </p>
       <p className="text-sm text-muted-foreground">{label}</p>
-    </div>
-  );
+    </div>);
+
 }
