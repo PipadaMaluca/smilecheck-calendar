@@ -30,7 +30,7 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
   const rankingTypes = RANKING_TYPES[userRole] || RANKING_TYPES.dentist;
 
   return (
-    <div className="h-full flex flex-col items-center justify-start px-4 pt-10 pb-6 overflow-y-auto">
+    <div className="h-full flex flex-col items-center justify-center px-4 py-6 overflow-y-auto">
       <h2 className="font-gaming text-xl md:text-2xl text-gaming-gold mb-4 flex items-center gap-2">
         🏆 RANKINGS & COMPETIÇÃO
       </h2>
