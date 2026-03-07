@@ -139,7 +139,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
   const unreadCount = getNotificationsForRole(userRole).filter((n) => !n.read).length;
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => { e.stopPropagation(); onClick(); }}
       className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary", className)}>
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
@@ -170,15 +170,14 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   const filteredRecent = useMemo(() => filterNotifications(recent, activeFilter), [recent, activeFilter]);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Close on click outside
+  // Close on click outside (but not on the bell button itself - that's handled by toggle)
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
-    // Delay to avoid closing immediately on the click that opened it
-    const timer = setTimeout(() => document.addEventListener('mousedown', handler), 50);
+    const timer = setTimeout(() => document.addEventListener('mousedown', handler), 100);
     return () => {clearTimeout(timer);document.removeEventListener('mousedown', handler);};
   }, [onClose]);
 

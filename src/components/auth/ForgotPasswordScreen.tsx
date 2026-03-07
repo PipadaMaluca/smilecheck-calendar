@@ -46,6 +46,7 @@ export function ForgotPasswordScreen() {
   return (
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
+        <img src="/assets/smilecheck-logo-vertical.png" alt="SmileCheck" className="h-[100px] sm:h-[120px] mb-4" />
         <h1 className="text-xl font-bold text-foreground mb-1">Recuperar Password</h1>
         <p className="text-sm text-muted-foreground text-center mb-6">
           Introduza o seu email para receber instruções

@@ -482,7 +482,7 @@ export function DesktopCalendarView() {
         </Button>
       </div>
       <div className="flex items-center gap-2">
-        <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+        <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
         <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
           <div className="text-right">
             <p className="text-sm font-bold text-foreground">
@@ -593,8 +593,7 @@ export function DesktopCalendarView() {
                 </Button>
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
-                <button id="onboarding-points-counter" onClick={() => handleNavTabChange('loja')} className="font-medium text-primary text-sm border border-primary border-dashed mx-0 px-[5px] py-[5px] cursor-pointer transition-all hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 rounded">⭐ {activeRole === 'patient' ? '450' : activeRole === 'dentist' ? '1 250' : '3 800'} pts</button>
-                <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+                <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
                 <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
                   <div className="text-right">
                     <p className="text-sm font-bold text-foreground">
@@ -666,7 +665,7 @@ export function DesktopCalendarView() {
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+                  <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                     <div className="text-right">
                       <p className="text-sm font-bold text-foreground">

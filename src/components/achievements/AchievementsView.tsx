@@ -263,7 +263,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
       <CardContent className="p-3">
         {/* Showcased star indicator */}
         {isShowcased && (
-          <div className="absolute top-1.5 right-1.5">
+          <div className="absolute top-1.5 right-10">
             <span className="text-amber-400 text-xs">⭐</span>
           </div>
         )}

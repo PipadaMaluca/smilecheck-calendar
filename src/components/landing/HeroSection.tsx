@@ -61,9 +61,9 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <img
-          src="/assets/smilecheck-logo-horizontal.png"
+          src="/assets/smilecheck-logo-vertical.png"
           alt="SmileCheck"
-          className="logo-light-adapt h-20 sm:h-24 mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-3xl" />
+          className="logo-light-adapt h-[150px] sm:h-[200px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)]" />
         
         <Badge
           variant="secondary"

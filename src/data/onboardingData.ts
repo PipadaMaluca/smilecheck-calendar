@@ -52,7 +52,7 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-nav-saude', title: 'Saúde', description: 'Gerir alergias, medicação, vacinas e documentos médicos.' },
     { targetId: 'onboarding-nav-conquistas', title: 'Conquistas', description: 'Acompanhe o seu progresso e desbloqueie conquistas.' },
     { targetId: 'onboarding-nav-loja', title: 'Loja de Recompensas', description: 'Troque pontos por recompensas aqui.' },
-    { targetId: 'onboarding-points-counter', title: 'Pontos', description: 'Os seus pontos acumulados. 100 pontos = €10!' },
+    { targetId: 'onboarding-pontuacao-card', title: 'Pontos', description: 'Os seus pontos acumulados. Clique para ir à Loja de Recompensas. 100 pontos = €10!' },
     { targetId: 'onboarding-nav-conversas', title: 'Conversas', description: 'Comunique diretamente com os seus dentistas.' },
   ],
   dentist: [

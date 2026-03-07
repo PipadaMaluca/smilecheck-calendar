@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const logoSrc = '/assets/smilecheck-logo-horizontal.png';
+const logoSrc = '/assets/smilecheck-logo-vertical.png';
 
 interface ThemeSelectorProps {
   onSelect: (dark: boolean) => void;
@@ -28,7 +28,7 @@ export function ThemeSelector({ onSelect }: ThemeSelectorProps) {
         <img
           src={logoSrc}
           alt="SmileCheck"
-          className="h-24 sm:h-28 drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)] animate-[pulse_3s_ease-in-out_infinite]"
+          className="h-[100px] sm:h-[120px] drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)] animate-[pulse_3s_ease-in-out_infinite]"
         />
 
         <div className="text-center">
