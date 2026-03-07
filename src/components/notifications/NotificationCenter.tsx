@@ -170,15 +170,14 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   const filteredRecent = useMemo(() => filterNotifications(recent, activeFilter), [recent, activeFilter]);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Close on click outside
+  // Close on click outside (but not on the bell button itself - that's handled by toggle)
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
-    // Delay to avoid closing immediately on the click that opened it
-    const timer = setTimeout(() => document.addEventListener('mousedown', handler), 50);
+    const timer = setTimeout(() => document.addEventListener('mousedown', handler), 100);
     return () => {clearTimeout(timer);document.removeEventListener('mousedown', handler);};
   }, [onClose]);
 

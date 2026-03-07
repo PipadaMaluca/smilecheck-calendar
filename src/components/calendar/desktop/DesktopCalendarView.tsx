@@ -665,7 +665,7 @@ export function DesktopCalendarView() {
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
-                  <NotificationBell onClick={() => setShowNotificationDropdown(!showNotificationDropdown)} userRole={activeRole} />
+                  <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
                   <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
                     <div className="text-right">
                       <p className="text-sm font-bold text-foreground">
