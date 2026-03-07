@@ -113,8 +113,17 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
+          const isPontuacao = stat.label === 'Pontuação';
           return (
-            <Card key={stat.label} className="bg-card/80 backdrop-blur border-border min-w-0">
+            <Card
+              key={stat.label}
+              id={isPontuacao ? 'onboarding-pontuacao-card' : undefined}
+              className={cn(
+                "bg-card/80 backdrop-blur border-border min-w-0",
+                isPontuacao && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
+              )}
+              onClick={isPontuacao ? () => onNavigate('loja') : undefined}
+            >
               <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
                 <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
                   <Icon className="w-4 h-4 flex-shrink-0" />
