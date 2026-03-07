@@ -8,7 +8,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { AuthBackground } from './AuthBackground';
 import { cn } from '@/lib/utils';
 
-const logoSrc = '/assets/smilecheck-logo-horizontal.png';
+const logoSrc = '/assets/smilecheck-logo-vertical.png';
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
 
