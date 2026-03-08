@@ -209,12 +209,13 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
       {/* Estatísticas */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[
             { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
             { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
             { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp },
-            { label: 'Pontuação', value: `${data.stats.points} pts`, icon: Award },
+            { label: 'XP', value: `${data.stats.xp} XP`, icon: Award },
+            { label: 'Pontos', value: `⭐ ${data.stats.rewardPoints} pts`, icon: Star },
           ].map(stat => (
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
