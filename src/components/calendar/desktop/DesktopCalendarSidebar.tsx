@@ -288,7 +288,7 @@ export function DesktopCalendarSidebar({
                 {filteredDentists.map((dentist) => {
                   const isSelected = isDentistSelected(dentist.id, clinic.id);
                   const worksOnDemo = dentistWorksOnDemo(clinic.id, dentist.id);
-                  const isSelf = userRole === 'dentist' && dentist.id === '1' && clinic.id === '1';
+                  const isSelfLabel = userRole === 'dentist' && dentist.id === '1' && clinic.id === '1';
                   
                   return (
                     <div
@@ -299,24 +299,20 @@ export function DesktopCalendarSidebar({
                     >
                       <Checkbox
                         checked={isSelected}
-                        disabled={isSelf}
-                        onCheckedChange={() => !isSelf && onDentistToggle(dentist.id, true, clinic.id)}
+                        onCheckedChange={() => onDentistToggle(dentist.id, true, clinic.id)}
                         className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                         onClick={(e) => e.stopPropagation()}
                       />
                       <button 
-                        className={cn(
-                          'flex flex-col min-w-0 text-left cursor-pointer hover:text-primary',
-                          isSelf && 'cursor-default'
-                        )}
-                        onClick={() => !isSelf && onDentistToggle(dentist.id, false, clinic.id)}
+                        className="flex flex-col min-w-0 text-left cursor-pointer hover:text-primary"
+                        onClick={() => onDentistToggle(dentist.id, false, clinic.id)}
                       >
                         <span className={cn(
                           'text-xs truncate', 
                           isSelected && 'font-medium',
                           !worksOnDemo && 'text-muted-foreground/60'
                         )}>
-                          {dentist.name}{isSelf ? ' (Eu)' : ''}
+                          {dentist.name}{isSelfLabel ? ' (Eu)' : ''}
                           {!worksOnDemo && ' •'}
                         </span>
                         <span className="text-[9px] text-muted-foreground">

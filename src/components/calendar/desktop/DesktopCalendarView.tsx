@@ -631,7 +631,7 @@ export function DesktopCalendarView() {
             {renderSidebar()}
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Agenda keeps original header height */}
-              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-[5px] pr-[15px]">
+              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-[5px] pr-[15px] relative z-20">
                 <div className="flex items-center gap-3">
                   <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
