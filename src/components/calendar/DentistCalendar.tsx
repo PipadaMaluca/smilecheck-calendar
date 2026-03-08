@@ -24,6 +24,7 @@ import { NotificationsFullView } from '@/components/notifications/NotificationCe
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
+import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
