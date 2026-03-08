@@ -87,8 +87,10 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
       </div>
 
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">
-        {BOTTOM_TEXT[userRole].split('mais pontos')[0]}
-        <span className="font-bold text-gaming-green">mais pontos ganhas!</span>
+        {BOTTOM_TEXT[userRole]}
+      </p>
+      <p className="text-[10px] text-muted-foreground text-center max-w-xs mt-2">
+        XP nunca diminui · Pontos de recompensa podem ser gastos na Loja
       </p>
     </div>
   );
