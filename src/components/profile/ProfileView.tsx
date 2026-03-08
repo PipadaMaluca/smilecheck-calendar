@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, User, Mail, Phone, Calendar, Star, Building2, MapPin, Heart, Shield, Pill, Droplets, Stethoscope, Video, TrendingUp, Award, Lock, Users } from 'lucide-react';
+import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
