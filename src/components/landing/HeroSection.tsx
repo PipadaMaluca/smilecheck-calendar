@@ -125,9 +125,9 @@ export function HeroSection() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
               { label: 'Consultas Hoje', value: '8' },
-              { label: 'Pontos', value: '1 250' },
-              { label: 'Nível', value: 'Ouro' },
-              { label: '🔥 Streak', value: '7 dias' }].
+              { label: '🥇 Nível', value: 'Ouro (1.250 XP)' },
+              { label: '⭐ Pontos', value: '850 pts' },
+              { label: '🔥 Streak', value: '14 dias' }].
               map((c) =>
               <div
                 key={c.label}
@@ -138,10 +138,25 @@ export function HeroSection() {
                 </div>
               )}
             </div>
-            <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center my-[15px]">
-              <span className="text-muted-foreground text-sm">
-                📅 Agenda Semanal
-              </span>
+            {/* Mini agenda mockup */}
+            <div className="mt-3 rounded-lg bg-muted/30 p-3 sm:p-4 my-[15px]">
+              <p className="text-xs text-muted-foreground mb-2">📅 Agenda Semanal</p>
+              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+                {[
+                  { day: 'Seg', blocks: [{ h: 'h-6', color: 'hsl(207,90%,54%)' }, { h: 'h-4', color: 'hsl(36,100%,50%)' }] },
+                  { day: 'Ter', blocks: [{ h: 'h-5', color: 'hsl(207,90%,54%)' }, { h: 'h-3', color: 'hsl(122,39%,49%)' }, { h: 'h-4', color: 'hsl(207,90%,54%)' }] },
+                  { day: 'Qua', blocks: [{ h: 'h-7', color: 'hsl(207,90%,54%)' }] },
+                  { day: 'Qui', blocks: [{ h: 'h-4', color: 'hsl(36,100%,50%)' }, { h: 'h-5', color: 'hsl(207,90%,54%)' }] },
+                  { day: 'Sex', blocks: [{ h: 'h-3', color: 'hsl(4,90%,58%)' }, { h: 'h-6', color: 'hsl(207,90%,54%)' }, { h: 'h-3', color: 'hsl(36,100%,50%)' }] },
+                ].map((col) => (
+                  <div key={col.day} className="flex flex-col gap-1">
+                    <span className="text-[10px] text-muted-foreground text-center font-medium">{col.day}</span>
+                    {col.blocks.map((b, i) => (
+                      <div key={i} className={`${b.h} rounded-sm`} style={{ backgroundColor: b.color, opacity: 0.8 }} />
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
