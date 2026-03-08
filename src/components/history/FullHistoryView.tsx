@@ -150,6 +150,10 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
               userRole="clinic"
               isExpanded={expandedId === score.id}
               onToggle={() => setExpandedId(prev => prev === score.id ? null : score.id)}
+              onContest={score.totalPoints < 0 ? () => {
+                const event = new CustomEvent('smilecheck:navigate', { detail: 'contestacao' });
+                window.dispatchEvent(event);
+              } : undefined}
             />
           ))}
         </div>
@@ -195,6 +199,11 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
             isExpanded={expandedId === score.id}
             onToggle={() => setExpandedId(prev => prev === score.id ? null : score.id)}
             onGiveFeedback={() => setFeedbackScore(score)}
+            onContest={score.totalPoints < 0 ? () => {
+              // Navigate to contestation
+              const event = new CustomEvent('smilecheck:navigate', { detail: 'contestacao' });
+              window.dispatchEvent(event);
+            } : undefined}
           />
         ))}
         {paged.length < filteredScores.length && (

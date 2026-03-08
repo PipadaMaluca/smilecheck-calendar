@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, PATIENT_EARN_ACTIONS, PATIENT_PENALTY_ACTIONS, MOCK_POINTS_HISTORY } from '@/data/pointsData';
-import { format, isSameDay, isAfter, subDays, subWeeks, startOfMonth } from 'date-fns';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole } from '@/data/pointsData';
+import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 
@@ -26,11 +25,15 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const [historyFilter, setHistoryFilter] = useState<'todos' | 'ganhos' | 'perdidos'>('todos');
   const [periodFilter, setPeriodFilter] = useState<'hoje' | 'semana' | 'mes' | 'tudo'>('tudo');
 
+  const earnActions = getEarnActionsForRole(userRole);
+  const penaltyActions = getPenaltyActionsForRole(userRole);
+  const pointsHistory = getPointsHistoryForRole(userRole);
+
   const planLabel = data.plan === 'free' ? 'Plano Free — Reset a 1 Jan 2027' :
     data.plan === 'pro' ? 'Plano Pro — Sem reset anual' :
     'Plano Premium — Sem reset + 10% bónus';
 
-  const filteredHistory = MOCK_POINTS_HISTORY.filter(entry => {
+  const filteredHistory = pointsHistory.filter(entry => {
     if (historyFilter === 'ganhos' && entry.points <= 0) return false;
     if (historyFilter === 'perdidos' && entry.points >= 0) return false;
     if (periodFilter === 'hoje' && !isSameDay(entry.date, DEMO_DATE)) return false;
@@ -38,6 +41,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
     if (periodFilter === 'mes' && !isAfter(entry.date, startOfMonth(DEMO_DATE))) return false;
     return true;
   });
+
+  const roleLabel = userRole === 'patient' ? 'Paciente (2x)' : userRole === 'dentist' ? 'Dentista' : 'Clínica';
 
   return (
     <div className="space-y-6">
@@ -133,14 +138,14 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <Separator />
 
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">Como ganhar pontos</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">Como ganhar pontos — {roleLabel}</h4>
                 <div className="border border-border rounded-lg overflow-hidden">
                   <div className="grid grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border">
                     <span>Ação</span>
                     <span className="text-center">XP</span>
                     <span className="text-center">Pontos</span>
                   </div>
-                  {PATIENT_EARN_ACTIONS.map((a, i) => (
+                  {earnActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
                       <span className="text-foreground">{a.action}</span>
                       <span className="text-center text-primary font-medium">+{a.xp}</span>
@@ -158,7 +163,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     <span className="text-center">XP</span>
                     <span className="text-center">Pontos</span>
                   </div>
-                  {PATIENT_PENALTY_ACTIONS.map((a, i) => (
+                  {penaltyActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
                       <span className="text-foreground">{a.action}</span>
                       <span className="text-center text-muted-foreground">0</span>

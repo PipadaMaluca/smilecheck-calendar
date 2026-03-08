@@ -479,22 +479,22 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <FieldGroup label="Nome completo">
                   <Input value={dentistName} onChange={(e) => setDentistName(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Email">
+                <PrivacyField label="Email">
                   <Input type="email" value={dentistEmail} onChange={(e) => setDentistEmail(e.target.value)} />
-                </FieldGroup>
+                </PrivacyField>
                 <PrivacyField label="Telefone">
                   <Input value={dentistPhone} onChange={(e) => setDentistPhone(e.target.value)} />
                 </PrivacyField>
-                <FieldGroup label="Data de nascimento">
+                <PrivacyField label="Data de nascimento">
                   <Input type="date" value={dentistBirthDate} onChange={(e) => setDentistBirthDate(e.target.value)} />
-                </FieldGroup>
+                </PrivacyField>
               </div>
 
               <SectionTitle>Dados Profissionais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Número da Ordem">
+                <PrivacyField label="Número da Ordem">
                   <Input value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} />
-                </FieldGroup>
+                </PrivacyField>
                 <FieldGroup label="País da Ordem">
                   <Input value={orderCountry} onChange={(e) => setOrderCountry(e.target.value)} />
                 </FieldGroup>

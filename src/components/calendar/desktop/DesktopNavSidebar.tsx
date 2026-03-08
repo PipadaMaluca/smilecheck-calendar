@@ -47,7 +47,8 @@ const SECONDARY_NAV_BY_ROLE = {
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
-  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }],
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' },
+  { id: 'pontuacoes', icon: TrendingUp, label: 'Pontuações' }],
 
   dentist: [
   { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
