@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { Menu, ChevronLeft, ChevronRight, User, Stethoscope, Building2, CalendarClock } from 'lucide-react';
+import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { DesktopNavSidebar } from './DesktopNavSidebar';
