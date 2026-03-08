@@ -647,6 +647,9 @@ export function DesktopCalendarView() {
                   </span>
                 </div>
                 <div className="items-center gap-4 flex flex-row">
+                  {(activeRole === 'clinic' || activeRole === 'dentist') && (
+                    <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
+                  )}
                   <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center py-[5px] px-[5px] gap-[5px]">
                     <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                       <User className="w-4 h-4" /> Paciente
@@ -669,10 +672,6 @@ export function DesktopCalendarView() {
                     <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground" onClick={() => setShowSettings(true)}>
                       <CalendarClock className="w-4 h-4" /> Modificar Agenda
                     </Button>
-                    <div className="relative cursor-pointer" onClick={() => setActiveNavTab('pesquisa')}>
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input placeholder="Pesquisar pacientes, dentistas ou clínicas" className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
-                    </div>
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
