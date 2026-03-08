@@ -132,7 +132,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 if (stat.clickTab === 'pontuacoes-streak') {
                   onNavigate('pontuacoes');
                 } else if (stat.clickTab === 'consulta-detalhe') {
-                  onNavigate('agenda');
+                  onNavigate('consulta-detalhe');
                 } else {
                   onNavigate(stat.clickTab!);
                 }

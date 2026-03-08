@@ -93,6 +93,16 @@ export function PatientCalendar() {
   };
 
   const handleTabChange = (tab: string) => {
+    // Card 1: open next consultation detail
+    if (tab === 'consulta-detalhe') {
+      const nextConsultation = [...mockPatientConsultations]
+        .filter(c => c.date >= new Date())
+        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      if (nextConsultation) {
+        setSelectedConsultation(nextConsultation);
+      }
+      return;
+    }
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowTriage(false);
     setSelectedConsultation(null);
