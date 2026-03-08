@@ -20,7 +20,7 @@ interface HistoryScoreCardProps {
   userRole: UserRole;
 }
 
-export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, userRole }: HistoryScoreCardProps) {
+export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, onContest, userRole }: HistoryScoreCardProps) {
   const isPositive = score.totalPoints > 0;
   const isNegative = score.totalPoints < 0;
   const Icon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
