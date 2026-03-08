@@ -224,6 +224,8 @@ export function PatientCalendar() {
             userRole="patient"
             onViewClinicProfile={id => setViewClinicProfile(id)}
           />
+        ) : activeTab === 'pontuacoes' ? (
+          <div className="px-0"><PontuacoesView userRole="patient" onNavigate={handleTabChange} /></div>
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
