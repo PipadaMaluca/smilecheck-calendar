@@ -424,9 +424,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
               <SectionTitle>Morada</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <PrivacyField label="Morada" className="md:col-span-2">
+                <FieldGroup label="Morada" className="md:col-span-2">
                   <Input value={patientAddress} onChange={(e) => setPatientAddress(e.target.value)} />
-                </PrivacyField>
+                </FieldGroup>
                 <FieldGroup label="Código postal">
                   <Input value={patientPostalCode} onChange={(e) => setPatientPostalCode(e.target.value)} />
                 </FieldGroup>

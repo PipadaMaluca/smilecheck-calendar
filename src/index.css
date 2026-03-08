@@ -125,12 +125,7 @@
   }
 }
 
-/* Light mode logo: use dark pill background for contrast instead of desaturation */
-.light .logo-light-adapt {
-  background: hsl(214, 50%, 12%);
-  padding: 6px 14px;
-  border-radius: 9999px;
-}
+/* Light mode logo: no filter needed — logos are identical in both themes */
 
 @layer base {
   * {
