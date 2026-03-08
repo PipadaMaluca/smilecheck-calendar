@@ -524,28 +524,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
     return (
       <>
-        {/* Stats Cards */}
-        {stats &&
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
-                  <CardContent className="p-4 flex flex-col gap-2">
-                    <div className="text-muted-foreground gap-[10px] flex items-center justify-center">
-                      <Icon className="w-4 h-4" />
-                      <span className="font-medium text-lg text-center">{stat.label}</span>
-                    </div>
-                    <span className="font-bold text-foreground text-3xl text-center">{stat.value}</span>
-                    {'subtitle' in stat && stat.subtitle &&
-                  <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
-                  }
-                  </CardContent>
-                </Card>);
-
-          })}
-          </div>
-        }
+        {/* Stats Cards — use shared renderer for clickable cards */}
+        {renderStatsCards()}
 
         {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
