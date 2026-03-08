@@ -61,9 +61,8 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center py-0 pt-[5px]">
         <img
-
           alt="SmileCheck"
-          className="logo-light-adapt h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-xl" src="/lovable-uploads/1c9d7b03-a8ca-4808-a83e-ffa366ea351d.png" />
+          className="h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-xl" src="/lovable-uploads/1c9d7b03-a8ca-4808-a83e-ffa366ea351d.png" />
         
         <Badge
           variant="secondary"

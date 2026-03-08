@@ -2,8 +2,10 @@ import { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Textarea } from '@/components/ui/textarea';
+import { Star } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
-import { FEEDBACK_CHECKBOXES, FeedbackCheckbox } from '@/types/scoring';
+import { FEEDBACK_CHECKBOXES } from '@/types/scoring';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -16,6 +18,9 @@ interface DentistFeedbackModalProps {
 
 export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }: DentistFeedbackModalProps) {
   const [checkedIds, setCheckedIds] = useState<string[]>(['compareceu']);
+  const [rating, setRating] = useState(0);
+  const [hovered, setHovered] = useState(0);
+  const [comment, setComment] = useState('');
 
   const isUrgent = consultation?.category === 'urgencia' || consultation?.isUrgentTeleconsulta;
 
@@ -38,14 +43,20 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
     onSubmit(consultation.id, checkedIds, totalPoints);
     toast.success(`Feedback submetido: ${totalPoints >= 0 ? '+' : ''}${totalPoints} pontos`);
     setCheckedIds(['compareceu']);
+    setRating(0);
+    setHovered(0);
+    setComment('');
     onClose();
   };
 
   if (!consultation) return null;
 
+  const display = hovered || rating;
+  const ratingLabels = ['', 'Mau', 'Razoável', 'Bom', 'Muito Bom', 'Excelente'];
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Feedback do Paciente</DialogTitle>
           <DialogDescription>
@@ -60,8 +71,9 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
             <p className="text-xs text-muted-foreground">{consultation.time} • {consultation.clinic.name}</p>
           </div>
 
-          {/* Checkboxes */}
-          <div className="space-y-3">
+          {/* Behavior checkboxes */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Comportamento (pontos 2x paciente)</p>
             {visibleCheckboxes.map((cb) => (
               <label
                 key={cb.id}
@@ -87,6 +99,40 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
                 </span>
               </label>
             ))}
+          </div>
+
+          {/* Star rating + comment */}
+          <div className="border-t border-border pt-3 space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Avaliação geral</p>
+            <div className="flex items-center justify-center gap-2 py-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHovered(star)}
+                  onMouseLeave={() => setHovered(0)}
+                  className="transition-transform hover:scale-110"
+                >
+                  <Star
+                    className={cn(
+                      'w-7 h-7 transition-colors',
+                      star <= display ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+            {display > 0 && (
+              <p className="text-xs text-center text-muted-foreground">{ratingLabels[display]}</p>
+            )}
+            <Textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Observações sobre o paciente..."
+              className="resize-none"
+              rows={2}
+            />
           </div>
 
           {/* Total */}

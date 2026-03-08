@@ -64,7 +64,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: null },
+      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
@@ -73,14 +73,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
-      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: null },
+      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: null },
+      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: 'agenda' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
@@ -131,7 +131,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               onClick={isClickable ? () => {
                 if (stat.clickTab === 'pontuacoes-streak') {
                   onNavigate('pontuacoes');
-                  // The PontuacoesView will handle initialTab
+                } else if (stat.clickTab === 'consulta-detalhe') {
+                  onNavigate('agenda');
                 } else {
                   onNavigate(stat.clickTab!);
                 }
@@ -524,28 +525,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
     return (
       <>
-        {/* Stats Cards */}
-        {stats &&
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
-                  <CardContent className="p-4 flex flex-col gap-2">
-                    <div className="text-muted-foreground gap-[10px] flex items-center justify-center">
-                      <Icon className="w-4 h-4" />
-                      <span className="font-medium text-lg text-center">{stat.label}</span>
-                    </div>
-                    <span className="font-bold text-foreground text-3xl text-center">{stat.value}</span>
-                    {'subtitle' in stat && stat.subtitle &&
-                  <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
-                  }
-                  </CardContent>
-                </Card>);
-
-          })}
-          </div>
-        }
+        {/* Stats Cards — use shared renderer for clickable cards */}
+        {renderStatsCards()}
 
         {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
