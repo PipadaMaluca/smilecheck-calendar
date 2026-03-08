@@ -131,7 +131,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               onClick={isClickable ? () => {
                 if (stat.clickTab === 'pontuacoes-streak') {
                   onNavigate('pontuacoes');
-                  // The PontuacoesView will handle initialTab
+                } else if (stat.clickTab === 'consulta-detalhe') {
+                  onNavigate('agenda');
                 } else {
                   onNavigate(stat.clickTab!);
                 }
