@@ -261,12 +261,6 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
       onClick={achievement.unlocked && onClickCompleted ? onClickCompleted : undefined}
     >
       <CardContent className="p-3">
-        {/* Showcased star indicator */}
-        {isShowcased && (
-          <div className="absolute top-1.5 right-10">
-            <span className="text-amber-400 text-xs">⭐</span>
-          </div>
-        )}
         <div className="flex items-start gap-3">
           <div className={cn(
             'h-10 w-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
@@ -297,6 +291,9 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
               )}>
                 +{achievement.points} pts
               </span>
+              {isShowcased && (
+                <span className="text-amber-400 text-xs flex-shrink-0">⭐</span>
+              )}
               {!achievement.unlocked && !isSecret && (
                 <Lock className="w-3 h-3 text-muted-foreground flex-shrink-0" />
               )}

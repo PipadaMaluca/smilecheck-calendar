@@ -125,9 +125,11 @@
   }
 }
 
-/* Light mode logo: add dark pill behind it for contrast */
+/* Light mode logo: use dark pill background for contrast instead of desaturation */
 .light .logo-light-adapt {
-  filter: brightness(0.15);
+  background: hsl(214, 50%, 12%);
+  padding: 6px 14px;
+  border-radius: 9999px;
 }
 
 @layer base {

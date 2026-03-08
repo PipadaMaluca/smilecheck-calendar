@@ -63,7 +63,7 @@ export function HeroSection() {
         <img
           src="/assets/smilecheck-logo-vertical.png"
           alt="SmileCheck"
-          className="logo-light-adapt h-[150px] sm:h-[200px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)]" />
+          className="logo-light-adapt h-[200px] sm:h-[250px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)]" />
         
         <Badge
           variant="secondary"
