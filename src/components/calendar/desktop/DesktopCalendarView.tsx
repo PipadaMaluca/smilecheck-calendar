@@ -799,11 +799,24 @@ export function DesktopCalendarView() {
           </div>);
 
 
+      case 'pontuacoes':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader('Pontuações')}
+            <div className="flex-1 overflow-y-auto"><PontuacoesView userRole={activeRole} onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
+          </div>);
+
       case 'classificacoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Classificações')}
-            <div className="flex-1 overflow-y-auto"><RankingsView userRole={activeRole} /></div>
+            {renderStandardHeader('Pontuações')}
+            <div className="flex-1 overflow-y-auto"><PontuacoesView userRole={activeRole} initialTab="classificacoes" onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
+          </div>);
+
+      case 'contestacao':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <ContestationView onBack={() => setActiveNavTab('historico')} />
           </div>);
 
 
