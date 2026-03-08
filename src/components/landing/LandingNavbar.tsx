@@ -47,7 +47,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               alt="SmileCheck"
               className={cn("logo-light-adapt transition-all duration-300 rounded-full",
 
-              'h-11 sm:h-12'
+              'h-14 sm:h-16'
               )} />
             
           </a>
