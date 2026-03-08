@@ -138,7 +138,7 @@ export function HeroSection() {
                 </div>
               )}
             </div>
-            <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center">
+            <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center my-[15px]">
               <span className="text-muted-foreground text-sm">
                 📅 Agenda Semanal
               </span>
