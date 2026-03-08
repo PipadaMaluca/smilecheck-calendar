@@ -38,7 +38,7 @@ export function LoginScreen() {
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
         {/* Logo */}
-        <img src="/assets/smilecheck-logo-vertical.png" alt="SmileCheck" className="h-[200px] sm:h-[250px] mb-2" />
+        <img src="/assets/smilecheck-logo-vertical.png" alt="SmileCheck" className="h-[280px] sm:h-[340px] mb-2" />
         <p className="text-muted-foreground text-sm mb-8">O seu sorriso, a nossa prioridade</p>
 
         {/* Form */}
