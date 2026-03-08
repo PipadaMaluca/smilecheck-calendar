@@ -69,7 +69,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           <div className="hidden md:flex items-center gap-3">
             <button
               onClick={onToggleTheme}
-              className="p-2 rounded-lg hover:bg-accent transition-colors"
+              className="p-2 rounded-lg transition-colors bg-primary-foreground"
               aria-label="Alternar tema">
               
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
