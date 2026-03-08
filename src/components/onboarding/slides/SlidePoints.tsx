@@ -55,9 +55,9 @@ const BOTTOM_TEXT: Record<UserRole, string> = {
 };
 
 const TITLE: Record<UserRole, string> = {
-  patient: '💰 GANHA PONTOS',
-  dentist: '💰 GANHA PONTOS',
-  clinic: '💰 GANHE PONTOS',
+  patient: '💰 GANHA XP & PONTOS',
+  dentist: '💰 GANHA XP & PONTOS',
+  clinic: '💰 GANHE XP & PONTOS',
 };
 
 export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
