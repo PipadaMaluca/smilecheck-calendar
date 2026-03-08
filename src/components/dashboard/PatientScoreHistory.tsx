@@ -114,6 +114,10 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
               isExpanded={expandedId === score.id}
               onToggle={() => setExpandedId(prev => prev === score.id ? null : score.id)}
               onGiveFeedback={() => setFeedbackScore(score)}
+              onContest={score.totalPoints < 0 ? () => {
+                const event = new CustomEvent('smilecheck:navigate', { detail: 'contestacao' });
+                window.dispatchEvent(event);
+              } : undefined}
             />
           ))}
         </div>

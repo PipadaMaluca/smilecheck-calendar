@@ -92,6 +92,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
           {/* Section 1 — Dentist Rating */}
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">Como avalia o {score.dentistName}?</p>
+            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts ao dentista · 3★ = +1 pt · 1-2★ = -3 pts</p>
             <StarRating
               value={dentistRating}
               hovered={dentistHover}
@@ -109,6 +110,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
               className="resize-none"
               rows={2}
             />
+            <p className="text-[10px] text-muted-foreground">✏️ Editável até 24h após submissão</p>
           </div>
 
           <div className="border-t border-border" />
@@ -116,6 +118,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
           {/* Section 2 — Clinic Rating */}
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">Como avalia a {score.clinicName}?</p>
+            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts à clínica · 3★ = +1 pt · 1-2★ = -3 pts</p>
             <StarRating
               value={clinicRating}
               hovered={clinicHover}
@@ -133,6 +136,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
               className="resize-none"
               rows={2}
             />
+            <p className="text-[10px] text-muted-foreground">✏️ Editável até 24h após submissão</p>
           </div>
 
           {/* Actions */}

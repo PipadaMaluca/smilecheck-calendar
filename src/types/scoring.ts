@@ -38,6 +38,7 @@ export interface ConsultationScore {
   breakdown: ScoreBreakdownItem[];
   feedbackStatus: FeedbackStatus;
   patientFeedback?: PatientFeedback;
+  receivedRating?: number;
   dentistFeedbackDate?: Date;
 }
 

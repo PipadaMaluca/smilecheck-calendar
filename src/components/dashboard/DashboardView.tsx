@@ -529,14 +529,35 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => {
             const Icon = stat.icon;
+            const isClickable = !!stat.clickTab;
+            const isXPCard = stat.label === 'Nível e XP';
             return (
-              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
+              <Card
+                key={stat.label}
+                className={cn(
+                  "bg-card/80 backdrop-blur border-border",
+                  isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
+                )}
+                onClick={isClickable ? () => {
+                  if (stat.clickTab === 'pontuacoes-streak') {
+                    onNavigate('pontuacoes');
+                  } else {
+                    onNavigate(stat.clickTab!);
+                  }
+                } : undefined}
+              >
                   <CardContent className="p-4 flex flex-col gap-2">
                     <div className="text-muted-foreground gap-[10px] flex items-center justify-center">
                       <Icon className="w-4 h-4" />
                       <span className="font-medium text-lg text-center">{stat.label}</span>
                     </div>
                     <span className="font-bold text-foreground text-3xl text-center">{stat.value}</span>
+                    {isXPCard && (
+                      <div className="space-y-1">
+                        <Progress value={xpProgress.percent} className="h-2" />
+                        <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
+                      </div>
+                    )}
                     {'subtitle' in stat && stat.subtitle &&
                   <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
                   }
