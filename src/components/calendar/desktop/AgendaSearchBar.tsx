@@ -193,7 +193,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
           }}
           placeholder="Pesquisar pacientes, dentistas ou clínicas"
           className={cn(
-            'pl-9 pr-8 h-9 w-80 text-sm transition-all',
+            'pl-9 pr-8 h-9 w-96 text-sm transition-all',
             isFocused && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
           )}
         />
