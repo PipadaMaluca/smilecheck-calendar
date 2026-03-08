@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCircle2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { mockConsultations, mockClinics, mockDentists } from '@/data/mockData';
+import { mockConsultations, mockClinics } from '@/data/mockData';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
@@ -44,13 +45,21 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number; width: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const nav = useProfileNavigation();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target)
+      ) {
         setIsOpen(false);
         setIsFocused(false);
       }
