@@ -45,9 +45,11 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             <img
               src={logoSrc}
               alt="SmileCheck"
-              className={cn("transition-all duration-300 rounded-full",
-              'h-14 sm:h-16'
+              className={cn("logo-light-adapt transition-all duration-300 h-14 sm:h-16 rounded-2xl"
+
+
               )} />
+            
           </a>
 
           {/* Desktop links */}
