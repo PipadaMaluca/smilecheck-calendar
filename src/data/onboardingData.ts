@@ -62,7 +62,7 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-historico', title: 'Histórico', description: 'Pontos atribuídos aos pacientes e feedback das consultas.' },
     { targetId: 'onboarding-nav-estatisticas', title: 'Estatísticas', description: 'Dados detalhados do seu desempenho.' },
     { targetId: 'onboarding-nav-conversas', title: 'Conversas', description: 'Mensagens dos seus pacientes.' },
-    { targetId: 'onboarding-level-points', title: 'Nível e Pontos', description: 'O seu nível e pontos profissionais.' },
+    { targetId: 'onboarding-level-points', title: 'Nível e Pontos', description: 'O seu nível (XP) e pontos de recompensa disponíveis.' },
   ],
   clinic: [
     { targetId: 'onboarding-consultas-hoje', title: 'Consultas de Hoje', description: 'Resumo de consultas de toda a equipa.' },
