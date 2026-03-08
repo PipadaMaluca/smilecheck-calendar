@@ -698,7 +698,7 @@ export function DesktopCalendarView() {
                 onCancel={() => setClipboardConsultation(null)} />
 
               }
-              <div className="flex-1 flex overflow-hidden">{renderContent()}</div>
+              <div className="flex-1 flex overflow-hidden relative z-0">{renderContent()}</div>
             </div>
           </>);
 
