@@ -58,7 +58,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              className="text-sm transition-colors text-white">
               
                 {l.label}
               </a>
