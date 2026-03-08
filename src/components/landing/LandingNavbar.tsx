@@ -74,7 +74,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               
               {isDark ? <Sun className="w-4 h-4 bg-[#121f30] border-0 border-white text-white rounded-none" /> : <Moon className="w-4 h-4" />}
             </button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
+            <Button variant="outline" size="sm" className="bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white" onClick={() => navigate('/login')}>
               Entrar
             </Button>
             <Button size="sm" onClick={() => navigate('/signup')}>
