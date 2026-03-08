@@ -63,7 +63,7 @@ export function HeroSection() {
         <img
           src="/assets/smilecheck-logo-vertical.png"
           alt="SmileCheck"
-          className="logo-light-adapt h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)]" />
+          className="logo-light-adapt h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-3xl" />
         
         <Badge
           variant="secondary"
@@ -124,74 +124,24 @@ export function HeroSection() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                { label: 'Consultas Hoje', value: '8' },
-                { label: '🥇 Nível', value: 'Ouro (1.250 XP)' },
-                { label: '⭐ Pontos', value: '850 pts' },
-                { label: '🔥 Streak', value: '14 dias' },
-              ].map((c) => (
-                <div key={c.label} className="rounded-lg bg-muted/50 p-3 text-center">
+              { label: 'Consultas Hoje', value: '8' },
+              { label: 'Pontos', value: '1 250' },
+              { label: 'Nível', value: 'Ouro' },
+              { label: '🔥 Streak', value: '7 dias' }].
+              map((c) =>
+              <div
+                key={c.label}
+                className="rounded-lg bg-muted/50 p-3 text-center">
+                
                   <p className="text-xs text-muted-foreground">{c.label}</p>
                   <p className="text-lg font-bold text-foreground">{c.value}</p>
                 </div>
-              ))}
+              )}
             </div>
-            {/* Mini agenda mockup */}
-            <div className="mt-3 rounded-lg bg-muted/30 p-3 sm:p-4 my-[15px]">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-foreground">📅 Agenda Semanal</span>
-                <span className="text-[10px] text-muted-foreground">Mar 2026</span>
-              </div>
-              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
-                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].map((day, i) => (
-                  <div key={day} className="flex flex-col gap-1">
-                    <span className="text-[10px] text-muted-foreground text-center mb-1">{day}</span>
-                    {/* Appointment blocks — blue for Presenciais, orange for Teleconsultas */}
-                    {i === 0 && (
-                      <>
-                        <div className="h-4 rounded-sm bg-[hsl(217,91%,70%)] opacity-80" />
-                        <div className="h-6 rounded-sm bg-[hsl(217,91%,70%)] opacity-60" />
-                        <div className="h-3 rounded-sm bg-[hsl(30,97%,62%)] opacity-70" />
-                      </>
-                    )}
-                    {i === 1 && (
-                      <>
-                        <div className="h-5 rounded-sm bg-[hsl(217,91%,70%)] opacity-70" />
-                        <div className="h-4 rounded-sm bg-[hsl(30,97%,62%)] opacity-80" />
-                      </>
-                    )}
-                    {i === 2 && (
-                      <>
-                        <div className="h-3 rounded-sm bg-[hsl(30,97%,62%)] opacity-70" />
-                        <div className="h-7 rounded-sm bg-[hsl(217,91%,70%)] opacity-80" />
-                        <div className="h-4 rounded-sm bg-[hsl(217,91%,70%)] opacity-50" />
-                      </>
-                    )}
-                    {i === 3 && (
-                      <>
-                        <div className="h-6 rounded-sm bg-[hsl(217,91%,70%)] opacity-75" />
-                        <div className="h-3 rounded-sm bg-[hsl(30,97%,62%)] opacity-65" />
-                        <div className="h-5 rounded-sm bg-[hsl(217,91%,70%)] opacity-60" />
-                      </>
-                    )}
-                    {i === 4 && (
-                      <>
-                        <div className="h-4 rounded-sm bg-[hsl(30,97%,62%)] opacity-80" />
-                        <div className="h-5 rounded-sm bg-[hsl(217,91%,70%)] opacity-70" />
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-4 mt-2.5 justify-end">
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm bg-[hsl(217,91%,70%)]" />
-                  <span className="text-[9px] text-muted-foreground">Presenciais</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm bg-[hsl(30,97%,62%)]" />
-                  <span className="text-[9px] text-muted-foreground">Teleconsultas</span>
-                </div>
-              </div>
+            <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center my-[15px]">
+              <span className="text-muted-foreground text-sm">
+                📅 Agenda Semanal
+              </span>
             </div>
           </div>
         </div>
