@@ -16,6 +16,7 @@ interface HistoryScoreCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   onGiveFeedback?: () => void;
+  onContest?: () => void;
   userRole: UserRole;
 }
 
