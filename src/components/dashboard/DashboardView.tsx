@@ -56,34 +56,37 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   mockConsultations.filter((c) => isSameDay(c.date, DEMO_DATE)),
   []);
 
+  // Dual points data
+  const pointsData = USER_POINTS[userRole];
+  const level = getLevelForXP(pointsData.xp);
+  const xpProgress = getXPProgress(pointsData.xp);
+
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar },
-      { label: 'Nível', value: 'Bronze', icon: Award },
-      { label: 'Pontuação', value: '450 pts', icon: Trophy },
-      { label: 'Streak', value: '7 dias', icon: Flame }];
+      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'dentist') {
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
-      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar },
-      { label: 'Nível', value: 'Prata', icon: Award },
-      { label: 'Pontuação', value: '1 250 pts', icon: Trophy },
-      { label: 'Streak', value: '14 dias', icon: Flame }];
+      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
-      const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
-      const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar },
-      { label: 'Nível', value: 'Ouro', icon: Award },
-      { label: 'Pontuação', value: '3 800 pts', icon: Trophy },
-      { label: 'Streak', value: '30 dias', icon: Flame }];
+      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     return null;
-  }, [userRole, todayConsultations]);
+  }, [userRole, todayConsultations, level, pointsData]);
 
   const quickActions = useMemo(() => {
     switch (userRole) {
