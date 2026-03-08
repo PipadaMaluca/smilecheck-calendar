@@ -391,12 +391,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <FieldGroup label="Email">
                   <Input type="email" value={patientEmail} onChange={(e) => setPatientEmail(e.target.value)} />
                 </FieldGroup>
-                <PrivacyField label="Telefone">
+                <FieldGroup label="Telefone">
                   <Input value={patientPhone} onChange={(e) => setPatientPhone(e.target.value)} />
-                </PrivacyField>
-                <PrivacyField label="Data de nascimento">
+                </FieldGroup>
+                <FieldGroup label="Data de nascimento">
                   <Input type="date" value={patientBirthDate} onChange={(e) => setPatientBirthDate(e.target.value)} />
-                </PrivacyField>
+                </FieldGroup>
                 <FieldGroup label="Género">
                   <Select value={patientGender} onValueChange={setPatientGender}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
