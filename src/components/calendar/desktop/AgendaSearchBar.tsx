@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCircle2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { mockConsultations, mockClinics, mockDentists } from '@/data/mockData';
+import { mockConsultations, mockClinics } from '@/data/mockData';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
@@ -44,13 +45,20 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number; width: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const nav = useProfileNavigation();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(target) &&
+        !dropdownRef.current?.contains(target)
+      ) {
         setIsOpen(false);
         setIsFocused(false);
       }
@@ -132,6 +140,29 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
   const hasResults = results.patients.length + results.dentists.length + results.clinics.length > 0;
   const showDropdown = isOpen && query.length >= 2;
 
+  useEffect(() => {
+    if (!showDropdown) return;
+
+    const updatePosition = () => {
+      const rect = inputRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      setDropdownPosition({
+        top: rect.bottom + 4,
+        left: rect.left,
+        width: rect.width,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [showDropdown, query]);
+
   const handleResultClick = (result: SearchResult) => {
     setIsOpen(false);
     setQuery('');
@@ -163,7 +194,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative w-96">
       <div className="relative">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         <Input
@@ -179,7 +210,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
           }}
           placeholder="Pesquisar pacientes, dentistas ou clínicas"
           className={cn(
-            'pl-9 pr-8 h-9 w-96 text-sm transition-all',
+            'pl-9 pr-8 h-9 w-full text-sm transition-all',
             isFocused && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
           )}
         />
@@ -193,8 +224,18 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
         )}
       </div>
 
-      {showDropdown && (
-        <div className="absolute top-full left-0 mt-1 w-[480px] bg-card border border-border rounded-lg shadow-2xl overflow-hidden" style={{ zIndex: 9999 }}>
+      {showDropdown && dropdownPosition && createPortal(
+        <div
+          ref={dropdownRef}
+          className="fixed mt-0 bg-card border border-border rounded-lg shadow-2xl overflow-hidden pointer-events-auto"
+          style={{
+            zIndex: 9999,
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+            width: dropdownPosition.width,
+            backgroundColor: 'hsl(var(--card))',
+          }}
+        >
           {hasResults ? (
             <div className="max-h-[460px] overflow-y-auto">
               {/* Patients */}
@@ -336,7 +377,8 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               Nenhum resultado para "{query}"
             </div>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
