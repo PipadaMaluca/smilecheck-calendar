@@ -144,9 +144,10 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 </div>
               ))}
             </div>
+            {/* Bidirectional feedback display */}
             {score.patientFeedback && (
               <div className="bg-secondary/30 rounded-lg p-3 space-y-1">
-                <p className="text-xs font-medium text-muted-foreground">Avaliação</p>
+                <p className="text-xs font-medium text-muted-foreground">Avaliação dada:</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(s => (
                     <Star key={s} className={cn('w-3.5 h-3.5', s <= score.patientFeedback!.rating ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/20')} />
@@ -155,12 +156,22 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 {score.patientFeedback.comment && <p className="text-xs text-muted-foreground italic">"{score.patientFeedback.comment}"</p>}
               </div>
             )}
+            {score.receivedRating !== undefined && (
+              <div className="bg-secondary/30 rounded-lg p-3 space-y-1">
+                <p className="text-xs font-medium text-muted-foreground">Avaliação recebida:</p>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map(s => (
+                    <Star key={s} className={cn('w-3.5 h-3.5', s <= (score.receivedRating || 0) ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/20')} />
+                  ))}
+                </div>
+              </div>
+            )}
             {isPending && onGiveFeedback && (
               <Button size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onGiveFeedback(); }}>
                 <Star className="w-3.5 h-3.5 mr-1" /> Dar Feedback para receber pontos
               </Button>
             )}
-            {score.feedbackStatus === 'completed' && score.totalPoints < 0 && onContest && (
+            {score.totalPoints < 0 && onContest && (
               <Button variant="outline" size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onContest(); }}>
                 ⚖️ Contestar
               </Button>
