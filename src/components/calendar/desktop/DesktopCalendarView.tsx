@@ -670,7 +670,7 @@ export function DesktopCalendarView() {
                     </Button>
                     <div className="relative cursor-pointer" onClick={() => setActiveNavTab('pesquisa')}>
                       <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input placeholder="Pesquisar pacientes, dentistas..." className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
+                      <Input placeholder="Pesquisar pacientes, dentistas ou clínicas" className="pl-9 h-9 w-56 text-sm cursor-pointer" readOnly />
                     </div>
                   </>}
                 </div>
