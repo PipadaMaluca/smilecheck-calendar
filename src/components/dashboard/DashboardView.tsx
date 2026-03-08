@@ -384,7 +384,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 { name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
                 { name: 'Dr. Gil Santos', pres: 14, tele: 4 }].
                 map((d) =>
-                <div key={d.name} className="flex items-center p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px]">
+                <div key={d.name} className="p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px] py-[10px] flex items-center justify-center px-0">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
                       {d.name.split(' ').filter((n) => !['dr.', 'dr', 'dra.', 'dra'].includes(n.toLowerCase())).filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('').toUpperCase()}
                     </div>
