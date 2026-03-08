@@ -32,7 +32,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
   return (
     <nav
-      className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-[#121f30] bg-[#121f30] text-white",
+      className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-[#121f30] bg-[#121f30] border text-white",
 
       scrolled ?
       'bg-background/80 backdrop-blur-xl border-b border-border shadow-sm' :
@@ -74,7 +74,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               
               {isDark ? <Sun className="w-4 h-4 bg-[#121f30] border-0 border-white text-white rounded-none" /> : <Moon className="w-4 h-4" />}
             </button>
-            <Button variant="outline" size="sm" className="bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white" onClick={() => navigate('/login')}>
+            <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
               Entrar
             </Button>
             <Button size="sm" onClick={() => navigate('/signup')}>
