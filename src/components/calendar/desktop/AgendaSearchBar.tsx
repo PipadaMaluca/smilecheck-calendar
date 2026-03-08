@@ -195,7 +195,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative w-96">
       <div className="relative">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         <Input
@@ -211,7 +211,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
           }}
           placeholder="Pesquisar pacientes, dentistas ou clínicas"
           className={cn(
-            'pl-9 pr-8 h-9 w-96 text-sm transition-all',
+            'pl-9 pr-8 h-9 w-full text-sm transition-all',
             isFocused && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
           )}
         />
@@ -225,8 +225,18 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
         )}
       </div>
 
-      {showDropdown && (
-        <div className="absolute top-full left-0 mt-1 w-[480px] bg-card border border-border rounded-lg shadow-2xl overflow-hidden" style={{ zIndex: 9999 }}>
+      {showDropdown && dropdownPosition && createPortal(
+        <div
+          ref={dropdownRef}
+          className="fixed mt-0 bg-card border border-border rounded-lg shadow-2xl overflow-hidden pointer-events-auto"
+          style={{
+            zIndex: 9999,
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+            width: dropdownPosition.width,
+            backgroundColor: 'hsl(var(--card))',
+          }}
+        >
           {hasResults ? (
             <div className="max-h-[460px] overflow-y-auto">
               {/* Patients */}
@@ -368,7 +378,8 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               Nenhum resultado para "{query}"
             </div>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
