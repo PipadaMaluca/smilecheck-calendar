@@ -135,20 +135,20 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 } else {
                   onNavigate(stat.clickTab!);
                 }
-              } : undefined}
-            >
+              } : undefined}>
+              
               <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
                 <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
                   <Icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                 </div>
                 <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
-                {isXPCard && (
-                  <div className="space-y-1">
+                {isXPCard &&
+                <div className="space-y-1">
                     <Progress value={xpProgress.percent} className="h-2" />
                     <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
                   </div>
-                )}
+                }
                 {'subtitle' in stat && stat.subtitle &&
                 <span className="text-[10px] text-muted-foreground truncate text-center sm:text-base">
                     {String(stat.subtitle).split('·').map((part, i) => {
@@ -380,20 +380,20 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {[
-                  { name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                  { name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                  { name: 'Dr. Gil Santos', pres: 14, tele: 4 },
-                ].map((d) => (
-                  <div key={d.name} className="flex items-center gap-2 p-2 rounded-lg border border-border/50 bg-muted/20">
+                { name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
+                { name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
+                { name: 'Dr. Gil Santos', pres: 14, tele: 4 }].
+                map((d) =>
+                <div key={d.name} className="flex items-center p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px]">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
-                      {d.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase()}
+                      {d.name.split(' ').filter((n) => !['dr.', 'dr', 'dra.', 'dra'].includes(n.toLowerCase())).filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('').toUpperCase()}
                     </div>
                     <div className="min-w-0">
                       <p className="text-xs font-semibold text-foreground truncate">{d.name}</p>
                       <p className="text-[10px] text-muted-foreground">{d.pres + d.tele} consultas</p>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>
@@ -529,35 +529,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat) => {
             const Icon = stat.icon;
-            const isClickable = !!stat.clickTab;
-            const isXPCard = stat.label === 'Nível e XP';
             return (
-              <Card
-                key={stat.label}
-                className={cn(
-                  "bg-card/80 backdrop-blur border-border",
-                  isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
-                )}
-                onClick={isClickable ? () => {
-                  if (stat.clickTab === 'pontuacoes-streak') {
-                    onNavigate('pontuacoes');
-                  } else {
-                    onNavigate(stat.clickTab!);
-                  }
-                } : undefined}
-              >
+              <Card key={stat.label} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 flex flex-col gap-2">
                     <div className="text-muted-foreground gap-[10px] flex items-center justify-center">
                       <Icon className="w-4 h-4" />
                       <span className="font-medium text-lg text-center">{stat.label}</span>
                     </div>
                     <span className="font-bold text-foreground text-3xl text-center">{stat.value}</span>
-                    {isXPCard && (
-                      <div className="space-y-1">
-                        <Progress value={xpProgress.percent} className="h-2" />
-                        <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
-                      </div>
-                    )}
                     {'subtitle' in stat && stat.subtitle &&
                   <span className="text-xs text-muted-foreground -mt-1">{stat.subtitle}</span>
                   }
