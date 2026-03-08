@@ -141,6 +141,29 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
   const hasResults = results.patients.length + results.dentists.length + results.clinics.length > 0;
   const showDropdown = isOpen && query.length >= 2;
 
+  useEffect(() => {
+    if (!showDropdown) return;
+
+    const updatePosition = () => {
+      const rect = inputRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      setDropdownPosition({
+        top: rect.bottom + 4,
+        left: rect.left,
+        width: rect.width,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [showDropdown, query]);
+
   const handleResultClick = (result: SearchResult) => {
     setIsOpen(false);
     setQuery('');
