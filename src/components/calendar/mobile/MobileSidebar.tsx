@@ -306,7 +306,7 @@ export function MobileSidebar({
               {activeTab === 'agenda' && renderAgendaFilter()}
 
               {/* Alphabetical - NO Carta de Referência, NO Prescrever Receita */}
-              <MenuItem icon={Trophy} label="Classificações" onClick={() => {onClose();onNavigate?.('classificacoes');}} />
+              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />

@@ -51,20 +51,20 @@ const SECONDARY_NAV_BY_ROLE = {
 
   dentist: [
   { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
-  { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
-  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }],
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' },
+  { id: 'pontuacoes', icon: TrendingUp, label: 'Pontuações' }],
 
   clinic: [
-  { id: 'classificacoes', icon: Trophy, label: 'Classificações' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
-  { id: 'pesquisa', icon: Search, label: 'Pesquisa' }]
+  { id: 'pesquisa', icon: Search, label: 'Pesquisa' },
+  { id: 'pontuacoes', icon: TrendingUp, label: 'Pontuações' }]
 
 };
 
