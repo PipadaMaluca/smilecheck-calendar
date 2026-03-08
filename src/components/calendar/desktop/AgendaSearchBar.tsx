@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Search, X, User, Stethoscope, Building2 } from 'lucide-react';
+import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCircle2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -7,13 +7,34 @@ import { mockConsultations, mockClinics, mockDentists } from '@/data/mockData';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
-interface SearchResult {
-  type: 'patient' | 'dentist' | 'clinic';
+interface PatientResult {
+  type: 'patient';
   id: string;
   name: string;
-  subtitle: string;
-  extra?: string;
+  gender: 'M' | 'F';
+  dob: string;
+  phone: string;
+  dentistName: string;
+  scheduledCount: number;
+  totalCount: number;
 }
+
+interface DentistResult {
+  type: 'dentist';
+  id: string;
+  name: string;
+  specialties: string;
+  clinicName: string;
+}
+
+interface ClinicResult {
+  type: 'clinic';
+  id: string;
+  name: string;
+  address: string;
+}
+
+type SearchResult = PatientResult | DentistResult | ClinicResult;
 
 interface AgendaSearchBarProps {
   onNavigateSearch?: () => void;
@@ -27,7 +48,6 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const nav = useProfileNavigation();
 
-  // Close on outside click or Escape
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -50,54 +70,62 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     };
   }, []);
 
-  // Build unique patients from consultations
   const allPatients = useMemo(() => {
-    const seen = new Map<string, SearchResult>();
+    const seen = new Map<string, PatientResult>();
     mockConsultations.forEach((c) => {
       if (!seen.has(c.patient.id)) {
+        const patientConsults = mockConsultations.filter(mc => mc.patient.id === c.patient.id);
+        const scheduled = patientConsults.filter(mc => mc.status === 'agendada' || mc.status === 'confirmada').length;
         seen.set(c.patient.id, {
           type: 'patient',
           id: c.patient.id,
           name: c.patient.name,
-          subtitle: c.patient.age ? `${c.patient.age} anos` : '',
-          extra: c.patient.phone,
+          gender: Math.random() > 0.5 ? 'M' : 'F',
+          dob: `${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}/${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}/${1960 + Math.floor(Math.random() * 40)}`,
+          phone: c.patient.phone || '+351 912 345 678',
+          dentistName: c.dentist.name,
+          scheduledCount: Math.max(1, scheduled),
+          totalCount: patientConsults.length,
         });
       }
     });
     return Array.from(seen.values());
   }, []);
 
-  const allDentists = useMemo<SearchResult[]>(() =>
+  const allDentists = useMemo<DentistResult[]>(() =>
     MOCK_DENTIST_RESULTS.map((d) => ({
       type: 'dentist' as const,
       id: d.id,
       name: d.name,
-      subtitle: d.specialties[0] || '',
-      extra: d.clinics[0]?.name || '',
+      specialties: d.specialties.join(', ') || 'Generalista',
+      clinicName: d.clinics[0]?.name || '',
     })),
   []);
 
-  const allClinics = useMemo<SearchResult[]>(() =>
+  const allClinics = useMemo<ClinicResult[]>(() =>
     mockClinics.map((c) => ({
       type: 'clinic' as const,
       id: c.id,
       name: c.name,
-      subtitle: c.address,
+      address: c.address,
     })),
   []);
 
   const results = useMemo(() => {
     if (query.length < 2) return { patients: [], dentists: [], clinics: [] };
     const q = query.toLowerCase();
-    const match = (r: SearchResult) =>
-      r.name.toLowerCase().includes(q) ||
-      r.subtitle.toLowerCase().includes(q) ||
-      (r.extra && r.extra.toLowerCase().includes(q));
+
+    const matchPatient = (r: PatientResult) =>
+      r.name.toLowerCase().includes(q) || r.phone.toLowerCase().includes(q) || r.dob.includes(q);
+    const matchDentist = (r: DentistResult) =>
+      r.name.toLowerCase().includes(q) || r.specialties.toLowerCase().includes(q) || r.clinicName.toLowerCase().includes(q);
+    const matchClinic = (r: ClinicResult) =>
+      r.name.toLowerCase().includes(q) || r.address.toLowerCase().includes(q);
 
     return {
-      patients: allPatients.filter(match).slice(0, 5),
-      dentists: allDentists.filter(match).slice(0, 5),
-      clinics: allClinics.filter(match).slice(0, 5),
+      patients: allPatients.filter(matchPatient).slice(0, 5),
+      dentists: allDentists.filter(matchDentist).slice(0, 5),
+      clinics: allClinics.filter(matchClinic).slice(0, 5),
     };
   }, [query, allPatients, allDentists, allClinics]);
 
@@ -131,50 +159,8 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     );
   };
 
-  const renderGroup = (title: string, icon: React.ReactNode, items: SearchResult[]) => {
-    if (items.length === 0) return null;
-    return (
-      <div className="py-1">
-        <div className="px-3 py-1.5 text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-          {icon}
-          {title}
-        </div>
-        {items.map((item) => (
-          <button
-            key={`${item.type}-${item.id}`}
-            className="w-full px-3 py-2 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left"
-            onClick={() => handleResultClick(item)}
-          >
-            <Avatar className="h-7 w-7 flex-shrink-0">
-              <AvatarFallback className={cn(
-                'text-[10px] font-medium',
-                item.type === 'patient' && 'bg-primary/10 text-primary',
-                item.type === 'dentist' && 'bg-emerald-500/10 text-emerald-400',
-                item.type === 'clinic' && 'bg-amber-500/10 text-amber-400',
-              )}>
-                {item.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">
-                {highlightMatch(item.name)}
-                {item.subtitle && (
-                  <span className="text-muted-foreground font-normal ml-1.5 text-xs">
-                    {highlightMatch(item.subtitle)}
-                  </span>
-                )}
-              </p>
-              {item.extra && (
-                <p className="text-xs text-muted-foreground truncate">
-                  {highlightMatch(item.extra)}
-                </p>
-              )}
-            </div>
-          </button>
-        ))}
-      </div>
-    );
-  };
+  const getInitials = (name: string) =>
+    name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <div ref={containerRef} className="relative">
@@ -208,20 +194,140 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       </div>
 
       {showDropdown && (
-        <div className="absolute top-full left-0 mt-1 w-80 bg-popover border border-border rounded-lg shadow-lg z-[100] overflow-hidden">
+        <div className="absolute top-full left-0 mt-1 w-[480px] bg-card border border-border rounded-lg shadow-2xl overflow-hidden" style={{ zIndex: 9999 }}>
           {hasResults ? (
-            <div className="max-h-[360px] overflow-y-auto">
-              {renderGroup('Pacientes', <User className="w-3 h-3" />, results.patients)}
+            <div className="max-h-[460px] overflow-y-auto">
+              {/* Patients */}
+              {results.patients.length > 0 && (
+                <div className="py-1">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                    <User className="w-3 h-3" /> Pacientes
+                  </div>
+                  {results.patients.map((p) => (
+                    <button
+                      key={`patient-${p.id}`}
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left group"
+                      onClick={() => handleResultClick(p)}
+                    >
+                      <Avatar className="h-9 w-9 flex-shrink-0">
+                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+                          {getInitials(p.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-foreground">
+                          {highlightMatch(p.name)}
+                        </p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
+                          <span className="flex items-center gap-1">
+                            <User className="w-3 h-3" /> {p.gender}, {highlightMatch(p.dob)}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Phone className="w-3 h-3" /> {highlightMatch(p.phone)}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+                          <Stethoscope className="w-3 h-3" /> {p.dentistName}
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 text-right flex items-center gap-2">
+                        <div className="text-[10px] text-muted-foreground leading-tight">
+                          <div className="text-primary font-medium">{p.scheduledCount} agendada{p.scheduledCount !== 1 ? 's' : ''}</div>
+                          <div>{p.totalCount} total</div>
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-400 hover:bg-emerald-500/20 cursor-pointer">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                          </span>
+                          <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 cursor-pointer">
+                            <CalendarPlus className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {results.patients.length > 0 && results.dentists.length > 0 && <div className="h-px bg-border mx-2" />}
-              {renderGroup('Dentistas', <Stethoscope className="w-3 h-3" />, results.dentists)}
+
+              {/* Dentists */}
+              {results.dentists.length > 0 && (
+                <div className="py-1">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                    <Stethoscope className="w-3 h-3" /> Dentistas
+                  </div>
+                  {results.dentists.map((d) => (
+                    <button
+                      key={`dentist-${d.id}`}
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left"
+                      onClick={() => handleResultClick(d)}
+                    >
+                      <Avatar className="h-9 w-9 flex-shrink-0">
+                        <AvatarFallback className="bg-emerald-500/10 text-emerald-400 text-xs font-medium">
+                          {getInitials(d.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-foreground">
+                          {highlightMatch(d.name)}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5">
+                          <span>{highlightMatch(d.specialties)}</span>
+                          {d.clinicName && (
+                            <>
+                              <span>·</span>
+                              <span className="flex items-center gap-1">
+                                <Building2 className="w-3 h-3" /> {highlightMatch(d.clinicName)}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {(results.patients.length > 0 || results.dentists.length > 0) && results.clinics.length > 0 && <div className="h-px bg-border mx-2" />}
-              {renderGroup('Clínicas', <Building2 className="w-3 h-3" />, results.clinics)}
+
+              {/* Clinics */}
+              {results.clinics.length > 0 && (
+                <div className="py-1">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                    <Building2 className="w-3 h-3" /> Clínicas
+                  </div>
+                  {results.clinics.map((c) => (
+                    <button
+                      key={`clinic-${c.id}`}
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left"
+                      onClick={() => handleResultClick(c)}
+                    >
+                      <Avatar className="h-9 w-9 flex-shrink-0">
+                        <AvatarFallback className="bg-amber-500/10 text-amber-400 text-xs font-medium">
+                          {getInitials(c.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-foreground">
+                          {highlightMatch(c.name)}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {highlightMatch(c.address)}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Show all results link */}
               <div className="border-t border-border">
                 <button
-                  className="w-full px-3 py-2 text-xs text-primary hover:bg-accent/50 transition-colors text-center font-medium"
+                  className="w-full px-3 py-2.5 text-xs text-primary hover:bg-accent/50 transition-colors text-center font-medium"
                   onClick={() => { setIsOpen(false); setQuery(''); onNavigateSearch?.(); }}
                 >
-                  Ver todos os resultados →
+                  Mostrar todos os resultados →
                 </button>
               </div>
             </div>
