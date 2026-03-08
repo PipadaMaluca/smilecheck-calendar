@@ -87,35 +87,88 @@ export const USER_POINTS: Record<UserRole, UserPointsData> = {
   },
 };
 
-// ===== POINTS EARNING ACTIONS =====
+// ===== POINTS EARNING ACTIONS (PER ROLE) =====
 export interface PointAction {
   action: string;
   xp: number;
   points: number;
 }
 
+// PATIENT: 2x values
 export const PATIENT_EARN_ACTIONS: PointAction[] = [
-  { action: 'Confirmação 24h', xp: 1, points: 1 },
-  { action: 'Confirmação 1h', xp: 1, points: 1 },
-  { action: 'Compareceu', xp: 5, points: 5 },
-  { action: 'Chegou a horas', xp: 2, points: 2 },
-  { action: 'Colaborou durante consulta', xp: 2, points: 2 },
-  { action: 'Higiene oral adequada', xp: 2, points: 2 },
-  { action: 'Seguiu recomendações', xp: 2, points: 2 },
+  { action: 'Confirmação 24h', xp: 2, points: 2 },
+  { action: 'Confirmação 1h', xp: 2, points: 2 },
+  { action: 'Compareceu', xp: 10, points: 10 },
+  { action: 'Chegou a horas', xp: 4, points: 4 },
+  { action: 'Colaborou durante consulta', xp: 4, points: 4 },
+  { action: 'Higiene oral adequada', xp: 4, points: 4 },
+  { action: 'Seguiu recomendações', xp: 4, points: 4 },
+  { action: 'Avaliação 5★', xp: 10, points: 10 },
+  { action: 'Avaliação 4★', xp: 6, points: 6 },
+  { action: 'Deixar avaliação', xp: 2, points: 2 },
+  { action: 'Convidar amigo', xp: 20, points: 20 },
+  { action: 'Check-in diário', xp: 2, points: 2 },
+  { action: 'Streak 7 dias', xp: 10, points: 10 },
+  { action: 'Streak 30 dias', xp: 30, points: 30 },
+];
+
+export const PATIENT_PENALTY_ACTIONS: PointAction[] = [
+  { action: 'Falta não justificada (base)', xp: 0, points: -16 },
+  { action: 'Penalização por confirmação', xp: 0, points: -2 },
+  { action: 'Cancelamento tardio', xp: 0, points: -2 },
+];
+
+// DENTIST: 1x values
+export const DENTIST_EARN_ACTIONS: PointAction[] = [
+  { action: 'Consulta concluída', xp: 8, points: 8 },
+  { action: 'Teleconsulta', xp: 10, points: 10 },
+  { action: 'Responder mensagem em 24h', xp: 2, points: 2 },
+  { action: 'Emitir receita', xp: 1, points: 1 },
+  { action: 'Carta de referência', xp: 2, points: 2 },
   { action: 'Avaliação 5★', xp: 5, points: 5 },
   { action: 'Avaliação 4★', xp: 3, points: 3 },
-  { action: 'Deixar avaliação', xp: 1, points: 1 },
-  { action: 'Convidar amigo', xp: 10, points: 10 },
   { action: 'Check-in diário', xp: 1, points: 1 },
   { action: 'Streak 7 dias', xp: 5, points: 5 },
   { action: 'Streak 30 dias', xp: 15, points: 15 },
 ];
 
-export const PATIENT_PENALTY_ACTIONS: PointAction[] = [
-  { action: 'Falta não justificada (base)', xp: 0, points: -8 },
-  { action: 'Penalização por confirmação', xp: 0, points: -1 },
-  { action: 'Cancelamento tardio', xp: 0, points: -1 },
+export const DENTIST_PENALTY_ACTIONS: PointAction[] = [
+  { action: 'Cancelamento de consulta tardio', xp: 0, points: -5 },
+  { action: 'Não responder mensagem 48h', xp: 0, points: -2 },
 ];
+
+// CLINIC: 1x values
+export const CLINIC_EARN_ACTIONS: PointAction[] = [
+  { action: 'Consulta na clínica', xp: 3, points: 3 },
+  { action: 'Teleconsulta', xp: 5, points: 5 },
+  { action: 'Avaliação 5★', xp: 5, points: 5 },
+  { action: 'Novo dentista ativo', xp: 15, points: 15 },
+  { action: 'Taxa confirmação >90% (semanal)', xp: 10, points: 10 },
+  { action: 'Check-in diário', xp: 1, points: 1 },
+  { action: 'Streak 7 dias', xp: 5, points: 5 },
+  { action: 'Streak 30 dias', xp: 15, points: 15 },
+];
+
+export const CLINIC_PENALTY_ACTIONS: PointAction[] = [
+  { action: 'Reclamação não resolvida', xp: 0, points: -10 },
+];
+
+// Helper to get earn/penalty actions by role
+export function getEarnActionsForRole(role: UserRole): PointAction[] {
+  switch (role) {
+    case 'patient': return PATIENT_EARN_ACTIONS;
+    case 'dentist': return DENTIST_EARN_ACTIONS;
+    case 'clinic': return CLINIC_EARN_ACTIONS;
+  }
+}
+
+export function getPenaltyActionsForRole(role: UserRole): PointAction[] {
+  switch (role) {
+    case 'patient': return PATIENT_PENALTY_ACTIONS;
+    case 'dentist': return DENTIST_PENALTY_ACTIONS;
+    case 'clinic': return CLINIC_PENALTY_ACTIONS;
+  }
+}
 
 // ===== POINTS HISTORY =====
 export interface PointsHistoryEntry {
@@ -128,22 +181,59 @@ export interface PointsHistoryEntry {
   relatedName?: string;
 }
 
-export const MOCK_POINTS_HISTORY: PointsHistoryEntry[] = [
-  { id: 'ph-1', date: new Date(2026, 0, 31), time: '09:15', description: 'Confirmação 24h', xp: 1, points: 1, relatedName: 'Pedro Almeida' },
-  { id: 'ph-2', date: new Date(2026, 0, 31), time: '09:00', description: 'Compareceu', xp: 5, points: 5, relatedName: 'Pedro Almeida' },
-  { id: 'ph-3', date: new Date(2026, 0, 31), time: '09:00', description: 'Chegou a horas', xp: 2, points: 2, relatedName: 'Pedro Almeida' },
-  { id: 'ph-4', date: new Date(2026, 0, 31), time: '09:00', description: 'Colaborou durante consulta', xp: 2, points: 2, relatedName: 'Pedro Almeida' },
-  { id: 'ph-5', date: new Date(2026, 0, 30), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
-  { id: 'ph-6', date: new Date(2026, 0, 29), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
-  { id: 'ph-7', date: new Date(2026, 0, 28), time: '10:00', description: 'Falta não justificada', xp: 0, points: -8, relatedName: 'Maria Silva' },
-  { id: 'ph-8', date: new Date(2026, 0, 28), time: '10:00', description: 'Penalização por confirmação', xp: 0, points: -1, relatedName: 'Maria Silva' },
-  { id: 'ph-9', date: new Date(2026, 0, 27), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
-  { id: 'ph-10', date: new Date(2026, 0, 26), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
-  { id: 'ph-11', date: new Date(2026, 0, 24), time: '11:00', description: 'Avaliação 5★', xp: 5, points: 5, relatedName: 'Dr. Alexandre Bernardo' },
-  { id: 'ph-12', date: new Date(2026, 0, 24), time: '11:00', description: 'Deixar avaliação', xp: 1, points: 1, relatedName: 'Dr. Alexandre Bernardo' },
-  { id: 'ph-13', date: new Date(2026, 0, 20), time: '14:00', description: 'Streak 7 dias', xp: 5, points: 5 },
-  { id: 'ph-14', date: new Date(2026, 0, 15), time: '10:00', description: 'Convidar amigo', xp: 10, points: 10 },
+// Patient history (2x values)
+export const PATIENT_POINTS_HISTORY: PointsHistoryEntry[] = [
+  { id: 'ph-1', date: new Date(2026, 0, 31), time: '09:15', description: 'Confirmação 24h', xp: 2, points: 2, relatedName: 'Dr. Gonçalo Pipo' },
+  { id: 'ph-2', date: new Date(2026, 0, 31), time: '09:00', description: 'Compareceu', xp: 10, points: 10, relatedName: 'Dr. Gonçalo Pipo' },
+  { id: 'ph-3', date: new Date(2026, 0, 31), time: '09:00', description: 'Chegou a horas', xp: 4, points: 4, relatedName: 'Dr. Gonçalo Pipo' },
+  { id: 'ph-4', date: new Date(2026, 0, 31), time: '09:00', description: 'Colaborou durante consulta', xp: 4, points: 4, relatedName: 'Dr. Gonçalo Pipo' },
+  { id: 'ph-5', date: new Date(2026, 0, 30), time: '08:00', description: 'Check-in diário', xp: 2, points: 2 },
+  { id: 'ph-6', date: new Date(2026, 0, 29), time: '08:00', description: 'Check-in diário', xp: 2, points: 2 },
+  { id: 'ph-7', date: new Date(2026, 0, 28), time: '10:00', description: 'Falta não justificada', xp: 0, points: -16, relatedName: 'Dr. Alexandre Bernardo' },
+  { id: 'ph-8', date: new Date(2026, 0, 28), time: '10:00', description: 'Penalização por confirmação', xp: 0, points: -2, relatedName: 'Dr. Alexandre Bernardo' },
+  { id: 'ph-9', date: new Date(2026, 0, 27), time: '08:00', description: 'Check-in diário', xp: 2, points: 2 },
+  { id: 'ph-10', date: new Date(2026, 0, 24), time: '11:00', description: 'Avaliação 5★ (Dentista)', xp: 10, points: 10, relatedName: 'Dr. Alexandre Bernardo' },
+  { id: 'ph-11', date: new Date(2026, 0, 24), time: '11:00', description: 'Avaliação 5★ (Clínica)', xp: 10, points: 10, relatedName: 'Clínica SmileCheck' },
+  { id: 'ph-12', date: new Date(2026, 0, 20), time: '14:00', description: 'Streak 7 dias', xp: 10, points: 10 },
+  { id: 'ph-13', date: new Date(2026, 0, 15), time: '10:00', description: 'Convidar amigo', xp: 20, points: 20 },
 ];
+
+// Dentist history (1x values)
+export const DENTIST_POINTS_HISTORY: PointsHistoryEntry[] = [
+  { id: 'dh-1', date: new Date(2026, 0, 31), time: '09:30', description: 'Consulta concluída', xp: 8, points: 8, relatedName: 'Pedro Almeida' },
+  { id: 'dh-2', date: new Date(2026, 0, 31), time: '10:00', description: 'Consulta concluída', xp: 8, points: 8, relatedName: 'Maria Silva' },
+  { id: 'dh-3', date: new Date(2026, 0, 31), time: '10:30', description: 'Teleconsulta', xp: 10, points: 10, relatedName: 'Ana Ferreira' },
+  { id: 'dh-4', date: new Date(2026, 0, 31), time: '11:00', description: 'Emitir receita', xp: 1, points: 1, relatedName: 'Pedro Almeida' },
+  { id: 'dh-5', date: new Date(2026, 0, 30), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
+  { id: 'dh-6', date: new Date(2026, 0, 30), time: '14:00', description: 'Avaliação 5★', xp: 5, points: 5, relatedName: 'Carlos Santos' },
+  { id: 'dh-7', date: new Date(2026, 0, 29), time: '09:00', description: 'Responder mensagem em 24h', xp: 2, points: 2, relatedName: 'Beatriz Lopes' },
+  { id: 'dh-8', date: new Date(2026, 0, 28), time: '16:00', description: 'Carta de referência', xp: 2, points: 2, relatedName: 'João Silva' },
+  { id: 'dh-9', date: new Date(2026, 0, 24), time: '14:00', description: 'Streak 7 dias', xp: 5, points: 5 },
+  { id: 'dh-10', date: new Date(2026, 0, 20), time: '10:00', description: 'Cancelamento de consulta tardio', xp: 0, points: -5, relatedName: 'Rita Oliveira' },
+];
+
+// Clinic history (1x values)
+export const CLINIC_POINTS_HISTORY: PointsHistoryEntry[] = [
+  { id: 'ch-1', date: new Date(2026, 0, 31), time: '09:30', description: 'Consulta na clínica', xp: 3, points: 3, relatedName: 'Pedro Almeida' },
+  { id: 'ch-2', date: new Date(2026, 0, 31), time: '10:00', description: 'Consulta na clínica', xp: 3, points: 3, relatedName: 'Maria Silva' },
+  { id: 'ch-3', date: new Date(2026, 0, 31), time: '10:30', description: 'Teleconsulta', xp: 5, points: 5, relatedName: 'Ana Ferreira' },
+  { id: 'ch-4', date: new Date(2026, 0, 30), time: '08:00', description: 'Check-in diário', xp: 1, points: 1 },
+  { id: 'ch-5', date: new Date(2026, 0, 28), time: '09:00', description: 'Avaliação 5★', xp: 5, points: 5, relatedName: 'Carlos Santos' },
+  { id: 'ch-6', date: new Date(2026, 0, 25), time: '10:00', description: 'Taxa confirmação >90% (semanal)', xp: 10, points: 10 },
+  { id: 'ch-7', date: new Date(2026, 0, 20), time: '12:00', description: 'Novo dentista ativo', xp: 15, points: 15, relatedName: 'Dr. Fábio Lobo' },
+  { id: 'ch-8', date: new Date(2026, 0, 15), time: '10:00', description: 'Reclamação não resolvida', xp: 0, points: -10, relatedName: 'Rita Oliveira' },
+];
+
+// Keep old export for backward compat
+export const MOCK_POINTS_HISTORY = PATIENT_POINTS_HISTORY;
+
+export function getPointsHistoryForRole(role: UserRole): PointsHistoryEntry[] {
+  switch (role) {
+    case 'patient': return PATIENT_POINTS_HISTORY;
+    case 'dentist': return DENTIST_POINTS_HISTORY;
+    case 'clinic': return CLINIC_POINTS_HISTORY;
+  }
+}
 
 // ===== STREAK DATA =====
 export interface StreakHistory {
