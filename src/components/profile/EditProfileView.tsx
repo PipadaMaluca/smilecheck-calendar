@@ -15,8 +15,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from
+'@/components/ui/alert-dialog';
 
 interface EditProfileViewProps {
   userRole: UserRole;
@@ -27,9 +27,9 @@ interface EditProfileViewProps {
 }
 
 const SPECIALTIES = [
-  'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
-  'Periodontia', 'Odontopediatria', 'Cirurgia Oral', 'Prostodontia', 'Estética Dentária',
-];
+'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
+'Periodontia', 'Odontopediatria', 'Cirurgia Oral', 'Prostodontia', 'Estética Dentária'];
+
 
 const LANGUAGES = ['Português', 'Inglês', 'Francês', 'Espanhol', 'Alemão', 'Italiano'];
 const WEEKDAYS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
@@ -54,7 +54,7 @@ function DentistJobToggles() {
   const [note, setNote] = useState('');
 
   const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
-    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+    setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
   };
 
   return (
@@ -66,27 +66,27 @@ function DentistJobToggles() {
         </div>
         <Switch checked={enabled} onCheckedChange={setEnabled} />
       </div>
-      {enabled && (
-        <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
+      {enabled &&
+      <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">Tipo pretendido</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPES.map(t => (
-                <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>
-              ))}
+              {JOB_TYPES.map((t) =>
+            <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>
+            )}
             </div>
           </div>
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">Disponibilidade horária</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_PERIODS.map(p => (
-                <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
-              ))}
+              {JOB_PERIODS.map((p) =>
+            <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
+            )}
             </div>
           </div>
           <div>
             <Label className="text-xs">Horários específicos (opcional)</Label>
-            <Input placeholder="Ex: Seg e Qua tardes" value={specificHours} onChange={e => setSpecificHours(e.target.value)} />
+            <Input placeholder="Ex: Seg e Qua tardes" value={specificHours} onChange={(e) => setSpecificHours(e.target.value)} />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">Disponível para teleconsultas</span>
@@ -96,33 +96,33 @@ function DentistJobToggles() {
             <span className="text-sm">Mostrar expectativa salarial?</span>
             <Switch checked={showSalary} onCheckedChange={setShowSalary} />
           </div>
-          {showSalary && (
-            <div className="grid grid-cols-2 gap-3">
+          {showSalary &&
+        <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-xs">Expectativa (€)</Label>
-                <Input type="number" placeholder="Ex: 2500" value={salary} onChange={e => setSalary(e.target.value)} />
+                <Input type="number" placeholder="Ex: 2500" value={salary} onChange={(e) => setSalary(e.target.value)} />
               </div>
               <div className="flex items-center gap-2 self-end">
                 <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded" />
                 <span className="text-xs">Negociável</span>
               </div>
             </div>
-          )}
+        }
           <div>
             <Label className="text-xs">Data de disponibilidade</Label>
-            <Input type="date" value={availableDate} onChange={e => setAvailableDate(e.target.value)} />
+            <Input type="date" value={availableDate} onChange={(e) => setAvailableDate(e.target.value)} />
           </div>
           <div>
             <Label className="text-xs">Nota adicional</Label>
-            <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
+            <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
           </div>
           <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
             ⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho.
           </p>
         </div>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
 
 function ClinicJobToggles() {
@@ -137,7 +137,7 @@ function ClinicJobToggles() {
   const [description, setDescription] = useState('');
 
   const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
-    setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item]);
+    setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
   };
 
   return (
@@ -149,32 +149,32 @@ function ClinicJobToggles() {
         </div>
         <Switch checked={enabled} onCheckedChange={setEnabled} />
       </div>
-      {enabled && (
-        <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
+      {enabled &&
+      <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">Tipo de contrato oferecido</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPES.map(t => (
-                <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>
-              ))}
+              {JOB_TYPES.map((t) =>
+            <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>
+            )}
             </div>
           </div>
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">Especialidades procuradas</Label>
             <div className="flex flex-wrap gap-2">
-              {SPECIALTIES.map(s => (
-                <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
-              ))}
+              {SPECIALTIES.map((s) =>
+            <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
+            )}
             </div>
           </div>
           <div>
             <Label className="text-xs">Horário</Label>
-            <Input placeholder="Ex: Seg-Sex 14:00-20:00" value={schedule} onChange={e => setSchedule(e.target.value)} />
+            <Input placeholder="Ex: Seg-Sex 14:00-20:00" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label className="text-xs">Remuneração base</Label>
-              <Input type="number" placeholder="Valor" value={salaryValue} onChange={e => setSalaryValue(e.target.value)} />
+              <Input type="number" placeholder="Valor" value={salaryValue} onChange={(e) => setSalaryValue(e.target.value)} />
             </div>
             <div>
               <Label className="text-xs">Tipo</Label>
@@ -191,45 +191,45 @@ function ClinicJobToggles() {
           <div>
             <Label className="text-xs mb-2 block">Benefícios oferecidos</Label>
             <div className="grid grid-cols-2 gap-2">
-              {BENEFITS_OPTIONS.map(b => (
-                <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
+              {BENEFITS_OPTIONS.map((b) =>
+            <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
                   <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
                   {b}
                 </label>
-              ))}
+            )}
             </div>
           </div>
           <div>
             <Label className="text-xs">Data de início</Label>
-            <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
           </div>
           <div>
             <Label className="text-xs">Descrição da vaga</Label>
-            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
+            <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
           </div>
           <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
             ⚠️ Esta informação é visível apenas para dentistas na secção Propostas de Trabalho.
           </p>
         </div>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
+function SectionTitle({ children }: {children: React.ReactNode;}) {
   return <h4 className="text-sm font-semibold text-foreground mb-3">{children}</h4>;
 }
 
-function FieldGroup({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+function FieldGroup({ label, children, className }: {label: string;children: React.ReactNode;className?: string;}) {
   return (
     <div className={className}>
       <Label className="text-xs text-muted-foreground mb-1.5 block">{label}</Label>
       {children}
-    </div>
-  );
+    </div>);
+
 }
 
-function PrivacyField({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
+function PrivacyField({ label, children, className }: {label: string;children: React.ReactNode;className?: string;}) {
   const [isPrivate, setIsPrivate] = useState(true);
   return (
     <div className={className}>
@@ -241,8 +241,8 @@ function PrivacyField({ label, children, className }: { label: string; children:
         </button>
       </div>
       {children}
-    </div>
-  );
+    </div>);
+
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
@@ -266,9 +266,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [notifPush, setNotifPush] = useState(true);
   const [notifReminders, setNotifReminders] = useState(true);
   const [familyMembers, setFamilyMembers] = useState([
-    { name: 'Maria Silva', age: '42', relation: 'Esposa' },
-    { name: 'Pedro Silva', age: '12', relation: 'Filho' },
-  ]);
+  { name: 'Maria Silva', age: '42', relation: 'Esposa' },
+  { name: 'Pedro Silva', age: '12', relation: 'Filho' }]
+  );
 
   // Dentist state
   const [dentistName, setDentistName] = useState(mockDentists[0].name);
@@ -291,9 +291,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const [dentistYearsExp, setDentistYearsExp] = useState('15');
   const [dentistUniversity, setDentistUniversity] = useState('Universidade de Lisboa - Faculdade de Medicina Dentária');
   const [dentistSchedules, setDentistSchedules] = useState([
-    { clinic: 'Clínica SmileCheck', days: WEEKDAYS.map((d, i) => ({ day: d, active: i < 5, start: '09:00', end: '19:00' })) },
-    { clinic: 'Clínica Mitry-Mory', days: WEEKDAYS.map((d, i) => ({ day: d, active: i === 2 || i === 5, start: i === 2 ? '14:00' : '09:00', end: i === 2 ? '19:00' : '13:00' })) },
-  ]);
+  { clinic: 'Clínica SmileCheck', days: WEEKDAYS.map((d, i) => ({ day: d, active: i < 5, start: '09:00', end: '19:00' })) },
+  { clinic: 'Clínica Mitry-Mory', days: WEEKDAYS.map((d, i) => ({ day: d, active: i === 2 || i === 5, start: i === 2 ? '14:00' : '09:00', end: i === 2 ? '19:00' : '13:00' })) }]
+  );
 
   // Clinic state
   const [clinicName, setClinicName] = useState(mockClinics[0].name);
@@ -320,7 +320,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       day,
       open: i < 6,
       start: i < 5 ? '09:00' : i === 5 ? '09:00' : '',
-      end: i < 5 ? '21:00' : i === 5 ? '13:00' : '',
+      end: i < 5 ? '21:00' : i === 5 ? '13:00' : ''
     }))
   );
   const [clinicNotifEmail, setClinicNotifEmail] = useState(true);
@@ -347,15 +347,15 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   };
 
   const addFamilyMember = () => {
-    setFamilyMembers(prev => [...prev, { name: '', age: '', relation: '' }]);
+    setFamilyMembers((prev) => [...prev, { name: '', age: '', relation: '' }]);
   };
 
   const removeFamilyMember = (idx: number) => {
-    setFamilyMembers(prev => prev.filter((_, i) => i !== idx));
+    setFamilyMembers((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  const content = (
-    <div className="flex flex-col h-full">
+  const content =
+  <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
@@ -381,21 +381,21 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           </div>
 
           {/* ===== PATIENT FIELDS ===== */}
-          {userRole === 'patient' && (
-            <>
+          {userRole === 'patient' &&
+        <>
               <SectionTitle>Dados Pessoais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome completo">
-                  <Input value={patientName} onChange={e => setPatientName(e.target.value)} />
+                  <Input value={patientName} onChange={(e) => setPatientName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Email">
-                  <Input type="email" value={patientEmail} onChange={e => setPatientEmail(e.target.value)} />
+                  <Input type="email" value={patientEmail} onChange={(e) => setPatientEmail(e.target.value)} />
                 </FieldGroup>
                 <PrivacyField label="Telefone">
-                  <Input value={patientPhone} onChange={e => setPatientPhone(e.target.value)} />
+                  <Input value={patientPhone} onChange={(e) => setPatientPhone(e.target.value)} />
                 </PrivacyField>
                 <PrivacyField label="Data de nascimento">
-                  <Input type="date" value={patientBirthDate} onChange={e => setPatientBirthDate(e.target.value)} />
+                  <Input type="date" value={patientBirthDate} onChange={(e) => setPatientBirthDate(e.target.value)} />
                 </PrivacyField>
                 <FieldGroup label="Género">
                   <Select value={patientGender} onValueChange={setPatientGender}>
@@ -412,51 +412,51 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <Select value={patientBloodType} onValueChange={setPatientBloodType}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {BLOOD_TYPES.map(bt => <SelectItem key={bt} value={bt}>{bt}</SelectItem>)}
+                      {BLOOD_TYPES.map((bt) => <SelectItem key={bt} value={bt}>{bt}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </FieldGroup>
               </div>
 
               <FieldGroup label={`Sobre (${patientBio.length}/500)`}>
-                <Textarea value={patientBio} onChange={e => e.target.value.length <= 500 && setPatientBio(e.target.value)} rows={3} placeholder="Descreva-se..." />
+                <Textarea value={patientBio} onChange={(e) => e.target.value.length <= 500 && setPatientBio(e.target.value)} rows={3} placeholder="Descreva-se..." />
               </FieldGroup>
 
               <SectionTitle>Morada</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <PrivacyField label="Morada" className="md:col-span-2">
-                  <Input value={patientAddress} onChange={e => setPatientAddress(e.target.value)} />
+                  <Input value={patientAddress} onChange={(e) => setPatientAddress(e.target.value)} />
                 </PrivacyField>
                 <FieldGroup label="Código postal">
-                  <Input value={patientPostalCode} onChange={e => setPatientPostalCode(e.target.value)} />
+                  <Input value={patientPostalCode} onChange={(e) => setPatientPostalCode(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Cidade">
-                  <Input value={patientCity} onChange={e => setPatientCity(e.target.value)} />
+                  <Input value={patientCity} onChange={(e) => setPatientCity(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País">
-                  <Input value={patientCountry} onChange={e => setPatientCountry(e.target.value)} />
+                  <Input value={patientCountry} onChange={(e) => setPatientCountry(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <Separator />
               <SectionTitle>Idiomas</SectionTitle>
               <div className="flex flex-wrap gap-2">
-                {LANGUAGES.map(l => (
-                  <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
-                ))}
+                {LANGUAGES.map((l) =>
+            <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
+            )}
               </div>
 
               <Separator />
               <SectionTitle>Familiares</SectionTitle>
               <div className="space-y-3">
-                {familyMembers.map((fm, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
-                    <Input placeholder="Nome" value={fm.name} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], name: e.target.value }; setFamilyMembers(u); }} className="flex-1" />
-                    <Input placeholder="Idade" value={fm.age} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], age: e.target.value }; setFamilyMembers(u); }} className="w-20" />
-                    <Input placeholder="Relação" value={fm.relation} onChange={e => { const u = [...familyMembers]; u[idx] = { ...u[idx], relation: e.target.value }; setFamilyMembers(u); }} className="w-28" />
+                {familyMembers.map((fm, idx) =>
+            <div key={idx} className="flex items-center gap-2">
+                    <Input placeholder="Nome" value={fm.name} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], name: e.target.value };setFamilyMembers(u);}} className="flex-1" />
+                    <Input placeholder="Idade" value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
+                    <Input placeholder="Relação" value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="w-28" />
                     <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
                   </div>
-                ))}
+            )}
                 <Button variant="outline" size="sm" onClick={addFamilyMember} className="gap-1"><Plus className="w-3 h-3" /> Adicionar familiar</Button>
               </div>
 
@@ -469,62 +469,62 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <div className="flex items-center justify-between"><span className="text-sm">Lembretes de consulta</span><Switch checked={notifReminders} onCheckedChange={setNotifReminders} /></div>
               </div>
             </>
-          )}
+        }
 
           {/* ===== DENTIST FIELDS ===== */}
-          {userRole === 'dentist' && (
-            <>
+          {userRole === 'dentist' &&
+        <>
               <SectionTitle>Dados Pessoais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome completo">
-                  <Input value={dentistName} onChange={e => setDentistName(e.target.value)} />
+                  <Input value={dentistName} onChange={(e) => setDentistName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Email">
-                  <Input type="email" value={dentistEmail} onChange={e => setDentistEmail(e.target.value)} />
+                  <Input type="email" value={dentistEmail} onChange={(e) => setDentistEmail(e.target.value)} />
                 </FieldGroup>
                 <PrivacyField label="Telefone">
-                  <Input value={dentistPhone} onChange={e => setDentistPhone(e.target.value)} />
+                  <Input value={dentistPhone} onChange={(e) => setDentistPhone(e.target.value)} />
                 </PrivacyField>
                 <FieldGroup label="Data de nascimento">
-                  <Input type="date" value={dentistBirthDate} onChange={e => setDentistBirthDate(e.target.value)} />
+                  <Input type="date" value={dentistBirthDate} onChange={(e) => setDentistBirthDate(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <SectionTitle>Dados Profissionais</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Número da Ordem">
-                  <Input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} />
+                  <Input value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País da Ordem">
-                  <Input value={orderCountry} onChange={e => setOrderCountry(e.target.value)} />
+                  <Input value={orderCountry} onChange={(e) => setOrderCountry(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Anos de experiência">
-                  <Input type="number" value={dentistYearsExp} onChange={e => setDentistYearsExp(e.target.value)} />
+                  <Input type="number" value={dentistYearsExp} onChange={(e) => setDentistYearsExp(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Universidade / Formação">
-                  <Input value={dentistUniversity} onChange={e => setDentistUniversity(e.target.value)} />
+                  <Input value={dentistUniversity} onChange={(e) => setDentistUniversity(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Especialidades</Label>
                 <div className="flex flex-wrap gap-2">
-                  {SPECIALTIES.map(s => (
-                    <Badge key={s} variant={selectedSpecialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>{s}</Badge>
-                  ))}
+                  {SPECIALTIES.map((s) =>
+              <Badge key={s} variant={selectedSpecialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>{s}</Badge>
+              )}
                 </div>
               </div>
 
               <FieldGroup label={`Sobre (${dentistBio.length}/500)`}>
-                <Textarea value={dentistBio} onChange={e => e.target.value.length <= 500 && setDentistBio(e.target.value)} rows={3} placeholder="Descreva a sua experiência..." />
+                <Textarea value={dentistBio} onChange={(e) => e.target.value.length <= 500 && setDentistBio(e.target.value)} rows={3} placeholder="Descreva a sua experiência..." />
               </FieldGroup>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
                 <div className="flex flex-wrap gap-2">
-                  {LANGUAGES.map(l => (
-                    <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
-                  ))}
+                  {LANGUAGES.map((l) =>
+              <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
+              )}
                 </div>
               </div>
 
@@ -544,55 +544,55 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>Teleconsulta</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
-                  <Input type="number" value={teleconsultPrice} onChange={e => setTeleconsultPrice(e.target.value)} />
+                  <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
-                <div className="flex items-center justify-between md:items-end">
+                <div className="items-center flex-row py-[30px] flex md:items-center justify-between">
                   <span className="text-sm">Aceita urgências</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
-                {acceptsUrgencies && (
-                  <FieldGroup label="Preço urgência (€)">
-                    <Input type="number" value={urgencyPrice} onChange={e => setUrgencyPrice(e.target.value)} />
+                {acceptsUrgencies &&
+            <FieldGroup label="Preço urgência (€)">
+                    <Input type="number" value={urgencyPrice} onChange={(e) => setUrgencyPrice(e.target.value)} />
                   </FieldGroup>
-                )}
+            }
               </div>
 
               <Separator />
               <SectionTitle>Horários por Clínica</SectionTitle>
-              {dentistSchedules.map((sched, si) => (
-                <div key={sched.clinic} className="mb-4">
+              {dentistSchedules.map((sched, si) =>
+          <div key={sched.clinic} className="mb-4">
                   <p className="text-xs font-semibold text-muted-foreground mb-2">{sched.clinic}</p>
                   <div className="space-y-1.5">
-                    {sched.days.map((d, di) => (
-                      <div key={d.day} className="flex items-center gap-2 text-sm">
+                    {sched.days.map((d, di) =>
+              <div key={d.day} className="flex items-center gap-2 text-sm">
                         <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
                         <Switch checked={d.active} onCheckedChange={(checked) => {
-                          const updated = [...dentistSchedules];
-                          updated[si].days[di] = { ...d, active: checked };
-                          setDentistSchedules(updated);
-                        }} />
-                        {d.active ? (
-                          <>
-                            <Input type="time" value={d.start} onChange={e => {
-                              const updated = [...dentistSchedules];
-                              updated[si].days[di] = { ...d, start: e.target.value };
-                              setDentistSchedules(updated);
-                            }} className="w-24 h-7 text-xs" />
+                  const updated = [...dentistSchedules];
+                  updated[si].days[di] = { ...d, active: checked };
+                  setDentistSchedules(updated);
+                }} />
+                        {d.active ?
+                <>
+                            <Input type="time" value={d.start} onChange={(e) => {
+                    const updated = [...dentistSchedules];
+                    updated[si].days[di] = { ...d, start: e.target.value };
+                    setDentistSchedules(updated);
+                  }} className="w-24 h-7 text-xs" />
                             <span className="text-muted-foreground">-</span>
-                            <Input type="time" value={d.end} onChange={e => {
-                              const updated = [...dentistSchedules];
-                              updated[si].days[di] = { ...d, end: e.target.value };
-                              setDentistSchedules(updated);
-                            }} className="w-24 h-7 text-xs" />
-                          </>
-                        ) : (
-                          <span className="text-destructive text-xs pl-2">Não trabalha</span>
-                        )}
+                            <Input type="time" value={d.end} onChange={(e) => {
+                    const updated = [...dentistSchedules];
+                    updated[si].days[di] = { ...d, end: e.target.value };
+                    setDentistSchedules(updated);
+                  }} className="w-24 h-7 text-xs" />
+                          </> :
+
+                <span className="text-destructive text-xs pl-2">Não trabalha</span>
+                }
                       </div>
-                    ))}
+              )}
                   </div>
                 </div>
-              ))}
+          )}
 
               <Separator />
               <SectionTitle>Notificações</SectionTitle>
@@ -608,65 +608,65 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </SectionTitle>
               <DentistJobToggles />
             </>
-          )}
+        }
 
           {/* ===== CLINIC FIELDS ===== */}
-          {userRole === 'clinic' && (
-            <>
+          {userRole === 'clinic' &&
+        <>
               <SectionTitle>Dados da Clínica</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Nome">
-                  <Input value={clinicName} onChange={e => setClinicName(e.target.value)} />
+                  <Input value={clinicName} onChange={(e) => setClinicName(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="NIF/NIPC">
-                  <Input value={clinicNif} onChange={e => setClinicNif(e.target.value)} />
+                  <Input value={clinicNif} onChange={(e) => setClinicNif(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Email">
-                  <Input type="email" value={clinicEmail} onChange={e => setClinicEmail(e.target.value)} />
+                  <Input type="email" value={clinicEmail} onChange={(e) => setClinicEmail(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Telefone">
-                  <Input value={clinicPhone} onChange={e => setClinicPhone(e.target.value)} />
+                  <Input value={clinicPhone} onChange={(e) => setClinicPhone(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Website">
-                  <Input value={clinicWebsite} onChange={e => setClinicWebsite(e.target.value)} />
+                  <Input value={clinicWebsite} onChange={(e) => setClinicWebsite(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <SectionTitle>Morada</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Morada" className="md:col-span-2">
-                  <Input value={clinicAddress} onChange={e => setClinicAddress(e.target.value)} />
+                  <Input value={clinicAddress} onChange={(e) => setClinicAddress(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Código postal">
-                  <Input value={clinicPostalCode} onChange={e => setClinicPostalCode(e.target.value)} />
+                  <Input value={clinicPostalCode} onChange={(e) => setClinicPostalCode(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Cidade">
-                  <Input value={clinicCity} onChange={e => setClinicCity(e.target.value)} />
+                  <Input value={clinicCity} onChange={(e) => setClinicCity(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="País">
-                  <Input value={clinicCountry} onChange={e => setClinicCountry(e.target.value)} />
+                  <Input value={clinicCountry} onChange={(e) => setClinicCountry(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <FieldGroup label={`Descrição (${clinicDescription.length}/1000)`}>
-                <Textarea value={clinicDescription} onChange={e => e.target.value.length <= 1000 && setClinicDescription(e.target.value)} rows={3} />
+                <Textarea value={clinicDescription} onChange={(e) => e.target.value.length <= 1000 && setClinicDescription(e.target.value)} rows={3} />
               </FieldGroup>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Anos de experiência">
-                  <Input type="number" value={clinicYearsExp} onChange={e => setClinicYearsExp(e.target.value)} />
+                  <Input type="number" value={clinicYearsExp} onChange={(e) => setClinicYearsExp(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label="Certificações">
-                  <Input value={clinicCertifications} onChange={e => setClinicCertifications(e.target.value)} placeholder="Ex: ISO 9001" />
+                  <Input value={clinicCertifications} onChange={(e) => setClinicCertifications(e.target.value)} placeholder="Ex: ISO 9001" />
                 </FieldGroup>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
                 <div className="flex flex-wrap gap-2">
-                  {LANGUAGES.map(l => (
-                    <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
-                  ))}
+                  {LANGUAGES.map((l) =>
+              <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
+              )}
                 </div>
               </div>
 
@@ -674,20 +674,20 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Serviços oferecidos</Label>
                 <div className="flex flex-wrap gap-2 mb-2">
-                  {clinicServices.map(s => (
-                    <Badge key={s} variant="secondary" className="gap-1">
+                  {clinicServices.map((s) =>
+              <Badge key={s} variant="secondary" className="gap-1">
                       {s}
-                      <button onClick={() => setClinicServices(clinicServices.filter(x => x !== s))} className="ml-1 hover:text-destructive">
+                      <button onClick={() => setClinicServices(clinicServices.filter((x) => x !== s))} className="ml-1 hover:text-destructive">
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
-                  ))}
+              )}
                 </div>
                 <div className="flex gap-2">
-                  <Input placeholder="Novo serviço..." value={newService} onChange={e => setNewService(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter' && newService.trim()) { setClinicServices([...clinicServices, newService.trim()]); setNewService(''); } }}
-                    className="flex-1" />
-                  <Button variant="outline" size="icon" onClick={() => { if (newService.trim()) { setClinicServices([...clinicServices, newService.trim()]); setNewService(''); } }}>
+                  <Input placeholder="Novo serviço..." value={newService} onChange={(e) => setNewService(e.target.value)}
+              onKeyDown={(e) => {if (e.key === 'Enter' && newService.trim()) {setClinicServices([...clinicServices, newService.trim()]);setNewService('');}}}
+              className="flex-1" />
+                  <Button variant="outline" size="icon" onClick={() => {if (newService.trim()) {setClinicServices([...clinicServices, newService.trim()]);setNewService('');}}}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
@@ -709,75 +709,75 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>Tarifas</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
-                  <Input type="number" value={clinicTeleconsultaPrice} onChange={e => setClinicTeleconsultaPrice(e.target.value)} />
+                  <Input type="number" value={clinicTeleconsultaPrice} onChange={(e) => setClinicTeleconsultaPrice(e.target.value)} />
                 </FieldGroup>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Métodos de pagamento</Label>
                 <div className="flex flex-wrap gap-2">
-                  {PAYMENT_METHODS.map(m => (
-                    <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
-                  ))}
+                  {PAYMENT_METHODS.map((m) =>
+              <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
+              )}
                 </div>
               </div>
 
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">Convenções / Seguros</Label>
                 <div className="flex flex-wrap gap-2">
-                  {INSURANCE_OPTIONS.map(ins => (
-                    <Badge key={ins} variant={clinicInsurances.includes(ins) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicInsurances, setClinicInsurances, ins)}>{ins}</Badge>
-                  ))}
+                  {INSURANCE_OPTIONS.map((ins) =>
+              <Badge key={ins} variant={clinicInsurances.includes(ins) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicInsurances, setClinicInsurances, ins)}>{ins}</Badge>
+              )}
                 </div>
               </div>
 
               <Separator />
               <SectionTitle>Tipos de Raio-X</SectionTitle>
               <div className="space-y-2">
-                {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map(xray => (
-                  <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
+                {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
+            <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
-                      setClinicXrayServices(prev => prev.includes(xray) ? prev.filter(x => x !== xray) : [...prev, xray]);
-                    }} className="rounded" />
+                setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
+              }} className="rounded" />
                     {xray}
                   </label>
-                ))}
+            )}
               </div>
 
               <SectionTitle>Acessibilidade</SectionTitle>
               <div className="space-y-2">
-                {ACCESSIBILITY_OPTIONS.map(acc => (
-                  <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
+                {ACCESSIBILITY_OPTIONS.map((acc) =>
+            <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
-                      setClinicAccessibility(prev => prev.includes(acc) ? prev.filter(x => x !== acc) : [...prev, acc]);
-                    }} className="rounded" />
+                setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
+              }} className="rounded" />
                     {acc}
                   </label>
-                ))}
+            )}
               </div>
 
               <Separator />
               <SectionTitle>Horário de Funcionamento</SectionTitle>
               <div className="space-y-2">
-                {clinicHours.map((h, i) => (
-                  <div key={h.day} className="flex items-center gap-2 text-sm">
+                {clinicHours.map((h, i) =>
+            <div key={h.day} className="flex items-center gap-2 text-sm">
                     <span className="w-20 text-muted-foreground">{h.day}</span>
                     <Switch checked={h.open} onCheckedChange={(checked) => {
-                      const updated = [...clinicHours];
-                      updated[i] = { ...updated[i], open: checked };
-                      setClinicHours(updated);
-                    }} />
-                    {h.open ? (
-                      <>
-                        <Input type="time" value={h.start} onChange={e => { const u = [...clinicHours]; u[i] = { ...u[i], start: e.target.value }; setClinicHours(u); }} className="w-28 h-8 text-xs" />
+                const updated = [...clinicHours];
+                updated[i] = { ...updated[i], open: checked };
+                setClinicHours(updated);
+              }} />
+                    {h.open ?
+              <>
+                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input type="time" value={h.end} onChange={e => { const u = [...clinicHours]; u[i] = { ...u[i], end: e.target.value }; setClinicHours(u); }} className="w-28 h-8 text-xs" />
-                      </>
-                    ) : (
-                      <span className="text-destructive text-xs">Encerrado</span>
-                    )}
+                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
+                      </> :
+
+              <span className="text-destructive text-xs">Encerrado</span>
+              }
                   </div>
-                ))}
+            )}
               </div>
 
               <Separator />
@@ -794,7 +794,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </SectionTitle>
               <ClinicJobToggles />
             </>
-          )}
+        }
 
           <Separator />
 
@@ -831,8 +831,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
         <Button variant="outline" className="flex-1" onClick={onClose}>Cancelar</Button>
         <Button className="flex-1" onClick={handleSave}>Guardar Alterações</Button>
       </div>
-    </div>
-  );
+    </div>;
+
 
   if (inline) {
     return <div className="max-w-2xl mx-auto">{content}</div>;
@@ -841,6 +841,6 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   return (
     <div className="fixed inset-0 bg-background z-[65] flex flex-col pb-[60px]">
       {content}
-    </div>
-  );
+    </div>);
+
 }
