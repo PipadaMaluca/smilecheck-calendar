@@ -59,7 +59,7 @@ export function HeroSection() {
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
+      <div className="relative z-10 max-w-4xl mx-auto text-center py-0 pt-[5px]">
         <img
 
           alt="SmileCheck"
