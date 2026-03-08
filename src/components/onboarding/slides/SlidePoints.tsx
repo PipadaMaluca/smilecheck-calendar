@@ -49,9 +49,9 @@ const POINTS_BY_ROLE: Record<UserRole, PointItem[]> = {
 };
 
 const BOTTOM_TEXT: Record<UserRole, string> = {
-  patient: 'Quanto melhor o teu comportamento, mais pontos ganhas!',
-  dentist: 'Quanto mais ativo e dedicado, mais pontos ganhas!',
-  clinic: 'Quanto melhor a operação da clínica, mais pontos ganha!',
+  patient: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
+  dentist: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
+  clinic: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
 };
 
 const TITLE: Record<UserRole, string> = {
