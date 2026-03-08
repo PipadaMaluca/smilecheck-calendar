@@ -239,7 +239,6 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
             </CardContent>
           </Card>
         </div>
-      </div>
     </div>
   );
 
