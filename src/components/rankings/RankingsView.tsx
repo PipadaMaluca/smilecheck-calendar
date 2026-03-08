@@ -240,6 +240,14 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
           </Card>
         </div>
       </div>
+    </div>
+  );
+
+  if (inline) return content;
+
+  return (
+    <ScrollArea className="flex-1">
+      {content}
     </ScrollArea>
   );
 }
