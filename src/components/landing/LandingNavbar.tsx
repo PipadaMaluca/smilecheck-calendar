@@ -32,11 +32,11 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
   return (
     <nav
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ?
-        'bg-background/80 backdrop-blur-xl border-b border-border shadow-sm' :
-        'bg-transparent'
+      className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-[#121f30]",
+
+      scrolled ?
+      'bg-background/80 backdrop-blur-xl border-b border-border shadow-sm' :
+      'bg-transparent'
       )}>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

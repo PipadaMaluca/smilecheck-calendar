@@ -33,7 +33,7 @@ export function LandingFooter() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[hsl(214,30%,20%)] bg-[hsl(222,47%,11%)]">
+      <footer className="border-t bg-[hsl(222,47%,11%)] border-[#121f30]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {/* Column 1 */}
