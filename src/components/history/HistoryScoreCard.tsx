@@ -160,6 +160,11 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 <Star className="w-3.5 h-3.5 mr-1" /> Dar Feedback para receber pontos
               </Button>
             )}
+            {score.feedbackStatus === 'completed' && score.totalPoints < 0 && onContest && (
+              <Button variant="outline" size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onContest(); }}>
+                ⚖️ Contestar
+              </Button>
+            )}
           </div>
         )}
       </CardContent>
