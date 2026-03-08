@@ -57,8 +57,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       if (
         containerRef.current &&
         !containerRef.current.contains(target) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(target)
+        !dropdownRef.current?.contains(target)
       ) {
         setIsOpen(false);
         setIsFocused(false);
