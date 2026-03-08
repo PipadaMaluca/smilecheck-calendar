@@ -72,7 +72,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               className="p-2 rounded-lg transition-colors bg-[#121f30] border-white border"
               aria-label="Alternar tema">
               
-              {isDark ? <Sun className="w-4 h-4 bg-[#121f30] text-white" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-4 h-4 bg-[#121f30] text-white border-0 border-white" /> : <Moon className="w-4 h-4" />}
             </button>
             <Button variant="outline" size="sm" onClick={() => navigate('/login')}>
               Entrar
