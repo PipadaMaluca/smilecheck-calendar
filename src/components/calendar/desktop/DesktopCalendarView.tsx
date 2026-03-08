@@ -56,6 +56,7 @@ import { isSameDay, startOfWeek, endOfWeek, addDays, addWeeks, subWeeks, format 
 import { pt } from 'date-fns/locale';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { AgendaSearchBar } from './AgendaSearchBar';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
