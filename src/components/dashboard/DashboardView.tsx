@@ -64,7 +64,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: null },
+      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
@@ -73,14 +73,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
-      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: null },
+      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: null },
+      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: 'agenda' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
