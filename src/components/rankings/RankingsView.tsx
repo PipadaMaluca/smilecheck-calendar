@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 interface RankingsViewProps {
   userRole: UserRole;
+  inline?: boolean;
 }
 
 // --- Mock ranking data ---
@@ -113,19 +114,19 @@ function MedalEmoji({ position }: { position: number }) {
   return <span className="text-sm font-bold text-muted-foreground w-6 text-center">#{position}</span>;
 }
 
-export function RankingsView({ userRole }: RankingsViewProps) {
+export function RankingsView({ userRole, inline }: RankingsViewProps) {
   const isMobile = useIsMobile();
   const rankings = userRole === 'clinic' ? clinicRankings : dentistRankings;
   const top10 = userRole === 'clinic' ? clinicTop10 : dentistTop10;
 
-  return (
-    <ScrollArea className="flex-1">
-      <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32">
-        {/* Header */}
+  const content = (
+    <div className={cn(inline ? 'space-y-6' : 'p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32')}>
+      {!inline && (
         <div>
           <h1 className="text-xl font-bold text-foreground">Classificações</h1>
           <p className="text-sm text-muted-foreground">Veja a sua posição nos rankings</p>
         </div>
+      )}
 
         {/* Ranking Cards */}
         <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'flex flex-row')}>
@@ -238,7 +239,14 @@ export function RankingsView({ userRole }: RankingsViewProps) {
             </CardContent>
           </Card>
         </div>
-      </div>
+    </div>
+  );
+
+  if (inline) return content;
+
+  return (
+    <ScrollArea className="flex-1">
+      {content}
     </ScrollArea>
   );
 }

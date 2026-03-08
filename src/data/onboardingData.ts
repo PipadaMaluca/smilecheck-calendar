@@ -16,7 +16,7 @@ export const ONBOARDING_SLIDES: Record<UserRole, OnboardingSlide[]> = {
   patient: [
     { emoji: '🎉', title: 'Bem-vindo ao SmileCheck!', description: 'A sua saúde oral numa só app. Gerir consultas, acumular pontos e cuidar do seu sorriso nunca foi tão fácil.' },
     { emoji: '📅', title: 'As suas consultas', description: 'Marque, confirme e acompanhe todas as suas consultas presenciais e teleconsultas num só lugar.' },
-    { emoji: '⭐', title: 'Ganhe pontos', description: 'Confirme consultas, chegue a horas e cuide da sua higiene oral para acumular pontos. 100 pontos = €10 em recompensas!' },
+    { emoji: '⭐', title: 'Ganhe XP e Pontos', description: 'Cada ação positiva ganha XP (para subir de nível) e Pontos de Recompensa (para trocar na Loja). XP nunca diminui!' },
     { emoji: '❤️', title: 'A sua saúde oral', description: 'Mantenha o seu perfil de saúde atualizado: alergias, medicação, vacinas e documentos médicos sempre acessíveis.' },
     { emoji: '📱', title: 'Teleconsultas', description: 'Consulte o seu dentista por videochamada sem sair de casa. Rápido, seguro e a apenas €20.' },
     { emoji: '🏆', title: 'Desbloqueie conquistas', description: 'Complete desafios, suba de nível e desbloqueie conquistas secretas. 35 conquistas à sua espera!' },
@@ -52,7 +52,7 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-nav-saude', title: 'Saúde', description: 'Gerir alergias, medicação, vacinas e documentos médicos.' },
     { targetId: 'onboarding-nav-conquistas', title: 'Conquistas', description: 'Acompanhe o seu progresso e desbloqueie conquistas.' },
     { targetId: 'onboarding-nav-loja', title: 'Loja de Recompensas', description: 'Troque pontos por recompensas aqui.' },
-    { targetId: 'onboarding-pontuacao-card', title: 'Pontos', description: 'Os seus pontos acumulados. Clique para ir à Loja de Recompensas. 100 pontos = €10!' },
+    { targetId: 'onboarding-pontuacao-card', title: 'Pontos Disponíveis', description: 'Os seus pontos de recompensa. Clique para ir à Loja de Recompensas!' },
     { targetId: 'onboarding-nav-conversas', title: 'Conversas', description: 'Comunique diretamente com os seus dentistas.' },
   ],
   dentist: [
@@ -62,7 +62,7 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-historico', title: 'Histórico', description: 'Pontos atribuídos aos pacientes e feedback das consultas.' },
     { targetId: 'onboarding-nav-estatisticas', title: 'Estatísticas', description: 'Dados detalhados do seu desempenho.' },
     { targetId: 'onboarding-nav-conversas', title: 'Conversas', description: 'Mensagens dos seus pacientes.' },
-    { targetId: 'onboarding-level-points', title: 'Nível e Pontos', description: 'O seu nível e pontos profissionais.' },
+    { targetId: 'onboarding-level-points', title: 'Nível e Pontos', description: 'O seu nível (XP) e pontos de recompensa disponíveis.' },
   ],
   clinic: [
     { targetId: 'onboarding-consultas-hoje', title: 'Consultas de Hoje', description: 'Resumo de consultas de toda a equipa.' },

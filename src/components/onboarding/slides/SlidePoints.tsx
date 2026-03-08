@@ -49,15 +49,15 @@ const POINTS_BY_ROLE: Record<UserRole, PointItem[]> = {
 };
 
 const BOTTOM_TEXT: Record<UserRole, string> = {
-  patient: 'Quanto melhor o teu comportamento, mais pontos ganhas!',
-  dentist: 'Quanto mais ativo e dedicado, mais pontos ganhas!',
-  clinic: 'Quanto melhor a operação da clínica, mais pontos ganha!',
+  patient: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
+  dentist: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
+  clinic: 'Ganha XP para subir de nível e Pontos para trocar por recompensas!',
 };
 
 const TITLE: Record<UserRole, string> = {
-  patient: '💰 GANHA PONTOS',
-  dentist: '💰 GANHA PONTOS',
-  clinic: '💰 GANHE PONTOS',
+  patient: '💰 GANHA XP & PONTOS',
+  dentist: '💰 GANHA XP & PONTOS',
+  clinic: '💰 GANHE XP & PONTOS',
 };
 
 export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
@@ -87,8 +87,10 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
       </div>
 
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">
-        {BOTTOM_TEXT[userRole].split('mais pontos')[0]}
-        <span className="font-bold text-gaming-green">mais pontos ganhas!</span>
+        {BOTTOM_TEXT[userRole]}
+      </p>
+      <p className="text-[10px] text-muted-foreground text-center max-w-xs mt-2">
+        XP nunca diminui · Pontos de recompensa podem ser gastos na Loja
       </p>
     </div>
   );

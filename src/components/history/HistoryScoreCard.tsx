@@ -16,10 +16,11 @@ interface HistoryScoreCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   onGiveFeedback?: () => void;
+  onContest?: () => void;
   userRole: UserRole;
 }
 
-export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, userRole }: HistoryScoreCardProps) {
+export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, onContest, userRole }: HistoryScoreCardProps) {
   const isPositive = score.totalPoints > 0;
   const isNegative = score.totalPoints < 0;
   const Icon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
@@ -110,18 +111,23 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">
-            <Badge
-              variant="outline"
-              className={cn(
-                'text-xs font-bold border-0',
-                isPending ? 'bg-amber-500/10 text-amber-600'
-                  : isPositive ? 'bg-primary/10 text-primary'
-                  : isNegative ? 'bg-destructive/10 text-destructive'
-                  : 'bg-muted text-muted-foreground'
+            <div className="flex flex-col items-end gap-0.5">
+              {score.totalPoints > 0 && (
+                <span className="text-[9px] font-bold text-primary">+{score.totalPoints} XP</span>
               )}
-            >
-              {score.totalPoints >= 0 ? '+' : ''}{score.totalPoints} pts
-            </Badge>
+              <Badge
+                variant="outline"
+                className={cn(
+                  'text-xs font-bold border-0',
+                  isPending ? 'bg-amber-500/10 text-amber-600'
+                    : isPositive ? 'bg-primary/10 text-primary'
+                    : isNegative ? 'bg-destructive/10 text-destructive'
+                    : 'bg-muted text-muted-foreground'
+                )}
+              >
+                {score.totalPoints >= 0 ? '+' : ''}{score.totalPoints} pts
+              </Badge>
+            </div>
             {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
           </div>
         </div>
@@ -152,6 +158,11 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
             {isPending && onGiveFeedback && (
               <Button size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onGiveFeedback(); }}>
                 <Star className="w-3.5 h-3.5 mr-1" /> Dar Feedback para receber pontos
+              </Button>
+            )}
+            {score.feedbackStatus === 'completed' && score.totalPoints < 0 && onContest && (
+              <Button variant="outline" size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onContest(); }}>
+                ⚖️ Contestar
               </Button>
             )}
           </div>

@@ -18,6 +18,7 @@ import { TriageInline } from '@/components/triage/TriageInline';
 import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
+import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
@@ -223,6 +224,8 @@ export function PatientCalendar() {
             userRole="patient"
             onViewClinicProfile={id => setViewClinicProfile(id)}
           />
+        ) : activeTab === 'pontuacoes' ? (
+          <div className="px-0"><PontuacoesView userRole="patient" onNavigate={handleTabChange} /></div>
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>

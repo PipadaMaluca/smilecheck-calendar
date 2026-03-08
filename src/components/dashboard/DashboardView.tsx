@@ -8,13 +8,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar'; // v2
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
+import { USER_POINTS, getLevelForXP, getXPProgress } from '@/data/pointsData';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -55,34 +56,37 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   mockConsultations.filter((c) => isSameDay(c.date, DEMO_DATE)),
   []);
 
+  // Dual points data
+  const pointsData = USER_POINTS[userRole];
+  const level = getLevelForXP(pointsData.xp);
+  const xpProgress = getXPProgress(pointsData.xp);
+
   const stats = useMemo(() => {
     if (userRole === 'patient') {
       return [
-      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar },
-      { label: 'Nível', value: 'Bronze', icon: Award },
-      { label: 'Pontuação', value: '450 pts', icon: Trophy },
-      { label: 'Streak', value: '7 dias', icon: Flame }];
+      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'dentist') {
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
-      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar },
-      { label: 'Nível', value: 'Prata', icon: Award },
-      { label: 'Pontuação', value: '1 250 pts', icon: Trophy },
-      { label: 'Streak', value: '14 dias', icon: Flame }];
+      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
-      const pres = todayConsultations.filter((c) => c.type === 'presencial').length;
-      const tele = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar },
-      { label: 'Nível', value: 'Ouro', icon: Award },
-      { label: 'Pontuação', value: '3 800 pts', icon: Trophy },
-      { label: 'Streak', value: '30 dias', icon: Flame }];
+      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: null },
+      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     return null;
-  }, [userRole, todayConsultations]);
+  }, [userRole, todayConsultations, level, pointsData]);
 
   const quickActions = useMemo(() => {
     switch (userRole) {
@@ -114,16 +118,24 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
-          const isPontuacao = stat.label === 'Pontuação';
+          const isClickable = !!stat.clickTab;
+          const isXPCard = stat.label === 'Nível e XP';
           return (
             <Card
               key={stat.label}
-              id={isPontuacao ? 'onboarding-pontuacao-card' : undefined}
+              id={stat.label === 'Pontos Disponíveis' ? 'onboarding-pontuacao-card' : undefined}
               className={cn(
                 "bg-card/80 backdrop-blur border-border min-w-0",
-                isPontuacao && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
+                isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
               )}
-              onClick={isPontuacao ? () => onNavigate('loja') : undefined}
+              onClick={isClickable ? () => {
+                if (stat.clickTab === 'pontuacoes-streak') {
+                  onNavigate('pontuacoes');
+                  // The PontuacoesView will handle initialTab
+                } else {
+                  onNavigate(stat.clickTab!);
+                }
+              } : undefined}
             >
               <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
                 <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
@@ -131,6 +143,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                 </div>
                 <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
+                {isXPCard && (
+                  <div className="space-y-1">
+                    <Progress value={xpProgress.percent} className="h-2" />
+                    <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
+                  </div>
+                )}
                 {'subtitle' in stat && stat.subtitle &&
                 <span className="text-[10px] text-muted-foreground truncate text-center sm:text-base">
                     {String(stat.subtitle).split('·').map((part, i) => {
