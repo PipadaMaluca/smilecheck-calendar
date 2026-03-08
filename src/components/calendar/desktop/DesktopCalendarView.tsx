@@ -666,7 +666,7 @@ export function DesktopCalendarView() {
                       <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
                     </ToggleGroup>
                     <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground" onClick={() => setShowSettings(true)}>
-                      <CalendarClock className="w-4 h-4" /> Modificar horários
+                      <CalendarClock className="w-4 h-4" /> Modificar Agenda
                     </Button>
                     <div className="relative cursor-pointer" onClick={() => setActiveNavTab('pesquisa')}>
                       <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
