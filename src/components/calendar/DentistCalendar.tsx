@@ -270,6 +270,18 @@ export function DentistCalendar() {
   };
 
   const handleTabChange = (tab: string) => {
+    // Card 1: open next consultation detail
+    if (tab === 'consulta-detalhe') {
+      const DEMO_DATE = new Date(2026, 0, 31);
+      const dentistCons = mockConsultations
+        .filter(c => c.dentist.id === mockDentists[0].id && isSameDay(c.date, DEMO_DATE))
+        .sort((a, b) => a.time.localeCompare(b.time));
+      const next = dentistCons[0];
+      if (next) {
+        setSelectedConsultation(next);
+      }
+      return;
+    }
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowPrescription(false);
     setShowReferral(false);
