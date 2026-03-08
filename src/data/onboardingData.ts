@@ -16,7 +16,7 @@ export const ONBOARDING_SLIDES: Record<UserRole, OnboardingSlide[]> = {
   patient: [
     { emoji: '🎉', title: 'Bem-vindo ao SmileCheck!', description: 'A sua saúde oral numa só app. Gerir consultas, acumular pontos e cuidar do seu sorriso nunca foi tão fácil.' },
     { emoji: '📅', title: 'As suas consultas', description: 'Marque, confirme e acompanhe todas as suas consultas presenciais e teleconsultas num só lugar.' },
-    { emoji: '⭐', title: 'Ganhe pontos', description: 'Confirme consultas, chegue a horas e cuide da sua higiene oral para acumular pontos. 100 pontos = €10 em recompensas!' },
+    { emoji: '⭐', title: 'Ganhe XP e Pontos', description: 'Cada ação positiva ganha XP (para subir de nível) e Pontos de Recompensa (para trocar na Loja). XP nunca diminui!' },
     { emoji: '❤️', title: 'A sua saúde oral', description: 'Mantenha o seu perfil de saúde atualizado: alergias, medicação, vacinas e documentos médicos sempre acessíveis.' },
     { emoji: '📱', title: 'Teleconsultas', description: 'Consulte o seu dentista por videochamada sem sair de casa. Rápido, seguro e a apenas €20.' },
     { emoji: '🏆', title: 'Desbloqueie conquistas', description: 'Complete desafios, suba de nível e desbloqueie conquistas secretas. 35 conquistas à sua espera!' },
