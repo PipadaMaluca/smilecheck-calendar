@@ -61,9 +61,9 @@ export function HeroSection() {
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
         <img
-          src="/assets/smilecheck-logo-vertical.png"
+
           alt="SmileCheck"
-          className="h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-3xl" />
+          className="logo-light-adapt h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-xl" src="/lovable-uploads/3ec2c0d9-9a7e-458b-9fc7-a583987ba884.png" />
         
         <Badge
           variant="secondary"
@@ -125,9 +125,9 @@ export function HeroSection() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
               { label: 'Consultas Hoje', value: '8' },
-              { label: '🥇 Nível', value: 'Ouro (1.250 XP)' },
-              { label: '⭐ Pontos', value: '850 pts' },
-              { label: '🔥 Streak', value: '14 dias' }].
+              { label: 'Pontos', value: '1 250' },
+              { label: 'Nível', value: 'Ouro' },
+              { label: '🔥 Streak', value: '7 dias' }].
               map((c) =>
               <div
                 key={c.label}
@@ -138,54 +138,10 @@ export function HeroSection() {
                 </div>
               )}
             </div>
-            {/* Mini agenda mockup */}
-            <div className="mt-3 rounded-lg bg-muted/30 p-3 my-[15px]">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-medium text-muted-foreground">📅 Agenda Semanal</span>
-                <span className="text-[10px] text-muted-foreground">Jan 2026</span>
-              </div>
-              <div className="grid grid-cols-5 gap-1.5">
-                {['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].map((day, i) => (
-                  <div key={day} className="flex flex-col gap-1">
-                    <span className="text-[9px] text-muted-foreground text-center">{day}</span>
-                    <div className="flex flex-col gap-0.5">
-                      {i === 0 && <>
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                        <div className="h-4 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                      </>}
-                      {i === 1 && <>
-                        <div className="h-3.5 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                        <div className="h-3 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                      </>}
-                      {i === 2 && <>
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                        <div className="h-5 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                      </>}
-                      {i === 3 && <>
-                        <div className="h-4 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                        <div className="h-2.5 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                      </>}
-                      {i === 4 && <>
-                        <div className="h-3 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                        <div className="h-3.5 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                      </>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-3 mt-2 justify-center">
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: 'hsl(217, 91%, 70%)' }} />
-                  <span className="text-[8px] text-muted-foreground">Presenciais</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm" style={{ backgroundColor: 'hsl(30, 97%, 62%)' }} />
-                  <span className="text-[8px] text-muted-foreground">Teleconsultas</span>
-                </div>
-              </div>
+            <div className="mt-3 h-28 sm:h-36 rounded-lg bg-muted/30 flex items-center justify-center my-[15px]">
+              <span className="text-muted-foreground text-sm">
+                📅 Agenda Semanal
+              </span>
             </div>
           </div>
         </div>
