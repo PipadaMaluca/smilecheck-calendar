@@ -465,8 +465,16 @@ export function DesktopCalendarView() {
   useEffect(() => {
     const handler = () => {setActiveNavTab('home');setShowTriage(false);};
     window.addEventListener('smilecheck:go-home', handler);
-    return () => window.removeEventListener('smilecheck:go-home', handler);
-  }, []);
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleNavTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => {
+      window.removeEventListener('smilecheck:go-home', handler);
+      window.removeEventListener('smilecheck:navigate', navHandler);
+    };
+  }, [handleNavTabChange]);
 
   // Helper to render standard header (taller, aligned with logo block) for non-agenda screens
   const renderStandardHeader = (title: string) =>
