@@ -542,11 +542,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <SectionTitle>Teleconsulta</SectionTitle>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-[5px] mt-[10px] mb-0">
                 <FieldGroup label="Preço teleconsulta (€)">
                   <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
-                <div className="items-center flex-row py-[30px] flex md:items-center justify-between">
+                <div className="items-center py-0 gap-0 mx-[200px] md:items-center justify-between flex flex-row ml-0 mr-0">
                   <span className="text-sm">Aceita urgências</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
