@@ -343,8 +343,8 @@ export function ClinicCalendar() {
         <ConversationsView userRole="clinic" onNavigate={handleTabChange} />
       ) : activeTab === 'configuracoes' ? (
         <SettingsView userRole="clinic" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
-      ) : activeTab === 'classificacoes' ? (
-        <div className="px-0"><RankingsView userRole="clinic" /></div>
+      ) : activeTab === 'classificacoes' || activeTab === 'pontuacoes' ? (
+        <div className="px-0"><PontuacoesView userRole="clinic" initialTab={activeTab === 'classificacoes' ? 'classificacoes' : 'pontos'} onNavigate={handleTabChange} /></div>
       ) : activeTab === 'conquistas' ? (
         <div className="px-0"><AchievementsView userRole="clinic" /></div>
       ) : activeTab === 'notificacoes' ? (

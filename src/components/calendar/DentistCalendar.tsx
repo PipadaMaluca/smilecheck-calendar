@@ -364,8 +364,8 @@ export function DentistCalendar() {
           <ConversationsView userRole="dentist" onNavigate={handleTabChange} />
         ) : activeTab === 'configuracoes' ? (
           <SettingsView userRole="dentist" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
-        ) : activeTab === 'classificacoes' ? (
-          <div className="px-0"><RankingsView userRole="dentist" /></div>
+        ) : activeTab === 'classificacoes' || activeTab === 'pontuacoes' ? (
+          <div className="px-0"><PontuacoesView userRole="dentist" initialTab={activeTab === 'classificacoes' ? 'classificacoes' : 'pontos'} onNavigate={handleTabChange} /></div>
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="dentist" /></div>
         ) : activeTab === 'notificacoes' ? (
