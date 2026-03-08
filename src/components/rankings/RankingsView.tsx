@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 interface RankingsViewProps {
   userRole: UserRole;
+  inline?: boolean;
 }
 
 // --- Mock ranking data ---
