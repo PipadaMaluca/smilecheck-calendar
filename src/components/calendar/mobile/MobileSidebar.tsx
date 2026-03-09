@@ -83,25 +83,6 @@ export function MobileSidebar({
     </button>;
 
 
-  const CustomCheckbox = ({ checked, onChange, className }: {checked: boolean;onChange: () => void;className?: string;}) =>
-  <button
-    onClick={(e) => {e.stopPropagation();onChange();}}
-    className={cn(
-      'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
-      checked ?
-      'bg-primary border-primary text-primary-foreground' :
-      'border-muted-foreground/50 hover:border-primary',
-      className
-    )}>
-
-      {checked &&
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-    }
-    </button>;
-
-
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="left" className="w-[300px] p-0 bg-card overflow-y-auto">
