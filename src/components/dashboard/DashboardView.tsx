@@ -389,20 +389,34 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {[
-                { name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                { name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                { name: 'Dr. Gil Santos', pres: 14, tele: 4 }].
-                map((d) =>
-                <div key={d.name} className="p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px] py-[10px] flex items-center justify-center px-0">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
+                { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
+                { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
+                { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }].
+                map((d) => (
+                  <div
+                    key={d.name}
+                    className="p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px] py-[10px] flex items-center px-3 cursor-pointer hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_8px_hsl(var(--primary)/0.15)] transition-all group"
+                    onClick={() => {
+                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
+                      onNavigate('agenda');
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0 group-hover:bg-primary/20 transition-colors">
                       {d.name.split(' ').filter((n) => !['dr.', 'dr', 'dra.', 'dra'].includes(n.toLowerCase())).filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('').toUpperCase()}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-semibold text-foreground truncate">{d.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{d.pres + d.tele} consultas</p>
+                      <ClickableDentistName
+                        name={d.name}
+                        className="text-xs font-semibold hover:text-primary transition-colors"
+                      />
+                      <p className="text-[10px] text-muted-foreground">
+                        <span className="text-presencial font-medium">{d.pres} pres.</span>
+                        <span className="text-muted-foreground mx-1">·</span>
+                        <span className="text-teleconsulta font-medium">{d.tele} tele.</span>
+                      </p>
                     </div>
                   </div>
-                )}
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -426,9 +440,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border-b border-border/50 hover:bg-muted/30 rounded transition-colors cursor-pointer px-[5px] py-[10px] my-[10px] gap-[10px] flex items-center justify-end border"
-                    onClick={() => onNavigate('agenda')}>
-                      <span className="text-xs font-semibold text-foreground truncate">{d.name}:</span>
+                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-2 group"
+                    onClick={() => {
+                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
+                      onNavigate('agenda');
+                    }}>
+                      <ClickableDentistName
+                        name={d.name}
+                        className="text-xs font-semibold flex-shrink-0 group-hover:text-primary transition-colors"
+                      />
+                      <span className="text-muted-foreground">:</span>
                       <span className="text-xs font-bold text-presencial">{d.pres} Presenciais</span>
                       <span className="text-[10px] text-muted-foreground">·</span>
                       <span className="text-xs font-bold text-teleconsulta">{d.tele} Teleconsultas</span>
