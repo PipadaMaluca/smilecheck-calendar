@@ -64,13 +64,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
-      const nextPatientCon = [...mockPatientConsultations]
-        .filter(c => c.date >= DEMO_DATE)
-        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      const nextPatientCon = [...mockPatientConsultations].
+      filter((c) => c.date >= DEMO_DATE).
+      sort((a, b) => a.date.getTime() - b.date.getTime())[0];
       const nextValue = nextPatientCon ? nextPatientCon.time : 'Sem consultas';
-      const nextSubtitle = nextPatientCon
-        ? format(nextPatientCon.date, "d 'de' MMMM", { locale: pt })
-        : 'Marcar consulta';
+      const nextSubtitle = nextPatientCon ?
+      format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
+      'Marcar consulta';
       return [
       { label: 'Próxima Consulta', value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
@@ -107,10 +107,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       case 'clinic':
         return [
         { label: 'Ver Agenda Completa', icon: Calendar, action: () => {
-          // Select all dentists from SmileCheck clinic (clinic ID '1')
-          window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
-          onNavigate('agenda');
-        } },
+            // Select all dentists from SmileCheck clinic (clinic ID '1')
+            window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
+            onNavigate('agenda');
+          } },
         { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
         { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') }];
 
@@ -145,7 +145,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   onNavigate('pontuacoes');
                 } else if (stat.clickTab === 'consulta-detalhe') {
                   onNavigate('consulta-detalhe');
-        } else if (stat.clickTab === 'agenda') {
+                } else if (stat.clickTab === 'agenda') {
                   // Select all dentists from SmileCheck clinic (clinic ID '1')
                   window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
                   onNavigate('agenda');
@@ -395,37 +395,37 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
                 <Badge variant="outline" className="text-[10px]">{clinicDentists.length} dentistas</Badge>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {[
-                { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }].
-                map((d) => (
-                  <div
-                    key={d.name}
-                    className="p-2 rounded-lg border border-border/50 bg-muted/20 gap-[10px] py-[10px] flex items-center px-3 cursor-pointer hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_8px_hsl(var(--primary)/0.15)] transition-all group"
-                    onClick={() => {
-                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                      onNavigate('agenda');
-                    }}
-                  >
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                      {d.name.split(' ').filter((n) => !['dr.', 'dr', 'dra.', 'dra'].includes(n.toLowerCase())).filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('').toUpperCase()}
-                    </div>
-                    <div className="min-w-0">
-                      <ClickableDentistName
-                        name={d.name}
-                        className="text-xs font-semibold hover:text-primary transition-colors"
-                      />
-                      <p className="text-[10px] text-muted-foreground">
-                        <span className="text-presencial font-medium">{d.pres} pres.</span>
-                        <span className="text-muted-foreground mx-1">·</span>
-                        <span className="text-teleconsulta font-medium">{d.tele} tele.</span>
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
             </CardContent>
           </Card>
         </div>
@@ -450,13 +450,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     key={d.id}
                     className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
-                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                       onNavigate('agenda');
-                     }}>
+                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
+                      onNavigate('agenda');
+                    }}>
                        <ClickableDentistName
-                         name={d.name}
-                         className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors"
-                       />
+                      name={d.name}
+                      className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
+                    
                        <span className="text-muted-foreground text-[11px]">:</span>
                        <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} Pres.</span>
                        <span className="text-[10px] text-muted-foreground">·</span>
