@@ -481,11 +481,19 @@ export function DesktopCalendarView() {
       if (detail) handleNavTabChange(detail);
     };
     window.addEventListener('smilecheck:navigate', navHandler);
-    // Filter agenda to a specific dentist (clinicId-dentistId key)
+    // Filter agenda to a specific dentist (clinicId-dentistId key) or clinic (clinic-X)
     const filterDentistHandler = (e: Event) => {
       const key = (e as CustomEvent<string>).detail;
-      if (key === 'all') setSelectedDentistIds([]);
-      else if (key) setSelectedDentistIds([key]);
+      if (key === 'all') {
+        setSelectedDentistIds([]);
+      } else if (key?.startsWith('clinic-')) {
+        // Select all dentists from specified clinic
+        const clinicId = key.replace('clinic-', '');
+        const clinicDentistKeys = getDentistsForClinic(clinicId).map(d => `${clinicId}-${d.id}`);
+        setSelectedDentistIds(clinicDentistKeys);
+      } else if (key) {
+        setSelectedDentistIds([key]);
+      }
     };
     window.addEventListener('smilecheck:filter-dentist', filterDentistHandler);
     return () => {
