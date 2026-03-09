@@ -542,30 +542,18 @@ export function DesktopCalendarView() {
     // Consultation Detail for Patient/Dentist when clicking "Próxima Consulta" card
     if (activeNavTab === 'consulta-detalhe') {
       if (activeRole === 'patient') {
-        // Find next upcoming consultation for patient
+        // Navigate to consultas tab with next consultation pre-selected
         const PATIENT_DEMO_DATE = new Date(2026, 0, 31);
         const nextConsultation = [...mockPatientConsultations]
           .filter(c => c.date >= PATIENT_DEMO_DATE)
           .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
         
+        // Pre-select the next consultation and switch to agenda tab
         if (nextConsultation) {
-          return (
-            <div className="flex-1 flex flex-col overflow-hidden">
-              {renderStandardHeader('Detalhes da Consulta')}
-              <div className="flex-1 overflow-y-auto">
-                <PatientConsultationDetail
-                  consultation={nextConsultation}
-                  isOpen={true}
-                  onClose={() => setActiveNavTab('home')}
-                />
-              </div>
-            </div>
-          );
-        } else {
-          // No upcoming consultation - redirect to search/booking
-          setActiveNavTab('pesquisa');
-          return null;
+          setSelectedConsultation(nextConsultation);
         }
+        setActiveNavTab('agenda');
+        return null;
       } else if (activeRole === 'dentist') {
         // Find next consultation for today for this dentist
         const DEMO_DATE = new Date(2026, 0, 31);
