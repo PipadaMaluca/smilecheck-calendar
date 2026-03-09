@@ -12,11 +12,12 @@ interface LandingNavbarProps {
 }
 
 const navLinks = [
-{ label: 'Funcionalidades', href: '#funcionalidades' },
-{ label: 'Planos', href: '#planos' },
-{ label: 'Testemunhos', href: '#testemunhos' },
-{ label: 'FAQ', href: '#faq' },
-{ label: 'Contacto', href: '#contacto' }];
+  { label: 'Funcionalidades', href: '#funcionalidades' },
+  { label: 'Planos', href: '#planos' },
+  { label: 'Testemunhos', href: '#testemunhos' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Contacto', href: '#contacto' },
+];
 
 
 export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
