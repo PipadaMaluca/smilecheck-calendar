@@ -72,7 +72,7 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
     >
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-contain"
         playsInline
         preload="auto"
         onEnded={handleFinish}
