@@ -10,6 +10,8 @@ import Index from "./pages/Index";
 import AppPage from "./pages/AppPage";
 import Landing from "./pages/Landing";
 import Triagem from "./pages/Triagem";
+import Termos from "./pages/Termos";
+import Privacidade from "./pages/Privacidade";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
 import { SignUpScreen } from "./components/auth/SignUpScreen";
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/signup" element={<SignUpScreen />} />
           <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
           <Route path="/demo" element={<DemoSelector />} />
+          <Route path="/termos" element={<Termos />} />
+          <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/" element={<Index />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/app" element={<AppPage />} />

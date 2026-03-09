@@ -104,21 +104,38 @@ export function LandingFooter() {
                 Legal
               </h4>
               <ul className="space-y-2">
-                {[
-                'Termos de Serviço',
-                'Política de Privacidade',
-                'RGPD',
-                'Cookies'].
-                map((l) =>
-                <li key={l}>
-                    <a
-                    href="#"
-                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
-                    
-                      {l}
-                    </a>
-                  </li>
-                )}
+                <li>
+                  <a
+                    href="/termos"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
+                  >
+                    Termos de Serviço
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/privacidade"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
+                  >
+                    Política de Privacidade
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/privacidade#direitos"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
+                  >
+                    RGPD
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/privacidade#cookies"
+                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
+                  >
+                    Cookies
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

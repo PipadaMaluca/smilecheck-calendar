@@ -55,7 +55,23 @@ export function SignUpScreen() {
   const [clinicName, setClinicName] = useState('');
   const [nif, setNif] = useState('');
   const [address, setAddress] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+  const [referralStatus, setReferralStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Validate referral code (mock)
+  const validateReferralCode = (code: string) => {
+    if (!code.trim()) {
+      setReferralStatus('idle');
+      return;
+    }
+    // Mock validation - codes starting with SMILE- are valid
+    if (code.toUpperCase().startsWith('SMILE-')) {
+      setReferralStatus('valid');
+    } else {
+      setReferralStatus('invalid');
+    }
+  };
 
   // Social login state
   const [socialProvider, setSocialProvider] = useState<string | null>(null);
