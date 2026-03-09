@@ -266,20 +266,20 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             )}
           </div>
         </div>
-        <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
+        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
           {isOwnProfile ? (
-            <Button variant="outline" className="flex-1" onClick={onEditProfile}>Editar Perfil</Button>
+            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>Editar Perfil</Button>
           ) : (
             <>
-              <Button className="flex-1"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
-              <Button variant="outline" className="flex-1"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
-              <Button variant="outline" className="flex-1" onClick={() => window.open(`tel:${data.phone}`)}>
+              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
+              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
+              <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> Ligar
               </Button>
             </>
           )}
           {onToggleFavorite && (
-            <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
+            <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn('min-h-[44px]', isFavorite && 'text-amber-400')}>
               <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
               {isMobile && <span className="ml-1">Favoritos</span>}
             </Button>

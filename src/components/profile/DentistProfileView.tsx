@@ -205,7 +205,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
             <span className="text-muted-foreground">{DENTIST_EXTRA.yearsExperience} anos de experiência</span>

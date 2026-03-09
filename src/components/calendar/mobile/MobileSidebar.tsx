@@ -305,13 +305,13 @@ export function MobileSidebar({
             <MenuSection>
               {activeTab === 'agenda' && renderAgendaFilter()}
 
-              {/* Alphabetical - NO Carta de Referência, NO Prescrever Receita */}
-              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
+              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">

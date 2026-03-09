@@ -190,7 +190,7 @@ function ClinicJobToggles() {
           </div>
           <div>
             <Label className="text-xs mb-2 block">Benefícios oferecidos</Label>
-            <div className="grid grid-cols-2 gap-2">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
             <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
                   <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
