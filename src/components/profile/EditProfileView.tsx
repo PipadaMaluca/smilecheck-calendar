@@ -366,7 +366,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="p-5 space-y-6 pb-32 md:pb-6">
+        <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6 pb-32 md:pb-6">
           {/* Photo */}
           <div className="flex flex-col items-center gap-3">
             <div className="relative">
