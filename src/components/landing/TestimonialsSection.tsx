@@ -104,9 +104,12 @@ export function TestimonialsSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="-left-4 sm:-left-12" />
-          <CarouselNext className="-right-4 sm:-right-12" />
+          <CarouselPrevious className="hidden sm:flex -left-4 sm:-left-12" />
+          <CarouselNext className="hidden sm:flex -right-4 sm:-right-12" />
         </Carousel>
+        <p className="text-xs text-muted-foreground text-center mt-4 sm:hidden">
+          Deslize para ver mais testemunhos
+        </p>
       </div>
     </section>
   );
