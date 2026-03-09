@@ -141,9 +141,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   onNavigate('pontuacoes');
                 } else if (stat.clickTab === 'consulta-detalhe') {
                   onNavigate('consulta-detalhe');
-                } else if (stat.clickTab === 'agenda') {
-                  // Clear any dentist filter so full agenda shows all dentists
-                  window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'all' }));
+        } else if (stat.clickTab === 'agenda') {
+                  // Select all dentists from SmileCheck clinic (clinic ID '1')
+                  window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
                   onNavigate('agenda');
                 } else {
                   onNavigate(stat.clickTab!);
