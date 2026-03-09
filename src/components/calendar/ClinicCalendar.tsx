@@ -38,6 +38,7 @@ import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { ContestationView } from '@/components/contestation/ContestationView';
+import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -304,6 +305,13 @@ export function ClinicCalendar() {
         <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
         <>
+          {/* Clinic Agenda Dropdown Filter */}
+          <ClinicAgendaDropdown
+            selectedDentistIds={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+            onDentistToggle={handleDentistToggle}
+            viewMode={viewMode}
+          />
+
           <DateNavigator
             date={selectedDate}
             onDateChange={setSelectedDate}
