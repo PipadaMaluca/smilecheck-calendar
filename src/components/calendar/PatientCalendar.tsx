@@ -149,6 +149,12 @@ export function PatientCalendar() {
           <FullHistoryView userRole="patient" onBack={() => setShowFullHistory(false)} />
         ) : showTriage ? (
           <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => { setShowTriage(false); setActiveTab('home'); }} />
+        ) : selectedConsultation ? (
+          <PatientConsultationDetail
+            consultation={selectedConsultation}
+            isOpen={true}
+            onClose={() => setSelectedConsultation(null)}
+          />
         ) : activeTab === 'home' ? (
           <DashboardView userRole="patient" onNavigate={handleTabChange} onStartTriage={() => setShowTriage(true)} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'consultas' ? (
@@ -267,14 +273,6 @@ export function PatientCalendar() {
           activeTab={activeTab}
         />
 
-        {/* Patient Consultation Detail */}
-        {selectedConsultation && (
-          <PatientConsultationDetail
-            consultation={selectedConsultation}
-            isOpen={!!selectedConsultation}
-            onClose={() => setSelectedConsultation(null)}
-          />
-        )}
 
         <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />

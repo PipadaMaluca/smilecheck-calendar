@@ -262,6 +262,14 @@ export function ClinicCalendar() {
 
       {showFullHistory ? (
         <FullHistoryView userRole="clinic" onBack={() => setShowFullHistory(false)} />
+      ) : selectedConsultation ? (
+        <EditConsultationModal
+          consultation={selectedConsultation}
+          isOpen={true}
+          onClose={() => setSelectedConsultation(null)}
+          onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
+          onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
+        />
       ) : activeTab === 'home' ? (
         <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
@@ -436,14 +444,6 @@ export function ClinicCalendar() {
 
       {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
-      <EditConsultationModal
-        consultation={selectedConsultation}
-        isOpen={!!selectedConsultation}
-        onClose={() => setSelectedConsultation(null)}
-        isMobile={isMobile}
-        onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
-        onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
-      />
 
       {/* Slot Creation Screen */}
       {slotCreation && (
