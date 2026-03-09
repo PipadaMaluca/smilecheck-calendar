@@ -94,12 +94,62 @@ export function DentistAgendaDropdown({
 
           // Also show other dentists in this clinic
           const otherDentists = getDentistsForClinic(clinic.id).filter(d => d.id !== currentDentistId);
+          
+          // Check if all dentists in this clinic are selected
+          const allDentistsInClinic = getDentistsForClinic(clinic.id);
+          const allClinicSelected = allSelected || allDentistsInClinic.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+          const someClinicSelected = !allSelected && allDentistsInClinic.some(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+
+          // Toggle all dentists of this clinic
+          const handleClinicCheckbox = () => {
+            if (allSelected) {
+              // From "all" → select only this clinic's dentists
+              const clinicKeys = allDentistsInClinic.map(d => `${clinic.id}-${d.id}`);
+              clinicKeys.forEach(k => onDentistToggle(k.split('-')[1], true, clinic.id));
+            } else if (allClinicSelected) {
+              // Deselect all dentists of this clinic
+              allDentistsInClinic.forEach(d => {
+                if (selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
+                  onDentistToggle(d.id, true, clinic.id);
+                }
+              });
+            } else {
+              // Select all dentists of this clinic
+              allDentistsInClinic.forEach(d => {
+                if (!selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
+                  onDentistToggle(d.id, true, clinic.id);
+                }
+              });
+            }
+          };
+
+          // Click clinic name → solo select all dentists of this clinic
+          const handleClinicName = () => {
+            const clinicKeys = allDentistsInClinic.map(d => `${clinic.id}-${d.id}`);
+            // Use the first dentist as reference, set solo via name click
+            onDentistToggle(allDentistsInClinic[0]?.id, false, clinic.id);
+            // Then add the rest
+            setTimeout(() => {
+              allDentistsInClinic.slice(1).forEach(d => {
+                onDentistToggle(d.id, true, clinic.id);
+              });
+            }, 0);
+          };
 
           return (
             <div key={clinic.id}>
               <div className="flex items-center gap-2 py-1">
-                <Building2 className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-                <span className="text-xs font-semibold text-foreground">{clinic.name.replace('Clínica ', '')}</span>
+                <CustomCheck
+                  checked={allClinicSelected}
+                  onChange={handleClinicCheckbox}
+                />
+                <button
+                  className="flex items-center gap-1.5 hover:text-primary"
+                  onClick={handleClinicName}
+                >
+                  <Building2 className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                  <span className="text-xs font-semibold text-foreground">{clinic.name.replace('Clínica ', '')}</span>
+                </button>
                 {!worksOnDemo && <span className="text-[10px] text-muted-foreground">(não trabalha hoje)</span>}
               </div>
               {/* Own agenda at this clinic */}

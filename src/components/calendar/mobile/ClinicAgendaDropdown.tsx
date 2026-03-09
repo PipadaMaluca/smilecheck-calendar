@@ -113,19 +113,60 @@ export function ClinicAgendaDropdown({
         {mockClinics.map(clinic => {
           const isExpanded = expandedClinics.includes(clinic.id);
           const dentistsInClinic = getDentistsForClinic(clinic.id);
+          
+          // Check if all dentists in this clinic are selected
+          const allClinicSelected = allSelected || dentistsInClinic.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+
+          // Toggle all dentists of this clinic
+          const handleClinicCheckbox = () => {
+            if (allSelected) {
+              const clinicKeys = dentistsInClinic.map(d => `${clinic.id}-${d.id}`);
+              clinicKeys.forEach(k => onDentistToggle(k.split('-')[1], true, clinic.id));
+            } else if (allClinicSelected) {
+              dentistsInClinic.forEach(d => {
+                if (selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
+                  onDentistToggle(d.id, true, clinic.id);
+                }
+              });
+            } else {
+              dentistsInClinic.forEach(d => {
+                if (!selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
+                  onDentistToggle(d.id, true, clinic.id);
+                }
+              });
+            }
+          };
+
+          // Click clinic name → solo select all dentists of this clinic
+          const handleClinicName = () => {
+            onDentistToggle(dentistsInClinic[0]?.id, false, clinic.id);
+            setTimeout(() => {
+              dentistsInClinic.slice(1).forEach(d => {
+                onDentistToggle(d.id, true, clinic.id);
+              });
+            }, 0);
+          };
 
           return (
             <div key={clinic.id}>
-              <button
-                className="w-full flex items-center justify-between py-1 text-sm hover:text-primary"
-                onClick={() => toggleClinicExpanded(clinic.id)}
-              >
+              <div className="w-full flex items-center justify-between py-1 text-sm">
                 <div className="flex items-center gap-2">
-                  <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="text-xs font-semibold">{clinic.name.replace('Clínica ', '')}</span>
+                  <CustomCheck
+                    checked={allClinicSelected}
+                    onChange={handleClinicCheckbox}
+                  />
+                  <button
+                    className="flex items-center gap-1.5 hover:text-primary"
+                    onClick={handleClinicName}
+                  >
+                    <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="text-xs font-semibold">{clinic.name.replace('Clínica ', '')}</span>
+                  </button>
                 </div>
-                {isExpanded ? <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" /> : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />}
-              </button>
+                <button onClick={() => toggleClinicExpanded(clinic.id)} className="p-0.5">
+                  {isExpanded ? <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" /> : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />}
+                </button>
+              </div>
 
               {isExpanded && dentistsInClinic.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
