@@ -33,16 +33,11 @@ export function CalendarDemo() {
     setShowVideoSplash(false);
   }, []);
 
-  const handleSplashFinish = useCallback(() => {
-    setShowSplash(false);
-  }, []);
-
   // On desktop (>= 1024px), show the Doctolib-style layout
   if (isDesktop) {
     return (
       <>
         {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
-        {!showVideoSplash && showSplash && <SplashScreen userRole={splashRole as any} onFinish={handleSplashFinish} />}
         <DesktopCalendarView />
       </>
     );
@@ -52,7 +47,6 @@ export function CalendarDemo() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
       {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
-      {!showVideoSplash && showSplash && <SplashScreen userRole={splashRole as any} onFinish={handleSplashFinish} />}
 
       {/* View Selector */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
