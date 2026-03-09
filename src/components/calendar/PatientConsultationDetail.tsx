@@ -212,7 +212,6 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
             </div>
 
           </div>
-        </div>
       </div>
 
       {/* ── Cancellation Modal ── */}
