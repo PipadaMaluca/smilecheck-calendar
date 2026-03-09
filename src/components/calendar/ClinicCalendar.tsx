@@ -304,6 +304,13 @@ export function ClinicCalendar() {
         <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
         <>
+          {/* Clinic Agenda Dropdown Filter */}
+          <ClinicAgendaDropdown
+            selectedDentistIds={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+            onDentistToggle={handleDentistToggle}
+            viewMode={viewMode}
+          />
+
           <DateNavigator
             date={selectedDate}
             onDateChange={setSelectedDate}
