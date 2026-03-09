@@ -275,6 +275,8 @@ export function DentistCalendar() {
     return () => window.removeEventListener('smilecheck:navigate', navHandler);
   }, []);
 
+  // Handler that respects view mode restrictions
+  const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
   };
 
