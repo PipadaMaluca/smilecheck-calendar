@@ -193,7 +193,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
           >
             Submeter Contestação
           </Button>
-          <Button variant="outline" onClick={onBack}>Cancelar</Button>
+          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>Cancelar</Button>
         </div>
       </div>
     </ScrollArea>
