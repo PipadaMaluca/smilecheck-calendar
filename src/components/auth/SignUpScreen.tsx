@@ -210,6 +210,12 @@ export function SignUpScreen() {
             Já tem conta?{' '}
             <button onClick={() => navigate('/login')} className="text-primary hover:underline font-medium">Entrar</button>
           </p>
+          <button
+            onClick={() => navigate('/login')}
+            className="mt-2 text-xs text-muted-foreground hover:text-primary transition-colors"
+          >
+            Já tem conta noutro dispositivo? Entrar com QR Code →
+          </button>
         </div>
       </AuthBackground>
     );
