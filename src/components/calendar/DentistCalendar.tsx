@@ -78,12 +78,12 @@ export function DentistCalendar() {
   const columns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
     
-    // If no dentists selected or "all", show all clinics with all their dentists
+    // If no dentists selected or "all", show all clinics with all their dentists who work today
     const showAll = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
     
-    // Determine which clinics to iterate
+    // When showAll, iterate ALL clinics (not just selectedClinics)
     const clinicsToIterate = showAll 
-      ? (selectedClinics.length === 0 ? mockClinics : mockClinics.filter(c => selectedClinics.includes(c.id)))
+      ? mockClinics // Show all clinics when "Todos" selected
       : mockClinics; // When specific dentists selected, iterate ALL clinics to check composite IDs
     
     clinicsToIterate.forEach(clinic => {
@@ -92,12 +92,8 @@ export function DentistCalendar() {
       // Filter dentists based on selection
       let dentistsToShow;
       if (showAll) {
-        // Show all dentists from selected clinics
-        if (selectedClinics.length === 0 || selectedClinics.includes(clinic.id)) {
-          dentistsToShow = dentistsInClinic;
-        } else {
-          dentistsToShow = [];
-        }
+        // Show only dentists who work on demo day (like desktop)
+        dentistsToShow = dentistsInClinic.filter(d => dentistWorksOnDemo(clinic.id, d.id));
       } else {
         // Check composite IDs (clinic.id-dentist.id)
         dentistsToShow = dentistsInClinic.filter(d => {
