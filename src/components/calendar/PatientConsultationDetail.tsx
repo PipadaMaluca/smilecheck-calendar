@@ -63,9 +63,9 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
 
   return (
     <>
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
-        {/* Fixed Header Bar */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
+      <div className="bg-background">
+        {/* Header Bar */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <Button variant="ghost" size="icon" onClick={onClose}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -73,8 +73,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
           <div className="w-10" />
         </div>
 
-        <ScrollArea className="flex-1">
-          <div className="max-w-3xl mx-auto p-5 space-y-4">
+        <div className="max-w-3xl mx-auto p-5 space-y-4 pb-20">
 
             {/* ── Dentist Header Card ── */}
             <div className="bg-card rounded-xl border border-border p-4">
