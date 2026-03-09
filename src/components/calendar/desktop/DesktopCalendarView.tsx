@@ -518,8 +518,9 @@ export function DesktopCalendarView() {
     if (activeNavTab === 'consulta-detalhe') {
       if (activeRole === 'patient') {
         // Find next upcoming consultation for patient
+        const PATIENT_DEMO_DATE = new Date(2026, 0, 31);
         const nextConsultation = [...mockPatientConsultations]
-          .filter(c => c.date >= new Date())
+          .filter(c => c.date >= PATIENT_DEMO_DATE)
           .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
         
         if (nextConsultation) {
@@ -536,8 +537,8 @@ export function DesktopCalendarView() {
             </div>
           );
         } else {
-          // No upcoming consultation - redirect to home
-          setActiveNavTab('home');
+          // No upcoming consultation - redirect to search/booking
+          setActiveNavTab('pesquisa');
           return null;
         }
       } else if (activeRole === 'dentist') {
