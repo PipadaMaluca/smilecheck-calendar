@@ -921,7 +921,7 @@ export function DesktopCalendarView() {
       case 'contestacao':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <ContestationView onBack={() => setActiveNavTab('historico')} />
+            <ContestationView onBack={() => setActiveNavTab('home')} />
           </div>);
 
 
