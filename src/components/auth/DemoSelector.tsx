@@ -15,7 +15,7 @@ export function DemoSelector() {
   return (
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
-        <img alt="SmileCheck" className="h-24 mb-6" src="/lovable-uploads/c41b8483-58c0-4db7-821d-98165cf10c96.png" />
+        <img alt="SmileCheck" className="h-40 mb-8" src="/lovable-uploads/c41b8483-58c0-4db7-821d-98165cf10c96.png" />
         <h1 className="text-xl font-bold text-foreground mb-1">Modo Demo</h1>
         <p className="text-sm text-muted-foreground mb-6">Escolha o perfil para explorar</p>
 
