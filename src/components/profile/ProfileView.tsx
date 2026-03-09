@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
+import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { EditProfileView } from './EditProfileView';
 import { PatientProfileBody } from './patient/PatientProfileBody';
@@ -13,7 +14,7 @@ interface ProfileViewProps {
   onClose: () => void;
   inline?: boolean;
   onViewClinicProfile?: (clinicId: string) => void;
-  onViewDentistProfile?: (dentist: unknown) => void;
+  onViewDentistProfile?: (dentist: DentistSearchResult) => void;
 }
 
 export function ProfileView(props: ProfileViewProps) {
