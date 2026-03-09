@@ -392,6 +392,8 @@ export function ClinicCalendar() {
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />
+      ) : activeTab === 'contestacao' ? (
+        <ContestationView onBack={() => setActiveTab('historico')} />
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <p className="text-lg">Secção em construção...</p>
