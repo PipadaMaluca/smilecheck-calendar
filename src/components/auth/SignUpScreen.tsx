@@ -536,6 +536,26 @@ export function SignUpScreen() {
             {errors.confirmPassword && <p className="text-destructive text-xs mt-1">{errors.confirmPassword}</p>}
           </div>
 
+          {/* Referral Code */}
+          <div>
+            <Input
+              placeholder="Código de convite (opcional)"
+              value={referralCode}
+              onChange={e => { setReferralCode(e.target.value); validateReferralCode(e.target.value); }}
+              className={cn('h-12 bg-secondary border-border', referralStatus === 'valid' && 'border-green-500', referralStatus === 'invalid' && 'border-destructive')}
+            />
+            {referralStatus === 'valid' && (
+              <p className="text-green-500 text-xs mt-1 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3" /> Código válido! Receberá 5 pts de bónus.
+              </p>
+            )}
+            {referralStatus === 'invalid' && (
+              <p className="text-destructive text-xs mt-1 flex items-center gap-1">
+                <XCircle className="w-3 h-3" /> Código inválido
+              </p>
+            )}
+          </div>
+
           <div className="flex items-start gap-2 pt-1">
             <Checkbox
               checked={acceptedTerms}
@@ -544,8 +564,8 @@ export function SignUpScreen() {
             />
             <label className="text-xs text-muted-foreground leading-relaxed">
               Li e aceito os{' '}
-              <span className="text-primary hover:underline cursor-pointer">Termos de Serviço</span> e{' '}
-              <span className="text-primary hover:underline cursor-pointer">Política de Privacidade</span>
+              <Link to="/termos" target="_blank" className="text-primary hover:underline">Termos de Serviço</Link> e{' '}
+              <Link to="/privacidade" target="_blank" className="text-primary hover:underline">Política de Privacidade</Link>
             </label>
           </div>
           {errors.terms && <p className="text-destructive text-xs">{errors.terms}</p>}
