@@ -792,7 +792,28 @@ export function DesktopCalendarView() {
                 onCancel={() => setClipboardConsultation(null)} />
 
               }
-              <div className="flex-1 flex overflow-hidden relative z-0">{renderContent()}</div>
+              {/* Patient split view: list on left, detail on right when consultation selected */}
+              {activeRole === 'patient' ? (
+                <div className="flex-1 flex overflow-hidden relative z-0">
+                  <div className={cn(
+                    "transition-all duration-300 ease-out overflow-hidden",
+                    selectedConsultation ? "w-1/2" : "w-full"
+                  )}>
+                    {renderContent()}
+                  </div>
+                  {selectedConsultation && (
+                    <div className="w-1/2 border-l border-border overflow-y-auto animate-slide-in-right bg-background">
+                      <PatientConsultationDetail
+                        consultation={selectedConsultation}
+                        isOpen={true}
+                        onClose={() => setSelectedConsultation(null)}
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex-1 flex overflow-hidden relative z-0">{renderContent()}</div>
+              )}
             </div>
           </>);
 
