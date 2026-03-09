@@ -11,12 +11,16 @@ interface PatientAppointmentsListProps {
   consultations: Consultation[];
   selectedDate: Date;
   onConsultationClick: (consultation: Consultation) => void;
+  selectedConsultationId?: string | null;
+  compact?: boolean;
 }
 
 export function PatientAppointmentsList({
   consultations,
   selectedDate,
-  onConsultationClick
+  onConsultationClick,
+  selectedConsultationId,
+  compact = false
 }: PatientAppointmentsListProps) {
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {
@@ -51,9 +55,9 @@ export function PatientAppointmentsList({
   };
 
   return (
-    <div className="flex-1 overflow-auto p-4 bg-[#1A2F3D]">
-      <div className="max-w-2xl mx-auto space-y-4">
-        <h2 className="text-lg font-semibold mb-4">Minhas Consultas</h2>
+    <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D]", compact && "p-3")}>
+      <div className={cn("space-y-4", compact ? "max-w-full" : "max-w-2xl mx-auto")}>
+        <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>Minhas Consultas</h2>
 
         {sortedConsultations.length === 0 ?
         <div className="text-center py-12 text-muted-foreground">
@@ -66,13 +70,18 @@ export function PatientAppointmentsList({
             const category = consultation.category || 'restauracao';
             const colors = CATEGORY_COLORS[category];
             const isTeleconsulta = consultation.type === 'teleconsulta';
+            const isSelected = selectedConsultationId === consultation.id;
 
             return (
               <div
                 key={consultation.id}
                 className={cn(
-                  'bg-card rounded-xl p-4 cursor-pointer transition-all hover:scale-[1.01] hover:shadow-lg',
-                  'border-l-4'
+                  'bg-card rounded-xl cursor-pointer transition-all duration-200',
+                  'border-l-4',
+                  compact ? 'p-3' : 'p-4',
+                  isSelected 
+                    ? 'ring-2 ring-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)] scale-[1.01]' 
+                    : 'hover:scale-[1.01] hover:shadow-lg'
                 )}
                 style={{ borderLeftColor: colors.hex }}
                 onClick={() => onConsultationClick(consultation)}>
@@ -80,18 +89,18 @@ export function PatientAppointmentsList({
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       {/* Date & Time */}
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                        <Calendar className="w-4 h-4" />
-                        <span className="capitalize">
-                          {format(consultation.date, "EEEE, d 'de' MMMM", { locale: pt })}
+                      <div className={cn("flex items-center gap-2 text-muted-foreground mb-2", compact ? "text-xs" : "text-sm")}>
+                        <Calendar className="w-4 h-4 flex-shrink-0" />
+                        <span className="capitalize truncate">
+                          {format(consultation.date, compact ? "d MMM" : "EEEE, d 'de' MMMM", { locale: pt })}
                         </span>
                         <span>•</span>
-                        <Clock className="w-4 h-4" />
+                        <Clock className="w-4 h-4 flex-shrink-0" />
                         <span className="font-mono">{consultation.time}</span>
                       </div>
 
                       {/* Category */}
-                      <div className="flex items-center gap-2 mb-2">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
                         className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium"
                         style={getCategoryBadgeStyle(colors.hex)}>
@@ -108,10 +117,10 @@ export function PatientAppointmentsList({
                       </p>
 
                       {/* Dentist & Clinic */}
-                      <ClickableDentistName name={consultation.dentist.name} className="text-sm font-medium" />
+                      <ClickableDentistName name={consultation.dentist.name} className={cn("font-medium", compact ? "text-xs" : "text-sm")} />
                       <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-1">
-                        <MapPin className="w-3.5 h-3.5" />
-                        <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground" />
+                        <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                        <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground truncate" />
                       </div>
                     </div>
 
@@ -122,30 +131,32 @@ export function PatientAppointmentsList({
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2 mt-3 pt-3 border-t border-border">
-                    <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 text-xs"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // Handle reschedule
-                    }}>
+                  {!compact && (
+                    <div className="flex gap-2 mt-3 pt-3 border-t border-border">
+                      <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 text-xs"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle reschedule
+                      }}>
 
-                      Reagendar
-                    </Button>
-                    <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1 text-xs text-destructive hover:text-destructive"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // Handle cancel
-                    }}>
+                        Reagendar
+                      </Button>
+                      <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 text-xs text-destructive hover:text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Handle cancel
+                      }}>
 
-                      Cancelar
-                    </Button>
-                  </div>
+                        Cancelar
+                      </Button>
+                    </div>
+                  )}
                 </div>);
 
           })}

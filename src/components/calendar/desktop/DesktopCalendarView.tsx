@@ -390,7 +390,16 @@ export function DesktopCalendarView() {
       return <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => {setShowTriage(false);setActiveNavTab('home');}} />;
     }
     if (activeRole === 'patient') {
-      return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
+      // Render patient list with optional selected highlight (no detail here - handled separately in split view)
+      return (
+        <PatientAppointmentsList 
+          consultations={patientConsultations} 
+          selectedDate={selectedDate} 
+          onConsultationClick={setSelectedConsultation}
+          selectedConsultationId={selectedConsultation?.id}
+          compact={!!selectedConsultation}
+        />
+      );
     }
     if (viewMode === 'list') {
       return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => {if (activeRole === 'dentist' || activeRole === 'clinic') {setDetailConsultation(c);} else {setSelectedConsultation(c);}}} />;
