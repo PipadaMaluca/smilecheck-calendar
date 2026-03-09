@@ -99,7 +99,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             key={l.href}
             href={l.href}
             onClick={() => setMobileOpen(false)}
-            className="block text-sm text-muted-foreground hover:text-foreground py-2.5 px-3 rounded-lg hover:bg-accent transition-colors">
+            className="block text-sm text-[hsl(215,20%,65%)] hover:text-white py-2.5 px-3 rounded-lg hover:bg-[#1a2d45] transition-colors">
             
                 {l.label}
               </a>
