@@ -168,7 +168,6 @@ export function MobileSidebar({
         {userRole === 'dentist' &&
         <>
             <MenuSection>
-              {activeTab === 'agenda' && renderAgendaFilter()}
 
               {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => {onClose();onPrescribe?.();}} />
