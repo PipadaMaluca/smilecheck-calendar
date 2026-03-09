@@ -162,32 +162,73 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
         </div>
       )}
 
-      {/* Clickable Ranking Cards */}
-      <div className={cn('gap-3', isMobile ? 'flex flex-col' : 'flex flex-row flex-wrap')}>
-        {cards.map(card => (
-          <Card
-            key={card.id}
-            className={cn(
-              'flex-1 min-w-[140px] cursor-pointer transition-all',
-              selectedView === card.id
-                ? 'border-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)]'
-                : 'bg-card/80 backdrop-blur border-border hover:border-primary/30'
-            )}
-            onClick={() => setSelectedView(card.id)}
-          >
-            <CardContent className="p-3 sm:p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                  {card.icon}
+      {/* Clickable Ranking Cards - 2 rows: 2 cards + 3 cards */}
+      <div className="space-y-3">
+        {/* Row 1: Global + Nacional */}
+        <div className={cn(
+          'gap-3',
+          isMobile ? 'flex flex-col' : 'flex flex-row justify-center'
+        )}>
+          {cards.slice(0, 2).map(card => (
+            <Card
+              key={card.id}
+              className={cn(
+                'cursor-pointer transition-all',
+                isMobile ? 'w-full' : 'w-[180px] md:w-[200px]',
+                selectedView === card.id
+                  ? 'border-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)]'
+                  : 'bg-card/80 backdrop-blur border-border hover:border-primary/30'
+              )}
+              onClick={() => setSelectedView(card.id)}
+            >
+              <CardContent className="p-3 sm:p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                    {card.icon}
+                  </div>
+                  <TrendIcon trend={card.trend} change={card.change} />
                 </div>
-                <TrendIcon trend={card.trend} change={card.change} />
-              </div>
-              <p className="text-xl font-bold text-foreground">#{card.position}</p>
-              <p className="text-[10px] text-muted-foreground">de {card.total.toLocaleString()}</p>
-              <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
-            </CardContent>
-          </Card>
-        ))}
+                <p className="text-xl font-bold text-foreground">#{card.position}</p>
+                <p className="text-[10px] text-muted-foreground">de {card.total.toLocaleString()}</p>
+                <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Row 2: Clinic cards (only for dentists) */}
+        {cards.length > 2 && (
+          <div className={cn(
+            'gap-3',
+            isMobile ? 'flex flex-col' : 'flex flex-row justify-center'
+          )}>
+            {cards.slice(2).map(card => (
+              <Card
+                key={card.id}
+                className={cn(
+                  'cursor-pointer transition-all',
+                  isMobile ? 'w-full' : 'w-[160px] md:w-[180px]',
+                  selectedView === card.id
+                    ? 'border-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)]'
+                    : 'bg-card/80 backdrop-blur border-border hover:border-primary/30'
+                )}
+                onClick={() => setSelectedView(card.id)}
+              >
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                      {card.icon}
+                    </div>
+                    <TrendIcon trend={card.trend} change={card.change} />
+                  </div>
+                  <p className="text-xl font-bold text-foreground">#{card.position}</p>
+                  <p className="text-[10px] text-muted-foreground">de {card.total.toLocaleString()}</p>
+                  <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
 
       <Separator />
