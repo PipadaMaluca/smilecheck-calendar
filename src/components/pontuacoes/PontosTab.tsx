@@ -139,11 +139,11 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
               <div>
                 <h4 className="text-sm font-bold text-foreground mb-2">Como ganhar pontos — {roleLabel}</h4>
-                <div className="border border-border rounded-lg overflow-hidden">
-                  <div className="grid grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border">
+                <div className="border border-border rounded-lg overflow-x-auto">
+                  <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
                     <span>Ação</span>
                     <span className="text-center">XP</span>
-                    <span className="text-center">Pontos</span>
+                    <span className="text-center">Pts</span>
                   </div>
                   {earnActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
