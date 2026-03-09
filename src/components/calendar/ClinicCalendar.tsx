@@ -38,6 +38,7 @@ import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { ContestationView } from '@/components/contestation/ContestationView';
+import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
