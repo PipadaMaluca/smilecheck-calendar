@@ -35,10 +35,10 @@ export function LandingFooter() {
       {/* Footer */}
       <footer className="border-t border-[#121f30] bg-[#121f30]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             {/* Column 1 */}
-            <div className="col-span-2 md:col-span-1">
-              <img src={logoSrc} alt="SmileCheck" className="h-16 sm:h-20 mb-3 rounded-2xl" />
+            <div className="col-span-1 sm:col-span-2 md:col-span-1 text-center sm:text-left">
+              <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-3 rounded-2xl mx-auto sm:mx-0" />
               <p className="text-sm text-[hsl(215,20%,65%)] mb-4">
                 A app que recompensa a sua saúde oral
               </p>

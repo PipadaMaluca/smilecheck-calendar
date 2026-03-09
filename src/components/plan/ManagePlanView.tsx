@@ -220,15 +220,15 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6 pb-28 py-[20px] px-[20px]">
+    <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 pb-28">
       {/* Header */}
-      <div className="flex items-center gap-[10px]">
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground">O Seu Plano</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">O Seu Plano</h2>
           <p className="text-sm text-muted-foreground">Escolha o plano ideal para si</p>
         </div>
         <Badge className={cn(
-          'ml-auto text-xs font-bold px-3 py-1',
+          'text-xs font-bold px-3 py-1 self-start sm:self-auto',
           currentPlan === 'premium' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
           currentPlan === 'pro' ? 'bg-primary/20 text-primary border-primary/30' :
           'bg-secondary text-secondary-foreground'
@@ -238,7 +238,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       </div>
 
       {/* Billing toggle */}
-      <div className="items-start justify-center flex flex-row gap-[7px]">
+      <div className="flex justify-center">
         <button
           onClick={() => setIsAnnual(false)}
           className={cn(

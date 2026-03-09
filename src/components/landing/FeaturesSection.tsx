@@ -75,10 +75,10 @@ export function FeaturesSection() {
 
         <ScrollReveal>
           <Tabs defaultValue="patient" className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8">
-              <TabsTrigger value="patient">🦷 Pacientes</TabsTrigger>
-              <TabsTrigger value="dentist">🦷 Dentistas</TabsTrigger>
-              <TabsTrigger value="clinic">🏥 Clínicas</TabsTrigger>
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8 h-auto">
+              <TabsTrigger value="patient" className="text-xs sm:text-sm py-2">🦷 Pacientes</TabsTrigger>
+              <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2">🦷 Dentistas</TabsTrigger>
+              <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2">🏥 Clínicas</TabsTrigger>
             </TabsList>
 
             <TabsContent value="patient">

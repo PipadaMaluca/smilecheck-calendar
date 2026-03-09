@@ -128,14 +128,15 @@ export function OnboardingCarousel() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.05)' }} />
       </div>
 
-      <div className="relative h-full max-w-lg mx-auto flex flex-col">
+      <div className="relative h-full max-w-lg mx-auto flex flex-col px-4">
         {/* Skip button */}
         {!isLast && (
           <button
             onClick={handleComplete}
             className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors"
           >
-            Saltar tutorial
+            <span className="hidden sm:inline">Saltar tutorial</span>
+            <span className="sm:hidden">Saltar</span>
           </button>
         )}
 
@@ -168,10 +169,10 @@ export function OnboardingCarousel() {
 
         {/* Navigation */}
         {!isLast && (
-          <div className="flex flex-col items-center gap-2 px-6 pb-6">
+          <div className="flex flex-col items-center gap-2 px-4 sm:px-6 pb-6 safe-area-pb">
             <button
               onClick={scrollNext}
-              className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-gaming-diamond text-background hover:scale-105 active:scale-95"
+              className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-gaming-diamond text-background hover:scale-105 active:scale-95 min-h-[48px]"
               style={{ boxShadow: '0 0 30px hsla(195, 100%, 70%, 0.3)' }}
             >
               Próximo

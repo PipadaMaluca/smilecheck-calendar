@@ -103,14 +103,15 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
     );
   }
 
-  const cellSize = 10;
+  const cellSize = 8; // Smaller on mobile
   const size = qrMatrix.length;
+  const qrWidth = size * cellSize;
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-4 sm:gap-6">
       {/* QR Code */}
       <div className={cn(
-        "relative rounded-2xl p-4 bg-white transition-all duration-300",
+        "relative rounded-2xl p-3 sm:p-4 bg-white transition-all duration-300",
         expired ? "opacity-40 grayscale" : "",
         !expired && "shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
       )}>
@@ -120,10 +121,10 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
         )}
 
         <svg
-          width={size * cellSize}
-          height={size * cellSize}
+          width={qrWidth}
+          height={qrWidth}
           viewBox={`0 0 ${size * cellSize} ${size * cellSize}`}
-          className="block"
+          className="block max-w-[200px] sm:max-w-[250px] w-full h-auto"
         >
           {qrMatrix.map((row, i) =>
             row.map((cell, j) =>
@@ -147,20 +148,20 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
           <img
             src="/assets/smilecheck-icon-watermark.png"
             alt=""
-            className="w-10 h-10 rounded-md"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-md"
             style={{ filter: 'none', opacity: 1 }}
           />
         </div>
 
         {expired && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 rounded-2xl">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 rounded-2xl p-4">
             <p className="text-sm font-medium text-gray-700 mb-2">Código expirado</p>
             <Button
               size="sm"
               onClick={refreshQR}
               className="gap-2"
             >
-              <RefreshCw className="w-4 h-4" /> Gerar novo código
+              <RefreshCw className="w-4 h-4" /> Gerar novo
             </Button>
           </div>
         )}

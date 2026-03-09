@@ -40,15 +40,16 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-6 pb-28">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Loja de Recompensas</h2>
           <p className="text-sm text-muted-foreground">100 pontos = €10</p>
         </div>
-        <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-4 py-2">
-          <Gift className="w-4 h-4 text-amber-400" />
+        <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 sm:px-4 py-2 self-start sm:self-auto">
+          <Gift className="w-4 h-4 text-amber-400 flex-shrink-0" />
           <span className="font-bold text-amber-400">{userPoints.toLocaleString()}</span>
-          <span className="text-xs text-amber-400/70">pontos disponíveis</span>
+          <span className="text-xs text-amber-400/70 hidden sm:inline">pontos disponíveis</span>
+          <span className="text-xs text-amber-400/70 sm:hidden">pts</span>
         </div>
       </div>
 
@@ -60,14 +61,16 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsList>
 
         <TabsContent value="loja" className="mt-4">
-          {/* Category tabs per role — "Todos" first */}
+          {/* Category tabs per role — "Todos" first — horizontally scrollable on mobile */}
           <Tabs defaultValue="todos" className="w-full">
-            <TabsList className={`w-full grid`} style={{ gridTemplateColumns: `repeat(${tabs.length + 1}, minmax(0, 1fr))` }}>
-              <TabsTrigger value="todos">Todos</TabsTrigger>
-              {tabs.map(tab => (
-                <TabsTrigger key={tab.key} value={tab.key}>{tab.label}</TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
+              <TabsList className="w-max sm:w-full sm:grid h-auto" style={{ gridTemplateColumns: `repeat(${tabs.length + 1}, minmax(0, 1fr))` }}>
+                <TabsTrigger value="todos" className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">Todos</TabsTrigger>
+                {tabs.map(tab => (
+                  <TabsTrigger key={tab.key} value={tab.key} className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">{tab.label}</TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
 
             {/* "Todos" tab content */}
             <TabsContent value="todos" className="mt-4">

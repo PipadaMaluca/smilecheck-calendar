@@ -201,10 +201,10 @@ export function PricingSection() {
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
-          <TabsList className="grid w-full max-w-sm mx-auto grid-cols-3 mb-8">
-            <TabsTrigger value="patient">Paciente</TabsTrigger>
-            <TabsTrigger value="dentist">Dentista</TabsTrigger>
-            <TabsTrigger value="clinic">Clínica</TabsTrigger>
+          <TabsList className="grid w-full max-w-sm mx-auto grid-cols-3 mb-8 h-auto">
+            <TabsTrigger value="patient" className="text-xs sm:text-sm py-2">Paciente</TabsTrigger>
+            <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2">Dentista</TabsTrigger>
+            <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2">Clínica</TabsTrigger>
           </TabsList>
 
           <TabsContent value="patient">

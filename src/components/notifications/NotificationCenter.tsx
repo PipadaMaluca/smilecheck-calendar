@@ -222,15 +222,16 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   return (
     <div
       ref={dropdownRef}
-      className="fixed right-4 top-14 w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
+      className="fixed right-2 sm:right-4 top-14 w-[calc(100vw-16px)] sm:w-[400px] max-w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
       style={{ zIndex: 9999 }}>
 
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+      <div className="flex items-center justify-between px-3 sm:px-4 py-3 border-b border-border">
         <h3 className="text-sm font-bold text-foreground">Notificações</h3>
-        <Button variant="ghost" size="sm" className="text-xs text-primary" onClick={handleMarkAllRead}>
+        <Button variant="ghost" size="sm" className="text-xs text-primary h-8 px-2">
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          Marcar todas como lidas
+          <span className="hidden sm:inline">Marcar todas como lidas</span>
+          <span className="sm:hidden">Marcar lidas</span>
         </Button>
       </div>
 

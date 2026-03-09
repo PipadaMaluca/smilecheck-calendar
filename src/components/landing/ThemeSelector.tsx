@@ -37,23 +37,23 @@ export function ThemeSelector({ onSelect }: ThemeSelectorProps) {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-5">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 w-full sm:w-auto">
           <button
             onClick={() => handleSelect(false)}
-            className="group w-48 h-56 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(45,93%,58%)] bg-gradient-to-b from-white to-[hsl(220,20%,95%)] flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(45,93%,58%,0.2)]"
+            className="group w-full sm:w-48 h-40 sm:h-56 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(45,93%,58%)] bg-gradient-to-b from-white to-[hsl(220,20%,95%)] flex flex-col items-center justify-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(45,93%,58%,0.2)] active:scale-95 min-h-[120px]"
           >
-            <Sun className="w-14 h-14 text-[hsl(45,93%,47%)] group-hover:drop-shadow-[0_0_16px_hsla(45,93%,58%,0.6)] transition-all duration-300" />
-            <span className="text-[hsl(220,20%,20%)] font-semibold text-lg">
+            <Sun className="w-10 h-10 sm:w-14 sm:h-14 text-[hsl(45,93%,47%)] group-hover:drop-shadow-[0_0_16px_hsla(45,93%,58%,0.6)] transition-all duration-300" />
+            <span className="text-[hsl(220,20%,20%)] font-semibold text-base sm:text-lg">
               Light Mode
             </span>
           </button>
 
           <button
             onClick={() => handleSelect(true)}
-            className="group w-48 h-56 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)] bg-gradient-to-b from-[hsl(220,30%,18%)] to-[hsl(220,40%,10%)] flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(217,91%,60%,0.2)]"
+            className="group w-full sm:w-48 h-40 sm:h-56 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)] bg-gradient-to-b from-[hsl(220,30%,18%)] to-[hsl(220,40%,10%)] flex flex-col items-center justify-center gap-3 sm:gap-4 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_hsla(217,91%,60%,0.2)] active:scale-95 min-h-[120px]"
           >
-            <Moon className="w-14 h-14 text-[hsl(217,80%,65%)] group-hover:drop-shadow-[0_0_16px_hsla(217,91%,60%,0.6)] transition-all duration-300" />
-            <span className="text-[hsl(220,15%,80%)] font-semibold text-lg">
+            <Moon className="w-10 h-10 sm:w-14 sm:h-14 text-[hsl(217,80%,65%)] group-hover:drop-shadow-[0_0_16px_hsla(217,91%,60%,0.6)] transition-all duration-300" />
+            <span className="text-[hsl(220,15%,80%)] font-semibold text-base sm:text-lg">
               Dark Mode
             </span>
           </button>

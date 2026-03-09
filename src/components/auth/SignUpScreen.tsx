@@ -237,9 +237,9 @@ export function SignUpScreen() {
             <p className="text-xs text-muted-foreground mb-6">Passo 1 de 2</p>
 
             <InputOTP maxLength={6} value={otpValue} onChange={setOtpValue} className="mb-6">
-              <InputOTPGroup>
+              <InputOTPGroup className="gap-1 sm:gap-2">
                 {[0, 1, 2, 3, 4, 5].map(i => (
-                  <InputOTPSlot key={i} index={i} className="w-12 h-14 text-lg bg-secondary border-border" />
+                  <InputOTPSlot key={i} index={i} className="w-10 h-12 sm:w-12 sm:h-14 text-base sm:text-lg bg-secondary border-border" />
                 ))}
               </InputOTPGroup>
             </InputOTP>
@@ -278,9 +278,9 @@ export function SignUpScreen() {
           <p className="text-xs text-muted-foreground mb-6">Passo 2 de 2</p>
 
           <InputOTP maxLength={6} value={smsOtpValue} onChange={setSmsOtpValue} className="mb-6">
-            <InputOTPGroup>
+            <InputOTPGroup className="gap-1 sm:gap-2">
               {[0, 1, 2, 3, 4, 5].map(i => (
-                <InputOTPSlot key={i} index={i} className="w-12 h-14 text-lg bg-secondary border-border" />
+                <InputOTPSlot key={i} index={i} className="w-10 h-12 sm:w-12 sm:h-14 text-base sm:text-lg bg-secondary border-border" />
               ))}
             </InputOTPGroup>
           </InputOTP>
