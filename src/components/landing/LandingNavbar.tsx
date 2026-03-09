@@ -108,9 +108,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <Button
               variant="outline"
               size="sm"
-              className="flex-1"
+              className="flex-1 bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white"
               onClick={() => navigate('/login')}>
-              
                 Entrar
               </Button>
               <Button size="sm" className="flex-1" onClick={() => navigate('/signup')}>
