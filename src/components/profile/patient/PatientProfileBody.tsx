@@ -356,11 +356,11 @@ export function PatientProfileBody({
         <div className="space-y-3 text-sm">
           {[
             { icon: Mail, label: 'Email', value: data.email },
-            { icon: Users, label: 'Telefone', value: data.phone },
+            { icon: Phone, label: 'Telefone', value: data.phone },
             { icon: Calendar, label: 'Nascimento', value: `${data.birthDate} (${data.age} anos)` },
-            { icon: Users, label: 'Género', value: data.gender },
+            { icon: User, label: 'Género', value: data.gender },
             {
-              icon: Calendar,
+              icon: MapPin,
               label: 'Morada',
               value: `${data.address}, ${data.postalCode} ${data.city}`,
             },
