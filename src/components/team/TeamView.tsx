@@ -320,7 +320,7 @@ function PatientTeamView() {
 export function TeamView({ userRole, onNavigate }: TeamViewProps) {
   return (
     <ScrollArea className="flex-1">
-      <div className="p-6 max-w-3xl mx-auto pb-8 px-px">
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto pb-28">
         {userRole === 'patient' && <PatientTeamView />}
         {userRole === 'dentist' && <DentistTeamView />}
         {userRole === 'clinic' && <ClinicTeamView />}
