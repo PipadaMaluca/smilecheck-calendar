@@ -622,21 +622,7 @@ export function DesktopCalendarView() {
 
     }
 
-    // Patient consultation detail - clicked from agenda (inline, not overlay)
-    if (activeRole === 'patient' && selectedConsultation) {
-      return (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Detalhes da Consulta')}
-          <div className="flex-1 overflow-y-auto">
-            <PatientConsultationDetail
-              consultation={selectedConsultation}
-              isOpen={true}
-              onClose={() => setSelectedConsultation(null)}
-            />
-          </div>
-        </div>
-      );
-    }
+    // Patient consultation detail is now handled in the agenda split view - no standalone view needed
 
     // Viewing a specific dentist profile (inline full-screen)
     if (viewDentistProfile) {
