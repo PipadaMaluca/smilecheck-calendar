@@ -544,19 +544,19 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <SectionTitle>Teleconsulta</SectionTitle>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-[5px] mt-[10px] mb-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
                   <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
-                <div className="items-center py-0 gap-0 mx-[200px] md:items-center justify-between flex flex-row ml-0 mr-0">
-                  <span className="text-sm">Aceita urgências</span>
+                <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 min-h-[44px]">
+                  <span className="text-sm font-medium">Aceita urgências</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
-                {acceptsUrgencies &&
-            <FieldGroup label="Preço urgência (€)">
+                {acceptsUrgencies && (
+                  <FieldGroup label="Preço urgência (€)">
                     <Input type="number" value={urgencyPrice} onChange={(e) => setUrgencyPrice(e.target.value)} />
                   </FieldGroup>
-            }
+                )}
               </div>
 
               <Separator />
