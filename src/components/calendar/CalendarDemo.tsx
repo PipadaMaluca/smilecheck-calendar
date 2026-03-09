@@ -14,7 +14,6 @@ export function CalendarDemo() {
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
   const [activeView, setActiveView] = useState(initialRole);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
 
   // Video splash — only on first login per role
   const splashRole = isDesktop ? 'clinic' : initialRole;
