@@ -10,6 +10,7 @@ import { DesktopWeekView } from './DesktopWeekView';
 import { DesktopMonthView } from './DesktopMonthView';
 import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
+import { PatientConsultationDetail } from '../PatientConsultationDetail';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { CopyPasteBanner } from '../CopyPasteBanner';
