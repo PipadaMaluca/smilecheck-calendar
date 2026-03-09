@@ -86,13 +86,20 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           </CardContent>
         </Card>
 
-        {/* 6. Outros */}
+        {/* 6. Legal */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2"><CardTitle className="text-sm">Legal</CardTitle></CardHeader>
+          <CardContent className="space-y-0 divide-y divide-border">
+            <LinkRow icon={FileText} label="Termos de Serviço" onClick={() => window.open('/termos', '_blank')} />
+            <LinkRow icon={Shield} label="Política de Privacidade" onClick={() => window.open('/privacidade', '_blank')} />
+          </CardContent>
+        </Card>
+
+        {/* 7. Outros */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2"><CardTitle className="text-sm">Outros</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={HelpCircle} label="Ajuda & Suporte" />
-            <LinkRow icon={FileText} label="Termos de Utilização" />
-            <LinkRow icon={Shield} label="Política de Privacidade" />
           </CardContent>
         </Card>
 
