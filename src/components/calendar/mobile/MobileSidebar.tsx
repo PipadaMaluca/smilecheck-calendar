@@ -40,9 +40,6 @@ export function MobileSidebar({
   onNavigate,
   activeTab
 }: MobileSidebarProps) {
-  const [agendasOpen, setAgendasOpen] = useState(false);
-  const [familyOpen, setFamilyOpen] = useState(false);
-  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
   const userName = userRole === 'patient' ?
   mockFamilyMembers[0].name :
