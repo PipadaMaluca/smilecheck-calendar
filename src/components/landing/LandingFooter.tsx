@@ -35,25 +35,26 @@ export function LandingFooter() {
       {/* Footer */}
       <footer className="border-t border-[#121f30] bg-[#121f30]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-12 lg:py-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-            {/* Column 1 */}
-            <div className="col-span-1 sm:col-span-2 lg:col-span-1 text-center sm:text-left">
-              <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-4 rounded-2xl mx-auto sm:mx-0" />
-              <p className="text-sm text-[hsl(215,20%,65%)] mb-5">
-                A app que recompensa a sua saúde oral
-              </p>
-              <div className="flex gap-4">
-                {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) =>
-                <span
-                  key={s}
-                  className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors">
-                    {s}
-                  </span>
-                )}
-              </div>
+          {/* Logo + description + social — centered */}
+          <div className="flex flex-col items-center text-center mb-10">
+            <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-4 rounded-2xl" />
+            <p className="text-sm text-[hsl(215,20%,65%)] mb-5">
+              A app que recompensa a sua saúde oral
+            </p>
+            <div className="flex gap-5">
+              {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) =>
+              <span
+                key={s}
+                className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors">
+                  {s}
+                </span>
+              )}
             </div>
+          </div>
 
-            {/* Column 2 */}
+          {/* 3 columns side by side */}
+          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto text-center">
+            {/* Produto */}
             <div>
               <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Produto
@@ -77,7 +78,7 @@ export function LandingFooter() {
               </ul>
             </div>
 
-            {/* Column 3 */}
+            {/* Suporte */}
             <div>
               <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Suporte
@@ -95,41 +96,29 @@ export function LandingFooter() {
               </ul>
             </div>
 
-            {/* Column 4 */}
+            {/* Legal */}
             <div>
               <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Legal
               </h4>
               <ul className="space-y-2.5">
                 <li>
-                  <a
-                    href="/termos"
-                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                  >
+                  <a href="/termos" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
                     Termos de Serviço
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/privacidade"
-                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                  >
+                  <a href="/privacidade" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
                     Política de Privacidade
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/privacidade#direitos"
-                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                  >
+                  <a href="/privacidade#direitos" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
                     RGPD
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="/privacidade#cookies"
-                    className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors"
-                  >
+                  <a href="/privacidade#cookies" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
                     Cookies
                   </a>
                 </li>
