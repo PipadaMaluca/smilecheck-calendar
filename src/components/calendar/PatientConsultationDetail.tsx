@@ -180,7 +180,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
               <div className="grid grid-cols-3 gap-2.5">
                 <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
-                  <MessageCircle className="w-4 h-4" /> Mensagem
+                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
                 </Button>
                 <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
                   <RefreshCw className="w-4 h-4" /> Reagendar
@@ -191,7 +191,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
                   className="gap-1.5 text-sm h-11 border-destructive/30 text-destructive hover:bg-destructive/10"
                   onClick={() => setShowCancelModal(true)}
                 >
-                  <X className="w-4 h-4" /> Cancelar
+                  <X className="w-4 h-4" /> Cancelar Consulta
                 </Button>
               </div>
             </div>
