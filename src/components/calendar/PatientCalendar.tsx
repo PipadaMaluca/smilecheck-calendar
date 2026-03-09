@@ -94,16 +94,25 @@ export function PatientCalendar() {
   };
 
   const handleTabChange = (tab: string) => {
-    // Card 1: open next consultation detail
+    // Card 1: open next consultation detail — navigate to consultas tab with pre-selection
     if (tab === 'consulta-detalhe') {
       const nextConsultation = [...mockPatientConsultations]
         .filter(c => c.date >= DEMO_DATE)
         .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      // Clear states first
+      setShowTriage(false);
+      setShowProfile(false);
+      setShowEditProfile(false);
+      setShowInvite(false);
+      setViewDentistProfile(null);
+      setViewClinicProfile(null);
+      setShowFullHistory(false);
       if (nextConsultation) {
         setSelectedConsultation(nextConsultation);
+        setActiveTab('agenda');
       } else {
-        // No upcoming consultations — navigate to search/booking
-        setActiveTab('pesquisa');
+        setSelectedConsultation(null);
+        setActiveTab('agenda');
       }
       return;
     }
