@@ -390,7 +390,16 @@ export function DesktopCalendarView() {
       return <TriageInline onClose={() => setShowTriage(false)} onGoHome={() => {setShowTriage(false);setActiveNavTab('home');}} />;
     }
     if (activeRole === 'patient') {
-      return <PatientAppointmentsList consultations={patientConsultations} selectedDate={selectedDate} onConsultationClick={setSelectedConsultation} />;
+      // Render patient list with optional selected highlight (no detail here - handled separately in split view)
+      return (
+        <PatientAppointmentsList 
+          consultations={patientConsultations} 
+          selectedDate={selectedDate} 
+          onConsultationClick={setSelectedConsultation}
+          selectedConsultationId={selectedConsultation?.id}
+          compact={!!selectedConsultation}
+        />
+      );
     }
     if (viewMode === 'list') {
       return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => {if (activeRole === 'dentist' || activeRole === 'clinic') {setDetailConsultation(c);} else {setSelectedConsultation(c);}}} />;
@@ -613,21 +622,7 @@ export function DesktopCalendarView() {
 
     }
 
-    // Patient consultation detail - clicked from agenda (inline, not overlay)
-    if (activeRole === 'patient' && selectedConsultation) {
-      return (
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Detalhes da Consulta')}
-          <div className="flex-1 overflow-y-auto">
-            <PatientConsultationDetail
-              consultation={selectedConsultation}
-              isOpen={true}
-              onClose={() => setSelectedConsultation(null)}
-            />
-          </div>
-        </div>
-      );
-    }
+    // Patient consultation detail is now handled in the agenda split view - no standalone view needed
 
     // Viewing a specific dentist profile (inline full-screen)
     if (viewDentistProfile) {
@@ -783,7 +778,28 @@ export function DesktopCalendarView() {
                 onCancel={() => setClipboardConsultation(null)} />
 
               }
-              <div className="flex-1 flex overflow-hidden relative z-0">{renderContent()}</div>
+              {/* Patient split view: list on left, detail on right when consultation selected */}
+              {activeRole === 'patient' ? (
+                <div className="flex-1 flex overflow-hidden relative z-0">
+                  <div className={cn(
+                    "transition-all duration-300 ease-out overflow-hidden",
+                    selectedConsultation ? "w-1/2" : "w-full"
+                  )}>
+                    {renderContent()}
+                  </div>
+                  {selectedConsultation && (
+                    <div className="w-1/2 border-l border-border overflow-y-auto animate-slide-in-right bg-background">
+                      <PatientConsultationDetail
+                        consultation={selectedConsultation}
+                        isOpen={true}
+                        onClose={() => setSelectedConsultation(null)}
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex-1 flex overflow-hidden relative z-0">{renderContent()}</div>
+              )}
             </div>
           </>);
 
