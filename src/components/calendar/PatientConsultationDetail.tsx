@@ -62,8 +62,6 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
     }, 1500);
   };
 
-  const getInitials = (name: string) =>
-    name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
     <>
