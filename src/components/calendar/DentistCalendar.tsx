@@ -265,8 +265,16 @@ export function DentistCalendar() {
     }
   }, [viewMode]);
 
-  // Handler that respects view mode restrictions
-  const handleViewModeChange = (mode: ViewMode) => {
+  // Listen for custom navigation events (e.g. from contestation button)
+  useEffect(() => {
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => window.removeEventListener('smilecheck:navigate', navHandler);
+  }, []);
+
     setViewMode(mode);
   };
 

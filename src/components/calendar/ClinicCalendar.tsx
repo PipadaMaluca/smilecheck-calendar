@@ -240,6 +240,16 @@ export function ClinicCalendar() {
     setViewMode(mode);
   };
 
+  // Listen for custom navigation events (e.g. from contestation button)
+  useEffect(() => {
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => window.removeEventListener('smilecheck:navigate', navHandler);
+  }, []);
+
   const handleTabChange = (tab: string) => {
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowReferral(false);
