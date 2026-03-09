@@ -258,18 +258,18 @@ function ClinicTeamView() {
 
   return (
     <div className="space-y-4">
-      <div className="items-center justify-between flex flex-row gap-0 py-0 pb-[10px] px-[10px]">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-2 sm:px-4 pb-2">
         <div>
           <h2 className="text-lg font-bold text-foreground">Gerir Equipa</h2>
           <p className="text-sm text-muted-foreground">{clinicDentistsList.length} dentistas activos</p>
         </div>
-        <Button size="sm" className="gap-2" onClick={() => setAddModalOpen(true)}>
+        <Button size="sm" className="gap-2 w-full sm:w-auto" onClick={() => setAddModalOpen(true)}>
           <Plus className="w-4 h-4" />
           Adicionar Dentista
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-[10px] mb-[10px] my-px mx-[10px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 px-2 sm:px-4">
         {clinicDentistsList.map((d) =>
         <div key={d.id} className="relative pl-[5px] border py-px bg-popover border-secondary px-[3px] pr-px pt-px pb-px">
             <DentistCard
