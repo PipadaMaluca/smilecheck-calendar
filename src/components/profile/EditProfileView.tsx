@@ -449,12 +449,14 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>Familiares</SectionTitle>
               <div className="space-y-3">
-                {familyMembers.map((fm, idx) =>
-            <div key={idx} className="flex items-center gap-2">
+            {familyMembers.map((fm, idx) =>
+            <div key={idx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <Input placeholder="Nome" value={fm.name} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], name: e.target.value };setFamilyMembers(u);}} className="flex-1" />
-                    <Input placeholder="Idade" value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
-                    <Input placeholder="Relação" value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="w-28" />
-                    <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                    <div className="flex gap-2">
+                      <Input placeholder="Idade" value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
+                      <Input placeholder="Relação" value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="flex-1 sm:w-28" />
+                      <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)} className="flex-shrink-0"><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                    </div>
                   </div>
             )}
                 <Button variant="outline" size="sm" onClick={addFamilyMember} className="gap-1"><Plus className="w-3 h-3" /> Adicionar familiar</Button>
