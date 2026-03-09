@@ -185,9 +185,9 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-3">
+        <div className="flex flex-col-reverse sm:flex-row gap-3">
           <Button
-            className="flex-1"
+            className="flex-1 min-h-[44px]"
             disabled={!agreed || !selectedMotivo}
             onClick={() => setSubmitted(true)}
           >
