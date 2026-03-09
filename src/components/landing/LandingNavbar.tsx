@@ -39,35 +39,31 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#121f30] text-white">
         <div className="flex items-center justify-between h-20 bg-[#121f30] text-white">
-          <a href="#" className="flex-shrink-0">
+          <a href="#" className="flex-shrink-0 mr-8">
             <img
               src={logoSrc}
               alt="SmileCheck"
-              className={cn("transition-all duration-300 h-14 sm:h-16 rounded-2xl"
-              )} />
-            
+              className="transition-all duration-300 h-14 sm:h-16 rounded-2xl" />
           </a>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop links — visible at lg+ */}
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((l) =>
             <a
               key={l.href}
               href={l.href}
-              className="text-sm transition-colors text-white">
-              
+              className="text-sm transition-colors text-white whitespace-nowrap">
                 {l.label}
               </a>
             )}
           </div>
 
-          {/* Right actions */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right actions — visible at lg+ */}
+          <div className="hidden lg:flex items-center gap-3 ml-8">
             <button
               onClick={onToggleTheme}
               className="p-2 rounded-lg transition-colors bg-[#121f30] border-white border"
               aria-label="Alternar tema">
-              
               {isDark ? <Sun className="w-4 h-4 bg-[#121f30] border-0 border-white text-white rounded-none" /> : <Moon className="w-4 h-4" />}
             </button>
             <Button variant="outline" size="sm" className="bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white" onClick={() => navigate('/login')}>
@@ -78,18 +74,16 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             </Button>
           </div>
 
-          {/* Mobile actions */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Mobile + Tablet hamburger (below lg) */}
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={onToggleTheme}
               className="p-2 rounded-lg hover:bg-accent transition-colors">
-              
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="p-2 rounded-lg hover:bg-accent transition-colors">
-              
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
