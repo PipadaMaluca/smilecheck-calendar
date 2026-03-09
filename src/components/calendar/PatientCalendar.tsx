@@ -27,6 +27,7 @@ import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
+import { ContestationView } from '@/components/contestation/ContestationView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
