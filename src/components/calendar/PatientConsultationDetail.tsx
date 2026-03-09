@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
-import { getAvatarForDentist } from '@/lib/avatarUtils';
+import { DENTIST_AVATAR_PHOTOS, getDentistInitials } from '@/lib/avatarUtils';
 
 interface PatientConsultationDetailProps {
   consultation: Consultation;
