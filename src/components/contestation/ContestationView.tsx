@@ -137,9 +137,12 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Documentos */}
         <div className="space-y-2">
           <h3 className="text-sm font-bold text-foreground">Documentos de Suporte</h3>
-          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 transition-colors cursor-pointer">
+          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 active:border-primary/40 transition-colors cursor-pointer">
             <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-            <p className="text-xs text-muted-foreground">Arraste ficheiros ou clique para selecionar</p>
+            <p className="text-xs text-muted-foreground">
+              <span className="hidden sm:inline">Arraste ficheiros ou clique para selecionar</span>
+              <span className="sm:hidden">Toque para selecionar ficheiros</span>
+            </p>
             <p className="text-[10px] text-muted-foreground mt-1">Máx. 3 ficheiros, 5MB cada (PDF, JPG, PNG)</p>
           </div>
           {files.length > 0 && (
