@@ -282,17 +282,15 @@ export function MobileSidebar({
             <MenuSection>
               {activeTab === 'agenda' && renderAgendaFilter()}
 
-              {/* Prescrever Receita after separator-like position */}
+              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => {onClose();onPrescribe?.();}} />
-
-              {/* Alphabetical */}
               <MenuItem icon={FileText} label="Carta de Referência" onClick={() => {onClose();onNavigate?.('referencia');}} />
-              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">
