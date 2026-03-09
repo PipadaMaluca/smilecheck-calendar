@@ -194,7 +194,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   return (
-    <div ref={containerRef} className="relative w-96">
+    <div ref={containerRef} className="relative w-[560px]">
       <div className="relative">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         <Input
