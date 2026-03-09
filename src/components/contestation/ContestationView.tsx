@@ -154,8 +154,8 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                     <span className="text-xs text-foreground">{f.name}</span>
                     <span className="text-[10px] text-muted-foreground">— {f.size}</span>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
-                    <X className="w-3 h-3" />
+                  <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px] h-8 w-8" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
+                    <X className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
