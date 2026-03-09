@@ -190,7 +190,7 @@ export function MobileSidebar({
         {userRole === 'clinic' &&
         <>
             <MenuSection>
-              {activeTab === 'agenda' && renderAgendaFilter()}
+              
 
               {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
