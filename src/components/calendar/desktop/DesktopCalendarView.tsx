@@ -1053,14 +1053,25 @@ export function DesktopCalendarView() {
 
         }
 
-      {/* Edit Consultation Modal - this one stays as modal */}
-      <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={(updated) => {
-          console.log('Saved consultation:', updated);
-          setSelectedConsultation(null);
-        }} onCancel={(consultation) => {
-          console.log('Cancelled consultation:', consultation);
-          setSelectedConsultation(null);
-        }} />
+      {/* Edit Consultation Modal - for dentist/clinic only */}
+      {activeRole !== 'patient' && (
+        <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={(updated) => {
+            console.log('Saved consultation:', updated);
+            setSelectedConsultation(null);
+          }} onCancel={(consultation) => {
+            console.log('Cancelled consultation:', consultation);
+            setSelectedConsultation(null);
+          }} />
+      )}
+
+      {/* Patient Consultation Detail - for patient role */}
+      {activeRole === 'patient' && selectedConsultation && (
+        <PatientConsultationDetail
+          consultation={selectedConsultation}
+          isOpen={true}
+          onClose={() => setSelectedConsultation(null)}
+        />
+      )}
 
       {/* Paste Confirmation Modal */}
       <PasteConfirmationModal
