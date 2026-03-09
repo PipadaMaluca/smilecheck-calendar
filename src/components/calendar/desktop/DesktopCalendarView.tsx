@@ -475,7 +475,8 @@ export function DesktopCalendarView() {
     // Filter agenda to a specific dentist (clinicId-dentistId key)
     const filterDentistHandler = (e: Event) => {
       const key = (e as CustomEvent<string>).detail;
-      if (key) setSelectedDentistIds([key]);
+      if (key === 'all') setSelectedDentistIds([]);
+      else if (key) setSelectedDentistIds([key]);
     };
     window.addEventListener('smilecheck:filter-dentist', filterDentistHandler);
     return () => {
