@@ -12,7 +12,8 @@ import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, Consultation
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
-import { isSameDay } from 'date-fns';
+import { isSameDay, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { USER_POINTS, getLevelForXP, getXPProgress } from '@/data/pointsData';
@@ -63,8 +64,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
+      const nextPatientCon = [...mockPatientConsultations]
+        .filter(c => c.date >= DEMO_DATE)
+        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      const nextValue = nextPatientCon ? nextPatientCon.time : 'Sem consultas';
+      const nextSubtitle = nextPatientCon
+        ? format(nextPatientCon.date, "d 'de' MMMM", { locale: pt })
+        : 'Marcar consulta';
       return [
-      { label: 'Próxima Consulta', value: '31 Jan   ➡️   9:30h', icon: Calendar, clickTab: 'consulta-detalhe' },
+      { label: 'Próxima Consulta', value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
       { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
       { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];

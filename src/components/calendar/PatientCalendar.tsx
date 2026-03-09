@@ -32,6 +32,7 @@ import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
+const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -96,10 +97,13 @@ export function PatientCalendar() {
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
       const nextConsultation = [...mockPatientConsultations]
-        .filter(c => c.date >= new Date())
+        .filter(c => c.date >= DEMO_DATE)
         .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
       if (nextConsultation) {
         setSelectedConsultation(nextConsultation);
+      } else {
+        // No upcoming consultations — navigate to search/booking
+        setActiveTab('pesquisa');
       }
       return;
     }

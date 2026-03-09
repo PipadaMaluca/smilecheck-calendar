@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { ArrowLeft, Calendar, Clock, MapPin, Video, User, MessageCircle, RefreshCw, X } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Video, MessageCircle, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryBadgeStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -51,6 +50,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
   const categoryLabel = CATEGORY_LABELS[category];
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
+  const dentistAvatar = DENTIST_AVATAR_PHOTOS[consultation.dentist.id];
 
   const handleConfirmCancel = () => {
     setCancelled(true);
@@ -61,12 +61,11 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
     }, 1500);
   };
 
-
   return (
     <>
       <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        {/* Fixed Header Bar */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
           <Button variant="ghost" size="icon" onClick={onClose}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -75,44 +74,43 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
         </div>
 
         <ScrollArea className="flex-1">
-          <div className="max-w-3xl mx-auto p-5 space-y-5">
-            {/* Header — Dentist info with avatar */}
-            <div className="flex items-start gap-4">
-              <Avatar className="h-16 w-16 flex-shrink-0">
-                {DENTIST_AVATAR_PHOTOS[consultation.dentist.id] && (
-                  <img 
-                    src={DENTIST_AVATAR_PHOTOS[consultation.dentist.id]} 
-                    alt={consultation.dentist.name}
-                    className="object-cover"
-                  />
-                )}
-                <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                  {getDentistInitials(consultation.dentist.name)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <ClickableDentistName name={consultation.dentist.name} className="text-lg font-bold" />
-                <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || 'Dentista'}</p>
-                <div className="flex items-center gap-2 mt-2 flex-wrap">
-                  {colors && (
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={getCategoryBadgeStyle(colors.hex)}>
-                      {categoryLabel}
+          <div className="max-w-3xl mx-auto p-5 space-y-4">
+
+            {/* ── Dentist Header Card ── */}
+            <div className="bg-card rounded-xl border border-border p-4">
+              <div className="flex items-start gap-4">
+                <Avatar className="h-16 w-16 flex-shrink-0 ring-2 ring-border">
+                  <AvatarImage src={dentistAvatar || ''} alt={consultation.dentist.name} className="object-cover" />
+                  <AvatarFallback className="bg-primary/10 text-primary text-base font-semibold">
+                    {getDentistInitials(consultation.dentist.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">Consulta com</p>
+                  <ClickableDentistName name={consultation.dentist.name} className="text-base font-bold leading-tight" />
+                  <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || 'Médico Dentista'}</p>
+                  <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                    {colors && (
+                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full" style={getCategoryBadgeStyle(colors.hex)}>
+                        {categoryLabel}
+                      </span>
+                    )}
+                    <span className={cn('text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
+                      {statusConfig.icon} {statusConfig.label}
                     </span>
-                  )}
-                  <span className={cn('text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
-                    {statusConfig.icon} {statusConfig.label}
-                  </span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-4 mt-2.5 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {format(consultation.date, "d MMM yyyy", { locale: pt })}
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5" />
-                    {consultation.time} ({consultation.duration} min)
-                  </span>
-                </div>
+              </div>
+              {/* Date/time row */}
+              <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border/60 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5" />
+                  {format(consultation.date, "EEEE, d 'de' MMMM yyyy", { locale: pt })}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5" />
+                  {consultation.time} · {consultation.duration} min
+                </span>
               </div>
             </div>
 
@@ -127,78 +125,98 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               </Button>
             )}
 
-            {/* Informações */}
+            {/* ── Informações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Informações</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Informações</h3>
               <div className="space-y-2.5 text-sm">
                 <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <ClickableClinicName name={consultation.clinic.name} className="font-semibold" />
-                    <p className="text-muted-foreground mt-0.5">{consultation.clinic.address}</p>
+                    <p className="text-muted-foreground text-xs mt-0.5">{consultation.clinic.address}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <span>Duração prevista: {consultation.duration} minutos</span>
+                  <span className="text-muted-foreground">Duração prevista:</span>
+                  <span className="font-medium">{consultation.duration} min</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  {isTeleconsulta ? <Video className="w-4 h-4 text-muted-foreground shrink-0" /> : <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />}
-                  <span>{isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}</span>
+                  {isTeleconsulta
+                    ? <Video className="w-4 h-4 text-muted-foreground shrink-0" />
+                    : <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />}
+                  <span className="text-muted-foreground">{isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}</span>
                 </div>
               </div>
             </div>
 
-            {/* Notas (read-only) */}
-            {consultation.notes && (
-              <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Nota desta Consulta</h3>
+            {/* ── Nota desta Consulta (read-only) ── */}
+            <div className="bg-card rounded-xl border border-border p-4 space-y-2.5">
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Nota desta Consulta</h3>
+              {consultation.notes ? (
                 <p className="text-sm text-foreground leading-relaxed">{consultation.notes}</p>
-              </div>
-            )}
+              ) : (
+                <p className="text-sm text-muted-foreground/60 italic">Sem notas registadas pelo dentista.</p>
+              )}
+            </div>
 
-            {/* Histórico Resumido */}
+            {/* ── Histórico Resumido ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Histórico Resumido</h3>
               <div className="space-y-0">
-                {MOCK_HISTORY.map((h, i) => (
-                  <div key={i} className="flex items-center justify-between text-sm py-2.5 border-b border-border/50 last:border-0">
-                    <div className="flex items-center gap-2.5">
-                      <div className={cn('w-2 h-2 rounded-full', CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS]?.bg || 'bg-muted')} />
-                      <span className="text-muted-foreground">{h.date}</span>
-                      <span className="font-medium">{h.type}</span>
+                {MOCK_HISTORY.map((h, i) => {
+                  const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
+                  return (
+                    <div key={i} className="flex items-center justify-between text-sm py-2.5 border-b border-border/50 last:border-0">
+                      <div className="flex items-center gap-2.5">
+                        <span
+                          className="w-2 h-2 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }}
+                        />
+                        <span className="text-muted-foreground text-xs">{h.date}</span>
+                        <span className="font-medium text-foreground">{h.type}</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{h.dentist}</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">{h.dentist}</span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
-            {/* Ações — 3 buttons, equal width */}
+            {/* ── Ações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
-              <div className="grid grid-cols-3 gap-2.5">
-                <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
-                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Ações</h3>
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  variant="secondary"
+                  className="flex flex-col gap-1 h-14 text-xs px-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Enviar Mensagem
                 </Button>
-                <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
-                  <RefreshCw className="w-4 h-4" /> Reagendar
+                <Button
+                  variant="secondary"
+                  className="flex flex-col gap-1 h-14 text-xs px-2"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Reagendar
                 </Button>
                 <Button
                   variant="outline"
-                  size="default"
-                  className="gap-1.5 text-sm h-11 border-destructive/30 text-destructive hover:bg-destructive/10"
+                  className="flex flex-col gap-1 h-14 text-xs px-2 border-destructive/30 text-destructive hover:bg-destructive/10"
                   onClick={() => setShowCancelModal(true)}
                 >
-                  <X className="w-4 h-4" /> Cancelar Consulta
+                  <X className="w-4 h-4" />
+                  Cancelar Consulta
                 </Button>
               </div>
             </div>
+
           </div>
         </ScrollArea>
       </div>
 
-      {/* Cancellation Modal */}
+      {/* ── Cancellation Modal ── */}
       <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           {cancelled ? (
@@ -217,13 +235,13 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               </DialogHeader>
 
               <div className="bg-destructive/10 rounded-lg p-3 text-sm text-destructive flex items-start gap-2">
-                <span>⚠️</span>
+                <span className="mt-0.5">⚠️</span>
                 <span>Cancelamentos com menos de 24h de antecedência resultam em penalização de pontos.</span>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label className="text-sm font-medium">Motivo da cancelação</Label>
-                <RadioGroup value={cancelReason} onValueChange={setCancelReason}>
+                <RadioGroup value={cancelReason} onValueChange={setCancelReason} className="space-y-2">
                   {CANCELLATION_REASONS.map((reason) => (
                     <div key={reason} className="flex items-center space-x-2">
                       <RadioGroupItem value={reason} id={reason} />
@@ -234,7 +252,10 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Observações adicionais</Label>
+                <Label className="text-sm font-medium">
+                  Observações adicionais{' '}
+                  <span className="text-muted-foreground font-normal">(opcional)</span>
+                </Label>
                 <Textarea
                   value={cancelNotes}
                   onChange={(e) => setCancelNotes(e.target.value)}
@@ -243,7 +264,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
                 />
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => setShowCancelModal(false)}>
                   Voltar
                 </Button>
