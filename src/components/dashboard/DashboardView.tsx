@@ -106,7 +106,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
       case 'clinic':
         return [
-        { label: 'Ver Agenda Completa', icon: Calendar, action: () => onNavigate('agenda') },
+        { label: 'Ver Agenda Completa', icon: Calendar, action: () => {
+          // Select all dentists from SmileCheck clinic (clinic ID '1')
+          window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
+          onNavigate('agenda');
+        } },
         { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
         { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') }];
 
