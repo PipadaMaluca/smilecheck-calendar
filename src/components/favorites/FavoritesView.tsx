@@ -177,8 +177,8 @@ export function FavoritesView({
       </div>
 
       {/* Tabs: Dentistas | Clínicas + Propostas button + Favoritos toggle */}
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex gap-1 bg-muted rounded-lg p-1">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex gap-1 bg-muted rounded-lg p-1 flex-shrink-0">
           <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
             Dentistas
           </button>
@@ -186,10 +186,10 @@ export function FavoritesView({
             Clínicas
           </button>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap flex-1 justify-start sm:justify-end">
           {userRole !== 'patient' && (
             <Button size="sm" className="gap-1.5 text-xs" onClick={() => setShowJobs(true)}>
-              <Briefcase className="w-3.5 h-3.5" /> Propostas de Trabalho
+              <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Propostas de Trabalho</span><span className="sm:hidden">Propostas</span>
             </Button>
           )}
           <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>

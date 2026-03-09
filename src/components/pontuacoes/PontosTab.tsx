@@ -146,8 +146,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     <span className="text-center">Pts</span>
                   </div>
                   {earnActions.map((a, i) => (
-                    <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
-                      <span className="text-foreground">{a.action}</span>
+                    <div key={i} className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 px-2 sm:px-3 py-1.5 text-xs border-b border-border/50 last:border-0 min-w-[280px]">
+                      <span className="text-foreground truncate">{a.action}</span>
                       <span className="text-center text-primary font-medium">+{a.xp}</span>
                       <span className="text-center text-primary font-medium">+{a.points}</span>
                     </div>
