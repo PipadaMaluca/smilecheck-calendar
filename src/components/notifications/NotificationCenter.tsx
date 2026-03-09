@@ -222,7 +222,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   return (
     <div
       ref={dropdownRef}
-      className="fixed right-4 top-14 w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
+      className="fixed right-2 sm:right-4 top-14 w-[calc(100vw-16px)] sm:w-[400px] max-w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
       style={{ zIndex: 9999 }}>
 
       {/* Header */}
