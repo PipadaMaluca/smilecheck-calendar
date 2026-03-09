@@ -5,7 +5,6 @@ import { PatientCalendar } from './PatientCalendar';
 import { DentistCalendar } from './DentistCalendar';
 import { ClinicCalendar } from './ClinicCalendar';
 import { DesktopCalendarView } from './desktop/DesktopCalendarView';
-import { SplashScreen } from '@/components/splash/SplashScreen';
 import { VideoSplashScreen, hasSeenVideoSplash } from '@/components/splash/VideoSplashScreen';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
