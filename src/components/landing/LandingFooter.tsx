@@ -34,20 +34,19 @@ export function LandingFooter() {
 
       {/* Footer */}
       <footer className="border-t border-[#121f30] bg-[#121f30]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-12 lg:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
             {/* Column 1 */}
-            <div className="col-span-1 sm:col-span-2 md:col-span-1 text-center sm:text-left">
-              <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-3 rounded-2xl mx-auto sm:mx-0" />
-              <p className="text-sm text-[hsl(215,20%,65%)] mb-4">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1 text-center sm:text-left">
+              <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-4 rounded-2xl mx-auto sm:mx-0" />
+              <p className="text-sm text-[hsl(215,20%,65%)] mb-5">
                 A app que recompensa a sua saúde oral
               </p>
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) =>
                 <span
                   key={s}
                   className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors">
-                  
                     {s}
                   </span>
                 )}
@@ -56,10 +55,10 @@ export function LandingFooter() {
 
             {/* Column 2 */}
             <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Produto
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {[
                 'Funcionalidades',
                 'Planos e Preços',
@@ -71,7 +70,6 @@ export function LandingFooter() {
                     <a
                     href="#"
                     className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
-                    
                       {l}
                     </a>
                   </li>
@@ -81,16 +79,15 @@ export function LandingFooter() {
 
             {/* Column 3 */}
             <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Suporte
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {['FAQ', 'Contacto', 'Centro de Ajuda'].map((l) =>
                 <li key={l}>
                     <a
                     href="#"
                     className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">
-                    
                       {l}
                     </a>
                   </li>
@@ -100,10 +97,10 @@ export function LandingFooter() {
 
             {/* Column 4 */}
             <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-3">
+              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">
                 Legal
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 <li>
                   <a
                     href="/termos"
@@ -141,7 +138,7 @@ export function LandingFooter() {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-10 pt-6 border-t border-[hsl(214,30%,20%)] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[hsl(215,20%,65%)]">
+          <div className="mt-12 pt-6 border-t border-[hsl(214,30%,20%)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[hsl(215,20%,65%)]">
             <span>© 2026 SmileCheck. Todos os direitos reservados.</span>
             <span>Feito com ❤️ em Portugal</span>
           </div>

@@ -232,7 +232,7 @@ function PlanGrid({
   onCta: () => void;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">
       {plans.map((plan) => {
         const price = annual ? plan.annual : plan.monthly;
         const isPopular = plan.badge === 'Popular';
