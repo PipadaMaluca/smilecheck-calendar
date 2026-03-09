@@ -261,7 +261,8 @@ export function MobileSidebar({
         {userRole === 'patient' &&
         <>
             <MenuSection>
-              {/* Alphabetical order */}
+              {/* Same order as desktop sidebar, excluding bottom nav items */}
+              <MenuItem icon={Heart} label="Saúde" onClick={() => {onClose();onNavigate?.('saude');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
