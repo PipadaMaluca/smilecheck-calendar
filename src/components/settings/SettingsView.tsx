@@ -8,6 +8,7 @@ import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';
 import { NotificationSettingsSection } from '@/components/settings/NotificationSettingsSection';
 import { InviteView } from '@/components/settings/InviteView';
+import { ConnectedDevicesSection } from '@/components/settings/ConnectedDevicesSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
