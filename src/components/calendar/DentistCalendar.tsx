@@ -44,6 +44,7 @@ import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
+import { ContestationView } from '@/components/contestation/ContestationView';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
