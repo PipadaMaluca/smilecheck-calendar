@@ -330,6 +330,14 @@ export function DentistCalendar() {
 
         {showFullHistory ? (
           <FullHistoryView userRole="dentist" onBack={() => setShowFullHistory(false)} />
+        ) : selectedConsultation ? (
+          <EditConsultationModal
+            consultation={selectedConsultation}
+            isOpen={true}
+            onClose={() => setSelectedConsultation(null)}
+            onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
+            onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
+          />
         ) : activeTab === 'home' ? (
           <DashboardView userRole="dentist" onNavigate={(tab) => {
             if (tab === 'pesquisa') { setShowSearch(true); return; }
