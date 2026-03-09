@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { MonthlyCalendar } from './MonthlyCalendar';
@@ -27,6 +27,7 @@ import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
+import { ContestationView } from '@/components/contestation/ContestationView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -92,6 +93,16 @@ export function PatientCalendar() {
       }
     }
   };
+
+  // Listen for custom navigation events (e.g. from contestation button)
+  useEffect(() => {
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => window.removeEventListener('smilecheck:navigate', navHandler);
+  }, []);
 
   const handleTabChange = (tab: string) => {
     // Card 1: open next consultation detail — navigate to consultas tab with pre-selection
@@ -255,6 +266,8 @@ export function PatientCalendar() {
           />
         ) : activeTab === 'pontuacoes' ? (
           <div className="px-0"><PontuacoesView userRole="patient" onNavigate={handleTabChange} /></div>
+        ) : activeTab === 'contestacao' ? (
+          <ContestationView onBack={() => setActiveTab('historico')} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>

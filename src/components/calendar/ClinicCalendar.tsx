@@ -38,6 +38,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { ContestationView } from '@/components/contestation/ContestationView';
 
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -239,6 +240,16 @@ export function ClinicCalendar() {
     setViewMode(mode);
   };
 
+  // Listen for custom navigation events (e.g. from contestation button)
+  useEffect(() => {
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => window.removeEventListener('smilecheck:navigate', navHandler);
+  }, []);
+
   const handleTabChange = (tab: string) => {
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowReferral(false);
@@ -391,6 +402,8 @@ export function ClinicCalendar() {
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />
+      ) : activeTab === 'contestacao' ? (
+        <ContestationView onBack={() => setActiveTab('historico')} />
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
           <p className="text-lg">Secção em construção...</p>

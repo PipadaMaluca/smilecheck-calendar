@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { Plus } from 'lucide-react';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { Button } from '@/components/ui/button';
@@ -44,6 +44,7 @@ import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
+import { ContestationView } from '@/components/contestation/ContestationView';
 
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -264,6 +265,16 @@ export function DentistCalendar() {
     }
   }, [viewMode]);
 
+  // Listen for custom navigation events (e.g. from contestation button)
+  useEffect(() => {
+    const navHandler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) handleTabChange(detail);
+    };
+    window.addEventListener('smilecheck:navigate', navHandler);
+    return () => window.removeEventListener('smilecheck:navigate', navHandler);
+  }, []);
+
   // Handler that respects view mode restrictions
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
@@ -411,6 +422,8 @@ export function DentistCalendar() {
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />
+        ) : activeTab === 'contestacao' ? (
+          <ContestationView onBack={() => setActiveTab('historico')} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
             <p className="text-lg">Secção em construção...</p>
