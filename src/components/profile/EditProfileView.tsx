@@ -761,20 +761,20 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>Horário de Funcionamento</SectionTitle>
               <div className="space-y-2">
-                {clinicHours.map((h, i) =>
-            <div key={h.day} className="flex items-center gap-2 text-sm">
-                    <span className="w-20 text-muted-foreground">{h.day}</span>
+              {clinicHours.map((h, i) =>
+            <div key={h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
+                    <span className="w-20 text-muted-foreground flex-shrink-0">{h.day}</span>
                     <Switch checked={h.open} onCheckedChange={(checked) => {
                 const updated = [...clinicHours];
                 updated[i] = { ...updated[i], open: checked };
                 setClinicHours(updated);
               }} />
                     {h.open ?
-              <>
-                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
-                      </> :
+                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                      </div> :
 
               <span className="text-destructive text-xs">Encerrado</span>
               }
