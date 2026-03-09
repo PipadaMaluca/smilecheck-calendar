@@ -423,8 +423,8 @@ export function SignUpScreen() {
               />
               <label className="text-xs text-muted-foreground leading-relaxed">
                 Li e aceito os{' '}
-                <span className="text-primary hover:underline cursor-pointer">Termos de Serviço</span> e{' '}
-                <span className="text-primary hover:underline cursor-pointer">Política de Privacidade</span>
+                <Link to="/termos" target="_blank" className="text-primary hover:underline">Termos de Serviço</Link> e{' '}
+                <Link to="/privacidade" target="_blank" className="text-primary hover:underline">Política de Privacidade</Link>
               </label>
             </div>
             {errors.terms && <p className="text-destructive text-xs">{errors.terms}</p>}
