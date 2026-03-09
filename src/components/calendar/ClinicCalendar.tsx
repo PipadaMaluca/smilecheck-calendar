@@ -17,7 +17,6 @@ import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { NotificationsFullView } from '@/components/notifications/NotificationCenter';
-import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
 import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';

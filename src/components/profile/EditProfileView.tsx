@@ -357,7 +357,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const content =
   <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
