@@ -6,6 +6,7 @@ import { DentistCalendar } from './DentistCalendar';
 import { ClinicCalendar } from './ClinicCalendar';
 import { DesktopCalendarView } from './desktop/DesktopCalendarView';
 import { SplashScreen } from '@/components/splash/SplashScreen';
+import { VideoSplashScreen, hasSeenVideoSplash } from '@/components/splash/VideoSplashScreen';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
@@ -15,6 +16,10 @@ export function CalendarDemo() {
   const [activeView, setActiveView] = useState(initialRole);
   const [isDesktop, setIsDesktop] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+
+  // Video splash — only on first login per role
+  const splashRole = isDesktop ? 'clinic' : initialRole;
+  const [showVideoSplash, setShowVideoSplash] = useState(() => !hasSeenVideoSplash(splashRole));
 
   useEffect(() => {
     const checkDesktop = () => {
@@ -26,18 +31,20 @@ export function CalendarDemo() {
     return () => window.removeEventListener('resize', checkDesktop);
   }, []);
 
+  const handleVideoFinish = useCallback(() => {
+    setShowVideoSplash(false);
+  }, []);
+
   const handleSplashFinish = useCallback(() => {
     setShowSplash(false);
   }, []);
-
-  // Determine role for splash (desktop uses 'clinic' as default, mobile uses activeView)
-  const splashRole = isDesktop ? 'clinic' : (activeView as 'patient' | 'dentist' | 'clinic');
 
   // On desktop (>= 1024px), show the Doctolib-style layout
   if (isDesktop) {
     return (
       <>
-        {showSplash && <SplashScreen userRole={splashRole} onFinish={handleSplashFinish} />}
+        {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
+        {!showVideoSplash && showSplash && <SplashScreen userRole={splashRole as any} onFinish={handleSplashFinish} />}
         <DesktopCalendarView />
       </>
     );
@@ -46,7 +53,8 @@ export function CalendarDemo() {
   // On mobile/tablet, show the original tabbed interface
   return (
     <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
-      {showSplash && <SplashScreen userRole={splashRole} onFinish={handleSplashFinish} />}
+      {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
+      {!showVideoSplash && showSplash && <SplashScreen userRole={splashRole as any} onFinish={handleSplashFinish} />}
 
       {/* View Selector */}
       <div className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
