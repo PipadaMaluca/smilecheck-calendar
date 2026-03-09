@@ -1,11 +1,9 @@
-import { X, User, CreditCard, Calendar, Building2, Users, Clock, Gift, HelpCircle, FileText, LogOut, ChevronDown, ChevronUp, Trophy, Award, TrendingUp, FilePlus, BarChart3, Search, Star, Bell, Heart } from 'lucide-react';
+import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { mockDentists, mockClinics, mockFamilyMembers, getDentistsForClinic } from '@/data/mockData';
+import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 
 interface MobileSidebarProps {
   isOpen: boolean;
