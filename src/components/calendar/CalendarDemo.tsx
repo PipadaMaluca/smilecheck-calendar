@@ -16,7 +16,7 @@ export function CalendarDemo() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   // Video splash — only on first login per role
-  const splashRole = isDesktop ? 'clinic' : initialRole;
+  const splashRole = initialRole;
   const [showVideoSplash, setShowVideoSplash] = useState(() => !hasSeenVideoSplash(splashRole));
 
   useEffect(() => {

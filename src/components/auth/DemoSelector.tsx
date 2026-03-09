@@ -23,7 +23,12 @@ export function DemoSelector() {
           {options.map((o) =>
           <button
             key={o.path}
-            onClick={() => navigate(o.path)}
+            onClick={() => {
+              // Reset splash flag so video shows on each demo entry
+              const role = o.path.split('role=')[1];
+              if (role) localStorage.removeItem(`smilecheck_video_splash_${role}`);
+              navigate(o.path);
+            }}
             className="w-full flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border hover:border-primary hover:bg-accent transition-all">
             
               <o.icon className="w-5 h-5 text-primary" />
