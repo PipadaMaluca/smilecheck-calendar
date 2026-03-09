@@ -92,7 +92,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
       {/* Mobile/Tablet menu */}
       {mobileOpen &&
-      <div className="lg:hidden bg-background/95 backdrop-blur-xl border-b border-border animate-fade-in">
+      <div className="lg:hidden bg-[#121f30] border-b border-[#1a2d45] animate-fade-in">
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((l) =>
           <a
