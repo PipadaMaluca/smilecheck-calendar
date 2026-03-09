@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Calendar, Clock, MapPin, Video, User, MessageCircle, RefreshCw, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, Video, User, MessageCircle, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryBadgeStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -14,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
+import { DENTIST_AVATAR_PHOTOS, getDentistInitials } from '@/lib/avatarUtils';
 
 interface PatientConsultationDetailProps {
   consultation: Consultation;
@@ -37,7 +39,6 @@ const CANCELLATION_REASONS = [
 
 export function PatientConsultationDetail({ consultation, isOpen, onClose }: PatientConsultationDetailProps) {
   const startTeleconsulta = useTeleconsulta();
-  const [showHistory, setShowHistory] = useState(true);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [cancelNotes, setCancelNotes] = useState('');
@@ -61,6 +62,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
     }, 1500);
   };
 
+
   return (
     <>
       <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
@@ -75,14 +77,23 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
 
         <ScrollArea className="flex-1">
           <div className="max-w-3xl mx-auto p-5 space-y-5">
-            {/* Header — Dentist info */}
+            {/* Header — Dentist info with avatar */}
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center shrink-0">
-                <User className="w-7 h-7 text-muted-foreground" />
-              </div>
+              <Avatar className="h-16 w-16 flex-shrink-0">
+                {DENTIST_AVATAR_PHOTOS[consultation.dentist.id] && (
+                  <img 
+                    src={DENTIST_AVATAR_PHOTOS[consultation.dentist.id]} 
+                    alt={consultation.dentist.name}
+                    className="object-cover"
+                  />
+                )}
+                <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+                  {getDentistInitials(consultation.dentist.name)}
+                </AvatarFallback>
+              </Avatar>
               <div className="flex-1 min-w-0">
                 <ClickableDentistName name={consultation.dentist.name} className="text-lg font-bold" />
-                <p className="text-xs text-muted-foreground">{consultation.dentist.specialty || 'Dentista'}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || 'Dentista'}</p>
                 <div className="flex items-center gap-2 mt-2 flex-wrap">
                   {colors && (
                     <span className="text-xs font-semibold px-2.5 py-1 rounded-full" style={getCategoryBadgeStyle(colors.hex)}>
@@ -93,7 +104,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
                     {statusConfig.icon} {statusConfig.label}
                   </span>
                 </div>
-                <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                <div className="flex items-center gap-4 mt-2.5 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" />
                     {format(consultation.date, "d MMM yyyy", { locale: pt })}
@@ -120,89 +131,64 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
             {/* Informações */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Informações</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <div>
+              <div className="space-y-2.5 text-sm">
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+                  <div className="flex-1">
                     <ClickableClinicName name={consultation.clinic.name} className="font-semibold" />
-                    <span className="text-muted-foreground"> — {consultation.clinic.address}</span>
+                    <p className="text-muted-foreground mt-0.5">{consultation.clinic.address}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
                   <span>Duração prevista: {consultation.duration} minutos</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   {isTeleconsulta ? <Video className="w-4 h-4 text-muted-foreground shrink-0" /> : <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />}
                   <span>{isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}</span>
                 </div>
               </div>
             </div>
 
-            {/* Pagamento */}
-            <div className="bg-card rounded-xl border border-border p-4 flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">💰 Pagamento</span>
-              <span className={cn('font-semibold', consultation.isPaid ? 'text-primary' : 'text-yellow-400')}>
-                €{consultation.price} {consultation.isPaid ? '(pago)' : '(pendente)'}
-              </span>
-            </div>
-
-            {/* Triagem */}
-            {consultation.triage && (
-              <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Triagem</h3>
-                <div className="space-y-2 text-sm">
-                  <p><span className="text-muted-foreground">Sintomas:</span> {consultation.triage.symptom}</p>
-                  <p><span className="text-muted-foreground">Duração:</span> {consultation.triage.duration}</p>
-                  <p><span className="text-muted-foreground">Intensidade da dor:</span> {consultation.triage.intensity}/5</p>
-                </div>
-              </div>
-            )}
-
             {/* Notas (read-only) */}
             {consultation.notes && (
               <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Notas da Consulta</h3>
-                <p className="text-sm text-muted-foreground">{consultation.notes}</p>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Nota desta Consulta</h3>
+                <p className="text-sm text-foreground leading-relaxed">{consultation.notes}</p>
               </div>
             )}
 
             {/* Histórico Resumido */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <button className="flex items-center justify-between w-full" onClick={() => setShowHistory(!showHistory)}>
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
-                {showHistory ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
-              </button>
-              {showHistory && (
-                <div className="space-y-2">
-                  {MOCK_HISTORY.map((h, i) => (
-                    <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
-                      <div className="flex items-center gap-2">
-                        <div className={cn('w-2 h-2 rounded-full', CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS]?.bg || 'bg-muted')} />
-                        <span className="text-muted-foreground">{h.date}</span>
-                        <span>{h.type}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">{h.dentist}</span>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
+              <div className="space-y-0">
+                {MOCK_HISTORY.map((h, i) => (
+                  <div key={i} className="flex items-center justify-between text-sm py-2.5 border-b border-border/50 last:border-0">
+                    <div className="flex items-center gap-2.5">
+                      <div className={cn('w-2 h-2 rounded-full', CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS]?.bg || 'bg-muted')} />
+                      <span className="text-muted-foreground">{h.date}</span>
+                      <span className="font-medium">{h.type}</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <span className="text-xs text-muted-foreground">{h.dentist}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Ações — 3 buttons, equal width */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
-              <div className="grid grid-cols-3 gap-2">
-                <Button variant="secondary" size="sm" className="gap-1.5 text-xs">
+              <div className="grid grid-cols-3 gap-2.5">
+                <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
                   <MessageCircle className="w-4 h-4" /> Mensagem
                 </Button>
-                <Button variant="secondary" size="sm" className="gap-1.5 text-xs">
+                <Button variant="secondary" size="default" className="gap-1.5 text-sm h-11">
                   <RefreshCw className="w-4 h-4" /> Reagendar
                 </Button>
                 <Button
                   variant="outline"
-                  size="sm"
-                  className="gap-1.5 text-xs border-destructive/30 text-destructive hover:bg-destructive/10"
+                  size="default"
+                  className="gap-1.5 text-sm h-11 border-destructive/30 text-destructive hover:bg-destructive/10"
                   onClick={() => setShowCancelModal(true)}
                 >
                   <X className="w-4 h-4" /> Cancelar

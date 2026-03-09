@@ -10,6 +10,7 @@ import { DesktopWeekView } from './DesktopWeekView';
 import { DesktopMonthView } from './DesktopMonthView';
 import { ListView } from './ListView';
 import { PatientAppointmentsList } from '../PatientAppointmentsList';
+import { PatientConsultationDetail } from '../PatientConsultationDetail';
 import { CategoryLegend } from '../CategoryLegend';
 import { EditConsultationModal } from '../EditConsultationModal';
 import { CopyPasteBanner } from '../CopyPasteBanner';
@@ -513,6 +514,65 @@ export function DesktopCalendarView() {
 
   // Render the main content area based on active nav tab
   const renderMainArea = () => {
+    // Consultation Detail for Patient/Dentist when clicking "Próxima Consulta" card
+    if (activeNavTab === 'consulta-detalhe') {
+      if (activeRole === 'patient') {
+        // Find next upcoming consultation for patient
+        const nextConsultation = [...mockPatientConsultations]
+          .filter(c => c.date >= new Date())
+          .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
+        
+        if (nextConsultation) {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader('Detalhes da Consulta')}
+              <div className="flex-1 overflow-y-auto">
+                <PatientConsultationDetail
+                  consultation={nextConsultation}
+                  isOpen={true}
+                  onClose={() => setActiveNavTab('home')}
+                />
+              </div>
+            </div>
+          );
+        } else {
+          // No upcoming consultation - redirect to home
+          setActiveNavTab('home');
+          return null;
+        }
+      } else if (activeRole === 'dentist') {
+        // Find next consultation for today for this dentist
+        const DEMO_DATE = new Date(2026, 0, 31);
+        const dentistCons = mockConsultations
+          .filter((c) => c.dentist.id === mockDentists[0].id && isSameDay(c.date, DEMO_DATE))
+          .sort((a, b) => a.time.localeCompare(b.time));
+        const nextConsultation = dentistCons[0];
+
+        if (nextConsultation) {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader('Detalhes da Consulta')}
+              <ConsultationDetailView
+                consultation={nextConsultation}
+                onClose={() => setActiveNavTab('home')}
+                onViewDossier={(patientId) => {setDossierPatientId(patientId);setActiveNavTab('home');}}
+                onNavigate={(tab) => handleNavTabChange(tab)}
+                onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+              />
+            </div>
+          );
+        } else {
+          // No consultation today - redirect to home
+          setActiveNavTab('home');
+          return null;
+        }
+      } else if (activeRole === 'clinic') {
+        // Clinic: navigate to full agenda
+        setActiveNavTab('agenda');
+        return null;
+      }
+    }
+
     // Consultation Detail View (full screen for dentist/clinic)
     if (detailConsultation && (activeRole === 'dentist' || activeRole === 'clinic')) {
       return (
