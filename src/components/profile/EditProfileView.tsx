@@ -190,7 +190,7 @@ function ClinicJobToggles() {
           </div>
           <div>
             <Label className="text-xs mb-2 block">Benefícios oferecidos</Label>
-            <div className="grid grid-cols-2 gap-2">
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
             <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
                   <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
@@ -449,12 +449,14 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>Familiares</SectionTitle>
               <div className="space-y-3">
-                {familyMembers.map((fm, idx) =>
-            <div key={idx} className="flex items-center gap-2">
+            {familyMembers.map((fm, idx) =>
+            <div key={idx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <Input placeholder="Nome" value={fm.name} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], name: e.target.value };setFamilyMembers(u);}} className="flex-1" />
-                    <Input placeholder="Idade" value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
-                    <Input placeholder="Relação" value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="w-28" />
-                    <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                    <div className="flex gap-2">
+                      <Input placeholder="Idade" value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
+                      <Input placeholder="Relação" value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="flex-1 sm:w-28" />
+                      <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)} className="flex-shrink-0"><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                    </div>
                   </div>
             )}
                 <Button variant="outline" size="sm" onClick={addFamilyMember} className="gap-1"><Plus className="w-3 h-3" /> Adicionar familiar</Button>
@@ -759,20 +761,20 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>Horário de Funcionamento</SectionTitle>
               <div className="space-y-2">
-                {clinicHours.map((h, i) =>
-            <div key={h.day} className="flex items-center gap-2 text-sm">
-                    <span className="w-20 text-muted-foreground">{h.day}</span>
+              {clinicHours.map((h, i) =>
+            <div key={h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
+                    <span className="w-20 text-muted-foreground flex-shrink-0">{h.day}</span>
                     <Switch checked={h.open} onCheckedChange={(checked) => {
                 const updated = [...clinicHours];
                 updated[i] = { ...updated[i], open: checked };
                 setClinicHours(updated);
               }} />
                     {h.open ?
-              <>
-                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-28 h-8 text-xs" />
-                      </> :
+                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                      </div> :
 
               <span className="text-destructive text-xs">Encerrado</span>
               }
@@ -827,9 +829,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       </ScrollArea>
 
       {/* Fixed bottom buttons */}
-      <div className={`border-t border-border p-4 flex gap-3 flex-shrink-0 ${isMobile ? 'fixed bottom-0 left-0 right-0 bg-background z-10' : ''}`}>
-        <Button variant="outline" className="flex-1" onClick={onClose}>Cancelar</Button>
-        <Button className="flex-1" onClick={handleSave}>Guardar Alterações</Button>
+      <div className={`border-t border-border p-4 flex gap-3 flex-shrink-0 ${isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''}`}>
+        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>Cancelar</Button>
+        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>Guardar Alterações</Button>
       </div>
     </div>;
 

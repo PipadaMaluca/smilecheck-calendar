@@ -131,8 +131,8 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
             </span>
           </div>
         </div>
-        <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
-          <Button variant="outline" className="flex-1" onClick={() => setShowEdit(true)}>
+        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
+          <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => setShowEdit(true)}>
             Editar Perfil
           </Button>
         </div>
@@ -209,7 +209,7 @@ export function ProfileView({ userRole, isOpen, onClose, inline, onViewClinicPro
       {/* Estatísticas */}
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
           {[
             { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
             { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },

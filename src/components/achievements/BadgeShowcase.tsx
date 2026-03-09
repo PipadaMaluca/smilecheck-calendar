@@ -50,7 +50,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
 
       {/* Badge Grid */}
       <div className={cn(
-        'grid gap-3',
+        'grid gap-2 sm:gap-3',
         isMobile ? 'grid-cols-4' : 'grid-cols-4',
       )}>
         {Array.from({ length: displaySlots }).map((_, i) => {

@@ -166,22 +166,22 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             )}
           </div>
         </div>
-        <div className={cn('flex gap-2', isMobile ? 'w-full' : 'flex-col')}>
+        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
           {isOwnProfile ? (
-            <Button variant="outline" className="flex-1" onClick={onEditProfile}>
+            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
               Editar Perfil
             </Button>
           ) : (
             <>
               {onReferralLetter && (
-                <Button variant="outline" className="flex-1" onClick={onReferralLetter}>
+                <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onReferralLetter}>
                   <FileText className="w-4 h-4 mr-1" /> Carta de Referência
                 </Button>
               )}
-              <Button variant="outline" className="flex-1">
+              <Button variant="outline" className="flex-1 min-h-[44px]">
                 <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
               </Button>
-              <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn(isFavorite && 'text-amber-400')}>
+              <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn('min-h-[44px]', isFavorite && 'text-amber-400')}>
                 <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
                 {isMobile && <span className="ml-1">Favoritos</span>}
               </Button>
@@ -205,7 +205,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       <section className="space-y-3">
         <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
-        <div className="grid grid-cols-2 gap-3 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
             <span className="text-muted-foreground">{DENTIST_EXTRA.yearsExperience} anos de experiência</span>
