@@ -430,9 +430,32 @@ export function ClinicCalendar() {
         }}
       />
 
-      <ProfileView userRole="clinic" isOpen={showProfile} onClose={() => setShowProfile(false)} />
-      <EditProfileView userRole="clinic" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+      {showProfile && (
+        <ClinicProfileView
+          clinicId={ownClinicId}
+          isOpen={true}
+          onClose={() => setShowProfile(false)}
+          isOwnProfile
+          onEditProfile={() => {
+            setShowProfile(false);
+            setShowEditProfile(true);
+          }}
+          onViewDentistProfile={(id) => {
+            const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === id);
+            if (d) setViewDentistProfile(d);
+          }}
+        />
+      )}
 
+      <EditProfileView
+        userRole="clinic"
+        isOpen={showEditProfile}
+        onClose={() => setShowEditProfile(false)}
+        onSave={() => {
+          setShowEditProfile(false);
+          setShowProfile(true);
+        }}
+      />
       <UnifiedSearch
         userRole="clinic"
         isOpen={showSearch}

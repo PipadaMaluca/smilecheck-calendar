@@ -829,7 +829,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       </ScrollArea>
 
       {/* Fixed bottom buttons */}
-      <div className={`border-t border-border p-4 flex gap-3 flex-shrink-0 ${isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''}`}>
+      <div
+        className={`border-t border-border px-6 md:px-10 py-4 flex gap-3 flex-shrink-0 ${
+          isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''
+        }`}
+      >
         <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>Cancelar</Button>
         <Button className="flex-1 min-h-[44px]" onClick={handleSave}>Guardar Alterações</Button>
       </div>

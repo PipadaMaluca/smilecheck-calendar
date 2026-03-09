@@ -72,7 +72,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
       </div>
 
       {showName && (
-        <span className="text-[10px] text-muted-foreground text-center max-w-16 truncate leading-tight">
+        <span className="text-[9px] text-muted-foreground text-center max-w-20 leading-snug whitespace-normal break-words">
           {achievement.secret && !achievement.unlocked ? '???' : achievement.name}
         </span>
       )}

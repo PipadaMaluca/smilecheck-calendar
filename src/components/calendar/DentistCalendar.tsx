@@ -464,8 +464,28 @@ export function DentistCalendar() {
           />
         )}
 
-        <ProfileView userRole="dentist" isOpen={showProfile} onClose={() => setShowProfile(false)} />
-        <EditProfileView userRole="dentist" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+        {showProfile && (
+          <DentistProfileView
+            dentist={ownDentist}
+            isOpen={true}
+            onClose={() => setShowProfile(false)}
+            isOwnProfile
+            onEditProfile={() => {
+              setShowProfile(false);
+              setShowEditProfile(true);
+            }}
+          />
+        )}
+
+        <EditProfileView
+          userRole="dentist"
+          isOpen={showEditProfile}
+          onClose={() => setShowEditProfile(false)}
+          onSave={() => {
+            setShowEditProfile(false);
+            setShowProfile(true);
+          }}
+        />
 
         <UnifiedSearch
           userRole="dentist"

@@ -32,7 +32,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
   if (!isOwnProfile && showcasedAchievements.length === 0) return null;
 
   return (
-    <div className={cn('bg-card/50 border border-border rounded-xl p-4 space-y-3', className)}>
+    <div className={cn('bg-card/50 border border-border rounded-xl p-5 md:p-6 space-y-4', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <h4 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
@@ -49,10 +49,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
       </div>
 
       {/* Badge Grid */}
-      <div className={cn(
-        'grid gap-2 sm:gap-3',
-        isMobile ? 'grid-cols-4' : 'grid-cols-4',
-      )}>
+      <div className="grid grid-cols-4 gap-3 md:gap-4">
         {Array.from({ length: displaySlots }).map((_, i) => {
           const ach = showcasedAchievements[i];
 
