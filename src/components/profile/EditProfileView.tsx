@@ -357,7 +357,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const content =
   <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+      <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
@@ -366,7 +366,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       </div>
 
       <ScrollArea className="flex-1">
-        <div className="p-5 space-y-6 pb-32 md:pb-6">
+        <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6 pb-32 md:pb-6">
           {/* Photo */}
           <div className="flex flex-col items-center gap-3">
             <div className="relative">
@@ -544,19 +544,19 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <SectionTitle>Teleconsulta</SectionTitle>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-[5px] mt-[10px] mb-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Preço teleconsulta (€)">
                   <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
-                <div className="items-center py-0 gap-0 mx-[200px] md:items-center justify-between flex flex-row ml-0 mr-0">
-                  <span className="text-sm">Aceita urgências</span>
+                <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 min-h-[44px]">
+                  <span className="text-sm font-medium">Aceita urgências</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
-                {acceptsUrgencies &&
-            <FieldGroup label="Preço urgência (€)">
+                {acceptsUrgencies && (
+                  <FieldGroup label="Preço urgência (€)">
                     <Input type="number" value={urgencyPrice} onChange={(e) => setUrgencyPrice(e.target.value)} />
                   </FieldGroup>
-            }
+                )}
               </div>
 
               <Separator />
@@ -829,7 +829,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       </ScrollArea>
 
       {/* Fixed bottom buttons */}
-      <div className={`border-t border-border p-4 flex gap-3 flex-shrink-0 ${isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''}`}>
+      <div
+        className={`border-t border-border px-6 md:px-10 py-4 flex gap-3 flex-shrink-0 ${
+          isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''
+        }`}
+      >
         <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>Cancelar</Button>
         <Button className="flex-1 min-h-[44px]" onClick={handleSave}>Guardar Alterações</Button>
       </div>

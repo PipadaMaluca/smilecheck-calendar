@@ -17,7 +17,6 @@ import { TeamView } from '@/components/team/TeamView';
 import { ConversationsView } from '@/components/conversations/ConversationsView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { NotificationsFullView } from '@/components/notifications/NotificationCenter';
-import { ProfileView } from '@/components/profile/ProfileView';
 import { EditProfileView } from '@/components/profile/EditProfileView';
 import { RankingsView } from '@/components/rankings/RankingsView';
 import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
@@ -60,6 +59,7 @@ export function ClinicCalendar() {
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
+  const ownClinicId = mockClinics[0]?.id || '1';
 
   // Build columns based on selected clinics and dentists
   const columns = useMemo<DentistColumn[]>(() => {
@@ -430,9 +430,32 @@ export function ClinicCalendar() {
         }}
       />
 
-      <ProfileView userRole="clinic" isOpen={showProfile} onClose={() => setShowProfile(false)} />
-      <EditProfileView userRole="clinic" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />
+      {showProfile && (
+        <ClinicProfileView
+          clinicId={ownClinicId}
+          isOpen={true}
+          onClose={() => setShowProfile(false)}
+          isOwnProfile
+          onEditProfile={() => {
+            setShowProfile(false);
+            setShowEditProfile(true);
+          }}
+          onViewDentistProfile={(id) => {
+            const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === id);
+            if (d) setViewDentistProfile(d);
+          }}
+        />
+      )}
 
+      <EditProfileView
+        userRole="clinic"
+        isOpen={showEditProfile}
+        onClose={() => setShowEditProfile(false)}
+        onSave={() => {
+          setShowEditProfile(false);
+          setShowProfile(true);
+        }}
+      />
       <UnifiedSearch
         userRole="clinic"
         isOpen={showSearch}
