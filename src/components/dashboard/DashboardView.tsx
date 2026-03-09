@@ -12,7 +12,8 @@ import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, Consultation
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
-import { isSameDay } from 'date-fns';
+import { isSameDay, format } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { USER_POINTS, getLevelForXP, getXPProgress } from '@/data/pointsData';
