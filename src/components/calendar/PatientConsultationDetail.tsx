@@ -33,7 +33,6 @@ const CANCELLATION_REASONS = [
   'Conflito de agenda',
   'Emergência médica/pessoal',
   'Já não preciso desta consulta',
-  'Quero reagendar para outra data',
   'Outro motivo',
 ];
 
