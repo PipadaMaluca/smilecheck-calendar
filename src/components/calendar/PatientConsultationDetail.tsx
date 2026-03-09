@@ -80,13 +80,15 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
             {/* Header — Dentist info with avatar */}
             <div className="flex items-start gap-4">
               <Avatar className="h-16 w-16 flex-shrink-0">
-                <img 
-                  src={getAvatarForDentist(consultation.dentist.id)} 
-                  alt={consultation.dentist.name}
-                  className="object-cover"
-                />
+                {DENTIST_AVATAR_PHOTOS[consultation.dentist.id] && (
+                  <img 
+                    src={DENTIST_AVATAR_PHOTOS[consultation.dentist.id]} 
+                    alt={consultation.dentist.name}
+                    className="object-cover"
+                  />
+                )}
                 <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                  {getInitials(consultation.dentist.name)}
+                  {getDentistInitials(consultation.dentist.name)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
