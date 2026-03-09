@@ -59,6 +59,7 @@ export function ClinicCalendar() {
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
+  const ownClinicId = mockClinics[0]?.id || '1';
 
   // Build columns based on selected clinics and dentists
   const columns = useMemo<DentistColumn[]>(() => {
