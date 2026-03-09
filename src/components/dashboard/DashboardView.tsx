@@ -391,10 +391,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         <div id="onboarding-dentistas-hoje">
           <Card className="bg-card/80 border-border">
             <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Dentistas a Trabalhar Hoje</h3>
-                <Badge variant="outline" className="text-[10px]">{clinicDentists.length} dentistas</Badge>
-              </div>
+              
+
+
+              
               
 
 
