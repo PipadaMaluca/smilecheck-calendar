@@ -69,6 +69,19 @@ export function ClinicAgendaDropdown({
         {open ? <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
       </CollapsibleTrigger>
       <CollapsibleContent className="bg-card/80 border-b border-border px-4 py-2 space-y-2">
+        {/* Todos */}
+        <div className="flex items-center gap-2 py-1">
+          <CustomCheck
+            checked={allSelected}
+            onChange={() => onDentistToggle('all', true)}
+          />
+          <button
+            className="text-xs font-medium hover:text-primary"
+            onClick={() => onDentistToggle('all', false)}
+          >
+            Todos
+          </button>
+        </div>
         {/* Filtrar Presentes */}
         <div className="flex items-center gap-2 py-1">
           <CustomCheck

@@ -90,7 +90,6 @@ export function DentistAgendaDropdown({
         </div>
         {dentistClinics.map(({ clinic, worksOnDemo }) => {
           const key = `${clinic.id}-${currentDentistId}`;
-          const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
           const isSelected = allSelected || selectedDentistIds.includes(key);
 
           // Also show other dentists in this clinic
