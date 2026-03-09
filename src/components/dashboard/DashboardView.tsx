@@ -444,20 +444,20 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-2 group"
+                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
-                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                      onNavigate('agenda');
-                    }}>
-                      <ClickableDentistName
-                        name={d.name}
-                        className="text-xs font-semibold flex-shrink-0 group-hover:text-primary transition-colors"
-                      />
-                      <span className="text-muted-foreground">:</span>
-                      <span className="text-xs font-bold text-presencial">{d.pres} Presenciais</span>
-                      <span className="text-[10px] text-muted-foreground">·</span>
-                      <span className="text-xs font-bold text-teleconsulta">{d.tele} Teleconsultas</span>
-                    </div>
+                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
+                       onNavigate('agenda');
+                     }}>
+                       <ClickableDentistName
+                         name={d.name}
+                         className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors"
+                       />
+                       <span className="text-muted-foreground text-[11px]">:</span>
+                       <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} Pres.</span>
+                       <span className="text-[10px] text-muted-foreground">·</span>
+                       <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} Tele.</span>
+                     </div>
                   );
                 })()}
               </div>
