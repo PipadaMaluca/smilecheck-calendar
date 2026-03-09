@@ -238,7 +238,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       </div>
 
       {/* Billing toggle */}
-      <div className="items-start justify-center flex flex-row gap-[7px]">
+      <div className="flex justify-center">
         <button
           onClick={() => setIsAnnual(false)}
           className={cn(
