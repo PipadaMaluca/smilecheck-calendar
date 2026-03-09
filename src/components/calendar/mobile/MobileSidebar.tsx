@@ -53,13 +53,6 @@ export function MobileSidebar({
   'Dentista' :
   'Clínica';
 
-  const toggleClinicExpanded = (clinicId: string) => {
-    setExpandedClinics((prev) =>
-    prev.includes(clinicId) ?
-    prev.filter((id) => id !== clinicId) :
-    [...prev, clinicId]
-    );
-  };
 
   const MenuSection = ({ children, className }: {children: React.ReactNode;className?: string;}) =>
   <div className={cn("py-2 border-b border-border pb-0 pt-0", className)}>
