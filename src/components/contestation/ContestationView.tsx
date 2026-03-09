@@ -137,9 +137,12 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Documentos */}
         <div className="space-y-2">
           <h3 className="text-sm font-bold text-foreground">Documentos de Suporte</h3>
-          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 transition-colors cursor-pointer">
+          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 active:border-primary/40 transition-colors cursor-pointer">
             <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-            <p className="text-xs text-muted-foreground">Arraste ficheiros ou clique para selecionar</p>
+            <p className="text-xs text-muted-foreground">
+              <span className="hidden sm:inline">Arraste ficheiros ou clique para selecionar</span>
+              <span className="sm:hidden">Toque para selecionar ficheiros</span>
+            </p>
             <p className="text-[10px] text-muted-foreground mt-1">Máx. 3 ficheiros, 5MB cada (PDF, JPG, PNG)</p>
           </div>
           {files.length > 0 && (
@@ -151,8 +154,8 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                     <span className="text-xs text-foreground">{f.name}</span>
                     <span className="text-[10px] text-muted-foreground">— {f.size}</span>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
-                    <X className="w-3 h-3" />
+                  <Button variant="ghost" size="icon" className="min-h-[44px] min-w-[44px] h-8 w-8" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
+                    <X className="w-4 h-4" />
                   </Button>
                 </div>
               ))}
@@ -182,15 +185,15 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-3">
+        <div className="flex flex-col-reverse sm:flex-row gap-3">
           <Button
-            className="flex-1"
+            className="flex-1 min-h-[44px]"
             disabled={!agreed || !selectedMotivo}
             onClick={() => setSubmitted(true)}
           >
             Submeter Contestação
           </Button>
-          <Button variant="outline" onClick={onBack}>Cancelar</Button>
+          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>Cancelar</Button>
         </div>
       </div>
     </ScrollArea>
