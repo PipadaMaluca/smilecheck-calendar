@@ -32,6 +32,7 @@ import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { useIsMobile } from '@/hooks/use-mobile';
 import smileIcon from '@/assets/smilecheck-icon.png';
+const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
