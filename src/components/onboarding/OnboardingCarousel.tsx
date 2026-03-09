@@ -128,14 +128,15 @@ export function OnboardingCarousel() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.05)' }} />
       </div>
 
-      <div className="relative h-full max-w-lg mx-auto flex flex-col">
+      <div className="relative h-full max-w-lg mx-auto flex flex-col px-4">
         {/* Skip button */}
         {!isLast && (
           <button
             onClick={handleComplete}
             className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors"
           >
-            Saltar tutorial
+            <span className="hidden sm:inline">Saltar tutorial</span>
+            <span className="sm:hidden">Saltar</span>
           </button>
         )}
 
