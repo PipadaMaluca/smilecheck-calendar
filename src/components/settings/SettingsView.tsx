@@ -67,7 +67,10 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
         {/* 4. Regional */}
         <RegionalSection />
 
-        {/* 5. Sincronização */}
+        {/* 5. Dispositivos Conectados */}
+        <ConnectedDevicesSection />
+
+        {/* 6. Sincronização */}
         {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
 
         {/* Tutorial */}
