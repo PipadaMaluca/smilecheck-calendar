@@ -273,14 +273,6 @@ export function PatientCalendar() {
           activeTab={activeTab}
         />
 
-        {/* Patient Consultation Detail */}
-        {selectedConsultation && (
-          <PatientConsultationDetail
-            consultation={selectedConsultation}
-            isOpen={!!selectedConsultation}
-            onClose={() => setSelectedConsultation(null)}
-          />
-        )}
 
         <ProfileView userRole="patient" isOpen={showProfile} onClose={() => setShowProfile(false)} />
         <EditProfileView userRole="patient" isOpen={showEditProfile} onClose={() => setShowEditProfile(false)} onSave={() => setShowEditProfile(false)} />

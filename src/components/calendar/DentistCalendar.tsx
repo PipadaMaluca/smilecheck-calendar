@@ -498,20 +498,6 @@ export function DentistCalendar() {
 
         {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
-        <EditConsultationModal
-          consultation={selectedConsultation}
-          isOpen={!!selectedConsultation}
-          onClose={() => setSelectedConsultation(null)}
-          isMobile={isMobile}
-          onSave={(updated) => {
-            console.log('Saved consultation:', updated);
-            setSelectedConsultation(null);
-          }}
-          onCancel={(consultation) => {
-            console.log('Cancelled consultation:', consultation);
-            setSelectedConsultation(null);
-          }}
-        />
 
         {/* Agenda Settings Modal */}
         <AgendaSettingsModal

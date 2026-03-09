@@ -444,14 +444,6 @@ export function ClinicCalendar() {
 
       {showInvite && <InviteView onClose={() => setShowInvite(false)} />}
 
-      <EditConsultationModal
-        consultation={selectedConsultation}
-        isOpen={!!selectedConsultation}
-        onClose={() => setSelectedConsultation(null)}
-        isMobile={isMobile}
-        onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
-        onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
-      />
 
       {/* Slot Creation Screen */}
       {slotCreation && (

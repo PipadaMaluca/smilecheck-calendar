@@ -1088,15 +1088,6 @@ export function DesktopCalendarView() {
           }} />
       )}
 
-      {/* Patient Consultation Detail - for patient role */}
-      {activeRole === 'patient' && selectedConsultation && (
-        <PatientConsultationDetail
-          consultation={selectedConsultation}
-          isOpen={true}
-          onClose={() => setSelectedConsultation(null)}
-        />
-      )}
-
       {/* Paste Confirmation Modal */}
       <PasteConfirmationModal
           consultation={clipboardConsultation}
