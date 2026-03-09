@@ -141,6 +141,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   onNavigate('pontuacoes');
                 } else if (stat.clickTab === 'consulta-detalhe') {
                   onNavigate('consulta-detalhe');
+                } else if (stat.clickTab === 'agenda') {
+                  // Clear any dentist filter so full agenda shows all dentists
+                  window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'all' }));
+                  onNavigate('agenda');
                 } else {
                   onNavigate(stat.clickTab!);
                 }
