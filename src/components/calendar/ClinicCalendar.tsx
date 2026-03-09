@@ -215,6 +215,25 @@ export function ClinicCalendar() {
     }
   }, [viewMode]);
 
+  // Listen for filter-dentist events from dashboard
+  useEffect(() => {
+    const filterDentistHandler = (e: Event) => {
+      const key = (e as CustomEvent<string>).detail;
+      if (key === 'all') {
+        setSelectedDentistIds([]);
+      } else if (key?.startsWith('clinic-')) {
+        // Select all dentists from specified clinic
+        const clinicId = key.replace('clinic-', '');
+        const clinicDentistKeys = getDentistsForClinic(clinicId).map(d => `${clinicId}-${d.id}`);
+        setSelectedDentistIds(clinicDentistKeys);
+      } else if (key) {
+        setSelectedDentistIds([key]);
+      }
+    };
+    window.addEventListener('smilecheck:filter-dentist', filterDentistHandler);
+    return () => window.removeEventListener('smilecheck:filter-dentist', filterDentistHandler);
+  }, []);
+
   // Handler that respects view mode restrictions
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
