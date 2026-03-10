@@ -92,8 +92,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const receiptId = `SC-2026-00${Math.floor(Math.random() * 900 + 100)}`;
 
   const allSteps: BookingStep[] = skipClinic
-    ? ['type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const] : []), 'success']
-    : ['clinic', 'type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const] : []), 'success'];
+    ? ['type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success']
+    : ['clinic', 'type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success'];
 
   const steps = allSteps;
   const visibleSteps = allSteps.filter(s => s !== 'success');
