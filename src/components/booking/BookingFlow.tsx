@@ -627,7 +627,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100% - 57px - 64px)' }}>
           <div className="p-4 pb-8">{content}</div>
         </div>
-        {step !== 'success' && (
+        {step !== 'success' && step !== 'processing' && (
           <div className="flex gap-3 p-4 border-t border-border bg-background">
             {currentIdx === 0 ? (
               <Button variant="outline" className="flex-1 border-border" onClick={onClose}>Cancelar</Button>
