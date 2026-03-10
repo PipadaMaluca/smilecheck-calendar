@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search, TrendingUp } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search, TrendingUp, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
@@ -45,6 +45,7 @@ const TWO_LINE_LABELS: Record<string, [string, string]> = {
 const SECONDARY_NAV_BY_ROLE = {
   patient: [
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
+  { id: 'faturacao', icon: Receipt, label: 'Faturação' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
   { id: 'pesquisa', icon: Search, label: 'Pesquisa' },
@@ -54,6 +55,7 @@ const SECONDARY_NAV_BY_ROLE = {
   { id: 'referencia', icon: FileText, label: 'Carta de Referência' },
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
+  { id: 'faturacao', icon: Receipt, label: 'Faturação' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
   { id: 'pesquisa', icon: Search, label: 'Pesquisa' },
@@ -62,6 +64,7 @@ const SECONDARY_NAV_BY_ROLE = {
   clinic: [
   { id: 'conquistas', icon: Award, label: 'Conquistas' },
   { id: 'estatisticas', icon: BarChart3, label: 'Estatísticas' },
+  { id: 'faturacao', icon: Receipt, label: 'Faturação' },
   { id: 'plano', icon: CreditCard, label: 'Gerir Plano' },
   { id: 'loja', icon: Gift, label: 'Loja de Recompensas' },
   { id: 'pesquisa', icon: Search, label: 'Pesquisa' },

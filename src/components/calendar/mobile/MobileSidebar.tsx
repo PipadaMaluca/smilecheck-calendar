@@ -1,4 +1,4 @@
-import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart } from 'lucide-react';
+import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { UserRole, ViewMode } from '@/types/calendar';
@@ -118,9 +118,9 @@ export function MobileSidebar({
         {userRole === 'patient' &&
         <>
             <MenuSection>
-              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={Heart} label="Saúde" onClick={() => {onClose();onNavigate?.('saude');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
+              <MenuItem icon={Receipt} label="Faturação" onClick={() => {onClose();onNavigate?.('faturacao');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
@@ -137,12 +137,11 @@ export function MobileSidebar({
         {userRole === 'dentist' &&
         <>
             <MenuSection>
-
-              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={FilePlus} label="Prescrever Receita" onClick={() => {onClose();onPrescribe?.();}} />
               <MenuItem icon={FileText} label="Carta de Referência" onClick={() => {onClose();onNavigate?.('referencia');}} />
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
+              <MenuItem icon={Receipt} label="Faturação" onClick={() => {onClose();onNavigate?.('faturacao');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
@@ -159,11 +158,9 @@ export function MobileSidebar({
         {userRole === 'clinic' &&
         <>
             <MenuSection>
-              
-
-              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
+              <MenuItem icon={Receipt} label="Faturação" onClick={() => {onClose();onNavigate?.('faturacao');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />

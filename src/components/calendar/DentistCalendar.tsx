@@ -26,6 +26,7 @@ import { RankingsView } from '@/components/rankings/RankingsView';
 import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { BillingView } from '@/components/billing/BillingView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { UnifiedSearch } from '@/components/search/UnifiedSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
@@ -418,6 +419,8 @@ export function DentistCalendar() {
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />
+        ) : activeTab === 'faturacao' ? (
+          <BillingView userRole="dentist" onNavigate={handleTabChange} />
         ) : activeTab === 'contestacao' ? (
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (

@@ -36,6 +36,7 @@ import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { BillingView } from '@/components/billing/BillingView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { UnifiedSearch } from '@/components/search/UnifiedSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
@@ -946,6 +947,13 @@ export function DesktopCalendarView() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader('Loja de Recompensas')}
             <div className="flex-1 overflow-y-auto"><RewardsStoreView userRole={activeRole} /></div>
+          </div>);
+
+      case 'faturacao':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader(activeRole === 'patient' ? 'Pagamentos e Faturação' : activeRole === 'clinic' ? 'Faturação da Clínica' : 'Faturação')}
+            <div className="flex-1 overflow-y-auto"><BillingView userRole={activeRole} onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
           </div>);
 
 

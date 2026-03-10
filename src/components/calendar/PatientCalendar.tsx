@@ -20,6 +20,7 @@ import { EditProfileView } from '@/components/profile/EditProfileView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { BillingView } from '@/components/billing/BillingView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
@@ -266,6 +267,8 @@ export function PatientCalendar() {
           />
         ) : activeTab === 'pontuacoes' ? (
           <div className="px-0"><PontuacoesView userRole="patient" onNavigate={handleTabChange} /></div>
+        ) : activeTab === 'faturacao' ? (
+          <BillingView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'contestacao' ? (
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (
