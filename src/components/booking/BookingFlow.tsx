@@ -644,7 +644,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             ) : step === 'payment' ? (
               <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-                Pagar €{totalPrice}
+                Pagar €{finalPrice.toFixed(2)}
               </Button>
             ) : (
               <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
