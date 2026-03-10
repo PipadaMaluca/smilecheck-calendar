@@ -267,6 +267,8 @@ export function PatientCalendar() {
           />
         ) : activeTab === 'pontuacoes' ? (
           <div className="px-0"><PontuacoesView userRole="patient" onNavigate={handleTabChange} /></div>
+        ) : activeTab === 'faturacao' ? (
+          <BillingView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'contestacao' ? (
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (

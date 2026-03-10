@@ -407,6 +407,8 @@ export function ClinicCalendar() {
         />
       ) : activeTab === 'estatisticas' ? (
         <StatisticsView />
+      ) : activeTab === 'faturacao' ? (
+        <BillingView userRole="clinic" onNavigate={handleTabChange} />
       ) : activeTab === 'contestacao' ? (
         <ContestationView onBack={() => setActiveTab('home')} />
       ) : (

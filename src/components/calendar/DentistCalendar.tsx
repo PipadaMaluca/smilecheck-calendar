@@ -419,6 +419,8 @@ export function DentistCalendar() {
           />
         ) : activeTab === 'estatisticas' ? (
           <StatisticsView />
+        ) : activeTab === 'faturacao' ? (
+          <BillingView userRole="dentist" onNavigate={handleTabChange} />
         ) : activeTab === 'contestacao' ? (
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (
