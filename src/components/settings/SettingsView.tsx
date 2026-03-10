@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen
+  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
