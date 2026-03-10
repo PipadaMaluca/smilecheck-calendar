@@ -949,6 +949,13 @@ export function DesktopCalendarView() {
             <div className="flex-1 overflow-y-auto"><RewardsStoreView userRole={activeRole} /></div>
           </div>);
 
+      case 'faturacao':
+        return (
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {renderStandardHeader(activeRole === 'patient' ? 'Pagamentos e Faturação' : activeRole === 'clinic' ? 'Faturação da Clínica' : 'Faturação')}
+            <div className="flex-1 overflow-y-auto"><BillingView userRole={activeRole} onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
+          </div>);
+
 
       case 'favoritos':
       case 'pesquisa':
