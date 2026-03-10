@@ -565,12 +565,13 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       case 'datetime': return renderDateTimeStep();
       case 'confirm': return renderConfirmStep();
       case 'payment': return renderPaymentStep();
+      case 'processing': return renderProcessing();
       case 'success': return renderSuccess();
     }
   };
 
   const renderButtons = () => {
-    if (step === 'success') return null;
+    if (step === 'success' || step === 'processing') return null;
     return (
       <div className="flex gap-3 pt-4">
         {currentIdx === 0 ? (
