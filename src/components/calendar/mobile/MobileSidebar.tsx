@@ -158,11 +158,9 @@ export function MobileSidebar({
         {userRole === 'clinic' &&
         <>
             <MenuSection>
-              
-
-              {/* Same order as desktop sidebar, excluding bottom nav items */}
               <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
               <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
+              <MenuItem icon={Receipt} label="Faturação" onClick={() => {onClose();onNavigate?.('faturacao');}} />
               <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
