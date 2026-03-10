@@ -130,11 +130,21 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       case 'confirm': return true;
       case 'payment': {
         if (!acceptTerms || !paymentMethod) return false;
-        if (paymentMethod === 'card') return cardNumber.length >= 16 && cardExpiry.length >= 4 && cardCvv.length >= 3;
+        if (paymentMethod === 'card' && !useSavedCard) return cardNumber.length >= 16 && cardExpiry.length >= 4 && cardCvv.length >= 3;
         if (paymentMethod === 'mbway') return mbwayPhone.length >= 9;
         return true;
       }
       default: return true;
+    }
+  };
+
+  const handleApplyPromo = () => {
+    if (promoCode.toLowerCase() === 'smile20') {
+      setPromoApplied(true);
+      setDiscount(Math.round(basePrice * 0.2 * 100) / 100);
+    } else {
+      setPromoApplied(false);
+      setDiscount(0);
     }
   };
 
