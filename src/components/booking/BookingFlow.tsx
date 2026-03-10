@@ -160,7 +160,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   };
 
   const handlePay = () => {
-    setStep('success');
+    setStep('processing');
+    setTimeout(() => {
+      setPaymentFailed(false);
+      setStep('success');
+    }, 2000);
   };
 
   const availableSlots = ALL_SLOTS.filter(s => {
