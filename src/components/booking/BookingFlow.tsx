@@ -24,7 +24,7 @@ interface BookingFlowProps {
   initialDayLabel?: string;
 }
 
-type BookingStep = 'clinic' | 'type' | 'datetime' | 'confirm' | 'payment' | 'success';
+type BookingStep = 'clinic' | 'type' | 'datetime' | 'confirm' | 'payment' | 'processing' | 'success';
 
 interface BookingData {
   clinic: DentistSearchResult['clinics'][0] | null;
