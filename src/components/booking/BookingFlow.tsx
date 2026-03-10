@@ -106,9 +106,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   })();
 
-  const totalPrice = data.consultationType === 'teleconsulta'
+  const basePrice = data.consultationType === 'teleconsulta'
     ? dentist.teleconsultaPrice + (data.isUrgent ? 5 : 0)
     : 0;
+  const finalPrice = Math.max(0, basePrice - discount);
+  const totalPrice = basePrice;
 
   const goNext = () => {
     const idx = steps.indexOf(step);
