@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { 
   X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight,
-  AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Clock
+  AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Clock,
+  Download, Loader2, Star, Landmark, Coins, Tag
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,6 +12,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { generateReceipt } from '@/components/billing/billingMockData';
+import { toast } from 'sonner';
 
 interface BookingFlowProps {
   dentist: DentistSearchResult;
