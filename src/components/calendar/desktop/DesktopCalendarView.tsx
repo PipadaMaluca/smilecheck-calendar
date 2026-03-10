@@ -36,6 +36,7 @@ import { PontuacoesView } from '@/components/pontuacoes/PontuacoesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { AchievementsView } from '@/components/achievements/AchievementsView';
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { BillingView } from '@/components/billing/BillingView';
 import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { UnifiedSearch } from '@/components/search/UnifiedSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
