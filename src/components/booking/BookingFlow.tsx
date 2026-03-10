@@ -357,37 +357,64 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <h3 className="text-lg font-semibold text-foreground">Pagamento</h3>
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
-        <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Teleconsulta</span>
-          <span className="text-foreground">€{dentist.teleconsultaPrice}</span>
-        </div>
-        {data.isUrgent && (
+        <p className="text-sm font-medium text-foreground">Teleconsulta com {dentist.name}</p>
+        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString('pt-PT')} ⏰ {data.time} (30 min)</p>
+        <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
+        <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Taxa urgência</span>
-            <span className="text-foreground">€5</span>
+            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-foreground">€{dentist.teleconsultaPrice}</span>
           </div>
-        )}
-        <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold">
-          <span className="text-foreground">Total</span>
-          <span className="text-primary">€{totalPrice}</span>
+          {data.isUrgent && (
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Taxa urgência</span>
+              <span className="text-foreground">€5</span>
+            </div>
+          )}
+          {discount > 0 && (
+            <div className="flex justify-between text-sm text-emerald-400">
+              <span>Desconto (-20%)</span>
+              <span>-€{discount.toFixed(2)}</span>
+            </div>
+          )}
+          <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold">
+            <span className="text-foreground">Total</span>
+            <span className="text-primary">€{finalPrice.toFixed(2)}</span>
+          </div>
         </div>
+      </div>
+
+      {/* Saved cards */}
+      <div className="space-y-2">
+        <p className="text-xs font-medium text-muted-foreground">Cartões guardados</p>
+        <button
+          onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
+          className={cn(
+            'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
+            paymentMethod === 'card' && useSavedCard ? 'border-primary bg-primary/10 ring-1 ring-primary' : 'border-border bg-secondary hover:border-muted-foreground/40'
+          )}
+        >
+          <CreditCard className="w-4 h-4" />
+          <span className="text-sm font-medium text-foreground">Visa ****4532</span>
+          <Star className="w-3 h-3 text-amber-400 ml-auto" />
+        </button>
       </div>
 
       {/* Payment methods */}
       <div className="space-y-2">
+        <p className="text-xs font-medium text-muted-foreground">Outro método</p>
         {[
-          { id: 'apple', label: 'Apple Pay', icon: <Smartphone className="w-4 h-4" /> },
-          { id: 'google', label: 'Google Pay', icon: <Smartphone className="w-4 h-4" /> },
-          { id: 'card', label: 'Cartão de Crédito', icon: <CreditCard className="w-4 h-4" /> },
-          { id: 'paypal', label: 'PayPal', icon: <CreditCard className="w-4 h-4" /> },
+          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" /> },
           { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" /> },
+          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" /> },
+          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" /> },
         ].map(m => (
           <button
             key={m.id}
-            onClick={() => setPaymentMethod(m.id)}
+            onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
             className={cn(
               'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
-              paymentMethod === m.id
+              paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
                 ? 'border-primary bg-primary/10 ring-1 ring-primary'
                 : 'border-border bg-secondary hover:border-muted-foreground/40'
             )}
@@ -399,22 +426,57 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       </div>
 
       {/* Card fields */}
-      {paymentMethod === 'card' && (
+      {paymentMethod === 'card' && !useSavedCard && (
         <div className="space-y-3 animate-fade-in">
           <Input placeholder="Número do cartão" value={cardNumber} onChange={e => setCardNumber(e.target.value)} maxLength={19} />
           <div className="flex gap-3">
             <Input placeholder="MM/AA" value={cardExpiry} onChange={e => setCardExpiry(e.target.value)} maxLength={5} className="flex-1" />
             <Input placeholder="CVV" value={cardCvv} onChange={e => setCardCvv(e.target.value)} maxLength={4} className="w-24" />
           </div>
+          <Input placeholder="Nome no cartão" value={cardName} onChange={e => setCardName(e.target.value)} />
+          <label className="flex items-center gap-2 cursor-pointer">
+            <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
+            <span className="text-xs text-muted-foreground">Guardar cartão para futuras consultas</span>
+          </label>
         </div>
       )}
 
-      {/* MB WAY field */}
+      {/* MB WAY */}
       {paymentMethod === 'mbway' && (
-        <div className="animate-fade-in">
-          <Input placeholder="Número de telemóvel" value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={12} />
+        <div className="animate-fade-in space-y-2">
+          <Input placeholder="Número de telemóvel" value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={16} />
+          <p className="text-xs text-muted-foreground">Confirmar no telemóvel</p>
         </div>
       )}
+
+      {/* Multibanco */}
+      {paymentMethod === 'multibanco' && (
+        <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Entidade</span><span className="text-foreground font-mono">21 312</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Referência</span><span className="text-foreground font-mono">123 456 789</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Valor</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
+          <p className="text-xs text-muted-foreground">Válido durante 24h</p>
+        </div>
+      )}
+
+      {/* Points */}
+      {paymentMethod === 'pontos' && (
+        <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
+          <p className="text-sm text-foreground">Usar {Math.round(finalPrice * 10)} pontos (= €{finalPrice.toFixed(2)})</p>
+          <p className="text-xs text-muted-foreground">Saldo após: {850 - Math.round(finalPrice * 10)} pts</p>
+        </div>
+      )}
+
+      {/* Promo code */}
+      <div className="space-y-2">
+        <p className="text-xs font-medium text-muted-foreground flex items-center gap-1"><Tag className="w-3 h-3" /> Código promocional</p>
+        <div className="flex gap-2">
+          <Input placeholder="Código" value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
+          <Button size="sm" variant="outline" onClick={handleApplyPromo}>Aplicar</Button>
+        </div>
+        {promoApplied === true && <p className="text-xs text-emerald-400">✅ -20% aplicado! Total: €{finalPrice.toFixed(2)}</p>}
+        {promoApplied === false && <p className="text-xs text-destructive">❌ Código inválido</p>}
+      </div>
 
       {/* Terms */}
       <label className="flex items-center gap-3 cursor-pointer">
@@ -424,46 +486,75 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     </div>
   );
 
+  const renderProcessing = () => (
+    <div className="flex flex-col items-center text-center space-y-5 py-16 animate-fade-in">
+      <Loader2 className="w-12 h-12 text-primary animate-spin" />
+      <p className="text-sm text-muted-foreground">A processar pagamento...</p>
+    </div>
+  );
+
   const renderSuccess = () => (
     <div className="flex flex-col items-center text-center space-y-5 py-8 animate-fade-in">
-      <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center">
-        <Check className="w-8 h-8 text-emerald-500" />
-      </div>
-      <div>
-        <h3 className="text-xl font-bold text-foreground">Consulta Agendada!</h3>
-        <p className="text-sm text-muted-foreground mt-1">Receberá confirmação por email</p>
-        <p className="text-xs text-muted-foreground mt-0.5">Lembrete 24h e 1h antes</p>
-      </div>
-      <div className="w-full space-y-2 text-left">
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">{initials}</div>
-          <span className="text-sm font-semibold text-foreground">{dentist.name}</span>
-        </div>
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-          <MapPin className="w-4 h-4 text-primary shrink-0" />
-          <span className="text-sm text-foreground">{data.clinic?.name}</span>
-        </div>
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-          <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
-          <span className="text-sm text-foreground">
-            {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
-          </span>
-        </div>
-      </div>
-      <div className="flex gap-3 w-full pt-2">
-        <Button variant="outline" className="flex-1 border-border" onClick={() => {
-          if (onGoHome) {
-            onGoHome();
-          } else {
-            onComplete();
-          }
-        }}>
-          Voltar ao Início
-        </Button>
-        <Button className="flex-1" onClick={onClose}>
-          Ver Detalhes
-        </Button>
-      </div>
+      {paymentFailed ? (
+        <>
+          <div className="w-16 h-16 rounded-full bg-destructive/20 flex items-center justify-center">
+            <X className="w-8 h-8 text-destructive" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-foreground">Pagamento não processado</h3>
+            <p className="text-sm text-muted-foreground mt-1">Tente novamente ou altere o método de pagamento</p>
+          </div>
+          <div className="flex gap-3 w-full pt-2">
+            <Button variant="outline" className="flex-1" onClick={() => setStep('payment')}>Alterar método</Button>
+            <Button className="flex-1" onClick={handlePay}>Tentar novamente</Button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center">
+            <Check className="w-8 h-8 text-emerald-500" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-foreground">{data.consultationType === 'teleconsulta' ? 'Pagamento confirmado!' : 'Consulta Agendada!'}</h3>
+            <p className="text-sm text-muted-foreground mt-1">Receberá confirmação por email</p>
+          </div>
+          {data.consultationType === 'teleconsulta' && (
+            <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
+              <p className="font-medium text-foreground text-sm">Recibo</p>
+              <p>Nº {receiptId}</p>
+              <p>{data.date?.toLocaleDateString('pt-PT')} — €{finalPrice.toFixed(2)}</p>
+              <p>Método: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
+            </div>
+          )}
+          <div className="w-full space-y-2 text-left">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
+              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">{initials}</div>
+              <span className="text-sm font-semibold text-foreground">{dentist.name}</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
+              <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-sm text-foreground">
+                {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-full pt-2">
+            {data.consultationType === 'teleconsulta' && (
+              <Button variant="outline" className="w-full gap-2" onClick={() => { generateReceipt('142', `Teleconsulta ${dentist.name}`, finalPrice, 'Visa ****4532'); toast.success('Recibo descarregado'); }}>
+                <Download className="w-4 h-4" /> Descarregar Recibo
+              </Button>
+            )}
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1 border-border" onClick={() => { onGoHome ? onGoHome() : onComplete(); }}>
+                Voltar ao Início
+              </Button>
+              <Button className="flex-1" onClick={onClose}>
+                Ver na Agenda
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 
