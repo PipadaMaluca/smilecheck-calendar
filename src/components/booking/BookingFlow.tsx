@@ -602,7 +602,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const content = (
     <div className="space-y-4">
-      {step !== 'success' && (
+      {step !== 'success' && step !== 'processing' && (
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Passo {currentIdx + 1} de {visibleSteps.length}</span>
