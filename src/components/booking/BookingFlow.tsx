@@ -81,7 +81,15 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
-  const [mbwayPhone, setMbwayPhone] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [saveCard, setSaveCard] = useState(false);
+  const [mbwayPhone, setMbwayPhone] = useState('+351 912 000 001');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoApplied, setPromoApplied] = useState<boolean | null>(null);
+  const [discount, setDiscount] = useState(0);
+  const [useSavedCard, setUseSavedCard] = useState(true);
+  const [paymentFailed, setPaymentFailed] = useState(false);
+  const receiptId = `SC-2026-00${Math.floor(Math.random() * 900 + 100)}`;
 
   const allSteps: BookingStep[] = skipClinic
     ? ['type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const] : []), 'success']
