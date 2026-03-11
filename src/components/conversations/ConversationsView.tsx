@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2 } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -182,6 +182,33 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
   const isMobile = useIsMobile();
 
   const conversations = mockConversations[userRole] || [];
+
+  // Listen for open-chat events (e.g. from "Enviar Mensagem" in consultation detail)
+  React.useEffect(() => {
+    const handler = (e: Event) => {
+      const dentistName = (e as CustomEvent<string>).detail;
+      if (dentistName) {
+        const conv = conversations.find(c => c.name === dentistName);
+        if (conv) {
+          setSelectedConversation(conv);
+        } else {
+          // Create a temporary conversation
+          setSelectedConversation({
+            id: `new-${Date.now()}`,
+            name: dentistName,
+            type: 'Dentista',
+            lastMessage: '',
+            lastMessageTime: 'Agora',
+            unread: 0,
+            messages: [],
+          });
+        }
+      }
+    };
+    window.addEventListener('smilecheck:open-chat', handler);
+    return () => window.removeEventListener('smilecheck:open-chat', handler);
+  }, [conversations]);
+
   const filtered = searchQuery ?
   conversations.filter((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase())) :
   conversations;

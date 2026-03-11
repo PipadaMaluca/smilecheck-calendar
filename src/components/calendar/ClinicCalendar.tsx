@@ -6,6 +6,7 @@ import { TimeSlotView } from './TimeSlotView';
 import { CategoryLegend } from './CategoryLegend';
 import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
+import { MobileConsultationDetail } from './MobileConsultationDetail';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
@@ -281,22 +282,22 @@ export function ClinicCalendar() {
           backgroundSize: '60%',
         }}
       />
-      {/* Mobile Header with View Mode Selector */}
+      {/* Mobile Header with View Mode Selector - hide filters when viewing consultation detail */}
       <MobileHeader 
         onMenuClick={() => setSidebarOpen(true)}
-        {...(activeTab === 'agenda' ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
+        {...(activeTab === 'agenda' && !selectedConsultation ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
         userRole="clinic"
       />
 
       {showFullHistory ? (
         <FullHistoryView userRole="clinic" onBack={() => setShowFullHistory(false)} />
       ) : selectedConsultation ? (
-        <EditConsultationModal
+        <MobileConsultationDetail
           consultation={selectedConsultation}
-          isOpen={true}
           onClose={() => setSelectedConsultation(null)}
-          onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
-          onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
+          onNavigate={(tab) => { setSelectedConsultation(null); handleTabChange(tab); }}
+          onCopy={(c) => { console.log('Copy:', c); }}
+          onViewDossier={(id) => { setSelectedConsultation(null); setViewPatientDossier(id); }}
         />
       ) : activeTab === 'home' ? (
         <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />

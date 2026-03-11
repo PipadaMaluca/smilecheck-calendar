@@ -384,7 +384,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-4">
         {renderStatsCards()}
 
         {/* Dentistas a Trabalhar Hoje — clinic only */}
