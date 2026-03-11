@@ -42,33 +42,14 @@ export const savedCards = [
 ];
 
 export function generateReceipt(id: string, description: string, amount: number, method: string) {
-  const receiptContent = `
-RECIBO — SmileCheck
-═══════════════════════════════════
-
-Nº: SC-2026-${id.padStart(5, '0')}
-Data: ${new Date().toLocaleDateString('pt-PT')}
-
-Serviço: ${description}
-
-Valor (s/ IVA): €${(amount / 1.23).toFixed(2)}
-IVA (23%): €${(amount - amount / 1.23).toFixed(2)}
-Total: €${amount.toFixed(2)}
-
-Método: ${method}
-
-═══════════════════════════════════
-SmileCheck, Lda.
-NIF: 509 000 000
-Rua da Saúde, 100 · 1000-001 Lisboa
-info@smilecheck.pt
-  `.trim();
-
-  const blob = new Blob([receiptContent], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `recibo-SC-2026-${id.padStart(5, '0')}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
+  // Dynamic import to avoid loading jsPDF on initial load
+  import('./receiptPdf').then(({ downloadReceipt }) => {
+    downloadReceipt({
+      id: `SC-2026-${id.padStart(5, '0')}`,
+      date: new Date().toLocaleDateString('pt-PT'),
+      description,
+      amount,
+      method,
+    });
+  });
 }
