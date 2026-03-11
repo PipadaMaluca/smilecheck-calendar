@@ -327,24 +327,24 @@ export function DentistCalendar() {
       />
       
       <div className="relative z-10 w-full max-w-full">
-        {/* Mobile Header with View Mode Selector */}
+        {/* Mobile Header with View Mode Selector - hide filters when viewing consultation detail */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
-          {...(activeTab === 'agenda' ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
+          {...(activeTab === 'agenda' && !selectedConsultation ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
           userRole="dentist"
-          showNewConsultation={activeTab === 'agenda'}
+          showNewConsultation={activeTab === 'agenda' && !selectedConsultation}
           onNewConsultation={() => setSlotCreation({ date: selectedDate, time: '09:00' })}
         />
 
         {showFullHistory ? (
           <FullHistoryView userRole="dentist" onBack={() => setShowFullHistory(false)} />
         ) : selectedConsultation ? (
-          <EditConsultationModal
+          <MobileConsultationDetail
             consultation={selectedConsultation}
-            isOpen={true}
             onClose={() => setSelectedConsultation(null)}
-            onSave={(updated) => { console.log('Saved:', updated); setSelectedConsultation(null); }}
-            onCancel={(c) => { console.log('Cancelled:', c); setSelectedConsultation(null); }}
+            onNavigate={(tab) => { setSelectedConsultation(null); handleTabChange(tab); }}
+            onCopy={(c) => { console.log('Copy:', c); }}
+            onViewDossier={(id) => { setSelectedConsultation(null); setViewPatientDossier(id); }}
           />
         ) : activeTab === 'home' ? (
           <DashboardView userRole="dentist" onNavigate={(tab) => {
