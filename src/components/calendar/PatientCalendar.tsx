@@ -158,11 +158,11 @@ export function PatientCalendar() {
       />
       
       <div className="relative z-10">
-        {/* Mobile Header */}
+        {/* Mobile Header - hide "Nova Consulta" button when viewing detail */}
         <MobileHeader 
           onMenuClick={() => setSidebarOpen(true)}
           userRole="patient"
-          showNewConsultation={activeTab === 'consultas'}
+          showNewConsultation={activeTab === 'consultas' && !selectedConsultation}
           onNewConsultation={() => { setShowTriage(true); setActiveTab('consultas'); }}
         />
 
@@ -175,6 +175,12 @@ export function PatientCalendar() {
             consultation={selectedConsultation}
             isOpen={true}
             onClose={() => setSelectedConsultation(null)}
+            onNavigateToChat={(dentistName) => {
+              setSelectedConsultation(null);
+              // Set initial chat target for ConversationsView
+              window.dispatchEvent(new CustomEvent('smilecheck:open-chat', { detail: dentistName }));
+              handleTabChange('conversas');
+            }}
           />
         ) : activeTab === 'home' ? (
           <DashboardView userRole="patient" onNavigate={handleTabChange} onStartTriage={() => setShowTriage(true)} onViewFullHistory={() => setShowFullHistory(true)} />
