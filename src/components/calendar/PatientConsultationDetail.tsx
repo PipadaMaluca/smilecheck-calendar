@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Calendar, Clock, MapPin, Video, MessageCircle, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -15,11 +14,13 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { DENTIST_AVATAR_PHOTOS, getDentistInitials } from '@/lib/avatarUtils';
+import { RescheduleModal } from './RescheduleModal';
 
 interface PatientConsultationDetailProps {
   consultation: Consultation;
   isOpen: boolean;
   onClose: () => void;
+  onNavigateToChat?: (dentistName: string) => void;
 }
 
 const MOCK_HISTORY = [
@@ -35,12 +36,14 @@ const CANCELLATION_REASONS = [
   'Outro motivo',
 ];
 
-export function PatientConsultationDetail({ consultation, isOpen, onClose }: PatientConsultationDetailProps) {
+export function PatientConsultationDetail({ consultation, isOpen, onClose, onNavigateToChat }: PatientConsultationDetailProps) {
   const startTeleconsulta = useTeleconsulta();
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showReschedule, setShowReschedule] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [cancelNotes, setCancelNotes] = useState('');
   const [cancelled, setCancelled] = useState(false);
+  const [rescheduleCount] = useState(0);
 
   if (!isOpen) return null;
 
@@ -51,6 +54,8 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const dentistAvatar = DENTIST_AVATAR_PHOTOS[consultation.dentist.id];
+  const maxReschedules = 2;
+  const canReschedule = rescheduleCount < maxReschedules;
 
   const handleConfirmCancel = () => {
     setCancelled(true);
@@ -59,6 +64,12 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
       setCancelled(false);
       onClose();
     }, 1500);
+  };
+
+  const handleSendMessage = () => {
+    if (onNavigateToChat) {
+      onNavigateToChat(consultation.dentist.name);
+    }
   };
 
   return (
@@ -189,17 +200,30 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
                 <Button
                   variant="secondary"
                   className="flex flex-col gap-1 h-14 text-xs px-2"
+                  onClick={handleSendMessage}
                 >
                   <MessageCircle className="w-4 h-4" />
                   Enviar Mensagem
                 </Button>
-                <Button
-                  variant="secondary"
-                  className="flex flex-col gap-1 h-14 text-xs px-2"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                  Reagendar
-                </Button>
+                <div className="relative">
+                  <Button
+                    variant="secondary"
+                    className="flex flex-col gap-1 h-14 text-xs px-2 w-full"
+                    disabled={!canReschedule}
+                    onClick={() => setShowReschedule(true)}
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Reagendar
+                  </Button>
+                  {rescheduleCount > 0 && (
+                    <span className="absolute -top-1 -right-1 text-[9px] bg-muted px-1 rounded text-muted-foreground">
+                      {rescheduleCount}/{maxReschedules}
+                    </span>
+                  )}
+                  {!canReschedule && (
+                    <p className="text-[9px] text-destructive mt-0.5 text-center">Limite atingido</p>
+                  )}
+                </div>
                 <Button
                   variant="outline"
                   className="flex flex-col gap-1 h-14 text-xs px-2 border-destructive/30 text-destructive hover:bg-destructive/10"
@@ -213,6 +237,14 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose }: Pat
 
           </div>
       </div>
+
+      {/* ── Reschedule Modal ── */}
+      <RescheduleModal
+        consultation={consultation}
+        isOpen={showReschedule}
+        onClose={() => setShowReschedule(false)}
+        rescheduleCount={rescheduleCount}
+      />
 
       {/* ── Cancellation Modal ── */}
       <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
