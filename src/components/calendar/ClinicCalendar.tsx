@@ -6,6 +6,7 @@ import { TimeSlotView } from './TimeSlotView';
 import { CategoryLegend } from './CategoryLegend';
 import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
+import { MobileConsultationDetail } from './MobileConsultationDetail';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';

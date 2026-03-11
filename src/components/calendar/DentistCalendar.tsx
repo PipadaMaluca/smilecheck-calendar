@@ -8,6 +8,7 @@ import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
 import { CategoryLegend } from './CategoryLegend';
 import { DynamicDaySummary } from './DynamicDaySummary';
 import { EditConsultationModal } from './EditConsultationModal';
+import { MobileConsultationDetail } from './MobileConsultationDetail';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from './AgendaSettingsModal';
 import { TimeBlockModal, TimeBlock } from './TimeBlockModal';
 import { BottomNavigation } from './BottomNavigation';
