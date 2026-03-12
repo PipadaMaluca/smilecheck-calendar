@@ -425,19 +425,85 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         ))}
       </div>
 
-      {/* Card fields */}
+      {/* Card fields — inline expandable form */}
       {paymentMethod === 'card' && !useSavedCard && (
-        <div className="space-y-3 animate-fade-in">
-          <Input placeholder="Número do cartão" value={cardNumber} onChange={e => setCardNumber(e.target.value)} maxLength={19} />
-          <div className="flex gap-3">
-            <Input placeholder="MM/AA" value={cardExpiry} onChange={e => setCardExpiry(e.target.value)} maxLength={5} className="flex-1" />
-            <Input placeholder="CVV" value={cardCvv} onChange={e => setCardCvv(e.target.value)} maxLength={4} className="w-24" />
+        <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30">
+          <div className="relative">
+            <Input
+              placeholder="Número do cartão"
+              value={cardNumber}
+              onChange={e => {
+                const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
+                const formatted = raw.replace(/(.{4})/g, '$1 ').trim();
+                setCardNumber(formatted);
+              }}
+              maxLength={19}
+              className="pr-12"
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+              {cardNumber.replace(/\s/g, '').startsWith('4') ? (
+                <span className="text-xs font-bold text-blue-400">VISA</span>
+              ) : cardNumber.replace(/\s/g, '').startsWith('5') ? (
+                <span className="text-xs font-bold text-orange-400">MC</span>
+              ) : cardNumber.replace(/\s/g, '').startsWith('3') ? (
+                <span className="text-xs font-bold text-blue-300">AMEX</span>
+              ) : (
+                <CreditCard className="w-4 h-4" />
+              )}
+            </div>
           </div>
-          <Input placeholder="Nome no cartão" value={cardName} onChange={e => setCardName(e.target.value)} />
+          {cardNumber.length > 0 && cardNumber.replace(/\s/g, '').length < 16 && (
+            <p className="text-xs text-destructive">Número de cartão deve ter 16 dígitos</p>
+          )}
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <Input
+                placeholder="MM/AA"
+                value={cardExpiry}
+                onChange={e => {
+                  let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                  if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
+                  setCardExpiry(val);
+                }}
+                maxLength={5}
+              />
+              {cardExpiry.length > 0 && cardExpiry.length < 5 && (
+                <p className="text-xs text-destructive mt-1">Formato: MM/AA</p>
+              )}
+            </div>
+            <div className="w-24">
+              <Input
+                placeholder="CVV"
+                value={cardCvv}
+                onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
+                maxLength={3}
+                type="password"
+              />
+              {cardCvv.length > 0 && cardCvv.length < 3 && (
+                <p className="text-xs text-destructive mt-1">3 dígitos</p>
+              )}
+            </div>
+          </div>
+          <Input
+            placeholder="Nome no cartão"
+            value={cardName}
+            onChange={e => setCardName(e.target.value)}
+          />
+          {cardName.length === 0 && cardNumber.length > 0 && (
+            <p className="text-xs text-destructive">Nome obrigatório</p>
+          )}
           <label className="flex items-center gap-2 cursor-pointer">
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
             <span className="text-xs text-muted-foreground">Guardar cartão para futuras consultas</span>
           </label>
+          <div className="flex gap-2 pt-1">
+            <button
+              className="text-xs text-muted-foreground hover:text-foreground"
+              onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
 
