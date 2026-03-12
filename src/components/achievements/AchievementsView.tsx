@@ -127,7 +127,6 @@ export const dentistAchievements: AchievementCategory[] = [
       { id: 'r1', emoji: '🏆', name: 'Top 100', description: 'Entrar no top 100 nacional', points: 30, unlocked: true },
       { id: 'r3', emoji: '🏆', name: 'Nº 1 Clínica', description: '1º lugar numa clínica', points: 40, unlocked: true },
       { id: 'r2', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 75, unlocked: true },
-      { id: 'r4', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
     ],
   },
   {
