@@ -18,6 +18,11 @@ interface PatientBillingViewProps {
 export function PatientBillingView({ initialTab, onNavigate }: PatientBillingViewProps) {
   const [activeTab, setActiveTab] = useState(initialTab || 'resumo');
   const [filter, setFilter] = useState('todos');
+  const [showNewCard, setShowNewCard] = useState(false);
+  const [newCardNumber, setNewCardNumber] = useState('');
+  const [newCardExpiry, setNewCardExpiry] = useState('');
+  const [newCardCvv, setNewCardCvv] = useState('');
+  const [newCardName, setNewCardName] = useState('');
 
   const filtered = filter === 'todos' ? patientPayments
     : patientPayments.filter(p => p.type === filter.replace('teleconsultas', 'teleconsulta').replace('planos', 'plano'));

@@ -130,7 +130,10 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       case 'confirm': return true;
       case 'payment': {
         if (!acceptTerms || !paymentMethod) return false;
-        if (paymentMethod === 'card' && !useSavedCard) return cardNumber.length >= 16 && cardExpiry.length >= 4 && cardCvv.length >= 3;
+        if (paymentMethod === 'card' && !useSavedCard) {
+          const rawNum = cardNumber.replace(/\s/g, '');
+          return rawNum.length === 16 && cardExpiry.length === 5 && cardCvv.length === 3 && cardName.trim().length > 0;
+        }
         if (paymentMethod === 'mbway') return mbwayPhone.length >= 9;
         return true;
       }
