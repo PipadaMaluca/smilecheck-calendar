@@ -391,41 +391,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         <div id="onboarding-dentistas-hoje">
           <Card className="bg-card/80 border-border">
             <CardContent className="p-4">
-              
-
-
-              
-              
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              
             </CardContent>
           </Card>
         </div>

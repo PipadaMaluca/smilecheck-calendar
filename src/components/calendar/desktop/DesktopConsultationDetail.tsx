@@ -1,26 +1,132 @@
-import { X, Video, MapPin, Calendar, Clock, User, Phone, Star, Mail, MessageCircle, FileText, RefreshCw, Check, Edit } from 'lucide-react';
+import { useState } from 'react';
+import { X, Video, MapPin, Calendar, Clock, User, Phone, Star, Mail, MessageCircle, FileText, RefreshCw, Check, Edit, Copy, Ban, Unlock, Pill } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Consultation } from '@/types/calendar';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Consultation, UserRole } from '@/types/calendar';
 import { ConsultationExportDropdown } from '@/components/export/ConsultationExportDropdown';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 interface DesktopConsultationDetailProps {
   consultation: Consultation | null;
   isOpen: boolean;
   onClose: () => void;
+  userRole?: UserRole;
+  onNavigate?: (tab: string) => void;
+  onCopy?: (consultation: Consultation) => void;
+  onViewDossier?: (patientId: string) => void;
 }
 
 export function DesktopConsultationDetail({
   consultation,
   isOpen,
   onClose,
+  userRole = 'dentist',
+  onNavigate,
+  onCopy,
+  onViewDossier,
 }: DesktopConsultationDetailProps) {
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockReason, setBlockReason] = useState('');
+  const [isBlocked, setIsBlocked] = useState(false);
+
   if (!isOpen || !consultation) return null;
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
+  const isDentist = userRole === 'dentist';
+  const isClinic = userRole === 'clinic';
+
+  const handleBlock = () => {
+    setIsBlocked(true);
+    setShowBlockModal(false);
+    setBlockReason('');
+    toast.success(`Paciente bloqueado com sucesso`);
+  };
+
+  const handleUnblock = () => {
+    setIsBlocked(false);
+    toast.success(`Paciente desbloqueado`);
+  };
+
+  const renderActions = () => {
+    if (isDentist) {
+      return (
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3 h-3" /> Copiar Consulta
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('prescrever')}>
+              <Pill className="w-3 h-3" /> Prescrever Receita
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
+              <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('referencia')}>
+              <FileText className="w-3 h-3" /> Recomendar Paciente
+            </Button>
+            <Button variant="outline" className="gap-2 text-xs justify-start">
+              <RefreshCw className="w-3 h-3" /> Reagendar Consulta
+            </Button>
+            {isBlocked ? (
+              <Button variant="outline" className="gap-2 text-xs justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+                <Unlock className="w-3 h-3" /> Desbloquear
+              </Button>
+            ) : (
+              <Button variant="outline" className="gap-2 text-xs justify-start text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3 h-3" /> Bloquear Paciente
+              </Button>
+            )}
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3 h-3" /> Ver Dossier
+            </Button>
+            <Button variant="outline" className="gap-2 text-xs justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+              <X className="w-3 h-3" /> Cancelar Consulta
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    if (isClinic) {
+      return (
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3 h-3" /> Copiar Consulta
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
+              <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+            </Button>
+            <Button variant="outline" className="gap-2 text-xs justify-start">
+              <RefreshCw className="w-3 h-3" /> Reagendar Consulta
+            </Button>
+            {isBlocked ? (
+              <Button variant="outline" className="gap-2 text-xs justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+                <Unlock className="w-3 h-3" /> Desbloquear
+              </Button>
+            ) : (
+              <Button variant="outline" className="gap-2 text-xs justify-start text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3 h-3" /> Bloquear Paciente
+              </Button>
+            )}
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3 h-3" /> Ver Dossier
+            </Button>
+            <Button variant="outline" className="gap-2 text-xs justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+              <X className="w-3 h-3" /> Cancelar Consulta
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <>
@@ -187,34 +293,7 @@ export function DesktopConsultationDetail({
 
         {/* Actions Footer */}
         <div className="p-4 border-t border-border space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            <Button variant="secondary" className="gap-2">
-              <MessageCircle className="w-4 h-4" />
-              Enviar Mensagem
-            </Button>
-            <Button variant="secondary" className="gap-2">
-              <Phone className="w-4 h-4" />
-              Ligar
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2">
-            <Button variant="outline" className="gap-2 text-xs">
-              <Edit className="w-3 h-3" />
-              Editar
-            </Button>
-            <Button variant="outline" className="gap-2 text-xs">
-              <RefreshCw className="w-3 h-3" />
-              Reagendar
-            </Button>
-            <Button
-              variant="outline"
-              className="gap-2 text-xs border-destructive/30 text-destructive hover:bg-destructive/10"
-            >
-              <X className="w-3 h-3" />
-              Cancelar
-            </Button>
-          </div>
+          {renderActions()}
 
           {isTeleconsulta && (
             <Button className="w-full gap-2 bg-orange-500 hover:bg-orange-600 text-white">
@@ -229,6 +308,34 @@ export function DesktopConsultationDetail({
           </Button>
         </div>
       </div>
+
+      {/* Block Patient Modal */}
+      <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
+        <DialogContent className="sm:max-w-md z-[70]">
+          <DialogHeader>
+            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogDescription>
+              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <Textarea
+                value={blockReason}
+                onChange={(e) => setBlockReason(e.target.value)}
+                placeholder="Indique o motivo do bloqueio..."
+                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <div className="flex gap-2">
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
