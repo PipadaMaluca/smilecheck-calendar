@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Building2,
   Calendar,
@@ -15,18 +16,25 @@ import {
   User,
   Users,
   Video,
+  MessageCircle,
+  FileText,
+  Ban,
+  Unlock,
 } from 'lucide-react';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { LEVEL_CONFIG, PLAN_CONFIG } from '@/data/mockDentistSearch';
 import { getPatientInitials } from '@/lib/avatarUtils';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
+import { toast } from 'sonner';
 
 const PATIENT_DATA = {
   name: 'João Silva',
@@ -100,284 +108,412 @@ export function PatientProfileBody({
   userRole,
   isMobile,
   onEditProfile,
+  viewerRole,
+  onNavigate,
 }: {
   userRole: UserRole;
   isMobile: boolean;
   onEditProfile: () => void;
+  viewerRole?: UserRole;
+  onNavigate?: (tab: string) => void;
 }) {
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockReason, setBlockReason] = useState('');
+  const [isBlocked, setIsBlocked] = useState(false);
+
   const data = PATIENT_DATA;
   const levelCfg = LEVEL_CONFIG[data.level];
   const planCfg = PLAN_CONFIG[data.plan];
   const initials = getPatientInitials(data.name);
 
-  return (
-    <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6">
-      {/* Header */}
-      <SectionCard className="p-5 md:p-6">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-5">
-          <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
-            {initials}
-          </div>
+  // Determine effective viewer: if viewerRole is provided use it, otherwise it's the patient viewing own profile
+  const viewer = viewerRole || userRole;
+  const isOwnProfile = viewer === 'patient';
+  const isDentistViewing = viewer === 'dentist';
+  const isClinicViewing = viewer === 'clinic';
 
-          <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl font-bold text-foreground">{data.name}</h3>
-            <p className="text-sm text-muted-foreground mt-1">{data.subtitle}</p>
+  const handleBlock = () => {
+    setIsBlocked(true);
+    setShowBlockModal(false);
+    setBlockReason('');
+    toast.success(`Paciente bloqueado com sucesso`);
+  };
 
-            <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
-              <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                <span className="text-sm font-bold">{data.rating}</span>
-                <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
-              </div>
-            </div>
+  const handleUnblock = () => {
+    setIsBlocked(false);
+    toast.success(`Paciente desbloqueado`);
+  };
 
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-2">
-              <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-                {levelCfg.label}
-              </span>
-              <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
-                📋 {planCfg.label}
-              </span>
-            </div>
-          </div>
+  // Render action buttons based on viewer
+  const renderActionButtons = () => {
+    if (isOwnProfile) {
+      return (
+        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col mt-3' : 'flex-col')}>
+          <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
+            Editar Perfil
+          </Button>
+        </div>
+      );
+    }
 
-          <div className={cn('flex gap-2', isMobile ? 'w-full flex-col mt-3' : 'flex-col')}
-          >
-            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
-              Editar Perfil
+    if (isDentistViewing) {
+      return (
+        <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex flex-wrap gap-2')}>
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => toast.info('Teleconsulta em breve...')}>
+            <Video className="w-4 h-4" /> Iniciar Teleconsulta
+          </Button>
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('conversas')}>
+            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+          </Button>
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('prescrever')}>
+            <Pill className="w-4 h-4" /> Prescrever Receita
+          </Button>
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('referencia')}>
+            <FileText className="w-4 h-4" /> Recomendar Paciente
+          </Button>
+          {isBlocked ? (
+            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+              <Unlock className="w-4 h-4" /> Desbloquear Paciente
             </Button>
-          </div>
+          ) : (
+            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+              <Ban className="w-4 h-4" /> Bloquear Paciente
+            </Button>
+          )}
         </div>
-      </SectionCard>
+      );
+    }
 
-      {/* Conquistas */}
-      <BadgeShowcase
-        userRole={userRole}
-        categories={getAchievementCategories(userRole)}
-        isOwnProfile
-        className="p-5 md:p-6"
-      />
-
-      {/* Sobre */}
-      <SectionCard title="Sobre">
-        <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">{data.bio}</p>
-
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">Familiares:</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {data.family.map((f) => (
-                <Badge key={f.name} variant="secondary" className="text-xs py-1">
-                  {f.name} ({f.age} anos{f.minor ? ' — Menor' : ''})
-                </Badge>
-              ))}
-            </div>
-          </div>
+    if (isClinicViewing) {
+      return (
+        <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex flex-wrap gap-2')}>
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('conversas')}>
+            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+          </Button>
+          {isBlocked ? (
+            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+              <Unlock className="w-4 h-4" /> Desbloquear Paciente
+            </Button>
+          ) : (
+            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+              <Ban className="w-4 h-4" /> Bloquear Paciente
+            </Button>
+          )}
+          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]">
+            <FileText className="w-4 h-4" /> Ver Dossier
+          </Button>
         </div>
-      </SectionCard>
+      );
+    }
 
-      {/* Resumo de Saúde */}
-      <SectionCard title="Resumo de Saúde">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+    return null;
+  };
+
+  return (
+    <>
+      <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6">
+        {/* Header */}
+        <SectionCard className="p-5 md:p-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-5">
+            <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
+              {initials}
+            </div>
+
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-xl font-bold text-foreground">{data.name}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{data.subtitle}</p>
+
+              <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
+                <div className="flex items-center gap-1">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <span className="text-sm font-bold">{data.rating}</span>
+                  <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-2">
+                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+                  {levelCfg.label}
+                </span>
+                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
+                  📋 {planCfg.label}
+                </span>
+              </div>
+
+              {/* Action buttons - different per viewer */}
+              {isOwnProfile ? (
+                <div className={cn('flex gap-2 mt-3', isMobile ? 'w-full flex-col' : '')}>
+                  <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
+                    Editar Perfil
+                  </Button>
+                </div>
+              ) : null}
+            </div>
+
+            {/* Non-own-profile buttons at the top */}
+            {!isOwnProfile && !isMobile && null}
+          </div>
+          {/* Action buttons for non-own profile */}
+          {!isOwnProfile && renderActionButtons()}
+        </SectionCard>
+
+        {/* Conquistas */}
+        <BadgeShowcase
+          userRole={userRole}
+          categories={getAchievementCategories(userRole)}
+          isOwnProfile={isOwnProfile}
+          className="p-5 md:p-6"
+        />
+
+        {/* Sobre */}
+        <SectionCard title="Sobre">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Droplets className="w-4 h-4 text-destructive" />
-              <span className="text-muted-foreground">Grupo sanguíneo:</span>
-              <span className="font-medium text-foreground">{data.health.bloodType}</span>
+            <p className="text-sm text-muted-foreground">{data.bio}</p>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Familiares:</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {data.family.map((f) => (
+                  <Badge key={f.name} variant="secondary" className="text-xs py-1">
+                    {f.name} ({f.age} anos{f.minor ? ' — Menor' : ''})
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </SectionCard>
+
+        {/* Resumo de Saúde */}
+        <SectionCard title="Resumo de Saúde">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Droplets className="w-4 h-4 text-destructive" />
+                <span className="text-muted-foreground">Grupo sanguíneo:</span>
+                <span className="font-medium text-foreground">{data.health.bloodType}</span>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <Shield className="w-4 h-4 text-destructive mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-muted-foreground">Alergias:</div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {data.health.allergies.map((a) => (
+                      <Badge key={a} variant="destructive" className="text-[10px]">
+                        {a}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-start gap-2">
-              <Shield className="w-4 h-4 text-destructive mt-0.5" />
-              <div className="flex-1">
-                <div className="text-muted-foreground">Alergias:</div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {data.health.allergies.map((a) => (
-                    <Badge key={a} variant="destructive" className="text-[10px]">
-                      {a}
-                    </Badge>
-                  ))}
+            <div className="space-y-4">
+              <div className="flex items-start gap-2">
+                <Heart className="w-4 h-4 text-muted-foreground mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-muted-foreground">Condições:</div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {data.health.conditions.map((c) => (
+                      <Badge key={c} variant="secondary" className="text-[10px]">
+                        {c}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2">
+                <Pill className="w-4 h-4 text-muted-foreground mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-muted-foreground">Medicação:</div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {data.health.medications.map((m) => (
+                      <Badge key={m} variant="outline" className="text-[10px]">
+                        {m}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-start gap-2">
-              <Heart className="w-4 h-4 text-muted-foreground mt-0.5" />
-              <div className="flex-1">
-                <div className="text-muted-foreground">Condições:</div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {data.health.conditions.map((c) => (
-                    <Badge key={c} variant="secondary" className="text-[10px]">
-                      {c}
-                    </Badge>
-                  ))}
+          <p className="mt-4 text-[10px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
+            ℹ️ Informação visível apenas para si e os seus dentistas
+          </p>
+        </SectionCard>
+
+        {/* Estatísticas */}
+        <SectionCard title="Estatísticas">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {[
+              { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
+              { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
+              { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp },
+              { label: 'XP', value: `${data.stats.xp} XP`, icon: Star },
+              { label: 'Pontos', value: `⭐ ${data.stats.rewardPoints} pts`, icon: Star },
+            ].map((stat, idx) => (
+              <div
+                key={stat.label}
+                className={cn(
+                  'bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4',
+                  idx === 4 && 'col-span-2 md:col-span-1'
+                )}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <stat.icon className="w-4 h-4 text-primary" />
+                  <span className="text-[11px] text-muted-foreground">{stat.label}</span>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2">
-              <Pill className="w-4 h-4 text-muted-foreground mt-0.5" />
-              <div className="flex-1">
-                <div className="text-muted-foreground">Medicação:</div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {data.health.medications.map((m) => (
-                    <Badge key={m} variant="outline" className="text-[10px]">
-                      {m}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p className="mt-4 text-[10px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
-          ℹ️ Informação visível apenas para si e os seus dentistas
-        </p>
-      </SectionCard>
-
-      {/* Estatísticas */}
-      <SectionCard title="Estatísticas">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {[
-            { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
-            { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
-            { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp },
-            { label: 'XP', value: `${data.stats.xp} XP`, icon: Star },
-            { label: 'Pontos', value: `⭐ ${data.stats.rewardPoints} pts`, icon: Star },
-          ].map((stat, idx) => (
-            <div
-              key={stat.label}
-              className={cn(
-                'bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4',
-                idx === 4 && 'col-span-2 md:col-span-1'
-              )}
-            >
-              <div className="flex items-center gap-2 mb-1">
-                <stat.icon className="w-4 h-4 text-primary" />
-                <span className="text-[11px] text-muted-foreground">{stat.label}</span>
-              </div>
-              <span className="text-lg font-bold text-foreground">{stat.value}</span>
-            </div>
-          ))}
-        </div>
-      </SectionCard>
-
-      {/* Os Meus Profissionais */}
-      <SectionCard title="Os Meus Profissionais">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <Stethoscope className="w-4 h-4 text-primary" />
-              <div>
-                <ClickableDentistName name={data.mainDentist.name} className="text-sm font-medium" />
-                <div className="flex items-center gap-1.5 mt-1">
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
-                  <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} consultas</span>
-                </div>
-              </div>
-            </div>
-            <Badge variant="secondary" className="text-[10px]">Principal</Badge>
-          </div>
-
-          <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <Building2 className="w-4 h-4 text-primary" />
-              <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
-            </div>
-            <Badge variant="secondary" className="text-[10px]">Principal</Badge>
-          </div>
-
-          <div className="flex items-start gap-3 bg-secondary/30 border border-border/60 rounded-lg p-4">
-            <Calendar className="w-4 h-4 text-primary mt-0.5" />
-            <span className="text-xs text-muted-foreground">
-              Próxima consulta:{' '}
-              <span className="font-medium text-foreground">{data.nextAppointment}</span>
-            </span>
-          </div>
-        </div>
-      </SectionCard>
-
-      {/* Avaliações */}
-      <SectionCard title="Avaliações">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="text-center md:text-left">
-            <p className="text-4xl font-bold text-foreground">{data.rating}</p>
-            <div className="flex justify-center md:justify-start mt-2">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={cn(
-                    'w-4 h-4',
-                    i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'
-                  )}
-                />
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">{data.reviewCount} avaliações</p>
-          </div>
-
-          <div className="flex-1 space-y-2">
-            {breakdown.map((b) => (
-              <div key={b.stars} className="flex items-center gap-3 text-xs">
-                <span className="w-10 text-muted-foreground">{b.stars}★</span>
-                <Progress value={b.pct} className="h-2 flex-1" />
-                <span className="w-10 text-right text-muted-foreground">{b.pct}%</span>
+                <span className="text-lg font-bold text-foreground">{stat.value}</span>
               </div>
             ))}
           </div>
-        </div>
+        </SectionCard>
 
-        <div className="space-y-3 mt-6">
-          {data.reviews.map((r, idx) => (
-            <div key={idx} className="bg-secondary/40 border border-border/60 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-2">
-                <ClickableDentistName name={r.dentistName} className="text-xs font-semibold" />
-                <div className="flex gap-0.5">
-                  {Array.from({ length: r.rating }).map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  ))}
+        {/* Os Meus Profissionais */}
+        <SectionCard title="Os Meus Profissionais">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <Stethoscope className="w-4 h-4 text-primary" />
+                <div>
+                  <ClickableDentistName name={data.mainDentist.name} className="text-sm font-medium" />
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
+                    <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} consultas</span>
+                  </div>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground">{r.comment}</p>
-              <p className="text-[10px] text-muted-foreground/70 mt-2">{r.date}</p>
+              <Badge variant="secondary" className="text-[10px]">Principal</Badge>
             </div>
-          ))}
-        </div>
-      </SectionCard>
 
-      {/* Informação Pessoal */}
-      <SectionCard title="Informação Pessoal">
-        <div className="space-y-3 text-sm">
-          {[
-            { icon: Mail, label: 'Email', value: data.email },
-            { icon: Phone, label: 'Telefone', value: data.phone },
-            { icon: Calendar, label: 'Nascimento', value: `${data.birthDate} (${data.age} anos)` },
-            { icon: User, label: 'Género', value: data.gender },
-            {
-              icon: MapPin,
-              label: 'Morada',
-              value: `${data.address}, ${data.postalCode} ${data.city}`,
-            },
-          ].map((item) => (
-            <div key={item.label} className="flex items-start justify-between gap-4 py-3 border-b border-border/40 last:border-0">
-              <div className="flex items-center gap-2 min-w-0">
-                <item.icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                <span className="text-muted-foreground">{item.label}</span>
+            <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <Building2 className="w-4 h-4 text-primary" />
+                <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
               </div>
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-right text-foreground break-words">{item.value}</span>
-                <Lock className="w-3 h-3 text-muted-foreground/60 flex-shrink-0" />
-              </div>
+              <Badge variant="secondary" className="text-[10px]">Principal</Badge>
             </div>
-          ))}
-        </div>
-      </SectionCard>
-    </div>
+
+            <div className="flex items-start gap-3 bg-secondary/30 border border-border/60 rounded-lg p-4">
+              <Calendar className="w-4 h-4 text-primary mt-0.5" />
+              <span className="text-xs text-muted-foreground">
+                Próxima consulta:{' '}
+                <span className="font-medium text-foreground">{data.nextAppointment}</span>
+              </span>
+            </div>
+          </div>
+        </SectionCard>
+
+        {/* Avaliações */}
+        <SectionCard title="Avaliações">
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="text-center md:text-left">
+              <p className="text-4xl font-bold text-foreground">{data.rating}</p>
+              <div className="flex justify-center md:justify-start mt-2">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className={cn(
+                      'w-4 h-4',
+                      i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'
+                    )}
+                  />
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">{data.reviewCount} avaliações</p>
+            </div>
+
+            <div className="flex-1 space-y-2">
+              {breakdown.map((b) => (
+                <div key={b.stars} className="flex items-center gap-3 text-xs">
+                  <span className="w-10 text-muted-foreground">{b.stars}★</span>
+                  <Progress value={b.pct} className="h-2 flex-1" />
+                  <span className="w-10 text-right text-muted-foreground">{b.pct}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3 mt-6">
+            {data.reviews.map((r, idx) => (
+              <div key={idx} className="bg-secondary/40 border border-border/60 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <ClickableDentistName name={r.dentistName} className="text-xs font-semibold" />
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: r.rating }).map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">{r.comment}</p>
+                <p className="text-[10px] text-muted-foreground/70 mt-2">{r.date}</p>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        {/* Informação Pessoal */}
+        <SectionCard title="Informação Pessoal">
+          <div className="space-y-3 text-sm">
+            {[
+              { icon: Mail, label: 'Email', value: data.email },
+              { icon: Phone, label: 'Telefone', value: data.phone },
+              { icon: Calendar, label: 'Nascimento', value: `${data.birthDate} (${data.age} anos)` },
+              { icon: User, label: 'Género', value: data.gender },
+              {
+                icon: MapPin,
+                label: 'Morada',
+                value: `${data.address}, ${data.postalCode} ${data.city}`,
+              },
+            ].map((item) => (
+              <div key={item.label} className="flex items-start justify-between gap-4 py-3 border-b border-border/40 last:border-0">
+                <div className="flex items-center gap-2 min-w-0">
+                  <item.icon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <span className="text-muted-foreground">{item.label}</span>
+                </div>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-right text-foreground break-words">{item.value}</span>
+                  <Lock className="w-3 h-3 text-muted-foreground/60 flex-shrink-0" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+      </div>
+
+      {/* Block Patient Modal */}
+      <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
+        <DialogContent className="sm:max-w-md z-[70]">
+          <DialogHeader>
+            <DialogTitle>⚠️ Bloquear {data.name}?</DialogTitle>
+            <DialogDescription>
+              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <Textarea
+                value={blockReason}
+                onChange={(e) => setBlockReason(e.target.value)}
+                placeholder="Indique o motivo do bloqueio..."
+                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <div className="flex gap-2">
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

@@ -127,7 +127,6 @@ export const dentistAchievements: AchievementCategory[] = [
       { id: 'r1', emoji: '🏆', name: 'Top 100', description: 'Entrar no top 100 nacional', points: 30, unlocked: true },
       { id: 'r3', emoji: '🏆', name: 'Nº 1 Clínica', description: '1º lugar numa clínica', points: 40, unlocked: true },
       { id: 'r2', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 75, unlocked: true },
-      { id: 'r4', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
     ],
   },
   {
@@ -206,7 +205,6 @@ export const clinicAchievements: AchievementCategory[] = [
       { id: 'cq5', emoji: '🛡️', name: 'Zero Reclamações', description: '0 reclamações em 6 meses', points: 30, unlocked: false },
       { id: 'cq2', emoji: '⭐', name: 'Rating 4.8+', description: 'Média ≥ 4.8', points: 40, unlocked: true },
       { id: 'cq6', emoji: '⭐', name: 'Rating 4.9+', description: 'Média ≥ 4.9', points: 50, unlocked: false },
-      { id: 'cq4', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
     ],
   },
   {
@@ -215,7 +213,6 @@ export const clinicAchievements: AchievementCategory[] = [
       { id: 'cr1', emoji: '🏆', name: 'Top 50', description: 'Entrar no top 50 nacional', points: 25, unlocked: true },
       { id: 'cr2', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 60, unlocked: true },
       { id: 'cr3', emoji: '🏆', name: 'Top 3', description: 'Entrar no pódio nacional', points: 100, unlocked: true },
-      { id: 'cr4', emoji: '❓', name: '???', description: '???', points: 150, unlocked: false, secret: true },
     ],
   },
   {
@@ -368,10 +365,18 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
       {cats.map(category => {
         const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
         if (!hasVisible) return null;
+        const isSecretsSection = category.title === 'Secretas';
         return (
           <div key={category.title}>
             <Separator className="mb-4" />
-            <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
+            {isSecretsSection ? (
+              <div className="mb-3 p-3 rounded-lg bg-gradient-to-r from-purple-900/30 via-slate-900/40 to-emerald-900/20 border border-purple-500/20">
+                <h2 className="text-base font-semibold text-foreground">🔮 Secretas</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
+              </div>
+            ) : (
+              <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
+            )}
             <div className={cn(
               'grid gap-3',
               isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'
