@@ -115,7 +115,54 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     </div>
                   </div>
                 ))}
-                <Button variant="outline" className="w-full gap-2"><Plus className="w-4 h-4" /> Adicionar cartão</Button>
+                {showNewCard ? (
+                  <div className="space-y-3 border border-border rounded-xl p-4 bg-secondary/30 animate-in slide-in-from-top-2">
+                    <div className="relative">
+                      <Input
+                        placeholder="Número do cartão"
+                        value={newCardNumber}
+                        onChange={e => {
+                          const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
+                          setNewCardNumber(raw.replace(/(.{4})/g, '$1 ').trim());
+                        }}
+                        maxLength={19}
+                        className="pr-12"
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        {newCardNumber.replace(/\s/g, '').startsWith('4') ? (
+                          <span className="text-xs font-bold text-blue-400">VISA</span>
+                        ) : newCardNumber.replace(/\s/g, '').startsWith('5') ? (
+                          <span className="text-xs font-bold text-orange-400">MC</span>
+                        ) : newCardNumber.replace(/\s/g, '').startsWith('3') ? (
+                          <span className="text-xs font-bold text-blue-300">AMEX</span>
+                        ) : (
+                          <CreditCard className="w-4 h-4" />
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <Input placeholder="MM/AA" value={newCardExpiry} onChange={e => {
+                        let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                        if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
+                        setNewCardExpiry(val);
+                      }} maxLength={5} className="flex-1" />
+                      <Input placeholder="CVV" value={newCardCvv} onChange={e => setNewCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} maxLength={3} className="w-24" type="password" />
+                    </div>
+                    <Input placeholder="Nome no cartão" value={newCardName} onChange={e => setNewCardName(e.target.value)} />
+                    <div className="flex gap-2">
+                      <Button
+                        className="flex-1"
+                        disabled={newCardNumber.replace(/\s/g, '').length < 16 || newCardExpiry.length < 5 || newCardCvv.length < 3 || !newCardName.trim()}
+                        onClick={() => { toast.success('Cartão adicionado'); setShowNewCard(false); setNewCardNumber(''); setNewCardExpiry(''); setNewCardCvv(''); setNewCardName(''); }}
+                      >
+                        Continuar
+                      </Button>
+                      <button className="text-xs text-muted-foreground hover:text-foreground px-3" onClick={() => setShowNewCard(false)}>Cancelar</button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button variant="outline" className="w-full gap-2" onClick={() => setShowNewCard(true)}><Plus className="w-4 h-4" /> Adicionar cartão</Button>
+                )}
               </CardContent>
             </Card>
             <Card className="bg-card/80 backdrop-blur border-border">
