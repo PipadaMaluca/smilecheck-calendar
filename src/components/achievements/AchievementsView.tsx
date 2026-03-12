@@ -205,7 +205,6 @@ export const clinicAchievements: AchievementCategory[] = [
       { id: 'cq5', emoji: '🛡️', name: 'Zero Reclamações', description: '0 reclamações em 6 meses', points: 30, unlocked: false },
       { id: 'cq2', emoji: '⭐', name: 'Rating 4.8+', description: 'Média ≥ 4.8', points: 40, unlocked: true },
       { id: 'cq6', emoji: '⭐', name: 'Rating 4.9+', description: 'Média ≥ 4.9', points: 50, unlocked: false },
-      { id: 'cq4', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
     ],
   },
   {
@@ -214,7 +213,6 @@ export const clinicAchievements: AchievementCategory[] = [
       { id: 'cr1', emoji: '🏆', name: 'Top 50', description: 'Entrar no top 50 nacional', points: 25, unlocked: true },
       { id: 'cr2', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 60, unlocked: true },
       { id: 'cr3', emoji: '🏆', name: 'Top 3', description: 'Entrar no pódio nacional', points: 100, unlocked: true },
-      { id: 'cr4', emoji: '❓', name: '???', description: '???', points: 150, unlocked: false, secret: true },
     ],
   },
   {
