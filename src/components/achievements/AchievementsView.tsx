@@ -368,10 +368,18 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
       {cats.map(category => {
         const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
         if (!hasVisible) return null;
+        const isSecretsSection = category.title === 'Secretas';
         return (
           <div key={category.title}>
             <Separator className="mb-4" />
-            <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
+            {isSecretsSection ? (
+              <div className="mb-3 p-3 rounded-lg bg-gradient-to-r from-purple-900/30 via-slate-900/40 to-emerald-900/20 border border-purple-500/20">
+                <h2 className="text-base font-semibold text-foreground">🔮 Secretas</h2>
+                <p className="text-xs text-muted-foreground mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
+              </div>
+            ) : (
+              <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
+            )}
             <div className={cn(
               'grid gap-3',
               isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3'
