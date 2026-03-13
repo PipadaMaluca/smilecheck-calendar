@@ -238,7 +238,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   const profileContent = (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
           <span className="text-3xl font-bold text-primary">
             {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
@@ -278,13 +278,17 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               </Button>
             </>
           )}
-          {onToggleFavorite && (
-            <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn('min-h-[44px]', isFavorite && 'text-amber-400')}>
-              <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
-              {isMobile && <span className="ml-1">Favoritos</span>}
-            </Button>
-          )}
         </div>
+        {/* Favorite star — top-right */}
+        {!isOwnProfile && onToggleFavorite && (
+          <button
+            onClick={onToggleFavorite}
+            className="absolute top-4 right-4 p-1 transition-transform hover:scale-110"
+            title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+          >
+            <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+          </button>
+        )}
       </div>
 
       <Separator />

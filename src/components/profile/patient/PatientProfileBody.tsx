@@ -158,25 +158,27 @@ export function PatientProfileBody({
 
     if (isDentistViewing) {
       return (
-        <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex flex-wrap gap-2')}>
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => toast.info('Teleconsulta em breve...')}>
-            <Video className="w-4 h-4" /> Iniciar Teleconsulta
-          </Button>
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('conversas')}>
-            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
-          </Button>
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('prescrever')}>
-            <Pill className="w-4 h-4" /> Prescrever Receita
-          </Button>
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('referencia')}>
-            <FileText className="w-4 h-4" /> Recomendar Paciente
-          </Button>
+        <div className="mt-4 space-y-2">
+          <div className={cn('grid gap-2', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => toast.info('Teleconsulta em breve...')}>
+              <Video className="w-4 h-4" /> Iniciar Teleconsulta
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
+              <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('prescrever')}>
+              <Pill className="w-4 h-4" /> Prescrever Receita
+            </Button>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('referencia')}>
+              <FileText className="w-4 h-4" /> Recomendar Paciente
+            </Button>
+          </div>
           {isBlocked ? (
-            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+            <Button variant="outline" className="w-full gap-2 text-xs text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
               <Unlock className="w-4 h-4" /> Desbloquear Paciente
             </Button>
           ) : (
-            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+            <Button variant="outline" className="w-full gap-2 text-xs text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
               <Ban className="w-4 h-4" /> Bloquear Paciente
             </Button>
           )}
@@ -186,20 +188,20 @@ export function PatientProfileBody({
 
     if (isClinicViewing) {
       return (
-        <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex flex-wrap gap-2')}>
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]" onClick={() => onNavigate?.('conversas')}>
+        <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex gap-2')}>
+          <Button variant="secondary" className="gap-2 text-xs flex-1" onClick={() => onNavigate?.('conversas')}>
             <MessageCircle className="w-4 h-4" /> Enviar Mensagem
           </Button>
           {isBlocked ? (
-            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+            <Button variant="outline" className="gap-2 text-xs flex-1 text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
               <Unlock className="w-4 h-4" /> Desbloquear Paciente
             </Button>
           ) : (
-            <Button variant="outline" className="gap-2 text-xs flex-1 min-w-[140px] text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
+            <Button variant="outline" className="gap-2 text-xs flex-1 text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
               <Ban className="w-4 h-4" /> Bloquear Paciente
             </Button>
           )}
-          <Button variant="secondary" className="gap-2 text-xs flex-1 min-w-[140px]">
+          <Button variant="secondary" className="gap-2 text-xs flex-1">
             <FileText className="w-4 h-4" /> Ver Dossier
           </Button>
         </div>
