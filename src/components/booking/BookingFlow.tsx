@@ -82,7 +82,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
   const [cardName, setCardName] = useState('');
-  const [saveCard, setSaveCard] = useState(false);
+  const [saveCard, setSaveCard] = useState(true);
   const [mbwayPhone, setMbwayPhone] = useState('+351 912 000 001');
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState<boolean | null>(null);
