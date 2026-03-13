@@ -181,13 +181,19 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <Button variant="outline" className="flex-1 min-h-[44px]">
                 <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
               </Button>
-              <Button variant="ghost" size={isMobile ? 'default' : 'icon'} onClick={onToggleFavorite} className={cn('min-h-[44px]', isFavorite && 'text-amber-400')}>
-                <Star className={cn('w-4 h-4', isFavorite && 'fill-amber-400')} />
-                {isMobile && <span className="ml-1">Favoritos</span>}
-              </Button>
             </>
           )}
         </div>
+        {/* Favorite star — top-right of header */}
+        {!isOwnProfile && onToggleFavorite && (
+          <button
+            onClick={onToggleFavorite}
+            className="absolute top-4 right-4 p-1 transition-transform hover:scale-110"
+            title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+          >
+            <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+          </button>
+        )}
       </div>
 
       <Separator />
