@@ -219,7 +219,7 @@ export function DesktopCalendarSidebar({
 
       {/* Clinics + Dentists List - Hierarchical */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
-        {/* Todos checkbox - FIXED LOGIC */}
+        {/* Todas as Agendas */}
         <div className="flex items-center gap-2 py-1.5 hover:bg-[#152238] rounded px-1.5 -mx-1.5">
           <Checkbox
             checked={isTodosSelected}
@@ -231,7 +231,7 @@ export function DesktopCalendarSidebar({
             className="text-xs font-medium hover:text-primary"
             onClick={() => onSelectAllDentists()}
           >
-            Todos
+            Todas as Agendas
           </button>
         </div>
 

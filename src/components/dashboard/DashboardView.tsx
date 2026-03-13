@@ -387,15 +387,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       <div className="space-y-4">
         {renderStatsCards()}
 
-        {/* Dentistas a Trabalhar Hoje — clinic only */}
-        <div id="onboarding-dentistas-hoje">
-          <Card className="bg-card/80 border-border">
-            <CardContent className="p-4">
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
           {/* LEFT: Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">

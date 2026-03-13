@@ -238,7 +238,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   const profileContent = (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
           <span className="text-3xl font-bold text-primary">
             {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}

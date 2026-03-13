@@ -126,7 +126,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const profileContent = (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-4">
         <Avatar className="w-24 h-24 flex-shrink-0">
           {photo && <AvatarImage src={photo} alt={dentist.name} />}
           <AvatarFallback className="bg-secondary text-3xl font-bold text-primary">
