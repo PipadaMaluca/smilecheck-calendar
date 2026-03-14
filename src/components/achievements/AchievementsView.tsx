@@ -156,11 +156,11 @@ export const dentistAchievements: AchievementCategory[] = [
   {
     title: 'Secretas',
     achievements: [
-      { id: 'dsec1', emoji: '❓', name: '???', description: '???', points: 50, unlocked: false, secret: true },
-      { id: 'dsec2', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
-      { id: 'dsec3', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
-      { id: 'dsec4', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
-      { id: 'dsec5', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
+      { id: 'dsec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
+      { id: 'dsec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
+      { id: 'dsec3', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'dsec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'dsec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
     ],
   },
 ];
