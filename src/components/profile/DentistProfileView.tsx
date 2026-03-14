@@ -166,13 +166,15 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             )}
           </div>
         </div>
-        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-          {isOwnProfile ? (
+        {isOwnProfile ? (
+          <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
             <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
               Editar Perfil
             </Button>
-          ) : (
-            <>
+          </div>
+        ) : (
+          <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
+            <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               {onReferralLetter && (
                 <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onReferralLetter}>
                   <FileText className="w-4 h-4 mr-1" /> Carta de Referência
@@ -181,18 +183,17 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <Button variant="outline" className="flex-1 min-h-[44px]">
                 <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
               </Button>
-            </>
-          )}
-        </div>
-        {/* Favorite star — top-right of header */}
-        {!isOwnProfile && onToggleFavorite && (
-          <button
-            onClick={onToggleFavorite}
-            className="absolute top-4 right-4 p-1 transition-transform hover:scale-110"
-            title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
-          >
-            <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
-          </button>
+            </div>
+            {onToggleFavorite && (
+              <button
+                onClick={onToggleFavorite}
+                className="p-1 transition-transform hover:scale-110 flex-shrink-0"
+                title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+              >
+                <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+              </button>
+            )}
+          </div>
         )}
       </div>
 

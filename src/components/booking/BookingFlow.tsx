@@ -496,16 +496,33 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
             <span className="text-xs text-muted-foreground">Guardar cartão para futuras consultas</span>
           </label>
-          <div className="flex gap-2 pt-1">
-            <button
-              className="text-xs text-muted-foreground hover:text-foreground"
-              onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
-            >
-              Cancelar
-            </button>
+              <div className="flex gap-2 pt-1">
+                <Button
+                  size="sm"
+                  disabled={(() => {
+                    const rawNum = cardNumber.replace(/\s/g, '');
+                    return rawNum.length !== 16 || cardExpiry.length !== 5 || cardCvv.length !== 3 || cardName.trim().length === 0;
+                  })()}
+                  onClick={() => {
+                    setUseSavedCard(true);
+                    toast.success('✅ Cartão adicionado com sucesso');
+                  }}
+                  className="text-xs"
+                >
+                  ✅ Confirmar Cartão
+                </Button>
+                <button
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
+                >
+                  Cancelar
+                </button>
+              </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
 
       {/* MB WAY */}
       {paymentMethod === 'mbway' && (

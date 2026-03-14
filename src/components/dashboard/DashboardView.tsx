@@ -386,7 +386,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="space-y-4">
         {renderStatsCards()}
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
           {/* LEFT: Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
