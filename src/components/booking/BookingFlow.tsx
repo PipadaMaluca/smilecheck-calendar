@@ -407,30 +407,27 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="space-y-2">
         <p className="text-xs font-medium text-muted-foreground">Outro método</p>
         {[
-          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" /> },
-          { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" /> },
-          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" /> },
-          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" /> },
+          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" />, expandable: true },
+          { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
+          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" />, expandable: false },
+          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" />, expandable: false },
         ].map(m => (
-          <button
-            key={m.id}
-            onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
-            className={cn(
-              'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
-              paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
-                ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                : 'border-border bg-secondary hover:border-muted-foreground/40'
-            )}
-          >
-            {m.icon}
-            <span className="text-sm font-medium text-foreground">{m.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Card fields — inline expandable form */}
-      {paymentMethod === 'card' && !useSavedCard && (
-        <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30">
+          <div key={m.id}>
+            <button
+              onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
+              className={cn(
+                'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
+                paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
+                  ? 'border-primary bg-primary/10 ring-1 ring-primary'
+                  : 'border-border bg-secondary hover:border-muted-foreground/40'
+              )}
+            >
+              {m.icon}
+              <span className="text-sm font-medium text-foreground">{m.label}</span>
+            </button>
+            {/* Inline card form — expands below "Novo cartão" when selected */}
+            {m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard && (
+              <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
           <div className="relative">
             <Input
               placeholder="Número do cartão"
@@ -499,16 +496,33 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
             <span className="text-xs text-muted-foreground">Guardar cartão para futuras consultas</span>
           </label>
-          <div className="flex gap-2 pt-1">
-            <button
-              className="text-xs text-muted-foreground hover:text-foreground"
-              onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
-            >
-              Cancelar
-            </button>
+              <div className="flex gap-2 pt-1">
+                <Button
+                  size="sm"
+                  disabled={(() => {
+                    const rawNum = cardNumber.replace(/\s/g, '');
+                    return rawNum.length !== 16 || cardExpiry.length !== 5 || cardCvv.length !== 3 || cardName.trim().length === 0;
+                  })()}
+                  onClick={() => {
+                    setUseSavedCard(true);
+                    toast.success('✅ Cartão adicionado com sucesso');
+                  }}
+                  className="text-xs"
+                >
+                  ✅ Confirmar Cartão
+                </Button>
+                <button
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
+                >
+                  Cancelar
+                </button>
+              </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
 
       {/* MB WAY */}
       {paymentMethod === 'mbway' && (

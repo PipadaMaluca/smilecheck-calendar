@@ -351,21 +351,15 @@ export function PatientProfileBody({
 
         {/* Estatísticas */}
         <SectionCard title="Estatísticas">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {[
             { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
             { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
-            { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp },
-            { label: 'XP', value: `${data.stats.xp} XP`, icon: Star },
-            { label: 'Pontos', value: `⭐ ${data.stats.rewardPoints} pts`, icon: Star }].
-            map((stat, idx) =>
+            { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp }].
+            map((stat) =>
             <div
               key={stat.label}
-              className={cn(
-                'bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4',
-                idx === 4 && 'col-span-2 md:col-span-1'
-              )}>
-              
+              className="bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4">
                 <div className="flex items-center gap-2 mb-1">
                   <stat.icon className="w-4 h-4 text-primary" />
                   <span className="text-[11px] text-muted-foreground">{stat.label}</span>

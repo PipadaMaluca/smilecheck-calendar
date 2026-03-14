@@ -113,12 +113,10 @@ export function ClinicAgendaDropdown({
           const isExpanded = expandedClinics.includes(clinic.id);
           const dentistsInClinic = getDentistsForClinic(clinic.id);
           
-          // Filter by present if active
-          const visibleDentists = filterPresentes
-            ? dentistsInClinic.filter(d => clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo)
-            : dentistsInClinic;
-
-          if (filterPresentes && visibleDentists.length === 0) return null;
+          const visibleDentists = dentistsInClinic;
+          
+          // When filterPresentes is active, we still show all dentists in the list
+          // but unchecked ones that don't work today
 
           // Check if all dentists in this clinic are selected
           const allClinicSelected = allSelected || visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));

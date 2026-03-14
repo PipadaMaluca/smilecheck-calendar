@@ -78,11 +78,11 @@ export const patientAchievements: AchievementCategory[] = [
   {
     title: 'Secretas',
     achievements: [
-      { id: 'sec1', emoji: '❓', name: '???', description: '???', points: 25, unlocked: false, secret: true },
-      { id: 'sec2', emoji: '❓', name: '???', description: '???', points: 30, unlocked: false, secret: true },
-      { id: 'sec3', emoji: '❓', name: '???', description: '???', points: 50, unlocked: false, secret: true },
-      { id: 'sec4', emoji: '❓', name: '???', description: '???', points: 50, unlocked: false, secret: true },
-      { id: 'sec5', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
+      { id: 'sec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 25, unlocked: false, secret: true },
+      { id: 'sec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 30, unlocked: false, secret: true },
+      { id: 'sec3', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
+      { id: 'sec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
+      { id: 'sec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
     ],
   },
 ];
@@ -156,11 +156,11 @@ export const dentistAchievements: AchievementCategory[] = [
   {
     title: 'Secretas',
     achievements: [
-      { id: 'dsec1', emoji: '❓', name: '???', description: '???', points: 50, unlocked: false, secret: true },
-      { id: 'dsec2', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
-      { id: 'dsec3', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
-      { id: 'dsec4', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
-      { id: 'dsec5', emoji: '❓', name: '???', description: '???', points: 100, unlocked: false, secret: true },
+      { id: 'dsec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
+      { id: 'dsec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
+      { id: 'dsec3', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'dsec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'dsec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
     ],
   },
 ];
@@ -233,11 +233,11 @@ export const clinicAchievements: AchievementCategory[] = [
   {
     title: 'Secretas',
     achievements: [
-      { id: 'csec1', emoji: '❓', name: '???', description: '???', points: 50, unlocked: false, secret: true },
-      { id: 'csec2', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
-      { id: 'csec3', emoji: '❓', name: '???', description: '???', points: 75, unlocked: false, secret: true },
-      { id: 'csec4', emoji: '❓', name: '???', description: '???', points: 150, unlocked: false, secret: true },
-      { id: 'csec5', emoji: '❓', name: '???', description: '???', points: 150, unlocked: false, secret: true },
+      { id: 'csec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
+      { id: 'csec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
+      { id: 'csec3', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'csec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 150, unlocked: false, secret: true },
+      { id: 'csec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 150, unlocked: false, secret: true },
     ],
   },
 ];
@@ -261,10 +261,10 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
         <div className="flex items-start gap-3">
           <div className={cn(
             'h-10 w-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
-            achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
+            isSecret ? 'bg-purple-500/10 shadow-[0_0_8px_hsl(270,60%,50%,0.15)]' : achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
           )}>
             {isSecret ? (
-              <HelpCircle className="w-5 h-5 text-muted-foreground" />
+              <HelpCircle className="w-5 h-5 text-purple-400" />
             ) : (
               achievement.emoji
             )}
@@ -370,9 +370,9 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
           <div key={category.title}>
             <Separator className="mb-4" />
             {isSecretsSection ? (
-              <div className="mb-3 p-3 rounded-lg bg-gradient-to-r from-purple-900/30 via-slate-900/40 to-emerald-900/20 border border-purple-500/20">
+              <div className="mb-3 p-4 rounded-lg bg-gradient-to-r from-purple-900/40 via-slate-900/50 to-purple-800/30 border border-purple-500/30 shadow-[0_0_15px_hsl(270,60%,50%,0.1)]">
                 <h2 className="text-base font-semibold text-foreground">🔮 Secretas</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
+                <p className="text-xs text-purple-300/70 mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
               </div>
             ) : (
               <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>

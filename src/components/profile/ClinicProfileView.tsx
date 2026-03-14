@@ -238,7 +238,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   const profileContent = (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
-      <div className="relative flex flex-col md:flex-row items-center md:items-start gap-4">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
         <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
           <span className="text-3xl font-bold text-primary">
             {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
@@ -266,28 +266,29 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             )}
           </div>
         </div>
-        <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-          {isOwnProfile ? (
+        {isOwnProfile ? (
+          <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
             <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>Editar Perfil</Button>
-          ) : (
-            <>
+          </div>
+        ) : (
+          <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
+            <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
               <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
               <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> Ligar
               </Button>
-            </>
-          )}
-        </div>
-        {/* Favorite star — top-right */}
-        {!isOwnProfile && onToggleFavorite && (
-          <button
-            onClick={onToggleFavorite}
-            className="absolute top-4 right-4 p-1 transition-transform hover:scale-110"
-            title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
-          >
-            <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
-          </button>
+            </div>
+            {onToggleFavorite && (
+              <button
+                onClick={onToggleFavorite}
+                className="p-1 transition-transform hover:scale-110 flex-shrink-0"
+                title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
+              >
+                <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+              </button>
+            )}
+          </div>
         )}
       </div>
 
