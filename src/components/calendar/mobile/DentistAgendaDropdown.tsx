@@ -113,12 +113,9 @@ export function DentistAgendaDropdown({
         {dentistClinics.map(({ clinic, worksOnDemo }) => {
           const allDentistsInClinic = getDentistsForClinic(clinic.id);
           
-          // Filter by present if active
-          const visibleDentists = filterPresentes
-            ? allDentistsInClinic.filter(d => clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo)
-            : allDentistsInClinic;
-
-          if (filterPresentes && visibleDentists.length === 0) return null;
+          const visibleDentists = allDentistsInClinic;
+          
+          // When filterPresentes is active, show all dentists but uncheck non-working ones
 
           const otherDentists = visibleDentists.filter(d => d.id !== currentDentistId);
           const currentVisible = visibleDentists.some(d => d.id === currentDentistId);
