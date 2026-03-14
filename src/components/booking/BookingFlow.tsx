@@ -407,8 +407,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="space-y-2">
         <p className="text-xs font-medium text-muted-foreground">Outro método</p>
         {[
-          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" /> },
-          { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" /> },
+          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" />, expandable: true },
+          { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
           { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" /> },
           { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" /> },
         ].map(m => (
