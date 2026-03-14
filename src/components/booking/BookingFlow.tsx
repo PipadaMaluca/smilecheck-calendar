@@ -409,28 +409,25 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         {[
           { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" />, expandable: true },
           { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
-          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" /> },
-          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" /> },
+          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" />, expandable: false },
+          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" />, expandable: false },
         ].map(m => (
-          <button
-            key={m.id}
-            onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
-            className={cn(
-              'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
-              paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
-                ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                : 'border-border bg-secondary hover:border-muted-foreground/40'
-            )}
-          >
-            {m.icon}
-            <span className="text-sm font-medium text-foreground">{m.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Card fields — inline expandable form */}
-      {paymentMethod === 'card' && !useSavedCard && (
-        <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30">
+          <div key={m.id}>
+            <button
+              onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
+              className={cn(
+                'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
+                paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
+                  ? 'border-primary bg-primary/10 ring-1 ring-primary'
+                  : 'border-border bg-secondary hover:border-muted-foreground/40'
+              )}
+            >
+              {m.icon}
+              <span className="text-sm font-medium text-foreground">{m.label}</span>
+            </button>
+            {/* Inline card form — expands below "Novo cartão" when selected */}
+            {m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard && (
+              <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
           <div className="relative">
             <Input
               placeholder="Número do cartão"
