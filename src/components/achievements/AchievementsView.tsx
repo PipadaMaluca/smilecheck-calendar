@@ -261,10 +261,10 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
         <div className="flex items-start gap-3">
           <div className={cn(
             'h-10 w-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
-            achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
+            isSecret ? 'bg-purple-500/10 shadow-[0_0_8px_hsl(270,60%,50%,0.15)]' : achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
           )}>
             {isSecret ? (
-              <HelpCircle className="w-5 h-5 text-muted-foreground" />
+              <HelpCircle className="w-5 h-5 text-purple-400" />
             ) : (
               achievement.emoji
             )}
