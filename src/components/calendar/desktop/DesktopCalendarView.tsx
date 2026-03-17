@@ -144,9 +144,9 @@ export function DesktopCalendarView() {
     }
   }, []);
 
-  // Check if "Todos" is effectively selected
-  const presentKeys = getPresentDentistKeys();
-  const isTodosSelected = presentKeys.every((key) => selectedDentistIds.includes(key));
+  // Check if "Todos" is effectively selected (all dentists including non-working)
+  const allKeys = getAllClinicDentistKeys();
+  const isTodosSelected = allKeys.every((key) => selectedDentistIds.includes(key));
 
   // Build the list of dentists to show based on selections
   const filteredDentists = useMemo(() => {
