@@ -37,11 +37,25 @@ const MOCK_HISTORY: Record<string, { date: string; type: string; dentist: string
   ],
 };
 
-export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy }: ConsultationDetailViewProps) {
+export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [blockReason, setBlockReason] = useState('');
+  const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
+
+  const handleBlock = () => {
+    setIsBlocked(true);
+    setShowBlockModal(false);
+    setBlockReason('');
+    toast.success('Paciente bloqueado com sucesso');
+  };
+  const handleUnblock = () => {
+    setIsBlocked(false);
+    toast.success('Paciente desbloqueado');
+  };
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
