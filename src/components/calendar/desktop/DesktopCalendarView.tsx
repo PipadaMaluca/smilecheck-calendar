@@ -573,6 +573,7 @@ export function DesktopCalendarView() {
                 onViewDossier={(patientId) => {setDossierPatientId(patientId);setActiveNavTab('home');}}
                 onNavigate={(tab) => handleNavTabChange(tab)}
                 onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+                userRole={activeRole}
               />
             </div>
           );
