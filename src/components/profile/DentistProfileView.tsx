@@ -187,10 +187,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             {onToggleFavorite &&
         <button
           onClick={onToggleFavorite}
-          className="p-1 transition-transform hover:scale-110 flex-shrink-0"
+          className="p-1 transition-transform hover:scale-110 flex-shrink-0 text-left px-[10px] py-[5px]"
           title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}>
           
-                <Star className={cn('w-6 h-6 transition-colors', isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+                <Star className={cn("transition-colors h-[25px] w-[25px] text-left", isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
               </button>
         }
           </div>
