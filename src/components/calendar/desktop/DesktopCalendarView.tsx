@@ -144,9 +144,9 @@ export function DesktopCalendarView() {
     }
   }, []);
 
-  // Check if "Todos" is effectively selected
-  const presentKeys = getPresentDentistKeys();
-  const isTodosSelected = presentKeys.every((key) => selectedDentistIds.includes(key));
+  // Check if "Todos" is effectively selected (all dentists including non-working)
+  const allKeys = getAllClinicDentistKeys();
+  const isTodosSelected = allKeys.every((key) => selectedDentistIds.includes(key));
 
   // Build the list of dentists to show based on selections
   const filteredDentists = useMemo(() => {
@@ -212,9 +212,9 @@ export function DesktopCalendarView() {
   }, []);
 
   const handleToggleTodos = useCallback(() => {
-    const presentKeys = getPresentDentistKeys();
-    const allPresent = presentKeys.every((key) => selectedDentistIds.includes(key));
-    setSelectedDentistIds(allPresent ? [] : presentKeys);
+    const allKeys = getAllClinicDentistKeys();
+    const allSelected = allKeys.every((key) => selectedDentistIds.includes(key));
+    setSelectedDentistIds(allSelected ? [] : allKeys);
   }, [selectedDentistIds]);
 
   const handleSelectPresentDentists = useCallback(() => {
@@ -222,7 +222,7 @@ export function DesktopCalendarView() {
   }, []);
 
   const handleSelectAllDentists = useCallback(() => {
-    setSelectedDentistIds(getPresentDentistKeys());
+    setSelectedDentistIds(getAllClinicDentistKeys());
   }, []);
 
   const handleFamilyMemberToggle = (memberId: string, isCheckbox: boolean) => {
@@ -573,6 +573,7 @@ export function DesktopCalendarView() {
                 onViewDossier={(patientId) => {setDossierPatientId(patientId);setActiveNavTab('home');}}
                 onNavigate={(tab) => handleNavTabChange(tab)}
                 onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+                userRole={activeRole}
               />
             </div>
           );
@@ -598,7 +599,8 @@ export function DesktopCalendarView() {
             onClose={() => setDetailConsultation(null)}
             onViewDossier={(patientId) => {setDossierPatientId(patientId);setDetailConsultation(null);}}
             onNavigate={(tab) => {setDetailConsultation(null);handleNavTabChange(tab);}}
-            onCopy={(c) => {setClipboardConsultation(c);setDetailConsultation(null);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}} />
+            onCopy={(c) => {setClipboardConsultation(c);setDetailConsultation(null);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+            userRole={activeRole} />
 
         </div>);
 

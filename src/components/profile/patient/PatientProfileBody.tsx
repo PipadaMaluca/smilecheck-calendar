@@ -201,9 +201,6 @@ export function PatientProfileBody({
               <Ban className="w-4 h-4" /> Bloquear Paciente
             </Button>
           }
-          <Button variant="secondary" className="gap-2 text-xs flex-1">
-            <FileText className="w-4 h-4" /> Ver Dossier
-          </Button>
         </div>);
 
     }
