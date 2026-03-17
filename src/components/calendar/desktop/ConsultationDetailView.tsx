@@ -233,29 +233,112 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
           {/* Ações */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <Button variant="secondary" size="sm" className="gap-2 justify-start">
-                <RefreshCw className="w-4 h-4" /> Reagendar
-              </Button>
-              <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
-                <Copy className="w-4 h-4" /> Copiar Consulta
-              </Button>
-              <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-                <X className="w-4 h-4" /> Cancelar Consulta
-              </Button>
-              <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier(consultation.patient.id)}>
-                <FileText className="w-4 h-4" /> Ver Dossier
-              </Button>
-              <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
-                <MessageCircle className="w-4 h-4" /> Enviar Mensagem
-              </Button>
-              <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('prescrever')}>
-                <FileText className="w-4 h-4" /> Prescrever Receita
-              </Button>
-            </div>
+            {userRole === 'dentist' ? (
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
+                  <Copy className="w-4 h-4" /> Copiar Consulta
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('prescrever')}>
+                  <Pill className="w-4 h-4" /> Prescrever Receita
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
+                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('referencia')}>
+                  <FileText className="w-4 h-4" /> Recomendar Paciente
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start">
+                  <RefreshCw className="w-4 h-4" /> Reagendar Consulta
+                </Button>
+                {isBlocked ? (
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400" onClick={handleUnblock}>
+                    <Unlock className="w-4 h-4" /> Desbloquear
+                  </Button>
+                ) : (
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
+                    <Ban className="w-4 h-4" /> Bloquear Paciente
+                  </Button>
+                )}
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier(consultation.patient.id)}>
+                  <FileText className="w-4 h-4" /> Ver Dossier
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                  <X className="w-4 h-4" /> Cancelar Consulta
+                </Button>
+              </div>
+            ) : userRole === 'clinic' ? (
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
+                  <Copy className="w-4 h-4" /> Copiar Consulta
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
+                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 justify-start">
+                  <RefreshCw className="w-4 h-4" /> Reagendar Consulta
+                </Button>
+                {isBlocked ? (
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400" onClick={handleUnblock}>
+                    <Unlock className="w-4 h-4" /> Desbloquear
+                  </Button>
+                ) : (
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
+                    <Ban className="w-4 h-4" /> Bloquear Paciente
+                  </Button>
+                )}
+                <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier(consultation.patient.id)}>
+                  <FileText className="w-4 h-4" /> Ver Dossier
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                  <X className="w-4 h-4" /> Cancelar Consulta
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Button variant="secondary" size="sm" className="gap-2 flex-1" onClick={() => onNavigate('conversas')}>
+                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                </Button>
+                <Button variant="secondary" size="sm" className="gap-2 flex-1">
+                  <RefreshCw className="w-4 h-4" /> Reagendar
+                </Button>
+                <Button variant="outline" size="sm" className="gap-2 flex-1 border-destructive/30 text-destructive hover:bg-destructive/10">
+                  <X className="w-4 h-4" /> Cancelar Consulta
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </ScrollArea>
+
+      {/* Block Patient Modal */}
+      <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogDescription>
+              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div>
+              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <Textarea
+                value={blockReason}
+                onChange={(e) => setBlockReason(e.target.value)}
+                placeholder="Indique o motivo do bloqueio..."
+                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <div className="flex gap-2">
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
+              <Button className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground" disabled={!blockReason.trim()} onClick={handleBlock}>
+                Bloquear
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
