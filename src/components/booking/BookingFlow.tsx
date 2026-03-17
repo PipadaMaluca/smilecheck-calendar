@@ -417,7 +417,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
               className={cn(
                 'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
-                paymentMethod === m.id || (m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard)
+                paymentMethod === m.id
                   ? 'border-primary bg-primary/10 ring-1 ring-primary'
                   : 'border-border bg-secondary hover:border-muted-foreground/40'
               )}
@@ -426,7 +426,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               <span className="text-sm font-medium text-foreground">{m.label}</span>
             </button>
             {/* Inline card form — expands below "Novo cartão" when selected */}
-            {m.id === 'card-new' && paymentMethod === 'card' && !useSavedCard && (
+            {m.id === 'card-new' && paymentMethod === 'card-new' && (
               <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
           <div className="relative">
             <Input
