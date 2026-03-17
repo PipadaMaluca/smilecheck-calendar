@@ -369,7 +369,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
           const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
           if (!hasVisible) return null;
         }
-        const isSecretsSection = category.title === 'Secretas';
+        // (isSecretsSection already declared above)
         return (
           <div key={category.title}>
             <Separator className="mb-4" />

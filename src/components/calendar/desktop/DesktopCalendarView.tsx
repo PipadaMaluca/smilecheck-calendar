@@ -212,9 +212,9 @@ export function DesktopCalendarView() {
   }, []);
 
   const handleToggleTodos = useCallback(() => {
-    const presentKeys = getPresentDentistKeys();
-    const allPresent = presentKeys.every((key) => selectedDentistIds.includes(key));
-    setSelectedDentistIds(allPresent ? [] : presentKeys);
+    const allKeys = getAllClinicDentistKeys();
+    const allSelected = allKeys.every((key) => selectedDentistIds.includes(key));
+    setSelectedDentistIds(allSelected ? [] : allKeys);
   }, [selectedDentistIds]);
 
   const handleSelectPresentDentists = useCallback(() => {
@@ -222,7 +222,7 @@ export function DesktopCalendarView() {
   }, []);
 
   const handleSelectAllDentists = useCallback(() => {
-    setSelectedDentistIds(getPresentDentistKeys());
+    setSelectedDentistIds(getAllClinicDentistKeys());
   }, []);
 
   const handleFamilyMemberToggle = (memberId: string, isCheckbox: boolean) => {
