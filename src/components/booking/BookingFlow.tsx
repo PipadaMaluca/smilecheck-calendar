@@ -504,6 +504,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                     return rawNum.length !== 16 || cardExpiry.length !== 5 || cardCvv.length !== 3 || cardName.trim().length === 0;
                   })()}
                   onClick={() => {
+                    setPaymentMethod('card');
                     setUseSavedCard(true);
                     toast.success('✅ Cartão adicionado com sucesso');
                   }}
