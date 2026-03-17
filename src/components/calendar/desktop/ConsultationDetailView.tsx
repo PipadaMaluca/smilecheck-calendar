@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp } from 'lucide-react';
+import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle } from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
+import { toast } from 'sonner';
 
 interface ConsultationDetailViewProps {
   consultation: Consultation;
@@ -16,6 +18,7 @@ interface ConsultationDetailViewProps {
   onViewDossier: (patientId: string) => void;
   onNavigate: (tab: string) => void;
   onCopy?: (consultation: Consultation) => void;
+  userRole?: UserRole;
 }
 
 // Mock health alerts for demo
