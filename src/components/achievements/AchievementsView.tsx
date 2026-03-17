@@ -363,8 +363,12 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
   const renderAchievementGrid = (cats: AchievementCategory[], showClickHandler: boolean) => (
     <>
       {cats.map(category => {
-        const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
-        if (!hasVisible) return null;
+        const isSecretsSection = category.title === 'Secretas';
+        // Always show secrets section; for other categories, hide if no visible achievements
+        if (!isSecretsSection) {
+          const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
+          if (!hasVisible) return null;
+        }
         const isSecretsSection = category.title === 'Secretas';
         return (
           <div key={category.title}>
