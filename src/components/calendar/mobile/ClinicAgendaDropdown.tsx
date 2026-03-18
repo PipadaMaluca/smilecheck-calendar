@@ -8,6 +8,7 @@ import { ViewMode } from '@/types/calendar';
 interface ClinicAgendaDropdownProps {
   selectedDentistIds: string[];
   onDentistToggle: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
+  onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   viewMode: ViewMode;
 }
 
