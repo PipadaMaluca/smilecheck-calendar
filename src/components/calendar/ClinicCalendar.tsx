@@ -165,6 +165,27 @@ export function ClinicCalendar() {
     }
   };
 
+  // Clinic-level toggle for mobile dropdown (operates on selectedDentistIds like desktop)
+  const handleMobileClinicToggle = (clinicId: string, isCheckbox: boolean) => {
+    const dentistsInClinic = getDentistsForClinic(clinicId);
+    const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
+    if (isCheckbox) {
+      setSelectedDentistIds(prev => {
+        const showAll = prev.length === 0 || prev.includes('all');
+        if (showAll) {
+          const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+          return allKeys.filter(k => !clinicKeys.includes(k));
+        }
+        const allSelected = clinicKeys.every(k => prev.includes(k));
+        return allSelected
+          ? prev.filter(id => !clinicKeys.includes(id))
+          : [...new Set([...prev, ...clinicKeys])];
+      });
+    } else {
+      setSelectedDentistIds(clinicKeys);
+    }
+  };
+
   const handleClinicToggle = (clinicId: string, isCheckbox: boolean) => {
     if (isCheckbox) {
       if (selectedClinics.includes(clinicId)) {
