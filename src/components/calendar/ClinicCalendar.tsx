@@ -271,6 +271,15 @@ export function ClinicCalendar() {
   }, []);
 
   const handleTabChange = (tab: string) => {
+    // Open specific consultation detail by ID
+    if (tab.startsWith('consulta-detalhe:')) {
+      const consultationId = tab.split(':')[1];
+      const consultation = mockConsultations.find(c => c.id === consultationId);
+      if (consultation) {
+        setSelectedConsultation(consultation);
+      }
+      return;
+    }
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowReferral(false);
     setShowSearch(false);
