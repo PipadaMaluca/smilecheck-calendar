@@ -37,31 +37,31 @@ const MOCK_PATIENT_DATA: Record<string, any> = {
     weight: '62 kg',
     allergies: ['Penicilina', 'Látex'],
     medications: [
-      { name: 'Varfarina', dosage: '5mg/dia', interaction: 'Risco com AINEs' },
-      { name: 'Omeprazol', dosage: '20mg/dia' },
-    ],
+    { name: 'Varfarina', dosage: '5mg/dia', interaction: 'Risco com AINEs' },
+    { name: 'Omeprazol', dosage: '20mg/dia' }],
+
     conditions: ['Hipertensão', 'Diabetes Tipo 2'],
     vaccines: ['COVID-19 (3 doses)', 'Tétano (2024)', 'Gripe (2025)'],
     prescriptions: [
-      { id: 'rx1', date: '15 Jan 2026', dentist: 'Dr. Gonçalo Pipo', medications: ['Ibuprofeno 400mg', 'Amoxicilina 500mg'] },
-      { id: 'rx2', date: '02 Dez 2025', dentist: 'Dr. Alexandre Bernardo', medications: ['Paracetamol 1g'] },
-    ],
+    { id: 'rx1', date: '15 Jan 2026', dentist: 'Dr. Gonçalo Pipo', medications: ['Ibuprofeno 400mg', 'Amoxicilina 500mg'] },
+    { id: 'rx2', date: '02 Dez 2025', dentist: 'Dr. Alexandre Bernardo', medications: ['Paracetamol 1g'] }],
+
     referrals: [
-      { id: 'ref1', date: '10 Jan 2026', from: 'Dr. Gonçalo Pipo', to: 'Dr. Frederico Cardoso', reason: 'Avaliação cirúrgica dente 38' },
-    ],
+    { id: 'ref1', date: '10 Jan 2026', from: 'Dr. Gonçalo Pipo', to: 'Dr. Frederico Cardoso', reason: 'Avaliação cirúrgica dente 38' }],
+
     images: [
-      { id: 'img1', date: '15 Jan 2026', category: 'Ortopantomografia', description: 'Panorâmica inicial', uploadedBy: 'Dr. Gonçalo Pipo' },
-      { id: 'img2', date: '02 Dez 2025', category: 'Foto Intraoral', description: 'Dente 46 pré-tratamento', uploadedBy: 'Paciente' },
-      { id: 'img3', date: '18 Out 2025', category: 'Radiografia Periapical', description: 'Dente 15', uploadedBy: 'Dr. Alexandre Bernardo' },
-    ],
+    { id: 'img1', date: '15 Jan 2026', category: 'Ortopantomografia', description: 'Panorâmica inicial', uploadedBy: 'Dr. Gonçalo Pipo' },
+    { id: 'img2', date: '02 Dez 2025', category: 'Foto Intraoral', description: 'Dente 46 pré-tratamento', uploadedBy: 'Paciente' },
+    { id: 'img3', date: '18 Out 2025', category: 'Radiografia Periapical', description: 'Dente 15', uploadedBy: 'Dr. Alexandre Bernardo' }],
+
     consultations: [
-      { date: '31 Jan 2026', time: '10:30', type: 'Urgência', category: 'urgencia', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Em sala de espera', price: 80, hasPrescription: true, notes: 'Dor aguda dente 46' },
-      { date: '15 Jan 2026', time: '09:00', type: 'Restauração', category: 'restauracao', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 60, hasPrescription: true, notes: 'Dente 15 face oclusal' },
-      { date: '02 Dez 2025', time: '14:30', type: 'Destartarização', category: 'destartarizacao', dentist: 'Dr. Alexandre Bernardo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 50, hasPrescription: false, notes: 'Limpeza semestral' },
-      { date: '18 Out 2025', time: '10:00', type: '1ª Consulta', category: 'primeira_consulta', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 40, hasPrescription: false, notes: 'Avaliação inicial completa' },
-      { date: '05 Jun 2025', time: '16:00', type: 'Teleconsulta', category: 'teleconsulta', dentist: 'Dr. Gil Santos', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 25, hasPrescription: false, notes: 'Follow-up pós-extração' },
-    ],
-  },
+    { date: '31 Jan 2026', time: '10:30', type: 'Urgência', category: 'urgencia', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Em sala de espera', price: 80, hasPrescription: true, notes: 'Dor aguda dente 46' },
+    { date: '15 Jan 2026', time: '09:00', type: 'Restauração', category: 'restauracao', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 60, hasPrescription: true, notes: 'Dente 15 face oclusal' },
+    { date: '02 Dez 2025', time: '14:30', type: 'Destartarização', category: 'destartarizacao', dentist: 'Dr. Alexandre Bernardo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 50, hasPrescription: false, notes: 'Limpeza semestral' },
+    { date: '18 Out 2025', time: '10:00', type: '1ª Consulta', category: 'primeira_consulta', dentist: 'Dr. Gonçalo Pipo', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 40, hasPrescription: false, notes: 'Avaliação inicial completa' },
+    { date: '05 Jun 2025', time: '16:00', type: 'Teleconsulta', category: 'teleconsulta', dentist: 'Dr. Gil Santos', clinic: 'Clínica SmileCheck', status: 'Concluída', price: 25, hasPrescription: false, notes: 'Follow-up pós-extração' }]
+
+  }
 };
 
 const IMAGE_CATEGORIES = ['Radiografia Periapical', 'Ortopantomografia', 'Teleradiografia', 'CBCT', 'Foto Intraoral', 'Outro'];
@@ -111,9 +111,9 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     <MapPin className="w-3.5 h-3.5" /> {data.address}
                   </span>
                 </div>
-                {userRole === 'dentist' ? (
-                  <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                {userRole === 'dentist' ?
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 text-left my-[5px]" style={{ maxWidth: '100%' }}>
                       <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
                         <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
                       </Button>
@@ -130,18 +130,18 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     <Button size="sm" variant="outline" className="gap-1.5 w-full mt-2 border-destructive/30 text-destructive hover:bg-destructive/10">
                       <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
                     </Button>
-                  </>
-                ) : userRole === 'clinic' ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                  </> :
+                userRole === 'clinic' ?
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
                     <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
                       <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
                     </Button>
                     <Button size="sm" variant="outline" className="gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/10">
                       <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
                     </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                  </div> :
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
                     <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
                       <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
                     </Button>
@@ -152,7 +152,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                       <FileText className="w-3.5 h-3.5" /> Prescrever Receita
                     </Button>
                   </div>
-                )}
+                }
               </div>
             </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
@@ -191,39 +191,39 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
 
             {/* Allergies */}
-            {data.allergies.length > 0 && (
-              <div className="bg-destructive/10 rounded-lg p-3 space-y-2">
+            {data.allergies.length > 0 &&
+            <div className="bg-destructive/10 rounded-lg p-3 space-y-2">
                 <p className="text-xs font-semibold text-destructive flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5" /> Alergias
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {data.allergies.map((a: string) => (
-                    <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
-                  ))}
+                  {data.allergies.map((a: string) =>
+                <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
+                )}
                 </div>
               </div>
-            )}
+            }
 
             {/* Medications */}
             <div className="space-y-2">
               <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
                 <Pill className="w-3.5 h-3.5" /> Medicação Atual
               </p>
-              {data.medications.map((m: any) => (
-                <div key={m.name} className={cn('text-sm p-2 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
+              {data.medications.map((m: any) =>
+              <div key={m.name} className={cn('text-sm p-2 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
                   <span className="font-medium">{m.name}</span> <span className="text-muted-foreground">— {m.dosage}</span>
                   {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">⚠️ {m.interaction}</p>}
                 </div>
-              ))}
+              )}
             </div>
 
             {/* Conditions */}
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground">Condições Médicas</p>
               <div className="flex flex-wrap gap-1.5">
-                {data.conditions.map((c: string) => (
-                  <span key={c} className="text-xs px-2 py-1 rounded-full bg-secondary text-foreground">{c}</span>
-                ))}
+                {data.conditions.map((c: string) =>
+                <span key={c} className="text-xs px-2 py-1 rounded-full bg-secondary text-foreground">{c}</span>
+                )}
               </div>
             </div>
 
@@ -231,9 +231,9 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <div className="space-y-1">
               <p className="text-xs font-semibold text-muted-foreground">Vacinas</p>
               <div className="flex flex-wrap gap-1.5">
-                {data.vaccines.map((v: string) => (
-                  <span key={v} className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
-                ))}
+                {data.vaccines.map((v: string) =>
+                <span key={v} className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
+                )}
               </div>
             </div>
           </div>
@@ -247,8 +247,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <TabsTrigger value="referencias" className="text-xs">Cartas de Referência</TabsTrigger>
               </TabsList>
               <TabsContent value="receitas" className="space-y-2 mt-3">
-                {data.prescriptions.map((rx: any) => (
-                  <div key={rx.id} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
+                {data.prescriptions.map((rx: any) =>
+                <div key={rx.id} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                     <div>
                       <p className="text-sm font-medium">{rx.date}</p>
                       <p className="text-xs text-muted-foreground"><ClickableDentistName name={rx.dentist} className="text-xs text-muted-foreground" /></p>
@@ -258,16 +258,16 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                       <Eye className="w-3.5 h-3.5" /> Ver
                     </Button>
                   </div>
-                ))}
+                )}
               </TabsContent>
               <TabsContent value="referencias" className="space-y-2 mt-3">
-                {data.referrals.map((ref: any) => (
-                  <div key={ref.id} className="p-3 bg-secondary/30 rounded-lg">
+                {data.referrals.map((ref: any) =>
+                <div key={ref.id} className="p-3 bg-secondary/30 rounded-lg">
                     <p className="text-sm font-medium">{ref.date}</p>
                     <p className="text-xs text-muted-foreground">De: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → Para: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
                     <p className="text-xs text-muted-foreground mt-0.5">{ref.reason}</p>
                   </div>
-                ))}
+                )}
               </TabsContent>
             </Tabs>
           </div>
@@ -281,12 +281,12 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </Button>
             </div>
             <div className="grid grid-cols-3 gap-3">
-              {data.images.map((img: any) => (
-                <button
-                  key={img.id}
-                  className="bg-secondary/50 rounded-lg p-3 text-left hover:bg-secondary/70 transition-colors"
-                  onClick={() => setPreviewImage(img.id)}
-                >
+              {data.images.map((img: any) =>
+              <button
+                key={img.id}
+                className="bg-secondary/50 rounded-lg p-3 text-left hover:bg-secondary/70 transition-colors"
+                onClick={() => setPreviewImage(img.id)}>
+                
                   <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-2">
                     <Camera className="w-8 h-8 text-muted-foreground/30" />
                   </div>
@@ -294,7 +294,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   <p className="text-[10px] text-muted-foreground">{img.date}</p>
                   <p className="text-[10px] text-muted-foreground truncate">{img.uploadedBy}</p>
                 </button>
-              ))}
+              )}
             </div>
           </div>
 
@@ -305,8 +305,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               value={clinicalNotes}
               onChange={(e) => setClinicalNotes(e.target.value)}
               placeholder="Notas gerais sobre o paciente..."
-              className="min-h-[100px] bg-secondary/50 border-border text-sm"
-            />
+              className="min-h-[100px] bg-secondary/50 border-border text-sm" />
+            
           </div>
 
           {/* Histórico de Consultas */}
@@ -320,8 +320,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   <div key={i} className="border border-border/50 rounded-lg overflow-hidden">
                     <button
                       className="w-full flex items-center gap-3 p-3 text-left hover:bg-secondary/30 transition-colors"
-                      onClick={() => setExpandedConsultation(isExpanded ? null : i)}
-                    >
+                      onClick={() => setExpandedConsultation(isExpanded ? null : i)}>
+                      
                       <div className="w-1 h-8 rounded-full shrink-0" style={{ backgroundColor: catColor?.hex || undefined }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
@@ -335,14 +335,14 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                         <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap"><span className="px-1.5 py-0 rounded-full text-[10px] font-medium inline-block" style={getCategoryBadgeStyle(catColor?.hex || '#9E9E9E')}>{c.type}</span>{userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>} • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" /></p>
                       </div>
                     </button>
-                    {isExpanded && (
-                      <div className="px-3 pb-3 pt-0 space-y-1 border-t border-border/30">
+                    {isExpanded &&
+                    <div className="px-3 pb-3 pt-0 space-y-1 border-t border-border/30">
                         {c.price && <p className="text-xs text-muted-foreground">Valor: €{c.price}</p>}
                         {c.notes && <p className="text-xs text-muted-foreground">Notas: {c.notes}</p>}
                       </div>
-                    )}
-                  </div>
-                );
+                    }
+                  </div>);
+
               })}
             </div>
           </div>
@@ -350,8 +350,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
       </ScrollArea>
 
       {/* Preview Prescription Modal */}
-      {previewPrescription && (
-        <>
+      {previewPrescription &&
+      <>
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setPreviewPrescription(null)} />
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-50 space-y-4">
             <div className="flex items-center justify-between">
@@ -361,17 +361,17 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <p className="text-sm text-muted-foreground">{previewPrescription.dentist}</p>
             <Separator />
             <div className="space-y-1">
-              {previewPrescription.medications.map((m: string, i: number) => (
-                <p key={i} className="text-sm">💊 {m}</p>
-              ))}
+              {previewPrescription.medications.map((m: string, i: number) =>
+            <p key={i} className="text-sm">💊 {m}</p>
+            )}
             </div>
           </div>
         </>
-      )}
+      }
 
       {/* Preview Image Modal */}
-      {previewImage && (
-        <>
+      {previewImage &&
+      <>
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setPreviewImage(null)} />
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-card rounded-xl border border-border p-6 z-50 flex flex-col items-center gap-4">
             <div className="w-full flex justify-end">
@@ -383,11 +383,11 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <p className="text-sm text-muted-foreground">Pré-visualização de imagem</p>
           </div>
         </>
-      )}
+      }
 
       {/* Upload Modal */}
-      {showUploadModal && (
-        <>
+      {showUploadModal &&
+      <>
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setShowUploadModal(false)} />
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-50 space-y-4">
             <div className="flex items-center justify-between">
@@ -398,7 +398,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               <div>
                 <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
                 <select className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm">
-                  {IMAGE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {IMAGE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
@@ -413,7 +413,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
           </div>
         </>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
