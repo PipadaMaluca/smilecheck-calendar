@@ -253,7 +253,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
                   return (
-                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer">
+                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 rounded transition-colors cursor-pointer"
+                      onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       <span className="text-xs font-bold text-primary">{c.time}</span>
                       <span className="text-xs text-foreground truncate min-w-0">
                         <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
