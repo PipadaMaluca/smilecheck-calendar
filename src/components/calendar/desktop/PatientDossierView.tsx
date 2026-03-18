@@ -111,17 +111,48 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     <MapPin className="w-3.5 h-3.5" /> {data.address}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
-                  <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
-                    <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
-                  </Button>
-                  <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
-                    <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
-                  </Button>
-                  <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('prescrever')}>
-                    <FileText className="w-3.5 h-3.5" /> Prescrever Receita
-                  </Button>
-                </div>
+                {userRole === 'dentist' ? (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
+                        <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                      </Button>
+                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
+                        <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                      </Button>
+                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('prescrever')}>
+                        <Pill className="w-3.5 h-3.5" /> Prescrever Receita
+                      </Button>
+                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('referencia')}>
+                        <FileText className="w-3.5 h-3.5" /> Recomendar Paciente
+                      </Button>
+                    </div>
+                    <Button size="sm" variant="outline" className="gap-1.5 w-full mt-2 border-destructive/30 text-destructive hover:bg-destructive/10">
+                      <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                    </Button>
+                  </>
+                ) : userRole === 'clinic' ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
+                      <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                    </Button>
+                    <Button size="sm" variant="outline" className="gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/10">
+                      <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
+                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
+                      <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                    </Button>
+                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
+                      <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                    </Button>
+                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('prescrever')}>
+                      <FileText className="w-3.5 h-3.5" /> Prescrever Receita
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
