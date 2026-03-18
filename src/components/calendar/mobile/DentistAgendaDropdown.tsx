@@ -9,6 +9,7 @@ interface DentistAgendaDropdownProps {
   currentDentistId: string;
   selectedDentistIds: string[];
   onDentistToggle: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
+  onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   viewMode: ViewMode;
 }
 
