@@ -8,12 +8,14 @@ import { ViewMode } from '@/types/calendar';
 interface ClinicAgendaDropdownProps {
   selectedDentistIds: string[];
   onDentistToggle: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
+  onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   viewMode: ViewMode;
 }
 
 export function ClinicAgendaDropdown({
   selectedDentistIds,
   onDentistToggle,
+  onClinicToggle,
   viewMode,
 }: ClinicAgendaDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -123,32 +125,16 @@ export function ClinicAgendaDropdown({
 
           // Toggle all dentists of this clinic (CHECKMARK behavior)
           const handleClinicCheckbox = () => {
-            if (allSelected) {
-              const clinicKeys = visibleDentists.map(d => `${clinic.id}-${d.id}`);
-              clinicKeys.forEach(k => onDentistToggle(k.split('-')[1], true, clinic.id));
-            } else if (allClinicSelected) {
-              visibleDentists.forEach(d => {
-                if (selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
-                  onDentistToggle(d.id, true, clinic.id);
-                }
-              });
-            } else {
-              visibleDentists.forEach(d => {
-                if (!selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
-                  onDentistToggle(d.id, true, clinic.id);
-                }
-              });
+            if (onClinicToggle) {
+              onClinicToggle(clinic.id, true);
             }
           };
 
           // Click clinic NAME → exclusive select: only dentists from this clinic
           const handleClinicName = () => {
-            onDentistToggle(visibleDentists[0]?.id, false, clinic.id);
-            setTimeout(() => {
-              visibleDentists.slice(1).forEach(d => {
-                onDentistToggle(d.id, true, clinic.id);
-              });
-            }, 0);
+            if (onClinicToggle) {
+              onClinicToggle(clinic.id, false);
+            }
           };
 
           return (

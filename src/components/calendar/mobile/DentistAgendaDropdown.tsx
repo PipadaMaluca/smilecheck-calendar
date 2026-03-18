@@ -9,6 +9,7 @@ interface DentistAgendaDropdownProps {
   currentDentistId: string;
   selectedDentistIds: string[];
   onDentistToggle: (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => void;
+  onClinicToggle?: (clinicId: string, isCheckbox: boolean) => void;
   viewMode: ViewMode;
 }
 
@@ -16,6 +17,7 @@ export function DentistAgendaDropdown({
   currentDentistId,
   selectedDentistIds,
   onDentistToggle,
+  onClinicToggle,
   viewMode,
 }: DentistAgendaDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -127,32 +129,16 @@ export function DentistAgendaDropdown({
 
           // CHECKMARK: Toggle all dentists of this clinic
           const handleClinicCheckbox = () => {
-            if (allSelected) {
-              const clinicKeys = visibleDentists.map(d => `${clinic.id}-${d.id}`);
-              clinicKeys.forEach(k => onDentistToggle(k.split('-')[1], true, clinic.id));
-            } else if (allClinicSelected) {
-              visibleDentists.forEach(d => {
-                if (selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
-                  onDentistToggle(d.id, true, clinic.id);
-                }
-              });
-            } else {
-              visibleDentists.forEach(d => {
-                if (!selectedDentistIds.includes(`${clinic.id}-${d.id}`)) {
-                  onDentistToggle(d.id, true, clinic.id);
-                }
-              });
+            if (onClinicToggle) {
+              onClinicToggle(clinic.id, true);
             }
           };
 
           // NAME: Exclusive select all dentists of this clinic
           const handleClinicName = () => {
-            onDentistToggle(visibleDentists[0]?.id, false, clinic.id);
-            setTimeout(() => {
-              visibleDentists.slice(1).forEach(d => {
-                onDentistToggle(d.id, true, clinic.id);
-              });
-            }, 0);
+            if (onClinicToggle) {
+              onClinicToggle(clinic.id, false);
+            }
           };
 
           return (
