@@ -17,6 +17,7 @@ export function DentistAgendaDropdown({
   currentDentistId,
   selectedDentistIds,
   onDentistToggle,
+  onClinicToggle,
   viewMode,
 }: DentistAgendaDropdownProps) {
   const [open, setOpen] = useState(false);
