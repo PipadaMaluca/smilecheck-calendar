@@ -300,6 +300,15 @@ export function DentistCalendar() {
   };
 
   const handleTabChange = (tab: string) => {
+    // Open specific consultation detail by ID
+    if (tab.startsWith('consulta-detalhe:')) {
+      const consultationId = tab.split(':')[1];
+      const consultation = mockConsultations.find(c => c.id === consultationId);
+      if (consultation) {
+        setSelectedConsultation(consultation);
+      }
+      return;
+    }
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
       const DEMO_DATE = new Date(2026, 0, 31);
