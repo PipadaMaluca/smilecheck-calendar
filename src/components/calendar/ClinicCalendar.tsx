@@ -328,6 +328,7 @@ export function ClinicCalendar() {
           <ClinicAgendaDropdown
             selectedDentistIds={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
             onDentistToggle={handleDentistToggle}
+            onClinicToggle={handleMobileClinicToggle}
             viewMode={viewMode}
           />
 
