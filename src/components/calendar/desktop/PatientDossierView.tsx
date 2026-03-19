@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, X, Star, Video } from 'lucide-react';
+import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, X, Star, Video, ArrowLeft } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';

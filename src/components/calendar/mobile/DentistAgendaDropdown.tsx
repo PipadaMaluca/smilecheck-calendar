@@ -78,11 +78,11 @@ export function DentistAgendaDropdown({
         <div className="flex items-center gap-2 py-1">
           <CustomCheck
             checked={allSelected}
-            onChange={() => onDentistToggle('all', true)}
+            onChange={() => { setFilterPresentes(false); onDentistToggle('all', true); }}
           />
           <button
             className="text-xs font-medium hover:text-primary"
-            onClick={() => onDentistToggle('all', false)}
+            onClick={() => { setFilterPresentes(false); onDentistToggle('all', false); }}
           >
             Todas as Agendas
           </button>
