@@ -92,12 +92,13 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
       <ScrollArea className="flex-1">
         <div className="max-w-3xl mx-auto p-6 space-y-6">
           {/* Header */}
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-5">
+          <div className="flex flex-col md:flex-row items-start gap-5">
+            {/* Left: Avatar + Info */}
+            <div className="flex items-start gap-5 flex-1 min-w-0">
               <div className="w-20 h-20 rounded-full bg-secondary flex items-center justify-center shrink-0">
                 <User className="w-10 h-10 text-muted-foreground" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h1 className="text-xl font-bold text-foreground">{data.name}</h1>
                 <p className="text-sm text-muted-foreground mt-0.5">{data.age} anos</p>
                 <div className="flex flex-col gap-1 mt-2 text-sm">
@@ -111,53 +112,72 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     <MapPin className="w-3.5 h-3.5" /> {data.address}
                   </span>
                 </div>
-                {userRole === 'dentist' ?
-                <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 text-left my-[5px]" style={{ maxWidth: '100%' }}>
-                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
-                        <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
-                      </Button>
-                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
+                {/* Mobile/Tablet: buttons below info */}
+                <div className="md:hidden mt-3">
+                  {userRole === 'dentist' ? (
+                    <>
+                      <div className="flex flex-col gap-2">
+                        <Button size="sm" variant="secondary" className="gap-1.5 w-full" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
+                          <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                        </Button>
+                        <Button size="sm" variant="secondary" className="gap-1.5 w-full" onClick={() => onNavigate('conversas')}>
+                          <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                        </Button>
+                        <Button size="sm" variant="secondary" className="gap-1.5 w-full" onClick={() => onNavigate('prescrever')}>
+                          <Pill className="w-3.5 h-3.5" /> Prescrever Receita
+                        </Button>
+                        <Button size="sm" variant="secondary" className="gap-1.5 w-full" onClick={() => onNavigate('referencia')}>
+                          <FileText className="w-3.5 h-3.5" /> Recomendar Paciente
+                        </Button>
+                        <Button size="sm" variant="outline" className="gap-1.5 w-full border-destructive/30 text-destructive hover:bg-destructive/10">
+                          <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                        </Button>
+                      </div>
+                    </>
+                  ) : userRole === 'clinic' ? (
+                    <div className="flex flex-col gap-2">
+                      <Button size="sm" variant="secondary" className="gap-1.5 w-full" onClick={() => onNavigate('conversas')}>
                         <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
                       </Button>
-                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('prescrever')}>
-                        <Pill className="w-3.5 h-3.5" /> Prescrever Receita
-                      </Button>
-                      <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('referencia')}>
-                        <FileText className="w-3.5 h-3.5" /> Recomendar Paciente
+                      <Button size="sm" variant="outline" className="gap-1.5 w-full border-destructive/30 text-destructive hover:bg-destructive/10">
+                        <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
                       </Button>
                     </div>
-                    <Button size="sm" variant="outline" className="gap-1.5 w-full mt-2 border-destructive/30 text-destructive hover:bg-destructive/10">
-                      <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
-                    </Button>
-                  </> :
-                userRole === 'clinic' ?
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3" style={{ maxWidth: '100%' }}>
-                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
-                      <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
-                    </Button>
-                    <Button size="sm" variant="outline" className="gap-1.5 border-destructive/30 text-destructive hover:bg-destructive/10">
-                      <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
-                    </Button>
-                  </div> :
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-3" style={{ maxWidth: '100%' }}>
-                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
-                      <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
-                    </Button>
-                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('conversas')}>
-                      <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
-                    </Button>
-                    <Button size="sm" variant="secondary" className="gap-1.5" onClick={() => onNavigate('prescrever')}>
-                      <FileText className="w-3.5 h-3.5" /> Prescrever Receita
-                    </Button>
-                  </div>
-                }
+                  ) : null}
+                </div>
               </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
-            </Button>
+            {/* Right: Action buttons (desktop only) */}
+            <div className="hidden md:flex flex-col gap-2 shrink-0 w-[200px]">
+              {userRole === 'dentist' ? (
+                <>
+                  <Button size="sm" variant="secondary" className="gap-1.5 w-full justify-start" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
+                    <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                  </Button>
+                  <Button size="sm" variant="secondary" className="gap-1.5 w-full justify-start" onClick={() => onNavigate('conversas')}>
+                    <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                  </Button>
+                  <Button size="sm" variant="secondary" className="gap-1.5 w-full justify-start" onClick={() => onNavigate('prescrever')}>
+                    <Pill className="w-3.5 h-3.5" /> Prescrever Receita
+                  </Button>
+                  <Button size="sm" variant="secondary" className="gap-1.5 w-full justify-start" onClick={() => onNavigate('referencia')}>
+                    <FileText className="w-3.5 h-3.5" /> Recomendar Paciente
+                  </Button>
+                  <Button size="sm" variant="outline" className="gap-1.5 w-full justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                  </Button>
+                </>
+              ) : userRole === 'clinic' ? (
+                <>
+                  <Button size="sm" variant="secondary" className="gap-1.5 w-full justify-start" onClick={() => onNavigate('conversas')}>
+                    <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                  </Button>
+                  <Button size="sm" variant="outline" className="gap-1.5 w-full justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                  </Button>
+                </>
+              ) : null}
+            </div>
           </div>
 
           {/* Dados Pessoais */}
