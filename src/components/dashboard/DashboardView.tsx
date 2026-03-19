@@ -257,7 +257,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       <span className="text-xs font-bold text-primary">{c.time}</span>
                       <span className="text-xs text-foreground truncate min-w-0">
-                        <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground" />
+                        <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline" />
                       </span>
                       <div className="flex items-center gap-1.5 truncate text-left">
                         <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
