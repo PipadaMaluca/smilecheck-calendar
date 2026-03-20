@@ -42,9 +42,13 @@ import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 
+// Helper functions for filter state
+const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+
 export function ClinicCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
