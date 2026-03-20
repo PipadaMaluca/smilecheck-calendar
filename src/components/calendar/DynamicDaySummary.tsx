@@ -75,7 +75,9 @@ export function DynamicDaySummary({
 
   // Filter consultations based on selection
   const getFilteredConsultations = () => {
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    const allKeys2 = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+    const isAll2 = selectedDentistIds.length === 0 || allKeys2.every(k => selectedDentistIds.includes(k));
+    if (isAll2) {
       // Filter by clinics only
       if (selectedClinics.length === 0) {
         return consultations;
