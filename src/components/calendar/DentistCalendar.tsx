@@ -445,7 +445,7 @@ export function DentistCalendar() {
           userRole="dentist"
           viewMode={viewMode}
           onViewModeChange={setViewMode}
-          selectedDentists={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+          selectedDentists={selectedDentistIds}
           onDentistToggle={handleDentistToggle}
           selectedClinics={selectedClinics}
           onClinicToggle={handleClinicToggle}
