@@ -71,30 +71,13 @@ export function ClinicCalendar() {
   // Build columns based on selected clinics and dentists
   const columns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
+    if (selectedDentistIds.length === 0) return result;
     
-    // If no dentists selected or "all", show all clinics with all their dentists who work today
-    const showAll = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
-    
-    // When showAll, iterate ALL clinics (not just selectedClinics)
-    const clinicsToIterate = showAll 
-      ? mockClinics // Show all clinics when "Todos" selected
-      : mockClinics; // When specific dentists selected, iterate ALL clinics to check composite IDs
-    
-    clinicsToIterate.forEach(clinic => {
+    mockClinics.forEach(clinic => {
       const dentistsInClinic = getDentistsForClinic(clinic.id);
-      
-      // Filter dentists based on selection
-      let dentistsToShow;
-      if (showAll) {
-        // Show only dentists who work on demo day (like desktop)
-        dentistsToShow = dentistsInClinic.filter(d => dentistWorksOnDemo(clinic.id, d.id));
-      } else {
-        // Check composite IDs (clinic.id-dentist.id)
-        dentistsToShow = dentistsInClinic.filter(d => {
-          const compositeKey = `${clinic.id}-${d.id}`;
-          return selectedDentistIds.includes(compositeKey);
-        });
-      }
+      const dentistsToShow = dentistsInClinic.filter(d =>
+        selectedDentistIds.includes(`${clinic.id}-${d.id}`)
+      );
       
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
@@ -102,18 +85,12 @@ export function ClinicCalendar() {
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
-        
-        result.push({
-          dentist,
-          clinic,
-          worksToday,
-          slots,
-        });
+        result.push({ dentist, clinic, worksToday, slots });
       });
     });
     
     return result;
-  }, [selectedDate, selectedClinics, selectedDentistIds]);
+  }, [selectedDate, selectedDentistIds]);
 
   // Day consultations for summary
   const allDayConsultations = mockConsultations.filter(
