@@ -244,7 +244,7 @@ export function DentistCalendar() {
   // If none selected, auto-select first dentist
   useEffect(() => {
     if (viewMode === 'three-day' || viewMode === 'list') {
-      if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+      if (selectedDentistIds.length === 0) {
         // Select first dentist from first clinic
         setSelectedDentistIds(['1-1']); // SmileCheck - Dr. Gonçalo Pipo
       } else if (selectedDentistIds.length > 1) {
