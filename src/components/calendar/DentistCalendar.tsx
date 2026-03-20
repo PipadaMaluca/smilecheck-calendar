@@ -47,13 +47,17 @@ import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 import { ContestationView } from '@/components/contestation/ContestationView';
 
+// Helper functions for filter state
+const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+
 export function DentistCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>([]);
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys());
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -79,30 +83,13 @@ export function DentistCalendar() {
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
   const columns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
+    if (selectedDentistIds.length === 0) return result;
     
-    // If no dentists selected or "all", show all clinics with all their dentists who work today
-    const showAll = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
-    
-    // When showAll, iterate ALL clinics (not just selectedClinics)
-    const clinicsToIterate = showAll 
-      ? mockClinics // Show all clinics when "Todos" selected
-      : mockClinics; // When specific dentists selected, iterate ALL clinics to check composite IDs
-    
-    clinicsToIterate.forEach(clinic => {
+    mockClinics.forEach(clinic => {
       const dentistsInClinic = getDentistsForClinic(clinic.id);
-      
-      // Filter dentists based on selection
-      let dentistsToShow;
-      if (showAll) {
-        // Show only dentists who work on demo day (like desktop)
-        dentistsToShow = dentistsInClinic.filter(d => dentistWorksOnDemo(clinic.id, d.id));
-      } else {
-        // Check composite IDs (clinic.id-dentist.id)
-        dentistsToShow = dentistsInClinic.filter(d => {
-          const compositeKey = `${clinic.id}-${d.id}`;
-          return selectedDentistIds.includes(compositeKey);
-        });
-      }
+      const dentistsToShow = dentistsInClinic.filter(d =>
+        selectedDentistIds.includes(`${clinic.id}-${d.id}`)
+      );
       
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
@@ -110,27 +97,21 @@ export function DentistCalendar() {
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
-        
-        result.push({
-          dentist,
-          clinic,
-          worksToday,
-          slots,
-        });
+        result.push({ dentist, clinic, worksToday, slots });
       });
     });
     
     return result;
-  }, [selectedDate, selectedClinics, selectedDentistIds]);
+  }, [selectedDate, selectedDentistIds]);
 
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    if (selectedDentistIds.length === 0) {
       return mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
     }
     return mockConsultations.filter(c => {
       const key = `${c.clinic.id}-${c.dentist.id}`;
-      return selectedDentistIds.includes(key) || selectedDentistIds.includes(c.dentist.id);
+      return selectedDentistIds.includes(key);
     });
   }, [selectedDentistIds]);
 
@@ -165,7 +146,7 @@ export function DentistCalendar() {
 
   const getSlots = (date: Date) => {
     // For 3-day view, use selected dentist
-    if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
+    if (selectedDentistIds.length === 1) {
       // Parse composite ID (clinicId-dentistId)
       const parts = selectedDentistIds[0].split('-');
       const clinicId = parts[0];
@@ -180,28 +161,22 @@ export function DentistCalendar() {
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
-      // "Filtrar Presentes" clicked - select all 7 dentists who work on demo day
-      const presentDentists = clinicDentists
-        .filter(cd => cd.worksOnDemo)
-        .map(cd => `${cd.clinicId}-${cd.dentistId}`);
-      setSelectedDentistIds(presentDentists);
-    } else if (dentistId === 'all') {
-      // Clear filter - show all (empty array means show all)
-      setSelectedDentistIds([]);
+      // "Filtrar Presentes" - select only working dentists
+      setSelectedDentistIds(getPresentDentistMobileKeys());
+      return;
+    }
+    if (dentistId === 'all') {
+      // "Todas as Agendas" - select ALL including non-working
+      setSelectedDentistIds(getAllDentistMobileKeys());
+      return;
+    }
+    const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
+    if (isCheckbox) {
+      setSelectedDentistIds(prev =>
+        prev.includes(key) ? prev.filter(id => id !== key) : [...prev, key]
+      );
     } else {
-      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      if (isCheckbox) {
-        if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
-          setSelectedDentistIds([key]);
-        } else if (selectedDentistIds.includes(key)) {
-          const newSelected = selectedDentistIds.filter(id => id !== key);
-          setSelectedDentistIds(newSelected);
-        } else {
-          setSelectedDentistIds([...selectedDentistIds, key]);
-        }
-      } else {
-        setSelectedDentistIds([key]);
-      }
+      setSelectedDentistIds([key]);
     }
   };
 
@@ -222,17 +197,12 @@ export function DentistCalendar() {
     }
   };
 
-  // Clinic-level toggle for mobile dropdown (operates on selectedDentistIds like desktop)
+  // Clinic-level toggle for mobile dropdown (same logic as desktop)
   const handleMobileClinicToggle = (clinicId: string, isCheckbox: boolean) => {
     const dentistsInClinic = getDentistsForClinic(clinicId);
     const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
     if (isCheckbox) {
       setSelectedDentistIds(prev => {
-        const showAll = prev.length === 0 || prev.includes('all');
-        if (showAll) {
-          const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-          return allKeys.filter(k => !clinicKeys.includes(k));
-        }
         const allSelected = clinicKeys.every(k => prev.includes(k));
         return allSelected
           ? prev.filter(id => !clinicKeys.includes(id))
@@ -274,7 +244,7 @@ export function DentistCalendar() {
   // If none selected, auto-select first dentist
   useEffect(() => {
     if (viewMode === 'three-day' || viewMode === 'list') {
-      if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+      if (selectedDentistIds.length === 0) {
         // Select first dentist from first clinic
         setSelectedDentistIds(['1-1']); // SmileCheck - Dr. Gonçalo Pipo
       } else if (selectedDentistIds.length > 1) {
@@ -387,7 +357,7 @@ export function DentistCalendar() {
             {/* Dentist Agenda Dropdown Filter */}
             <DentistAgendaDropdown
               currentDentistId={mockDentists[0].id}
-              selectedDentistIds={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+              selectedDentistIds={selectedDentistIds}
               onDentistToggle={handleDentistToggle}
               onClinicToggle={handleMobileClinicToggle}
               viewMode={viewMode}
@@ -475,7 +445,7 @@ export function DentistCalendar() {
           userRole="dentist"
           viewMode={viewMode}
           onViewModeChange={setViewMode}
-          selectedDentists={selectedDentistIds.length === 0 ? ['all'] : selectedDentistIds}
+          selectedDentists={selectedDentistIds}
           onDentistToggle={handleDentistToggle}
           selectedClinics={selectedClinics}
           onClinicToggle={handleClinicToggle}

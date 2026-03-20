@@ -18,8 +18,10 @@ export function DynamicDaySummary({
 }: DynamicDaySummaryProps) {
   // Calculate title based on selection
   const getTitle = (): string => {
-    // No selection = all
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    // Check if all or most dentists selected (effectively "all")
+    const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+    const isAll = selectedDentistIds.length === 0 || allKeys.every(k => selectedDentistIds.includes(k));
+    if (isAll) {
       if (selectedClinics.length === 0 || selectedClinics.length === mockClinics.length) {
         return 'Resumo do Dia - Todas as Clínicas';
       } else if (selectedClinics.length === 1) {
@@ -73,7 +75,9 @@ export function DynamicDaySummary({
 
   // Filter consultations based on selection
   const getFilteredConsultations = () => {
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    const allKeys2 = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+    const isAll2 = selectedDentistIds.length === 0 || allKeys2.every(k => selectedDentistIds.includes(k));
+    if (isAll2) {
       // Filter by clinics only
       if (selectedClinics.length === 0) {
         return consultations;

@@ -24,7 +24,8 @@ export function DentistAgendaDropdown({
   const [filterPresentes, setFilterPresentes] = useState(false);
   const currentDentist = mockDentists.find(d => d.id === currentDentistId);
   const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
-  const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
+  const allClinicDentistKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+  const allSelected = allClinicDentistKeys.length > 0 && allClinicDentistKeys.every(k => selectedDentistIds.includes(k));
 
   // Clinics where this dentist works
   const dentistClinics = clinicDentists
@@ -37,8 +38,9 @@ export function DentistAgendaDropdown({
 
   const getLabel = () => {
     if (!currentDentist) return 'Agenda';
-    const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
-    if (allSelected) return `${currentDentist.name} (Eu) — Todas`;
+    const allKeysForLabel = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+    const isAll = allKeysForLabel.length > 0 && allKeysForLabel.every(k => selectedDentistIds.includes(k));
+    if (isAll) return `${currentDentist.name} (Eu) — Todas`;
     const selectedKeys = selectedDentistIds.filter(id => id.includes(`-${currentDentistId}`));
     if (selectedKeys.length === 1) {
       const clinicId = selectedKeys[0].split('-')[0];
@@ -123,9 +125,9 @@ export function DentistAgendaDropdown({
           const currentVisible = visibleDentists.some(d => d.id === currentDentistId);
           
           const key = `${clinic.id}-${currentDentistId}`;
-          const isSelected = allSelected || selectedDentistIds.includes(key);
+          const isSelected = selectedDentistIds.includes(key);
 
-          const allClinicSelected = allSelected || visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+          const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
           // CHECKMARK: Toggle all dentists of this clinic
           const handleClinicCheckbox = () => {
@@ -176,7 +178,7 @@ export function DentistAgendaDropdown({
               {/* Other dentists */}
               {otherDentists.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
-                const dSelected = allSelected || selectedDentistIds.includes(dKey);
+                const dSelected = selectedDentistIds.includes(dKey);
                 const dWorks = clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo ?? false;
                 return (
                   <div key={dKey} className="flex items-center gap-2 ml-5 py-1">

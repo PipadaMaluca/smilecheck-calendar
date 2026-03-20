@@ -22,7 +22,8 @@ export function ClinicAgendaDropdown({
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
   const [filterPresentes, setFilterPresentes] = useState(false);
   const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
-  const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
+  const allClinicDentistKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+  const allSelected = allClinicDentistKeys.length > 0 && allClinicDentistKeys.every(k => selectedDentistIds.includes(k));
 
   const toggleClinicExpanded = (clinicId: string) => {
     setExpandedClinics(prev =>
@@ -120,7 +121,7 @@ export function ClinicAgendaDropdown({
           // but unchecked ones that don't work today
 
           // Check if all dentists in this clinic are selected
-          const allClinicSelected = allSelected || visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+          const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
           // Toggle all dentists of this clinic (CHECKMARK behavior)
           const handleClinicCheckbox = () => {
@@ -159,7 +160,7 @@ export function ClinicAgendaDropdown({
 
               {isExpanded && visibleDentists.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
-                const dSelected = allSelected || selectedDentistIds.includes(dKey);
+                const dSelected = selectedDentistIds.includes(dKey);
                 const dWorks = clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo ?? false;
 
                 return (
