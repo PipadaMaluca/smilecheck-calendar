@@ -18,8 +18,10 @@ export function DynamicDaySummary({
 }: DynamicDaySummaryProps) {
   // Calculate title based on selection
   const getTitle = (): string => {
-    // No selection = all
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    // Check if all or most dentists selected (effectively "all")
+    const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+    const isAll = selectedDentistIds.length === 0 || allKeys.every(k => selectedDentistIds.includes(k));
+    if (isAll) {
       if (selectedClinics.length === 0 || selectedClinics.length === mockClinics.length) {
         return 'Resumo do Dia - Todas as Clínicas';
       } else if (selectedClinics.length === 1) {
