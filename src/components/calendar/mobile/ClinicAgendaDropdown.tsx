@@ -121,7 +121,7 @@ export function ClinicAgendaDropdown({
           // but unchecked ones that don't work today
 
           // Check if all dentists in this clinic are selected
-          const allClinicSelected = allSelected || visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+          const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
           // Toggle all dentists of this clinic (CHECKMARK behavior)
           const handleClinicCheckbox = () => {
