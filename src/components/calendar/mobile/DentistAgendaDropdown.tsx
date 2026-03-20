@@ -178,7 +178,7 @@ export function DentistAgendaDropdown({
               {/* Other dentists */}
               {otherDentists.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
-                const dSelected = allSelected || selectedDentistIds.includes(dKey);
+                const dSelected = selectedDentistIds.includes(dKey);
                 const dWorks = clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo ?? false;
                 return (
                   <div key={dKey} className="flex items-center gap-2 ml-5 py-1">

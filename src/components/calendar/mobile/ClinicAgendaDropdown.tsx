@@ -160,7 +160,7 @@ export function ClinicAgendaDropdown({
 
               {isExpanded && visibleDentists.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
-                const dSelected = allSelected || selectedDentistIds.includes(dKey);
+                const dSelected = selectedDentistIds.includes(dKey);
                 const dWorks = clinicDentists.find(cd => cd.clinicId === clinic.id && cd.dentistId === d.id)?.worksOnDemo ?? false;
 
                 return (
