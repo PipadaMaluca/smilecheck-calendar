@@ -161,28 +161,22 @@ export function DentistCalendar() {
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
-      // "Filtrar Presentes" clicked - select all 7 dentists who work on demo day
-      const presentDentists = clinicDentists
-        .filter(cd => cd.worksOnDemo)
-        .map(cd => `${cd.clinicId}-${cd.dentistId}`);
-      setSelectedDentistIds(presentDentists);
-    } else if (dentistId === 'all') {
-      // Clear filter - show all (empty array means show all)
-      setSelectedDentistIds([]);
+      // "Filtrar Presentes" - select only working dentists
+      setSelectedDentistIds(getPresentDentistMobileKeys());
+      return;
+    }
+    if (dentistId === 'all') {
+      // "Todas as Agendas" - select ALL including non-working
+      setSelectedDentistIds(getAllDentistMobileKeys());
+      return;
+    }
+    const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
+    if (isCheckbox) {
+      setSelectedDentistIds(prev =>
+        prev.includes(key) ? prev.filter(id => id !== key) : [...prev, key]
+      );
     } else {
-      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      if (isCheckbox) {
-        if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
-          setSelectedDentistIds([key]);
-        } else if (selectedDentistIds.includes(key)) {
-          const newSelected = selectedDentistIds.filter(id => id !== key);
-          setSelectedDentistIds(newSelected);
-        } else {
-          setSelectedDentistIds([...selectedDentistIds, key]);
-        }
-      } else {
-        setSelectedDentistIds([key]);
-      }
+      setSelectedDentistIds([key]);
     }
   };
 
@@ -203,17 +197,12 @@ export function DentistCalendar() {
     }
   };
 
-  // Clinic-level toggle for mobile dropdown (operates on selectedDentistIds like desktop)
+  // Clinic-level toggle for mobile dropdown (same logic as desktop)
   const handleMobileClinicToggle = (clinicId: string, isCheckbox: boolean) => {
     const dentistsInClinic = getDentistsForClinic(clinicId);
     const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
     if (isCheckbox) {
       setSelectedDentistIds(prev => {
-        const showAll = prev.length === 0 || prev.includes('all');
-        if (showAll) {
-          const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-          return allKeys.filter(k => !clinicKeys.includes(k));
-        }
         const allSelected = clinicKeys.every(k => prev.includes(k));
         return allSelected
           ? prev.filter(id => !clinicKeys.includes(id))
