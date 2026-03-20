@@ -22,7 +22,8 @@ export function ClinicAgendaDropdown({
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
   const [filterPresentes, setFilterPresentes] = useState(false);
   const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
-  const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
+  const allClinicDentistKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+  const allSelected = allClinicDentistKeys.length > 0 && allClinicDentistKeys.every(k => selectedDentistIds.includes(k));
 
   const toggleClinicExpanded = (clinicId: string) => {
     setExpandedClinics(prev =>
