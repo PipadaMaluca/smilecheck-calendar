@@ -106,12 +106,12 @@ export function DentistCalendar() {
 
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
-    if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
+    if (selectedDentistIds.length === 0) {
       return mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
     }
     return mockConsultations.filter(c => {
       const key = `${c.clinic.id}-${c.dentist.id}`;
-      return selectedDentistIds.includes(key) || selectedDentistIds.includes(c.dentist.id);
+      return selectedDentistIds.includes(key);
     });
   }, [selectedDentistIds]);
 
