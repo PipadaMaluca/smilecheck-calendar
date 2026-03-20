@@ -115,48 +115,31 @@ export function ClinicCalendar() {
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
-      // "Filtrar Presentes" clicked - select all 7 dentists who work on demo day
-      const presentDentists = clinicDentists
-        .filter(cd => cd.worksOnDemo)
-        .map(cd => `${cd.clinicId}-${cd.dentistId}`);
-      setSelectedDentistIds(presentDentists);
-    } else if (dentistId === 'all') {
-      // Clear filter - show all (empty array means show all)
-      setSelectedDentistIds([]);
+      // "Filtrar Presentes" - select only working dentists
+      setSelectedDentistIds(getPresentMobileKeys());
+      return;
+    }
+    if (dentistId === 'all') {
+      // "Todas as Agendas" - select ALL including non-working
+      setSelectedDentistIds(getAllMobileKeys());
+      return;
+    }
+    const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
+    if (isCheckbox) {
+      setSelectedDentistIds(prev =>
+        prev.includes(key) ? prev.filter(id => id !== key) : [...prev, key]
+      );
     } else {
-      const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
-      
-      if (isCheckbox) {
-        // Checkbox click: toggle in multi-select
-        if (selectedDentistIds.length === 0 || selectedDentistIds.includes('all')) {
-          // Was "all", now select just this one
-          setSelectedDentistIds([key]);
-        } else if (selectedDentistIds.includes(key)) {
-          // Remove from selection
-          const newSelected = selectedDentistIds.filter(id => id !== key);
-          setSelectedDentistIds(newSelected);
-        } else {
-          // Add to selection
-          setSelectedDentistIds([...selectedDentistIds, key]);
-        }
-      } else {
-        // Name click: select ONLY this dentist
-        setSelectedDentistIds([key]);
-      }
+      setSelectedDentistIds([key]);
     }
   };
 
-  // Clinic-level toggle for mobile dropdown (operates on selectedDentistIds like desktop)
+  // Clinic-level toggle for mobile dropdown (same logic as desktop)
   const handleMobileClinicToggle = (clinicId: string, isCheckbox: boolean) => {
     const dentistsInClinic = getDentistsForClinic(clinicId);
     const clinicKeys = dentistsInClinic.map(d => `${clinicId}-${d.id}`);
     if (isCheckbox) {
       setSelectedDentistIds(prev => {
-        const showAll = prev.length === 0 || prev.includes('all');
-        if (showAll) {
-          const allKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-          return allKeys.filter(k => !clinicKeys.includes(k));
-        }
         const allSelected = clinicKeys.every(k => prev.includes(k));
         return allSelected
           ? prev.filter(id => !clinicKeys.includes(id))
