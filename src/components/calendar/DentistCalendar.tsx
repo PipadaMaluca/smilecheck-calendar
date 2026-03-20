@@ -146,7 +146,7 @@ export function DentistCalendar() {
 
   const getSlots = (date: Date) => {
     // For 3-day view, use selected dentist
-    if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
+    if (selectedDentistIds.length === 1) {
       // Parse composite ID (clinicId-dentistId)
       const parts = selectedDentistIds[0].split('-');
       const clinicId = parts[0];
