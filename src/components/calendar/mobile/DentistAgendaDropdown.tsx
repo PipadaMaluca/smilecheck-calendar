@@ -24,7 +24,8 @@ export function DentistAgendaDropdown({
   const [filterPresentes, setFilterPresentes] = useState(false);
   const currentDentist = mockDentists.find(d => d.id === currentDentistId);
   const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
-  const allSelected = selectedDentistIds.length === 0 || selectedDentistIds.includes('all');
+  const allClinicDentistKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+  const allSelected = allClinicDentistKeys.length > 0 && allClinicDentistKeys.every(k => selectedDentistIds.includes(k));
 
   // Clinics where this dentist works
   const dentistClinics = clinicDentists
