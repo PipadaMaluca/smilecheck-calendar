@@ -125,9 +125,9 @@ export function DentistAgendaDropdown({
           const currentVisible = visibleDentists.some(d => d.id === currentDentistId);
           
           const key = `${clinic.id}-${currentDentistId}`;
-          const isSelected = allSelected || selectedDentistIds.includes(key);
+          const isSelected = selectedDentistIds.includes(key);
 
-          const allClinicSelected = allSelected || visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
+          const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
           // CHECKMARK: Toggle all dentists of this clinic
           const handleClinicCheckbox = () => {
