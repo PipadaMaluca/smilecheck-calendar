@@ -408,7 +408,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       'flex-1'
     )}>
     <div className={cn(
-        'flex flex-col bg-background overflow-hidden',
+        'flex flex-col bg-background overflow-hidden gap-0',
         isMobile ?
         'w-full h-full pb-[60px]' :
         'w-full h-full max-w-2xl mx-auto'
