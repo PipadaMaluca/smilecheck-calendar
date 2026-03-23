@@ -72,7 +72,7 @@ export const patientAchievements: AchievementCategory[] = [
   {
     title: 'Fidelidade',
     achievements: [
-      { id: 'f1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true },
+      { id: 'f1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
       { id: 'f2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 20, unlocked: false, progress: { current: 12, target: 30 } },
       { id: 'f3', emoji: '🎂', name: 'Aniversário', description: '1 ano na app', points: 25, unlocked: false, progress: { current: 4, target: 12 } },
       { id: 'f4', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 40, unlocked: false, progress: { current: 12, target: 90 } },
