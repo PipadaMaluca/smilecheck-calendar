@@ -138,8 +138,8 @@ export const dentistAchievements: AchievementCategory[] = [
   {
     title: 'Consistência',
     achievements: [
-      { id: 'cs1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true },
-      { id: 'cs2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 30, unlocked: true },
+      { id: 'cs1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
+      { id: 'cs2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 30, unlocked: true, progress: { current: 30, target: 30 } },
       { id: 'cs3', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 60, unlocked: false, progress: { current: 45, target: 90 } },
       { id: 'cs4', emoji: '🔥', name: 'Streak 365', description: '365 dias consecutivos', points: 120, unlocked: false, progress: { current: 45, target: 365 } },
     ],
