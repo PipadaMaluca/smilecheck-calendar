@@ -434,14 +434,14 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-4 md:p-6 max-w-[600px] pb-[5px] px-0 mx-0 py-0 pt-0">
+      <div className="flex-1 overflow-y-auto px-0 pl-[20px]">
+        <div className="p-4 md:p-6 max-w-[600px] pb-[5px] mx-0 py-0 pt-0 px-0">
           {renderStep()}
         </div>
       </div>
 
       {/* Footer */}
-      <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-[30px]",
+      <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-[30px] px-0",
 
         isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
         )}>
