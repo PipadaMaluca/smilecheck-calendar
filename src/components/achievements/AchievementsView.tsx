@@ -329,8 +329,8 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
             {achievement.progress && !isSecret && (
               <div className="mt-2">
                 <Progress
-                  value={(achievement.progress.current / achievement.progress.target) * 100}
-                  className="h-1.5"
+                  value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
+                  className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
                 />
                 <p className="text-[10px] text-muted-foreground mt-0.5">
                   {achievement.progress.current}/{achievement.progress.target}

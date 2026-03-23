@@ -305,13 +305,13 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                 {MOCK_HISTORY.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
                   return (
-                    <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
+                    <div key={i} className="flex flex-col gap-0.5 py-1.5 border-b border-border/50 last:border-0">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }} />
-                        <span className="text-muted-foreground">{h.date}</span>
-                        <span>{h.type}</span>
+                        <span className="text-[13px] text-muted-foreground whitespace-nowrap">{h.date}</span>
+                        <span className="text-[13px] font-medium">{h.type}</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">{h.dentist}</span>
+                      <span className="text-xs text-muted-foreground pl-4">{h.dentist}</span>
                     </div>
                   );
                 })}
