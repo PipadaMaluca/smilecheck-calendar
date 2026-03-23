@@ -206,7 +206,7 @@ export const clinicAchievements: AchievementCategory[] = [
   {
     title: 'Volume',
     achievements: [
-      { id: 'v1', emoji: '📈', name: '1.000 Consultas', description: 'Total acumulado', points: 25, unlocked: true },
+      { id: 'v1', emoji: '📈', name: '1.000 Consultas', description: 'Total acumulado', points: 25, unlocked: true, progress: { current: 1000, target: 1000 } },
       { id: 'v2', emoji: '🚀', name: 'Mês Recorde', description: '500 consultas num mês', points: 40, unlocked: false, progress: { current: 320, target: 500 } },
       { id: 'v3', emoji: '📈', name: '5.000 Consultas', description: 'Total acumulado', points: 50, unlocked: false, progress: { current: 3200, target: 5000 } },
       { id: 'v4', emoji: '📈', name: '10.000 Consultas', description: 'Total acumulado', points: 75, unlocked: false, progress: { current: 3200, target: 10000 } },
