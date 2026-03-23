@@ -445,6 +445,35 @@ export function DesktopCalendarView() {
   };
 
   const handleNavTabChange = useCallback((tab: string) => {
+    // Handle consultation detail with specific ID
+    if (tab.startsWith('consulta-detalhe:')) {
+      const consultationId = tab.split(':')[1];
+      const consultation = mockConsultations.find(c => c.id === consultationId);
+      if (consultation) {
+        setDetailConsultation(consultation);
+        setActiveNavTab('home');
+        // Clear other overlays
+        setShowTriage(false);
+        setViewDentistProfile(null);
+        setViewClinicProfile(null);
+        setDossierPatientId(null);
+        setSelectedConsultation(null);
+        setShowEditProfile(false);
+        setShowSettings(false);
+        setShowBlockModal(false);
+        setSlotCreation(null);
+        setClipboardConsultation(null);
+        setPasteTarget(null);
+        setFeedbackConsultation(null);
+        setPatientFeedbackScore(null);
+        setShowNotificationDropdown(false);
+        setPendingMove(null);
+        setOverlapConsultation(null);
+        setPendingOverlapMove(null);
+        return;
+      }
+    }
+
     // Map mobile tab names to desktop tab names
     const mapped = tab === 'equipa' ? 'team' : tab;
     setActiveNavTab(mapped);
