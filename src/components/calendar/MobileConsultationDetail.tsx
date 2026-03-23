@@ -67,69 +67,69 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const renderActions = () => {
     if (isDentist) {
       return (
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
-            <Copy className="w-4 h-4" /> Copiar Consulta
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('prescrever')}>
-            <Pill className="w-4 h-4" /> Prescrever Receita
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
-            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('referencia')}>
-            <FileText className="w-4 h-4" /> Recomendar Paciente
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start">
-            <RefreshCw className="w-4 h-4" /> Reagendar Consulta
-          </Button>
-          {isBlocked ? (
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-              <Unlock className="w-4 h-4" /> Desbloquear
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Copiar</span>
             </Button>
-          ) : (
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
-              <Ban className="w-4 h-4" /> Bloquear Paciente
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('prescrever')}>
+              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Prescrever</span>
             </Button>
-          )}
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
-            <FileText className="w-4 h-4" /> Ver Dossier
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-            <X className="w-4 h-4" /> Cancelar Consulta
-          </Button>
-        </div>
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Mensagem</span>
+            </Button>
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('referencia')}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Recomendar</span>
+            </Button>
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Reagendar</span>
+            </Button>
+            {isBlocked ? (
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Desbloquear</span>
+              </Button>
+            ) : (
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Bloquear</span>
+              </Button>
+            )}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Ver Dossier</span>
+            </Button>
+            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Cancelar</span>
+            </Button>
+          </div>
       );
     }
 
     if (isClinic) {
       return (
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
-            <Copy className="w-4 h-4" /> Copiar Consulta
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
-            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
-          </Button>
-          <Button variant="secondary" size="sm" className="gap-2 justify-start">
-            <RefreshCw className="w-4 h-4" /> Reagendar Consulta
-          </Button>
-          {isBlocked ? (
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-              <Unlock className="w-4 h-4" /> Desbloquear
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Copiar</span>
             </Button>
-          ) : (
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
-              <Ban className="w-4 h-4" /> Bloquear Paciente
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Mensagem</span>
             </Button>
-          )}
-          <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
-            <FileText className="w-4 h-4" /> Ver Dossier
-          </Button>
-          <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-            <X className="w-4 h-4" /> Cancelar Consulta
-          </Button>
-        </div>
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Reagendar</span>
+            </Button>
+            {isBlocked ? (
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Desbloquear</span>
+              </Button>
+            ) : (
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Bloquear</span>
+              </Button>
+            )}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Ver Dossier</span>
+            </Button>
+            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Cancelar</span>
+            </Button>
+          </div>
       );
     }
 
@@ -305,13 +305,13 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                 {MOCK_HISTORY.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
                   return (
-                    <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
+                    <div key={i} className="flex flex-col gap-0.5 py-1.5 border-b border-border/50 last:border-0">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }} />
-                        <span className="text-muted-foreground">{h.date}</span>
-                        <span>{h.type}</span>
+                        <span className="text-[13px] text-muted-foreground whitespace-nowrap">{h.date}</span>
+                        <span className="text-[13px] font-medium">{h.type}</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">{h.dentist}</span>
+                      <span className="text-xs text-muted-foreground pl-4">{h.dentist}</span>
                     </div>
                   );
                 })}

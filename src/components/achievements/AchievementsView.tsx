@@ -72,7 +72,7 @@ export const patientAchievements: AchievementCategory[] = [
   {
     title: 'Fidelidade',
     achievements: [
-      { id: 'f1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true },
+      { id: 'f1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
       { id: 'f2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 20, unlocked: false, progress: { current: 12, target: 30 } },
       { id: 'f3', emoji: '🎂', name: 'Aniversário', description: '1 ano na app', points: 25, unlocked: false, progress: { current: 4, target: 12 } },
       { id: 'f4', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 40, unlocked: false, progress: { current: 12, target: 90 } },
@@ -138,8 +138,8 @@ export const dentistAchievements: AchievementCategory[] = [
   {
     title: 'Consistência',
     achievements: [
-      { id: 'cs1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true },
-      { id: 'cs2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 30, unlocked: true },
+      { id: 'cs1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
+      { id: 'cs2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 30, unlocked: true, progress: { current: 30, target: 30 } },
       { id: 'cs3', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 60, unlocked: false, progress: { current: 45, target: 90 } },
       { id: 'cs4', emoji: '🔥', name: 'Streak 365', description: '365 dias consecutivos', points: 120, unlocked: false, progress: { current: 45, target: 365 } },
     ],
@@ -206,7 +206,7 @@ export const clinicAchievements: AchievementCategory[] = [
   {
     title: 'Volume',
     achievements: [
-      { id: 'v1', emoji: '📈', name: '1.000 Consultas', description: 'Total acumulado', points: 25, unlocked: true },
+      { id: 'v1', emoji: '📈', name: '1.000 Consultas', description: 'Total acumulado', points: 25, unlocked: true, progress: { current: 1000, target: 1000 } },
       { id: 'v2', emoji: '🚀', name: 'Mês Recorde', description: '500 consultas num mês', points: 40, unlocked: false, progress: { current: 320, target: 500 } },
       { id: 'v3', emoji: '📈', name: '5.000 Consultas', description: 'Total acumulado', points: 50, unlocked: false, progress: { current: 3200, target: 5000 } },
       { id: 'v4', emoji: '📈', name: '10.000 Consultas', description: 'Total acumulado', points: 75, unlocked: false, progress: { current: 3200, target: 10000 } },
@@ -329,8 +329,8 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
             {achievement.progress && !isSecret && (
               <div className="mt-2">
                 <Progress
-                  value={(achievement.progress.current / achievement.progress.target) * 100}
-                  className="h-1.5"
+                  value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
+                  className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
                 />
                 <p className="text-[10px] text-muted-foreground mt-0.5">
                   {achievement.progress.current}/{achievement.progress.target}
