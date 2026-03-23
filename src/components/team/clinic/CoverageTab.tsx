@@ -13,7 +13,6 @@ const dentistColors = [
   { name: 'Dr. Gil Santos', color: 'bg-orange-500/60', border: 'border-orange-500' },
 ];
 
-// Simplified coverage data
 const coverage: Record<string, { dentists: number[]; label: string; status: 'full' | 'partial' | 'minimum' | 'closed' }> = {
   'Segunda': { dentists: [0, 1, 2], label: '3 dentistas', status: 'full' },
   'Terça': { dentists: [0, 1, 2], label: '3 dentistas', status: 'full' },
@@ -34,8 +33,8 @@ const statusConfig = {
 export function CoverageTab() {
   return (
     <div className="space-y-6">
-      {/* Legend */}
-      <div className="flex flex-wrap gap-3">
+      {/* Legend — stays outside scroll */}
+      <div className="flex flex-wrap gap-3 px-1">
         {dentistColors.map((d) => (
           <div key={d.name} className="flex items-center gap-2">
             <div className={cn('w-3 h-3 rounded-sm', d.color)} />
@@ -44,54 +43,58 @@ export function CoverageTab() {
         ))}
       </div>
 
-      {/* Visual Grid */}
+      {/* Visual Grid — horizontal scroll on mobile */}
       <Card className="border-border/50">
-        <CardContent className="p-3 overflow-x-auto">
-          <div className="min-w-[600px]">
-            {/* Header */}
-            <div className="grid grid-cols-8 gap-1 mb-2">
-              <div className="text-xs font-medium text-muted-foreground">Hora</div>
-              {days.map((d) => (
-                <div key={d} className="text-xs font-medium text-center">{d.slice(0, 3)}</div>
+        <CardContent className="p-3 relative">
+          {/* Scroll shadow hint */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent z-10 md:hidden" />
+          <div className="overflow-x-auto">
+            <div className="min-w-[560px]">
+              {/* Header */}
+              <div className="grid grid-cols-8 gap-1 mb-2">
+                <div className="text-xs font-medium text-muted-foreground sticky left-0 bg-card z-[5]">Hora</div>
+                {days.map((d) => (
+                  <div key={d} className="text-xs font-medium text-center">{d.slice(0, 3)}</div>
+                ))}
+              </div>
+              {/* Time rows */}
+              {hours.map((hour) => (
+                <div key={hour} className="grid grid-cols-8 gap-1 mb-0.5">
+                  <div className="text-[10px] text-muted-foreground py-1 sticky left-0 bg-card z-[5]">{hour}</div>
+                  {days.map((day) => {
+                    const cov = coverage[day];
+                    const hourNum = parseInt(hour);
+                    const isOpen = day !== 'Domingo' && hourNum >= 9 && (day === 'Sábado' ? hourNum < 13 : hourNum < 19);
+                    return (
+                      <div key={day} className="flex gap-px h-5">
+                        {isOpen ? cov.dentists.map((dIdx) => (
+                          <div key={dIdx} className={cn('flex-1 rounded-sm', dentistColors[dIdx].color)} />
+                        )) : (
+                          <div className="flex-1 rounded-sm bg-muted/30" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               ))}
             </div>
-            {/* Time rows */}
-            {hours.map((hour) => (
-              <div key={hour} className="grid grid-cols-8 gap-1 mb-0.5">
-                <div className="text-[10px] text-muted-foreground py-1">{hour}</div>
-                {days.map((day) => {
-                  const cov = coverage[day];
-                  const hourNum = parseInt(hour);
-                  const isOpen = day !== 'Domingo' && hourNum >= 9 && (day === 'Sábado' ? hourNum < 13 : hourNum < 19);
-                  return (
-                    <div key={day} className="flex gap-px h-5">
-                      {isOpen ? cov.dentists.map((dIdx) => (
-                        <div key={dIdx} className={cn('flex-1 rounded-sm', dentistColors[dIdx].color)} />
-                      )) : (
-                        <div className="flex-1 rounded-sm bg-muted/30" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Summary */}
+      {/* Summary — no horizontal scroll, wraps naturally */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">📋 Resumo de Cobertura</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-2 px-4">
           {days.map((day) => {
             const cov = coverage[day];
             const status = statusConfig[cov.status];
             return (
-              <div key={day} className="flex items-center justify-between text-sm">
+              <div key={day} className="flex flex-wrap items-center justify-between gap-x-2 gap-y-0.5 text-sm">
                 <span className="font-medium">{day}</span>
-                <span className={cn('text-xs', status.className)}>
+                <span className={cn('text-xs text-right', status.className)}>
                   {cov.label} ({status.icon} {status.text})
                 </span>
               </div>
