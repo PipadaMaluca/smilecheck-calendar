@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
+import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, ArrowLeft, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
@@ -70,8 +70,11 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
       <ScrollArea className="flex-1">
         <div className="max-w-3xl mx-auto p-6 space-y-6">
           {/* Header */}
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-4">
+          <div className="flex items-start gap-3">
+            <Button variant="ghost" size="icon" onClick={onClose} className="shrink-0 mt-1">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div className="flex items-start gap-4 flex-1">
               <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center shrink-0">
                 <User className="w-8 h-8 text-muted-foreground" />
               </div>
@@ -104,9 +107,6 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 </div>
               </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
-            </Button>
           </div>
 
           {/* Teleconsulta CTA */}
