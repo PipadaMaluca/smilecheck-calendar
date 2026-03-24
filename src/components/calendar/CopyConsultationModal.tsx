@@ -113,7 +113,7 @@ export function CopyConsultationModal({
             <h2 className="text-lg font-bold">Copiar Consulta</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5" />
           </Button>
         </div>
 

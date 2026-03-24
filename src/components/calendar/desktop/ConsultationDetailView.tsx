@@ -105,7 +105,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               </div>
             </div>
             <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
+              <ArrowLeft className="w-5 h-5" />
             </Button>
           </div>
 

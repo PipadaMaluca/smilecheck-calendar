@@ -140,15 +140,16 @@ export function DesktopConsultationDetail({
       <div className="fixed right-0 top-0 h-full w-[420px] bg-card border-l border-border z-50 flex flex-col animate-slide-in-right">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-lg font-bold">Detalhes da Consulta</h2>
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
             className="text-muted-foreground hover:text-foreground"
           >
-            <X className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5" />
           </Button>
+          <h2 className="text-lg font-bold">Detalhes da Consulta</h2>
+          <div className="w-10" />
         </div>
 
         {/* Content */}
