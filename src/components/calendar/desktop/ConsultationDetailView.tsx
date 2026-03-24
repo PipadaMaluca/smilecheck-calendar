@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
+import { User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, ArrowLeft, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
