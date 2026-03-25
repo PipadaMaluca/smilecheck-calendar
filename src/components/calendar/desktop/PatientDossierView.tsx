@@ -175,11 +175,265 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
           </div>
 
-          {/* 2-Column Grid */}
+          {/* 2-Column Grid: Left = Dados Pessoais + Saúde merged, Right = Alertas + Medicação */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* ROW 1 LEFT: Dados Pessoais */}
+            {/* LEFT COLUMN */}
+            <div className="space-y-4">
+              {/* Dados Pessoais */}
+              <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Dados Pessoais</h3>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
+                  <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
+                  <div><span className="text-muted-foreground">País:</span> <span className="ml-1">{data.birthCountry}</span></div>
+                  <div><span className="text-muted-foreground">Cidade:</span> <span className="ml-1">{data.birthCity}</span></div>
+                  <div className="col-span-2"><span className="text-muted-foreground">Nº Identificação:</span> <span className="ml-1">{data.idNumber}</span></div>
+                </div>
+              </div>
+
+              {/* Saúde (merged box) */}
+              <div className="bg-card rounded-xl border border-border p-4 space-y-4">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Saúde</h3>
+                {/* Mini cards */}
+                <div className="grid grid-cols-3 gap-2 text-sm">
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Tipo Sanguíneo</p>
+                    <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
+                  </div>
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Altura</p>
+                    <p className="font-bold text-base mt-0.5">{data.height}</p>
+                  </div>
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Peso</p>
+                    <p className="font-bold text-base mt-0.5">{data.weight}</p>
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Condições Médicas */}
+                <div className="space-y-2">
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">Condições Médicas</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.conditions.map((c: string) => (
+                      <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground">{c}</span>
+                    ))}
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Alergias */}
+                <div className={cn('space-y-2 rounded-lg p-2.5', data.allergies.length > 0 ? 'bg-destructive/5 border border-destructive/20' : '')}>
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                    {data.allergies.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-destructive" />}
+                    Alergias e Intolerâncias
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.allergies.map((a: string) => (
+                      <span key={a} className="text-xs px-2.5 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
+                    ))}
+                    {data.allergies.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma alergia registada</p>}
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Vacinas */}
+                <div className="space-y-2">
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">Vacinas</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.vaccines.map((v: string) => (
+                      <span key={v} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN */}
+            <div className="space-y-4">
+              {/* Alertas Clínicos */}
+              {(isDentist || isClinic) && clinicalAlerts.length > 0 && (
+                <div className="bg-yellow-500/5 rounded-xl border border-yellow-500/20 p-4 space-y-3">
+                  <h3 className="text-xs font-semibold text-yellow-400 uppercase flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos ({clinicalAlerts.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {clinicalAlerts.map((alert) => {
+                      const sev = SEVERITY_CONFIG[alert.severity];
+                      const isAck = acknowledgedAlerts.has(alert.id);
+                      return (
+                        <div key={alert.id} className={cn('rounded-lg p-3 border', sev.bg, sev.border, isAck && 'opacity-60')}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold flex items-center gap-1.5">
+                                {sev.icon} {alert.title}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
+                            </div>
+                            <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
+                          </div>
+                          {isAck ? (
+                            <p className="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
+                              <Check className="w-3 h-3" /> Verificado por Dr. Gonçalo Pipo — 31 Jan 2026
+                            </p>
+                          ) : (isDentist || isClinic) && (
+                            <div className="flex items-center gap-2 mt-2">
+                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-emerald-400 hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
+                                <Check className="w-3 h-3" /> Confirmar
+                              </Button>
+                              <div className="relative">
+                                <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
+                                  <SkipForward className="w-3 h-3" /> Ignorar
+                                </Button>
+                                {showIgnoreDropdown === alert.id && (
+                                  <div className="absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-10 py-1 w-40">
+                                    {['Já verificado', 'Não aplicável', 'Outro'].map(r => (
+                                      <button key={r} className="w-full text-left px-3 py-1.5 text-xs hover:bg-secondary/50" onClick={() => handleIgnore(alert.id, r)}>{r}</button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              {(isDentist || isClinic) && clinicalAlerts.length === 0 && (
+                <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos
+                  </h3>
+                  <p className="text-sm text-muted-foreground">✅ Sem alertas clínicos ativos</p>
+                </div>
+              )}
+
+              {/* Medicação Atual */}
+              <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                  <Pill className="w-3.5 h-3.5" /> Medicação Atual
+                </h3>
+                <div className="space-y-2">
+                  {data.medications.map((m: any) => (
+                    <div key={m.name} className={cn('text-sm p-2.5 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
+                      <span className="font-medium">{m.name}</span> <span className="text-muted-foreground">— {m.dosage}</span>
+                      {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">⚠️ {m.interaction}</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Below grid: Recall + Histórico + Documentos (unchanged) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(isDentist || isClinic) && (
+              <div className={cn('rounded-xl border p-4 space-y-3', recall.isOverdue ? 'bg-destructive/5 border-destructive/20' : 'bg-card border-border')}>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                  <CalendarIcon className="w-3.5 h-3.5" /> Recall Recomendado
+                </h3>
+                <p className="text-lg font-bold text-foreground">
+                  A cada {recall.intervalMonths[0]}{recall.intervalMonths[0] !== recall.intervalMonths[1] ? `-${recall.intervalMonths[1]}` : ''} meses
+                </p>
+                <p className="text-xs text-muted-foreground">{recall.reason}</p>
+                <div className="text-sm space-y-1">
+                  <p className="text-muted-foreground">Última consulta: {recall.lastVisitDate}</p>
+                  <p className={cn('font-medium', recall.isOverdue ? 'text-destructive' : 'text-foreground')}>
+                    Próxima recomendada: {recall.nextRecommendedDate}
+                  </p>
+                  {recall.isOverdue && (
+                    <p className="text-xs text-destructive font-semibold mt-1">
+                      🔴 ATENÇÃO: Consulta em atraso! Última visita há {Math.floor((recall.overdueDays || 0) / 30)} meses.
+                    </p>
+                  )}
+                </div>
+                <Button size="sm" variant="secondary" className="gap-1.5 w-full mt-1" onClick={() => onNavigate('agendar')}>
+                  <CalendarIcon className="w-3.5 h-3.5" /> Agendar Consulta
+                </Button>
+              </div>
+            )}
+
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Dados Pessoais</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico de Consultas</h3>
+              <div className="space-y-2">
+                {filteredConsultations.slice(0, 5).map((c: any, i: number) => {
+                  const catColor = CATEGORY_COLORS[c.category as keyof typeof CATEGORY_COLORS];
+                  const isExpanded = expandedConsultation === i;
+                  return (
+                    <div key={i} className="border border-border/50 rounded-lg overflow-hidden">
+                      <button
+                        className="w-full flex items-center gap-2 p-2.5 text-left hover:bg-secondary/30 transition-colors"
+                        onClick={() => setExpandedConsultation(isExpanded ? null : i)}
+                      >
+                        <div className="w-1 h-7 rounded-full shrink-0" style={{ backgroundColor: catColor?.hex || undefined }} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium">{c.date} — {c.time}</span>
+                            <div className="flex items-center gap-1.5">
+                              {c.hasPrescription && <FileText className="w-3 h-3 text-primary" />}
+                              <span className="text-[10px] text-muted-foreground">{c.status}</span>
+                              {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                            </div>
+                          </div>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">
+                            <span className="px-1.5 py-0 rounded-full text-[10px] font-medium" style={getCategoryBadgeStyle(catColor?.hex || '#9E9E9E')}>{c.type}</span>
+                            {userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>}
+                            • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" />
+                          </p>
+                        </div>
+                      </button>
+                      {isExpanded && (
+                        <div className="px-3 pb-2.5 pt-0 space-y-1 border-t border-border/30">
+                          {c.price && <p className="text-xs text-muted-foreground">Valor: €{c.price}</p>}
+                          {c.notes && <p className="text-xs text-muted-foreground">Notas: {c.notes}</p>}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Documentos</h3>
+              <Tabs defaultValue="receitas">
+                <TabsList className="bg-secondary/50 h-8">
+                  <TabsTrigger value="receitas" className="text-[11px] h-6">Receitas</TabsTrigger>
+                  <TabsTrigger value="cartas" className="text-[11px] h-6">Cartas</TabsTrigger>
+                  <TabsTrigger value="exames" className="text-[11px] h-6">Exames</TabsTrigger>
+                  <TabsTrigger value="outros" className="text-[11px] h-6">Outros</TabsTrigger>
+                </TabsList>
+                <TabsContent value="receitas" className="space-y-2 mt-2">
+                  {data.prescriptions.map((rx: any) => (
+                    <div key={rx.id} className="flex items-center justify-between p-2.5 bg-secondary/30 rounded-lg">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium">{rx.date}</p>
+                        <p className="text-xs text-muted-foreground"><ClickableDentistName name={rx.dentist} className="text-xs text-muted-foreground" /></p>
+                        <p className="text-xs text-muted-foreground mt-0.5 truncate">{rx.medications.join(', ')}</p>
+                      </div>
+                      <Button variant="ghost" size="sm" className="gap-1 text-[11px] shrink-0" onClick={() => setPreviewPrescription(rx)}>
+                        <Eye className="w-3 h-3" /> Ver
+                      </Button>
+                    </div>
+                  ))}
+                </TabsContent>
+                <TabsContent value="cartas" className="space-y-2 mt-2">
+                  {data.referrals.map((ref: any) => (
+                    <div key={ref.id} className="p-2.5 bg-secondary/30 rounded-lg">
+                      <p className="text-sm font-medium">{ref.date}</p>
+                      <p className="text-xs text-muted-foreground">De: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → Para: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{ref.reason}</p>
+                    </div>
+                  ))}
+                </TabsContent>
+                <TabsContent value="exames" className="mt-2">
+                  <p className="text-sm text-muted-foreground">Nenhum exame registado</p>
+                </TabsContent>
+                <TabsContent value="outros" className="mt-2">
+                  <p className="text-sm text-muted-foreground">Nenhum documento adicional</p>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
                 <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
