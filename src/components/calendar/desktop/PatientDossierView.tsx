@@ -479,67 +479,6 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </Tabs>
             </div>
           </div>
-              <Tabs defaultValue="receitas">
-                <TabsList className="bg-secondary/50 h-8">
-                  <TabsTrigger value="receitas" className="text-[11px] h-6">Receitas</TabsTrigger>
-                  <TabsTrigger value="cartas" className="text-[11px] h-6">Cartas</TabsTrigger>
-                  <TabsTrigger value="exames" className="text-[11px] h-6">Exames</TabsTrigger>
-                  <TabsTrigger value="outros" className="text-[11px] h-6">Outros</TabsTrigger>
-                </TabsList>
-                <TabsContent value="receitas" className="space-y-2 mt-2">
-                  {data.prescriptions.map((rx: any) => (
-                    <div key={rx.id} className="flex items-center justify-between p-2.5 bg-secondary/30 rounded-lg">
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium">{rx.date}</p>
-                        <p className="text-xs text-muted-foreground"><ClickableDentistName name={rx.dentist} className="text-xs text-muted-foreground" /></p>
-                        <p className="text-xs text-muted-foreground mt-0.5 truncate">{rx.medications.join(', ')}</p>
-                      </div>
-                      <Button variant="ghost" size="sm" className="gap-1 text-[11px] shrink-0" onClick={() => setPreviewPrescription(rx)}>
-                        <Eye className="w-3 h-3" /> Ver
-                      </Button>
-                    </div>
-                  ))}
-                </TabsContent>
-                <TabsContent value="cartas" className="space-y-2 mt-2">
-                  {data.referrals.map((ref: any) => (
-                    <div key={ref.id} className="p-2.5 bg-secondary/30 rounded-lg">
-                      <p className="text-sm font-medium">{ref.date}</p>
-                      <p className="text-xs text-muted-foreground">De: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → Para: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{ref.reason}</p>
-                    </div>
-                  ))}
-                </TabsContent>
-                <TabsContent value="exames" className="mt-2">
-                  <p className="text-sm text-muted-foreground">Nenhum exame registado</p>
-                </TabsContent>
-                <TabsContent value="outros" className="mt-2">
-                  <p className="text-sm text-muted-foreground">Nenhum documento adicional</p>
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
-
-
-          {/* Radiografias e Imagens */}
-          <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Radiografias e Imagens</h3>
-              <Button size="sm" variant="secondary" className="gap-1.5 text-[11px]" onClick={() => setShowUploadModal(true)}>
-                <Upload className="w-3 h-3" /> Upload
-              </Button>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {data.images.map((img: any) => (
-                <button key={img.id} className="bg-secondary/50 rounded-lg p-2.5 text-left hover:bg-secondary/70 transition-colors" onClick={() => setPreviewImage(img.id)}>
-                  <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-1.5">
-                    <Camera className="w-6 h-6 text-muted-foreground/30" />
-                  </div>
-                  <p className="text-xs font-medium truncate">{img.category}</p>
-                  <p className="text-[10px] text-muted-foreground">{img.date}</p>
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Notas Clínicas */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
