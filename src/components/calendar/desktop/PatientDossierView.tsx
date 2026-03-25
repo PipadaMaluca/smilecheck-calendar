@@ -175,150 +175,157 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
           </div>
 
-          {/* 2-Column Grid */}
+          {/* 2-Column Grid: Left = Dados Pessoais + Saúde merged, Right = Alertas + Medicação */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* ROW 1 LEFT: Dados Pessoais */}
-            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Dados Pessoais</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
-                <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
-                <div><span className="text-muted-foreground">País:</span> <span className="ml-1">{data.birthCountry}</span></div>
-                <div><span className="text-muted-foreground">Cidade:</span> <span className="ml-1">{data.birthCity}</span></div>
-                <div className="col-span-2"><span className="text-muted-foreground">Nº Identificação:</span> <span className="ml-1">{data.idNumber}</span></div>
-              </div>
-            </div>
-
-            {/* ROW 1 RIGHT: Saúde */}
-            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Saúde</h3>
-              <div className="grid grid-cols-3 gap-2 text-sm">
-                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                  <p className="text-[10px] text-muted-foreground">Tipo Sanguíneo</p>
-                  <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
-                </div>
-                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                  <p className="text-[10px] text-muted-foreground">Altura</p>
-                  <p className="font-bold text-base mt-0.5">{data.height}</p>
-                </div>
-                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                  <p className="text-[10px] text-muted-foreground">Peso</p>
-                  <p className="font-bold text-base mt-0.5">{data.weight}</p>
+            {/* LEFT COLUMN */}
+            <div className="space-y-4">
+              {/* Dados Pessoais */}
+              <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Dados Pessoais</h3>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
+                  <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
+                  <div><span className="text-muted-foreground">País:</span> <span className="ml-1">{data.birthCountry}</span></div>
+                  <div><span className="text-muted-foreground">Cidade:</span> <span className="ml-1">{data.birthCity}</span></div>
+                  <div className="col-span-2"><span className="text-muted-foreground">Nº Identificação:</span> <span className="ml-1">{data.idNumber}</span></div>
                 </div>
               </div>
-            </div>
 
-            {/* ROW 2 LEFT: Alergias e Intolerâncias */}
-            <div className={cn('rounded-xl border p-4 space-y-3', data.allergies.length > 0 ? 'bg-destructive/5 border-destructive/20' : 'bg-card border-border')}>
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                {data.allergies.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-destructive" />}
-                Alergias e Intolerâncias
-              </h3>
-              <div className="flex flex-wrap gap-1.5">
-                {data.allergies.map((a: string) => (
-                  <span key={a} className="text-xs px-2.5 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
-                ))}
-                {data.allergies.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma alergia registada</p>}
-              </div>
-            </div>
-
-            {/* ROW 2 RIGHT: Medicação Atual */}
-            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                <Pill className="w-3.5 h-3.5" /> Medicação Atual
-              </h3>
-              <div className="space-y-2">
-                {data.medications.map((m: any) => (
-                  <div key={m.name} className={cn('text-sm p-2.5 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
-                    <span className="font-medium">{m.name}</span> <span className="text-muted-foreground">— {m.dosage}</span>
-                    {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">⚠️ {m.interaction}</p>}
+              {/* Saúde (merged box) */}
+              <div className="bg-card rounded-xl border border-border p-4 space-y-4">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Saúde</h3>
+                {/* Mini cards */}
+                <div className="grid grid-cols-3 gap-2 text-sm">
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Tipo Sanguíneo</p>
+                    <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ROW 3 LEFT: Condições Médicas */}
-            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Condições Médicas</h3>
-              <div className="flex flex-wrap gap-1.5">
-                {data.conditions.map((c: string) => (
-                  <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground">{c}</span>
-                ))}
-              </div>
-            </div>
-
-            {/* ROW 3 RIGHT: Alertas Clínicos (Clinical Safety) */}
-            {(isDentist || isClinic) && clinicalAlerts.length > 0 && (
-              <div className="bg-yellow-500/5 rounded-xl border border-yellow-500/20 p-4 space-y-3">
-                <h3 className="text-xs font-semibold text-yellow-400 uppercase flex items-center gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos ({clinicalAlerts.length})
-                </h3>
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Altura</p>
+                    <p className="font-bold text-base mt-0.5">{data.height}</p>
+                  </div>
+                  <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                    <p className="text-[10px] text-muted-foreground">Peso</p>
+                    <p className="font-bold text-base mt-0.5">{data.weight}</p>
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Condições Médicas */}
                 <div className="space-y-2">
-                  {clinicalAlerts.map((alert) => {
-                    const sev = SEVERITY_CONFIG[alert.severity];
-                    const isAck = acknowledgedAlerts.has(alert.id);
-                    return (
-                      <div key={alert.id} className={cn('rounded-lg p-3 border', sev.bg, sev.border, isAck && 'opacity-60')}>
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold flex items-center gap-1.5">
-                              {sev.icon} {alert.title}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
-                          </div>
-                          <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
-                        </div>
-                        {isAck ? (
-                          <p className="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
-                            <Check className="w-3 h-3" /> Verificado por Dr. Gonçalo Pipo — 31 Jan 2026
-                          </p>
-                        ) : (isDentist || isClinic) && (
-                          <div className="flex items-center gap-2 mt-2">
-                            <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-emerald-400 hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
-                              <Check className="w-3 h-3" /> Confirmar
-                            </Button>
-                            <div className="relative">
-                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
-                                <SkipForward className="w-3 h-3" /> Ignorar
-                              </Button>
-                              {showIgnoreDropdown === alert.id && (
-                                <div className="absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-10 py-1 w-40">
-                                  {['Já verificado', 'Não aplicável', 'Outro'].map(r => (
-                                    <button key={r} className="w-full text-left px-3 py-1.5 text-xs hover:bg-secondary/50" onClick={() => handleIgnore(alert.id, r)}>{r}</button>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">Condições Médicas</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.conditions.map((c: string) => (
+                      <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground">{c}</span>
+                    ))}
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Alergias */}
+                <div className={cn('space-y-2 rounded-lg p-2.5', data.allergies.length > 0 ? 'bg-destructive/5 border border-destructive/20' : '')}>
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                    {data.allergies.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-destructive" />}
+                    Alergias e Intolerâncias
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.allergies.map((a: string) => (
+                      <span key={a} className="text-xs px-2.5 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
+                    ))}
+                    {data.allergies.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma alergia registada</p>}
+                  </div>
+                </div>
+                <Separator className="my-1" />
+                {/* Vacinas */}
+                <div className="space-y-2">
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">Vacinas</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {data.vaccines.map((v: string) => (
+                      <span key={v} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* If no alerts, show empty state for row 3 right */}
-            {(isDentist || isClinic) && clinicalAlerts.length === 0 && (
+            {/* RIGHT COLUMN */}
+            <div className="space-y-4">
+              {/* Alertas Clínicos */}
+              {(isDentist || isClinic) && clinicalAlerts.length > 0 && (
+                <div className="bg-yellow-500/5 rounded-xl border border-yellow-500/20 p-4 space-y-3">
+                  <h3 className="text-xs font-semibold text-yellow-400 uppercase flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos ({clinicalAlerts.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {clinicalAlerts.map((alert) => {
+                      const sev = SEVERITY_CONFIG[alert.severity];
+                      const isAck = acknowledgedAlerts.has(alert.id);
+                      return (
+                        <div key={alert.id} className={cn('rounded-lg p-3 border', sev.bg, sev.border, isAck && 'opacity-60')}>
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold flex items-center gap-1.5">
+                                {sev.icon} {alert.title}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
+                            </div>
+                            <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
+                          </div>
+                          {isAck ? (
+                            <p className="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
+                              <Check className="w-3 h-3" /> Verificado por Dr. Gonçalo Pipo — 31 Jan 2026
+                            </p>
+                          ) : (isDentist || isClinic) && (
+                            <div className="flex items-center gap-2 mt-2">
+                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-emerald-400 hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
+                                <Check className="w-3 h-3" /> Confirmar
+                              </Button>
+                              <div className="relative">
+                                <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
+                                  <SkipForward className="w-3 h-3" /> Ignorar
+                                </Button>
+                                {showIgnoreDropdown === alert.id && (
+                                  <div className="absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-10 py-1 w-40">
+                                    {['Já verificado', 'Não aplicável', 'Outro'].map(r => (
+                                      <button key={r} className="w-full text-left px-3 py-1.5 text-xs hover:bg-secondary/50" onClick={() => handleIgnore(alert.id, r)}>{r}</button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              {(isDentist || isClinic) && clinicalAlerts.length === 0 && (
+                <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos
+                  </h3>
+                  <p className="text-sm text-muted-foreground">✅ Sem alertas clínicos ativos</p>
+                </div>
+              )}
+
+              {/* Medicação Atual */}
               <div className="bg-card rounded-xl border border-border p-4 space-y-3">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                  <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos
+                  <Pill className="w-3.5 h-3.5" /> Medicação Atual
                 </h3>
-                <p className="text-sm text-muted-foreground">✅ Sem alertas clínicos ativos</p>
-              </div>
-            )}
-
-            {/* ROW 4 LEFT: Vacinas */}
-            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Vacinas</h3>
-              <div className="flex flex-wrap gap-1.5">
-                {data.vaccines.map((v: string) => (
-                  <span key={v} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
-                ))}
+                <div className="space-y-2">
+                  {data.medications.map((m: any) => (
+                    <div key={m.name} className={cn('text-sm p-2.5 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
+                      <span className="font-medium">{m.name}</span> <span className="text-muted-foreground">— {m.dosage}</span>
+                      {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">⚠️ {m.interaction}</p>}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* ROW 4 RIGHT: Recall Recomendado */}
+          {/* Below grid: Recall + Histórico + Documentos (unchanged) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {(isDentist || isClinic) && (
               <div className={cn('rounded-xl border p-4 space-y-3', recall.isOverdue ? 'bg-destructive/5 border-destructive/20' : 'bg-card border-border')}>
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
@@ -345,7 +352,6 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
             )}
 
-            {/* ROW 5 LEFT: Histórico de Consultas (last 5) */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico de Consultas</h3>
               <div className="space-y-2">
@@ -387,7 +393,6 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
             </div>
 
-            {/* ROW 5 RIGHT: Documentos */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Documentos</h3>
               <Tabs defaultValue="receitas">
@@ -430,7 +435,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
           </div>
 
-          {/* Full-width sections below grid */}
+
           {/* Radiografias e Imagens */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <div className="flex items-center justify-between">
