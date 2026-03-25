@@ -393,6 +393,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
             </div>
 
+          </div>
+
+          {/* Documentos + Radiografias side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">Documentos</h3>
               <Tabs defaultValue="receitas">
@@ -433,27 +437,46 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 </TabsContent>
               </Tabs>
             </div>
-          </div>
 
-
-          {/* Radiografias e Imagens */}
-          <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Radiografias e Imagens</h3>
-              <Button size="sm" variant="secondary" className="gap-1.5 text-[11px]" onClick={() => setShowUploadModal(true)}>
-                <Upload className="w-3 h-3" /> Upload
-              </Button>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {data.images.map((img: any) => (
-                <button key={img.id} className="bg-secondary/50 rounded-lg p-2.5 text-left hover:bg-secondary/70 transition-colors" onClick={() => setPreviewImage(img.id)}>
-                  <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-1.5">
-                    <Camera className="w-6 h-6 text-muted-foreground/30" />
+            <div className="bg-card rounded-xl border border-border p-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Radiografias e Imagens</h3>
+                <Button size="sm" variant="secondary" className="gap-1.5 text-[11px]" onClick={() => setShowUploadModal(true)}>
+                  <Upload className="w-3 h-3" /> Upload
+                </Button>
+              </div>
+              <Tabs defaultValue="radiografias">
+                <TabsList className="bg-secondary/50 h-8">
+                  <TabsTrigger value="radiografias" className="text-[11px] h-6">Radiografias</TabsTrigger>
+                  <TabsTrigger value="fotos" className="text-[11px] h-6">Fotos</TabsTrigger>
+                </TabsList>
+                <TabsContent value="radiografias" className="mt-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    {data.images.filter((img: any) => img.category !== 'Foto Intraoral' && img.category !== 'Foto Frontal').map((img: any) => (
+                      <button key={img.id} className="bg-secondary/50 rounded-lg p-2.5 text-left hover:bg-secondary/70 transition-colors" onClick={() => setPreviewImage(img.id)}>
+                        <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-1.5">
+                          <Camera className="w-6 h-6 text-muted-foreground/30" />
+                        </div>
+                        <p className="text-xs font-medium truncate">{img.category}</p>
+                        <p className="text-[10px] text-muted-foreground">{img.date}</p>
+                      </button>
+                    ))}
                   </div>
-                  <p className="text-xs font-medium truncate">{img.category}</p>
-                  <p className="text-[10px] text-muted-foreground">{img.date}</p>
-                </button>
-              ))}
+                </TabsContent>
+                <TabsContent value="fotos" className="mt-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    {data.images.filter((img: any) => img.category === 'Foto Intraoral' || img.category === 'Foto Frontal').map((img: any) => (
+                      <button key={img.id} className="bg-secondary/50 rounded-lg p-2.5 text-left hover:bg-secondary/70 transition-colors" onClick={() => setPreviewImage(img.id)}>
+                        <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-1.5">
+                          <Camera className="w-6 h-6 text-muted-foreground/30" />
+                        </div>
+                        <p className="text-xs font-medium truncate">{img.category}</p>
+                        <p className="text-[10px] text-muted-foreground">{img.date}</p>
+                      </button>
+                    ))}
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
 
