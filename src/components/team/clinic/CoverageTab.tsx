@@ -45,11 +45,11 @@ export function CoverageTab() {
 
       {/* Visual Grid — horizontal scroll on mobile */}
       <Card className="border-border/50">
-        <CardContent className="p-3 relative">
+        <CardContent className="p-3 relative min-w-0">
           {/* Scroll shadow hint */}
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent z-10 md:hidden" />
-          <div className="overflow-x-auto">
-            <div className="min-w-[560px]">
+          <div className="overflow-x-auto [-webkit-overflow-scrolling:touch] max-w-full">
+            <div className="min-w-[600px] w-max">
               {/* Header */}
               <div className="grid grid-cols-8 gap-1 mb-2">
                 <div className="text-xs font-medium text-muted-foreground sticky left-0 bg-card z-[5]">Hora</div>
