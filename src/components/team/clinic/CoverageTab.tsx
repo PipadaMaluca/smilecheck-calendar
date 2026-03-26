@@ -48,11 +48,29 @@ export function CoverageTab() {
         <CardContent className="p-3 relative min-w-0">
           {/* Scroll shadow hint */}
           <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent z-10 md:hidden" />
-          <div className="overflow-x-auto [-webkit-overflow-scrolling:touch] max-w-full">
-            <div className="min-w-[600px] w-max">
+          <div
+            className="w-full"
+            style={{
+              overflowX: 'scroll',
+              WebkitOverflowScrolling: 'touch',
+              maxWidth: '100%',
+              width: '100%',
+            }}
+          >
+            <div
+              className="w-max"
+              style={{
+                minWidth: '800px',
+              }}
+            >
               {/* Header */}
               <div className="grid grid-cols-8 gap-1 mb-2">
-                <div className="text-xs font-medium text-muted-foreground sticky left-0 bg-card z-[5]">Hora</div>
+                <div
+                  className="text-xs font-medium text-muted-foreground sticky left-0 z-[5]"
+                  style={{ background: 'hsl(var(--card))' }}
+                >
+                  Hora
+                </div>
                 {days.map((d) => (
                   <div key={d} className="text-xs font-medium text-center">{d.slice(0, 3)}</div>
                 ))}
@@ -60,7 +78,12 @@ export function CoverageTab() {
               {/* Time rows */}
               {hours.map((hour) => (
                 <div key={hour} className="grid grid-cols-8 gap-1 mb-0.5">
-                  <div className="text-[10px] text-muted-foreground py-1 sticky left-0 bg-card z-[5]">{hour}</div>
+                  <div
+                    className="text-[10px] text-muted-foreground py-1 sticky left-0 z-[5]"
+                    style={{ background: 'hsl(var(--card))' }}
+                  >
+                    {hour}
+                  </div>
                   {days.map((day) => {
                     const cov = coverage[day];
                     const hourNum = parseInt(hour);
