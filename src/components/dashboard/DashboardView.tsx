@@ -293,7 +293,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                   const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
                   return (
-                    <div key={c.consultationId} className="flex items-center gap-2 py-1">
+                    <div
+                      key={c.consultationId}
+                      className="flex items-center gap-2 py-1 rounded-md cursor-pointer hover:bg-muted/30 transition-colors"
+                      onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
+                    >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                         {catLabel &&
@@ -445,7 +449,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                     const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
                     return (
-                      <div key={c.consultationId} className="flex items-center gap-1.5 py-0.5">
+                      <div
+                        key={c.consultationId}
+                        className="flex items-center gap-1.5 py-0.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors"
+                        onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
+                      >
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
                             {catLabel &&
