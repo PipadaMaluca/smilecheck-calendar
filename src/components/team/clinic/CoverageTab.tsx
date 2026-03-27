@@ -53,7 +53,7 @@ export function CoverageTab() {
             touchAction: 'pan-x pan-y',
           }}
         >
-          <div style={{ minWidth: '800px' }}>
+          <div style={{ minWidth: '800px', display: 'grid', gridTemplateColumns: 'auto repeat(7, 1fr)', gap: '4px' }}>
             {/* Header */}
             <div className="grid grid-cols-8 gap-1 mb-2">
               <div
