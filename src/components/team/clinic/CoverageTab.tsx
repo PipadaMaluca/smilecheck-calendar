@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const days = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+const allDays = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 const hours = Array.from({ length: 13 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 
 const dentistColors = [
@@ -30,7 +30,12 @@ const statusConfig = {
   closed: { icon: '❌', text: 'fechado', className: 'text-destructive' },
 };
 
+// Only show days that have coverage (not closed)
+const activeDays = allDays.filter((d) => coverage[d].status !== 'closed');
+
 export function CoverageTab() {
+  const colCount = activeDays.length;
+
   return (
     <div className="space-y-6 pb-20">
       {/* Legend */}
@@ -43,42 +48,53 @@ export function CoverageTab() {
         ))}
       </div>
 
-      {/* Visual Grid — horizontal scroll on mobile */}
+      {/* Visual Grid — scroll only on mobile (<768px) */}
       <div className="border border-border/50 rounded-lg bg-card p-3 relative">
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card to-transparent z-10 md:hidden" />
         <div
+          className="md:overflow-visible"
           style={{
             overflowX: 'auto',
             WebkitOverflowScrolling: 'touch',
             touchAction: 'pan-x pan-y',
           }}
         >
-          <div style={{ minWidth: '800px' }}>
+          <div
+            className="md:min-w-0"
+            style={{ minWidth: '700px' }}
+          >
             {/* Header */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'max-content repeat(7, 1fr)', gap: '4px' }} className="mb-2">
+            <div
+              style={{ display: 'grid', gridTemplateColumns: `max-content repeat(${colCount}, 1fr)`, gap: '4px' }}
+              className="mb-2"
+            >
               <div
-                className="text-xs font-medium text-muted-foreground sticky left-0 z-[5] pr-2"
+                className="text-xs font-medium text-muted-foreground sticky left-0 z-[5] md:static pr-2"
                 style={{ background: 'hsl(var(--card))' }}
               >
                 Hora
               </div>
-              {days.map((d) => (
+              {activeDays.map((d) => (
                 <div key={d} className="text-xs font-medium text-center">{d.slice(0, 3)}</div>
               ))}
             </div>
             {/* Time rows */}
             {hours.map((hour) => (
-              <div key={hour} style={{ display: 'grid', gridTemplateColumns: 'max-content repeat(7, 1fr)', gap: '4px' }} className="mb-0.5">
+              <div
+                key={hour}
+                style={{ display: 'grid', gridTemplateColumns: `max-content repeat(${colCount}, 1fr)`, gap: '4px' }}
+                className="mb-0.5"
+              >
                 <div
-                  className="text-[10px] text-muted-foreground py-1 sticky left-0 z-[5] pr-2 whitespace-nowrap"
+                  className="text-[10px] text-muted-foreground py-1 sticky left-0 z-[5] md:static pr-2 whitespace-nowrap"
                   style={{ background: 'hsl(var(--card))' }}
                 >
                   {hour}
                 </div>
-                {days.map((day) => {
+                {activeDays.map((day) => {
                   const cov = coverage[day];
                   const hourNum = parseInt(hour);
-                  const isOpen = day !== 'Domingo' && hourNum >= 9 && (day === 'Sábado' ? hourNum < 13 : hourNum < 19);
+                  const isOpen = hourNum >= 9 && (day === 'Sábado' ? hourNum < 13 : hourNum < 19);
                   return (
                     <div key={day} className="flex gap-px h-5">
                       {isOpen ? cov.dentists.map((dIdx) => (
@@ -95,13 +111,13 @@ export function CoverageTab() {
         </div>
       </div>
 
-      {/* Summary */}
+      {/* Summary — only active days */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <CardTitle className="text-base">📋 Resumo de Cobertura</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 px-4">
-          {days.map((day) => {
+          {activeDays.map((day) => {
             const cov = coverage[day];
             const status = statusConfig[cov.status];
             return (
