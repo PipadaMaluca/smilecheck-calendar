@@ -1,4 +1,5 @@
 import { Home, Calendar, Heart, MessageCircle, Users, Settings } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 
@@ -8,31 +9,33 @@ interface BottomNavigationProps {
   onTabChange: (tab: string) => void;
 }
 
-const navigationItems = {
-  patient: [
-    { id: 'home', icon: Home, label: 'Início' },
-    { id: 'consultas', icon: Calendar, label: 'Consultas' },
-    { id: 'saude', icon: Heart, label: 'Saúde' },
-    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'configuracoes', icon: Settings, label: 'Config.' },
-  ],
-  dentist: [
-    { id: 'home', icon: Home, label: 'Início' },
-    { id: 'agenda', icon: Calendar, label: 'Agenda' },
-    { id: 'equipa', icon: Users, label: 'Equipa' },
-    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'configuracoes', icon: Settings, label: 'Config.' },
-  ],
-  clinic: [
-    { id: 'home', icon: Home, label: 'Início' },
-    { id: 'agenda', icon: Calendar, label: 'Agenda' },
-    { id: 'equipa', icon: Users, label: 'Equipa' },
-    { id: 'conversas', icon: MessageCircle, label: 'Conversas' },
-    { id: 'configuracoes', icon: Settings, label: 'Config.' },
-  ],
-};
-
 export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNavigationProps) {
+  const { t } = useTranslation();
+
+  const navigationItems = {
+    patient: [
+      { id: 'home', icon: Home, label: t('nav.home') },
+      { id: 'consultas', icon: Calendar, label: t('nav.consultations') },
+      { id: 'saude', icon: Heart, label: t('nav.health') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+    ],
+    dentist: [
+      { id: 'home', icon: Home, label: t('nav.home') },
+      { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
+      { id: 'equipa', icon: Users, label: t('nav.team') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+    ],
+    clinic: [
+      { id: 'home', icon: Home, label: t('nav.home') },
+      { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
+      { id: 'equipa', icon: Users, label: t('nav.team') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+    ],
+  };
+
   const items = navigationItems[userRole];
 
   return (

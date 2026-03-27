@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
@@ -60,6 +61,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
           {/* Right actions — visible at lg+ */}
           <div className="hidden lg:flex items-center gap-3 ml-8">
+            <LanguageSwitcher />
             <button
               onClick={onToggleTheme}
               className="p-2 rounded-lg transition-colors bg-[#121f30] border-white border"
@@ -76,6 +78,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
           {/* Mobile + Tablet hamburger (below lg) */}
           <div className="lg:hidden flex items-center gap-2">
+            <LanguageSwitcher size="sm" />
             <button
               onClick={onToggleTheme}
               className="p-2 rounded-lg hover:bg-accent transition-colors">

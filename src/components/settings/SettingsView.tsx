@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList
+  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList, Globe
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
@@ -15,6 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { cn } from '@/lib/utils';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -41,6 +43,13 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
   const { replayFull, replayTooltips } = useOnboarding();
+  const { t, i18n } = useTranslation();
+
+  const languages = [
+    { code: 'pt', flag: '🇵🇹', label: 'Português' },
+    { code: 'fr', flag: '🇫🇷', label: 'Français' },
+    { code: 'en', flag: '🇬🇧', label: 'English' },
+  ];
 
   return (
     <ScrollArea className="flex-1">
@@ -66,6 +75,40 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 4. Regional */}
         <RegionalSection />
+
+        {/* Idioma */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Globe className="w-4 h-4" /> {t('language.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={cn(
+                  'flex items-center gap-3 w-full p-3 rounded-lg transition-all',
+                  i18n.language === lang.code
+                    ? 'bg-primary/10 border border-primary/30'
+                    : 'hover:bg-muted/50'
+                )}
+              >
+                <span className="text-xl">{lang.flag}</span>
+                <span className={cn(
+                  'text-sm font-medium',
+                  i18n.language === lang.code ? 'text-primary' : 'text-foreground'
+                )}>
+                  {lang.label}
+                </span>
+                {i18n.language === lang.code && (
+                  <span className="ml-auto text-xs text-primary">✓</span>
+                )}
+              </button>
+            ))}
+          </CardContent>
+        </Card>
 
         {/* 5. Dispositivos Conectados */}
         <ConnectedDevicesSection />

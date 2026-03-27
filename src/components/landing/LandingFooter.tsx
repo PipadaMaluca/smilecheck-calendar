@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.png';
 
@@ -41,7 +42,7 @@ export function LandingFooter() {
             <p className="text-sm text-[hsl(215,20%,65%)] mb-5">
               A app que recompensa a sua saúde oral
             </p>
-            <div className="flex gap-5">
+            <div className="flex gap-5 items-center">
               {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) =>
               <span
                 key={s}
@@ -50,6 +51,7 @@ export function LandingFooter() {
                 </span>
               )}
             </div>
+            <LanguageSwitcher className="mt-4" size="md" />
           </div>
 
           {/* 3 columns side by side */}
