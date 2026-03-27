@@ -76,6 +76,40 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
         {/* 4. Regional */}
         <RegionalSection />
 
+        {/* Idioma */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Globe className="w-4 h-4" /> {t('language.title')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={cn(
+                  'flex items-center gap-3 w-full p-3 rounded-lg transition-all',
+                  i18n.language === lang.code
+                    ? 'bg-primary/10 border border-primary/30'
+                    : 'hover:bg-muted/50'
+                )}
+              >
+                <span className="text-xl">{lang.flag}</span>
+                <span className={cn(
+                  'text-sm font-medium',
+                  i18n.language === lang.code ? 'text-primary' : 'text-foreground'
+                )}>
+                  {lang.label}
+                </span>
+                {i18n.language === lang.code && (
+                  <span className="ml-auto text-xs text-primary">✓</span>
+                )}
+              </button>
+            ))}
+          </CardContent>
+        </Card>
+
         {/* 5. Dispositivos Conectados */}
         <ConnectedDevicesSection />
 
