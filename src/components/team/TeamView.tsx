@@ -97,12 +97,12 @@ function DentistTeamView() {
 
 export function TeamView({ userRole, onNavigate }: TeamViewProps) {
   return (
-    <ScrollArea className="flex-1">
+    <div className="flex-1 overflow-y-auto">
       <div className="p-4 sm:p-6 max-w-5xl mx-auto pb-28">
         {userRole === 'patient' && <PatientTeamView />}
         {userRole === 'dentist' && <DentistTeamView />}
         {userRole === 'clinic' && <ClinicTeamView />}
       </div>
-    </ScrollArea>
+    </div>
   );
 }
