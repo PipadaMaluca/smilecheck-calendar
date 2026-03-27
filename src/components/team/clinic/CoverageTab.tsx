@@ -53,11 +53,11 @@ export function CoverageTab() {
             touchAction: 'pan-x pan-y',
           }}
         >
-          <div style={{ minWidth: '800px', display: 'grid', gridTemplateColumns: 'auto repeat(7, 1fr)', gap: '4px' }}>
+          <div style={{ minWidth: '800px' }}>
             {/* Header */}
-            <div className="grid grid-cols-8 gap-1 mb-2">
+            <div style={{ display: 'grid', gridTemplateColumns: 'max-content repeat(7, 1fr)', gap: '4px' }} className="mb-2">
               <div
-                className="text-xs font-medium text-muted-foreground sticky left-0 z-[5]"
+                className="text-xs font-medium text-muted-foreground sticky left-0 z-[5] pr-2"
                 style={{ background: 'hsl(var(--card))' }}
               >
                 Hora
@@ -68,9 +68,9 @@ export function CoverageTab() {
             </div>
             {/* Time rows */}
             {hours.map((hour) => (
-              <div key={hour} className="grid grid-cols-8 gap-1 mb-0.5">
+              <div key={hour} style={{ display: 'grid', gridTemplateColumns: 'max-content repeat(7, 1fr)', gap: '4px' }} className="mb-0.5">
                 <div
-                  className="text-[10px] text-muted-foreground py-1 sticky left-0 z-[5]"
+                  className="text-[10px] text-muted-foreground py-1 sticky left-0 z-[5] pr-2 whitespace-nowrap"
                   style={{ background: 'hsl(var(--card))' }}
                 >
                   {hour}
