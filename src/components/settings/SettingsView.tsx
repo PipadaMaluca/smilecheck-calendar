@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList
+  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList, Globe
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
@@ -15,6 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { cn } from '@/lib/utils';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -41,6 +43,13 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
   const { replayFull, replayTooltips } = useOnboarding();
+  const { t, i18n } = useTranslation();
+
+  const languages = [
+    { code: 'pt', flag: '🇵🇹', label: 'Português' },
+    { code: 'fr', flag: '🇫🇷', label: 'Français' },
+    { code: 'en', flag: '🇬🇧', label: 'English' },
+  ];
 
   return (
     <ScrollArea className="flex-1">
