@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { LanguageSelector } from '@/components/landing/LanguageSelector';
 import { ThemeSelector } from '@/components/landing/ThemeSelector';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { HeroSection } from '@/components/landing/HeroSection';
@@ -10,6 +11,9 @@ import { FAQSection } from '@/components/landing/FAQSection';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
 export default function Landing() {
+  const [langSelected, setLangSelected] = useState(
+    () => localStorage.getItem('smilecheck-language') !== null
+  );
   const [themeSelected, setThemeSelected] = useState(
     () => localStorage.getItem('sc-theme-set') === '1'
   );
@@ -26,7 +30,6 @@ export default function Landing() {
       document.documentElement.classList.toggle('light', !dark);
     }
     return () => {
-      // Clean up light class when leaving landing
       document.documentElement.classList.remove('light');
     };
   }, []);
@@ -39,6 +42,10 @@ export default function Landing() {
     localStorage.setItem('sc-theme-set', '1');
     setThemeSelected(true);
   };
+
+  if (!langSelected) {
+    return <LanguageSelector onSelect={() => setLangSelected(true)} />;
+  }
 
   if (!themeSelected) {
     return <ThemeSelector onSelect={applyTheme} />;
