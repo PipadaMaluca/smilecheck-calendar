@@ -5,9 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AuthBackground } from './AuthBackground';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export function ForgotPasswordScreen() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ export function ForgotPasswordScreen() {
 
   const handleSend = async () => {
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
-      setError('Introduza um email válido');
+      setError(t('auth.forgotPasswordEmailInvalid'));
       return;
     }
     setLoading(true);
@@ -31,12 +33,10 @@ export function ForgotPasswordScreen() {
           <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mb-4">
             <Check className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-xl font-bold text-foreground mb-1">Email Enviado</h1>
-          <p className="text-sm text-muted-foreground text-center mb-6">
-            Verifique o seu email para instruções de recuperação
-          </p>
+          <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.forgotPasswordSent')}</h1>
+          <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.forgotPasswordSentDesc')}</p>
           <Button onClick={() => navigate('/login')} className="w-full h-12 text-base font-semibold">
-            Voltar ao login
+            {t('auth.forgotPasswordBack')}
           </Button>
         </div>
       </AuthBackground>
@@ -47,30 +47,24 @@ export function ForgotPasswordScreen() {
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
         <img src="/assets/smilecheck-logo-vertical.png" alt="SmileCheck" className="h-[300px] sm:h-[360px] mb-4" />
-        <h1 className="text-xl font-bold text-foreground mb-1">Recuperar Password</h1>
-        <p className="text-sm text-muted-foreground text-center mb-6">
-          Introduza o seu email para receber instruções
-        </p>
+        <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.forgotPasswordTitle')}</h1>
+        <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.forgotPasswordDesc')}</p>
 
         <div className="w-full space-y-4">
           <div>
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
+            <Input type="email" placeholder={t('auth.email')} value={email}
               onChange={e => { setEmail(e.target.value); setError(''); }}
-              className={cn('h-12 bg-secondary border-border', error && 'border-destructive')}
-            />
+              className={cn('h-12 bg-secondary border-border', error && 'border-destructive')} />
             {error && <p className="text-destructive text-xs mt-1">{error}</p>}
           </div>
 
           <Button onClick={handleSend} disabled={loading} className="w-full h-12 text-base font-semibold">
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar'}
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('auth.send')}
           </Button>
         </div>
 
         <button onClick={() => navigate('/login')} className="mt-6 text-sm text-primary hover:underline flex items-center gap-1">
-          <ArrowLeft className="w-3 h-3" /> Voltar ao login
+          <ArrowLeft className="w-3 h-3" /> {t('auth.forgotPasswordBack')}
         </button>
       </div>
     </AuthBackground>

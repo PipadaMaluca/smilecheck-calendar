@@ -10,56 +10,18 @@ import { SlideRankings } from './slides/SlideRankings';
 import { SlideRating } from './slides/SlideRating';
 import { SlideStart } from './slides/SlideStart';
 import { UserRole } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
-// Slide types
-type SlideConfig =
-  | { type: 'welcome' }
-  | { type: 'points' }
-  | { type: 'levels' }
-  | { type: 'rewards' }
-  | { type: 'rankings' }
-  | { type: 'rating' }
-  | { type: 'start' };
+type SlideConfig = { type: 'welcome' } | { type: 'points' } | { type: 'levels' } | { type: 'rewards' } | { type: 'rankings' } | { type: 'rating' } | { type: 'start' };
 
-// Patient: 6 slides (no Rankings)
-const PATIENT_SLIDES: SlideConfig[] = [
-  { type: 'welcome' },
-  { type: 'points' },
-  { type: 'levels' },
-  { type: 'rewards' },
-  { type: 'rating' },
-  { type: 'start' },
-];
+const PATIENT_SLIDES: SlideConfig[] = [{ type: 'welcome' }, { type: 'points' }, { type: 'levels' }, { type: 'rewards' }, { type: 'rating' }, { type: 'start' }];
+const DENTIST_SLIDES: SlideConfig[] = [{ type: 'welcome' }, { type: 'points' }, { type: 'levels' }, { type: 'rewards' }, { type: 'rankings' }, { type: 'rating' }, { type: 'start' }];
+const CLINIC_SLIDES: SlideConfig[] = [{ type: 'welcome' }, { type: 'points' }, { type: 'levels' }, { type: 'rewards' }, { type: 'rankings' }, { type: 'rating' }, { type: 'start' }];
 
-// Dentist: 7 slides (all)
-const DENTIST_SLIDES: SlideConfig[] = [
-  { type: 'welcome' },
-  { type: 'points' },
-  { type: 'levels' },
-  { type: 'rewards' },
-  { type: 'rankings' },
-  { type: 'rating' },
-  { type: 'start' },
-];
-
-// Clinic: 7 slides (all)
-const CLINIC_SLIDES: SlideConfig[] = [
-  { type: 'welcome' },
-  { type: 'points' },
-  { type: 'levels' },
-  { type: 'rewards' },
-  { type: 'rankings' },
-  { type: 'rating' },
-  { type: 'start' },
-];
-
-const SLIDES_BY_ROLE: Record<UserRole, SlideConfig[]> = {
-  patient: PATIENT_SLIDES,
-  dentist: DENTIST_SLIDES,
-  clinic: CLINIC_SLIDES,
-};
+const SLIDES_BY_ROLE: Record<UserRole, SlideConfig[]> = { patient: PATIENT_SLIDES, dentist: DENTIST_SLIDES, clinic: CLINIC_SLIDES };
 
 export function OnboardingCarousel() {
+  const { t } = useTranslation();
   const { showCarousel, carouselRole, finishCarousel } = useOnboarding();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, dragFree: false });
@@ -72,56 +34,30 @@ export function OnboardingCarousel() {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
   const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
 
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setCurrentSlide(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+  const onSelect = useCallback(() => { if (!emblaApi) return; setCurrentSlide(emblaApi.selectedScrollSnap()); }, [emblaApi]);
 
-  useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.on('select', onSelect);
-    onSelect();
-    return () => { emblaApi.off('select', onSelect); };
-  }, [emblaApi, onSelect]);
-
-  // Reset when carousel opens
-  useEffect(() => {
-    if (showCarousel && emblaApi) {
-      emblaApi.scrollTo(0);
-      setCurrentSlide(0);
-    }
-  }, [showCarousel, emblaApi]);
+  useEffect(() => { if (!emblaApi) return; emblaApi.on('select', onSelect); onSelect(); return () => { emblaApi.off('select', onSelect); }; }, [emblaApi, onSelect]);
+  useEffect(() => { if (showCarousel && emblaApi) { emblaApi.scrollTo(0); setCurrentSlide(0); } }, [showCarousel, emblaApi]);
 
   if (!showCarousel) return null;
 
-  const handleComplete = () => {
-    finishCarousel();
-    setCurrentSlide(0);
-  };
+  const handleComplete = () => { finishCarousel(); setCurrentSlide(0); };
 
   const renderSlide = (config: SlideConfig, index: number) => {
     const isActive = currentSlide === index;
     switch (config.type) {
-      case 'welcome':
-        return <SlideWelcome isActive={isActive} userRole={carouselRole} />;
-      case 'points':
-        return <SlidePoints isActive={isActive} userRole={carouselRole} />;
-      case 'levels':
-        return <SlideLevels isActive={isActive} />;
-      case 'rewards':
-        return <SlideRewards isActive={isActive} />;
-      case 'rankings':
-        return <SlideRankings isActive={isActive} userRole={carouselRole} />;
-      case 'rating':
-        return <SlideRating isActive={isActive} userRole={carouselRole} />;
-      case 'start':
-        return <SlideStart isActive={isActive} userRole={carouselRole} onComplete={handleComplete} />;
+      case 'welcome': return <SlideWelcome isActive={isActive} userRole={carouselRole} />;
+      case 'points': return <SlidePoints isActive={isActive} userRole={carouselRole} />;
+      case 'levels': return <SlideLevels isActive={isActive} />;
+      case 'rewards': return <SlideRewards isActive={isActive} />;
+      case 'rankings': return <SlideRankings isActive={isActive} userRole={carouselRole} />;
+      case 'rating': return <SlideRating isActive={isActive} userRole={carouselRole} />;
+      case 'start': return <SlideStart isActive={isActive} userRole={carouselRole} onComplete={handleComplete} />;
     }
   };
 
   return (
     <div className="fixed inset-0 z-[100] bg-gradient-to-b from-background to-background/95">
-      {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />
         <div className="absolute bottom-40 right-10 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />
@@ -129,63 +65,42 @@ export function OnboardingCarousel() {
       </div>
 
       <div className="relative h-full max-w-lg mx-auto flex flex-col px-4">
-        {/* Skip button */}
         {!isLast && (
-          <button
-            onClick={handleComplete}
-            className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors"
-          >
-            <span className="hidden sm:inline">Saltar tutorial</span>
-            <span className="sm:hidden">Saltar</span>
+          <button onClick={handleComplete} className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors">
+            <span className="hidden sm:inline">{t('onboarding.skip')}</span>
+            <span className="sm:hidden">{t('onboarding.skipShort')}</span>
           </button>
         )}
 
-        {/* Carousel */}
         <div className="flex-1 overflow-hidden" ref={emblaRef}>
           <div className="flex h-full">
             {slides.map((config, index) => (
-              <div key={index} className="flex-[0_0_100%] min-w-0 h-full">
-                {renderSlide(config, index)}
-              </div>
+              <div key={index} className="flex-[0_0_100%] min-w-0 h-full">{renderSlide(config, index)}</div>
             ))}
           </div>
         </div>
 
-        {/* Dots */}
         <div className="flex justify-center gap-2 py-4">
           {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                index === currentSlide
-                  ? 'bg-gaming-diamond w-8'
-                  : 'w-2.5 bg-muted hover:bg-muted-foreground/50'
-              }`}
-              style={index === currentSlide ? { boxShadow: '0 0 15px hsla(195, 100%, 70%, 0.5)' } : {}}
-            />
+            <button key={index} onClick={() => scrollTo(index)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-gaming-diamond w-8' : 'w-2.5 bg-muted hover:bg-muted-foreground/50'}`}
+              style={index === currentSlide ? { boxShadow: '0 0 15px hsla(195, 100%, 70%, 0.5)' } : {}} />
           ))}
         </div>
 
-        {/* Navigation */}
         {!isLast && (
           <div className="flex flex-col items-center gap-2 px-4 sm:px-6 pb-6 safe-area-pb">
-            <button
-              onClick={scrollNext}
+            <button onClick={scrollNext}
               className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-gaming-diamond text-background hover:scale-105 active:scale-95 min-h-[48px]"
-              style={{ boxShadow: '0 0 30px hsla(195, 100%, 70%, 0.3)' }}
-            >
-              Próximo
+              style={{ boxShadow: '0 0 30px hsla(195, 100%, 70%, 0.3)' }}>
+              {t('onboarding.next')}
               <ChevronRight className="w-4 h-4" />
             </button>
-
             {currentSlide > 0 && (
-              <button
-                onClick={scrollPrev}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-300"
-              >
+              <button onClick={scrollPrev}
+                className="flex items-center gap-1 px-4 py-2 rounded-xl font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-300">
                 <ChevronLeft className="w-4 h-4" />
-                Anterior
+                {t('onboarding.previous')}
               </button>
             )}
           </div>
