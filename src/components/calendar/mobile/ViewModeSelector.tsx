@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ViewMode, UserRole } from '@/types/calendar';
 
@@ -12,26 +13,25 @@ export function ViewModeSelector({
   onViewModeChange,
   userRole
 }: ViewModeSelectorProps) {
-  // Patient only has list and day views
-  // Order: Day, 3 Days (if not patient), List
+  const { t } = useTranslation();
   const modes: {
     id: ViewMode;
     label: string;
   }[] = userRole === 'patient' ? [{
     id: 'day',
-    label: 'Dia'
+    label: t('agenda.day')
   }, {
     id: 'list',
-    label: 'Lista'
+    label: t('agenda.list')
   }] : [{
     id: 'day',
-    label: 'Dia'
+    label: t('agenda.day')
   }, {
     id: 'three-day',
-    label: '3 Dias'
+    label: t('agenda.threeDays')
   }, {
     id: 'list',
-    label: 'Lista'
+    label: t('agenda.list')
   }];
 
   return (
