@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dentist } from '@/types/calendar';
@@ -10,6 +11,7 @@ interface DentistFilterProps {
 }
 
 export function DentistFilter({ dentists, selectedDentistId, onSelect }: DentistFilterProps) {
+  const { t } = useTranslation();
   return (
     <div className="px-4 py-2">
       <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
@@ -22,7 +24,7 @@ export function DentistFilter({ dentists, selectedDentistId, onSelect }: Dentist
             selectedDentistId === null && 'bg-primary text-primary-foreground hover:bg-primary/90'
           )}
         >
-          Todos
+          {t('common.all')}
         </Button>
         {dentists.map((dentist) => (
           <Button

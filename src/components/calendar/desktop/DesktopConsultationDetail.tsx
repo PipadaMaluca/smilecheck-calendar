@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Video, MapPin, Calendar, Clock, User, Phone, Star, Mail, MessageCircle, FileText, RefreshCw, Check, Edit, Copy, Ban, Unlock, Pill, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -30,6 +31,7 @@ export function DesktopConsultationDetail({
   onCopy,
   onViewDossier,
 }: DesktopConsultationDetailProps) {
+  const { t } = useTranslation();
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
@@ -44,12 +46,12 @@ export function DesktopConsultationDetail({
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success(`Paciente bloqueado com sucesso`);
+    toast.success(t('consultationDetail.blockedSuccess'));
   };
 
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success(`Paciente desbloqueado`);
+    toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
   const renderActions = () => {
@@ -57,35 +59,35 @@ export function DesktopConsultationDetail({
       return (
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3 h-3" /> Copiar Consulta
+             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3 h-3" /> {t('consultationDetail.copy')} {t('consultation.details').split(' ').pop()}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('prescrever')}>
-              <Pill className="w-3 h-3" /> Prescrever Receita
+              <Pill className="w-3 h-3" /> {t('consultation.prescribe')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
-              <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+              <MessageCircle className="w-3 h-3" /> {t('consultation.sendMessage')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('referencia')}>
-              <FileText className="w-3 h-3" /> Recomendar Paciente
+              <FileText className="w-3 h-3" /> {t('consultation.recommend')}
             </Button>
             <Button variant="outline" className="gap-2 text-xs justify-start">
-              <RefreshCw className="w-3 h-3" /> Reagendar Consulta
+              <RefreshCw className="w-3 h-3" /> {t('consultationDetail.rescheduleAction')}
             </Button>
             {isBlocked ? (
               <Button variant="outline" className="gap-2 text-xs justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3 h-3" /> Desbloquear
+                <Unlock className="w-3 h-3" /> {t('consultationDetail.unblock')}
               </Button>
             ) : (
               <Button variant="outline" className="gap-2 text-xs justify-start text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3 h-3" /> Bloquear Paciente
+                <Ban className="w-3 h-3" /> {t('consultation.block')}
               </Button>
             )}
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3 h-3" /> Ver Dossier
+              <FileText className="w-3 h-3" /> {t('consultation.viewDossier')}
             </Button>
             <Button variant="outline" className="gap-2 text-xs justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3 h-3" /> Cancelar Consulta
+              <X className="w-3 h-3" /> {t('consultation.cancel')}
             </Button>
           </div>
         </div>
@@ -97,28 +99,28 @@ export function DesktopConsultationDetail({
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3 h-3" /> Copiar Consulta
+              <Copy className="w-3 h-3" /> {t('consultationDetail.copy')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
-              <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+              <MessageCircle className="w-3 h-3" /> {t('consultation.sendMessage')}
             </Button>
             <Button variant="outline" className="gap-2 text-xs justify-start">
-              <RefreshCw className="w-3 h-3" /> Reagendar Consulta
+              <RefreshCw className="w-3 h-3" /> {t('consultationDetail.rescheduleAction')}
             </Button>
             {isBlocked ? (
               <Button variant="outline" className="gap-2 text-xs justify-start text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3 h-3" /> Desbloquear
+                <Unlock className="w-3 h-3" /> {t('consultationDetail.unblock')}
               </Button>
             ) : (
               <Button variant="outline" className="gap-2 text-xs justify-start text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3 h-3" /> Bloquear Paciente
+                <Ban className="w-3 h-3" /> {t('consultation.block')}
               </Button>
             )}
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3 h-3" /> Ver Dossier
+              <FileText className="w-3 h-3" /> {t('consultation.viewDossier')}
             </Button>
             <Button variant="outline" className="gap-2 text-xs justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3 h-3" /> Cancelar Consulta
+              <X className="w-3 h-3" /> {t('consultation.cancel')}
             </Button>
           </div>
         </div>
@@ -148,7 +150,7 @@ export function DesktopConsultationDetail({
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-lg font-bold">Detalhes da Consulta</h2>
+          <h2 className="text-lg font-bold">{t('consultationDetail.title')}</h2>
           <div className="w-10" />
         </div>
 
@@ -180,7 +182,7 @@ export function DesktopConsultationDetail({
           {/* Patient Section */}
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-4">
-              Paciente
+              {t('consultationDetail.patient')}
             </h3>
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
@@ -210,7 +212,7 @@ export function DesktopConsultationDetail({
           {/* Consultation Type */}
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3">
-              Motivo
+              {t('consultationDetail.reason')}
             </h3>
             <div className="flex items-center gap-2">
               <div
@@ -226,7 +228,7 @@ export function DesktopConsultationDetail({
                 )}
               </div>
               <span className="text-sm">
-                {isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}
+                {isTeleconsulta ? t('consultation.teleconsultation') : t('consultationDetail.inPersonConsultation')}
               </span>
             </div>
           </div>
@@ -237,7 +239,7 @@ export function DesktopConsultationDetail({
               <Separator />
               <div>
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3">
-                  Triagem
+                  {t('consultationDetail.triage')}
                 </h3>
                 <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
                   <p className="text-sm">{consultation.triage.symptom}</p>
@@ -254,7 +256,7 @@ export function DesktopConsultationDetail({
           {/* Export */}
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3">
-              Exportar
+              {t('consultationDetail.export')}
             </h3>
             <ConsultationExportDropdown consultation={consultation} />
           </div>
@@ -264,11 +266,11 @@ export function DesktopConsultationDetail({
           {/* Notes */}
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3">
-              Notas
+              {t('consultationDetail.notes')}
             </h3>
             <div className="bg-secondary/30 rounded-lg p-3 min-h-[80px]">
               <p className="text-sm text-muted-foreground italic">
-                {consultation.notes || 'Sem notas adicionadas.'}
+                {consultation.notes || t('consultationDetail.noNotesAdded')}
               </p>
             </div>
           </div>
@@ -277,7 +279,7 @@ export function DesktopConsultationDetail({
 
           {/* Payment */}
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Pagamento</span>
+            <span className="text-sm text-muted-foreground">{t('consultationDetail.payment')}</span>
             <span
               className={cn(
                 'font-semibold',
@@ -286,8 +288,8 @@ export function DesktopConsultationDetail({
             >
               €{consultation.price}{' '}
               {consultation.isPaid
-                ? `(pago via ${consultation.paymentMethod})`
-                : '(pendente)'}
+                ? `(${t('consultationDetail.paidVia')} ${consultation.paymentMethod})`
+                : `(${t('consultationDetail.pendingPayment')})`}
             </span>
           </div>
         </div>
@@ -299,13 +301,13 @@ export function DesktopConsultationDetail({
           {isTeleconsulta && (
             <Button className="w-full gap-2 bg-orange-500 hover:bg-orange-600 text-white">
               <Video className="w-4 h-4" />
-              Iniciar Teleconsulta
+              {t('consultationDetail.startTeleconsulta')}
             </Button>
           )}
 
           <Button variant="secondary" className="w-full gap-2">
             <Check className="w-4 h-4" />
-            Marcar como Concluída
+            {t('consultationDetail.markCompleted')}
           </Button>
         </div>
       </div>
@@ -314,25 +316,25 @@ export function DesktopConsultationDetail({
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
-              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+              {t('consultationDetail.blockDesc')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <label className="text-sm font-medium">{t('consultationDetail.blockReasonLabel')}</label>
               <Textarea
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
-                placeholder="Indique o motivo do bloqueio..."
+                placeholder={t('consultationDetail.blockReasonPlaceholder')}
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
               />
             </div>
-            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>
             <div className="flex gap-2">
-              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
-              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>{t('consultationDetail.block')}</Button>
             </div>
           </div>
         </DialogContent>

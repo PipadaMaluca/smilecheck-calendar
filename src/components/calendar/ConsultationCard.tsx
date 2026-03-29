@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
@@ -20,6 +21,7 @@ interface ConsultationCardProps {
 }
 
 export function ConsultationCard({ consultation, userRole, onClick, showFamilyMember, onStatusChange, onCopy, onFeedback }: ConsultationCardProps) {
+  const { t } = useTranslation();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
@@ -32,7 +34,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
   const statusConfig = STATUS_CONFIG[status];
   
   // Type label for patients
-  const typeLabel = isTeleconsulta ? 'Teleconsulta' : 'Presencial';
+  const typeLabel = isTeleconsulta ? t('consultation.teleconsultation') : t('consultation.inPerson');
 
   // Patient info with age
   const patientAge = consultation.patient.age;
@@ -157,20 +159,18 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
       <div className="flex items-center justify-between">
         <div className="text-xs text-muted-foreground">
           {userRole === 'patient' ? (
-            // Patient view: teleconsulta shows "Pago", presencial shows "A pagar"
             isTeleconsulta && consultation.isPaid ? (
-              <span className="text-primary">💰 €{consultation.price} (pago)</span>
+              <span className="text-primary">💰 €{consultation.price} ({t('consultationDetail.paid')})</span>
             ) : (
-              <span className="text-[#FDD835]">💰 €{consultation.price} (a pagar)</span>
+              <span className="text-[#FDD835]">💰 €{consultation.price} ({t('consultationDetail.toPay')})</span>
             )
           ) : (
-            // Dentist/Clinic view
             consultation.isPaid ? (
-              <span className="text-primary">💰 €{consultation.price} (pago)</span>
+              <span className="text-primary">💰 €{consultation.price} ({t('consultationDetail.paid')})</span>
             ) : consultation.clinic.distance ? (
               <span>📍 {consultation.clinic.distance} km</span>
             ) : (
-              <span className="text-[#FDD835]">💰 €{consultation.price} (pendente)</span>
+              <span className="text-[#FDD835]">💰 €{consultation.price} ({t('consultationDetail.pendingPayment')})</span>
             )
           )}
         </div>
@@ -184,7 +184,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               onClick={(e) => e.stopPropagation()}
             >
               <MessageCircle className="w-3.5 h-3.5 mr-1" />
-              Chat
+              {t('consultationDetail.chat')}
             </Button>
           ) : (
             <Button
@@ -194,7 +194,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               onClick={(e) => e.stopPropagation()}
             >
               <Navigation className="w-3.5 h-3.5 mr-1" />
-              Direções
+              {t('consultationDetail.directions')}
             </Button>
           )}
           <Button
@@ -204,7 +204,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             onClick={(e) => e.stopPropagation()}
           >
             <X className="w-3.5 h-3.5 mr-1" />
-            Cancelar
+            {t('common.cancel')}
           </Button>
         </div>
       </div>

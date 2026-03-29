@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -25,13 +26,6 @@ interface DashboardViewProps {
   onViewFullHistory?: () => void;
 }
 
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'Bom dia';
-  if (hour < 19) return 'Boa tarde';
-  return 'Boa noite';
-}
-
 function getUserName(role: UserRole): string {
   switch (role) {
     case 'dentist':return `Dr. ${mockDentists[0].name.split(' ')[1]}`;
@@ -50,8 +44,15 @@ const MOCK_WAITING_LIST = [
 
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
-  const greeting = getGreeting();
+  const { t } = useTranslation();
   const userName = getUserName(userRole);
+
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return t('dashboard.greetingMorning');
+    if (hour < 19) return t('dashboard.greetingAfternoon');
+    return t('dashboard.greetingEvening');
+  }, [t]);
 
   const todayConsultations = useMemo(() =>
   mockConsultations.filter((c) => isSameDay(c.date, DEMO_DATE)),
@@ -67,61 +68,60 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextPatientCon = [...mockPatientConsultations].
       filter((c) => c.date >= DEMO_DATE).
       sort((a, b) => a.date.getTime() - b.date.getTime())[0];
-      const nextValue = nextPatientCon ? nextPatientCon.time : 'Sem consultas';
+      const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
       format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
-      'Marcar consulta';
+      t('dashboard.bookConsultation');
       return [
-      { label: 'Próxima Consulta', value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
-      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
-      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'dentist') {
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0];
       return [
-      { label: 'Próxima Consulta', value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: 'consulta-detalhe' },
-      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
-      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: 'consulta-detalhe' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
       return [
-      { label: 'Consultas de Hoje', value: '54', subtitle: `40 Presenciais · 14 Teleconsultas`, icon: Calendar, clickTab: 'agenda' },
-      { label: 'Nível e XP', value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
-      { label: 'Pontos Disponíveis', value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: 'Streak', value: `🔥 ${pointsData.streak} dias`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     return null;
-  }, [userRole, todayConsultations, level, pointsData]);
+  }, [userRole, todayConsultations, level, pointsData, t]);
 
   const quickActions = useMemo(() => {
     switch (userRole) {
       case 'dentist':
         return [
-        { label: 'Ver Agenda de Hoje', icon: Calendar, action: () => onNavigate('agenda') },
-        { label: 'Pesquisar', icon: Search, action: () => onNavigate('pesquisa') },
-        { label: 'Ver Todas as Notificações', icon: Bell, action: () => onNavigate('notificacoes') }];
+        { label: t('dashboard.viewTodayAgenda'), icon: Calendar, action: () => onNavigate('agenda') },
+        { label: t('dashboard.searchLabel'), icon: Search, action: () => onNavigate('pesquisa') },
+        { label: t('dashboard.viewAllNotifications'), icon: Bell, action: () => onNavigate('notificacoes') }];
 
       case 'clinic':
         return [
-        { label: 'Ver Agenda Completa', icon: Calendar, action: () => {
-            // Select all dentists from SmileCheck clinic (clinic ID '1')
+        { label: t('dashboard.viewFullAgenda'), icon: Calendar, action: () => {
             window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
             onNavigate('agenda');
           } },
-        { label: 'Gerir Equipa', icon: Users, action: () => onNavigate('equipa') },
-        { label: 'Ver Estatísticas', icon: BarChart3, action: () => onNavigate('estatisticas') }];
+        { label: t('dashboard.manageTeam'), icon: Users, action: () => onNavigate('equipa') },
+        { label: t('dashboard.viewStats'), icon: BarChart3, action: () => onNavigate('estatisticas') }];
 
       case 'patient':
         return [
-        { label: 'Marcar Consulta', icon: Calendar, action: () => onStartTriage?.() },
-        { label: 'Ver Recompensas', icon: Trophy, action: () => onNavigate('loja') },
-        { label: 'Minha Saúde', icon: Star, action: () => onNavigate('saude') }];
+        { label: t('dashboard.bookAppointment'), icon: Calendar, action: () => onStartTriage?.() },
+        { label: t('dashboard.viewRewards'), icon: Trophy, action: () => onNavigate('loja') },
+        { label: t('dashboard.myHealth'), icon: Star, action: () => onNavigate('saude') }];
 
     }
-  }, [userRole, onNavigate, onStartTriage]);
+  }, [userRole, onNavigate, onStartTriage, t]);
 
   // Shared stats cards renderer
   const renderStatsCards = () => {
@@ -131,11 +131,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {stats.map((stat) => {
           const Icon = stat.icon;
           const isClickable = !!stat.clickTab;
-          const isXPCard = stat.label === 'Nível e XP';
+          const isXPCard = stat.label === t('dashboard.levelAndXp');
           return (
             <Card
               key={stat.label}
-              id={stat.label === 'Pontos Disponíveis' ? 'onboarding-pontuacao-card' : undefined}
+              id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
               className={cn(
                 "bg-card/80 backdrop-blur border-border min-w-0",
                 isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
@@ -146,7 +146,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 } else if (stat.clickTab === 'consulta-detalhe') {
                   onNavigate('consulta-detalhe');
                 } else if (stat.clickTab === 'agenda') {
-                  // Select all dentists from SmileCheck clinic (clinic ID '1')
                   window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
                   onNavigate('agenda');
                 } else {
@@ -170,8 +169,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <span className="text-[10px] text-muted-foreground truncate text-center sm:text-base">
                     {String(stat.subtitle).split('·').map((part, i) => {
                     const trimmed = part.trim();
-                    const isPresencial = trimmed.includes('Presenciais');
-                    const isTeleconsulta = trimmed.includes('Teleconsultas');
+                    const isPresencial = trimmed.includes(t('dashboard.presential'));
+                    const isTeleconsulta = trimmed.includes(t('dashboard.teleconsultations'));
                     return (
                       <span key={i}>
                           {i > 0 && <span className="text-muted-foreground"> · </span>}
@@ -194,17 +193,17 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // Status badge helper
   const getStatusBadge = (status?: string) => {
     const configs: Record<string, {label: string;className: string;}> = {
-      confirmada: { label: 'Confirmada', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
-      em_sala_espera: { label: 'Em sala de espera', className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
-      em_consulta: { label: 'Em consulta', className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
-      visto: { label: 'Visto', className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
-      falta_justificada: { label: 'Falta justificada', className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
-      falta_nao_justificada: { label: 'Falta', className: 'bg-red-500/15 text-red-400 border-red-500/30' }
+      confirmada: { label: t('consultation.confirmed'), className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+      em_sala_espera: { label: t('consultation.waitingRoom'), className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
+      em_consulta: { label: t('consultation.inProgress'), className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
+      visto: { label: t('consultation.seen'), className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+      falta_justificada: { label: t('consultation.noShow'), className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
+      falta_nao_justificada: { label: t('consultation.noShow'), className: 'bg-red-500/15 text-red-400 border-red-500/30' }
     };
     const cfg = status ? configs[status] : null;
     return (
       <Badge variant="outline" className={`text-[10px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
-        {cfg?.label || 'Agendada'}
+        {cfg?.label || t('consultation.scheduled')}
       </Badge>);
 
   };
@@ -245,8 +244,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border lg:col-span-2 flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
-                <Badge variant="outline" className="text-[10px]">{dentistCons.length} total</Badge>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {morningCons.map((c) => {
@@ -261,7 +260,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       </span>
                       <div className="flex items-center gap-1.5 truncate text-left">
                         <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
-                        <span className="text-[10px] text-muted-foreground">— {c.duration}min</span>
+                        <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                       </div>
                       {getStatusBadge(c.status)}
                     </div>);
@@ -269,7 +268,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 })}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
-                Ver agenda completa ›
+                {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
           </Card>
@@ -278,9 +277,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
                 <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
                 </Badge>
               </div>
               {/* Header row */}
@@ -314,7 +313,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 
-                Ver Tudo →
+                {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
@@ -323,7 +322,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
                 <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
               </div>
               <div className="space-y-0 flex-1">
@@ -338,7 +337,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 
-                Ver Tudo →
+                {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
@@ -396,8 +395,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Consultas de Hoje</h3>
-                <Badge variant="outline" className="text-[10px]">54 total</Badge>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <Badge variant="outline" className="text-[10px]">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {(() => {
@@ -419,15 +418,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
                     
                        <span className="text-muted-foreground text-[11px]">:</span>
-                       <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} Pres.</span>
+                       <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
                        <span className="text-[10px] text-muted-foreground">·</span>
-                       <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} Tele.</span>
+                       <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} {t('dashboard.tele')}</span>
                      </div>
                   );
                 })()}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
-                Ver agenda completa ›
+                {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
           </Card>
@@ -436,9 +435,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Confirmações</h3>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
                 <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> Ao vivo
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
                 </Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
@@ -472,7 +471,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 
-                Ver Tudo →
+                {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
@@ -481,8 +480,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">Lista de Espera</h3>
-                <Badge variant="outline" className="text-[10px]">{totalWaitlist} pacientes</Badge>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
+                <Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
@@ -501,7 +500,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 
-                Ver Tudo →
+                {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
@@ -520,9 +519,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     slice(0, 6);
 
     const patientActions = [
-    { label: 'Marcar Consulta', icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
-    { label: 'Ver Recompensas', icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
-    { label: 'Minha Saúde', icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') }];
+    { label: t('dashboard.bookAppointment'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
+    { label: t('dashboard.viewRewards'), icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
+    { label: t('dashboard.myHealth'), icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') }];
 
 
     return (
@@ -536,8 +535,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-consultas-hoje" className="bg-card/80 backdrop-blur border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-foreground">Próximas Consultas</h3>
-                <Badge variant="outline" className="text-[10px]">{upcomingItems.length} consultas</Badge>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.upcomingConsultations')}</h3>
+                <Badge variant="outline" className="text-[10px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
               </div>
               <div className="space-y-2">
                 {upcomingItems.map((item) => {
@@ -554,7 +553,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         {catLabel && <span className="text-[10px] font-medium px-1.5 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>}
                       </div>
                       <Badge variant="outline" className="text-[10px] flex-shrink-0">
-                        {item.status === 'confirmada' ? 'Confirmada' : 'Agendada'}
+                        {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}
                       </Badge>
                     </div>);
 
@@ -568,7 +567,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             {/* Ações Rápidas */}
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardContent className="p-4 space-y-3">
-                <h3 className="text-sm font-bold text-foreground">Ações Rápidas</h3>
+                <h3 className="text-sm font-bold text-foreground">{t('dashboard.quickActions')}</h3>
                 <div className="flex flex-col gap-2">
                   {patientActions.map((action) => {
                     const ActionIcon = action.icon;

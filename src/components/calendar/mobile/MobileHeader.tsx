@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Menu, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ViewMode, UserRole } from '@/types/calendar';
@@ -20,24 +21,25 @@ export function MobileHeader({
   showNewConsultation,
   onNewConsultation
 }: MobileHeaderProps) {
+  const { t } = useTranslation();
   const modes: {
     id: ViewMode;
     label: string;
   }[] = userRole === 'patient' ? [{
     id: 'day',
-    label: 'Dia'
+    label: t('agenda.day')
   }, {
     id: 'list',
-    label: 'Lista'
+    label: t('agenda.list')
   }] : [{
     id: 'day',
-    label: 'Dia'
+    label: t('agenda.day')
   }, {
     id: 'three-day',
-    label: '3 Dias'
+    label: t('agenda.threeDays')
   }, {
     id: 'list',
-    label: 'Lista'
+    label: t('agenda.list')
   }];
 
   return <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border w-full">
@@ -59,7 +61,7 @@ export function MobileHeader({
       <div className="flex items-center justify-center w-full">
             <Button size="sm" onClick={onNewConsultation} className="gap-1.5">
               <Plus className="w-4 h-4" />
-              Nova Consulta
+              {t('agenda.newAppointment')}
             </Button>
           </div>
       }

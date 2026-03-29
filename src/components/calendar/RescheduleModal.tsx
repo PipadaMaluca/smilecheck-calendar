@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -26,22 +27,23 @@ const AVAILABLE_SLOTS = [
 
 const OCCUPIED = ['09:30', '10:30', '14:30', '16:00'];
 
-const REASONS = [
-  'Conflito de agenda',
-  'Emergência pessoal',
-  'Prefiro outro horário',
-  'Outro motivo',
-];
-
 export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount = 0 }: RescheduleModalProps) {
+  const { t } = useTranslation();
   const [step, setStep] = useState<'datetime' | 'reason' | 'done'>('datetime');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
 
+  const reasons = [
+    t('consultationDetail.rescheduleModal.scheduleConflict'),
+    t('consultationDetail.rescheduleModal.personalEmergency'),
+    t('consultationDetail.rescheduleModal.preferOther'),
+    t('consultationDetail.rescheduleModal.otherReason'),
+  ];
+
   const handleSubmit = () => {
-    toast.success('📩 Pedido de reagendamento enviado!');
+    toast.success(`📩 ${t('consultationDetail.rescheduleModal.requestSent')}`);
     setStep('done');
     setTimeout(() => {
       onClose();
@@ -61,20 +63,20 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
         {step === 'done' ? (
           <div className="text-center py-8 space-y-3">
             <div className="text-4xl">📩</div>
-            <p className="text-lg font-semibold">Pedido de reagendamento enviado!</p>
-            <p className="text-sm text-muted-foreground">O dentista e a clínica serão notificados.</p>
+            <p className="text-lg font-semibold">{t('consultationDetail.rescheduleModal.requestSent')}</p>
+            <p className="text-sm text-muted-foreground">{t('consultationDetail.rescheduleModal.dentistNotified')}</p>
           </div>
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Reagendar Consulta</DialogTitle>
+              <DialogTitle>{t('consultationDetail.rescheduleModal.title')}</DialogTitle>
               <DialogDescription>
                 {consultation.category ? consultation.category.charAt(0).toUpperCase() + consultation.category.slice(1) : 'Consulta'} com {consultation.dentist?.name || 'Dentista'} — {format(consultation.date, "d 'de' MMMM", { locale: pt })} às {consultation.time}
               </DialogDescription>
             </DialogHeader>
 
             {rescheduleCount > 0 && (
-              <p className="text-xs text-muted-foreground">Reagendamentos: {rescheduleCount}/2</p>
+              <p className="text-xs text-muted-foreground">{t('consultationDetail.rescheduleModal.reschedulesLeft')}: {rescheduleCount}/2</p>
             )}
 
             {step === 'datetime' && (
@@ -92,7 +94,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                 {selectedDate && (
                   <div>
                     <p className="text-sm font-medium mb-2">
-                      Horários disponíveis — {format(selectedDate, "EEEE, d 'de' MMMM", { locale: pt })}
+                      {t('consultationDetail.rescheduleModal.availableSlots')} — {format(selectedDate, "EEEE, d 'de' MMMM", { locale: pt })}
                     </p>
                     <div className="grid grid-cols-4 gap-2">
                       {AVAILABLE_SLOTS.map(slot => {
@@ -123,7 +125,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                   disabled={!selectedDate || !selectedTime}
                   onClick={() => setStep('reason')}
                 >
-                  Seguinte
+                  {t('common.next')}
                 </Button>
               </div>
             )}
@@ -131,9 +133,9 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
             {step === 'reason' && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">Motivo do reagendamento</Label>
+                  <Label className="text-sm font-medium">{t('consultationDetail.rescheduleModal.reason')}</Label>
                   <RadioGroup value={reason} onValueChange={setReason} className="space-y-2">
-                    {REASONS.map(r => (
+                    {reasons.map(r => (
                       <div key={r} className="flex items-center space-x-2">
                         <RadioGroupItem value={r} id={`reason-${r}`} />
                         <Label htmlFor={`reason-${r}`} className="text-sm font-normal cursor-pointer">{r}</Label>
@@ -144,27 +146,27 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">
-                    Observações adicionais <span className="text-muted-foreground font-normal">(opcional)</span>
+                    {t('consultationDetail.cancellationModal.observationsLabel')} <span className="text-muted-foreground font-normal">({t('common.optional')})</span>
                   </Label>
                   <Textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Observações adicionais..."
+                    placeholder={t('consultationDetail.cancellationModal.observations')}
                     className="min-h-[60px] bg-secondary/50 border-border text-sm"
                   />
                 </div>
 
                 <div className="bg-amber-500/10 rounded-lg p-3 text-sm text-amber-400 flex items-start gap-2">
                   <span>⚠️</span>
-                  <span>O pedido será enviado ao dentista e à clínica para aprovação.</span>
+                  <span>{t('consultationDetail.rescheduleModal.warning')}</span>
                 </div>
 
                 <div className="flex gap-2">
                   <Button variant="outline" className="flex-1" onClick={() => setStep('datetime')}>
-                    Voltar
+                    {t('common.back')}
                   </Button>
                   <Button className="flex-1" disabled={!canSubmit} onClick={handleSubmit}>
-                    Enviar Pedido
+                    {t('consultationDetail.rescheduleModal.sendRequest')}
                   </Button>
                 </div>
               </div>
