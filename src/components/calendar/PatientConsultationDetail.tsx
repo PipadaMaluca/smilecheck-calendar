@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Calendar, Clock, MapPin, Video, MessageCircle, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -29,14 +30,8 @@ const MOCK_HISTORY = [
   { date: '18 Out 2025', type: '1ª Consulta', dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
 ];
 
-const CANCELLATION_REASONS = [
-  'Conflito de agenda',
-  'Emergência médica/pessoal',
-  'Já não preciso desta consulta',
-  'Outro motivo',
-];
-
 export function PatientConsultationDetail({ consultation, isOpen, onClose, onNavigateToChat }: PatientConsultationDetailProps) {
+  const { t } = useTranslation();
   const startTeleconsulta = useTeleconsulta();
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showReschedule, setShowReschedule] = useState(false);
@@ -56,6 +51,13 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
   const dentistAvatar = DENTIST_AVATAR_PHOTOS[consultation.dentist.id];
   const maxReschedules = 2;
   const canReschedule = rescheduleCount < maxReschedules;
+
+  const cancellationReasons = [
+    t('consultationDetail.cancellationModal.scheduleConflict'),
+    t('consultationDetail.cancellationModal.personalEmergency'),
+    t('consultationDetail.cancellationModal.noLongerNeeded'),
+    t('consultationDetail.cancellationModal.otherReason'),
+  ];
 
   const handleConfirmCancel = () => {
     setCancelled(true);
@@ -80,7 +82,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
           <Button variant="ghost" size="icon" onClick={onClose}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-base font-semibold">Detalhes da Consulta</h2>
+          <h2 className="text-base font-semibold">{t('consultationDetail.title')}</h2>
           <div className="w-10" />
         </div>
 
@@ -96,7 +98,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">Consulta com</p>
+                  <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">{t('consultationDetail.consultationWith')}</p>
                   <ClickableDentistName name={consultation.dentist.name} className="text-base font-bold leading-tight" />
                   <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || 'Médico Dentista'}</p>
                   <div className="flex items-center gap-1.5 mt-2 flex-wrap">
@@ -119,7 +121,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />
-                  {consultation.time} · {consultation.duration} min
+                  {consultation.time} · {consultation.duration} {t('agenda.minutes')}
                 </span>
               </div>
             </div>
@@ -131,13 +133,13 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                 onClick={() => startTeleconsulta(consultation.dentist.name)}
               >
                 <Video className="w-5 h-5" />
-                Iniciar Teleconsulta
+                {t('consultationDetail.startTeleconsulta')}
               </Button>
             )}
 
             {/* ── Informações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Informações</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.information')}</h3>
               <div className="space-y-2.5 text-sm">
                 <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -148,31 +150,31 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <span className="text-muted-foreground">Duração prevista:</span>
-                  <span className="font-medium">{consultation.duration} min</span>
+                  <span className="text-muted-foreground">{t('consultationDetail.expectedDuration')}:</span>
+                  <span className="font-medium">{consultation.duration} {t('agenda.minutes')}</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   {isTeleconsulta
                     ? <Video className="w-4 h-4 text-muted-foreground shrink-0" />
                     : <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />}
-                  <span className="text-muted-foreground">{isTeleconsulta ? 'Teleconsulta' : 'Consulta Presencial'}</span>
+                  <span className="text-muted-foreground">{isTeleconsulta ? t('consultation.teleconsultation') : t('consultationDetail.inPersonConsultation')}</span>
                 </div>
               </div>
             </div>
 
             {/* ── Nota desta Consulta (read-only) ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-2.5">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Nota desta Consulta</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.consultationNote')}</h3>
               {consultation.notes ? (
                 <p className="text-sm text-foreground leading-relaxed">{consultation.notes}</p>
               ) : (
-                <p className="text-sm text-muted-foreground/60 italic">Sem notas registadas pelo dentista.</p>
+                <p className="text-sm text-muted-foreground/60 italic">{t('consultationDetail.noNotes')}</p>
               )}
             </div>
 
             {/* ── Histórico Resumido ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Histórico Resumido</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.briefHistory')}</h3>
               <div className="space-y-0">
                 {MOCK_HISTORY.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
@@ -195,7 +197,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
             {/* ── Ações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Ações</h3>
+              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.actions')}</h3>
               <div className="grid grid-cols-3 gap-2">
                 <Button
                   variant="secondary"
@@ -203,7 +205,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   onClick={handleSendMessage}
                 >
                   <MessageCircle className="w-4 h-4" />
-                  Enviar Mensagem
+                  {t('consultation.sendMessage')}
                 </Button>
                 <div className="relative">
                   <Button
@@ -213,7 +215,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                     onClick={() => setShowReschedule(true)}
                   >
                     <RefreshCw className="w-4 h-4" />
-                    Reagendar
+                    {t('consultation.reschedule')}
                   </Button>
                   {rescheduleCount > 0 && (
                     <span className="absolute -top-1 -right-1 text-[9px] bg-muted px-1 rounded text-muted-foreground">
@@ -221,7 +223,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                     </span>
                   )}
                   {!canReschedule && (
-                    <p className="text-[9px] text-destructive mt-0.5 text-center">Limite atingido</p>
+                    <p className="text-[9px] text-destructive mt-0.5 text-center">{t('consultationDetail.limitReached')}</p>
                   )}
                 </div>
                 <Button
@@ -230,7 +232,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   onClick={() => setShowCancelModal(true)}
                 >
                   <X className="w-4 h-4" />
-                  Cancelar Consulta
+                  {t('consultation.cancel')}
                 </Button>
               </div>
             </div>
@@ -252,27 +254,27 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
           {cancelled ? (
             <div className="text-center py-8 space-y-3">
               <div className="text-4xl">✅</div>
-              <p className="text-lg font-semibold">Consulta cancelada com sucesso</p>
-              <p className="text-sm text-muted-foreground">Será redirecionado para o início.</p>
+              <p className="text-lg font-semibold">{t('consultationDetail.cancellationModal.cancelledSuccess')}</p>
+              <p className="text-sm text-muted-foreground">{t('consultationDetail.cancellationModal.redirecting')}</p>
             </div>
           ) : (
             <>
               <DialogHeader>
-                <DialogTitle>Cancelar Consulta</DialogTitle>
+                <DialogTitle>{t('consultationDetail.cancellationModal.title')}</DialogTitle>
                 <DialogDescription>
-                  Tem a certeza que deseja cancelar esta consulta?
+                  {t('consultationDetail.cancellationModal.subtitle')}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="bg-destructive/10 rounded-lg p-3 text-sm text-destructive flex items-start gap-2">
                 <span className="mt-0.5">⚠️</span>
-                <span>Cancelamentos com menos de 24h de antecedência resultam em penalização de pontos.</span>
+                <span>{t('consultationDetail.cancellationModal.warning')}</span>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Motivo da cancelação</Label>
+                <Label className="text-sm font-medium">{t('consultationDetail.cancellationModal.reason')}</Label>
                 <RadioGroup value={cancelReason} onValueChange={setCancelReason} className="space-y-2">
-                  {CANCELLATION_REASONS.map((reason) => (
+                  {cancellationReasons.map((reason) => (
                     <div key={reason} className="flex items-center space-x-2">
                       <RadioGroupItem value={reason} id={reason} />
                       <Label htmlFor={reason} className="text-sm font-normal cursor-pointer">{reason}</Label>
@@ -283,20 +285,20 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
               <div className="space-y-2">
                 <Label className="text-sm font-medium">
-                  Observações adicionais{' '}
-                  <span className="text-muted-foreground font-normal">(opcional)</span>
+                  {t('consultationDetail.cancellationModal.observationsLabel')}{' '}
+                  <span className="text-muted-foreground font-normal">({t('common.optional')})</span>
                 </Label>
                 <Textarea
                   value={cancelNotes}
                   onChange={(e) => setCancelNotes(e.target.value)}
-                  placeholder="Observações adicionais..."
+                  placeholder={t('consultationDetail.cancellationModal.observations')}
                   className="min-h-[60px] bg-secondary/50 border-border text-sm"
                 />
               </div>
 
               <div className="flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => setShowCancelModal(false)}>
-                  Voltar
+                  {t('common.back')}
                 </Button>
                 <Button
                   variant="destructive"
@@ -304,7 +306,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   disabled={!cancelReason}
                   onClick={handleConfirmCancel}
                 >
-                  Confirmar Cancelamento
+                  {t('consultationDetail.cancellationModal.confirmCancel')}
                 </Button>
               </div>
             </>
