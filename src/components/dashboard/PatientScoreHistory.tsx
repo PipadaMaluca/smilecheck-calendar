@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Trophy, Clock, Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +17,7 @@ interface PatientScoreHistoryProps {
 }
 
 export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNavigateHistory, onViewFullHistory }: PatientScoreHistoryProps) {
+  const { t } = useTranslation();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const initialScores = userRole === 'dentist' ? mockDentistScoreHistory : userRole === 'clinic' ? mockClinicScoreHistory : mockScoreHistory;
   const [scores, setScores] = useState(initialScores);
@@ -41,9 +43,9 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
   const showPending = mode === 'full' || mode === 'pending-only';
   const showHistory = mode === 'full' || mode === 'history-only';
 
-  const historyTitle = userRole === 'patient' ? 'Histórico por Consulta'
-    : userRole === 'dentist' ? 'Histórico de Consultas (e pontos)'
-    : 'Histórico de Pacientes do Dia (e pontos)';
+  const historyTitle = userRole === 'patient' ? t('dashboard.historyPatient')
+    : userRole === 'dentist' ? t('dashboard.history')
+    : t('dashboard.historyClinic');
 
   return (
     <div className="space-y-6">
@@ -53,8 +55,8 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
             <Trophy className="w-7 h-7 text-primary" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-foreground">{completedPoints} pontos</p>
-            <p className="text-sm text-muted-foreground">Total acumulado</p>
+            <p className="text-2xl font-bold text-foreground">{completedPoints} {t('points.availablePoints').split(' ').pop()}</p>
+            <p className="text-sm text-muted-foreground">{t('dashboard.totalAccumulated')}</p>
           </div>
         </div>
       )}
@@ -64,13 +66,13 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
               <span className="text-base">⏳</span>
-              <h3 className="text-sm font-bold text-foreground">Pontos Pendentes</h3>
+              <h3 className="text-sm font-bold text-foreground">{t('dashboard.pendingPoints')}</h3>
               <Badge variant="outline" className="text-xs border-amber-500/30 text-amber-600 bg-amber-500/10">
                 +{pendingPoints} pts
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground">
-              Dê o seu feedback para receber os pontos!
+              {t('dashboard.pendingFeedback')}
             </p>
             {pendingScores.map((score) => (
               <div key={score.id} className="flex items-center justify-between py-2 border-t border-border/50">
@@ -86,7 +88,7 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
                   className="h-7 text-xs flex-shrink-0 border-amber-500/30 text-amber-600 hover:bg-amber-500/10"
                   onClick={() => setFeedbackScore(score)}
                 >
-                  Dar Feedback
+                  {t('dashboard.giveFeedback')}
                 </Button>
               </div>
             ))}
@@ -102,7 +104,7 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
             </h3>
             {mode === 'history-only' && (
               <button className="text-xs text-primary hover:underline" onClick={onViewFullHistory || onNavigateHistory}>
-                Ver Histórico Completo ›
+                {t('dashboard.viewFullHistory')} ›
               </button>
             )}
           </div>
