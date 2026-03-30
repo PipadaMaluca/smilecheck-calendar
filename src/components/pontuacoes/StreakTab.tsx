@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { USER_POINTS, MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface StreakTabProps {
   userRole: UserRole;
@@ -18,8 +19,9 @@ export function StreakTab({ userRole }: StreakTabProps) {
   const data = USER_POINTS[userRole];
   const streakHistory = MOCK_STREAK_HISTORY[userRole];
   const checkinDays = getCheckinDays(userRole);
-  const [calendarMonth, setCalendarMonth] = useState(0); // 0 = Jan 2026
+  const [calendarMonth, setCalendarMonth] = useState(0);
   const [countdown, setCountdown] = useState({ hours: 14, minutes: 32, seconds: 45 });
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,28 +54,28 @@ export function StreakTab({ userRole }: StreakTabProps) {
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 text-center space-y-3">
           <span className="text-6xl">🔥</span>
-          <p className="text-4xl font-bold text-foreground">{data.streak} dias</p>
-          <p className="text-sm text-muted-foreground">Melhor streak: {data.bestStreak} dias</p>
-          <p className="text-xs text-amber-400">Reset às 9h — não percas o teu streak!</p>
+          <p className="text-4xl font-bold text-foreground">{data.streak} {t('scores.days')}</p>
+          <p className="text-sm text-muted-foreground">{t('scores.bestStreak')}: {data.bestStreak} {t('scores.days')}</p>
+          <p className="text-xs text-amber-400">{t('scores.resetAt')}</p>
         </CardContent>
       </Card>
 
       {/* Daily Rewards */}
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-3">
-          <h3 className="text-sm font-bold text-foreground">Recompensas Diárias</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('scores.dailyRewards')}</h3>
           <div className="text-center p-3 bg-primary/10 rounded-lg">
-            <p className="text-xs text-muted-foreground mb-1">Próxima recompensa em:</p>
+            <p className="text-xs text-muted-foreground mb-1">{t('scores.nextRewardIn')}</p>
             <p className="text-lg font-bold font-mono text-primary">
               {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m {String(countdown.seconds).padStart(2, '0')}s
             </p>
-            <p className="text-xs text-muted-foreground mt-1">Abre a app todos os dias! 📅</p>
+            <p className="text-xs text-muted-foreground mt-1">{t('scores.openDaily')} 📅</p>
           </div>
           <div className="space-y-2">
             {[
-              { icon: '📅', label: 'Check-in diário', reward: '+1 pt/dia' },
-              { icon: '🔥', label: 'Streak 7 dias', reward: '+5 pts' },
-              { icon: '🏆', label: 'Streak 30 dias', reward: '+15 pts' },
+              { icon: '📅', label: t('scores.dailyCheckin'), reward: '+1 pt/day' },
+              { icon: '🔥', label: t('scores.streak7days'), reward: '+5 pts' },
+              { icon: '🏆', label: t('scores.streak30days'), reward: '+15 pts' },
             ].map((tier, i) => (
               <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/50">
                 <div className="flex items-center gap-2">
@@ -100,7 +102,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             </Button>
           </div>
           <div className="grid grid-cols-7 gap-1 text-center">
-            {['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'].map(d => (
+            {(t('scores.weekDays', { returnObjects: true }) as string[]).map((d: string) => (
               <span key={d} className="text-[10px] font-semibold text-muted-foreground py-1">{d}</span>
             ))}
             {calendarCells.map((day, i) => {
@@ -130,17 +132,17 @@ export function StreakTab({ userRole }: StreakTabProps) {
       {/* Streak History */}
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-3">
-          <h3 className="text-sm font-bold text-foreground">Histórico de Streaks</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('scores.streakHistory')}</h3>
           <div className="space-y-2">
             {streakHistory.map((s, i) => (
               <div key={i} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    {s.isCurrent && '🔥 '}{s.label}: {s.days} dias
+                    {s.isCurrent && '🔥 '}{s.label}: {s.days} {t('scores.days')}
                   </p>
                   <p className="text-[10px] text-muted-foreground">{s.startDate} — {s.endDate}</p>
                 </div>
-                {s.isCurrent && <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px]">Ativo</Badge>}
+                {s.isCurrent && <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px]">{t('scores.active')}</Badge>}
               </div>
             ))}
           </div>

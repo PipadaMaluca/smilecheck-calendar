@@ -5,6 +5,7 @@ import { UserRole } from '@/types/calendar';
 import { PontosTab } from './PontosTab';
 import { ClassificacoesTab } from './ClassificacoesTab';
 import { StreakTab } from './StreakTab';
+import { useTranslation } from 'react-i18next';
 
 interface PontuacoesViewProps {
   userRole: UserRole;
@@ -14,23 +15,23 @@ interface PontuacoesViewProps {
 
 export function PontuacoesView({ userRole, initialTab = 'pontos', onNavigate }: PontuacoesViewProps) {
   const [activeTab, setActiveTab] = useState(initialTab);
+  const { t } = useTranslation();
 
-  // Patient has only 2 tabs (no Classifications)
   const showClassificacoes = userRole !== 'patient';
 
   return (
     <ScrollArea className="flex-1">
       <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Pontuações</h1>
-          <p className="text-sm text-muted-foreground">XP, pontos de recompensa{showClassificacoes ? ' e classificações' : ''}</p>
+          <h1 className="text-xl font-bold text-foreground">{t('scores.title')}</h1>
+          <p className="text-sm text-muted-foreground">{showClassificacoes ? t('scores.subtitle') : t('scores.subtitleNoClass')}</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className={`w-full grid ${showClassificacoes ? 'grid-cols-3' : 'grid-cols-2'}`}>
-            <TabsTrigger value="pontos">Pontos</TabsTrigger>
-            {showClassificacoes && <TabsTrigger value="classificacoes">Classificações</TabsTrigger>}
-            <TabsTrigger value="streak">Streak Diário</TabsTrigger>
+            <TabsTrigger value="pontos">{t('scores.pointsTab')}</TabsTrigger>
+            {showClassificacoes && <TabsTrigger value="classificacoes">{t('scores.classificationsTab')}</TabsTrigger>}
+            <TabsTrigger value="streak">{t('scores.dailyStreakTab')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pontos" className="mt-4">
