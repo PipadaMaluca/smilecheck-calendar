@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
@@ -21,7 +22,7 @@ export function ProfileView(props: ProfileViewProps) {
   const { userRole, isOpen, onClose, inline } = props;
   const [showEdit, setShowEdit] = useState(false);
   const isMobile = useIsMobile();
-
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   if (showEdit) {
@@ -58,7 +59,7 @@ export function ProfileView(props: ProfileViewProps) {
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base font-semibold">Meu Perfil</h2>
+        <h2 className="text-base font-semibold">{t('profile.myProfile')}</h2>
         <div className="w-10" />
       </div>
       <ScrollArea className="flex-1">{profileBody}</ScrollArea>

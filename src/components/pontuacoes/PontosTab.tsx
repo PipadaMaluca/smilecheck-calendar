@@ -10,6 +10,7 @@ import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRol
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface PontosTabProps {
   userRole: UserRole;
@@ -24,14 +25,15 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const xpProgress = getXPProgress(data.xp);
   const [historyFilter, setHistoryFilter] = useState<'todos' | 'ganhos' | 'perdidos'>('todos');
   const [periodFilter, setPeriodFilter] = useState<'hoje' | 'semana' | 'mes' | 'tudo'>('tudo');
+  const { t } = useTranslation();
 
   const earnActions = getEarnActionsForRole(userRole);
   const penaltyActions = getPenaltyActionsForRole(userRole);
   const pointsHistory = getPointsHistoryForRole(userRole);
 
-  const planLabel = data.plan === 'free' ? 'Plano Free — Reset a 1 Jan 2027' :
-    data.plan === 'pro' ? 'Plano Pro — Sem reset anual' :
-    'Plano Premium — Sem reset + 10% bónus';
+  const planLabel = data.plan === 'free' ? t('scores.planFreeLabel') :
+    data.plan === 'pro' ? t('scores.planProLabel') :
+    t('scores.planPremiumLabel');
 
   const filteredHistory = pointsHistory.filter(entry => {
     if (historyFilter === 'ganhos' && entry.points <= 0) return false;
@@ -42,7 +44,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
     return true;
   });
 
-  const roleLabel = userRole === 'patient' ? 'Paciente (2x)' : userRole === 'dentist' ? 'Dentista' : 'Clínica';
+  const roleLabel = userRole === 'patient' ? t('scores.patient2x') : userRole === 'dentist' ? t('roles.dentist') : t('roles.clinic');
 
   return (
     <div className="space-y-6">
@@ -65,7 +67,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             <Progress value={xpProgress.percent} className="h-3" />
             {xpProgress.nextLevelName && (
               <p className="text-xs text-muted-foreground">
-                Faltam <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> para {xpProgress.nextLevelName}
+                {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {xpProgress.nextLevelName}
               </p>
             )}
           </div>
@@ -98,12 +100,12 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
           <div className="flex items-center gap-3">
             <span className="text-3xl">⭐</span>
             <div>
-              <p className="text-2xl font-bold text-foreground">{data.rewardPoints.toLocaleString()} pts disponíveis</p>
+              <p className="text-2xl font-bold text-foreground">{data.rewardPoints.toLocaleString()} {t('scores.available')}</p>
               <p className="text-xs text-muted-foreground">{planLabel}</p>
             </div>
           </div>
           <Button variant="outline" size="sm" className="text-xs" onClick={() => onNavigate?.('loja')}>
-            Trocar na Loja →
+            {t('scores.redeemInStore')}
           </Button>
         </CardContent>
       </Card>
@@ -112,36 +114,36 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
       <Accordion type="single" collapsible>
         <AccordionItem value="como-funciona">
           <AccordionTrigger className="text-sm font-semibold">
-            Como funcionam os pontos no SmileCheck?
+            {t('scores.howItWorks')}
           </AccordionTrigger>
           <AccordionContent>
             <div className="space-y-4">
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">XP (Experiência)</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.xpTitle')}</h4>
                 <p className="text-xs text-muted-foreground">
-                  Cada ação positiva ganha XP que nunca são perdidos. O XP define o seu nível e posição nos rankings.
+                  {t('scores.xpExplanation')}
                 </p>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">Pontos de Recompensa</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.rewardPointsTitle')}</h4>
                 <p className="text-xs text-muted-foreground mb-2">
-                  Ganha pontos da mesma forma que XP. Use-os para trocar por recompensas na Loja.
+                  {t('scores.rewardExplanation')}
                 </p>
                 <div className="space-y-1 text-xs text-muted-foreground">
-                  <p>• <span className="font-medium">Plano Free:</span> reset anual a 1 de janeiro</p>
-                  <p>• <span className="font-medium">Plano Pro:</span> pontos mantidos sem reset</p>
-                  <p>• <span className="font-medium">Plano Premium:</span> pontos mantidos + 10% bónus no fim do ano</p>
+                  <p>• <span className="font-medium">{t('scores.planFree')}</span></p>
+                  <p>• <span className="font-medium">{t('scores.planPro')}</span></p>
+                  <p>• <span className="font-medium">{t('scores.planPremium')}</span></p>
                 </div>
               </div>
 
               <Separator />
 
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">Como ganhar pontos — {roleLabel}</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.howToEarn')} — {roleLabel}</h4>
                 <div className="border border-border rounded-lg overflow-x-auto">
                   <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
-                    <span>Ação</span>
+                    <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
                     <span className="text-center">Pts</span>
                   </div>
@@ -156,12 +158,12 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">Penalizações</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.penalties')}</h4>
                 <div className="border border-border rounded-lg overflow-hidden">
                   <div className="grid grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border">
-                    <span>Ação</span>
+                    <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
-                    <span className="text-center">Pontos</span>
+                    <span className="text-center">{t('scores.pointsTab')}</span>
                   </div>
                   {penaltyActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
@@ -172,18 +174,18 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   ))}
                 </div>
                 <p className="text-[10px] text-muted-foreground mt-2 italic">
-                  Nota: O XP nunca diminui — apenas os pontos de recompensa são penalizados.
+                  {t('scores.penaltyNote')}
                 </p>
               </div>
 
               <Separator />
 
               <div>
-                <h4 className="text-sm font-bold text-foreground mb-2">Regras Anti-Fraude</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.antiFraud')}</h4>
                 <div className="space-y-1.5 text-xs text-muted-foreground">
-                  <p>📱 Verificação telefónica obrigatória para todas as contas</p>
-                  <p>📊 Limite de 40 avaliações por dia</p>
-                  <p>⚖️ Contestação sempre disponível para avaliações injustas</p>
+                  <p>📱 {t('scores.antiFraudPhone')}</p>
+                  <p>📊 {t('scores.antiFraudLimit')}</p>
+                  <p>⚖️ {t('scores.antiFraudContest')}</p>
                 </div>
               </div>
             </div>
@@ -193,7 +195,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
       {/* Section D — Histórico de Pontos */}
       <div className="space-y-3">
-        <h3 className="text-sm font-bold text-foreground">Histórico de Pontos Recebidos</h3>
+        <h3 className="text-sm font-bold text-foreground">{t('scores.pointsHistory')}</h3>
         <div className="flex flex-wrap gap-2">
           <div className="flex gap-1">
             {(['todos', 'ganhos', 'perdidos'] as const).map(f => (
@@ -204,17 +206,17 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                 className="text-[10px] h-7 px-2.5"
                 onClick={() => setHistoryFilter(f)}
               >
-                {f === 'todos' ? 'Todos' : f === 'ganhos' ? 'Ganhos' : 'Perdidos'}
+                {f === 'todos' ? t('scores.all') : f === 'ganhos' ? t('scores.earned') : t('scores.lost')}
               </Button>
             ))}
           </div>
           <Select value={periodFilter} onValueChange={(v) => setPeriodFilter(v as any)}>
             <SelectTrigger className="w-[130px] h-7 text-[10px]"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="hoje">Hoje</SelectItem>
-              <SelectItem value="semana">Esta semana</SelectItem>
-              <SelectItem value="mes">Este mês</SelectItem>
-              <SelectItem value="tudo">Tudo</SelectItem>
+              <SelectItem value="hoje">{t('scores.today')}</SelectItem>
+              <SelectItem value="semana">{t('scores.thisWeek')}</SelectItem>
+              <SelectItem value="mes">{t('scores.thisMonth')}</SelectItem>
+              <SelectItem value="tudo">{t('scores.everything')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -222,7 +224,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
         <div className="space-y-1">
           {filteredHistory.map(entry => {
             const isToday = isSameDay(entry.date, DEMO_DATE);
-            const dateLabel = isToday ? 'Hoje' : format(entry.date, "d MMM", { locale: pt });
+            const dateLabel = isToday ? t('scores.today') : format(entry.date, "d MMM", { locale: pt });
             return (
               <div key={entry.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
                 <div className="flex-1 min-w-0">
@@ -248,7 +250,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             );
           })}
           {filteredHistory.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground py-8">Sem resultados.</p>
+            <p className="text-center text-sm text-muted-foreground py-8">{t('scores.noResults')}</p>
           )}
         </div>
       </div>
