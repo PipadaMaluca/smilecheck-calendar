@@ -154,7 +154,6 @@ export function PatientProfileBody({
           <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
             {t('profile.editProfile')}
           </Button>
-          </Button>
         </div>);
 
     }
