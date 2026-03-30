@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Building2,
   Calendar,
@@ -120,6 +121,7 @@ export function PatientProfileBody({
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
+  const { t } = useTranslation();
 
   const data = PATIENT_DATA;
   const levelCfg = LEVEL_CONFIG[data.level];
@@ -136,12 +138,12 @@ export function PatientProfileBody({
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success(`Paciente bloqueado com sucesso`);
+    toast.success(t('profile.blockedSuccess'));
   };
 
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success(`Paciente desbloqueado`);
+    toast.success(t('profile.unblockedSuccess'));
   };
 
   // Render action buttons based on viewer
@@ -150,7 +152,8 @@ export function PatientProfileBody({
       return (
         <div className={cn('flex gap-2', isMobile ? 'w-full flex-col mt-3' : 'flex-col')}>
           <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
-            Editar Perfil
+            {t('profile.editProfile')}
+          </Button>
           </Button>
         </div>);
 
@@ -161,25 +164,25 @@ export function PatientProfileBody({
         <div className="mt-4 space-y-2">
           <div className={cn('grid gap-2', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => toast.info('Teleconsulta em breve...')}>
-              <Video className="w-4 h-4" /> Iniciar Teleconsulta
+              <Video className="w-4 h-4" /> {t('profile.startTeleconsult')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
-              <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+              <MessageCircle className="w-4 h-4" /> {t('profile.sendMessage')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('prescrever')}>
-              <Pill className="w-4 h-4" /> Prescrever Receita
+              <Pill className="w-4 h-4" /> {t('profile.prescribe')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('referencia')}>
-              <FileText className="w-4 h-4" /> Recomendar Paciente
+              <FileText className="w-4 h-4" /> {t('profile.recommendPatient')}
             </Button>
           </div>
           {isBlocked ?
-          <Button variant="outline" className="w-full gap-2 text-xs text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-              <Unlock className="w-4 h-4" /> Desbloquear Paciente
+            <Button variant="outline" className="w-full gap-2 text-xs text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+              <Unlock className="w-4 h-4" /> {t('profile.unblockPatient')}
             </Button> :
 
           <Button variant="outline" className="w-full gap-2 text-xs text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
-              <Ban className="w-4 h-4" /> Bloquear Paciente
+              <Ban className="w-4 h-4" /> {t('profile.blockPatient')}
             </Button>
           }
         </div>);
@@ -190,15 +193,15 @@ export function PatientProfileBody({
       return (
         <div className={cn('mt-4', isMobile ? 'space-y-2' : 'flex gap-2')}>
           <Button variant="secondary" className="gap-2 text-xs flex-1" onClick={() => onNavigate?.('conversas')}>
-            <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+            <MessageCircle className="w-4 h-4" /> {t('profile.sendMessage')}
           </Button>
           {isBlocked ?
           <Button variant="outline" className="gap-2 text-xs flex-1 text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-              <Unlock className="w-4 h-4" /> Desbloquear Paciente
+              <Unlock className="w-4 h-4" /> {t('profile.unblockPatient')}
             </Button> :
 
           <Button variant="outline" className="gap-2 text-xs flex-1 text-destructive border-destructive/30" onClick={() => setShowBlockModal(true)}>
-              <Ban className="w-4 h-4" /> Bloquear Paciente
+              <Ban className="w-4 h-4" /> {t('profile.blockPatient')}
             </Button>
           }
         </div>);
@@ -226,7 +229,7 @@ export function PatientProfileBody({
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span className="text-sm font-bold">{data.rating}</span>
-                  <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
+                  <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
                 </div>
               </div>
 
@@ -243,7 +246,7 @@ export function PatientProfileBody({
               {isOwnProfile ?
               <div className={cn('flex gap-2 mt-3', isMobile ? 'w-full flex-col' : '')}>
                   <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
-                    Editar Perfil
+                    {t('profile.editProfile')}
                   </Button>
                 </div> :
               null}
@@ -265,19 +268,19 @@ export function PatientProfileBody({
         
 
         {/* Sobre */}
-        <SectionCard title="Sobre">
+        <SectionCard title={t('profile.about')}>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">{data.bio}</p>
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">Familiares:</span>
+                <span className="text-sm text-muted-foreground">{t('profile.families')}:</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {data.family.map((f) =>
                 <Badge key={f.name} variant="secondary" className="text-xs py-1">
-                    {f.name} ({f.age} anos{f.minor ? ' — Menor' : ''})
+                    {f.name} ({f.age} {t('profile.years')}{f.minor ? ` — ${t('profile.minor')}` : ''})
                   </Badge>
                 )}
               </div>
@@ -286,19 +289,19 @@ export function PatientProfileBody({
         </SectionCard>
 
         {/* Resumo de Saúde */}
-        <SectionCard title="Resumo de Saúde">
+        <SectionCard title={t('profile.healthSummary')}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Droplets className="w-4 h-4 text-destructive" />
-                <span className="text-muted-foreground">Grupo sanguíneo:</span>
+                <span className="text-muted-foreground">{t('profile.bloodType')}:</span>
                 <span className="font-medium text-foreground">{data.health.bloodType}</span>
               </div>
 
               <div className="flex items-start gap-2">
                 <Shield className="w-4 h-4 text-destructive mt-0.5" />
                 <div className="flex-1">
-                  <div className="text-muted-foreground">Alergias:</div>
+                  <div className="text-muted-foreground">{t('profile.allergies')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.allergies.map((a) =>
                     <Badge key={a} variant="destructive" className="text-[10px]">
@@ -314,7 +317,7 @@ export function PatientProfileBody({
               <div className="flex items-start gap-2">
                 <Heart className="w-4 h-4 text-muted-foreground mt-0.5" />
                 <div className="flex-1">
-                  <div className="text-muted-foreground">Condições:</div>
+                  <div className="text-muted-foreground">{t('profile.conditions')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.conditions.map((c) =>
                     <Badge key={c} variant="secondary" className="text-[10px]">
@@ -328,7 +331,7 @@ export function PatientProfileBody({
               <div className="flex items-start gap-2">
                 <Pill className="w-4 h-4 text-muted-foreground mt-0.5" />
                 <div className="flex-1">
-                  <div className="text-muted-foreground">Medicação:</div>
+                  <div className="text-muted-foreground">{t('profile.medication')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.medications.map((m) =>
                     <Badge key={m} variant="outline" className="text-[10px]">
@@ -342,17 +345,17 @@ export function PatientProfileBody({
           </div>
 
           <p className="mt-4 text-[10px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
-            ℹ️ Informação visível apenas para si e os seus dentistas
+            ℹ️ {t('profile.healthInfoNote')}
           </p>
         </SectionCard>
 
         {/* Estatísticas */}
-        <SectionCard title="Estatísticas">
+        <SectionCard title={t('profile.stats')}>
           <div className="grid grid-cols-3 gap-3">
             {[
-            { label: 'Total consultas', value: data.stats.totalConsultations, icon: Stethoscope },
-            { label: 'Teleconsultas', value: data.stats.teleconsultations, icon: Video },
-            { label: 'Comparecimento', value: data.stats.attendanceRate, icon: TrendingUp }].
+            { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope },
+            { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video },
+            { label: t('profile.attendance'), value: data.stats.attendanceRate, icon: TrendingUp }].
             map((stat) =>
             <div
               key={stat.label}
@@ -368,7 +371,7 @@ export function PatientProfileBody({
         </SectionCard>
 
         {/* Os Meus Profissionais */}
-        <SectionCard title="Os Meus Profissionais">
+        <SectionCard title={t('profile.myProfessionals')}>
           <div className="space-y-3">
             <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
               <div className="flex items-center gap-3">
@@ -378,11 +381,11 @@ export function PatientProfileBody({
                   <div className="flex items-center gap-1.5 mt-1">
                     <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                     <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
-                    <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} consultas</span>
+                    <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} {t('profile.consultations')}</span>
                   </div>
                 </div>
               </div>
-              <Badge variant="secondary" className="text-[10px]">Principal</Badge>
+              <Badge variant="secondary" className="text-[10px]">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
@@ -390,13 +393,13 @@ export function PatientProfileBody({
                 <Building2 className="w-4 h-4 text-primary" />
                 <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
               </div>
-              <Badge variant="secondary" className="text-[10px]">Principal</Badge>
+              <Badge variant="secondary" className="text-[10px]">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-start gap-3 bg-secondary/30 border border-border/60 rounded-lg p-4">
               <Calendar className="w-4 h-4 text-primary mt-0.5" />
               <span className="text-xs text-muted-foreground">
-                Próxima consulta:{' '}
+                {t('profile.nextAppointment')}:{' '}
                 <span className="font-medium text-foreground">{data.nextAppointment}</span>
               </span>
             </div>
@@ -404,7 +407,7 @@ export function PatientProfileBody({
         </SectionCard>
 
         {/* Avaliações */}
-        <SectionCard title="Avaliações">
+        <SectionCard title={t('profile.reviews')}>
           <div className="flex flex-col md:flex-row gap-6">
             <div className="text-center md:text-left">
               <p className="text-4xl font-bold text-foreground">{data.rating}</p>
@@ -419,7 +422,7 @@ export function PatientProfileBody({
 
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-2">{data.reviewCount} avaliações</p>
+              <p className="text-xs text-muted-foreground mt-2">{data.reviewCount} {t('profile.reviews').toLowerCase()}</p>
             </div>
 
             <div className="flex-1 space-y-2">
@@ -452,7 +455,7 @@ export function PatientProfileBody({
         </SectionCard>
 
         {/* Informação Pessoal */}
-        <SectionCard title="Informação Pessoal">
+        <SectionCard title={t('profile.personalInfo')}>
           <div className="space-y-3 text-sm">
             {[
             { icon: Mail, label: 'Email', value: data.email },
@@ -484,25 +487,25 @@ export function PatientProfileBody({
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ Bloquear {data.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('profile.blockTitle', { name: data.name })}</DialogTitle>
             <DialogDescription>
-              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+              {t('profile.blockDesc')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <label className="text-sm font-medium">{t('profile.blockReasonLabel')}</label>
               <Textarea
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
-                placeholder="Indique o motivo do bloqueio..."
+                placeholder={t('profile.blockReasonPlaceholder')}
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm" />
               
             </div>
-            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <p className="text-xs text-muted-foreground">{t('profile.blockNotify')}</p>
             <div className="flex gap-2">
-              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
-              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>{t('profile.blockPatient').split(' ')[0]}</Button>
             </div>
           </div>
         </DialogContent>
