@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
