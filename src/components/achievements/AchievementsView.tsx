@@ -434,13 +434,13 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-xl font-bold text-foreground">Conquistas</h1>
+            <h1 className="text-xl font-bold text-foreground">{t('achievements.title')}</h1>
             <p className="text-sm text-muted-foreground">
-              {unlockedAchievements} de {totalAchievements} conquistas desbloqueadas
+              {unlockedAchievements} {t('achievements.of')} {totalAchievements} {t('achievements.unlocked')}
             </p>
           </div>
           <Button size="sm" variant="outline" className="gap-1.5 text-xs flex-shrink-0" onClick={() => setShowManageModal(true)}>
-            <StarIcon className="w-3.5 h-3.5" /> Gerir Destaques
+            <StarIcon className="w-3.5 h-3.5" /> {t('achievements.manageShowcase')}
           </Button>
         </div>
 
