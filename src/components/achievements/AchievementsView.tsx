@@ -272,6 +272,7 @@ export const clinicAchievements: AchievementCategory[] = [
 ];
 
 function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
+  const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;
   const tier = getBadgeTier(achievement);
   const tierStyle = BADGE_TIER_STYLES[tier];
