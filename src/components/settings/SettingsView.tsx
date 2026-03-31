@@ -54,7 +54,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
   return (
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
-        <h1 className="text-xl font-bold text-foreground">Configurações</h1>
+        <h1 className="text-xl font-bold text-foreground">{t('settings.title')}</h1>
 
         {/* 1. Convidar (Referral) - inline */}
         <Card className="bg-card/80 backdrop-blur border-border">
