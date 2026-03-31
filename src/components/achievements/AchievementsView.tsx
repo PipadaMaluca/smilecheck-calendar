@@ -456,8 +456,8 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         {/* Tabs */}
         <Tabs defaultValue="todas" className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="todas" className="flex-1">Todas</TabsTrigger>
-            <TabsTrigger value="completas" className="flex-1">Completas ({unlockedAchievements})</TabsTrigger>
+            <TabsTrigger value="todas" className="flex-1">{t('achievements.all')}</TabsTrigger>
+            <TabsTrigger value="completas" className="flex-1">{t('achievements.completed')} ({unlockedAchievements})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="todas" className="space-y-0 mt-4">
