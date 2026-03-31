@@ -447,7 +447,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         {/* Progress */}
         <div>
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-            <span>Progresso geral</span>
+            <span>{t('achievements.overallProgress')}</span>
             <span>{progressPercent}%</span>
           </div>
           <Progress value={progressPercent} className="h-2" />
