@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Lock, HelpCircle, Star as StarIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -271,6 +272,7 @@ export const clinicAchievements: AchievementCategory[] = [
 ];
 
 function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
+  const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;
   const tier = getBadgeTier(achievement);
   const tierStyle = BADGE_TIER_STYLES[tier];
@@ -324,7 +326,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
               )}
             </div>
             <p className="text-xs text-muted-foreground truncate">
-              {isSecret ? 'Conquista secreta' : achievement.description}
+              {isSecret ? t('achievements.secret') : achievement.description}
             </p>
             {achievement.progress && !isSecret && (
               <div className="mt-2">
@@ -353,6 +355,7 @@ export function getAchievementCategories(userRole: UserRole): AchievementCategor
 }
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
@@ -374,15 +377,12 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
 
   const handleClickCompleted = (ach: Achievement) => {
     if (showcasedIds.includes(ach.id)) {
-      // Already showcased — remove
       setShowcasedIds(prev => prev.filter(id => id !== ach.id));
-      toast.info(`"${ach.name}" removido dos destaques`);
+      toast.info(`"${ach.name}" ${t('achievements.removedFromShowcase')}`);
     } else if (showcasedIds.length < 8) {
-      // Has empty slots — add directly
       setShowcasedIds(prev => [...prev, ach.id]);
-      toast.success(`✅ "${ach.name}" adicionado aos destaques!`);
+      toast.success(`✅ "${ach.name}" ${t('achievements.addedToShowcase')}`);
     } else {
-      // All slots full — open full edit modal with this target
       setAddToShowcaseTarget(ach);
       setShowManageModal(true);
     }
@@ -403,8 +403,8 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
             <Separator className="mb-4" />
             {isSecretsSection ? (
               <div className="mb-3 p-4 rounded-lg bg-gradient-to-r from-purple-900/40 via-slate-900/50 to-purple-800/30 border border-purple-500/30 shadow-[0_0_15px_hsl(270,60%,50%,0.1)]">
-                <h2 className="text-base font-semibold text-foreground">🔮 Secretas</h2>
-                <p className="text-xs text-purple-300/70 mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
+                <h2 className="text-base font-semibold text-foreground">🔮 {t('achievements.secrets')}</h2>
+                <p className="text-xs text-purple-300/70 mt-0.5">{t('achievements.secretsDesc')}</p>
               </div>
             ) : (
               <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
@@ -434,20 +434,20 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-xl font-bold text-foreground">Conquistas</h1>
+            <h1 className="text-xl font-bold text-foreground">{t('achievements.title')}</h1>
             <p className="text-sm text-muted-foreground">
-              {unlockedAchievements} de {totalAchievements} conquistas desbloqueadas
+              {unlockedAchievements} {t('achievements.of')} {totalAchievements} {t('achievements.unlocked')}
             </p>
           </div>
           <Button size="sm" variant="outline" className="gap-1.5 text-xs flex-shrink-0" onClick={() => setShowManageModal(true)}>
-            <StarIcon className="w-3.5 h-3.5" /> Gerir Destaques
+            <StarIcon className="w-3.5 h-3.5" /> {t('achievements.manageShowcase')}
           </Button>
         </div>
 
         {/* Progress */}
         <div>
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-            <span>Progresso geral</span>
+            <span>{t('achievements.overallProgress')}</span>
             <span>{progressPercent}%</span>
           </div>
           <Progress value={progressPercent} className="h-2" />
@@ -456,8 +456,8 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         {/* Tabs */}
         <Tabs defaultValue="todas" className="w-full">
           <TabsList className="w-full">
-            <TabsTrigger value="todas" className="flex-1">Todas</TabsTrigger>
-            <TabsTrigger value="completas" className="flex-1">Completas ({unlockedAchievements})</TabsTrigger>
+            <TabsTrigger value="todas" className="flex-1">{t('achievements.all')}</TabsTrigger>
+            <TabsTrigger value="completas" className="flex-1">{t('achievements.completed')} ({unlockedAchievements})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="todas" className="space-y-0 mt-4">
@@ -467,12 +467,12 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
           <TabsContent value="completas" className="space-y-0 mt-4">
             {completedCategories.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-sm">Ainda não desbloqueou nenhuma conquista.</p>
+                <p className="text-muted-foreground text-sm">{t('achievements.noUnlocked')}</p>
               </div>
             ) : (
               <>
                 <p className="text-xs text-muted-foreground mb-4">
-                  Clique numa conquista para adicioná-la ou removê-la dos destaques do perfil.
+                  {t('achievements.clickToManage')}
                 </p>
                 {renderAchievementGrid(completedCategories, true)}
               </>

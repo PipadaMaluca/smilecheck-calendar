@@ -54,11 +54,11 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
   return (
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
-        <h1 className="text-xl font-bold text-foreground">Configurações</h1>
+        <h1 className="text-xl font-bold text-foreground">{t('settings.title')}</h1>
 
         {/* 1. Convidar (Referral) - inline */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Convidar (Referral)</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.invite')}</CardTitle></CardHeader>
           <CardContent className="p-0">
             <InviteView onClose={() => {}} inline />
           </CardContent>
@@ -118,52 +118,52 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* Pagamentos */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Pagamentos</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.payments')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={CreditCard} label="Gerir métodos de pagamento" onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={Receipt} label="Dados de faturação" onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={ClipboardList} label="Ver histórico" onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={CreditCard} label={t('settings.managePaymentMethods')} onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={Receipt} label={t('settings.billingData')} onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={ClipboardList} label={t('settings.viewHistory')} onClick={() => onNavigate?.('faturacao')} />
           </CardContent>
         </Card>
 
         {/* Tutorial */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Tutorial</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.tutorial')}</CardTitle></CardHeader>
           <CardContent className="space-y-2">
             <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayFull(userRole)}>
-              <BookOpen className="w-4 h-4" /> Rever Tutorial
+              <BookOpen className="w-4 h-4" /> {t('settings.reviewTutorial')}
             </Button>
             <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayTooltips(userRole)}>
-              <HelpCircle className="w-4 h-4" /> Rever Dicas
+              <HelpCircle className="w-4 h-4" /> {t('settings.reviewTips')}
             </Button>
           </CardContent>
         </Card>
 
         {/* 6. Legal */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Legal</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.legal')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={FileText} label="Termos de Serviço" onClick={() => window.open('/termos', '_blank')} />
-            <LinkRow icon={Shield} label="Política de Privacidade" onClick={() => window.open('/privacidade', '_blank')} />
+            <LinkRow icon={FileText} label={t('settings.termsOfService')} onClick={() => window.open('/termos', '_blank')} />
+            <LinkRow icon={Shield} label={t('settings.privacyPolicy')} onClick={() => window.open('/privacidade', '_blank')} />
           </CardContent>
         </Card>
 
         {/* 7. Outros */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Outros</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.other')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={HelpCircle} label="Ajuda & Suporte" />
+            <LinkRow icon={HelpCircle} label={t('settings.helpAndSupport')} />
           </CardContent>
         </Card>
 
         {/* 7. Segurança */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Segurança</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.security')}</CardTitle></CardHeader>
           <CardContent className="space-y-0">
-            <LinkRow icon={Lock} label="Alterar Password" />
+            <LinkRow icon={Lock} label={t('settings.changePassword')} />
             <Separator className="my-2" />
-            <LinkRow icon={Trash2} label="Eliminar Conta" danger />
-            <LinkRow icon={LogOut} label="Terminar Sessão" danger />
+            <LinkRow icon={Trash2} label={t('settings.deleteAccount')} danger />
+            <LinkRow icon={LogOut} label={t('settings.logout')} danger />
           </CardContent>
         </Card>
       </div>
