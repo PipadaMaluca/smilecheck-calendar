@@ -118,11 +118,11 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* Pagamentos */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Pagamentos</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.payments')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={CreditCard} label="Gerir métodos de pagamento" onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={Receipt} label="Dados de faturação" onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={ClipboardList} label="Ver histórico" onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={CreditCard} label={t('settings.managePaymentMethods')} onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={Receipt} label={t('settings.billingData')} onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={ClipboardList} label={t('settings.viewHistory')} onClick={() => onNavigate?.('faturacao')} />
           </CardContent>
         </Card>
 
