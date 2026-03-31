@@ -403,8 +403,8 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
             <Separator className="mb-4" />
             {isSecretsSection ? (
               <div className="mb-3 p-4 rounded-lg bg-gradient-to-r from-purple-900/40 via-slate-900/50 to-purple-800/30 border border-purple-500/30 shadow-[0_0_15px_hsl(270,60%,50%,0.1)]">
-                <h2 className="text-base font-semibold text-foreground">🔮 Secretas</h2>
-                <p className="text-xs text-purple-300/70 mt-0.5">Conquistas ocultas — descubra como desbloqueá-las</p>
+                <h2 className="text-base font-semibold text-foreground">🔮 {t('achievements.secrets')}</h2>
+                <p className="text-xs text-purple-300/70 mt-0.5">{t('achievements.secretsDesc')}</p>
               </div>
             ) : (
               <h2 className="text-base font-semibold text-foreground mb-3">{category.title}</h2>
