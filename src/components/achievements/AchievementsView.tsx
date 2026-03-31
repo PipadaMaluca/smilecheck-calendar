@@ -325,7 +325,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
               )}
             </div>
             <p className="text-xs text-muted-foreground truncate">
-              {isSecret ? 'Conquista secreta' : achievement.description}
+              {isSecret ? t('achievements.secret') : achievement.description}
             </p>
             {achievement.progress && !isSecret && (
               <div className="mt-2">
