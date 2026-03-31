@@ -355,6 +355,7 @@ export function getAchievementCategories(userRole: UserRole): AchievementCategor
 }
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
@@ -376,15 +377,12 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
 
   const handleClickCompleted = (ach: Achievement) => {
     if (showcasedIds.includes(ach.id)) {
-      // Already showcased — remove
       setShowcasedIds(prev => prev.filter(id => id !== ach.id));
-      toast.info(`"${ach.name}" removido dos destaques`);
+      toast.info(`"${ach.name}" ${t('achievements.removedFromShowcase')}`);
     } else if (showcasedIds.length < 8) {
-      // Has empty slots — add directly
       setShowcasedIds(prev => [...prev, ach.id]);
-      toast.success(`✅ "${ach.name}" adicionado aos destaques!`);
+      toast.success(`✅ "${ach.name}" ${t('achievements.addedToShowcase')}`);
     } else {
-      // All slots full — open full edit modal with this target
       setAddToShowcaseTarget(ach);
       setShowManageModal(true);
     }
