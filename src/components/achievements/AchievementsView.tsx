@@ -467,12 +467,12 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
           <TabsContent value="completas" className="space-y-0 mt-4">
             {completedCategories.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-sm">Ainda não desbloqueou nenhuma conquista.</p>
+                <p className="text-muted-foreground text-sm">{t('achievements.noUnlocked')}</p>
               </div>
             ) : (
               <>
                 <p className="text-xs text-muted-foreground mb-4">
-                  Clique numa conquista para adicioná-la ou removê-la dos destaques do perfil.
+                  {t('achievements.clickToManage')}
                 </p>
                 {renderAchievementGrid(completedCategories, true)}
               </>
