@@ -150,20 +150,20 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 7. Outros */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Outros</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.other')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={HelpCircle} label="Ajuda & Suporte" />
+            <LinkRow icon={HelpCircle} label={t('settings.helpAndSupport')} />
           </CardContent>
         </Card>
 
         {/* 7. Segurança */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Segurança</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.security')}</CardTitle></CardHeader>
           <CardContent className="space-y-0">
-            <LinkRow icon={Lock} label="Alterar Password" />
+            <LinkRow icon={Lock} label={t('settings.changePassword')} />
             <Separator className="my-2" />
-            <LinkRow icon={Trash2} label="Eliminar Conta" danger />
-            <LinkRow icon={LogOut} label="Terminar Sessão" danger />
+            <LinkRow icon={Trash2} label={t('settings.deleteAccount')} danger />
+            <LinkRow icon={LogOut} label={t('settings.logout')} danger />
           </CardContent>
         </Card>
       </div>
