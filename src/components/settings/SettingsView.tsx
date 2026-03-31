@@ -128,13 +128,13 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* Tutorial */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Tutorial</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.tutorial')}</CardTitle></CardHeader>
           <CardContent className="space-y-2">
             <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayFull(userRole)}>
-              <BookOpen className="w-4 h-4" /> Rever Tutorial
+              <BookOpen className="w-4 h-4" /> {t('settings.reviewTutorial')}
             </Button>
             <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayTooltips(userRole)}>
-              <HelpCircle className="w-4 h-4" /> Rever Dicas
+              <HelpCircle className="w-4 h-4" /> {t('settings.reviewTips')}
             </Button>
           </CardContent>
         </Card>
