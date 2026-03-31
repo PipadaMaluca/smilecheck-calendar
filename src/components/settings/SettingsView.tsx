@@ -58,7 +58,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 1. Convidar (Referral) - inline */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Convidar (Referral)</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.invite')}</CardTitle></CardHeader>
           <CardContent className="p-0">
             <InviteView onClose={() => {}} inline />
           </CardContent>
