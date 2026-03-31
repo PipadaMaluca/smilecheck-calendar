@@ -141,10 +141,10 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 6. Legal */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">Legal</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.legal')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={FileText} label="Termos de Serviço" onClick={() => window.open('/termos', '_blank')} />
-            <LinkRow icon={Shield} label="Política de Privacidade" onClick={() => window.open('/privacidade', '_blank')} />
+            <LinkRow icon={FileText} label={t('settings.termsOfService')} onClick={() => window.open('/termos', '_blank')} />
+            <LinkRow icon={Shield} label={t('settings.privacyPolicy')} onClick={() => window.open('/privacidade', '_blank')} />
           </CardContent>
         </Card>
 
