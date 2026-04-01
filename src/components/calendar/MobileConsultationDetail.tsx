@@ -62,7 +62,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success(`Paciente desbloqueado`);
+    toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
   // Actions grid based on role
