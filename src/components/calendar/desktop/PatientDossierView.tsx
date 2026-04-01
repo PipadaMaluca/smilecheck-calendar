@@ -102,13 +102,13 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
 
   const handleAcknowledge = (alertId: string) => {
     setAcknowledgedAlerts(prev => new Set([...prev, alertId]));
-    toast.success('Alerta confirmado');
+    toast.success(t('dossier.alertConfirmed'));
   };
 
   const handleIgnore = (alertId: string, reason: string) => {
     setAcknowledgedAlerts(prev => new Set([...prev, alertId]));
     setShowIgnoreDropdown(null);
-    toast.success(`Alerta ignorado: ${reason}`);
+    toast.success(`${t('dossier.alertIgnored')}: ${reason}`);
   };
 
   const isDentist = userRole === 'dentist';
