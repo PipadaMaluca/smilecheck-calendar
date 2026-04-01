@@ -69,6 +69,7 @@ const MOCK_PATIENT_DATA: Record<string, any> = {
 const IMAGE_CATEGORIES = ['Radiografia Periapical', 'Ortopantomografia', 'Teleradiografia', 'CBCT', 'Foto Intraoral', 'Outro'];
 
 export function PatientDossierView({ patientId, onClose, onNavigate, userRole }: PatientDossierViewProps) {
+  const { t } = useTranslation();
   const [clinicalNotes, setClinicalNotes] = useState('Paciente com boa higiene oral. Acompanhamento periodontal recomendado.');
   const [expandedConsultation, setExpandedConsultation] = useState<number | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
