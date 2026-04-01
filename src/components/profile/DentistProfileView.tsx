@@ -212,7 +212,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Sobre */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.about')}</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
