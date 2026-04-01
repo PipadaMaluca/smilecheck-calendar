@@ -348,10 +348,10 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
               />
             </div>
-            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>
             <div className="flex gap-2">
-              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
-              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>{t('consultationDetail.block')}</Button>
             </div>
           </div>
         </DialogContent>
