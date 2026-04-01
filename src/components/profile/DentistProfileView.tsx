@@ -286,7 +286,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             )}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs" onClick={() => setShowBooking(true)}>
-                Marcar nesta clínica
+                {t('profile.bookHere')}
               </Button>
             </div>
         )}
