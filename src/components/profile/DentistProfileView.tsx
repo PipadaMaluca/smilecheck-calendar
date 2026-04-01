@@ -304,7 +304,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <span className="font-medium">€{dentist.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Consulta presencial</span>
+            <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
             <span className="font-medium">{DENTIST_EXTRA.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
