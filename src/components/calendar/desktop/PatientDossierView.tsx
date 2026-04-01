@@ -355,7 +355,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             )}
 
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico de Consultas</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.consultationHistory')}</h3>
               <div className="space-y-2">
                 {filteredConsultations.slice(0, 5).map((c: any, i: number) => {
                   const catColor = CATEGORY_COLORS[c.category as keyof typeof CATEGORY_COLORS];
