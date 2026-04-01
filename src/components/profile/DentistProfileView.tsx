@@ -241,10 +241,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <h4 className="text-sm font-semibold text-foreground">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-        { label: 'Total consultas', value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
-        { label: 'Teleconsultas', value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
-        { label: 'Taxa confirmação', value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
-        { label: 'Tempo médio', value: DENTIST_EXTRA.stats.avgDuration, icon: Clock }].
+        { label: t('profile.totalConsultations'), value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
+        { label: t('profile.teleconsultations'), value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
+        { label: t('profile.confirmationRate'), value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
+        { label: t('profile.avgDuration'), value: DENTIST_EXTRA.stats.avgDuration, icon: Clock }].
         map((stat) =>
         <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
