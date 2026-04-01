@@ -248,7 +248,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold">{clinic.name}</h3>
-          <p className="text-sm text-muted-foreground">Clínica Dentária</p>
+          <p className="text-sm text-muted-foreground">{t('profile.dentalClinic')}</p>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
             <span className="text-sm font-bold">{data.rating}</span>
