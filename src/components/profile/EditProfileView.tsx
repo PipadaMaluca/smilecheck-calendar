@@ -836,8 +836,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''
         }`}
       >
-        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>Cancelar</Button>
-        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>Guardar Alterações</Button>
+        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>{t('common.cancel')}</Button>
+        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>{t('editProfile.saveChanges')}</Button>
       </div>
     </div>;
 
