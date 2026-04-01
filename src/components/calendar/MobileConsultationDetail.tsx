@@ -286,11 +286,11 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota desta consulta</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.consultationNote')}</label>
               <Textarea
                 value={consultationNotes}
                 onChange={(e) => setConsultationNotes(e.target.value)}
-                placeholder="Notas específicas desta consulta..."
+                placeholder={t('consultationDetail.consultationNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
