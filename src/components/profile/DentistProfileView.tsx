@@ -95,6 +95,7 @@ const DENTIST_EXTRA = {
 };
 
 export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline, isOwnProfile, onEditProfile, onReferralLetter }: DentistProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
