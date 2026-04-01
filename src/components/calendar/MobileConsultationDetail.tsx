@@ -222,7 +222,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </div>
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
-                  <span>💰 Montante a receber: €{consultation.price}</span>
+                  <span>💰 {t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
                 </div>
               )}
             </div>
