@@ -231,11 +231,11 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           {/* Triagem */}
           {consultation.triage && (
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Triagem do Paciente</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.triage')}</h3>
               <div className="space-y-2 text-sm">
-                <p><span className="text-muted-foreground">Sintomas:</span> {consultation.triage.symptom}</p>
-                <p><span className="text-muted-foreground">Duração:</span> {consultation.triage.duration}</p>
-                <p><span className="text-muted-foreground">Intensidade:</span> {consultation.triage.intensity}/5</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageSymptoms')}:</span> {consultation.triage.symptom}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageDuration')}:</span> {consultation.triage.duration}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageIntensity')}:</span> {consultation.triage.intensity}/5</p>
                 {consultation.triage.photos > 0 && (
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Camera className="w-4 h-4" />
