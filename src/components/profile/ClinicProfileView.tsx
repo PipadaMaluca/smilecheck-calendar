@@ -526,7 +526,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Informação */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Informação</h4>
+        <h4 className="text-sm font-semibold">{t('profile.information')}</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{data.email}</span></div>
           <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><a href={`tel:${data.phone}`} className="text-primary hover:underline">{data.phone}</a></div>
