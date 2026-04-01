@@ -478,7 +478,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Avaliações */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Avaliações</h4>
+        <h4 className="text-sm font-semibold">{t('profile.reviews')}</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
             <p className="text-3xl font-bold">{data.rating}</p>
