@@ -261,7 +261,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Locations */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Locais de Atendimento</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.locations')}</h4>
         <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
           {DENTIST_EXTRA.clinicSchedules.map((cs, i) =>
         <div key={i} className="bg-secondary/50 rounded-xl p-4 space-y-3 border border-border">
