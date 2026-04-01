@@ -199,15 +199,15 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 {/* Mini cards */}
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">Tipo Sanguíneo</p>
+                    <p className="text-[10px] text-muted-foreground">{t('dossier.bloodType')}</p>
                     <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">Altura</p>
+                    <p className="text-[10px] text-muted-foreground">{t('dossier.height')}</p>
                     <p className="font-bold text-base mt-0.5">{data.height}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">Peso</p>
+                    <p className="text-[10px] text-muted-foreground">{t('dossier.weight')}</p>
                     <p className="font-bold text-base mt-0.5">{data.weight}</p>
                   </div>
                 </div>
