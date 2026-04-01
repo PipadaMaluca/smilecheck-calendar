@@ -349,7 +349,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   )}
                 </div>
                 <Button size="sm" variant="secondary" className="gap-1.5 w-full mt-1" onClick={() => onNavigate('agendar')}>
-                  <CalendarIcon className="w-3.5 h-3.5" /> Agendar Consulta
+                  <CalendarIcon className="w-3.5 h-3.5" /> {t('dossier.scheduleAppointment')}
                 </Button>
               </div>
             )}
