@@ -256,7 +256,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">⚠️ Alergias:</p>
+                  <p className="text-sm font-medium text-destructive">⚠️ {t('consultationDetail.allergies')}:</p>
                   <div className="flex flex-wrap gap-1.5">
                     {healthAlerts.allergies.map(a => (
                       <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
