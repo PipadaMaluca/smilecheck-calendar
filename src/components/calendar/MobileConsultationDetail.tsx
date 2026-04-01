@@ -323,7 +323,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
           {/* Ações */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.actions')}</h3>
             {renderActions()}
           </div>
         </div>
