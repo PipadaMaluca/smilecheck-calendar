@@ -179,11 +179,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               {onReferralLetter &&
           <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onReferralLetter}>
-                  <FileText className="w-4 h-4 mr-1" /> Carta de Referência
+                  <FileText className="w-4 h-4 mr-1" /> {t('profile.referralLetter')}
                 </Button>
           }
               <Button variant="outline" className="flex-1 min-h-[44px]">
-                <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
+                <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
             </div>
             {onToggleFavorite &&
