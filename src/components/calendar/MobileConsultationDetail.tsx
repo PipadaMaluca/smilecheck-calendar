@@ -200,7 +200,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               onClick={() => startTeleconsulta(consultation.patient.name)}
             >
               <Video className="w-5 h-5" />
-              Iniciar Teleconsulta
+              {t('consultationDetail.startTeleconsulta')}
             </Button>
           )}
 
