@@ -446,7 +446,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <h4 className="text-sm font-semibold">{t('profile.tariffs')}</h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
             <span className="font-medium">€{data.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
