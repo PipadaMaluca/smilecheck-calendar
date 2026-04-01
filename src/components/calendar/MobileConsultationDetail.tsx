@@ -206,7 +206,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
           {/* Informações */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Informações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.information')}</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
