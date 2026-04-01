@@ -278,7 +278,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           ) : (isDentist || isClinic) && (
                             <div className="flex items-center gap-2 mt-2">
                               <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-emerald-400 hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
-                                <Check className="w-3 h-3" /> Confirmar
+                                <Check className="w-3 h-3" /> {t('dossier.confirm')}
                               </Button>
                               <div className="relative">
                                 <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
