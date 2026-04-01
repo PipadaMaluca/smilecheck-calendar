@@ -487,7 +487,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 <Star key={i} className={cn('w-4 h-4', i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{data.reviewCount} avaliações</p>
+            <p className="text-xs text-muted-foreground">{data.reviewCount} {t('profile.reviews').toLowerCase()}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map(b => (
