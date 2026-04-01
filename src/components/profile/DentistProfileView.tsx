@@ -379,7 +379,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     <>
           <Separator />
           <section className="space-y-3">
-            <h4 className="text-sm font-semibold text-foreground">Informação Pessoal</h4>
+            <h4 className="text-sm font-semibold text-foreground">{t('profile.personalInfo')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
