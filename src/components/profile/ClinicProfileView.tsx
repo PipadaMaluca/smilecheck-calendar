@@ -371,7 +371,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Equipa */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Equipa</h4>
+        <h4 className="text-sm font-semibold">{t('profile.team')}</h4>
         <div className="space-y-2">
           {dentists.map(d => {
             const dInitials = getDentistInitials(d.name);
