@@ -273,7 +273,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           </div>
                           {isAck ? (
                             <p className="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
-                              <Check className="w-3 h-3" /> Verificado por Dr. Gonçalo Pipo — 31 Jan 2026
+                              <Check className="w-3 h-3" /> {t('dossier.verifiedBy')} Dr. Gonçalo Pipo — 31 Jan 2026
                             </p>
                           ) : (isDentist || isClinic) && (
                             <div className="flex items-center gap-2 mt-2">
