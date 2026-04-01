@@ -300,7 +300,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <h4 className="text-sm font-semibold text-foreground">{t('profile.tariffs')}</h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
             <span className="font-medium">€{dentist.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
