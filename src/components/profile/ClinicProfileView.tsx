@@ -463,7 +463,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           {data.insurances.length > 0 && (
             <div className="flex justify-between items-start">
-              <span className="text-muted-foreground">Convenções</span>
+              <span className="text-muted-foreground">{t('profile.conventions')}</span>
               <div className="flex flex-wrap gap-1 justify-end">
                 {data.insurances.map(s => (
                   <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>
