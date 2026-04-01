@@ -338,7 +338,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 </p>
                 <p className="text-xs text-muted-foreground">{recall.reason}</p>
                 <div className="text-sm space-y-1">
-                  <p className="text-muted-foreground">Última consulta: {recall.lastVisitDate}</p>
+                  <p className="text-muted-foreground">{t('dossier.lastConsultation')}: {recall.lastVisitDate}</p>
                   <p className={cn('font-medium', recall.isOverdue ? 'text-destructive' : 'text-foreground')}>
                     Próxima recomendada: {recall.nextRecommendedDate}
                   </p>
