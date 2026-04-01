@@ -420,7 +420,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Estatísticas */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Estatísticas</h4>
+        <h4 className="text-sm font-semibold">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: 'Total consultas', value: stats.totalConsultations, icon: Stethoscope },
