@@ -282,11 +282,11 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                               </Button>
                               <div className="relative">
                                 <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
-                                  <SkipForward className="w-3 h-3" /> Ignorar
+                                  <SkipForward className="w-3 h-3" /> {t('dossier.ignore')}
                                 </Button>
                                 {showIgnoreDropdown === alert.id && (
                                   <div className="absolute top-full left-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-10 py-1 w-40">
-                                    {['Já verificado', 'Não aplicável', 'Outro'].map(r => (
+                                    {[t('dossier.alreadyVerified'), t('dossier.notApplicable'), t('dossier.other')].map(r => (
                                       <button key={r} className="w-full text-left px-3 py-1.5 text-xs hover:bg-secondary/50" onClick={() => handleIgnore(alert.id, r)}>{r}</button>
                                     ))}
                                   </div>
