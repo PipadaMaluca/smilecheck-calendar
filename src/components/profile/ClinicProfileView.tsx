@@ -423,10 +423,10 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <h4 className="text-sm font-semibold">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Total consultas', value: stats.totalConsultations, icon: Stethoscope },
-            { label: 'Pacientes ativos', value: stats.activePatients, icon: Users },
-            { label: 'Taxa confirmação', value: stats.confirmationRate, icon: TrendingUp },
-            { label: 'Dentistas ativos', value: String(stats.activeDentists), icon: User },
+            { label: t('profile.totalConsultations'), value: stats.totalConsultations, icon: Stethoscope },
+            { label: t('profile.activePatients'), value: stats.activePatients, icon: Users },
+            { label: t('profile.confirmationRate'), value: stats.confirmationRate, icon: TrendingUp },
+            { label: t('profile.activeDentists'), value: String(stats.activeDentists), icon: User },
           ].map(stat => (
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
