@@ -303,9 +303,9 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               {(isDentist || isClinic) && clinicalAlerts.length === 0 && (
                 <div className="bg-card rounded-xl border border-border p-4 space-y-3">
                   <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Alertas Clínicos
+                    <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.clinicalAlerts')}
                   </h3>
-                  <p className="text-sm text-muted-foreground">✅ Sem alertas clínicos ativos</p>
+                  <p className="text-sm text-muted-foreground">✅ {t('dossier.noAlerts')}</p>
                 </div>
               )}
 
