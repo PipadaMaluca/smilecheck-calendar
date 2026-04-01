@@ -308,7 +308,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <span className="font-medium">{DENTIST_EXTRA.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
-            <span className="text-muted-foreground">Métodos aceites</span>
+            <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {DENTIST_EXTRA.paymentMethods.map((m) =>
             <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
