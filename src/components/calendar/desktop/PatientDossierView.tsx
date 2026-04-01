@@ -185,11 +185,11 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               <div className="bg-card rounded-xl border border-border p-4 space-y-3">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.personalData')}</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
-                  <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
-                  <div><span className="text-muted-foreground">País:</span> <span className="ml-1">{data.birthCountry}</span></div>
-                  <div><span className="text-muted-foreground">Cidade:</span> <span className="ml-1">{data.birthCity}</span></div>
-                  <div className="col-span-2"><span className="text-muted-foreground">Nº Identificação:</span> <span className="ml-1">{data.idNumber}</span></div>
+                  <div><span className="text-muted-foreground">{t('dossier.birthDate')}:</span> <span className="ml-1">{data.dob}</span></div>
+                  <div><span className="text-muted-foreground">{t('dossier.gender')}:</span> <span className="ml-1">{data.gender}</span></div>
+                  <div><span className="text-muted-foreground">{t('dossier.country')}:</span> <span className="ml-1">{data.birthCountry}</span></div>
+                  <div><span className="text-muted-foreground">{t('dossier.city')}:</span> <span className="ml-1">{data.birthCity}</span></div>
+                  <div className="col-span-2"><span className="text-muted-foreground">{t('dossier.idNumber')}:</span> <span className="ml-1">{data.idNumber}</span></div>
                 </div>
               </div>
 
