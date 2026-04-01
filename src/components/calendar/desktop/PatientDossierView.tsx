@@ -385,8 +385,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                       </button>
                       {isExpanded && (
                         <div className="px-3 pb-2.5 pt-0 space-y-1 border-t border-border/30">
-                          {c.price && <p className="text-xs text-muted-foreground">Valor: €{c.price}</p>}
-                          {c.notes && <p className="text-xs text-muted-foreground">Notas: {c.notes}</p>}
+                          {c.price && <p className="text-xs text-muted-foreground">{t('dossier.value')}: €{c.price}</p>}
+                          {c.notes && <p className="text-xs text-muted-foreground">{t('dossier.notes')}: {c.notes}</p>}
                         </div>
                       )}
                     </div>
