@@ -334,7 +334,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   <CalendarIcon className="w-3.5 h-3.5" /> {t('dossier.recallRecommended')}
                 </h3>
                 <p className="text-lg font-bold text-foreground">
-                  A cada {recall.intervalMonths[0]}{recall.intervalMonths[0] !== recall.intervalMonths[1] ? `-${recall.intervalMonths[1]}` : ''} meses
+                  {t('dossier.every')} {recall.intervalMonths[0]}{recall.intervalMonths[0] !== recall.intervalMonths[1] ? `-${recall.intervalMonths[1]}` : ''} {t('dossier.months')}
                 </p>
                 <p className="text-xs text-muted-foreground">{recall.reason}</p>
                 <div className="text-sm space-y-1">
