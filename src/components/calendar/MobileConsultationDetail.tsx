@@ -57,7 +57,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success(`Paciente bloqueado com sucesso`);
+    toast.success(t('consultationDetail.blockedSuccess'));
   };
 
   const handleUnblock = () => {
