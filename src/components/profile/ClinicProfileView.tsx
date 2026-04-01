@@ -450,7 +450,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="font-medium">€{data.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Consulta presencial</span>
+            <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
             <span className="font-medium">{data.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
