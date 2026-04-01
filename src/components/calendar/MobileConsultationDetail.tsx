@@ -108,28 +108,28 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Copiar</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.copy')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Mensagem</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.message')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Reagendar</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.rescheduleAction')}</span>
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Desbloquear</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.unblock')}</span>
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Bloquear</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.block')}</span>
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Ver Dossier</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.viewDossier')}</span>
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Cancelar</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.cancelAction')}</span>
             </Button>
           </div>
       );
