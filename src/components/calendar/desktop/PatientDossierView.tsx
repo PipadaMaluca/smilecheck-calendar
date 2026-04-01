@@ -432,7 +432,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   ))}
                 </TabsContent>
                 <TabsContent value="exames" className="mt-2">
-                  <p className="text-sm text-muted-foreground">Nenhum exame registado</p>
+                  <p className="text-sm text-muted-foreground">{t('dossier.noExams')}</p>
                 </TabsContent>
                 <TabsContent value="outros" className="mt-2">
                   <p className="text-sm text-muted-foreground">Nenhum documento adicional</p>
