@@ -553,9 +553,9 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
               <div className="border-2 border-dashed border-border rounded-lg p-8 flex flex-col items-center gap-2">
                 <Upload className="w-8 h-8 text-muted-foreground/30" />
-                <p className="text-sm text-muted-foreground">Clique ou arraste o ficheiro</p>
+                <p className="text-sm text-muted-foreground">{t('dossier.dragOrClick')}</p>
               </div>
-              <Button className="w-full">Fazer Upload</Button>
+              <Button className="w-full">{t('dossier.doUpload')}</Button>
             </div>
           </div>
         </>
