@@ -146,7 +146,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           <Button variant="ghost" size="icon" onClick={onClose}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-base font-semibold">Detalhes da Consulta</h2>
+          <h2 className="text-base font-semibold">{t('consultationDetail.title')}</h2>
           <div className="w-10" />
         </div>
 
