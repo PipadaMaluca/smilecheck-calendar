@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase, Lock, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -246,6 +247,7 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   // Patient state
@@ -337,12 +339,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   };
 
   const handleSave = () => {
-    toast.success('Perfil atualizado com sucesso');
+    toast.success(t('editProfile.profileUpdated'));
     onSave();
   };
 
   const handleDeleteAccount = () => {
-    toast.error('Conta eliminada (simulação)');
+    toast.error(t('editProfile.accountDeleted'));
     onClose();
   };
 
@@ -361,7 +363,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base font-semibold">Editar Perfil</h2>
+        <h2 className="text-base font-semibold">{t('editProfile.title')}</h2>
         <div className="w-10" />
       </div>
 
@@ -834,8 +836,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''
         }`}
       >
-        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>Cancelar</Button>
-        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>Guardar Alterações</Button>
+        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>{t('common.cancel')}</Button>
+        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>{t('editProfile.saveChanges')}</Button>
       </div>
     </div>;
 

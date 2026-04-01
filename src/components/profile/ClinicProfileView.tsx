@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -222,6 +223,7 @@ const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients:
 };
 
 export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);
   const data = CLINIC_DATA[clinicId] || CLINIC_DATA['1'];
@@ -246,11 +248,11 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold">{clinic.name}</h3>
-          <p className="text-sm text-muted-foreground">Clínica Dentária</p>
+          <p className="text-sm text-muted-foreground">{t('profile.dentalClinic')}</p>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
             <span className="text-sm font-bold">{data.rating}</span>
-            <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
+            <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
@@ -262,21 +264,21 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             {data.acceptsNewPatients && (
-              <Badge variant="default" className="text-xs">✓ Aceita novos pacientes</Badge>
+              <Badge variant="default" className="text-xs">✓ {t('profile.acceptsNewPatients')}</Badge>
             )}
           </div>
         </div>
         {isOwnProfile ? (
           <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>Editar Perfil</Button>
+            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>{t('profile.editProfile')}</Button>
           </div>
         ) : (
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
-              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
-              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
+              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
+              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
               <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
-                <Phone className="w-4 h-4 mr-1" /> Ligar
+                <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
             </div>
             {onToggleFavorite && (
@@ -305,17 +307,17 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Sobre */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Sobre</h4>
+        <h4 className="text-sm font-semibold">{t('profile.about')}</h4>
         <p className="text-sm text-muted-foreground">{data.description}</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} anos de experiência</span>
+            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} {t('profile.experience')}</span>
           </div>
           {data.certification && (
             <div className="flex items-center gap-2">
               <GraduationCap className="w-4 h-4 text-muted-foreground" />
-              <span className="text-muted-foreground">Certificação {data.certification}</span>
+              <span className="text-muted-foreground">{t('profile.certification')} {data.certification}</span>
             </div>
           )}
         </div>
@@ -333,7 +335,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Locais de Atendimento */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Locais de Atendimento</h4>
+        <h4 className="text-sm font-semibold">{t('profile.locations')}</h4>
         <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
           {data.locations.map((loc, i) => (
             <div key={i} className="bg-secondary/50 rounded-xl p-4 space-y-3 border border-border">
@@ -358,7 +360,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 ))}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs">
-                Marcar nesta clínica
+                {t('profile.bookHere')}
               </Button>
             </div>
           ))}
@@ -369,7 +371,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Equipa */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Equipa</h4>
+        <h4 className="text-sm font-semibold">{t('profile.team')}</h4>
         <div className="space-y-2">
           {dentists.map(d => {
             const dInitials = getDentistInitials(d.name);
@@ -402,7 +404,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Serviços */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Serviços</h4>
+        <h4 className="text-sm font-semibold">{t('profile.services')}</h4>
         <div className="flex flex-wrap gap-1.5">
           {data.specialties.map(s => (
             <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>
@@ -410,7 +412,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Video className="w-4 h-4 text-emerald-400" />
-          <span>Teleconsultas disponíveis ✅</span>
+          <span>{t('profile.teleconsultationsAvailable')} ✅</span>
         </div>
       </section>
 
@@ -418,13 +420,13 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Estatísticas */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Estatísticas</h4>
+        <h4 className="text-sm font-semibold">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: 'Total consultas', value: stats.totalConsultations, icon: Stethoscope },
-            { label: 'Pacientes ativos', value: stats.activePatients, icon: Users },
-            { label: 'Taxa confirmação', value: stats.confirmationRate, icon: TrendingUp },
-            { label: 'Dentistas ativos', value: String(stats.activeDentists), icon: User },
+            { label: t('profile.totalConsultations'), value: stats.totalConsultations, icon: Stethoscope },
+            { label: t('profile.activePatients'), value: stats.activePatients, icon: Users },
+            { label: t('profile.confirmationRate'), value: stats.confirmationRate, icon: TrendingUp },
+            { label: t('profile.activeDentists'), value: String(stats.activeDentists), icon: User },
           ].map(stat => (
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
@@ -441,18 +443,18 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Tarifas e Pagamentos */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Tarifas e Pagamentos</h4>
+        <h4 className="text-sm font-semibold">{t('profile.tariffs')}</h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
             <span className="font-medium">€{data.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Consulta presencial</span>
+            <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
             <span className="font-medium">{data.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
-            <span className="text-muted-foreground">Métodos aceites</span>
+            <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {data.paymentMethods.map(m => (
                 <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
@@ -461,7 +463,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           {data.insurances.length > 0 && (
             <div className="flex justify-between items-start">
-              <span className="text-muted-foreground">Convenções</span>
+              <span className="text-muted-foreground">{t('profile.conventions')}</span>
               <div className="flex flex-wrap gap-1 justify-end">
                 {data.insurances.map(s => (
                   <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>
@@ -476,7 +478,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Avaliações */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Avaliações</h4>
+        <h4 className="text-sm font-semibold">{t('profile.reviews')}</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
             <p className="text-3xl font-bold">{data.rating}</p>
@@ -485,7 +487,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 <Star key={i} className={cn('w-4 h-4', i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{data.reviewCount} avaliações</p>
+            <p className="text-xs text-muted-foreground">{data.reviewCount} {t('profile.reviews').toLowerCase()}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map(b => (
@@ -524,7 +526,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Informação */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Informação</h4>
+        <h4 className="text-sm font-semibold">{t('profile.information')}</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{data.email}</span></div>
           <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><a href={`tel:${data.phone}`} className="text-primary hover:underline">{data.phone}</a></div>
@@ -544,7 +546,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-        <h2 className="text-base font-semibold">{isOwnProfile ? 'Meu Perfil' : 'Perfil da Clínica'}</h2>
+        <h2 className="text-base font-semibold">{isOwnProfile ? t('profile.ownProfile') : t('profile.clinicProfile')}</h2>
         <div className="w-10" />
       </div>
       <ScrollArea className="flex-1">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -34,6 +35,7 @@ const MOCK_HISTORY = [
 ];
 
 export function MobileConsultationDetail({ consultation, onClose, onNavigate, onCopy, onViewDossier, userRole = 'dentist' }: MobileConsultationDetailProps) {
+  const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
@@ -55,12 +57,12 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success(`Paciente bloqueado com sucesso`);
+    toast.success(t('consultationDetail.blockedSuccess'));
   };
 
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success(`Paciente desbloqueado`);
+    toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
   // Actions grid based on role
@@ -69,34 +71,34 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Copiar</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.copy')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('prescrever')}>
-              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Prescrever</span>
+              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.prescribe')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Mensagem</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.message')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('referencia')}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Recomendar</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.recommend')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Reagendar</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.rescheduleAction')}</span>
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Desbloquear</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.unblock')}</span>
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Bloquear</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.block')}</span>
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Ver Dossier</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.viewDossier')}</span>
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Cancelar</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.cancelAction')}</span>
             </Button>
           </div>
       );
@@ -106,28 +108,28 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Copiar</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.copy')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Mensagem</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.message')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Reagendar</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.rescheduleAction')}</span>
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Desbloquear</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.unblock')}</span>
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Bloquear</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.block')}</span>
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Ver Dossier</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.viewDossier')}</span>
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">Cancelar</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.cancelAction')}</span>
             </Button>
           </div>
       );
@@ -144,7 +146,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           <Button variant="ghost" size="icon" onClick={onClose}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-base font-semibold">Detalhes da Consulta</h2>
+          <h2 className="text-base font-semibold">{t('consultationDetail.title')}</h2>
           <div className="w-10" />
         </div>
 
@@ -198,13 +200,13 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               onClick={() => startTeleconsulta(consultation.patient.name)}
             >
               <Video className="w-5 h-5" />
-              Iniciar Teleconsulta
+              {t('consultationDetail.startTeleconsulta')}
             </Button>
           )}
 
           {/* Informações */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Informações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.information')}</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -212,7 +214,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                <span>Duração prevista: {consultation.duration} minutos</span>
+                <span>{t('consultationDetail.expectedDuration')}: {consultation.duration} {t('agenda.minutes')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -220,7 +222,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </div>
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
-                  <span>💰 Montante a receber: €{consultation.price}</span>
+                  <span>💰 {t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
                 </div>
               )}
             </div>
@@ -229,16 +231,16 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           {/* Triagem */}
           {consultation.triage && (
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Triagem do Paciente</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.triage')}</h3>
               <div className="space-y-2 text-sm">
-                <p><span className="text-muted-foreground">Sintomas:</span> {consultation.triage.symptom}</p>
-                <p><span className="text-muted-foreground">Duração:</span> {consultation.triage.duration}</p>
-                <p><span className="text-muted-foreground">Intensidade:</span> {consultation.triage.intensity}/5</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageSymptoms')}:</span> {consultation.triage.symptom}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageDuration')}:</span> {consultation.triage.duration}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageIntensity')}:</span> {consultation.triage.intensity}/5</p>
                 {consultation.triage.photos > 0 && (
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Camera className="w-4 h-4" />
-                    <span>{consultation.triage.photos} foto(s)</span>
-                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">Ver</Button>
+                    <span>{consultation.triage.photos} {t('consultationDetail.triagePhotos')}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">{t('consultationDetail.triageView')}</Button>
                   </div>
                 )}
               </div>
@@ -250,11 +252,11 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <div className="bg-destructive/10 rounded-xl border border-destructive/30 p-4 space-y-3">
               <h3 className="text-xs font-semibold text-destructive uppercase flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
-                Alertas de Saúde
+                {t('consultationDetail.healthAlerts')}
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">⚠️ Alergias:</p>
+                  <p className="text-sm font-medium text-destructive">⚠️ {t('consultationDetail.allergies')}:</p>
                   <div className="flex flex-wrap gap-1.5">
                     {healthAlerts.allergies.map(a => (
                       <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
@@ -273,22 +275,22 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
           {/* Notas */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-4">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Notas</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.notes')}</h3>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota geral do paciente</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.generalNote')}</label>
               <Textarea
                 value={generalNotes}
                 onChange={(e) => setGeneralNotes(e.target.value)}
-                placeholder="Notas gerais sobre este paciente..."
+                placeholder={t('consultationDetail.generalNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota desta consulta</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.consultationNote')}</label>
               <Textarea
                 value={consultationNotes}
                 onChange={(e) => setConsultationNotes(e.target.value)}
-                placeholder="Notas específicas desta consulta..."
+                placeholder={t('consultationDetail.consultationNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
@@ -297,7 +299,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           {/* Histórico */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <button className="flex items-center justify-between w-full" onClick={() => setShowHistory(!showHistory)}>
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.briefHistory')}</h3>
               {showHistory ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </button>
             {showHistory && (
@@ -321,7 +323,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
           {/* Ações */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.actions')}</h3>
             {renderActions()}
           </div>
         </div>
@@ -331,25 +333,25 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
-              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+              {t('consultationDetail.blockDesc')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <label className="text-sm font-medium">{t('consultationDetail.blockReasonLabel')}</label>
               <Textarea
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
-                placeholder="Indique o motivo do bloqueio..."
+                placeholder={t('consultationDetail.blockReasonPlaceholder')}
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
               />
             </div>
-            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>
             <div className="flex gap-2">
-              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
-              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>Bloquear</Button>
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
+              <Button variant="destructive" className="flex-1" disabled={!blockReason.trim()} onClick={handleBlock}>{t('consultationDetail.block')}</Button>
             </div>
           </div>
         </DialogContent>

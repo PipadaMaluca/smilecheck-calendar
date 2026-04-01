@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -94,6 +95,7 @@ const DENTIST_EXTRA = {
 };
 
 export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline, isOwnProfile, onEditProfile, onReferralLetter }: DentistProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
@@ -144,7 +146,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
               <span className={cn('text-sm font-bold', levelCfg.color)}>{dentist.rating}</span>
-              <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
+              <span className="text-xs text-muted-foreground">({dentist.reviewCount} {t('profile.reviews').toLowerCase()})</span>
             </div>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
@@ -157,11 +159,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="text-xs">
-              {DENTIST_EXTRA.acceptsNewPatients ? '✓ Aceita novos pacientes' : '✗ Não aceita novos pacientes'}
+              {DENTIST_EXTRA.acceptsNewPatients ? `✓ ${t('profile.acceptsNewPatients')}` : `✗ ${t('profile.notAcceptingPatients')}`}
             </Badge>
             {DENTIST_EXTRA.teleconsultaAvailable &&
           <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-400/30 bg-emerald-400/10">
-                📱 Teleconsultas
+                📱 {t('profile.teleconsultAvailable')}
               </Badge>
           }
           </div>
@@ -169,7 +171,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         {isOwnProfile ?
       <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
             <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
-              Editar Perfil
+              {t('profile.editProfile')}
             </Button>
           </div> :
 
@@ -177,11 +179,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               {onReferralLetter &&
           <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onReferralLetter}>
-                  <FileText className="w-4 h-4 mr-1" /> Carta de Referência
+                  <FileText className="w-4 h-4 mr-1" /> {t('profile.referralLetter')}
                 </Button>
           }
               <Button variant="outline" className="flex-1 min-h-[44px]">
-                <MessageCircle className="w-4 h-4 mr-1" /> Mensagem
+                <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
             </div>
             {onToggleFavorite &&
@@ -210,12 +212,12 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Sobre */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Sobre</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.about')}</h4>
         <p className="text-sm text-muted-foreground">{dentist.bio}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{DENTIST_EXTRA.yearsExperience} anos de experiência</span>
+            <span className="text-muted-foreground">{DENTIST_EXTRA.yearsExperience} {t('profile.experience')}</span>
           </div>
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
@@ -236,13 +238,13 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Estatísticas */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-        { label: 'Total consultas', value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
-        { label: 'Teleconsultas', value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
-        { label: 'Taxa confirmação', value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
-        { label: 'Tempo médio', value: DENTIST_EXTRA.stats.avgDuration, icon: Clock }].
+        { label: t('profile.totalConsultations'), value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
+        { label: t('profile.teleconsultations'), value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
+        { label: t('profile.confirmationRate'), value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
+        { label: t('profile.avgDuration'), value: DENTIST_EXTRA.stats.avgDuration, icon: Clock }].
         map((stat) =>
         <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
@@ -259,7 +261,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Locations */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Locais de Atendimento</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.locations')}</h4>
         <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
           {DENTIST_EXTRA.clinicSchedules.map((cs, i) =>
         <div key={i} className="bg-secondary/50 rounded-xl p-4 space-y-3 border border-border">
@@ -284,7 +286,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             )}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs" onClick={() => setShowBooking(true)}>
-                Marcar nesta clínica
+                {t('profile.bookHere')}
               </Button>
             </div>
         )}
@@ -295,18 +297,18 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Tariffs */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Tarifas e Pagamentos</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.tariffs')}</h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
             <span className="font-medium">€{dentist.teleconsultaPrice}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Consulta presencial</span>
+            <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
             <span className="font-medium">{DENTIST_EXTRA.presencialPrice}</span>
           </div>
           <div className="flex justify-between items-start">
-            <span className="text-muted-foreground">Métodos aceites</span>
+            <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {DENTIST_EXTRA.paymentMethods.map((m) =>
             <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
@@ -314,7 +316,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             </div>
           </div>
           <div className="flex justify-between items-start">
-            <span className="text-muted-foreground">Convenções</span>
+            <span className="text-muted-foreground">{t('profile.conventions')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {DENTIST_EXTRA.insurances.map((s) =>
             <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>
@@ -328,7 +330,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Reviews */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Avaliações</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.reviews')}</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
             <p className="text-3xl font-bold">{dentist.rating}</p>
@@ -337,7 +339,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <Star key={i} className={cn('w-4 h-4', i < Math.floor(dentist.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
             )}
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{dentist.reviewCount} avaliações</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{dentist.reviewCount} {t('profile.reviews').toLowerCase()}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map((b) =>
@@ -377,7 +379,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     <>
           <Separator />
           <section className="space-y-3">
-            <h4 className="text-sm font-semibold text-foreground">Informação Pessoal</h4>
+            <h4 className="text-sm font-semibold text-foreground">{t('profile.personalInfo')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
@@ -399,7 +401,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
     <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
-        <h2 className="text-base font-semibold">Perfil do Dentista</h2>
+        <h2 className="text-base font-semibold">{t('profile.dentistProfile')}</h2>
         <div className="w-10" />
       </div>
       <ScrollArea className="flex-1">
