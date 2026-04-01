@@ -484,11 +484,11 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
 
           {/* Notas Clínicas */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Notas Clínicas Gerais</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.clinicalNotes')}</h3>
             <Textarea
               value={clinicalNotes}
               onChange={(e) => setClinicalNotes(e.target.value)}
-              placeholder="Notas gerais sobre o paciente..."
+              placeholder={t('dossier.clinicalNotesPlaceholder')}
               className="min-h-[80px] bg-secondary/50 border-border text-sm"
             />
           </div>
