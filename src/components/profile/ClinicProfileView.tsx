@@ -412,7 +412,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Video className="w-4 h-4 text-emerald-400" />
-          <span>Teleconsultas disponíveis ✅</span>
+          <span>{t('profile.teleconsultationsAvailable')} ✅</span>
         </div>
       </section>
 
