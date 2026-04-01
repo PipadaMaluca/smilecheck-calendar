@@ -344,7 +344,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   </p>
                   {recall.isOverdue && (
                     <p className="text-xs text-destructive font-semibold mt-1">
-                      🔴 ATENÇÃO: Consulta em atraso! Última visita há {Math.floor((recall.overdueDays || 0) / 30)} meses.
+                      🔴 {t('dossier.overdue')} {t('dossier.overdueDetail', { months: Math.floor((recall.overdueDays || 0) / 30) })}
                     </p>
                   )}
                 </div>
