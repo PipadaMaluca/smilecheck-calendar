@@ -275,10 +275,10 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         ) : (
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
-              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> Marcar Consulta</Button>
-              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> Mensagem</Button>
+              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
+              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
               <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
-                <Phone className="w-4 h-4 mr-1" /> Ligar
+                <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
             </div>
             {onToggleFavorite && (
