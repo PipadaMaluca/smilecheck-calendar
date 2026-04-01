@@ -312,7 +312,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} anos de experiência</span>
+            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} {t('profile.experience')}</span>
           </div>
           {data.certification && (
             <div className="flex items-center gap-2">
