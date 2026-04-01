@@ -264,7 +264,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             {data.acceptsNewPatients && (
-              <Badge variant="default" className="text-xs">✓ Aceita novos pacientes</Badge>
+              <Badge variant="default" className="text-xs">✓ {t('profile.acceptsNewPatients')}</Badge>
             )}
           </div>
         </div>
