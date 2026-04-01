@@ -404,7 +404,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       {/* Serviços */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold">Serviços</h4>
+        <h4 className="text-sm font-semibold">{t('profile.services')}</h4>
         <div className="flex flex-wrap gap-1.5">
           {data.specialties.map(s => (
             <Badge key={s} variant="secondary" className="text-xs">{s}</Badge>
