@@ -312,7 +312,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               {/* Medicação Atual */}
               <div className="bg-card rounded-xl border border-border p-4 space-y-3">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                  <Pill className="w-3.5 h-3.5" /> Medicação Atual
+                  <Pill className="w-3.5 h-3.5" /> {t('dossier.currentMedication')}
                 </h3>
                 <div className="space-y-2">
                   {data.medications.map((m: any) => (
