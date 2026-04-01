@@ -35,6 +35,7 @@ const MOCK_HISTORY = [
 ];
 
 export function MobileConsultationDetail({ consultation, onClose, onNavigate, onCopy, onViewDossier, userRole = 'dentist' }: MobileConsultationDetailProps) {
+  const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
