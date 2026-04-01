@@ -149,19 +149,19 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               {isDentist ? (
                 <>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => startTeleconsulta(data.name, hasTeleconsultaToday)}>
-                    <Video className="w-3.5 h-3.5" /> Iniciar Teleconsulta
+                    <Video className="w-3.5 h-3.5" /> {t('dossier.startTeleconsult')}
                   </Button>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('conversas')}>
-                    <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                    <MessageCircle className="w-3.5 h-3.5" /> {t('dossier.sendMessage')}
                   </Button>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('prescrever')}>
-                    <Pill className="w-3.5 h-3.5" /> Prescrever Receita
+                    <Pill className="w-3.5 h-3.5" /> {t('dossier.prescribeReceipt')}
                   </Button>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('referencia')}>
-                    <FileText className="w-3.5 h-3.5" /> Recomendar Paciente
+                    <FileText className="w-3.5 h-3.5" /> {t('dossier.recommendPatient')}
                   </Button>
                   <Button size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                    <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.blockPatient')}
                   </Button>
                 </>
               ) : isClinic ? (
