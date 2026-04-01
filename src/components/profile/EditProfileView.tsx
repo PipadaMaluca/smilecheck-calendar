@@ -339,12 +339,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   };
 
   const handleSave = () => {
-    toast.success('Perfil atualizado com sucesso');
+    toast.success(t('editProfile.profileUpdated'));
     onSave();
   };
 
   const handleDeleteAccount = () => {
-    toast.error('Conta eliminada (simulação)');
+    toast.error(t('editProfile.accountDeleted'));
     onClose();
   };
 
