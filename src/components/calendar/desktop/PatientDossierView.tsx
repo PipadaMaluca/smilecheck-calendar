@@ -426,7 +426,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   {data.referrals.map((ref: any) => (
                     <div key={ref.id} className="p-2.5 bg-secondary/30 rounded-lg">
                       <p className="text-sm font-medium">{ref.date}</p>
-                      <p className="text-xs text-muted-foreground">De: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → Para: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
+                      <p className="text-xs text-muted-foreground">{t('dossier.from')}: <ClickableDentistName name={ref.from} className="text-xs text-muted-foreground" /> → {t('dossier.to')}: <ClickableDentistName name={ref.to} className="text-xs text-muted-foreground" /></p>
                       <p className="text-xs text-muted-foreground mt-0.5">{ref.reason}</p>
                     </div>
                   ))}
