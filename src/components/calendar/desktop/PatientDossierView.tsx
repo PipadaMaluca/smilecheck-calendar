@@ -167,10 +167,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               ) : isClinic ? (
                 <>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('conversas')}>
-                    <MessageCircle className="w-3.5 h-3.5" /> Enviar Mensagem
+                    <MessageCircle className="w-3.5 h-3.5" /> {t('dossier.sendMessage')}
                   </Button>
                   <Button size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Bloquear Paciente
+                    <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.blockPatient')}
                   </Button>
                 </>
               ) : null}
