@@ -270,7 +270,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         {isOwnProfile ? (
           <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>Editar Perfil</Button>
+            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>{t('profile.editProfile')}</Button>
           </div>
         ) : (
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
