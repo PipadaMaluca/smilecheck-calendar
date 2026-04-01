@@ -333,9 +333,9 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
-              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+              {t('consultationDetail.blockDesc')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
