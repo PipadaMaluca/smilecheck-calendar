@@ -360,7 +360,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 ))}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs">
-                Marcar nesta clínica
+                {t('profile.bookHere')}
               </Button>
             </div>
           ))}
