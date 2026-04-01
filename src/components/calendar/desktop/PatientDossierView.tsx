@@ -183,7 +183,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <div className="space-y-4">
               {/* Dados Pessoais */}
               <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Dados Pessoais</h3>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.personalData')}</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div><span className="text-muted-foreground">Data nascimento:</span> <span className="ml-1">{data.dob}</span></div>
                   <div><span className="text-muted-foreground">Género:</span> <span className="ml-1">{data.gender}</span></div>
