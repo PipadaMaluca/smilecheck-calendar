@@ -449,8 +449,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
               <Tabs defaultValue="radiografias">
                 <TabsList className="bg-secondary/50 h-8">
-                  <TabsTrigger value="radiografias" className="text-[11px] h-6">Radiografias</TabsTrigger>
-                  <TabsTrigger value="fotos" className="text-[11px] h-6">Fotos</TabsTrigger>
+                  <TabsTrigger value="radiografias" className="text-[11px] h-6">{t('dossier.xrays')}</TabsTrigger>
+                  <TabsTrigger value="fotos" className="text-[11px] h-6">{t('dossier.photos')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="radiografias" className="mt-2">
                   <div className="grid grid-cols-2 gap-3">
