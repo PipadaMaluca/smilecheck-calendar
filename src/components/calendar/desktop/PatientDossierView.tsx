@@ -548,8 +548,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 </select>
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">Descrição</label>
-                <input className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm" placeholder="Descrição da imagem..." />
+                <label className="text-xs text-muted-foreground mb-1 block">{t('dossier.description')}</label>
+                <input className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm" placeholder={t('dossier.descriptionPlaceholder')} />
               </div>
               <div className="border-2 border-dashed border-border rounded-lg p-8 flex flex-col items-center gap-2">
                 <Upload className="w-8 h-8 text-muted-foreground/30" />
