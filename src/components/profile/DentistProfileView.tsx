@@ -297,7 +297,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Tariffs */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Tarifas e Pagamentos</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.tariffs')}</h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Teleconsulta</span>
