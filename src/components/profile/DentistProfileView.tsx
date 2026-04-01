@@ -339,7 +339,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <Star key={i} className={cn('w-4 h-4', i < Math.floor(dentist.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
             )}
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{dentist.reviewCount} avaliações</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{dentist.reviewCount} {t('profile.reviews').toLowerCase()}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map((b) =>
