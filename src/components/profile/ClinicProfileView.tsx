@@ -252,7 +252,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
             <span className="text-sm font-bold">{data.rating}</span>
-            <span className="text-xs text-muted-foreground">({data.reviewCount} avaliações)</span>
+            <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
