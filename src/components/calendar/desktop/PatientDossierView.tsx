@@ -417,7 +417,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                         <p className="text-xs text-muted-foreground mt-0.5 truncate">{rx.medications.join(', ')}</p>
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-[11px] shrink-0" onClick={() => setPreviewPrescription(rx)}>
-                        <Eye className="w-3 h-3" /> Ver
+                        <Eye className="w-3 h-3" /> {t('dossier.view')}
                       </Button>
                     </div>
                   ))}
