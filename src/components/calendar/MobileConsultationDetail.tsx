@@ -275,13 +275,13 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
           {/* Notas */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-4">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Notas</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.notes')}</h3>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota geral do paciente</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.generalNote')}</label>
               <Textarea
                 value={generalNotes}
                 onChange={(e) => setGeneralNotes(e.target.value)}
-                placeholder="Notas gerais sobre este paciente..."
+                placeholder={t('consultationDetail.generalNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
