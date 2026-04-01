@@ -340,11 +340,11 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <label className="text-sm font-medium">{t('consultationDetail.blockReasonLabel')}</label>
               <Textarea
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
-                placeholder="Indique o motivo do bloqueio..."
+                placeholder={t('consultationDetail.blockReasonPlaceholder')}
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
               />
             </div>
