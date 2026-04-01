@@ -442,9 +442,9 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
 
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Radiografias e Imagens</h3>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.xraysAndImages')}</h3>
                 <Button size="sm" variant="secondary" className="gap-1.5 text-[11px]" onClick={() => setShowUploadModal(true)}>
-                  <Upload className="w-3 h-3" /> Upload
+                  <Upload className="w-3 h-3" /> {t('dossier.upload')}
                 </Button>
               </div>
               <Tabs defaultValue="radiografias">
