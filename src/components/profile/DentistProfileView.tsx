@@ -238,7 +238,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Estatísticas */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Estatísticas</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
         { label: 'Total consultas', value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
