@@ -214,7 +214,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <Separator className="my-1" />
                 {/* Condições Médicas */}
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">Condições Médicas</h4>
+                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">{t('dossier.medicalConditions')}</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {data.conditions.map((c: string) => (
                       <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground">{c}</span>
