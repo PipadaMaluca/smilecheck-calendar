@@ -146,7 +146,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
               <span className={cn('text-sm font-bold', levelCfg.color)}>{dentist.rating}</span>
-              <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
+              <span className="text-xs text-muted-foreground">({dentist.reviewCount} {t('profile.reviews').toLowerCase()})</span>
             </div>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
