@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';

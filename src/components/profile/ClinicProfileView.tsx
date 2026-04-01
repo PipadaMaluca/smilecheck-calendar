@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
