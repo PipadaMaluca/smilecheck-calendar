@@ -501,7 +501,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setPreviewPrescription(null)} />
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-50 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold">Receita — {previewPrescription.date}</h3>
+              <h3 className="font-bold">{t('dossier.prescription')} — {previewPrescription.date}</h3>
               <Button variant="ghost" size="icon" onClick={() => setPreviewPrescription(null)}><ArrowLeft className="w-4 h-4" /></Button>
             </div>
             <p className="text-sm text-muted-foreground">{previewPrescription.dentist}</p>
