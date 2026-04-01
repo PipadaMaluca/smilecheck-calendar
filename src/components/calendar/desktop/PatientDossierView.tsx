@@ -542,7 +542,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
+                <label className="text-xs text-muted-foreground mb-1 block">{t('dossier.category')}</label>
                 <select className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm">
                   {IMAGE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
