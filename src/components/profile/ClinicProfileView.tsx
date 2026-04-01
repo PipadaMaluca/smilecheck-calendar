@@ -223,6 +223,7 @@ const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients:
 };
 
 export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);
   const data = CLINIC_DATA[clinicId] || CLINIC_DATA['1'];
