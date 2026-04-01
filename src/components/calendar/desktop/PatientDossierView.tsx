@@ -226,7 +226,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <div className={cn('space-y-2 rounded-lg p-2.5', data.allergies.length > 0 ? 'bg-destructive/5 border border-destructive/20' : '')}>
                   <h4 className="text-[11px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
                     {data.allergies.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-destructive" />}
-                    Alergias e Intolerâncias
+                    {t('dossier.allergies')}
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
                     {data.allergies.map((a: string) => (
