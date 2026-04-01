@@ -400,13 +400,13 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
           {/* Documentos + Radiografias side by side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Documentos</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.documents')}</h3>
               <Tabs defaultValue="receitas">
                 <TabsList className="bg-secondary/50 h-8">
-                  <TabsTrigger value="receitas" className="text-[11px] h-6">Receitas</TabsTrigger>
-                  <TabsTrigger value="cartas" className="text-[11px] h-6">Cartas</TabsTrigger>
-                  <TabsTrigger value="exames" className="text-[11px] h-6">Exames</TabsTrigger>
-                  <TabsTrigger value="outros" className="text-[11px] h-6">Outros</TabsTrigger>
+                  <TabsTrigger value="receitas" className="text-[11px] h-6">{t('dossier.receipts')}</TabsTrigger>
+                  <TabsTrigger value="cartas" className="text-[11px] h-6">{t('dossier.letters')}</TabsTrigger>
+                  <TabsTrigger value="exames" className="text-[11px] h-6">{t('dossier.exams')}</TabsTrigger>
+                  <TabsTrigger value="outros" className="text-[11px] h-6">{t('dossier.others')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="receitas" className="space-y-2 mt-2">
                   {data.prescriptions.map((rx: any) => (
