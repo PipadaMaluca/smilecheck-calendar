@@ -330,7 +330,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       {/* Reviews */}
       <section className="space-y-3">
-        <h4 className="text-sm font-semibold text-foreground">Avaliações</h4>
+        <h4 className="text-sm font-semibold text-foreground">{t('profile.reviews')}</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
             <p className="text-3xl font-bold">{dentist.rating}</p>
