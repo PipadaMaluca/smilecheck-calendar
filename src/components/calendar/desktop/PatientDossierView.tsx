@@ -195,7 +195,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
 
               {/* Saúde (merged box) */}
               <div className="bg-card rounded-xl border border-border p-4 space-y-4">
-                <h3 className="text-xs font-semibold text-muted-foreground uppercase">Saúde</h3>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.health')}</h3>
                 {/* Mini cards */}
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
