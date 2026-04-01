@@ -214,7 +214,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                <span>Duração prevista: {consultation.duration} minutos</span>
+                <span>{t('consultationDetail.expectedDuration')}: {consultation.duration} {t('agenda.minutes')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-muted-foreground shrink-0" />
