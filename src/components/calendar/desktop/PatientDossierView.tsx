@@ -331,7 +331,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             {(isDentist || isClinic) && (
               <div className={cn('rounded-xl border p-4 space-y-3', recall.isOverdue ? 'bg-destructive/5 border-destructive/20' : 'bg-card border-border')}>
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
-                  <CalendarIcon className="w-3.5 h-3.5" /> Recall Recomendado
+                  <CalendarIcon className="w-3.5 h-3.5" /> {t('dossier.recallRecommended')}
                 </h3>
                 <p className="text-lg font-bold text-foreground">
                   A cada {recall.intervalMonths[0]}{recall.intervalMonths[0] !== recall.intervalMonths[1] ? `-${recall.intervalMonths[1]}` : ''} meses
