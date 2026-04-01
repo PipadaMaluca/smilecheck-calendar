@@ -247,6 +247,7 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   // Patient state
