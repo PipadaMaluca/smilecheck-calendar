@@ -232,7 +232,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                     {data.allergies.map((a: string) => (
                       <span key={a} className="text-xs px-2.5 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
                     ))}
-                    {data.allergies.length === 0 && <p className="text-sm text-muted-foreground">Nenhuma alergia registada</p>}
+                    {data.allergies.length === 0 && <p className="text-sm text-muted-foreground">{t('dossier.noAllergies')}</p>}
                   </div>
                 </div>
                 <Separator className="my-1" />
