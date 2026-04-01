@@ -159,11 +159,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="text-xs">
-              {DENTIST_EXTRA.acceptsNewPatients ? '✓ Aceita novos pacientes' : '✗ Não aceita novos pacientes'}
+              {DENTIST_EXTRA.acceptsNewPatients ? `✓ ${t('profile.acceptsNewPatients')}` : `✗ ${t('profile.notAcceptingPatients')}`}
             </Badge>
             {DENTIST_EXTRA.teleconsultaAvailable &&
           <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-400/30 bg-emerald-400/10">
-                📱 Teleconsultas
+                📱 {t('profile.teleconsultAvailable')}
               </Badge>
           }
           </div>
