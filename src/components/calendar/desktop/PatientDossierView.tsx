@@ -526,7 +526,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
               <Camera className="w-16 h-16 text-muted-foreground/20" />
             </div>
-            <p className="text-sm text-muted-foreground">Pré-visualização de imagem</p>
+            <p className="text-sm text-muted-foreground">{t('dossier.imagePreview')}</p>
           </div>
         </>
       )}
