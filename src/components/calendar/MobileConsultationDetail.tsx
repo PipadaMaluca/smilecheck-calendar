@@ -252,7 +252,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <div className="bg-destructive/10 rounded-xl border border-destructive/30 p-4 space-y-3">
               <h3 className="text-xs font-semibold text-destructive uppercase flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
-                Alertas de Saúde
+                {t('consultationDetail.healthAlerts')}
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
