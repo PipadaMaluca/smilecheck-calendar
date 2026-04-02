@@ -2,10 +2,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
@@ -35,28 +37,28 @@ const NotFound = () => {
         </div>
 
         <div className="pt-6 space-y-2">
-          <h1 className="text-2xl font-bold text-foreground">Página não encontrada</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t('errors.404title')}</h1>
           <p className="text-sm text-muted-foreground">
-            A página que procura não existe ou foi movida.
+            {t('errors.404subtitle')}
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button onClick={() => navigate("/")} className="gap-2 min-h-[44px]">
-            🏠 Voltar ao Início
+            🏠 {t('errors.goHome')}
           </Button>
           <Button variant="outline" onClick={() => navigate(-1)} className="gap-2 min-h-[44px]">
-            ← Voltar
+            ← {t('errors.goBack')}
           </Button>
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Precisa de ajuda?{" "}
+          {t('errors.needHelp')}{" "}
           <button
             onClick={() => window.open("mailto:suporte@smilecheck.pt")}
             className="text-primary hover:underline"
           >
-            Contacte-nos
+            {t('errors.contactUs')}
           </button>
         </p>
       </div>

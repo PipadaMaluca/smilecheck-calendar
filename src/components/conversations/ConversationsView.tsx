@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 
 interface Message {
   id: string;
@@ -40,7 +41,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'Olá Dr. Gonçalo, gostaria de confirmar a minha consulta.', fromMe: true, time: '14:20' },
     { id: 'm2', text: 'Bom dia! A sua consulta está confirmada para amanhã às 10h.', fromMe: false, time: '14:32' }]
-
   },
   {
     id: 'p2',
@@ -51,7 +51,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     unread: 0,
     messages: [
     { id: 'm1', text: 'Lembrete: a sua próxima consulta é dia 5 de Fevereiro.', fromMe: false, time: 'Ontem' }]
-
   },
   {
     id: 'p3',
@@ -63,9 +62,7 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'Dra. Sofia, já estão prontos os resultados?', fromMe: true, time: '11:00' },
     { id: 'm2', text: 'Os resultados do raio-X estão prontos. Pode passar na clínica.', fromMe: false, time: '11:45' }]
-
   }],
-
   dentist: [
   {
     id: 'd1',
@@ -77,7 +74,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'Maria, lembro-lhe da consulta amanhã às 09:30.', fromMe: true, time: '15:50' },
     { id: 'm2', text: 'Obrigada doutor! Até amanhã.', fromMe: false, time: '16:05' }]
-
   },
   {
     id: 'd2',
@@ -89,7 +85,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'Bom dia João, a sua consulta é hoje às 14h.', fromMe: true, time: '09:00' },
     { id: 'm2', text: 'Posso remarcar para sexta-feira?', fromMe: false, time: '10:22' }]
-
   },
   {
     id: 'd3',
@@ -100,7 +95,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     unread: 0,
     messages: [
     { id: 'm1', text: 'A reunião de equipa foi movida para as 18h.', fromMe: false, time: 'Ontem' }]
-
   },
   {
     id: 'd4',
@@ -111,9 +105,7 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     unread: 0,
     messages: [
     { id: 'm1', text: 'Podes cobrir o meu turno na quinta?', fromMe: false, time: '8 Jan' }]
-
   }],
-
   clinic: [
   {
     id: 'c1',
@@ -124,7 +116,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     unread: 2,
     messages: [
     { id: 'm1', text: 'Gostaria de agendar uma consulta para o meu filho.', fromMe: false, time: '15:40' }]
-
   },
   {
     id: 'c2',
@@ -135,7 +126,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     unread: 1,
     messages: [
     { id: 'm1', text: 'Preciso de bloquear o horário da manhã de quarta.', fromMe: false, time: '11:15' }]
-
   },
   {
     id: 'c3',
@@ -147,7 +137,6 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'O material de ortodontia já chegou?', fromMe: false, time: 'Ontem' },
     { id: 'm2', text: 'Sim, já está disponível no stock.', fromMe: true, time: 'Ontem' }]
-
   },
   {
     id: 'c4',
@@ -159,9 +148,7 @@ const mockConversations: Record<UserRole, Conversation[]> = {
     messages: [
     { id: 'm1', text: 'Qual o horário de funcionamento ao sábado?', fromMe: false, time: '5 Jan' },
     { id: 'm2', text: 'Estamos abertos das 9h às 13h.', fromMe: true, time: '5 Jan' }]
-
   }]
-
 };
 
 const typeBadgeConfig: Record<string, {icon: typeof User;className: string;}> = {
@@ -176,6 +163,7 @@ interface ConversationsViewProps {
 }
 
 export function ConversationsView({ userRole }: ConversationsViewProps) {
+  const { t } = useTranslation();
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
@@ -183,7 +171,6 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
 
   const conversations = mockConversations[userRole] || [];
 
-  // Listen for open-chat events (e.g. from "Enviar Mensagem" in consultation detail)
   React.useEffect(() => {
     const handler = (e: Event) => {
       const dentistName = (e as CustomEvent<string>).detail;
@@ -192,7 +179,6 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
         if (conv) {
           setSelectedConversation(conv);
         } else {
-          // Create a temporary conversation
           setSelectedConversation({
             id: `new-${Date.now()}`,
             name: dentistName,
@@ -222,33 +208,28 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
 
   const handleSend = () => {
     if (!messageInput.trim()) return;
-    // Mock send — just clear input
     setMessageInput('');
   };
 
   return (
     <div className={cn('flex-1 flex overflow-hidden', showSplit ? 'flex-row' : 'flex-col')}>
-      {/* Conversation List */}
       {showList &&
       <div className={cn(
         'flex flex-col border-r border-border',
         showSplit ? 'w-[30%] min-w-[280px] lg:w-[30%] md:w-[40%]' : 'flex-1'
       )}>
-          {/* List Header */}
           <div className="p-4 border-b border-border space-y-3">
-            <h2 className="text-lg font-bold">Conversas</h2>
+            <h2 className="text-lg font-bold">{t('chat.title')}</h2>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-              placeholder="Pesquisar conversa..."
+              placeholder={t('chat.searchPlaceholder')}
               className="pl-9 h-9 text-sm"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} />
-
             </div>
           </div>
 
-          {/* List */}
           <ScrollArea className="flex-1">
             <div className="divide-y divide-border">
               {filtered.map((conversation) => {
@@ -265,13 +246,9 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                     isActive && 'bg-secondary/50',
                     conversation.unread > 0 && 'font-medium'
                   )}>
-
-                    {/* Avatar */}
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <User className="w-5 h-5 text-primary" />
                     </div>
-
-                    {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className={cn('text-sm truncate', conversation.unread > 0 && 'font-bold')}>
@@ -281,7 +258,6 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                         <ClickableClinicName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} /> :
                         conversation.type === 'Paciente' ?
                         <ClickablePatientName name={conversation.name} className={cn('text-sm', conversation.unread > 0 && 'font-bold')} /> :
-
                         conversation.name
                         }
                         </span>
@@ -297,8 +273,6 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                         {conversation.lastMessage}
                       </p>
                     </div>
-
-                    {/* Time + Unread */}
                     <div className="flex flex-col items-end gap-1 flex-shrink-0">
                       <span className="text-[10px] text-muted-foreground">{conversation.lastMessageTime}</span>
                       {conversation.unread > 0 &&
@@ -308,19 +282,16 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                     }
                     </div>
                   </button>);
-
             })}
             </div>
           </ScrollArea>
         </div>
       }
 
-      {/* Chat Area */}
       {showChat &&
       <div className="flex-1 flex flex-col">
           {selectedConversation ?
         <>
-              {/* Chat Header */}
               <div className="h-14 flex items-center gap-3 px-4 border-b border-border flex-shrink-0">
                 {!showSplit &&
             <Button variant="ghost" size="icon" onClick={handleBack} className="flex-shrink-0">
@@ -338,7 +309,6 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                 <ClickableClinicName name={selectedConversation.name} className="text-sm font-semibold" /> :
                 selectedConversation.type === 'Paciente' ?
                 <ClickablePatientName name={selectedConversation.name} className="text-sm font-semibold" /> :
-
                 selectedConversation.name
                 }
                    </p>
@@ -351,16 +321,13 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                 </div>
               </div>
 
-              {/* Messages */}
               <ScrollArea className="flex-1 p-4">
                 <div className="max-w-2xl mx-auto space-y-3">
                   {selectedConversation.messages.map((msg) =>
               <div
                 key={msg.id}
                 className={cn('flex', msg.fromMe ? 'justify-end' : 'justify-start')}>
-
                       <div className={cn("max-w-[75%] rounded-2xl py-2.5 px-[15px] mx-[7px] my-[5px]",
-
                 msg.fromMe ?
                 'bg-primary text-primary-foreground rounded-br-md' :
                 'bg-secondary rounded-bl-md'
@@ -378,33 +345,28 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
                 </div>
               </ScrollArea>
 
-              {/* Input */}
               <div className="p-3 border-t border-border flex items-center gap-2 flex-shrink-0">
                 <Input
-              placeholder="Escrever mensagem..."
+              placeholder={t('chat.typeMessage')}
               className="flex-1 h-10"
               value={messageInput}
               onChange={(e) => setMessageInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()} />
-
                 <Button size="icon" onClick={handleSend} disabled={!messageInput.trim()}>
                   <Send className="w-4 h-4" />
                 </Button>
               </div>
-            </> : (
-
-        /* Empty state - desktop only */
+            </> :
         <div className="flex-1 flex items-center justify-center text-muted-foreground">
               <div className="text-center">
                 <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center mx-auto mb-4">
                   <Send className="w-7 h-7 text-muted-foreground/50" />
                 </div>
-                <p className="text-sm">Selecione uma conversa para começar</p>
+                <p className="text-sm">{t('chat.selectConversation')}</p>
               </div>
-            </div>)
+            </div>
         }
         </div>
       }
     </div>);
-
 }

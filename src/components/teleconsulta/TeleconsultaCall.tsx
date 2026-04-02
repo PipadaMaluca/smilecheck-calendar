@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import smileIcon from '@/assets/smilecheck-icon.png';
+import { useTranslation } from 'react-i18next';
 
 interface ChatMessage {
   id: string;
@@ -30,6 +31,7 @@ const MOCK_CHAT: ChatMessage[] = [
 ];
 
 export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: TeleconsultaCallProps) {
+  const { t } = useTranslation();
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOff, setIsCameraOff] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
@@ -84,7 +86,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div>
             <p className="text-sm font-semibold text-white">{remoteName}</p>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-400">
-              <Video className="w-3 h-3" /> Teleconsulta
+              <Video className="w-3 h-3" /> {t('teleconsult.title')}
             </span>
           </div>
         </div>
@@ -96,7 +98,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] text-green-400">Estável</span>
+            <span className="text-[10px] text-green-400">{t('teleconsult.stable')}</span>
           </div>
           <Button
             variant="destructive"
@@ -104,7 +106,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             className="gap-1.5 text-xs"
             onClick={onEnd}
           >
-            <Phone className="w-3.5 h-3.5 rotate-[135deg]" /> Terminar
+            <Phone className="w-3.5 h-3.5 rotate-[135deg]" /> {t('teleconsult.endCall')}
           </Button>
         </div>
       </div>
@@ -120,7 +122,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                 <User className="w-12 h-12" />
               </div>
               <p className="text-lg font-medium">{remoteName}</p>
-              {isCameraOff && <p className="text-xs text-white/20">Câmara desligada</p>}
+              {isCameraOff && <p className="text-xs text-white/20">{t('teleconsult.cameraOff')}</p>}
             </div>
 
             {/* Live indicator */}
@@ -144,40 +146,40 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-2 md:gap-3 py-3 px-4 bg-gradient-to-t from-black/80 to-transparent">
             <ToolbarButton
               icon={isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              label={isMuted ? 'Sem som' : 'Micro'}
+              label={isMuted ? t('teleconsult.unmute') : t('teleconsult.mute')}
               active={!isMuted}
               danger={isMuted}
               onClick={() => setIsMuted(!isMuted)}
             />
             <ToolbarButton
               icon={isCameraOff ? <VideoOff className="w-5 h-5" /> : <Video className="w-5 h-5" />}
-              label={isCameraOff ? 'Câmara off' : 'Câmara'}
+              label={isCameraOff ? t('teleconsult.cameraOff') : t('teleconsult.camera')}
               active={!isCameraOff}
               danger={isCameraOff}
               onClick={() => setIsCameraOff(!isCameraOff)}
             />
             <ToolbarButton
               icon={<MessageCircle className="w-5 h-5" />}
-              label="Chat"
+              label={t('teleconsult.chat')}
               active={activePanel === 'chat'}
               onClick={() => togglePanel('chat')}
             />
             <ToolbarButton
               icon={<Paperclip className="w-5 h-5" />}
-              label="Foto"
+              label={t('teleconsult.attachPhoto')}
               onClick={() => {/* file picker mock */}}
             />
             {isDentist && (
               <>
                 <ToolbarButton
                   icon={<FileText className="w-5 h-5" />}
-                  label="Notas"
+                  label={t('teleconsult.notes')}
                   active={activePanel === 'notes'}
                   onClick={() => togglePanel('notes')}
                 />
                 <ToolbarButton
                   icon={<Monitor className="w-5 h-5" />}
-                  label="Ecrã"
+                  label={t('teleconsult.shareScreen')}
                   active={isScreenSharing}
                   onClick={() => setIsScreenSharing(!isScreenSharing)}
                 />
@@ -187,7 +189,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             <div className="md:hidden">
               <ToolbarButton
                 icon={<Phone className="w-5 h-5 rotate-[135deg]" />}
-                label="Desligar"
+                label={t('teleconsult.hangUp')}
                 danger
                 onClick={onEnd}
               />
@@ -200,7 +202,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div className="fixed md:static inset-0 md:inset-auto z-20 md:z-auto md:w-80 lg:w-96 bg-[#12121a] border-l border-white/5 flex flex-col">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
               <h3 className="text-sm font-semibold text-white">
-                {activePanel === 'chat' ? 'Chat' : 'Notas da Consulta'}
+                {activePanel === 'chat' ? t('teleconsult.chat') : t('teleconsult.notesTitle')}
               </h3>
               <Button variant="ghost" size="icon" className="text-white/50 hover:text-white h-8 w-8" onClick={() => setActivePanel(null)}>
                 <X className="w-4 h-4" />
@@ -230,7 +232,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                   <Input
                     value={chatInput}
                     onChange={e => setChatInput(e.target.value)}
-                    placeholder="Escrever mensagem..."
+                    placeholder={t('chat.typeMessage')}
                     className="flex-1 bg-white/5 border-white/10 text-white text-sm"
                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
                   />
@@ -244,10 +246,10 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                 <Textarea
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
-                  placeholder="Notas da consulta..."
+                  placeholder={t('teleconsult.notesPlaceholder')}
                   className="min-h-[300px] bg-white/5 border-white/10 text-white text-sm"
                 />
-                <p className="text-[10px] text-white/30 mt-2">Auto-guardado</p>
+                <p className="text-[10px] text-white/30 mt-2">{t('teleconsult.autoSaved')}</p>
               </div>
             )}
           </div>
