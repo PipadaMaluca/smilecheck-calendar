@@ -160,7 +160,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             />
             <ToolbarButton
               icon={<MessageCircle className="w-5 h-5" />}
-              label="Chat"
+              label={t('teleconsult.chat')}
               active={activePanel === 'chat'}
               onClick={() => togglePanel('chat')}
             />
