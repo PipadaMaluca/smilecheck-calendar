@@ -108,12 +108,16 @@ const getNotificationsForRole = (role: UserRole): Notification[] => {
 
 type FilterType = 'todas' | 'nao_lidas' | 'consultas' | 'mensagens' | 'pontos';
 
-const FILTERS: {id: FilterType;label: string;}[] = [
-{ id: 'todas', label: 'Todas' },
-{ id: 'nao_lidas', label: 'Não lidas' },
-{ id: 'consultas', label: 'Consultas' },
-{ id: 'mensagens', label: 'Mensagens' },
-{ id: 'pontos', label: 'Pontos' }];
+function useFilterLabels() {
+  const { t } = useTranslation();
+  return [
+    { id: 'todas' as FilterType, label: t('notifications.all') },
+    { id: 'nao_lidas' as FilterType, label: t('notifications.unread') },
+    { id: 'consultas' as FilterType, label: t('notifications.appointments') },
+    { id: 'mensagens' as FilterType, label: t('notifications.messages') },
+    { id: 'pontos' as FilterType, label: t('notifications.points') },
+  ];
+}
 
 
 const CONSULTATION_TYPES: NotificationType[] = ['lembrete_24h', 'lembrete_1h', 'consulta_alterada', 'consulta_cancelada', 'feedback', 'novo_agendamento', 'paciente_confirmou', 'paciente_cancelou', 'sala_espera', 'feedback_recebido'];
