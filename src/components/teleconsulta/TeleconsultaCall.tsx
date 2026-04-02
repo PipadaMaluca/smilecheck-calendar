@@ -179,7 +179,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                 />
                 <ToolbarButton
                   icon={<Monitor className="w-5 h-5" />}
-                  label="Ecrã"
+                  label={t('teleconsult.shareScreen')}
                   active={isScreenSharing}
                   onClick={() => setIsScreenSharing(!isScreenSharing)}
                 />
