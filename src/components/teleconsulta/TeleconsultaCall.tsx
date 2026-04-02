@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import smileIcon from '@/assets/smilecheck-icon.png';
+import { useTranslation } from 'react-i18next';
 
 interface ChatMessage {
   id: string;
