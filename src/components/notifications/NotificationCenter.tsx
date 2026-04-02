@@ -327,6 +327,8 @@ interface NotificationsFullViewProps {
 }
 
 export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationsFullViewProps) {
+  const { t } = useTranslation();
+  const FILTERS = useFilterLabels();
   const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
 
