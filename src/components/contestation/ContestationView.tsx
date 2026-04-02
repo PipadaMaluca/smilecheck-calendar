@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ContestationViewProps {
   onBack: () => void;
@@ -22,15 +23,8 @@ interface ContestationViewProps {
   };
 }
 
-const MOTIVOS = [
-  'Compareci mas não fui registado',
-  'Cancelei com antecedência (>24h)',
-  'Houve um erro do sistema',
-  'Emergência médica/pessoal',
-  'Outro motivo',
-];
-
 export function ContestationView({ onBack, entryData }: ContestationViewProps) {
+  const { t } = useTranslation();
   const [selectedMotivo, setSelectedMotivo] = useState<string>('');
   const [explanation, setExplanation] = useState('');
   const [files, setFiles] = useState<{ name: string; size: string }[]>([
@@ -38,6 +32,14 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
   ]);
   const [agreed, setAgreed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const MOTIVOS = [
+    { key: 'attended', label: t('contestation.reasons.attended') },
+    { key: 'cancelledEarly', label: t('contestation.reasons.cancelledEarly') },
+    { key: 'systemError', label: t('contestation.reasons.systemError') },
+    { key: 'emergency', label: t('contestation.reasons.emergency') },
+    { key: 'other', label: t('contestation.reasons.other') },
+  ];
 
   const entry = entryData || {
     name: 'Dr. Gonçalo Pipo',
@@ -54,11 +56,11 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
         <span className="text-6xl">✅</span>
-        <h2 className="text-xl font-bold text-foreground">Contestação submetida com sucesso!</h2>
+        <h2 className="text-xl font-bold text-foreground">{t('contestation.submitted')}</h2>
         <p className="text-sm text-muted-foreground max-w-md">
-          Receberá uma notificação com o resultado dentro de 48h.
+          {t('contestation.submittedDesc')}
         </p>
-        <Button onClick={onBack}>Voltar ao Histórico</Button>
+        <Button onClick={onBack}>{t('contestation.backToHistory')}</Button>
       </div>
     );
   }
@@ -71,7 +73,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
           <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-lg font-bold text-foreground">Contestar Avaliação</h1>
+          <h1 className="text-lg font-bold text-foreground">{t('contestation.title')}</h1>
         </div>
 
         {/* Original evaluation card */}
@@ -87,7 +89,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                   <p className="text-xs text-muted-foreground">{entry.date}</p>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground">Recebida há {entry.hoursAgo}h</p>
+              <p className="text-xs text-muted-foreground">{t('contestation.receivedAgo', { hours: entry.hoursAgo })}</p>
             </div>
             <Badge className="bg-destructive/15 text-destructive border-destructive/30 text-xs">
               {entry.points} pontos · {entry.reason}
@@ -100,22 +102,22 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
           <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-xs font-medium text-amber-400">
-              Tem 24h para contestar após ver esta notificação.
+              {t('contestation.timeLimit')}
             </p>
             <p className="text-xs text-amber-400/80">
-              Tempo restante: {remainingHours}h {remainingMinutes}min
+              {t('contestation.timeRemaining')}: {remainingHours}h {remainingMinutes}min
             </p>
           </div>
         </div>
 
         {/* Motivo */}
         <div className="space-y-3">
-          <h3 className="text-sm font-bold text-foreground">Motivo da Contestação</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('contestation.reason')}</h3>
           <RadioGroup value={selectedMotivo} onValueChange={setSelectedMotivo} className="space-y-2">
             {MOTIVOS.map((motivo) => (
-              <div key={motivo} className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/30 transition-colors cursor-pointer">
-                <RadioGroupItem value={motivo} id={motivo} />
-                <Label htmlFor={motivo} className="text-sm text-foreground cursor-pointer flex-1">{motivo}</Label>
+              <div key={motivo.key} className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/30 transition-colors cursor-pointer">
+                <RadioGroupItem value={motivo.key} id={motivo.key} />
+                <Label htmlFor={motivo.key} className="text-sm text-foreground cursor-pointer flex-1">{motivo.label}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -123,27 +125,27 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
 
         {/* Explicação */}
         <div className="space-y-2">
-          <h3 className="text-sm font-bold text-foreground">Explicação</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('contestation.explain')}</h3>
           <Textarea
-            placeholder="Explique a situação"
+            placeholder={t('contestation.explainPlaceholder')}
             value={explanation}
             onChange={(e) => setExplanation(e.target.value)}
             maxLength={500}
             className="min-h-[100px]"
           />
-          <p className="text-[10px] text-muted-foreground text-right">{explanation.length}/500 caracteres</p>
+          <p className="text-[10px] text-muted-foreground text-right">{explanation.length}/500 {t('contestation.characters')}</p>
         </div>
 
         {/* Documentos */}
         <div className="space-y-2">
-          <h3 className="text-sm font-bold text-foreground">Documentos de Suporte</h3>
+          <h3 className="text-sm font-bold text-foreground">{t('contestation.supportDocs')}</h3>
           <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 active:border-primary/40 transition-colors cursor-pointer">
             <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
             <p className="text-xs text-muted-foreground">
-              <span className="hidden sm:inline">Arraste ficheiros ou clique para selecionar</span>
-              <span className="sm:hidden">Toque para selecionar ficheiros</span>
+              <span className="hidden sm:inline">{t('contestation.dragFiles')}</span>
+              <span className="sm:hidden">{t('contestation.dragFilesMobile')}</span>
             </p>
-            <p className="text-[10px] text-muted-foreground mt-1">Máx. 3 ficheiros, 5MB cada (PDF, JPG, PNG)</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{t('contestation.maxFiles')}</p>
           </div>
           {files.length > 0 && (
             <div className="space-y-1.5">
@@ -168,10 +170,10 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
           <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
             <p className="text-xs text-blue-400">
-              O dentista terá 48h para analisar. Se não for resolvido, um algoritmo decidirá.
+              {t('contestation.infoReview')}
             </p>
             <p className="text-[10px] text-blue-400/70">
-              3 contestações rejeitadas = -5 pontos
+              {t('contestation.infoRejected')}
             </p>
           </div>
         </div>
@@ -180,7 +182,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         <div className="flex items-center gap-3">
           <Checkbox checked={agreed} onCheckedChange={(c) => setAgreed(!!c)} id="agree" />
           <Label htmlFor="agree" className="text-xs text-foreground cursor-pointer">
-            Declaro que as informações são verdadeiras
+            {t('contestation.declare')}
           </Label>
         </div>
 
@@ -191,9 +193,9 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
             disabled={!agreed || !selectedMotivo}
             onClick={() => setSubmitted(true)}
           >
-            Submeter Contestação
+            {t('contestation.submit')}
           </Button>
-          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>Cancelar</Button>
+          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>{t('common.cancel')}</Button>
         </div>
       </div>
     </ScrollArea>

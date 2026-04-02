@@ -5,16 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from 'sonner';
 import { UserRole } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface ReferralViewProps {
   userRole: UserRole;
 }
-
-// Generate a mock referral code based on user initials
-const generateReferralCode = () => {
-  const codes = ['SMILE-GP2026', 'SMILE-MS2026', 'SMILE-JC2026'];
-  return codes[Math.floor(Math.random() * codes.length)];
-};
 
 const mockInvites = [
   { name: 'Maria Costa', status: 'registered', date: '15 Jan 2026', points: 10 },
@@ -23,11 +18,11 @@ const mockInvites = [
 ];
 
 export function ReferralView({ userRole }: ReferralViewProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const referralCode = 'SMILE-GP2026';
   const referralLink = `https://smilecheck.pt/r/${referralCode}`;
   
-  // Patient gets 2x rewards
   const multiplier = userRole === 'patient' ? 2 : 1;
   const registerReward = 10 * multiplier;
   const consultationReward = 20 * multiplier;
@@ -39,21 +34,21 @@ export function ReferralView({ userRole }: ReferralViewProps) {
   const handleCopyCode = () => {
     navigator.clipboard.writeText(referralCode);
     setCopied(true);
-    toast.success('Código copiado!');
+    toast.success(t('referral.codeCopied'));
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink);
-    toast.success('Link copiado!');
+    toast.success(t('referral.linkCopied'));
   };
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Junta-te ao SmileCheck!',
-          text: `Usa o meu código ${referralCode} e ganha pontos de boas-vindas!`,
+          title: t('referral.shareTitle'),
+          text: t('referral.shareText', { code: referralCode }),
           url: referralLink,
         });
       } catch {
@@ -72,16 +67,16 @@ export function ReferralView({ userRole }: ReferralViewProps) {
           <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center mx-auto mb-4">
             <Gift className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-xl font-bold text-foreground">🎁 Convidar Amigos</h1>
+          <h1 className="text-xl font-bold text-foreground">🎁 {t('referral.title')}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Ganhe pontos por cada amigo que se junta ao SmileCheck!
+            {t('referral.subtitle')}
           </p>
         </div>
 
         {/* Referral Code */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">O seu Código de Convite</CardTitle>
+            <CardTitle className="text-sm">{t('referral.yourCode')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-center gap-3 p-4 bg-secondary rounded-xl">
@@ -89,20 +84,13 @@ export function ReferralView({ userRole }: ReferralViewProps) {
             </div>
             
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                className="flex-1 gap-2"
-                onClick={handleCopyCode}
-              >
+              <Button variant="outline" className="flex-1 gap-2" onClick={handleCopyCode}>
                 {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                {copied ? 'Copiado!' : 'Copiar código'}
+                {copied ? t('referral.copied') : t('referral.copyCode')}
               </Button>
-              <Button
-                className="flex-1 gap-2"
-                onClick={handleShare}
-              >
+              <Button className="flex-1 gap-2" onClick={handleShare}>
                 <Share2 className="w-4 h-4" />
-                Partilhar
+                {t('referral.share')}
               </Button>
             </div>
 
@@ -115,7 +103,7 @@ export function ReferralView({ userRole }: ReferralViewProps) {
         {/* How it works */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Como Funciona</CardTitle>
+            <CardTitle className="text-sm">{t('referral.howItWorks')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -124,8 +112,8 @@ export function ReferralView({ userRole }: ReferralViewProps) {
                   <span className="text-sm font-bold text-primary">1</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">📤 Partilhe o seu código com amigos</p>
-                  <p className="text-xs text-muted-foreground">Envie por WhatsApp, SMS ou email</p>
+                  <p className="text-sm font-medium text-foreground">📤 {t('referral.step1')}</p>
+                  <p className="text-xs text-muted-foreground">{t('referral.step1Desc')}</p>
                 </div>
               </div>
               
@@ -134,8 +122,8 @@ export function ReferralView({ userRole }: ReferralViewProps) {
                   <span className="text-sm font-bold text-primary">2</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">👤 O seu amigo cria conta e insere o código</p>
-                  <p className="text-xs text-muted-foreground">Durante o registo</p>
+                  <p className="text-sm font-medium text-foreground">👤 {t('referral.step2')}</p>
+                  <p className="text-xs text-muted-foreground">{t('referral.step2Desc')}</p>
                 </div>
               </div>
               
@@ -144,8 +132,8 @@ export function ReferralView({ userRole }: ReferralViewProps) {
                   <span className="text-sm font-bold text-primary">3</span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">🎁 Ambos ganham pontos!</p>
-                  <p className="text-xs text-muted-foreground">Recompensas instantâneas</p>
+                  <p className="text-sm font-medium text-foreground">🎁 {t('referral.step3')}</p>
+                  <p className="text-xs text-muted-foreground">{t('referral.step3Desc')}</p>
                 </div>
               </div>
             </div>
@@ -155,13 +143,13 @@ export function ReferralView({ userRole }: ReferralViewProps) {
         {/* Rewards */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Recompensas</CardTitle>
+            <CardTitle className="text-sm">{t('referral.rewards')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-secondary rounded-lg">
               <div className="flex items-center gap-2">
                 <UserPlus className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">Convite aceite (amigo cria conta)</span>
+                <span className="text-sm text-foreground">{t('referral.inviteAccepted')}</span>
               </div>
               <span className="text-sm font-bold text-primary">+{registerReward} XP, +{registerReward} pts</span>
             </div>
@@ -169,7 +157,7 @@ export function ReferralView({ userRole }: ReferralViewProps) {
             <div className="flex items-center justify-between p-3 bg-secondary rounded-lg">
               <div className="flex items-center gap-2">
                 <Coins className="w-4 h-4 text-yellow-500" />
-                <span className="text-sm text-foreground">Bónus: amigo completa 1ª consulta</span>
+                <span className="text-sm text-foreground">{t('referral.bonusFirstConsult')}</span>
               </div>
               <span className="text-sm font-bold text-yellow-500">+{consultationReward} XP, +{consultationReward} pts</span>
             </div>
@@ -177,9 +165,9 @@ export function ReferralView({ userRole }: ReferralViewProps) {
             <div className="flex items-center justify-between p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
               <div className="flex items-center gap-2">
                 <Gift className="w-4 h-4 text-green-500" />
-                <span className="text-sm text-foreground">O seu amigo recebe</span>
+                <span className="text-sm text-foreground">{t('referral.friendReceives')}</span>
               </div>
-              <span className="text-sm font-bold text-green-500">+5 XP, +5 pts de boas-vindas</span>
+              <span className="text-sm font-bold text-green-500">{t('referral.welcomeBonus')}</span>
             </div>
           </CardContent>
         </Card>
@@ -187,25 +175,25 @@ export function ReferralView({ userRole }: ReferralViewProps) {
         {/* Stats */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Estatísticas</CardTitle>
+            <CardTitle className="text-sm">{t('referral.stats')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="text-center p-3 bg-secondary rounded-lg">
                 <div className="text-2xl font-bold text-foreground">3</div>
-                <div className="text-xs text-muted-foreground">Convidados</div>
+                <div className="text-xs text-muted-foreground">{t('referral.invited')}</div>
               </div>
               <div className="text-center p-3 bg-secondary rounded-lg">
                 <div className="text-2xl font-bold text-green-500">2</div>
-                <div className="text-xs text-muted-foreground">Aceitaram</div>
+                <div className="text-xs text-muted-foreground">{t('referral.accepted')}</div>
               </div>
               <div className="text-center p-3 bg-secondary rounded-lg">
                 <div className="text-2xl font-bold text-yellow-500">1</div>
-                <div className="text-xs text-muted-foreground">1ª Consulta</div>
+                <div className="text-xs text-muted-foreground">{t('referral.firstConsult')}</div>
               </div>
               <div className="text-center p-3 bg-primary/20 rounded-lg">
                 <div className="text-2xl font-bold text-primary">{totalPointsEarned}</div>
-                <div className="text-xs text-muted-foreground">Pts ganhos</div>
+                <div className="text-xs text-muted-foreground">{t('referral.pointsEarned')}</div>
               </div>
             </div>
           </CardContent>
@@ -216,7 +204,7 @@ export function ReferralView({ userRole }: ReferralViewProps) {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <Users className="w-4 h-4" />
-              Os seus Convites
+              {t('referral.yourInvites')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -234,11 +222,11 @@ export function ReferralView({ userRole }: ReferralViewProps) {
                   <div>
                     <p className="text-sm font-medium text-foreground">{invite.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {invite.status === 'registered' && `✅ Conta criada — ${invite.date}`}
-                      {invite.status === 'consultation' && `✅ 1ª consulta — ${invite.date}`}
+                      {invite.status === 'registered' && `✅ ${t('referral.accountCreated')} — ${invite.date}`}
+                      {invite.status === 'consultation' && `✅ ${t('referral.firstConsultDone')} — ${invite.date}`}
                       {invite.status === 'pending' && (
                         <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> Pendente — Enviado há {invite.date}
+                          <Clock className="w-3 h-3" /> {t('referral.pending')} — {t('referral.sentAgo')} {invite.date}
                         </span>
                       )}
                     </p>
