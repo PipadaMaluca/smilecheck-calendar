@@ -86,7 +86,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div>
             <p className="text-sm font-semibold text-white">{remoteName}</p>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-400">
-              <Video className="w-3 h-3" /> Teleconsulta
+              <Video className="w-3 h-3" /> {t('teleconsult.title')}
             </span>
           </div>
         </div>
