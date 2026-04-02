@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 
 interface DentistFiltersProps {
   searchQuery: string;
@@ -43,43 +44,38 @@ export function DentistFilters({
   sortBy,
   onSortChange,
 }: DentistFiltersProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showFilters, setShowFilters] = useState(!isMobile);
 
   return (
     <div className="space-y-3">
-      {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Pesquisar por nome ou especialidade..."
+          placeholder={t('search.searchByNameSpec')}
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           className="pl-10 bg-secondary border-border h-11"
         />
       </div>
-
-      {/* Mobile toggle */}
       {isMobile && (
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <SlidersHorizontal className="w-4 h-4" />
-          <span>Filtros</span>
+          <span>{t('search.filterTitle')}</span>
         </button>
       )}
-
-      {/* Filters */}
       {showFilters && (
         <div className={cn(
           'gap-2',
           isMobile ? 'flex flex-col' : 'flex flex-wrap items-center'
         )}>
-          {/* Distance */}
           <Select value={String(distance)} onValueChange={(v) => onDistanceChange(Number(v))}>
             <SelectTrigger className="w-auto min-w-[130px] bg-secondary border-border h-9 text-sm">
-              <SelectValue placeholder="Distância" />
+              <SelectValue placeholder={t('search.distance')} />
             </SelectTrigger>
             <SelectContent className="bg-popover border-border z-50">
               {DISTANCE_FILTERS.map((f) => (
@@ -87,11 +83,9 @@ export function DentistFilters({
               ))}
             </SelectContent>
           </Select>
-
-          {/* Specialty */}
           <Select value={specialty} onValueChange={onSpecialtyChange}>
             <SelectTrigger className="w-auto min-w-[150px] bg-secondary border-border h-9 text-sm">
-              <SelectValue placeholder="Especialidade" />
+              <SelectValue placeholder={t('search.specialty')} />
             </SelectTrigger>
             <SelectContent className="bg-popover border-border z-50">
               {SPECIALTIES.map((s) => (
@@ -99,8 +93,6 @@ export function DentistFilters({
               ))}
             </SelectContent>
           </Select>
-
-          {/* Availability */}
           {!isMobile ? (
             <ScrollArea className="max-w-[400px]">
               <div className="flex gap-1.5">
@@ -124,7 +116,7 @@ export function DentistFilters({
           ) : (
             <Select value={availability} onValueChange={onAvailabilityChange}>
               <SelectTrigger className="w-auto min-w-[140px] bg-secondary border-border h-9 text-sm">
-                <SelectValue placeholder="Disponibilidade" />
+                <SelectValue placeholder={t('search.availability')} />
               </SelectTrigger>
               <SelectContent className="bg-popover border-border z-50">
                 {AVAILABILITY_FILTERS.map((a) => (
@@ -133,11 +125,9 @@ export function DentistFilters({
               </SelectContent>
             </Select>
           )}
-
-          {/* Sort */}
           <Select value={sortBy} onValueChange={onSortChange}>
             <SelectTrigger className="w-auto min-w-[150px] bg-secondary border-border h-9 text-sm">
-              <SelectValue placeholder="Ordenar por" />
+              <SelectValue placeholder={t('search.sortBy')} />
             </SelectTrigger>
             <SelectContent className="bg-popover border-border z-50">
               {SORT_OPTIONS.map((o) => (
