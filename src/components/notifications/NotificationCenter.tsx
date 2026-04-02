@@ -171,6 +171,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   const { t } = useTranslation();
   const FILTERS = useFilterLabels();
   const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
+  const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const recent = notifications.slice(0, 12);
