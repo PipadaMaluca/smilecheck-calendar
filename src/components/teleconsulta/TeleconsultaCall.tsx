@@ -146,7 +146,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-2 md:gap-3 py-3 px-4 bg-gradient-to-t from-black/80 to-transparent">
             <ToolbarButton
               icon={isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              label={isMuted ? 'Sem som' : 'Micro'}
+              label={isMuted ? t('teleconsult.unmute') : t('teleconsult.mute')}
               active={!isMuted}
               danger={isMuted}
               onClick={() => setIsMuted(!isMuted)}
