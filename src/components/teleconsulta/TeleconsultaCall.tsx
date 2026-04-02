@@ -202,7 +202,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           <div className="fixed md:static inset-0 md:inset-auto z-20 md:z-auto md:w-80 lg:w-96 bg-[#12121a] border-l border-white/5 flex flex-col">
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
               <h3 className="text-sm font-semibold text-white">
-                {activePanel === 'chat' ? 'Chat' : 'Notas da Consulta'}
+                {activePanel === 'chat' ? t('teleconsult.chat') : t('teleconsult.notesTitle')}
               </h3>
               <Button variant="ghost" size="icon" className="text-white/50 hover:text-white h-8 w-8" onClick={() => setActivePanel(null)}>
                 <X className="w-4 h-4" />
