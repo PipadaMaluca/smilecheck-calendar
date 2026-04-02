@@ -189,7 +189,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             <div className="md:hidden">
               <ToolbarButton
                 icon={<Phone className="w-5 h-5 rotate-[135deg]" />}
-                label="Desligar"
+                label={t('teleconsult.hangUp')}
                 danger
                 onClick={onEnd}
               />
