@@ -31,6 +31,7 @@ const MOCK_CHAT: ChatMessage[] = [
 ];
 
 export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: TeleconsultaCallProps) {
+  const { t } = useTranslation();
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOff, setIsCameraOff] = useState(false);
   const [isScreenSharing, setIsScreenSharing] = useState(false);
