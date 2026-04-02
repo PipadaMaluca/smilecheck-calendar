@@ -166,7 +166,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             />
             <ToolbarButton
               icon={<Paperclip className="w-5 h-5" />}
-              label="Foto"
+              label={t('teleconsult.attachPhoto')}
               onClick={() => {/* file picker mock */}}
             />
             {isDentist && (
