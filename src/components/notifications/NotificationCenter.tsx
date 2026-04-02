@@ -310,7 +310,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
           onClick={handleViewAll}
           className="w-full py-2.5 text-center text-sm text-primary font-medium hover:bg-accent/30 transition-colors cursor-pointer">
 
-          Ver todas as notificações
+          {t('notifications.viewAll')}
         </div>
       </div>
     </div>);
