@@ -122,7 +122,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                 <User className="w-12 h-12" />
               </div>
               <p className="text-lg font-medium">{remoteName}</p>
-              {isCameraOff && <p className="text-xs text-white/20">Câmara desligada</p>}
+              {isCameraOff && <p className="text-xs text-white/20">{t('teleconsult.cameraOff')}</p>}
             </div>
 
             {/* Live indicator */}
