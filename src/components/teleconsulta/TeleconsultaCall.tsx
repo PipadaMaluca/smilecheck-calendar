@@ -106,7 +106,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             className="gap-1.5 text-xs"
             onClick={onEnd}
           >
-            <Phone className="w-3.5 h-3.5 rotate-[135deg]" /> Terminar
+            <Phone className="w-3.5 h-3.5 rotate-[135deg]" /> {t('teleconsult.endCall')}
           </Button>
         </div>
       </div>
