@@ -232,7 +232,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                   <Input
                     value={chatInput}
                     onChange={e => setChatInput(e.target.value)}
-                    placeholder="Escrever mensagem..."
+                    placeholder={t('chat.typeMessage')}
                     className="flex-1 bg-white/5 border-white/10 text-white text-sm"
                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
                   />
