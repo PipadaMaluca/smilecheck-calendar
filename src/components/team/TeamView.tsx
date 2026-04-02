@@ -3,6 +3,7 @@ import { AlertCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UserRole } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 // Clinic tabs
 import { ClinicTeamTab } from './clinic/ClinicTeamTab';
@@ -20,16 +21,18 @@ interface TeamViewProps {
 }
 
 function PatientTeamView() {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center justify-center py-20 text-muted-foreground gap-3">
       <AlertCircle className="w-10 h-10 text-muted-foreground/50" />
-      <p className="text-lg font-medium">Página não disponível</p>
-      <p className="text-sm text-muted-foreground/70">Esta secção não está disponível para pacientes.</p>
+      <p className="text-lg font-medium">{t('team.notAvailable')}</p>
+      <p className="text-sm text-muted-foreground/70">{t('team.notAvailableDesc')}</p>
     </div>
   );
 }
 
 function ClinicTeamView() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('equipa');
   const [preselectedDentistId, setPreselectedDentistId] = useState<string | undefined>();
 
@@ -41,16 +44,16 @@ function ClinicTeamView() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-xl font-bold text-foreground">Gestão de Equipa</h1>
-        <p className="text-sm text-muted-foreground">Equipa, horários, disponibilidade e permissões</p>
+        <h1 className="text-xl font-bold text-foreground">{t('team.title')}</h1>
+        <p className="text-sm text-muted-foreground">{t('team.subtitle')}</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full overflow-x-auto justify-start flex-nowrap">
-          <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">Equipa</TabsTrigger>
-          <TabsTrigger value="horarios" className="text-xs whitespace-nowrap flex-shrink-0">Horários da Clínica</TabsTrigger>
-          <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">Disponibilidade</TabsTrigger>
-          <TabsTrigger value="cobertura" className="text-xs whitespace-nowrap flex-shrink-0">Cobertura</TabsTrigger>
+          <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.teamTab')}</TabsTrigger>
+          <TabsTrigger value="horarios" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.clinicHours')}</TabsTrigger>
+          <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.availability')}</TabsTrigger>
+          <TabsTrigger value="cobertura" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.coverage')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="equipa" className="mt-4">
@@ -71,17 +74,18 @@ function ClinicTeamView() {
 }
 
 function DentistTeamView() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-xl font-bold text-foreground">A Minha Disponibilidade</h1>
-        <p className="text-sm text-muted-foreground">Configure os seus horários de trabalho</p>
+        <h1 className="text-xl font-bold text-foreground">{t('team.myAvailability')}</h1>
+        <p className="text-sm text-muted-foreground">{t('team.myAvailabilitySubtitle')}</p>
       </div>
 
       <Tabs defaultValue="disponibilidade" className="w-full">
         <TabsList className="w-full overflow-x-auto justify-start flex-nowrap">
-          <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">Disponibilidade</TabsTrigger>
-          <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">Equipa</TabsTrigger>
+          <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.availability')}</TabsTrigger>
+          <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.teamTab')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="disponibilidade" className="mt-4">

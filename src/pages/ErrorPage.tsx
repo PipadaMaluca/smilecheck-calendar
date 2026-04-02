@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ErrorPageProps {
   errorCode?: number | string;
@@ -9,6 +10,7 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ errorCode = 500, onRetry }: ErrorPageProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleRetry = () => {
     if (onRetry) {
@@ -37,22 +39,22 @@ export default function ErrorPage({ errorCode = 500, onRetry }: ErrorPageProps) 
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold text-foreground">Algo correu mal</h1>
+          <h1 className="text-2xl font-bold text-foreground">{t('errors.errorTitle')}</h1>
           <p className="text-sm text-muted-foreground">
-            Ocorreu um erro inesperado. Tente novamente.
+            {t('errors.errorSubtitle')}
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button onClick={handleRetry} className="gap-2 min-h-[44px]">
-            🔄 Tentar novamente
+            🔄 {t('errors.tryAgain')}
           </Button>
           <Button variant="outline" onClick={() => navigate("/")} className="gap-2 min-h-[44px]">
-            🏠 Voltar ao Início
+            🏠 {t('errors.goHome')}
           </Button>
         </div>
 
-        <p className="text-xs text-muted-foreground/60">Erro: {errorCode}</p>
+        <p className="text-xs text-muted-foreground/60">{t('errors.errorCode')}: {errorCode}</p>
       </div>
     </div>
   );
