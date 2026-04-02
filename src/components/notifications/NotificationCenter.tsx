@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { mockScoreHistory } from '@/types/scoring';
+import { useTranslation } from 'react-i18next';
 
 export type NotificationType =
 'lembrete_24h' | 'lembrete_1h' | 'feedback' | 'receita' | 'referencia' |
