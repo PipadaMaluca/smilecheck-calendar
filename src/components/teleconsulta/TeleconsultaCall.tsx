@@ -173,7 +173,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
               <>
                 <ToolbarButton
                   icon={<FileText className="w-5 h-5" />}
-                  label="Notas"
+                  label={t('teleconsult.notes')}
                   active={activePanel === 'notes'}
                   onClick={() => togglePanel('notes')}
                 />
