@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { patientPayments, savedCards, generateReceipt } from './billingMockData';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface PatientBillingViewProps {
   initialTab?: string;
@@ -16,6 +17,7 @@ interface PatientBillingViewProps {
 }
 
 export function PatientBillingView({ initialTab, onNavigate }: PatientBillingViewProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(initialTab || 'resumo');
   const [filter, setFilter] = useState('todos');
   const [showNewCard, setShowNewCard] = useState(false);
@@ -35,38 +37,38 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Pagamentos e Faturação</h1>
-          <p className="text-sm text-muted-foreground mt-1">Gerir pagamentos, recibos e dados fiscais</p>
+          <h1 className="text-xl font-bold text-foreground">{t('billing.patientTitle')}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t('billing.patientSubtitle')}</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full justify-start overflow-x-auto">
-            <TabsTrigger value="resumo">Resumo</TabsTrigger>
-            <TabsTrigger value="historico">Histórico</TabsTrigger>
-            <TabsTrigger value="metodos">Métodos</TabsTrigger>
-            <TabsTrigger value="dados">Dados Fiscais</TabsTrigger>
+            <TabsTrigger value="resumo">{t('billing.summary')}</TabsTrigger>
+            <TabsTrigger value="historico">{t('billing.history')}</TabsTrigger>
+            <TabsTrigger value="metodos">{t('billing.paymentMethods')}</TabsTrigger>
+            <TabsTrigger value="dados">{t('billing.fiscalData')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="resumo" className="space-y-4 mt-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
-                  <p className="text-xs text-muted-foreground">Total gasto este mês</p>
+                  <p className="text-xs text-muted-foreground">{t('billing.totalSpent')}</p>
                   <p className="text-2xl font-bold text-foreground mt-1">€{totalMonth.toFixed(2)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
-                  <p className="text-xs text-muted-foreground">Teleconsultas pagas</p>
+                  <p className="text-xs text-muted-foreground">{t('billing.teleconsultPaid')}</p>
                   <p className="text-2xl font-bold text-foreground mt-1">{teleCount}</p>
                   <p className="text-xs text-muted-foreground">€{teleTotal}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
-                  <p className="text-xs text-muted-foreground">Plano atual</p>
+                  <p className="text-xs text-muted-foreground">{t('billing.currentPlan')}</p>
                   <p className="text-lg font-bold text-foreground mt-1">Pro</p>
-                  <p className="text-xs text-muted-foreground">€4,99/mês</p>
+                  <p className="text-xs text-muted-foreground">€4,99/{t('billing.monthly').toLowerCase()}</p>
                 </CardContent>
               </Card>
             </div>
@@ -74,9 +76,9 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="historico" className="space-y-4 mt-4">
             <div className="flex gap-2 flex-wrap">
-              {['todos', 'teleconsultas', 'planos'].map(f => (
-                <Button key={f} size="sm" variant={filter === f ? 'default' : 'outline'} onClick={() => setFilter(f)} className="capitalize text-xs">
-                  {f}
+              {[{ k: 'todos', l: t('common.all') }, { k: 'teleconsultas', l: t('billing.teleconsultas') }, { k: 'planos', l: t('billing.plan') }].map(f => (
+                <Button key={f.k} size="sm" variant={filter === f.k ? 'default' : 'outline'} onClick={() => setFilter(f.k)} className="text-xs">
+                  {f.l}
                 </Button>
               ))}
             </div>
@@ -90,7 +92,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     </div>
                     <div className="flex items-center gap-2 ml-3">
                       <span className="text-sm font-bold text-foreground">€{p.amount.toFixed(2)}</span>
-                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success('Recibo descarregado'); }}>
+                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>
@@ -98,21 +100,21 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                 </Card>
               ))}
             </div>
-            <Button variant="outline" className="w-full gap-2" onClick={() => toast.success('Histórico exportado')}>
-              <Download className="w-4 h-4" /> Exportar histórico
+            <Button variant="outline" className="w-full gap-2" onClick={() => toast.success(t('billing.historyExported'))}>
+              <Download className="w-4 h-4" /> {t('billing.exportHistory')}
             </Button>
           </TabsContent>
 
           <TabsContent value="metodos" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Cartões guardados</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.savedCards')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 {savedCards.map(c => (
                   <div key={c.id} className="flex items-center justify-between py-2">
                     <div className="flex items-center gap-3">
                       <CreditCard className="w-4 h-4 text-muted-foreground" />
                       <span className="text-sm text-foreground">{c.type} ****{c.last4}</span>
-                      {c.isDefault && <Badge variant="secondary" className="text-[10px]"><Star className="w-3 h-3 mr-1" /> Predefinido</Badge>}
+                      {c.isDefault && <Badge variant="secondary" className="text-[10px]"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
                     </div>
                     <div className="flex gap-1">
                       <Button size="icon" variant="ghost" className="h-7 w-7"><Edit2 className="w-3 h-3" /></Button>
@@ -124,7 +126,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                   <div className="space-y-3 border border-border rounded-xl p-4 bg-secondary/30 animate-in slide-in-from-top-2">
                     <div className="relative">
                       <Input
-                        placeholder="Número do cartão"
+                        placeholder={t('billing.cardNumber')}
                         value={newCardNumber}
                         onChange={e => {
                           const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
@@ -153,20 +155,20 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                       }} maxLength={5} className="flex-1" />
                       <Input placeholder="CVV" value={newCardCvv} onChange={e => setNewCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} maxLength={3} className="w-24" type="password" />
                     </div>
-                    <Input placeholder="Nome no cartão" value={newCardName} onChange={e => setNewCardName(e.target.value)} />
+                    <Input placeholder={t('billing.nameOnCard')} value={newCardName} onChange={e => setNewCardName(e.target.value)} />
                     <div className="flex gap-2">
                       <Button
                         className="flex-1"
                         disabled={newCardNumber.replace(/\s/g, '').length < 16 || newCardExpiry.length < 5 || newCardCvv.length < 3 || !newCardName.trim()}
-                        onClick={() => { toast.success('Cartão adicionado'); setShowNewCard(false); setNewCardNumber(''); setNewCardExpiry(''); setNewCardCvv(''); setNewCardName(''); }}
+                        onClick={() => { toast.success(t('billing.cardAdded')); setShowNewCard(false); setNewCardNumber(''); setNewCardExpiry(''); setNewCardCvv(''); setNewCardName(''); }}
                       >
-                        Continuar
+                        {t('common.continue')}
                       </Button>
-                      <button className="text-xs text-muted-foreground hover:text-foreground px-3" onClick={() => setShowNewCard(false)}>Cancelar</button>
+                      <button className="text-xs text-muted-foreground hover:text-foreground px-3" onClick={() => setShowNewCard(false)}>{t('common.cancel')}</button>
                     </div>
                   </div>
                 ) : (
-                  <Button variant="outline" className="w-full gap-2" onClick={() => setShowNewCard(true)}><Plus className="w-4 h-4" /> Adicionar cartão</Button>
+                  <Button variant="outline" className="w-full gap-2" onClick={() => setShowNewCard(true)}><Plus className="w-4 h-4" /> {t('billing.addCardBtn')}</Button>
                 )}
               </CardContent>
             </Card>
@@ -186,12 +188,12 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="dados" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Dados de Faturação</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.billingData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
-                <div><label className="text-xs text-muted-foreground">Nome completo</label><Input defaultValue="João Silva" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">NIF (opcional)</label><Input defaultValue="123 456 789" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">Morada de faturação</label><Input defaultValue="Rua da Saúde, 50, 1000-001 Lisboa" className="mt-1" /></div>
-                <Button className="w-full" onClick={() => toast.success('Dados guardados')}>Guardar</Button>
+                <div><label className="text-xs text-muted-foreground">{t('billing.fullName')}</label><Input defaultValue="João Silva" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.taxIdOptional')}</label><Input defaultValue="123 456 789" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.billingAddress')}</label><Input defaultValue="Rua da Saúde, 50, 1000-001 Lisboa" className="mt-1" /></div>
+                <Button className="w-full" onClick={() => toast.success(t('billing.dataSaved'))}>{t('common.save')}</Button>
               </CardContent>
             </Card>
           </TabsContent>
