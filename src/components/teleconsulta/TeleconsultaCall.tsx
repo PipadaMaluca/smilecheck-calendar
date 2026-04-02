@@ -246,10 +246,10 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                 <Textarea
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
-                  placeholder="Notas da consulta..."
+                  placeholder={t('teleconsult.notesPlaceholder')}
                   className="min-h-[300px] bg-white/5 border-white/10 text-white text-sm"
                 />
-                <p className="text-[10px] text-white/30 mt-2">Auto-guardado</p>
+                <p className="text-[10px] text-white/30 mt-2">{t('teleconsult.autoSaved')}</p>
               </div>
             )}
           </div>
