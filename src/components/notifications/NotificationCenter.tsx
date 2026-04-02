@@ -361,7 +361,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
           <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-lg font-bold">Notificações</h2>
+          <h2 className="text-lg font-bold">{t('notifications.title')}</h2>
         </div>
       }
 
