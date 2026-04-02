@@ -233,11 +233,11 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
       {/* Header */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-bold text-foreground">Notificações</h3>
-        <Button variant="ghost" size="sm" className="text-xs text-primary h-8 px-2">
+        <h3 className="text-sm font-bold text-foreground">{t('notifications.title')}</h3>
+        <Button variant="ghost" size="sm" className="text-xs text-primary h-8 px-2" onClick={handleMarkAllRead}>
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          <span className="hidden sm:inline">Marcar todas como lidas</span>
-          <span className="sm:hidden">Marcar lidas</span>
+          <span className="hidden sm:inline">{t('notifications.markAllRead')}</span>
+          <span className="sm:hidden">{t('notifications.markRead')}</span>
         </Button>
       </div>
 
