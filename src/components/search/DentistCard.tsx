@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { DentistSearchResult, LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { useTranslation } from 'react-i18next';
 
 interface DentistCardProps {
   dentist: DentistSearchResult;
@@ -10,6 +11,7 @@ interface DentistCardProps {
 }
 
 export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
+  const { t } = useTranslation();
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const initials = getDentistInitials(dentist.name);
   const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
@@ -22,9 +24,7 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
       )}
       onClick={() => onViewProfile(dentist)}
     >
-      {/* Top row: avatar + info */}
       <div className="flex gap-3">
-        {/* Avatar */}
         {photo ? (
           <img src={photo} alt={dentist.name} className="w-14 h-14 rounded-full object-cover shrink-0" />
         ) : (
@@ -32,18 +32,15 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
             {initials}
           </div>
         )}
-
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-foreground text-sm truncate">{dentist.name}</h3>
             {dentist.previousPatient && (
               <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
-                Já Consultou
+                {t('search.previousPatient')}
               </span>
             )}
           </div>
-
-          {/* Rating + Level */}
           <div className="flex items-center gap-2 mt-0.5">
             <div className="flex items-center gap-1">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
@@ -54,8 +51,6 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
               {levelCfg.label}
             </span>
           </div>
-
-          {/* Specialties */}
           <div className="flex flex-wrap gap-1 mt-1.5">
             {dentist.specialties.map((s) => (
               <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">
@@ -65,8 +60,6 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
           </div>
         </div>
       </div>
-
-      {/* Info row */}
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-1">
           <MapPin className="w-3 h-3" />
@@ -81,8 +74,6 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
           <span>€{dentist.teleconsultaPrice}</span>
         </div>
       </div>
-
-      {/* Clinics */}
       <div className="text-[11px] text-muted-foreground">
         {dentist.clinics.map((c, i) => (
           <span key={c.id}>

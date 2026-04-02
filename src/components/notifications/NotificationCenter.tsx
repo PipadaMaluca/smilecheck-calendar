@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { mockScoreHistory } from '@/types/scoring';
+import { useTranslation } from 'react-i18next';
 
 export type NotificationType =
 'lembrete_24h' | 'lembrete_1h' | 'feedback' | 'receita' | 'referencia' |
@@ -107,12 +108,16 @@ const getNotificationsForRole = (role: UserRole): Notification[] => {
 
 type FilterType = 'todas' | 'nao_lidas' | 'consultas' | 'mensagens' | 'pontos';
 
-const FILTERS: {id: FilterType;label: string;}[] = [
-{ id: 'todas', label: 'Todas' },
-{ id: 'nao_lidas', label: 'Não lidas' },
-{ id: 'consultas', label: 'Consultas' },
-{ id: 'mensagens', label: 'Mensagens' },
-{ id: 'pontos', label: 'Pontos' }];
+function useFilterLabels() {
+  const { t } = useTranslation();
+  return [
+    { id: 'todas' as FilterType, label: t('notifications.all') },
+    { id: 'nao_lidas' as FilterType, label: t('notifications.unread') },
+    { id: 'consultas' as FilterType, label: t('notifications.appointments') },
+    { id: 'mensagens' as FilterType, label: t('notifications.messages') },
+    { id: 'pontos' as FilterType, label: t('notifications.points') },
+  ];
+}
 
 
 const CONSULTATION_TYPES: NotificationType[] = ['lembrete_24h', 'lembrete_1h', 'consulta_alterada', 'consulta_cancelada', 'feedback', 'novo_agendamento', 'paciente_confirmou', 'paciente_cancelou', 'sala_espera', 'feedback_recebido'];
@@ -163,6 +168,8 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationDropdownProps) {
+  const { t } = useTranslation();
+  const FILTERS = useFilterLabels();
   const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -227,11 +234,11 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
       {/* Header */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-3 border-b border-border">
-        <h3 className="text-sm font-bold text-foreground">Notificações</h3>
-        <Button variant="ghost" size="sm" className="text-xs text-primary h-8 px-2">
+        <h3 className="text-sm font-bold text-foreground">{t('notifications.title')}</h3>
+        <Button variant="ghost" size="sm" className="text-xs text-primary h-8 px-2" onClick={handleMarkAllRead}>
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          <span className="hidden sm:inline">Marcar todas como lidas</span>
-          <span className="sm:hidden">Marcar lidas</span>
+          <span className="hidden sm:inline">{t('notifications.markAllRead')}</span>
+          <span className="sm:hidden">{t('notifications.markRead')}</span>
         </Button>
       </div>
 
@@ -257,7 +264,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
         {filteredRecent.length === 0 ?
         <div className="text-center py-8 text-muted-foreground">
             <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
-            <p className="text-xs">Sem notificações</p>
+            <p className="text-xs">{t('notifications.noNotifications')}</p>
           </div> :
 
         filteredRecent.map((notification) => {
@@ -303,7 +310,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
           onClick={handleViewAll}
           className="w-full py-2.5 text-center text-sm text-primary font-medium hover:bg-accent/30 transition-colors cursor-pointer">
 
-          Ver todas as notificações
+          {t('notifications.viewAll')}
         </div>
       </div>
     </div>);
@@ -320,6 +327,8 @@ interface NotificationsFullViewProps {
 }
 
 export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationsFullViewProps) {
+  const { t } = useTranslation();
+  const FILTERS = useFilterLabels();
   const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
 
@@ -352,7 +361,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
           <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-lg font-bold">Notificações</h2>
+          <h2 className="text-lg font-bold">{t('notifications.title')}</h2>
         </div>
       }
 
@@ -373,7 +382,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         <div className="flex-1" />
         <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0" onClick={markAllRead}>
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          Marcar todas
+          {t('notifications.markAllRead')}
         </Button>
       </div>
 
@@ -381,7 +390,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         {filteredNotifications.length === 0 ?
         <div className="text-center py-12 text-muted-foreground">
             <Bell className="w-10 h-10 mx-auto mb-3 opacity-30" />
-            <p className="text-sm">Sem notificações</p>
+            <p className="text-sm">{t('notifications.noNotifications')}</p>
           </div> :
 
         filteredNotifications.map((notification) => {

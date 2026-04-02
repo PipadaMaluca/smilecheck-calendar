@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { clinicDentistRevenue, dentistTeleconsultas, generateReceipt } from './billingMockData';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 interface ClinicBillingViewProps {
   initialTab?: string;
@@ -25,6 +26,7 @@ const monthlyData = [
 ];
 
 export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewProps) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(initialTab || 'resumo');
   const [chartMode, setChartMode] = useState<'mensal' | 'semanal'>('mensal');
   const [expandedDentist, setExpandedDentist] = useState<string | null>(null);
@@ -33,27 +35,27 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
         <div>
-          <h1 className="text-xl font-bold text-foreground">Faturação da Clínica</h1>
-          <p className="text-sm text-muted-foreground mt-1">Receitas, equipa e dados fiscais</p>
+          <h1 className="text-xl font-bold text-foreground">{t('billing.clinicTitle')}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t('billing.clinicSubtitle')}</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full justify-start overflow-x-auto">
-            <TabsTrigger value="resumo">Resumo</TabsTrigger>
-            <TabsTrigger value="dentistas">Por Dentista</TabsTrigger>
-            <TabsTrigger value="teleconsultas">Teleconsultas</TabsTrigger>
-            <TabsTrigger value="plano">Plano</TabsTrigger>
-            <TabsTrigger value="dados">Dados Fiscais</TabsTrigger>
+            <TabsTrigger value="resumo">{t('billing.summary')}</TabsTrigger>
+            <TabsTrigger value="dentistas">{t('billing.perDentist')}</TabsTrigger>
+            <TabsTrigger value="teleconsultas">{t('billing.teleconsultas')}</TabsTrigger>
+            <TabsTrigger value="plano">{t('billing.plan')}</TabsTrigger>
+            <TabsTrigger value="dados">{t('billing.fiscalData')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="resumo" className="space-y-4 mt-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
-                { label: 'Receita total', value: '€12.800', color: '' },
-                { label: 'Teleconsultas', value: '45 (€900)', color: '' },
-                { label: 'Comissão SmileCheck', value: '€135', color: 'text-destructive' },
-                { label: 'Plano', value: 'Pro €39,99/mês', color: '' },
-                { label: 'Líquido', value: '€12.665', color: 'text-primary' },
+                { label: t('billing.totalRevenue'), value: '€12.800', color: '' },
+                { label: t('billing.teleconsultas'), value: '45 (€900)', color: '' },
+                { label: t('billing.commission'), value: '€135', color: 'text-destructive' },
+                { label: t('billing.plan'), value: 'Pro €39,99/' + t('billing.monthly').toLowerCase(), color: '' },
+                { label: t('billing.net'), value: '€12.665', color: 'text-primary' },
               ].map((s, i) => (
                 <Card key={i} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 text-center">
@@ -67,10 +69,12 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm">Receita por dentista</CardTitle>
+                  <CardTitle className="text-sm">{t('billing.revenuePerDentist')}</CardTitle>
                   <div className="flex gap-1">
                     {(['mensal', 'semanal'] as const).map(m => (
-                      <Button key={m} size="sm" variant={chartMode === m ? 'default' : 'outline'} onClick={() => setChartMode(m)} className="text-xs h-7 px-2 capitalize">{m}</Button>
+                      <Button key={m} size="sm" variant={chartMode === m ? 'default' : 'outline'} onClick={() => setChartMode(m)} className="text-xs h-7 px-2">
+                        {m === 'mensal' ? t('billing.monthly') : t('billing.weekly')}
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -100,16 +104,16 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                   <button className="w-full p-4 flex items-center justify-between text-left" onClick={() => setExpandedDentist(expandedDentist === d.id ? null : d.id)}>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{d.name}</p>
-                      <p className="text-xs text-muted-foreground">{d.consultas} consultas · {d.tele} tele · €{d.revenue.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">{d.consultas} {t('billing.consultations')} · {d.tele} {t('billing.tele')} · €{d.revenue.toLocaleString()}</p>
                     </div>
                     {expandedDentist === d.id ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                   </button>
                   {expandedDentist === d.id && (
                     <div className="px-4 pb-4 space-y-2 border-t border-border pt-3">
-                      {dentistTeleconsultas.slice(0, 4).map(t => (
-                        <div key={t.id} className="flex items-center justify-between text-xs text-muted-foreground">
-                          <span>{t.date} — {t.patient} — {t.duration}</span>
-                          <span>€{t.amount}</span>
+                      {dentistTeleconsultas.slice(0, 4).map(tc => (
+                        <div key={tc.id} className="flex items-center justify-between text-xs text-muted-foreground">
+                          <span>{tc.date} — {tc.patient} — {tc.duration}</span>
+                          <span>€{tc.amount}</span>
                         </div>
                       ))}
                     </div>
@@ -120,14 +124,14 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
           </TabsContent>
 
           <TabsContent value="teleconsultas" className="space-y-2 mt-4">
-            {dentistTeleconsultas.map(t => (
-              <Card key={t.id} className="bg-card/80 backdrop-blur border-border">
+            {dentistTeleconsultas.map(tc => (
+              <Card key={tc.id} className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-3 flex items-center justify-between">
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-foreground">{t.date} — {t.patient}</p>
-                    <p className="text-xs text-muted-foreground">{t.duration} · €{t.amount} · Comissão: €{t.commission} · Líquido: €{t.net}</p>
+                    <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
+                    <p className="text-xs text-muted-foreground">{tc.duration} · €{tc.amount} · {t('billing.commissionLabel')}: €{tc.commission} · {t('billing.net')}: €{tc.net}</p>
                   </div>
-                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(t.id, `Teleconsulta ${t.patient}`, t.amount, 'Transferência'); toast.success('Recibo descarregado'); }}>
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                     <Download className="w-4 h-4" />
                   </Button>
                 </CardContent>
@@ -141,30 +145,30 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-semibold text-foreground">Pro</p>
-                    <p className="text-xs text-muted-foreground">€39,99/mês</p>
+                    <p className="text-xs text-muted-foreground">€39,99/{t('billing.monthly').toLowerCase()}</p>
                   </div>
-                  <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[10px]">Activo</Badge>
+                  <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[10px]">{t('billing.active')}</Badge>
                 </div>
                 <div className="text-xs text-muted-foreground space-y-1">
-                  <p>Próxima faturação: 1 Fev 2026</p>
-                  <p>Método: Visa ****4532</p>
+                  <p>{t('billing.nextBillingDate')}: 1 Fev 2026</p>
+                  <p>{t('billing.method')}: Visa ****4532</p>
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => onNavigate?.('plano')}>Alterar Plano</Button>
+                <Button variant="outline" className="w-full" onClick={() => onNavigate?.('plano')}>{t('billing.changePlan')}</Button>
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="dados" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">Dados Fiscais</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.fiscalData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
-                <div><label className="text-xs text-muted-foreground">Nome da Clínica</label><Input defaultValue="Clínica SmileCheck" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">NIF / NIPC</label><Input defaultValue="509 123 456" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">Morada fiscal</label><Input defaultValue="Rua da Saúde, 100, 1000-001 Lisboa" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.clinicName')}</label><Input defaultValue="Clínica SmileCheck" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.taxIdCorp')}</label><Input defaultValue="509 123 456" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.fiscalAddress')}</label><Input defaultValue="Rua da Saúde, 100, 1000-001 Lisboa" className="mt-1" /></div>
                 <div><label className="text-xs text-muted-foreground">IBAN</label><Input defaultValue="PT50 0035 0000 0000 0000 0009 8" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">Responsável financeiro</label><Input defaultValue="Ana Gestão" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">Email financeiro</label><Input defaultValue="financeiro@smilecheck.pt" className="mt-1" /></div>
-                <Button className="w-full" onClick={() => toast.success('Dados guardados')}>Guardar</Button>
+                <div><label className="text-xs text-muted-foreground">{t('billing.financialManager')}</label><Input defaultValue="Ana Gestão" className="mt-1" /></div>
+                <div><label className="text-xs text-muted-foreground">{t('billing.financialEmail')}</label><Input defaultValue="financeiro@smilecheck.pt" className="mt-1" /></div>
+                <Button className="w-full" onClick={() => toast.success(t('billing.dataSaved'))}>{t('common.save')}</Button>
               </CardContent>
             </Card>
           </TabsContent>
