@@ -390,7 +390,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         {filteredNotifications.length === 0 ?
         <div className="text-center py-12 text-muted-foreground">
             <Bell className="w-10 h-10 mx-auto mb-3 opacity-30" />
-            <p className="text-sm">Sem notificações</p>
+            <p className="text-sm">{t('notifications.noNotifications')}</p>
           </div> :
 
         filteredNotifications.map((notification) => {
