@@ -382,7 +382,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         <div className="flex-1" />
         <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0" onClick={markAllRead}>
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          Marcar todas
+          {t('notifications.markAllRead')}
         </Button>
       </div>
 
