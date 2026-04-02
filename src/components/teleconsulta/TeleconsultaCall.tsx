@@ -153,7 +153,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             />
             <ToolbarButton
               icon={isCameraOff ? <VideoOff className="w-5 h-5" /> : <Video className="w-5 h-5" />}
-              label={isCameraOff ? 'Câmara off' : 'Câmara'}
+              label={isCameraOff ? t('teleconsult.cameraOff') : t('teleconsult.camera')}
               active={!isCameraOff}
               danger={isCameraOff}
               onClick={() => setIsCameraOff(!isCameraOff)}
