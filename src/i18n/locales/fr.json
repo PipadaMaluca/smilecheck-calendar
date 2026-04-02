@@ -1258,7 +1258,14 @@
   "notifications": {
     "title": "Notifications",
     "noNotifications": "Aucune notification",
-    "markAllRead": "Tout marquer comme lu"
+    "markAllRead": "Tout marquer comme lu",
+    "markRead": "Marquer lu",
+    "viewAll": "Voir toutes les notifications",
+    "all": "Toutes",
+    "unread": "Non lues",
+    "appointments": "Rendez-vous",
+    "messages": "Messages",
+    "points": "Points"
   },
   "teleconsult": {
     "title": "Téléconsultation",
