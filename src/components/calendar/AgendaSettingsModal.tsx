@@ -313,11 +313,11 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
         {/* Footer */}
         <div className="flex items-center justify-between p-4 border-t border-border">
           <Button variant="outline" size="sm" onClick={handleReset} className="gap-2">
-            <RotateCcw className="w-4 h-4" /> Repor Padrão
+            <RotateCcw className="w-4 h-4" /> {t('agendaSettings.resetDefault')}
           </Button>
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
-            <Button size="sm" onClick={handleSave}>Guardar</Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
+            <Button size="sm" onClick={handleSave}>{t('common.save')}</Button>
           </div>
         </div>
       </div>
