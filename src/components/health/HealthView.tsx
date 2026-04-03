@@ -506,15 +506,15 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <Input type="number" placeholder={t('health.birthYearPlaceholder')} value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label>Parentesco</Label>
+              <Label>{t('health.relationship')}</Label>
               <Select value={newMemberRelation} onValueChange={setNewMemberRelation}>
-                <SelectTrigger><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t('health.selectPlaceholder')} /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Filho/a">Filho/a</SelectItem>
-                  <SelectItem value="Cônjuge">Cônjuge</SelectItem>
-                  <SelectItem value="Pai">Pai</SelectItem>
-                  <SelectItem value="Mãe">Mãe</SelectItem>
-                  <SelectItem value="Outro">Outro</SelectItem>
+                  <SelectItem value="Filho/a">{t('health.child')}</SelectItem>
+                  <SelectItem value="Cônjuge">{t('health.spouse')}</SelectItem>
+                  <SelectItem value="Pai">{t('health.father')}</SelectItem>
+                  <SelectItem value="Mãe">{t('health.mother')}</SelectItem>
+                  <SelectItem value="Outro">{t('health.other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
