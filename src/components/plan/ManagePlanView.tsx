@@ -271,12 +271,12 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div>
               <p className="text-sm font-medium text-foreground">
-                Plano actual: <span className="font-bold">{currentPlan === 'pro' ? 'Pro' : 'Premium'}</span>
+                {t('plan.currentPlan')}: <span className="font-bold">{currentPlan === 'pro' ? 'Pro' : 'Premium'}</span>
               </p>
-              <p className="text-xs text-muted-foreground">Próxima renovação: 28 Fev 2026</p>
+              <p className="text-xs text-muted-foreground">{t('plan.nextRenewal')}: 28 Fev 2026</p>
             </div>
             <Button variant="outline" size="sm" className="text-destructive border-destructive/30 hover:bg-destructive/10" onClick={handleCancel}>
-              Cancelar subscrição
+              {t('plan.cancelSubscription')}
             </Button>
           </CardContent>
         </Card>
