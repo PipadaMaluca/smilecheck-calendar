@@ -250,7 +250,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
 
-          Mensal
+          {t('plan.monthly')}
         </button>
         <button
           onClick={() => setIsAnnual(true)}
@@ -260,8 +260,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-primary text-primary-foreground border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
-
-          Anual
+          {t('plan.annual')}
           <span className="ml-1.5 text-xs font-bold text-emerald-400">-15%</span>
         </button>
       </div>
