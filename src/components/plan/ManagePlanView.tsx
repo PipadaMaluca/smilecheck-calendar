@@ -450,8 +450,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setCheckoutPlan(null)}>Cancelar</Button>
-            <Button onClick={handleSubscribe}>Subscrever</Button>
+            <Button variant="outline" onClick={() => setCheckoutPlan(null)}>{t('common.cancel')}</Button>
+            <Button onClick={handleSubscribe}>{t('plan.subscribe')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
