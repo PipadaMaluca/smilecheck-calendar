@@ -259,7 +259,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 RIGHT: Condições Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Activity} label="Condições Médicas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Activity} label={t('health.conditions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.conditions.length === 0 ? (
