@@ -274,7 +274,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           {editingCategory && hasPremiumPicker && (
             <section className="bg-secondary/30 rounded-xl p-4 space-y-3 border border-border">
               <h4 className="text-xs font-semibold text-foreground">
-                Cor RGB — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
+                {t('agendaSettings.rgbColor')} — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
               </h4>
               <div
                 className="w-full h-10 rounded-lg border border-border"
