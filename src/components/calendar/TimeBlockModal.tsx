@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Repeat } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -38,8 +39,6 @@ interface TimeBlockModalProps {
   editingBlock?: TimeBlock | null;
 }
 
-const QUICK_REASONS = ['Reunião', 'Férias', 'Formação', 'Pausa', 'Pessoal'];
-
 const timeOptions: string[] = [];
 for (let h = 6; h <= 22; h++) {
   timeOptions.push(`${h.toString().padStart(2, '0')}:00`);
@@ -47,6 +46,7 @@ for (let h = 6; h <= 22; h++) {
 }
 
 export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate, initialTime, editingBlock }: TimeBlockModalProps) {
+  const { t } = useTranslation();
   const [startDate, setStartDate] = useState<Date>(editingBlock?.startDate || initialDate || new Date(2026, 0, 31));
   const [startTime, setStartTime] = useState(editingBlock?.startTime || initialTime || '13:00');
   const [endDate, setEndDate] = useState<Date>(editingBlock?.endDate || initialDate || new Date(2026, 0, 31));
@@ -62,6 +62,11 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
   const isEditing = !!editingBlock;
   const reasonRequired = userRole === 'dentist';
 
+  const QUICK_REASONS = [
+    t('timeBlock.meeting'), t('timeBlock.vacation'), t('timeBlock.training'),
+    t('timeBlock.break'), t('timeBlock.personal')
+  ];
+
   function getNextTime(time: string): string {
     const [h, m] = time.split(':').map(Number);
     if (m === 30) return `${(h + 1).toString().padStart(2, '0')}:00`;
@@ -70,28 +75,20 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
 
   const handleSave = () => {
     if (reasonRequired && !reason.trim()) {
-      toast.error('O motivo é obrigatório');
+      toast.error(t('timeBlock.reasonRequired'));
       return;
     }
 
     const block: TimeBlock = {
       id: editingBlock?.id || `block-${Date.now()}`,
-      startDate,
-      startTime,
-      endDate,
-      endTime,
-      reason: reason.trim() || 'Bloqueio',
+      startDate, startTime, endDate, endTime,
+      reason: reason.trim() || t('timeBlock.block'),
       isClinicWide: userRole === 'clinic' ? isClinicWide : false,
-      ...(isRepeat && {
-        repeat: {
-          frequency: repeatFreq,
-          until: repeatUntil,
-        }
-      }),
+      ...(isRepeat && { repeat: { frequency: repeatFreq, until: repeatUntil } }),
     };
 
     onSave(block);
-    toast.success(isEditing ? 'Bloqueio atualizado' : 'Bloqueio criado');
+    toast.success(isEditing ? t('timeBlock.blockUpdated') : t('timeBlock.blockCreated'));
     onClose();
   };
 
@@ -100,22 +97,17 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
       <div className="fixed inset-0 bg-black/50 z-[70]" onClick={onClose} />
       <div className="fixed inset-0 z-[71] flex items-center justify-center p-4">
         <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
-          {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-border">
             <h2 className="text-lg font-bold text-foreground">
-              {isEditing ? 'Editar Bloqueio' : 'Novo Bloqueio'}
+              {isEditing ? t('timeBlock.editBlock') : t('timeBlock.newBlock')}
             </h2>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-5 h-5" />
-            </Button>
+            <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
           </div>
 
-          {/* Content */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {/* Date/Time Row: Start */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">Data início</Label>
+                <Label className="text-xs mb-1 block">{t('timeBlock.startDate')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs">
@@ -123,32 +115,24 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={startDate}
-                      onSelect={d => d && setStartDate(d)}
-                      className="p-3 pointer-events-auto"
-                    />
+                    <Calendar mode="single" selected={startDate} onSelect={d => d && setStartDate(d)} className="p-3 pointer-events-auto" />
                   </PopoverContent>
                 </Popover>
               </div>
               <div>
-                <Label className="text-xs mb-1 block">Hora início</Label>
+                <Label className="text-xs mb-1 block">{t('timeBlock.startTime')}</Label>
                 <Select value={startTime} onValueChange={setStartTime}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent className="max-h-48">
-                    {timeOptions.map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
+                    {timeOptions.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-            {/* Date/Time Row: End */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs mb-1 block">Data fim</Label>
+                <Label className="text-xs mb-1 block">{t('timeBlock.endDate')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs">
@@ -156,92 +140,68 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={endDate}
-                      onSelect={d => d && setEndDate(d)}
-                      className="p-3 pointer-events-auto"
-                    />
+                    <Calendar mode="single" selected={endDate} onSelect={d => d && setEndDate(d)} className="p-3 pointer-events-auto" />
                   </PopoverContent>
                 </Popover>
               </div>
               <div>
-                <Label className="text-xs mb-1 block">Hora fim</Label>
+                <Label className="text-xs mb-1 block">{t('timeBlock.endTime')}</Label>
                 <Select value={endTime} onValueChange={setEndTime}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent className="max-h-48">
-                    {timeOptions.map(t => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
+                    {timeOptions.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-            {/* Reason */}
             <div>
               <Label className="text-xs mb-1 block">
-                Motivo {reasonRequired && <span className="text-destructive">*</span>}
+                {t('common.reason')} {reasonRequired && <span className="text-destructive">*</span>}
               </Label>
-              <Input
-                value={reason}
-                onChange={e => setReason(e.target.value)}
-                placeholder={reasonRequired ? 'Motivo obrigatório...' : 'Motivo opcional...'}
-                className="text-sm"
-              />
+              <Input value={reason} onChange={e => setReason(e.target.value)}
+                placeholder={reasonRequired ? t('timeBlock.reasonMandatory') : t('timeBlock.reasonOptional')} className="text-sm" />
             </div>
 
-            {/* Quick Reasons */}
             <div className="flex flex-wrap gap-2">
               {QUICK_REASONS.map(r => (
-                <Button
-                  key={r}
-                  variant={reason === r ? 'default' : 'outline'}
-                  size="sm"
-                  className="text-xs h-7"
-                  onClick={() => setReason(r)}
-                >
-                  {r}
-                </Button>
+                <Button key={r} variant={reason === r ? 'default' : 'outline'} size="sm" className="text-xs h-7" onClick={() => setReason(r)}>{r}</Button>
               ))}
             </div>
 
-            {/* Clinic-wide (clinic only) */}
             {userRole === 'clinic' && (
               <div className="flex items-center justify-between bg-secondary/30 rounded-lg p-3">
                 <div>
-                  <Label className="text-xs font-medium">Bloqueio geral (toda a clínica)</Label>
-                  <p className="text-[10px] text-muted-foreground">Aplica a todos os dentistas</p>
+                  <Label className="text-xs font-medium">{t('timeBlock.clinicWide')}</Label>
+                  <p className="text-[10px] text-muted-foreground">{t('timeBlock.appliesToAll')}</p>
                 </div>
                 <Switch checked={isClinicWide} onCheckedChange={setIsClinicWide} />
               </div>
             )}
 
-            {/* Repeat */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Repeat className="w-4 h-4 text-muted-foreground" />
-                  <Label>Repetir</Label>
+                  <Label>{t('common.repeat')}</Label>
                 </div>
                 <Switch checked={isRepeat} onCheckedChange={setIsRepeat} />
               </div>
-
               {isRepeat && (
                 <div className="ml-6 space-y-3 border-l-2 border-primary/20 pl-3">
                   <div>
-                    <Label className="text-xs mb-1 block">Frequência</Label>
+                    <Label className="text-xs mb-1 block">{t('common.frequency')}</Label>
                     <Select value={repeatFreq} onValueChange={v => setRepeatFreq(v as typeof repeatFreq)}>
                       <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="daily">Diário</SelectItem>
-                        <SelectItem value="weekly">Semanal</SelectItem>
-                        <SelectItem value="monthly">Mensal</SelectItem>
+                        <SelectItem value="daily">{t('common.daily')}</SelectItem>
+                        <SelectItem value="weekly">{t('common.weekly')}</SelectItem>
+                        <SelectItem value="monthly">{t('common.monthly')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-xs mb-1 block">Até</Label>
+                    <Label className="text-xs mb-1 block">{t('common.until')}</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs">
@@ -249,12 +209,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={repeatUntil}
-                          onSelect={d => d && setRepeatUntil(d)}
-                          className="p-3 pointer-events-auto"
-                        />
+                        <Calendar mode="single" selected={repeatUntil} onSelect={d => d && setRepeatUntil(d)} className="p-3 pointer-events-auto" />
                       </PopoverContent>
                     </Popover>
                   </div>
@@ -263,11 +218,10 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
             </div>
           </div>
 
-          {/* Footer */}
           <div className="flex items-center justify-end gap-2 p-4 border-t border-border">
-            <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
             <Button size="sm" onClick={handleSave}>
-              {isEditing ? 'Guardar' : 'Criar Bloqueio'}
+              {isEditing ? t('common.save') : t('timeBlock.createBlock')}
             </Button>
           </div>
         </div>
@@ -285,6 +239,7 @@ interface TimeBlockDeleteConfirmProps {
 }
 
 export function TimeBlockDeleteConfirm({ isOpen, onClose, onDeleteSingle, onDeleteAll, isRecurring }: TimeBlockDeleteConfirmProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -292,18 +247,18 @@ export function TimeBlockDeleteConfirm({ isOpen, onClose, onDeleteSingle, onDele
       <div className="fixed inset-0 bg-black/50 z-[80]" onClick={onClose} />
       <div className="fixed inset-0 z-[81] flex items-center justify-center p-4">
         <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-sm p-6 space-y-4">
-          <h3 className="text-base font-bold text-foreground">Eliminar Bloqueio</h3>
-          <p className="text-sm text-muted-foreground">Tem a certeza que deseja eliminar este bloqueio?</p>
+          <h3 className="text-base font-bold text-foreground">{t('timeBlock.deleteBlock')}</h3>
+          <p className="text-sm text-muted-foreground">{t('timeBlock.deleteConfirm')}</p>
           <div className="flex flex-col gap-2">
             <Button variant="destructive" size="sm" onClick={() => { onDeleteSingle(); onClose(); }}>
-              {isRecurring ? 'Eliminar apenas este' : 'Eliminar'}
+              {isRecurring ? t('timeBlock.deleteThis') : t('common.delete')}
             </Button>
             {isRecurring && (
               <Button variant="outline" size="sm" className="text-destructive border-destructive/30" onClick={() => { onDeleteAll(); onClose(); }}>
-                Eliminar todos
+                {t('timeBlock.deleteAll')}
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
           </div>
         </div>
       </div>

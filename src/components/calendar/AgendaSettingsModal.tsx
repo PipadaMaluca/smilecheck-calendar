@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, RotateCcw, Lock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -53,6 +54,7 @@ interface AgendaSettingsModalProps {
 }
 
 export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRole, userPlan = 'free' }: AgendaSettingsModalProps) {
+  const { t } = useTranslation();
   const [local, setLocal] = useState<AgendaSettings>({ ...settings });
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
   const [rgbValues, setRgbValues] = useState({ r: 0, g: 0, b: 0 });
@@ -94,13 +96,13 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
 
   const handleSave = () => {
     onSave(local);
-    toast.success('Configurações da agenda guardadas');
+    toast.success(t('agendaSettings.settingsSaved'));
     onClose();
   };
 
   const handleReset = () => {
     setLocal({ ...DEFAULT_SETTINGS });
-    toast.info('Configurações repostas ao padrão');
+    toast.info(t('agendaSettings.settingsReset'));
   };
 
   const startHourOptions = Array.from({ length: 5 }, (_, i) => 6 + i);
@@ -113,7 +115,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
       <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border z-[61] flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-lg font-bold text-foreground">Modificar Horários</h2>
+          <h2 className="text-lg font-bold text-foreground">{t('agendaSettings.title')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
           </Button>
@@ -123,14 +125,14 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* VISUALIZAÇÃO */}
           <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Visualização</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.visualization')}</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label>Mostrar Domingos</Label>
+                <Label>{t('agendaSettings.showSundays')}</Label>
                 <Switch checked={local.showSundays} onCheckedChange={v => update('showSundays', v)} />
               </div>
               <div className="flex items-center justify-between">
-                <Label>Hora de início do dia</Label>
+                <Label>{t('agendaSettings.dayStartHour')}</Label>
                 <Select value={String(local.startHour)} onValueChange={v => update('startHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -141,7 +143,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Hora de fim do dia</Label>
+                <Label>{t('agendaSettings.dayEndHour')}</Label>
                 <Select value={String(local.endHour)} onValueChange={v => update('endHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -152,7 +154,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Duração padrão dos slots</Label>
+                <Label>{t('agendaSettings.defaultSlotDuration')}</Label>
                 <Select value={String(local.slotDuration)} onValueChange={v => update('slotDuration', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -163,11 +165,11 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Mostrar slots livres</Label>
+                <Label>{t('agendaSettings.showFreeSlots')}</Label>
                 <Switch checked={local.showFreeSlots} onCheckedChange={v => update('showFreeSlots', v)} />
               </div>
               <div className="flex items-center justify-between">
-                <Label>Mostrar pausas/bloqueios</Label>
+                <Label>{t('agendaSettings.showBlocks')}</Label>
                 <Switch checked={local.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
               </div>
             </div>
@@ -175,19 +177,19 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
 
           {/* DENSIDADE */}
           <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Densidade</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.density')}</h3>
             <RadioGroup value={local.density} onValueChange={v => update('density', v as AgendaSettings['density'])} className="space-y-2">
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="compact" id="density-compact" />
-                <Label htmlFor="density-compact">Compacto (mais consultas visíveis)</Label>
+                <Label htmlFor="density-compact">{t('agendaSettings.compact')}</Label>
               </div>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="normal" id="density-normal" />
-                <Label htmlFor="density-normal">Normal (padrão)</Label>
+                <Label htmlFor="density-normal">{t('agendaSettings.normal')}</Label>
               </div>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="expanded" id="density-expanded" />
-                <Label htmlFor="density-expanded">Expandido (mais detalhes)</Label>
+                <Label htmlFor="density-expanded">{t('agendaSettings.expanded')}</Label>
               </div>
             </RadioGroup>
           </section>
@@ -195,15 +197,15 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           {/* CORES POR TIPO DE CONSULTA */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Cores por Tipo de Consulta</h3>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">{t('agendaSettings.colorsByType')}</h3>
               {!canEditColors && <Lock className="w-3.5 h-3.5 text-muted-foreground" />}
             </div>
 
             {!canEditColors && (
               <div className="bg-secondary/50 rounded-lg p-3 mb-3">
                 <p className="text-xs text-muted-foreground">
-                  Personalizar cores disponível em <span className="text-primary font-semibold">Pro/Premium</span>.{' '}
-                  <button className="text-primary underline text-xs">Fazer upgrade</button>
+                  {t('agendaSettings.customizeColors')} <span className="text-primary font-semibold">Pro/Premium</span>.{' '}
+                  <button className="text-primary underline text-xs">{t('agendaSettings.upgrade')}</button>
                 </p>
               </div>
             )}
@@ -247,9 +249,9 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
             </div>
 
             {/* Block color */}
-            <p className="text-xs font-medium text-muted-foreground mb-2">Cor dos bloqueios</p>
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t('agendaSettings.blockColor')}</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-foreground">Bloqueios</span>
+              <span className="text-xs text-foreground">{t('agendaSettings.blocks')}</span>
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: local.blockColor }} />
                 {canEditColors && (
@@ -272,7 +274,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           {editingCategory && hasPremiumPicker && (
             <section className="bg-secondary/30 rounded-xl p-4 space-y-3 border border-border">
               <h4 className="text-xs font-semibold text-foreground">
-                Cor RGB — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
+                {t('agendaSettings.rgbColor')} — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
               </h4>
               <div
                 className="w-full h-10 rounded-lg border border-border"
@@ -301,8 +303,8 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </div>
               ))}
               <div className="flex gap-2 justify-end">
-                <Button variant="ghost" size="sm" onClick={() => setEditingCategory(null)}>Cancelar</Button>
-                <Button size="sm" onClick={applyRgb}>Aplicar</Button>
+                <Button variant="ghost" size="sm" onClick={() => setEditingCategory(null)}>{t('common.cancel')}</Button>
+                <Button size="sm" onClick={applyRgb}>{t('common.apply')}</Button>
               </div>
             </section>
           )}
@@ -311,11 +313,11 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
         {/* Footer */}
         <div className="flex items-center justify-between p-4 border-t border-border">
           <Button variant="outline" size="sm" onClick={handleReset} className="gap-2">
-            <RotateCcw className="w-4 h-4" /> Repor Padrão
+            <RotateCcw className="w-4 h-4" /> {t('agendaSettings.resetDefault')}
           </Button>
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
-            <Button size="sm" onClick={handleSave}>Guardar</Button>
+            <Button variant="ghost" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
+            <Button size="sm" onClick={handleSave}>{t('common.save')}</Button>
           </div>
         </div>
       </div>

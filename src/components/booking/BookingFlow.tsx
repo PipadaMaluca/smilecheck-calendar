@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight,
   AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Clock,
@@ -43,6 +44,7 @@ const ALL_SLOTS = [
 const OCCUPIED_SLOTS = ['09:30', '10:30', '14:30', '16:00', '17:30', '19:30'];
 
 export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTime, initialDayLabel }: BookingFlowProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const skipClinic = dentist.clinics.length <= 1;
 
@@ -221,9 +223,9 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex items-start gap-3">
             <Building2 className="w-6 h-6 text-primary mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">Presencial</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Na clínica {data.clinic?.name}</p>
-              <p className="text-xs text-primary mt-1">A pagar na clínica</p>
+              <p className="font-semibold text-foreground">{t('booking.inPerson')}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('booking.atClinic')} {data.clinic?.name}</p>
+              <p className="text-xs text-primary mt-1">{t('booking.payAtClinic')}</p>
             </div>
           </div>
         </button>
@@ -239,8 +241,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex items-start gap-3">
             <Video className="w-6 h-6 text-primary mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">Teleconsulta</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Consulta por vídeo</p>
+              <p className="font-semibold text-foreground">{t('editConsultation.teleconsultation')}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('booking.videoConsultation')}</p>
               <p className="text-xs text-primary mt-1">€{dentist.teleconsultaPrice}</p>
             </div>
           </div>
@@ -253,7 +255,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             />
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-destructive" />
-              <span className="text-sm text-foreground">É urgente (+€5)</span>
+              <span className="text-sm text-foreground">{t('booking.isUrgent')} (+€5)</span>
             </div>
           </label>
         )}
@@ -360,23 +362,23 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <h3 className="text-lg font-semibold text-foreground">Pagamento</h3>
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
-        <p className="text-sm font-medium text-foreground">Teleconsulta com {dentist.name}</p>
+        <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
         <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString('pt-PT')} ⏰ {data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Teleconsulta</span>
+            <span className="text-muted-foreground">{t('editConsultation.teleconsultation')}</span>
             <span className="text-foreground">€{dentist.teleconsultaPrice}</span>
           </div>
           {data.isUrgent && (
             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Taxa urgência</span>
+              <span className="text-muted-foreground">{t('booking.urgencyFee')}</span>
               <span className="text-foreground">€5</span>
             </div>
           )}
           {discount > 0 && (
             <div className="flex justify-between text-sm text-emerald-400">
-              <span>Desconto (-20%)</span>
+              <span>{t('booking.discount')} (-20%)</span>
               <span>-€{discount.toFixed(2)}</span>
             </div>
           )}
@@ -389,7 +391,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
       {/* Saved cards */}
       <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">Cartões guardados</p>
+        <p className="text-xs font-medium text-muted-foreground">{t('booking.savedCards')}</p>
         <button
           onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
           className={cn(
@@ -405,12 +407,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
       {/* Payment methods */}
       <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">Outro método</p>
+        <p className="text-xs font-medium text-muted-foreground">{t('booking.otherMethod')}</p>
         {[
-          { id: 'card-new', label: 'Novo cartão', icon: <CreditCard className="w-4 h-4" />, expandable: true },
+          { id: 'card-new', label: t('booking.newCard'), icon: <CreditCard className="w-4 h-4" />, expandable: true },
           { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
           { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" />, expandable: false },
-          { id: 'pontos', label: `Pontos SmileCheck (Saldo: 850 pts)`, icon: <Coins className="w-4 h-4" />, expandable: false },
+          { id: 'pontos', label: t('booking.pointsBalance', { balance: 850 }), icon: <Coins className="w-4 h-4" />, expandable: false },
         ].map(m => (
           <div key={m.id}>
             <button
@@ -430,7 +432,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
           <div className="relative">
             <Input
-              placeholder="Número do cartão"
+              placeholder={t('booking.cardNumber')}
               value={cardNumber}
               onChange={e => {
                 const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
@@ -453,12 +455,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
           </div>
           {cardNumber.length > 0 && cardNumber.replace(/\s/g, '').length < 16 && (
-            <p className="text-xs text-destructive">Número de cartão deve ter 16 dígitos</p>
+            <p className="text-xs text-destructive">{t('booking.cardNumberDigits')}</p>
           )}
           <div className="flex gap-3">
             <div className="flex-1">
               <Input
-                placeholder="MM/AA"
+                placeholder="MM/YY"
                 value={cardExpiry}
                 onChange={e => {
                   let val = e.target.value.replace(/\D/g, '').slice(0, 4);
@@ -480,21 +482,21 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 type="password"
               />
               {cardCvv.length > 0 && cardCvv.length < 3 && (
-                <p className="text-xs text-destructive mt-1">3 dígitos</p>
+                <p className="text-xs text-destructive mt-1">{t('booking.digits3')}</p>
               )}
             </div>
           </div>
           <Input
-            placeholder="Nome no cartão"
+            placeholder={t('booking.cardName')}
             value={cardName}
             onChange={e => setCardName(e.target.value)}
           />
           {cardName.length === 0 && cardNumber.length > 0 && (
-            <p className="text-xs text-destructive">Nome obrigatório</p>
+            <p className="text-xs text-destructive">{t('booking.nameRequired')}</p>
           )}
           <label className="flex items-center gap-2 cursor-pointer">
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
-            <span className="text-xs text-muted-foreground">Guardar cartão para futuras consultas</span>
+            <span className="text-xs text-muted-foreground">{t('booking.saveCardFuture')}</span>
           </label>
               <div className="flex gap-2 pt-1">
                 <Button
@@ -506,7 +508,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                   onClick={() => {
                     setPaymentMethod('card');
                     setUseSavedCard(true);
-                    toast.success('✅ Cartão adicionado com sucesso');
+                    toast.success(t('booking.cardAdded'));
                   }}
                   className="text-xs"
                 >
@@ -528,18 +530,18 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* MB WAY */}
       {paymentMethod === 'mbway' && (
         <div className="animate-fade-in space-y-2">
-          <Input placeholder="Número de telemóvel" value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={16} />
-          <p className="text-xs text-muted-foreground">Confirmar no telemóvel</p>
+          <Input placeholder={t('booking.phoneNumber')} value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={16} />
+          <p className="text-xs text-muted-foreground">{t('booking.confirmOnPhone')}</p>
         </div>
       )}
 
       {/* Multibanco */}
       {paymentMethod === 'multibanco' && (
         <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Entidade</span><span className="text-foreground font-mono">21 312</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Referência</span><span className="text-foreground font-mono">123 456 789</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">Valor</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
-          <p className="text-xs text-muted-foreground">Válido durante 24h</p>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
+          <p className="text-xs text-muted-foreground">{t('booking.validFor24h')}</p>
         </div>
       )}
 
@@ -553,10 +555,10 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
       {/* Promo code */}
       <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground flex items-center gap-1"><Tag className="w-3 h-3" /> Código promocional</p>
+        <p className="text-xs font-medium text-muted-foreground flex items-center gap-1"><Tag className="w-3 h-3" /> {t('booking.promoCode')}</p>
         <div className="flex gap-2">
-          <Input placeholder="Código" value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
-          <Button size="sm" variant="outline" onClick={handleApplyPromo}>Aplicar</Button>
+          <Input placeholder={t('booking.code')} value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
+          <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
         {promoApplied === true && <p className="text-xs text-emerald-400">✅ -20% aplicado! Total: €{finalPrice.toFixed(2)}</p>}
         {promoApplied === false && <p className="text-xs text-destructive">❌ Código inválido</p>}
@@ -565,7 +567,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Terms */}
       <label className="flex items-center gap-3 cursor-pointer">
         <Checkbox checked={acceptTerms} onCheckedChange={(v) => setAcceptTerms(!!v)} />
-        <span className="text-xs text-muted-foreground">Aceito os termos e condições</span>
+        <span className="text-xs text-muted-foreground">{t('booking.acceptTerms')}</span>
       </label>
     </div>
   );
@@ -573,7 +575,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const renderProcessing = () => (
     <div className="flex flex-col items-center text-center space-y-5 py-16 animate-fade-in">
       <Loader2 className="w-12 h-12 text-primary animate-spin" />
-      <p className="text-sm text-muted-foreground">A processar pagamento...</p>
+      <p className="text-sm text-muted-foreground">{t('booking.processing')}</p>
     </div>
   );
 
@@ -585,12 +587,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <X className="w-8 h-8 text-destructive" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">Pagamento não processado</h3>
-            <p className="text-sm text-muted-foreground mt-1">Tente novamente ou altere o método de pagamento</p>
+            <h3 className="text-xl font-bold text-foreground">{t('booking.paymentFailed')}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{t('booking.tryAgainOrChange')}</p>
           </div>
           <div className="flex gap-3 w-full pt-2">
-            <Button variant="outline" className="flex-1" onClick={() => setStep('payment')}>Alterar método</Button>
-            <Button className="flex-1" onClick={handlePay}>Tentar novamente</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setStep('payment')}>{t('booking.changeMethod')}</Button>
+            <Button className="flex-1" onClick={handlePay}>{t('booking.tryAgain')}</Button>
           </div>
         </>
       ) : (
@@ -599,15 +601,15 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <Check className="w-8 h-8 text-emerald-500" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">{data.consultationType === 'teleconsulta' ? 'Pagamento confirmado!' : 'Consulta Agendada!'}</h3>
-            <p className="text-sm text-muted-foreground mt-1">Receberá confirmação por email</p>
+            <h3 className="text-xl font-bold text-foreground">{data.consultationType === 'teleconsulta' ? t('booking.paymentConfirmed') : t('booking.appointmentBooked')}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{t('booking.confirmationEmail')}</p>
           </div>
           {data.consultationType === 'teleconsulta' && (
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
-              <p className="font-medium text-foreground text-sm">Recibo</p>
+              <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>Nº {receiptId}</p>
               <p>{data.date?.toLocaleDateString('pt-PT')} — €{finalPrice.toFixed(2)}</p>
-              <p>Método: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
+              <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
           <div className="w-full space-y-2 text-left">
@@ -659,7 +661,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     return (
       <div className="flex gap-3 pt-4">
         {currentIdx === 0 ? (
-          <Button variant="outline" className="flex-1 border-border" onClick={onClose}>Cancelar</Button>
+          <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
         ) : (
           <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
             <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
@@ -667,7 +669,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         )}
         {step === 'confirm' ? (
           <Button className="flex-1" onClick={handleConfirm}>
-            {data.consultationType === 'teleconsulta' ? 'Seguinte' : 'Confirmar'}
+            {data.consultationType === 'teleconsulta' ? t('common.next') : t('common.confirm')}
             {data.consultationType !== 'teleconsulta' && <Check className="w-4 h-4 ml-1" />}
             {data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
           </Button>
@@ -689,7 +691,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {step !== 'success' && step !== 'processing' && (
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Passo {currentIdx + 1} de {visibleSteps.length}</span>
+            <span>{t('common.step')} {currentIdx + 1} {t('common.of')} {visibleSteps.length}</span>
           </div>
           <Progress value={progress} className="h-1.5" />
         </div>
@@ -714,7 +716,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         {step !== 'success' && step !== 'processing' && (
           <div className="flex gap-3 p-4 border-t border-border bg-background">
             {currentIdx === 0 ? (
-              <Button variant="outline" className="flex-1 border-border" onClick={onClose}>Cancelar</Button>
+              <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
             ) : (
               <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
                 <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
@@ -722,7 +724,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             )}
             {step === 'confirm' ? (
               <Button className="flex-1" onClick={handleConfirm}>
-                {data.consultationType === 'teleconsulta' ? 'Seguinte' : 'Confirmar'}
+                {data.consultationType === 'teleconsulta' ? t('common.next') : t('common.confirm')}
                 {data.consultationType !== 'teleconsulta' && <Check className="w-4 h-4 ml-1" />}
                 {data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
               </Button>

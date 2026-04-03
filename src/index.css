@@ -145,6 +145,18 @@
 }
 
 @layer components {
+  /* Prevent button text overflow for longer FR/EN translations */
+  button, [role="button"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Allow action buttons in grids to wrap text when needed */
+  .grid button {
+    min-width: 0;
+    white-space: normal;
+    word-break: break-word;
+  }
   .glass-card {
     @apply bg-card/40 backdrop-blur-xl border border-white/10 rounded-2xl;
     box-shadow: 
