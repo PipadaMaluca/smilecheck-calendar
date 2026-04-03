@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { mockFamilyMembers } from '@/data/mockData';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { useTranslation } from 'react-i18next';
 
 // Interfaces and types
 interface HealthViewProps {
