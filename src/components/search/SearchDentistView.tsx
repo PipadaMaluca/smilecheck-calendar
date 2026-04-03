@@ -11,7 +11,7 @@ import { DentistCard } from './DentistCard';
 import { DentistProfileModal } from './DentistProfileModal';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import smileCheckIcon from '@/assets/smilecheck-icon.png';
-import { TriageData, TRIAGE_SYMPTOMS } from '@/types/triage';
+import { TriageData } from '@/types/triage';
 import { useTranslation } from 'react-i18next';
 
 interface SearchDentistViewProps {
