@@ -502,8 +502,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <Input placeholder={t('health.namePlaceholder')} value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label>Ano de Nascimento</Label>
-              <Input type="number" placeholder="Ex: 1990" value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
+              <Label>{t('health.birthYear')}</Label>
+              <Input type="number" placeholder={t('health.birthYearPlaceholder')} value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label>Parentesco</Label>
