@@ -226,8 +226,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground">O Seu Plano</h2>
-          <p className="text-sm text-muted-foreground">Escolha o plano ideal para si</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">{t('plan.title')}</h2>
+          <p className="text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
         <Badge className={cn(
           'text-xs font-bold px-3 py-1 self-start sm:self-auto',
