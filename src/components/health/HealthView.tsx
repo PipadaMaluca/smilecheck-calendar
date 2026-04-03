@@ -321,9 +321,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">Grupo Sanguíneo</label>
+                <label className="text-xs font-medium text-muted-foreground">{t('health.bloodGroup')}</label>
                 <Select value={data.bloodType} onValueChange={(v) => { updateData(d => ({ ...d, bloodType: v })); setProfileChanged(true); }}>
-                  <SelectTrigger className="h-9"><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                  <SelectTrigger className="h-9"><SelectValue placeholder={t('health.selectPlaceholder')} /></SelectTrigger>
                   <SelectContent>
                     {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(t => (
                       <SelectItem key={t} value={t}>{t}</SelectItem>
