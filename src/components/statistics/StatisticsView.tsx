@@ -15,6 +15,7 @@ import { UserRole } from '@/types/calendar';
 import { ConfirmationsTab } from './ConfirmationsTab';
 import { WaitingListTab } from './WaitingListTab';
 import { ExportReportModal } from './ExportReportModal';
+import { useTranslation } from 'react-i18next';
 
 type Period = 'today' | 'week' | 'month';
 type SubTab = 'geral' | 'confirmacoes' | 'lista_espera';
@@ -26,6 +27,7 @@ interface StatisticsViewProps {
 }
 
 export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
+  const { t } = useTranslation();
   const [period, setPeriod] = useState<Period>('today');
   const [selectedClinic, setSelectedClinic] = useState('all');
   const [selectedDentist, setSelectedDentist] = useState('all');
@@ -42,7 +44,6 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
     setSelectedDentist('all');
   };
 
-  // ===== Geral tab data =====
   const filteredConsultations = useMemo(() => {
     let cons = mockConsultations.filter((c) => {
       if (selectedClinic !== 'all' && c.clinic.id !== selectedClinic) return false;
@@ -82,95 +83,88 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   }, [filteredConsultations]);
 
   const SUB_TABS: {id: SubTab;label: string;}[] = [
-  { id: 'geral', label: 'Geral' },
-  { id: 'confirmacoes', label: 'Confirmações' },
-  { id: 'lista_espera', label: 'Lista de Espera' }];
-
+    { id: 'geral', label: t('statistics.general') },
+    { id: 'confirmacoes', label: t('statistics.confirmations') },
+    { id: 'lista_espera', label: t('statistics.waitingList') },
+  ];
 
   return (
     <ScrollArea className="flex-1">
       <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-4 sm:space-y-6">
-        {/* Sub-tab bar — horizontal scrollable on mobile */}
         <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
           <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit min-w-full sm:min-w-0">
-            {SUB_TABS.map((t) =>
-            <button
-              key={t.id}
-              data-subtab={t.id}
-              onClick={() => setActiveSubTab(t.id)}
-              className={cn(
-                'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
-                activeSubTab === t.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-              )}>
-
-                {t.label}
+            {SUB_TABS.map((tab) =>
+              <button
+                key={tab.id}
+                data-subtab={tab.id}
+                onClick={() => setActiveSubTab(tab.id)}
+                className={cn(
+                  'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
+                  activeSubTab === tab.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                )}>
+                {tab.label}
               </button>
             )}
           </div>
         </div>
 
-        {/* Filters row — stacks on mobile */}
         <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3">
-          {/* Period filters - only on Geral */}
           {activeSubTab === 'geral' &&
-          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-1 bg-secondary/50 rounded-lg p-1 w-fit">
                 {[
-              { id: 'today' as Period, label: 'Hoje' },
-              { id: 'week' as Period, label: 'Esta semana' },
-              { id: 'month' as Period, label: 'Este mês' }].
-              map((p) =>
-              <button
-                key={p.id}
-                onClick={() => setPeriod(p.id)}
-                className={cn(
-                  'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
-                  period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
-                )}>
-
+                  { id: 'today' as Period, label: t('statistics.today') },
+                  { id: 'week' as Period, label: t('statistics.thisWeek') },
+                  { id: 'month' as Period, label: t('statistics.thisMonth') },
+                ].map((p) =>
+                  <button
+                    key={p.id}
+                    onClick={() => setPeriod(p.id)}
+                    className={cn(
+                      'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
+                      period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                    )}>
                     {p.label}
                   </button>
-              )}
+                )}
               </div>
             </div>
           }
 
-          {/* Dropdowns — full width on mobile, inline on desktop */}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-3">
             <Select value={selectedClinic} onValueChange={handleClinicChange}>
               <SelectTrigger className="w-full sm:w-[200px] h-9 text-xs">
-                <SelectValue placeholder="Todas as clínicas" />
+                <SelectValue placeholder={t('statistics.allClinics')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todas as clínicas</SelectItem>
+                <SelectItem value="all">{t('statistics.allClinics')}</SelectItem>
                 {mockClinics.map((c) =>
-                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                  <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                 )}
               </SelectContent>
             </Select>
 
             <Select value={selectedDentist} onValueChange={setSelectedDentist}>
               <SelectTrigger className="w-full sm:w-[200px] h-9 text-xs">
-                <SelectValue placeholder="Todos os dentistas" />
+                <SelectValue placeholder={t('statistics.allDentists')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos os dentistas</SelectItem>
+                <SelectItem value="all">{t('statistics.allDentists')}</SelectItem>
                 {selectedClinic === 'all' ?
-                mockClinics.map((clinic) => {
-                  const dentists = getDentistsForClinic(clinic.id);
-                  return (
-                    <SelectGroup key={clinic.id}>
+                  mockClinics.map((clinic) => {
+                    const dentists = getDentistsForClinic(clinic.id);
+                    return (
+                      <SelectGroup key={clinic.id}>
                         <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
                         {dentists.map((d) =>
-                      <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
-                      )}
-                      </SelectGroup>);
-
-                }) :
-
-                availableDentists.map((d) =>
-                <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
-                )
+                          <SelectItem key={`${clinic.id}-${d.id}`} value={d.id}>{d.name}</SelectItem>
+                        )}
+                      </SelectGroup>
+                    );
+                  }) :
+                  availableDentists.map((d) =>
+                    <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                  )
                 }
               </SelectContent>
             </Select>
@@ -182,21 +176,18 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
             size="sm"
             className="gap-2 text-xs w-full sm:w-auto"
             onClick={() => setShowExportModal(true)}>
-
-            <Download className="w-3.5 h-3.5" /> Exportar Relatório
+            <Download className="w-3.5 h-3.5" /> {t('statistics.exportReport')}
           </Button>
         </div>
 
-        {/* Tab content */}
         {activeSubTab === 'geral' &&
-        <div className="space-y-6">
-            {/* Summary cards — 1 col mobile, 2 col tablet, 4 col desktop */}
+          <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-xs font-medium">Total Consultas</span>
+                    <span className="text-xs font-medium">{t('statistics.totalConsultations')}</span>
                   </div>
                   <span className="text-2xl font-bold text-foreground">{totalConsultations}</span>
                 </CardContent>
@@ -205,7 +196,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span className="text-xs font-medium">Taxa Confirmação</span>
+                    <span className="text-xs font-medium">{t('statistics.confirmationRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold text-foreground">{confirmRate}%</span>
@@ -217,7 +208,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <XCircle className="w-4 h-4" />
-                    <span className="text-xs font-medium">Taxa de Faltas</span>
+                    <span className="text-xs font-medium">{t('statistics.absenceRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold text-foreground">{faltaRate}%</span>
@@ -229,31 +220,30 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="w-4 h-4" />
-                    <span className="text-xs font-medium">Receita Estimada</span>
+                    <span className="text-xs font-medium">{t('statistics.estimatedRevenue')}</span>
                   </div>
                   <span className="text-2xl font-bold text-foreground">€{revenue}</span>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Per dentist table — horizontal scroll on small screens */}
             <div>
-              <h2 className="text-lg font-semibold text-foreground mb-3">Por Dentista</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-3">{t('statistics.byDentist')}</h2>
               <Card className="bg-card/80 border-border overflow-hidden">
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-xs">Dentista</TableHead>
-                        <TableHead className="text-xs text-center">Consultas</TableHead>
-                        <TableHead className="text-xs text-center">Faltas</TableHead>
-                        <TableHead className="text-xs text-center">Rating</TableHead>
-                        <TableHead className="text-xs hidden sm:table-cell">Desempenho</TableHead>
+                        <TableHead className="text-xs">{t('statistics.dentist')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('statistics.consultations')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('statistics.absences')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('statistics.rating')}</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">{t('statistics.performance')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {dentistStats.map((d) =>
-                    <TableRow key={d.id}>
+                        <TableRow key={d.id}>
                           <TableCell className="text-sm font-medium"><ClickableDentistName name={d.name} className="text-sm font-medium" /></TableCell>
                           <TableCell className="text-sm text-center">{d.consultations}</TableCell>
                           <TableCell className="text-sm text-center">{d.faltas}</TableCell>
@@ -267,32 +257,31 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                             <Progress value={d.consultations / Math.max(totalConsultations, 1) * 100} className="h-2" />
                           </TableCell>
                         </TableRow>
-                    )}
+                      )}
                     </TableBody>
                   </Table>
                 </div>
               </Card>
             </div>
 
-            {/* Top patients */}
             <div>
-              <h2 className="text-lg font-semibold text-foreground mb-3">Top Pacientes</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-3">{t('statistics.topPatients')}</h2>
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4">
                   <div className="space-y-3">
                     {topPatients.map((p, i) =>
-                  <div key={p.name} className="flex items-center gap-3">
+                      <div key={p.name} className="flex items-center gap-3">
                         <span className="text-xs font-bold text-muted-foreground w-6">#{i + 1}</span>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-foreground"><ClickablePatientName name={p.name} className="text-sm font-medium text-foreground" /></p>
-                          <p className="text-xs text-muted-foreground">{p.count} consultas</p>
+                          <p className="text-xs text-muted-foreground">{p.count} {t('statistics.consultations').toLowerCase()}</p>
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                           <span className="text-xs">{p.rating.toFixed(1)}</span>
                         </div>
                       </div>
-                  )}
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -301,15 +290,15 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
         }
 
         {activeSubTab === 'confirmacoes' &&
-        <ConfirmationsTab selectedDentist={selectedDentist} userRole={userRole} />
+          <ConfirmationsTab selectedDentist={selectedDentist} userRole={userRole} />
         }
 
         {activeSubTab === 'lista_espera' &&
-        <WaitingListTab selectedDentist={selectedDentist} userRole={userRole} />
+          <WaitingListTab selectedDentist={selectedDentist} userRole={userRole} />
         }
       </div>
 
       <ExportReportModal isOpen={showExportModal} onClose={() => setShowExportModal(false)} userRole={userRole} />
-    </ScrollArea>);
-
+    </ScrollArea>
+  );
 }

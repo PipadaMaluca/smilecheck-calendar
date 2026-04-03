@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface ManagePlanViewProps {
   userRole: UserRole;
@@ -192,6 +193,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
 };
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
+  const { t } = useTranslation();
   const [currentPlan] = useState<PlanTier>('pro');
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
@@ -200,23 +202,23 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const plans = PLANS_BY_ROLE[userRole] || PLANS_BY_ROLE.patient;
 
   const formatPrice = (plan: Plan) => {
-    if (plan.monthlyPrice === 0) return { main: 'Grátis', sub: '' };
+    if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
     if (isAnnual) {
       return {
-        main: `€${plan.annualPrice.toFixed(2)}/ano`,
-        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/mês`
+        main: `€${plan.annualPrice.toFixed(2)}/${t('plan.annual').toLowerCase()}`,
+        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/${t('plan.monthly').toLowerCase()}`
       };
     }
-    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: '/mês' };
+    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: `/${t('plan.monthly').toLowerCase()}` };
   };
 
   const handleSubscribe = () => {
-    toast.success(`Plano ${checkoutPlan?.name} ativado com sucesso!`);
+    toast.success(t('plan.planActivated', { plan: checkoutPlan?.name }));
     setCheckoutPlan(null);
   };
 
   const handleCancel = () => {
-    toast.success('Subscrição cancelada. Voltará ao plano Free no final do período.');
+    toast.success(t('plan.cancelled'));
   };
 
   return (
@@ -224,8 +226,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground">O Seu Plano</h2>
-          <p className="text-sm text-muted-foreground">Escolha o plano ideal para si</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">{t('plan.title')}</h2>
+          <p className="text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
         <Badge className={cn(
           'text-xs font-bold px-3 py-1 self-start sm:self-auto',
@@ -248,7 +250,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
 
-          Mensal
+          {t('plan.monthly')}
         </button>
         <button
           onClick={() => setIsAnnual(true)}
@@ -258,8 +260,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-primary text-primary-foreground border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
-
-          Anual
+          {t('plan.annual')}
           <span className="ml-1.5 text-xs font-bold text-emerald-400">-15%</span>
         </button>
       </div>
@@ -270,12 +271,12 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
             <div>
               <p className="text-sm font-medium text-foreground">
-                Plano actual: <span className="font-bold">{currentPlan === 'pro' ? 'Pro' : 'Premium'}</span>
+                {t('plan.currentPlan')}: <span className="font-bold">{currentPlan === 'pro' ? 'Pro' : 'Premium'}</span>
               </p>
-              <p className="text-xs text-muted-foreground">Próxima renovação: 28 Fev 2026</p>
+              <p className="text-xs text-muted-foreground">{t('plan.nextRenewal')}: 28 Fev 2026</p>
             </div>
             <Button variant="outline" size="sm" className="text-destructive border-destructive/30 hover:bg-destructive/10" onClick={handleCancel}>
-              Cancelar subscrição
+              {t('plan.cancelSubscription')}
             </Button>
           </CardContent>
         </Card>
@@ -387,7 +388,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   disabled={isCurrent}
                   onClick={() => !isCurrent && setCheckoutPlan(plan)}>
 
-                  {isCurrent ? 'Plano Actual' : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? 'Subscrever' : 'Escolher'}
+                  {isCurrent ? t('plan.currentPlanBtn') : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? t('plan.subscribe') : t('plan.choose')}
                 </Button>
               </CardContent>
             </Card>);
@@ -399,19 +400,19 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Subscrever {checkoutPlan?.name}</DialogTitle>
+            <DialogTitle>{t('plan.subscribeTo')} {checkoutPlan?.name}</DialogTitle>
             <DialogDescription>
-              {checkoutPlan && formatPrice(checkoutPlan).main}{checkoutPlan && !isAnnual ? '/mês' : ''}
+              {checkoutPlan && formatPrice(checkoutPlan).main}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Método de pagamento</Label>
+              <Label className="text-sm font-medium">{t('plan.paymentMethod')}</Label>
               <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <RadioGroupItem value="card" id="card" />
                   <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm">Cartão de crédito/débito</Label>
+                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm">{t('plan.cardLabel')}</Label>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <RadioGroupItem value="paypal" id="paypal" />
@@ -427,15 +428,15 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </div>
             {paymentMethod === 'card' &&
             <div className="space-y-3">
-                <div><Label className="text-xs">Número do cartão</Label><Input placeholder="4242 4242 4242 4242" /></div>
+                <div><Label className="text-xs">{t('plan.cardNumber')}</Label><Input placeholder="4242 4242 4242 4242" /></div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div><Label className="text-xs">Validade</Label><Input placeholder="MM/AA" /></div>
-                  <div><Label className="text-xs">CVC</Label><Input placeholder="123" /></div>
+                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder="MM/AA" /></div>
+                  <div><Label className="text-xs">{t('plan.cvc')}</Label><Input placeholder="123" /></div>
                 </div>
               </div>
             }
             {paymentMethod === 'mbway' &&
-            <div><Label className="text-xs">Número de telemóvel</Label><Input placeholder="+351 912 345 678" /></div>
+            <div><Label className="text-xs">{t('plan.phoneNumber')}</Label><Input placeholder="+351 912 345 678" /></div>
             }
             <div className="bg-secondary/50 rounded-lg p-3 space-y-1">
               <div className="flex justify-between text-sm">
@@ -449,8 +450,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setCheckoutPlan(null)}>Cancelar</Button>
-            <Button onClick={handleSubscribe}>Subscrever</Button>
+            <Button variant="outline" onClick={() => setCheckoutPlan(null)}>{t('common.cancel')}</Button>
+            <Button onClick={handleSubscribe}>{t('plan.subscribe')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

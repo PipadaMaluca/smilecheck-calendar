@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { mockFamilyMembers } from '@/data/mockData';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { useTranslation } from 'react-i18next';
 
 // Interfaces and types
 interface HealthViewProps {
@@ -86,6 +87,7 @@ const emptyHealthData = (): MemberHealthData => ({
 });
 
 export function HealthView({ userRole, onNavigate }: HealthViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   const [members, setMembers] = useState<FamilyMember[]>([...mockFamilyMembers]);
@@ -158,9 +160,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         <div className="space-y-1">
           <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
             <Heart className="w-6 h-6 text-primary" />
-            A Minha Saúde
+            {t('health.title')}
           </h1>
-          <p className="text-sm text-muted-foreground">Mantenha os seus dados atualizados</p>
+          <p className="text-sm text-muted-foreground">{t('health.subtitle')}</p>
         </div>
 
         {/* Family Member Tabs */}
@@ -179,10 +181,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               >
                 <span className="text-sm font-medium whitespace-nowrap">{member.name}</span>
                 <div className="flex items-center gap-1 mt-0.5">
-                  <span className="text-[10px] text-muted-foreground">{member.age} anos</span>
+                  <span className="text-[10px] text-muted-foreground">{member.age} {t('health.years')}</span>
                   {member.age < 18 && (
                     <Badge variant="secondary" className="text-[8px] px-1 py-0 h-3.5 bg-amber-500/20 text-amber-400 border-amber-500/30">
-                      Menor
+                      {t('health.minor')}
                     </Badge>
                   )}
                 </div>
@@ -193,7 +195,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               className="flex-shrink-0 flex items-center gap-1 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
             >
               <UserPlus className="w-4 h-4" />
-              <span className="text-xs font-medium whitespace-nowrap">Adicionar</span>
+              <span className="text-xs font-medium whitespace-nowrap">{t('health.add')}</span>
             </button>
           </div>
         </div>
@@ -204,7 +206,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 LEFT: Alergias e Intolerâncias */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label={t('health.allergies')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
@@ -246,9 +248,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Outra alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
+                <Input placeholder={t('health.otherAllergy')} value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
                 <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
@@ -257,11 +259,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 RIGHT: Condições Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Activity} label="Condições Médicas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Activity} label={t('health.conditions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.conditions.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma condição registada</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noConditions')}</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {data.conditions.map((c, i) => (
@@ -273,9 +275,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Nova condição..." value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
+                <Input placeholder={t('health.newCondition')} value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
                 <Button size="sm" onClick={() => { if (newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} disabled={!newCondition.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
@@ -284,11 +286,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 2 LEFT: Medicação Actual */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Pill} label="Medicação Actual" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Pill} label={t('health.currentMedication')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.medications.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma medicação registada</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noMedication')}</p>
               ) : (
                 <div className="space-y-2">
                   {data.medications.map((m, i) => (
@@ -303,10 +305,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Medicamento..." value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Dosagem..." value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
+                <Input placeholder={t('health.medication')} value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder={t('health.dosage')} value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
                 <Button size="sm" onClick={() => { if (newMedName.trim()) { updateData(d => ({ ...d, medications: [...d.medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }] })); setNewMedName(''); setNewMedDosage(''); } }} disabled={!newMedName.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
@@ -315,13 +317,13 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 2 RIGHT: Perfil de Saúde */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Droplets} label="Perfil de Saúde" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Droplets} label={t('health.healthProfile')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-medium text-muted-foreground">Grupo Sanguíneo</label>
+                <label className="text-xs font-medium text-muted-foreground">{t('health.bloodGroup')}</label>
                 <Select value={data.bloodType} onValueChange={(v) => { updateData(d => ({ ...d, bloodType: v })); setProfileChanged(true); }}>
-                  <SelectTrigger className="h-9"><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                  <SelectTrigger className="h-9"><SelectValue placeholder={t('health.selectPlaceholder')} /></SelectTrigger>
                   <SelectContent>
                     {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(t => (
                       <SelectItem key={t} value={t}>{t}</SelectItem>
@@ -332,19 +334,19 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                    <Ruler className="w-3 h-3" /> Altura (cm)
+                    <Ruler className="w-3 h-3" /> {t('health.height')}
                   </label>
                   <Input type="number" value={data.height} onChange={e => { updateData(d => ({ ...d, height: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                    <Weight className="w-3 h-3" /> Peso (kg)
+                    <Weight className="w-3 h-3" /> {t('health.weight')}
                   </label>
                   <Input type="number" value={data.weight} onChange={e => { updateData(d => ({ ...d, weight: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
               </div>
               {profileChanged && (
-                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">Guardar</Button>
+                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">{t('health.save')}</Button>
               )}
             </CardContent>
           </Card>
@@ -352,11 +354,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 LEFT: Histórico de Vacinas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Syringe} label="Histórico de Vacinas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Syringe} label={t('health.vaccines')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.vaccines.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma vacina registada</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noVaccines')}</p>
               ) : (
                 <div className="space-y-2">
                   {data.vaccines.map((v, i) => (
@@ -371,10 +373,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Vacina..." value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Data..." value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
+                <Input placeholder={t('health.vaccine')} value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder={t('health.dateLabel')} value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
                 <Button size="sm" onClick={() => { if (newVaccineName.trim()) { updateData(d => ({ ...d, vaccines: [...d.vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }] })); setNewVaccineName(''); setNewVaccineDate(''); } }} disabled={!newVaccineName.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
@@ -383,19 +385,19 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 RIGHT: Documentos Médicos */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={FileText} label="Documentos Médicos" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={FileText} label={t('health.medicalDocuments')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Tabs value={docFilter} onValueChange={setDocFilter}>
                 <TabsList className="h-8">
-                  <TabsTrigger value="todos" className="text-xs px-3 h-7">Todos</TabsTrigger>
-                  <TabsTrigger value="receita" className="text-xs px-3 h-7">Receitas</TabsTrigger>
-                  <TabsTrigger value="exame" className="text-xs px-3 h-7">Exames</TabsTrigger>
-                  <TabsTrigger value="outro" className="text-xs px-3 h-7">Outros</TabsTrigger>
+                  <TabsTrigger value="todos" className="text-xs px-3 h-7">{t('health.all')}</TabsTrigger>
+                  <TabsTrigger value="receita" className="text-xs px-3 h-7">{t('health.prescriptions')}</TabsTrigger>
+                  <TabsTrigger value="exame" className="text-xs px-3 h-7">{t('health.exams')}</TabsTrigger>
+                  <TabsTrigger value="outro" className="text-xs px-3 h-7">{t('health.others')}</TabsTrigger>
                 </TabsList>
               </Tabs>
               {filteredDocs.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhum documento</p>
+                <p className="text-sm text-muted-foreground italic py-4 text-center">{t('health.noDocuments')}</p>
               ) : (
                 <div className="space-y-2">
                   {filteredDocs.map(doc => (
@@ -410,14 +412,14 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         </div>
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                        <Eye className="w-3.5 h-3.5" /> Ver
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewBtn')}
                       </Button>
                     </div>
                   ))}
                 </div>
               )}
               <Button variant="outline" size="sm" className="w-full gap-1.5">
-                <Upload className="w-4 h-4" /> Carregar Documento
+                <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
               </Button>
             </CardContent>
           </Card>
@@ -425,11 +427,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 LEFT: Receitas Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label="Receitas Médicas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.prescriptions.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma receita</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noPrescriptions')}</p>
               ) : (
                 <div className="space-y-2">
                   {data.prescriptions.map(rx => (
@@ -440,7 +442,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                       </div>
                       <p className="text-xs text-muted-foreground">{rx.medications}</p>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs h-7 px-2 mt-1">
-                        <Eye className="w-3.5 h-3.5" /> Ver PDF
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
                       </Button>
                     </div>
                   ))}
@@ -452,11 +454,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 RIGHT: Cartas de Referência */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Send} label="Cartas de Referência" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {referrals.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhuma carta de referência</p>
+                <p className="text-sm text-muted-foreground italic py-4 text-center">{t('health.noReferralLetters')}</p>
               ) : (
                 <div className="space-y-2">
                   {referrals.map(ref => (
@@ -471,14 +473,14 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         <p className="text-xs text-muted-foreground">{ref.date}</p>
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                        <Eye className="w-3.5 h-3.5" /> Ver PDF
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
                       </Button>
                     </div>
                   ))}
                 </div>
               )}
               <Button variant="outline" size="sm" className="w-full gap-1.5">
-                <Upload className="w-4 h-4" /> Carregar Documento
+                <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
               </Button>
             </CardContent>
           </Card>
@@ -491,35 +493,35 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <UserPlus className="w-5 h-5 text-primary" />
-              Adicionar Membro Familiar
+              {t('health.addFamilyMember')}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label>Nome</Label>
-              <Input placeholder="Nome completo..." value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
+              <Label>{t('health.name')}</Label>
+              <Input placeholder={t('health.namePlaceholder')} value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label>Ano de Nascimento</Label>
-              <Input type="number" placeholder="Ex: 1990" value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
+              <Label>{t('health.birthYear')}</Label>
+              <Input type="number" placeholder={t('health.birthYearPlaceholder')} value={newMemberBirthYear} onChange={e => setNewMemberBirthYear(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label>Parentesco</Label>
+              <Label>{t('health.relationship')}</Label>
               <Select value={newMemberRelation} onValueChange={setNewMemberRelation}>
-                <SelectTrigger><SelectValue placeholder="Selecionar..." /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t('health.selectPlaceholder')} /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Filho/a">Filho/a</SelectItem>
-                  <SelectItem value="Cônjuge">Cônjuge</SelectItem>
-                  <SelectItem value="Pai">Pai</SelectItem>
-                  <SelectItem value="Mãe">Mãe</SelectItem>
-                  <SelectItem value="Outro">Outro</SelectItem>
+                  <SelectItem value="Filho/a">{t('health.child')}</SelectItem>
+                  <SelectItem value="Cônjuge">{t('health.spouse')}</SelectItem>
+                  <SelectItem value="Pai">{t('health.father')}</SelectItem>
+                  <SelectItem value="Mãe">{t('health.mother')}</SelectItem>
+                  <SelectItem value="Outro">{t('health.other')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancelar</Button>
-            <Button onClick={addMember} disabled={!newMemberName.trim() || !newMemberRelation}>Adicionar</Button>
+            <Button variant="outline" onClick={() => setShowAddModal(false)}>{t('common.cancel')}</Button>
+            <Button onClick={addMember} disabled={!newMemberName.trim() || !newMemberRelation}>{t('health.add')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
