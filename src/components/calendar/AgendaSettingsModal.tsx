@@ -177,19 +177,19 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
 
           {/* DENSIDADE */}
           <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Densidade</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.density')}</h3>
             <RadioGroup value={local.density} onValueChange={v => update('density', v as AgendaSettings['density'])} className="space-y-2">
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="compact" id="density-compact" />
-                <Label htmlFor="density-compact">Compacto (mais consultas visíveis)</Label>
+                <Label htmlFor="density-compact">{t('agendaSettings.compact')}</Label>
               </div>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="normal" id="density-normal" />
-                <Label htmlFor="density-normal">Normal (padrão)</Label>
+                <Label htmlFor="density-normal">{t('agendaSettings.normal')}</Label>
               </div>
               <div className="flex items-center gap-2">
                 <RadioGroupItem value="expanded" id="density-expanded" />
-                <Label htmlFor="density-expanded">Expandido (mais detalhes)</Label>
+                <Label htmlFor="density-expanded">{t('agendaSettings.expanded')}</Label>
               </div>
             </RadioGroup>
           </section>
