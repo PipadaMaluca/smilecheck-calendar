@@ -442,7 +442,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                       </div>
                       <p className="text-xs text-muted-foreground">{rx.medications}</p>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs h-7 px-2 mt-1">
-                        <Eye className="w-3.5 h-3.5" /> Ver PDF
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
                       </Button>
                     </div>
                   ))}
