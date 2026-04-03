@@ -428,10 +428,10 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </div>
             {paymentMethod === 'card' &&
             <div className="space-y-3">
-                <div><Label className="text-xs">Número do cartão</Label><Input placeholder="4242 4242 4242 4242" /></div>
+                <div><Label className="text-xs">{t('plan.cardNumber')}</Label><Input placeholder="4242 4242 4242 4242" /></div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div><Label className="text-xs">Validade</Label><Input placeholder="MM/AA" /></div>
-                  <div><Label className="text-xs">CVC</Label><Input placeholder="123" /></div>
+                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder="MM/AA" /></div>
+                  <div><Label className="text-xs">{t('plan.cvc')}</Label><Input placeholder="123" /></div>
                 </div>
               </div>
             }
