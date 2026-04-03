@@ -334,7 +334,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                    <Ruler className="w-3 h-3" /> Altura (cm)
+                    <Ruler className="w-3 h-3" /> {t('health.height')}
                   </label>
                   <Input type="number" value={data.height} onChange={e => { updateData(d => ({ ...d, height: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
