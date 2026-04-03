@@ -15,9 +15,7 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-
-const QUICK_REASONS = ['Reunião', 'Férias', 'Formação', 'Pausa', 'Pessoal'];
-const WEEKDAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+import { useTranslation } from 'react-i18next';
 
 const FREE_COLORS = ['#9E9E9E'];
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
@@ -44,6 +42,7 @@ interface Props {
 }
 
 export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, userRole, onClose }: Props) {
+  const { t } = useTranslation();
   const [selectedAgendas, setSelectedAgendas] = useState<string[]>(dentistKey ? [dentistKey] : ['1-1']);
   const [startDate, setStartDate] = useState<Date>(initialDate);
   const [startTime, setStartTime] = useState(initialTime);
@@ -59,6 +58,17 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
   const [notes, setNotes] = useState('');
   const [selectedColor, setSelectedColor] = useState('#9E9E9E');
 
+  const WEEKDAYS = [
+    t('creationTabs.weekdaysSeg'), t('creationTabs.weekdaysTer'), t('creationTabs.weekdaysQua'),
+    t('creationTabs.weekdaysQui'), t('creationTabs.weekdaysSex'), t('creationTabs.weekdaysSab'),
+    t('creationTabs.weekdaysDom')
+  ];
+
+  const QUICK_REASONS = [
+    t('creationTabs.meeting'), t('creationTabs.vacation'), t('creationTabs.training'),
+    t('creationTabs.break'), t('creationTabs.personal')
+  ];
+
   const agendaOptions = mockClinics.flatMap(clinic =>
     mockDentists.slice(0, 3).map(d => ({
       key: `${clinic.id}-${d.id}`,
@@ -72,14 +82,14 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
     );
   };
 
-  const colors = PRO_COLORS; // Use Pro colors for demo
+  const colors = PRO_COLORS;
 
   const handleCreate = () => {
     if (userRole === 'dentist' && !reason.trim()) {
-      toast.error('O motivo é obrigatório');
+      toast.error(t('creationTabs.reasonRequired'));
       return;
     }
-    toast.success('Ausência criada com sucesso!');
+    toast.success(t('creationTabs.absenceCreated'));
     onClose();
   };
 
@@ -89,7 +99,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
         <div className="max-w-[600px] mx-auto space-y-5">
           {/* Agendas */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Agenda(s)</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.agendas')}</h3>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {agendaOptions.map(a => (
                 <label key={a.key} className="flex items-center gap-2 px-2 py-1.5 text-sm hover:bg-muted/20 rounded cursor-pointer">
@@ -105,16 +115,16 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
 
           {/* Schedule */}
           <section className="bg-card rounded-xl p-4 border border-border space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-1">Horário</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-1">{t('creationTabs.schedule')}</h3>
             <div className="flex items-center gap-2 mb-2">
               <Checkbox checked={fullDay} onCheckedChange={v => setFullDay(!!v)} id="fullday" />
-              <Label htmlFor="fullday" className="text-xs">Dia Completo</Label>
+              <Label htmlFor="fullday" className="text-xs">{t('creationTabs.fullDay')}</Label>
             </div>
             {!fullDay && (
               <>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-xs">Início - Data</Label>
+                    <Label className="text-xs">{t('creationTabs.startDate')}</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
@@ -127,7 +137,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                     </Popover>
                   </div>
                   <div>
-                    <Label className="text-xs">Início - Hora</Label>
+                    <Label className="text-xs">{t('creationTabs.startTime')}</Label>
                     <Select value={startTime} onValueChange={setStartTime}>
                       <SelectTrigger className="h-8 text-xs mt-1"><SelectValue /></SelectTrigger>
                       <SelectContent className="max-h-48">
@@ -138,7 +148,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-xs">Fim - Data</Label>
+                    <Label className="text-xs">{t('creationTabs.endDate')}</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
@@ -151,7 +161,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                     </Popover>
                   </div>
                   <div>
-                    <Label className="text-xs">Fim - Hora</Label>
+                    <Label className="text-xs">{t('creationTabs.endTime')}</Label>
                     <Select value={endTime} onValueChange={setEndTime}>
                       <SelectTrigger className="h-8 text-xs mt-1"><SelectValue /></SelectTrigger>
                       <SelectContent className="max-h-48">
@@ -166,27 +176,27 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
 
           {/* Repeat */}
           <section className="bg-card rounded-xl p-4 border border-border space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-1">Repetir</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-1">{t('creationTabs.repeat')}</h3>
             <div className="flex gap-3">
-              <Button variant={repeat === 'yes' ? 'default' : 'outline'} size="sm" className="text-xs" onClick={() => setRepeat('yes')}>Sim</Button>
-              <Button variant={repeat === 'no' ? 'default' : 'outline'} size="sm" className="text-xs" onClick={() => setRepeat('no')}>Não</Button>
+              <Button variant={repeat === 'yes' ? 'default' : 'outline'} size="sm" className="text-xs" onClick={() => setRepeat('yes')}>{t('creationTabs.yes')}</Button>
+              <Button variant={repeat === 'no' ? 'default' : 'outline'} size="sm" className="text-xs" onClick={() => setRepeat('no')}>{t('creationTabs.no')}</Button>
             </div>
             {repeat === 'yes' && (
               <div className="space-y-3 border-l-2 border-primary/20 pl-3 ml-1">
                 <div>
-                  <Label className="text-xs">Frequência</Label>
+                  <Label className="text-xs">{t('creationTabs.frequency')}</Label>
                   <Select value={frequency} onValueChange={v => setFrequency(v as typeof frequency)}>
                     <SelectTrigger className="h-8 text-xs mt-1"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="daily">Diário</SelectItem>
-                      <SelectItem value="weekly">Semanal</SelectItem>
-                      <SelectItem value="monthly">Mensal</SelectItem>
+                      <SelectItem value="daily">{t('creationTabs.daily')}</SelectItem>
+                      <SelectItem value="weekly">{t('creationTabs.weekly')}</SelectItem>
+                      <SelectItem value="monthly">{t('creationTabs.monthly')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 {frequency === 'weekly' && (
                   <div>
-                    <Label className="text-xs mb-1 block">Dias da semana</Label>
+                    <Label className="text-xs mb-1 block">{t('creationTabs.weekdays')}</Label>
                     <div className="flex gap-1">
                       {WEEKDAYS.map((day, idx) => (
                         <Button
@@ -203,7 +213,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                   </div>
                 )}
                 <div>
-                  <Label className="text-xs">Até</Label>
+                  <Label className="text-xs">{t('creationTabs.until')}</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
@@ -222,12 +232,12 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
           {/* Reason */}
           <section className="bg-card rounded-xl p-4 border border-border space-y-3">
             <h3 className="text-xs font-semibold text-muted-foreground mb-1">
-              Motivo {userRole === 'dentist' && <span className="text-destructive">*</span>}
+              {t('creationTabs.reason')} {userRole === 'dentist' && <span className="text-destructive">*</span>}
             </h3>
             <Input
               value={reason}
               onChange={e => setReason(e.target.value)}
-              placeholder="Motivo de Ausência"
+              placeholder={t('creationTabs.absenceReason')}
               className="text-sm"
             />
             <div className="flex flex-wrap gap-2">
@@ -241,13 +251,13 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
 
           {/* Notes */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Notas</h3>
-            <Textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Notas" rows={3} className="text-sm" />
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.notes')}</h3>
+            <Textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder={t('creationTabs.notes')} rows={3} className="text-sm" />
           </section>
 
           {/* Color */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Cor do Bloqueio</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.blockColor')}</h3>
             <div className="flex flex-wrap gap-2">
               {colors.map(color => (
                 <button
@@ -263,15 +273,15 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                 </button>
               ))}
             </div>
-            <p className="text-[10px] text-muted-foreground mt-2">Plano Free: apenas Cinza • Pro: 10 cores • Premium: color picker RGB</p>
+            <p className="text-[10px] text-muted-foreground mt-2">{t('creationTabs.planColorNote')}</p>
           </section>
         </div>
       </div>
 
       {/* Footer */}
       <div className="border-t border-border bg-card px-4 py-3 flex items-center justify-end gap-2">
-        <Button variant="ghost" size="sm" onClick={onClose}>Anular</Button>
-        <Button size="sm" onClick={handleCreate}>Criar Ausência</Button>
+        <Button variant="ghost" size="sm" onClick={onClose}>{t('creationTabs.cancel')}</Button>
+        <Button size="sm" onClick={handleCreate}>{t('creationTabs.createAbsence')}</Button>
       </div>
     </div>
   );

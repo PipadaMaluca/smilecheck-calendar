@@ -13,6 +13,7 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
 
@@ -32,6 +33,7 @@ interface Props {
 }
 
 export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, dentistName, userRole, onClose }: Props) {
+  const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState('#4CAF50');
   const [selectedAgenda, setSelectedAgenda] = useState(dentistKey || '1-1');
@@ -63,8 +65,8 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
   const isValid = title.trim() !== '' && selectedReasons.length > 0;
 
   const handleCreate = () => {
-    if (!isValid) { toast.error('Preencha o título e selecione pelo menos um motivo'); return; }
-    toast.success('Abertura excecional criada com sucesso!');
+    if (!isValid) { toast.error(t('creationTabs.fillTitleError')); return; }
+    toast.success(t('creationTabs.exceptionalCreated'));
     onClose();
   };
 
@@ -74,18 +76,18 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
         <div className="max-w-[600px] mx-auto space-y-5">
           {/* Title */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Título</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.title')}</h3>
             <Input
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="Descrição (unicamente visível internamente)"
+              placeholder={t('creationTabs.titlePlaceholder')}
               className="text-sm"
             />
           </section>
 
           {/* Color */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Cor da Faixa</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.bandColor')}</h3>
             <div className="flex flex-wrap gap-2">
               {colors.map(color => (
                 <button
@@ -105,7 +107,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
 
           {/* Agenda */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Agenda</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.agenda')}</h3>
             <Select value={selectedAgenda} onValueChange={setSelectedAgenda}>
               <SelectTrigger className="text-sm"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -118,10 +120,10 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
 
           {/* Schedule */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Horário</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.schedule')}</h3>
             <div className="space-y-3">
               <div>
-                <Label className="text-xs">Data</Label>
+                <Label className="text-xs">{t('creationTabs.date')}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
@@ -135,7 +137,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs">Hora início</Label>
+                  <Label className="text-xs">{t('creationTabs.startHour')}</Label>
                   <Select value={startTime} onValueChange={setStartTime}>
                     <SelectTrigger className="h-8 text-xs mt-1"><SelectValue /></SelectTrigger>
                     <SelectContent className="max-h-48">
@@ -144,7 +146,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
                   </Select>
                 </div>
                 <div>
-                  <Label className="text-xs">Hora fim</Label>
+                  <Label className="text-xs">{t('creationTabs.endHour')}</Label>
                   <Select value={endTime} onValueChange={setEndTime}>
                     <SelectTrigger className="h-8 text-xs mt-1"><SelectValue /></SelectTrigger>
                     <SelectContent className="max-h-48">
@@ -158,7 +160,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
 
           {/* Consultation Reasons */}
           <section className="bg-card rounded-xl p-4 border border-border">
-            <h3 className="text-xs font-semibold text-muted-foreground mb-2">Motivos de Consulta Permitidos</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.allowedReasons')}</h3>
             <ConsultationReasonSelector
               value=""
               onChange={() => {}}
@@ -172,8 +174,8 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
 
       {/* Footer */}
       <div className="border-t border-border bg-card px-4 py-3 flex items-center justify-end gap-2">
-        <Button variant="ghost" size="sm" onClick={onClose}>Anular</Button>
-        <Button size="sm" disabled={!isValid} onClick={handleCreate}>Criar Abertura</Button>
+        <Button variant="ghost" size="sm" onClick={onClose}>{t('creationTabs.cancel')}</Button>
+        <Button size="sm" disabled={!isValid} onClick={handleCreate}>{t('creationTabs.createOpening')}</Button>
       </div>
     </div>
   );
