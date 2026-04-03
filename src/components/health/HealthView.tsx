@@ -520,8 +520,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </div>
           </div>
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancelar</Button>
-            <Button onClick={addMember} disabled={!newMemberName.trim() || !newMemberRelation}>Adicionar</Button>
+            <Button variant="outline" onClick={() => setShowAddModal(false)}>{t('common.cancel')}</Button>
+            <Button onClick={addMember} disabled={!newMemberName.trim() || !newMemberRelation}>{t('health.add')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
