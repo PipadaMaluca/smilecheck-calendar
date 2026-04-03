@@ -204,8 +204,8 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
             {!canEditColors && (
               <div className="bg-secondary/50 rounded-lg p-3 mb-3">
                 <p className="text-xs text-muted-foreground">
-                  Personalizar cores disponível em <span className="text-primary font-semibold">Pro/Premium</span>.{' '}
-                  <button className="text-primary underline text-xs">Fazer upgrade</button>
+                  {t('agendaSettings.customizeColors')} <span className="text-primary font-semibold">Pro/Premium</span>.{' '}
+                  <button className="text-primary underline text-xs">{t('agendaSettings.upgrade')}</button>
                 </p>
               </div>
             )}
