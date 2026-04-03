@@ -412,7 +412,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <RadioGroupItem value="card" id="card" />
                   <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm">Cartão de crédito/débito</Label>
+                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm">{t('plan.cardLabel')}</Label>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <RadioGroupItem value="paypal" id="paypal" />
