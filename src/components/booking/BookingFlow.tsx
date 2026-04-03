@@ -223,9 +223,9 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex items-start gap-3">
             <Building2 className="w-6 h-6 text-primary mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">>{t('booking.inPerson')}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">>{t('booking.atClinic')} {data.clinic?.name}</p>
-              <p className="text-xs text-primary mt-1">>{t('booking.payAtClinic')}</p>
+              <p className="font-semibold text-foreground">{t('booking.inPerson')}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('booking.atClinic')} {data.clinic?.name}</p>
+              <p className="text-xs text-primary mt-1">{t('booking.payAtClinic')}</p>
             </div>
           </div>
         </button>
@@ -241,8 +241,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex items-start gap-3">
             <Video className="w-6 h-6 text-primary mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">>{t('editConsultation.teleconsultation')}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">>{t('booking.videoConsultation')}</p>
+              <p className="font-semibold text-foreground">{t('editConsultation.teleconsultation')}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('booking.videoConsultation')}</p>
               <p className="text-xs text-primary mt-1">€{dentist.teleconsultaPrice}</p>
             </div>
           </div>
@@ -362,12 +362,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <h3 className="text-lg font-semibold text-foreground">Pagamento</h3>
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
-        <p className="text-sm font-medium text-foreground">>{t('booking.teleconsultWith')} {dentist.name}</p>
+        <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
         <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString('pt-PT')} ⏰ {data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">>{t('editConsultation.teleconsultation')}</span>
+            <span className="text-muted-foreground">{t('editConsultation.teleconsultation')}</span>
             <span className="text-foreground">€{dentist.teleconsultaPrice}</span>
           </div>
           {data.isUrgent && (
@@ -391,7 +391,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
       {/* Saved cards */}
       <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">>{t('booking.savedCards')}</p>
+        <p className="text-xs font-medium text-muted-foreground">{t('booking.savedCards')}</p>
         <button
           onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
           className={cn(
@@ -407,7 +407,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
       {/* Payment methods */}
       <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">>{t('booking.otherMethod')}</p>
+        <p className="text-xs font-medium text-muted-foreground">{t('booking.otherMethod')}</p>
         {[
           { id: 'card-new', label: t('booking.newCard'), icon: <CreditCard className="w-4 h-4" />, expandable: true },
           { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
@@ -455,7 +455,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
           </div>
           {cardNumber.length > 0 && cardNumber.replace(/\s/g, '').length < 16 && (
-            <p className="text-xs text-destructive">>{t('booking.cardNumberDigits')}</p>
+            <p className="text-xs text-destructive">{t('booking.cardNumberDigits')}</p>
           )}
           <div className="flex gap-3">
             <div className="flex-1">
@@ -482,7 +482,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 type="password"
               />
               {cardCvv.length > 0 && cardCvv.length < 3 && (
-                <p className="text-xs text-destructive mt-1">>{t('booking.digits3')}</p>
+                <p className="text-xs text-destructive mt-1">{t('booking.digits3')}</p>
               )}
             </div>
           </div>
@@ -492,11 +492,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             onChange={e => setCardName(e.target.value)}
           />
           {cardName.length === 0 && cardNumber.length > 0 && (
-            <p className="text-xs text-destructive">>{t('booking.nameRequired')}</p>
+            <p className="text-xs text-destructive">{t('booking.nameRequired')}</p>
           )}
           <label className="flex items-center gap-2 cursor-pointer">
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
-            <span className="text-xs text-muted-foreground">>{t('booking.saveCardFuture')}</span>
+            <span className="text-xs text-muted-foreground">{t('booking.saveCardFuture')}</span>
           </label>
               <div className="flex gap-2 pt-1">
                 <Button
@@ -531,17 +531,17 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {paymentMethod === 'mbway' && (
         <div className="animate-fade-in space-y-2">
           <Input placeholder={t('booking.phoneNumber')} value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={16} />
-          <p className="text-xs text-muted-foreground">>{t('booking.confirmOnPhone')}</p>
+          <p className="text-xs text-muted-foreground">{t('booking.confirmOnPhone')}</p>
         </div>
       )}
 
       {/* Multibanco */}
       {paymentMethod === 'multibanco' && (
         <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">>{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">>{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">>{t('booking.value')}</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
-          <p className="text-xs text-muted-foreground">>{t('booking.validFor24h')}</p>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
+          <p className="text-xs text-muted-foreground">{t('booking.validFor24h')}</p>
         </div>
       )}
 
@@ -558,7 +558,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <p className="text-xs font-medium text-muted-foreground flex items-center gap-1"><Tag className="w-3 h-3" /> {t('booking.promoCode')}</p>
         <div className="flex gap-2">
           <Input placeholder={t('booking.code')} value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
-          <Button size="sm" variant="outline" onClick={handleApplyPromo}>>{t('common.apply')}</Button>
+          <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
         {promoApplied === true && <p className="text-xs text-emerald-400">✅ -20% aplicado! Total: €{finalPrice.toFixed(2)}</p>}
         {promoApplied === false && <p className="text-xs text-destructive">❌ Código inválido</p>}
@@ -567,7 +567,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Terms */}
       <label className="flex items-center gap-3 cursor-pointer">
         <Checkbox checked={acceptTerms} onCheckedChange={(v) => setAcceptTerms(!!v)} />
-        <span className="text-xs text-muted-foreground">>{t('booking.acceptTerms')}</span>
+        <span className="text-xs text-muted-foreground">{t('booking.acceptTerms')}</span>
       </label>
     </div>
   );
@@ -575,7 +575,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const renderProcessing = () => (
     <div className="flex flex-col items-center text-center space-y-5 py-16 animate-fade-in">
       <Loader2 className="w-12 h-12 text-primary animate-spin" />
-      <p className="text-sm text-muted-foreground">>{t('booking.processing')}</p>
+      <p className="text-sm text-muted-foreground">{t('booking.processing')}</p>
     </div>
   );
 
@@ -587,12 +587,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <X className="w-8 h-8 text-destructive" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">>{t('booking.paymentFailed')}</h3>
-            <p className="text-sm text-muted-foreground mt-1">>{t('booking.tryAgainOrChange')}</p>
+            <h3 className="text-xl font-bold text-foreground">{t('booking.paymentFailed')}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{t('booking.tryAgainOrChange')}</p>
           </div>
           <div className="flex gap-3 w-full pt-2">
-            <Button variant="outline" className="flex-1" onClick={() => setStep('payment')}>>{t('booking.changeMethod')}</Button>
-            <Button className="flex-1" onClick={handlePay}>>{t('booking.tryAgain')}</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setStep('payment')}>{t('booking.changeMethod')}</Button>
+            <Button className="flex-1" onClick={handlePay}>{t('booking.tryAgain')}</Button>
           </div>
         </>
       ) : (
@@ -602,11 +602,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </div>
           <div>
             <h3 className="text-xl font-bold text-foreground">{data.consultationType === 'teleconsulta' ? t('booking.paymentConfirmed') : t('booking.appointmentBooked')}</h3>
-            <p className="text-sm text-muted-foreground mt-1">>{t('booking.confirmationEmail')}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t('booking.confirmationEmail')}</p>
           </div>
           {data.consultationType === 'teleconsulta' && (
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
-              <p className="font-medium text-foreground text-sm">>{t('booking.receipt')}</p>
+              <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>Nº {receiptId}</p>
               <p>{data.date?.toLocaleDateString('pt-PT')} — €{finalPrice.toFixed(2)}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
@@ -661,7 +661,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     return (
       <div className="flex gap-3 pt-4">
         {currentIdx === 0 ? (
-          <Button variant="outline" className="flex-1 border-border" onClick={onClose}>>{t('common.cancel')}</Button>
+          <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
         ) : (
           <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
             <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
@@ -716,7 +716,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         {step !== 'success' && step !== 'processing' && (
           <div className="flex gap-3 p-4 border-t border-border bg-background">
             {currentIdx === 0 ? (
-              <Button variant="outline" className="flex-1 border-border" onClick={onClose}>>{t('common.cancel')}</Button>
+              <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
             ) : (
               <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
                 <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
