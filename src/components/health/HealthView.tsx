@@ -87,6 +87,7 @@ const emptyHealthData = (): MemberHealthData => ({
 });
 
 export function HealthView({ userRole, onNavigate }: HealthViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   const [members, setMembers] = useState<FamilyMember[]>([...mockFamilyMembers]);
