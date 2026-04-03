@@ -248,9 +248,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Outra alergia..." value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
+                <Input placeholder={t('health.otherAllergy')} value={newAllergy} onChange={e => setNewAllergy(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} className="h-9 flex-1" />
                 <Button size="sm" onClick={() => { if (newAllergy.trim()) { updateData(d => ({ ...d, allergies: [...d.allergies, newAllergy.trim()] })); setNewAllergy(''); } }} disabled={!newAllergy.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
