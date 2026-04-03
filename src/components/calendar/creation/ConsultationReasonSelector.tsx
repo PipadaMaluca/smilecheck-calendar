@@ -1,101 +1,102 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ConsultationSubType {
-  label: string;
+  labelKey: string;
   online?: boolean;
 }
 
 interface ConsultationGroup {
-  label: string;
+  labelKey: string;
   items: ConsultationSubType[];
 }
 
 const CONSULTATION_GROUPS: ConsultationGroup[] = [
   {
-    label: 'Paciente Novo: Adulto',
+    labelKey: 'consultationReasons.newAdultPatient',
     items: [
-      { label: 'Primeira Consulta', online: true },
-      { label: 'Visita de controlo', online: true },
+      { labelKey: 'consultationReasons.firstConsultation', online: true },
+      { labelKey: 'consultationReasons.controlVisit', online: true },
     ],
   },
   {
-    label: 'Criança menos de 16 Anos',
+    labelKey: 'consultationReasons.childUnder16',
     items: [
-      { label: 'Criança – Primeira Consulta', online: true },
-      { label: 'Restaurações em Criança' },
-      { label: 'Extrações em Criança' },
+      { labelKey: 'consultationReasons.childFirstConsultation', online: true },
+      { labelKey: 'consultationReasons.childRestorations' },
+      { labelKey: 'consultationReasons.childExtractions' },
     ],
   },
   {
-    label: 'Controlo Anual/Limpeza Dentária',
+    labelKey: 'consultationReasons.annualCheckup',
     items: [
-      { label: 'Destartarização', online: true },
-      { label: 'Raspagem Radicular' },
+      { labelKey: 'consultationReasons.scaling', online: true },
+      { labelKey: 'consultationReasons.rootPlaning' },
     ],
   },
   {
-    label: 'Urgência',
-    items: [{ label: 'Urgência', online: true }],
+    labelKey: 'consultationReasons.emergency',
+    items: [{ labelKey: 'consultationReasons.emergency', online: true }],
   },
   {
-    label: 'Cirurgia Oral',
+    labelKey: 'consultationReasons.oralSurgery',
     items: [
-      { label: 'Extração Dentária' },
-      { label: 'Cirurgia Complexa' },
-      { label: 'Cirurgia de Implante' },
+      { labelKey: 'consultationReasons.toothExtraction' },
+      { labelKey: 'consultationReasons.complexSurgery' },
+      { labelKey: 'consultationReasons.implantSurgery' },
     ],
   },
   {
-    label: 'Dentisteria',
+    labelKey: 'consultationReasons.restorativeDentistry',
     items: [
-      { label: 'Restauração Dentária' },
-      { label: 'Branqueamento Dentário' },
+      { labelKey: 'consultationReasons.dentalRestoration' },
+      { labelKey: 'consultationReasons.dentalWhitening' },
     ],
   },
   {
-    label: 'Endodontia',
+    labelKey: 'consultationReasons.endodontics',
     items: [
-      { label: 'Desvitalização' },
-      { label: 'Retratamento Endodôntico' },
+      { labelKey: 'consultationReasons.rootCanal' },
+      { labelKey: 'consultationReasons.endoRetreatment' },
     ],
   },
   {
-    label: 'Ortodontia',
+    labelKey: 'consultationReasons.orthodontics',
     items: [
-      { label: 'Ortodontia – 1ª Consulta', online: true },
-      { label: 'Ortodontia – Manutenção' },
+      { labelKey: 'consultationReasons.orthoFirstConsultation', online: true },
+      { labelKey: 'consultationReasons.orthoMaintenance' },
     ],
   },
   {
-    label: 'Prótese Fixa',
+    labelKey: 'consultationReasons.fixedProsthetics',
     items: [
-      { label: 'Inlay/Onlay/Overlay' },
-      { label: 'Coroas/Pontes' },
-      { label: 'Facetas' },
-      { label: 'Cimentação de Prótese' },
+      { labelKey: 'consultationReasons.inlayOnlayOverlay' },
+      { labelKey: 'consultationReasons.crownsBridges' },
+      { labelKey: 'consultationReasons.veneers' },
+      { labelKey: 'consultationReasons.prosthesisCementation' },
     ],
   },
   {
-    label: 'Prótese Removível',
+    labelKey: 'consultationReasons.removableProsthetics',
     items: [
-      { label: 'Moldes/Impressões' },
-      { label: 'Ceras e Impressões de Moldeiras Individuais' },
-      { label: 'Ensaios' },
-      { label: 'Entrega de Prótese' },
+      { labelKey: 'consultationReasons.impressions' },
+      { labelKey: 'consultationReasons.waxImpressions' },
+      { labelKey: 'consultationReasons.tryIns' },
+      { labelKey: 'consultationReasons.prosthesisDelivery' },
     ],
   },
   {
-    label: 'Radiografia',
+    labelKey: 'consultationReasons.radiology',
     items: [
-      { label: 'Teleradiografia' },
-      { label: 'CBCT (Scanner 3D)' },
+      { labelKey: 'consultationReasons.cephalometric' },
+      { labelKey: 'consultationReasons.cbct' },
     ],
   },
   {
-    label: 'Teleconsulta',
-    items: [{ label: 'Teleconsulta', online: true }],
+    labelKey: 'consultationReasons.teleconsultation',
+    items: [{ labelKey: 'consultationReasons.teleconsultation', online: true }],
   },
 ];
 
@@ -108,11 +109,12 @@ interface Props {
 }
 
 export function ConsultationReasonSelector({ value, onChange, asCheckboxList, selectedItems, onToggleItem }: Props) {
+  const { t } = useTranslation();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
 
-  const toggleGroup = (label: string) => {
+  const toggleGroup = (key: string) => {
     setExpandedGroups(prev =>
-      prev.includes(label) ? prev.filter(g => g !== label) : [...prev, label]
+      prev.includes(key) ? prev.filter(g => g !== key) : [...prev, key]
     );
   };
 
@@ -120,31 +122,34 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
     return (
       <div className="space-y-1 max-h-60 overflow-y-auto">
         {CONSULTATION_GROUPS.map(group => {
-          const isExpanded = expandedGroups.includes(group.label);
+          const isExpanded = expandedGroups.includes(group.labelKey);
           return (
-            <div key={group.label}>
+            <div key={group.labelKey}>
               <button
                 type="button"
-                onClick={() => toggleGroup(group.label)}
+                onClick={() => toggleGroup(group.labelKey)}
                 className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted/30 rounded"
               >
                 {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-                {group.label}
+                {t(group.labelKey)}
               </button>
               {isExpanded && (
                 <div className="ml-5 space-y-0.5">
-                  {group.items.map(item => (
-                    <label key={item.label} className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-muted/20 rounded cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={selectedItems?.includes(item.label) || false}
-                        onChange={() => onToggleItem?.(item.label)}
-                        className="rounded border-border"
-                      />
-                      <span>{item.label}</span>
-                      {item.online && <Globe className="w-3 h-3 text-primary" />}
-                    </label>
-                  ))}
+                  {group.items.map(item => {
+                    const label = t(item.labelKey);
+                    return (
+                      <label key={item.labelKey} className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-muted/20 rounded cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedItems?.includes(label) || false}
+                          onChange={() => onToggleItem?.(label)}
+                          className="rounded border-border"
+                        />
+                        <span>{label}</span>
+                        {item.online && <Globe className="w-3 h-3 text-primary" />}
+                      </label>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -157,53 +162,57 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
   return (
     <div className="space-y-1 max-h-60 overflow-y-auto border border-border rounded-lg p-2">
       {CONSULTATION_GROUPS.map(group => {
-        const isExpanded = expandedGroups.includes(group.label);
+        const isExpanded = expandedGroups.includes(group.labelKey);
         const isSingleItem = group.items.length === 1;
 
         if (isSingleItem) {
           const item = group.items[0];
+          const label = t(item.labelKey);
           return (
             <button
-              key={group.label}
+              key={group.labelKey}
               type="button"
-              onClick={() => onChange(item.label)}
+              onClick={() => onChange(label)}
               className={cn(
                 'flex items-center gap-2 w-full text-left px-3 py-2 text-sm rounded-md transition-colors',
-                value === item.label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
+                value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
               )}
             >
-              <span>{item.label}</span>
+              <span>{label}</span>
               {item.online && <Globe className="w-3 h-3 text-primary" />}
             </button>
           );
         }
 
         return (
-          <div key={group.label}>
+          <div key={group.labelKey}>
             <button
               type="button"
-              onClick={() => toggleGroup(group.label)}
+              onClick={() => toggleGroup(group.labelKey)}
               className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm font-semibold text-muted-foreground hover:bg-muted/30 rounded-md"
             >
               {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-              {group.label}
+              {t(group.labelKey)}
             </button>
             {isExpanded && (
               <div className="ml-4 space-y-0.5">
-                {group.items.map(item => (
-                  <button
-                    key={item.label}
-                    type="button"
-                    onClick={() => onChange(item.label)}
-                    className={cn(
-                      'flex items-center gap-2 w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors',
-                      value === item.label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
-                    )}
-                  >
-                    <span>{item.label}</span>
-                    {item.online && <Globe className="w-3 h-3 text-primary" />}
-                  </button>
-                ))}
+                {group.items.map(item => {
+                  const label = t(item.labelKey);
+                  return (
+                    <button
+                      key={item.labelKey}
+                      type="button"
+                      onClick={() => onChange(label)}
+                      className={cn(
+                        'flex items-center gap-2 w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors',
+                        value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
+                      )}
+                    >
+                      <span>{label}</span>
+                      {item.online && <Globe className="w-3 h-3 text-primary" />}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

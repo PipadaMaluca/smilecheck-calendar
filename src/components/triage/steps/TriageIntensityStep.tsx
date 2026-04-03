@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -17,39 +18,27 @@ const getIntensityColor = (value: number) => {
   return 'text-red-500';
 };
 
-const getSliderBackground = (value: number) => {
-  if (value <= 3) return 'bg-green-500';
-  if (value <= 6) return 'bg-yellow-500';
-  return 'bg-red-500';
-};
-
 export function TriageIntensityStep({
   painIntensity,
   isRoutineCheckup,
   onIntensityChange,
   onRoutineChange,
 }: TriageIntensityStepProps) {
+  const { t } = useTranslation();
+
   const handleRoutineToggle = (checked: boolean) => {
     onRoutineChange(checked);
-    if (checked) {
-      onIntensityChange(0);
-    }
+    if (checked) onIntensityChange(0);
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-lg font-semibold text-foreground">
-          Qual a intensidade da dor?
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Sem dor (0) · Moderada (5) · Insuportável (10)
-        </p>
+        <h2 className="text-lg font-semibold text-foreground">{t('triage.intensity.title')}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t('triage.intensity.scale')}</p>
       </div>
 
-      {/* Pain slider */}
       <div className={cn('space-y-6', isRoutineCheckup && 'opacity-40 pointer-events-none')}>
-        {/* Current emoji */}
         <div className="text-center">
           <span className="text-6xl">{PAIN_EMOJIS[painIntensity]}</span>
           <p className={cn('text-3xl font-bold mt-2', getIntensityColor(painIntensity))}>
@@ -57,7 +46,6 @@ export function TriageIntensityStep({
           </p>
         </div>
 
-        {/* Slider */}
         <div className="px-4">
           <Slider
             value={[painIntensity]}
@@ -66,8 +54,6 @@ export function TriageIntensityStep({
             step={1}
             className="w-full"
           />
-
-          {/* Scale numbers */}
           <div className="flex justify-between mt-2">
             {Array.from({ length: 11 }).map((_, i) => (
               <span
@@ -83,7 +69,6 @@ export function TriageIntensityStep({
           </div>
         </div>
 
-        {/* Gradient bar visual */}
         <div className="relative h-4 rounded-full overflow-hidden bg-gradient-to-r from-green-500 via-yellow-500 to-red-500">
           <div
             className="absolute top-0 left-0 h-full bg-[#0A1929]/80 transition-all"
@@ -95,7 +80,6 @@ export function TriageIntensityStep({
           />
         </div>
 
-        {/* Emoji scale */}
         <div className="flex justify-between px-2">
           <span className="text-2xl">😊</span>
           <span className="text-2xl">😐</span>
@@ -104,8 +88,7 @@ export function TriageIntensityStep({
         </div>
       </div>
 
-      {/* Routine checkup checkbox */}
-      <div 
+      <div
         className="flex items-center gap-3 p-4 bg-[#1E3A5F] rounded-xl cursor-pointer"
         onClick={() => handleRoutineToggle(!isRoutineCheckup)}
       >
@@ -114,9 +97,7 @@ export function TriageIntensityStep({
           onCheckedChange={handleRoutineToggle}
           className="border-muted-foreground data-[state=checked]:bg-primary data-[state=checked]:border-primary"
         />
-        <span className="text-sm text-foreground">
-          Não tenho dor, é apenas uma consulta de rotina
-        </span>
+        <span className="text-sm text-foreground">{t('triage.intensity.routineCheckup')}</span>
       </div>
     </div>
   );
