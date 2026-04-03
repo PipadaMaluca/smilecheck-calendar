@@ -458,7 +458,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardHeader>
             <CardContent className="space-y-3">
               {referrals.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhuma carta de referência</p>
+                <p className="text-sm text-muted-foreground italic py-4 text-center">{t('health.noReferralLetters')}</p>
               ) : (
                 <div className="space-y-2">
                   {referrals.map(ref => (
