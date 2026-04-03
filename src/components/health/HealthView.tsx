@@ -498,8 +498,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label>Nome</Label>
-              <Input placeholder="Nome completo..." value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
+              <Label>{t('health.name')}</Label>
+              <Input placeholder={t('health.namePlaceholder')} value={newMemberName} onChange={e => setNewMemberName(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label>Ano de Nascimento</Label>
