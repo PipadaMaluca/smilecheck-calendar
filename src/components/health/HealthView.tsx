@@ -305,10 +305,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Medicamento..." value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Dosagem..." value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
+                <Input placeholder={t('health.medication')} value={newMedName} onChange={e => setNewMedName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder={t('health.dosage')} value={newMedDosage} onChange={e => setNewMedDosage(e.target.value)} className="h-9 w-28" />
                 <Button size="sm" onClick={() => { if (newMedName.trim()) { updateData(d => ({ ...d, medications: [...d.medications, { name: newMedName.trim(), dosage: newMedDosage.trim() || 'N/A' }] })); setNewMedName(''); setNewMedDosage(''); } }} disabled={!newMedName.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
