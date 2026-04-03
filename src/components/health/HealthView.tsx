@@ -473,7 +473,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         <p className="text-xs text-muted-foreground">{ref.date}</p>
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                        <Eye className="w-3.5 h-3.5" /> Ver PDF
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
                       </Button>
                     </div>
                   ))}
