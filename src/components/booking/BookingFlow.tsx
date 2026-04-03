@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight,
   AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Clock,
