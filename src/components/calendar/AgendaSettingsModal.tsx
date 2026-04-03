@@ -115,7 +115,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
       <div className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-card border-l border-border z-[61] flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-lg font-bold text-foreground">Modificar Horários</h2>
+          <h2 className="text-lg font-bold text-foreground">{t('agendaSettings.title')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
           </Button>
