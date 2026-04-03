@@ -275,9 +275,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Nova condição..." value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
+                <Input placeholder={t('health.newCondition')} value={newCondition} onChange={e => setNewCondition(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} className="h-9 flex-1" />
                 <Button size="sm" onClick={() => { if (newCondition.trim()) { updateData(d => ({ ...d, conditions: [...d.conditions, newCondition.trim()] })); setNewCondition(''); } }} disabled={!newCondition.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
