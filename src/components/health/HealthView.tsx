@@ -412,7 +412,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         </div>
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-xs">
-                        <Eye className="w-3.5 h-3.5" /> Ver
+                        <Eye className="w-3.5 h-3.5" /> {t('health.viewBtn')}
                       </Button>
                     </div>
                   ))}
