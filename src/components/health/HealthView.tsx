@@ -454,7 +454,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 RIGHT: Cartas de Referência */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Send} label="Cartas de Referência" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {referrals.length === 0 ? (
