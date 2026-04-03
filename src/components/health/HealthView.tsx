@@ -160,9 +160,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         <div className="space-y-1">
           <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
             <Heart className="w-6 h-6 text-primary" />
-            A Minha Saúde
+            {t('health.title')}
           </h1>
-          <p className="text-sm text-muted-foreground">Mantenha os seus dados atualizados</p>
+          <p className="text-sm text-muted-foreground">{t('health.subtitle')}</p>
         </div>
 
         {/* Family Member Tabs */}
