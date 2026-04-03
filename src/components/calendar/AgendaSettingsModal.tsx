@@ -125,14 +125,14 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* VISUALIZAÇÃO */}
           <section>
-            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">Visualização</h3>
+            <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.visualization')}</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label>Mostrar Domingos</Label>
+                <Label>{t('agendaSettings.showSundays')}</Label>
                 <Switch checked={local.showSundays} onCheckedChange={v => update('showSundays', v)} />
               </div>
               <div className="flex items-center justify-between">
-                <Label>Hora de início do dia</Label>
+                <Label>{t('agendaSettings.dayStartHour')}</Label>
                 <Select value={String(local.startHour)} onValueChange={v => update('startHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -143,7 +143,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Hora de fim do dia</Label>
+                <Label>{t('agendaSettings.dayEndHour')}</Label>
                 <Select value={String(local.endHour)} onValueChange={v => update('endHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -154,7 +154,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Duração padrão dos slots</Label>
+                <Label>{t('agendaSettings.defaultSlotDuration')}</Label>
                 <Select value={String(local.slotDuration)} onValueChange={v => update('slotDuration', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -165,11 +165,11 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </Select>
               </div>
               <div className="flex items-center justify-between">
-                <Label>Mostrar slots livres</Label>
+                <Label>{t('agendaSettings.showFreeSlots')}</Label>
                 <Switch checked={local.showFreeSlots} onCheckedChange={v => update('showFreeSlots', v)} />
               </div>
               <div className="flex items-center justify-between">
-                <Label>Mostrar pausas/bloqueios</Label>
+                <Label>{t('agendaSettings.showBlocks')}</Label>
                 <Switch checked={local.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
               </div>
             </div>
