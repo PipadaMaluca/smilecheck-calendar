@@ -249,9 +249,9 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
             </div>
 
             {/* Block color */}
-            <p className="text-xs font-medium text-muted-foreground mb-2">Cor dos bloqueios</p>
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t('agendaSettings.blockColor')}</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-foreground">Bloqueios</span>
+              <span className="text-xs text-foreground">{t('agendaSettings.blocks')}</span>
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: local.blockColor }} />
                 {canEditColors && (
