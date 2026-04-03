@@ -493,7 +493,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <UserPlus className="w-5 h-5 text-primary" />
-              Adicionar Membro Familiar
+              {t('health.addFamilyMember')}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
