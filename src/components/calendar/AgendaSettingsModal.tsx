@@ -197,7 +197,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           {/* CORES POR TIPO DE CONSULTA */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">Cores por Tipo de Consulta</h3>
+              <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">{t('agendaSettings.colorsByType')}</h3>
               {!canEditColors && <Lock className="w-3.5 h-3.5 text-muted-foreground" />}
             </div>
 
