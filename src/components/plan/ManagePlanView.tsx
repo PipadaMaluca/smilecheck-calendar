@@ -193,6 +193,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
 };
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
+  const { t } = useTranslation();
   const [currentPlan] = useState<PlanTier>('pro');
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
@@ -201,23 +202,23 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const plans = PLANS_BY_ROLE[userRole] || PLANS_BY_ROLE.patient;
 
   const formatPrice = (plan: Plan) => {
-    if (plan.monthlyPrice === 0) return { main: 'Grátis', sub: '' };
+    if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
     if (isAnnual) {
       return {
-        main: `€${plan.annualPrice.toFixed(2)}/ano`,
-        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/mês`
+        main: `€${plan.annualPrice.toFixed(2)}/${t('plan.annual').toLowerCase()}`,
+        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/${t('plan.monthly').toLowerCase()}`
       };
     }
-    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: '/mês' };
+    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: `/${t('plan.monthly').toLowerCase()}` };
   };
 
   const handleSubscribe = () => {
-    toast.success(`Plano ${checkoutPlan?.name} ativado com sucesso!`);
+    toast.success(t('plan.planActivated', { plan: checkoutPlan?.name }));
     setCheckoutPlan(null);
   };
 
   const handleCancel = () => {
-    toast.success('Subscrição cancelada. Voltará ao plano Free no final do período.');
+    toast.success(t('plan.cancelled'));
   };
 
   return (
