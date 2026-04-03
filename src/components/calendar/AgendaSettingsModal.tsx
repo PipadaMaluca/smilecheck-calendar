@@ -96,13 +96,13 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
 
   const handleSave = () => {
     onSave(local);
-    toast.success('Configurações da agenda guardadas');
+    toast.success(t('agendaSettings.settingsSaved'));
     onClose();
   };
 
   const handleReset = () => {
     setLocal({ ...DEFAULT_SETTINGS });
-    toast.info('Configurações repostas ao padrão');
+    toast.info(t('agendaSettings.settingsReset'));
   };
 
   const startHourOptions = Array.from({ length: 5 }, (_, i) => 6 + i);
