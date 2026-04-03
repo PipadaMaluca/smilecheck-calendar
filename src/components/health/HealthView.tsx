@@ -263,7 +263,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardHeader>
             <CardContent className="space-y-3">
               {data.conditions.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma condição registada</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noConditions')}</p>
               ) : (
                 <div className="flex flex-wrap gap-2">
                   {data.conditions.map((c, i) => (
