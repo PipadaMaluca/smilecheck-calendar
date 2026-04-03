@@ -42,8 +42,16 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
+  const SYMPTOM_KEY_MAP: Record<string, string> = {
+    dor_dente: 'triage.symptoms.toothache', sensibilidade: 'triage.symptoms.sensitivity',
+    sangramento: 'triage.symptoms.bleedingGums', mau_halito: 'triage.symptoms.badBreath',
+    inchaco: 'triage.symptoms.swelling', dente_abanar: 'triage.symptoms.looseToothLabel',
+    dente_partido: 'triage.symptoms.brokenTooth', manchas: 'triage.symptoms.stains',
+    outro: 'triage.symptoms.other',
+  };
+
   const triageSummary = triageData
-    ? triageData.symptoms.map(id => TRIAGE_SYMPTOMS.find(s => s.id === id)?.label).filter(Boolean).join(', ')
+    ? triageData.symptoms.map(id => SYMPTOM_KEY_MAP[id] ? t(SYMPTOM_KEY_MAP[id]) : id).filter(Boolean).join(', ')
     : null;
 
   const filteredDentists = useMemo(() => {
