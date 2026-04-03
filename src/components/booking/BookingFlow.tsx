@@ -691,7 +691,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {step !== 'success' && step !== 'processing' && (
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span{t('common.step')} {currentIdx + 1} {t('common.of')} {visibleSteps.length}</span>
+            <span>{t('common.step')} {currentIdx + 1} {t('common.of')} {visibleSteps.length}</span>
           </div>
           <Progress value={progress} className="h-1.5" />
         </div>
