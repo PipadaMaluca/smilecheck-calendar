@@ -385,15 +385,15 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 RIGHT: Documentos Médicos */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={FileText} label="Documentos Médicos" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={FileText} label={t('health.medicalDocuments')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Tabs value={docFilter} onValueChange={setDocFilter}>
                 <TabsList className="h-8">
-                  <TabsTrigger value="todos" className="text-xs px-3 h-7">Todos</TabsTrigger>
-                  <TabsTrigger value="receita" className="text-xs px-3 h-7">Receitas</TabsTrigger>
-                  <TabsTrigger value="exame" className="text-xs px-3 h-7">Exames</TabsTrigger>
-                  <TabsTrigger value="outro" className="text-xs px-3 h-7">Outros</TabsTrigger>
+                  <TabsTrigger value="todos" className="text-xs px-3 h-7">{t('health.all')}</TabsTrigger>
+                  <TabsTrigger value="receita" className="text-xs px-3 h-7">{t('health.prescriptions')}</TabsTrigger>
+                  <TabsTrigger value="exame" className="text-xs px-3 h-7">{t('health.exams')}</TabsTrigger>
+                  <TabsTrigger value="outro" className="text-xs px-3 h-7">{t('health.others')}</TabsTrigger>
                 </TabsList>
               </Tabs>
               {filteredDocs.length === 0 ? (
