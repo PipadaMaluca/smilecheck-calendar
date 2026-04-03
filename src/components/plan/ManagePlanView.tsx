@@ -400,9 +400,9 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Subscrever {checkoutPlan?.name}</DialogTitle>
+            <DialogTitle>{t('plan.subscribeTo')} {checkoutPlan?.name}</DialogTitle>
             <DialogDescription>
-              {checkoutPlan && formatPrice(checkoutPlan).main}{checkoutPlan && !isAnnual ? '/mês' : ''}
+              {checkoutPlan && formatPrice(checkoutPlan).main}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
