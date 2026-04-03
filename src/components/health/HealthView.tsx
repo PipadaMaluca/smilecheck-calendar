@@ -354,7 +354,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 LEFT: Histórico de Vacinas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Syringe} label="Histórico de Vacinas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Syringe} label={t('health.vaccines')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.vaccines.length === 0 ? (
