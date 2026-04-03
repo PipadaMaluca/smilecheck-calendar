@@ -340,7 +340,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                    <Weight className="w-3 h-3" /> Peso (kg)
+                    <Weight className="w-3 h-3" /> {t('health.weight')}
                   </label>
                   <Input type="number" value={data.weight} onChange={e => { updateData(d => ({ ...d, weight: e.target.value })); setProfileChanged(true); }} className="h-9" />
                 </div>
