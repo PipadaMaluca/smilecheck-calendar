@@ -480,7 +480,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <Button variant="outline" size="sm" className="w-full gap-1.5">
-                <Upload className="w-4 h-4" /> Carregar Documento
+                <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
               </Button>
             </CardContent>
           </Card>
