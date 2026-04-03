@@ -436,7 +436,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
               </div>
             }
             {paymentMethod === 'mbway' &&
-            <div><Label className="text-xs">Número de telemóvel</Label><Input placeholder="+351 912 345 678" /></div>
+            <div><Label className="text-xs">{t('plan.phoneNumber')}</Label><Input placeholder="+351 912 345 678" /></div>
             }
             <div className="bg-secondary/50 rounded-lg p-3 space-y-1">
               <div className="flex justify-between text-sm">
