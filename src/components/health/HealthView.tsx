@@ -195,7 +195,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               className="flex-shrink-0 flex items-center gap-1 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
             >
               <UserPlus className="w-4 h-4" />
-              <span className="text-xs font-medium whitespace-nowrap">Adicionar</span>
+              <span className="text-xs font-medium whitespace-nowrap">{t('health.add')}</span>
             </button>
           </div>
         </div>
