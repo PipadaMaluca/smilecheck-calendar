@@ -303,8 +303,8 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 </div>
               ))}
               <div className="flex gap-2 justify-end">
-                <Button variant="ghost" size="sm" onClick={() => setEditingCategory(null)}>Cancelar</Button>
-                <Button size="sm" onClick={applyRgb}>Aplicar</Button>
+                <Button variant="ghost" size="sm" onClick={() => setEditingCategory(null)}>{t('common.cancel')}</Button>
+                <Button size="sm" onClick={applyRgb}>{t('common.apply')}</Button>
               </div>
             </section>
           )}
