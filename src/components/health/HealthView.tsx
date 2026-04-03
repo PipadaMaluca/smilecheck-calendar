@@ -358,7 +358,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardHeader>
             <CardContent className="space-y-3">
               {data.vaccines.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic">Nenhuma vacina registada</p>
+                <p className="text-sm text-muted-foreground italic">{t('health.noVaccines')}</p>
               ) : (
                 <div className="space-y-2">
                   {data.vaccines.map((v, i) => (
