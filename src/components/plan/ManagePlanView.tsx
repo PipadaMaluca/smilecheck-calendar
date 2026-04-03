@@ -407,7 +407,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Método de pagamento</Label>
+              <Label className="text-sm font-medium">{t('plan.paymentMethod')}</Label>
               <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                   <RadioGroupItem value="card" id="card" />
