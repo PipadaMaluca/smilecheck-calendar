@@ -397,7 +397,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </TabsList>
               </Tabs>
               {filteredDocs.length === 0 ? (
-                <p className="text-sm text-muted-foreground italic py-4 text-center">Nenhum documento</p>
+                <p className="text-sm text-muted-foreground italic py-4 text-center">{t('health.noDocuments')}</p>
               ) : (
                 <div className="space-y-2">
                   {filteredDocs.map(doc => (
