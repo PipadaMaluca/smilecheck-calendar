@@ -427,7 +427,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 LEFT: Receitas Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label="Receitas Médicas" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.prescriptions.length === 0 ? (
