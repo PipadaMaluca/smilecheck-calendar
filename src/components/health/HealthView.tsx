@@ -206,7 +206,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 LEFT: Alergias e Intolerâncias */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label="Alergias e Intolerâncias" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label={t('health.allergies')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
