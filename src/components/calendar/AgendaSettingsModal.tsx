@@ -54,6 +54,7 @@ interface AgendaSettingsModalProps {
 }
 
 export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRole, userPlan = 'free' }: AgendaSettingsModalProps) {
+  const { t } = useTranslation();
   const [local, setLocal] = useState<AgendaSettings>({ ...settings });
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
   const [rgbValues, setRgbValues] = useState({ r: 0, g: 0, b: 0 });
