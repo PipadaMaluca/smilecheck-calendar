@@ -317,7 +317,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 2 RIGHT: Perfil de Saúde */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Droplets} label="Perfil de Saúde" /></CardTitle>
+              <CardTitle className="text-base"><SectionIcon icon={Droplets} label={t('health.healthProfile')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
