@@ -346,7 +346,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               </div>
               {profileChanged && (
-                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">Guardar</Button>
+                <Button size="sm" onClick={() => setProfileChanged(false)} className="w-full">{t('health.save')}</Button>
               )}
             </CardContent>
           </Card>
