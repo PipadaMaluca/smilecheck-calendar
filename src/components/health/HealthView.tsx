@@ -373,10 +373,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               )}
               <div className="flex gap-2">
-                <Input placeholder="Vacina..." value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
-                <Input placeholder="Data..." value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
+                <Input placeholder={t('health.vaccine')} value={newVaccineName} onChange={e => setNewVaccineName(e.target.value)} className="h-9 flex-1" />
+                <Input placeholder={t('health.dateLabel')} value={newVaccineDate} onChange={e => setNewVaccineDate(e.target.value)} className="h-9 w-28" />
                 <Button size="sm" onClick={() => { if (newVaccineName.trim()) { updateData(d => ({ ...d, vaccines: [...d.vaccines, { name: newVaccineName.trim(), date: newVaccineDate.trim() || 'N/A' }] })); setNewVaccineName(''); setNewVaccineDate(''); } }} disabled={!newVaccineName.trim()} className="gap-1">
-                  <Plus className="w-3.5 h-3.5" /> Adicionar
+                  <Plus className="w-3.5 h-3.5" /> {t('health.add')}
                 </Button>
               </div>
             </CardContent>
