@@ -388,7 +388,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   disabled={isCurrent}
                   onClick={() => !isCurrent && setCheckoutPlan(plan)}>
 
-                  {isCurrent ? 'Plano Actual' : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? 'Subscrever' : 'Escolher'}
+                  {isCurrent ? t('plan.currentPlanBtn') : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? t('plan.subscribe') : t('plan.choose')}
                 </Button>
               </CardContent>
             </Card>);
