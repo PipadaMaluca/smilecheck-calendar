@@ -140,7 +140,7 @@ export function MultiDentistGrid({
                     <div className="text-center px-2">
                       <Ban className="w-5 h-5 mx-auto mb-1 text-[#8B9CB6]" />
                       <p className="text-[10px] text-[#8B9CB6] leading-tight">
-                        Hoje o médico<br />não trabalha<br />nesta clínica
+                        {t('agenda.doctorNotWorkingToday')}
                       </p>
                     </div>
                   </div>
