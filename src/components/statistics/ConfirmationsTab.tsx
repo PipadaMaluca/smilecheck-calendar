@@ -80,6 +80,7 @@ interface ConfirmationsTabProps {
 }
 
 export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTabProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
