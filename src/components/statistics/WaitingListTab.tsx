@@ -7,6 +7,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { UserRole, getCategoryBadgeStyle } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface WaitlistPatient {
   id: string;
