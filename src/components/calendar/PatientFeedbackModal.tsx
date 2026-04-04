@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -7,14 +8,9 @@ import { cn } from '@/lib/utils';
 import { ConsultationScore } from '@/types/scoring';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
 
-interface PatientFeedbackModalProps {
-  score: ConsultationScore | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (scoreId: string, rating: number, comment: string) => void;
-}
+const dateLocales = { pt, en: enUS, fr } as const;
 
 function StarRating({ value, hovered, onRate, onHover, onLeave }: {
   value: number;
@@ -49,9 +45,16 @@ function StarRating({ value, hovered, onRate, onHover, onLeave }: {
   );
 }
 
-const ratingLabels = ['', 'Mau', 'Razoável', 'Bom', 'Muito Bom', 'Excelente'];
+export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
+  score: ConsultationScore | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (scoreId: string, rating: number, comment: string) => void;
+}) {
+  const { t, i18n } = useTranslation();
+  const locale = dateLocales[i18n.language as keyof typeof dateLocales] || pt;
+  const ratingLabels = ['', t('feedback.bad'), t('feedback.fair'), t('feedback.good'), t('feedback.veryGood'), t('feedback.excellent')];
 
-export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: PatientFeedbackModalProps) {
   const [dentistRating, setDentistRating] = useState(0);
   const [dentistHover, setDentistHover] = useState(0);
   const [dentistComment, setDentistComment] = useState('');
@@ -63,7 +66,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
   const handleSubmit = () => {
     if (!score || dentistRating === 0) return;
     onSubmit(score.id, dentistRating, dentistComment);
-    toast.success('Avaliação enviada! Os seus pontos foram creditados.');
+    toast.success(t('feedback.ratingSent'));
     setDentistRating(0);
     setDentistHover(0);
     setDentistComment('');
@@ -82,17 +85,16 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Avaliar Consulta</DialogTitle>
+          <DialogTitle>{t('feedback.rateConsultation')}</DialogTitle>
           <DialogDescription>
-            Dê o seu feedback sobre a consulta de {format(score.date, "d 'de' MMMM", { locale: pt })}
+            {t('feedback.giveFeedback')} {format(score.date, "d MMMM", { locale })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-5 py-2">
-          {/* Section 1 — Dentist Rating */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-foreground">Como avalia o {score.dentistName}?</p>
-            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts ao dentista · 3★ = +1 pt · 1-2★ = -3 pts</p>
+            <p className="text-sm font-medium text-foreground">{t('feedback.howRateDentist')} {score.dentistName}?</p>
+            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts · 3★ = +1 pt · 1-2★ = -3 pts</p>
             <StarRating
               value={dentistRating}
               hovered={dentistHover}
@@ -106,19 +108,18 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
             <Textarea
               value={dentistComment}
               onChange={(e) => setDentistComment(e.target.value)}
-              placeholder="Observações sobre o dentista..."
+              placeholder={t('feedback.observationsDentist')}
               className="resize-none"
               rows={2}
             />
-            <p className="text-[10px] text-muted-foreground">✏️ Editável até 24h após submissão</p>
+            <p className="text-[10px] text-muted-foreground">✏️ {t('feedback.editableUntil')}</p>
           </div>
 
           <div className="border-t border-border" />
 
-          {/* Section 2 — Clinic Rating */}
           <div className="space-y-2">
-            <p className="text-sm font-medium text-foreground">Como avalia a {score.clinicName}?</p>
-            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts à clínica · 3★ = +1 pt · 1-2★ = -3 pts</p>
+            <p className="text-sm font-medium text-foreground">{t('feedback.howRateClinic')} {score.clinicName}?</p>
+            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts · 3★ = +1 pt · 1-2★ = -3 pts</p>
             <StarRating
               value={clinicRating}
               hovered={clinicHover}
@@ -132,23 +133,22 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: Patie
             <Textarea
               value={clinicComment}
               onChange={(e) => setClinicComment(e.target.value)}
-              placeholder="Observações sobre a clínica (atendimento, instalações, secretariado)..."
+              placeholder={t('feedback.observationsClinic')}
               className="resize-none"
               rows={2}
             />
-            <p className="text-[10px] text-muted-foreground">✏️ Editável até 24h após submissão</p>
+            <p className="text-[10px] text-muted-foreground">✏️ {t('feedback.editableUntil')}</p>
           </div>
 
-          {/* Actions */}
           <div className="flex flex-col gap-2 pt-2">
             <Button className="w-full" onClick={handleSubmit} disabled={dentistRating === 0}>
-              Enviar Avaliação
+              {t('feedback.sendRating')}
             </Button>
             <button
               className="text-xs text-muted-foreground hover:text-foreground text-center py-1"
               onClick={onClose}
             >
-              Avaliar mais tarde
+              {t('feedback.rateLater')}
             </button>
           </div>
         </div>
