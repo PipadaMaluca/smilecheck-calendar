@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Menu, ChevronLeft, ChevronRight, User, Search, Stethoscope, Building2, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -89,6 +90,7 @@ const getPresentDentistKeys = () => {
 };
 
 export function DesktopCalendarView() {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
@@ -290,7 +292,7 @@ export function DesktopCalendarView() {
     const dentistKey = singleDentistKey;
     const [clinicId, dentistId] = dentistKey.split('-');
     const dentist = mockDentists.find((d) => d.id === dentistId);
-    const dentistName = dentist?.name || 'Dentista';
+    const dentistName = dentist?.name || t('common.dentist');
 
     const existing = mockConsultations.find((c) =>
     isSameDay(c.date, toDate) && c.time === toTime &&
@@ -412,7 +414,7 @@ export function DesktopCalendarView() {
         onSlotClick={handleSlotClick}
         onDateChange={setSelectedDate}
         onViewModeChange={(m) => setViewMode(m)}
-        onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`Estado de ${c.patient.name} alterado`);}}
+        onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
         onCopy={(c) => {setClipboardConsultation(c);toast.info('Clique num slot vazio para colar a consulta');}}
         onDragMove={handleWeekDragMove} />;
 
@@ -430,7 +432,7 @@ export function DesktopCalendarView() {
       slotsPerDentist={slotsPerDentist}
       onSlotClick={handleSlotClick}
       selectedDate={selectedDate}
-      onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`Estado de ${c.patient.name} alterado`);}}
+      onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
       onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
       isPasteMode={!!clipboardConsultation}
       onEmptySlotClick={(time, dKey, dName) => {
@@ -556,7 +558,7 @@ export function DesktopCalendarView() {
               {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
             </p>
             <p className="text-xs text-muted-foreground">
-              {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+              {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
             </p>
           </div>
           <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
@@ -639,7 +641,7 @@ export function DesktopCalendarView() {
     if (dossierPatientId && (activeRole === 'dentist' || activeRole === 'clinic')) {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Dossier do Paciente')}
+          {renderStandardHeader(t('dossier.title'))}
            <PatientDossierView
             patientId={dossierPatientId}
             onClose={() => setDossierPatientId(null)}
@@ -656,7 +658,7 @@ export function DesktopCalendarView() {
     if (viewDentistProfile) {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Perfil do Dentista')}
+          {renderStandardHeader(t('profile.dentistProfile'))}
           <div className="flex-1 overflow-y-auto">
             <DentistProfileView
               dentist={viewDentistProfile}
@@ -675,7 +677,7 @@ export function DesktopCalendarView() {
     if (viewClinicProfile) {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Perfil da Clínica')}
+          {renderStandardHeader(t('profile.clinicProfile'))}
           <div className="flex-1 overflow-y-auto">
             <ClinicProfileView
               clinicId={viewClinicProfile}
@@ -719,7 +721,7 @@ export function DesktopCalendarView() {
                       {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                      {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
                     </p>
                   </div>
                   <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2 border-secondary">
@@ -790,7 +792,7 @@ export function DesktopCalendarView() {
                         {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {activeRole === 'patient' ? 'Paciente' : activeRole === 'dentist' ? 'Dentista' : 'Clínica'}
+                        {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
                       </p>
                     </div>
                     <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
@@ -835,7 +837,7 @@ export function DesktopCalendarView() {
       case 'team':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Equipa')}
+            {renderStandardHeader(t('team.title'))}
             <TeamView userRole={activeRole} onNavigate={handleNavTabChange} />
           </div>);
 
@@ -843,7 +845,7 @@ export function DesktopCalendarView() {
       case 'conversas':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Conversas')}
+            {renderStandardHeader(t('chat.title'))}
             <ConversationsView userRole={activeRole} onNavigate={handleNavTabChange} />
           </div>);
 
@@ -880,7 +882,7 @@ export function DesktopCalendarView() {
           const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === '1') || MOCK_DENTIST_RESULTS[0];
           return (
             <div className="flex-1 flex flex-col overflow-hidden">
-              {renderStandardHeader('Meu Perfil')}
+              {renderStandardHeader(t('profile.myProfile'))}
               <div className="flex-1 overflow-y-auto">
                 <DentistProfileView
                   dentist={ownDentist}
@@ -895,7 +897,7 @@ export function DesktopCalendarView() {
         if (activeRole === 'clinic') {
           return (
             <div className="flex-1 flex flex-col overflow-hidden">
-              {renderStandardHeader('Meu Perfil')}
+              {renderStandardHeader(t('profile.myProfile'))}
               <div className="flex-1 overflow-y-auto">
                 <ClinicProfileView
                   clinicId={mockClinics[0].id}
@@ -913,7 +915,7 @@ export function DesktopCalendarView() {
         }
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Meu Perfil')}
+            {renderStandardHeader(t('profile.myProfile'))}
             <div className="flex-1 overflow-y-auto">
               <ProfileView
                 userRole={activeRole}
@@ -929,7 +931,7 @@ export function DesktopCalendarView() {
       case 'editarPerfil':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Editar Perfil')}
+            {renderStandardHeader(t('profile.editProfile'))}
             <div className="flex-1 overflow-y-auto">
               <EditProfileView userRole={activeRole} isOpen={true} onClose={() => setActiveNavTab('perfil')} onSave={() => setActiveNavTab('perfil')} inline />
             </div>
@@ -939,14 +941,14 @@ export function DesktopCalendarView() {
       case 'pontuacoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Pontuações')}
+            {renderStandardHeader(t('scores.title'))}
             <div className="flex-1 overflow-y-auto"><PontuacoesView userRole={activeRole} onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
           </div>);
 
       case 'classificacoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Pontuações')}
+            {renderStandardHeader(t('scores.title'))}
             <div className="flex-1 overflow-y-auto"><PontuacoesView userRole={activeRole} initialTab="classificacoes" onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
           </div>);
 
@@ -960,7 +962,7 @@ export function DesktopCalendarView() {
       case 'conquistas':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Conquistas')}
+            {renderStandardHeader(t('achievements.title'))}
             <div className="flex-1 overflow-y-auto"><AchievementsView userRole={activeRole} /></div>
           </div>);
 
@@ -968,7 +970,7 @@ export function DesktopCalendarView() {
       case 'plano':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Gerir Plano')}
+            {renderStandardHeader(t('plan.managePlan'))}
             <div className="flex-1 overflow-y-auto"><ManagePlanView userRole={activeRole} /></div>
           </div>);
 
@@ -976,14 +978,14 @@ export function DesktopCalendarView() {
       case 'loja':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Loja de Recompensas')}
+            {renderStandardHeader(t('rewards.title'))}
             <div className="flex-1 overflow-y-auto"><RewardsStoreView userRole={activeRole} /></div>
           </div>);
 
       case 'faturacao':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader(activeRole === 'patient' ? 'Pagamentos e Faturação' : activeRole === 'clinic' ? 'Faturação da Clínica' : 'Faturação')}
+            {renderStandardHeader(activeRole === 'patient' ? t('billing.paymentsAndBilling') : activeRole === 'clinic' ? t('billing.clinicBilling') : t('billing.title'))}
             <div className="flex-1 overflow-y-auto"><BillingView userRole={activeRole} onNavigate={(tab: string) => setActiveNavTab(tab)} /></div>
           </div>);
 
@@ -1034,7 +1036,7 @@ export function DesktopCalendarView() {
       case 'prescrever':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Prescrever Receita')}
+            {renderStandardHeader(t('prescription.title'))}
             <div className="flex-1 overflow-y-auto">
               <PrescriptionFlow
                 onClose={() => setActiveNavTab('home')}
@@ -1048,7 +1050,7 @@ export function DesktopCalendarView() {
       case 'referencia':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Carta de Referência')}
+            {renderStandardHeader(t('referral.title'))}
             <div className="flex-1 overflow-y-auto">
               <ReferralLetterFlow
                 onClose={() => { setActiveNavTab('home'); setReferralPreSelectedDentist(null); }}
@@ -1065,7 +1067,7 @@ export function DesktopCalendarView() {
       case 'notificacoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Notificações')}
+            {renderStandardHeader(t('notifications.title'))}
             <div className="flex-1 overflow-y-auto p-4">
               <NotificationsFullView inline onFeedbackAction={handleNotificationFeedback} />
             </div>
@@ -1075,7 +1077,7 @@ export function DesktopCalendarView() {
       case 'estatisticas':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Estatísticas')}
+            {renderStandardHeader(t('statistics.title'))}
             <StatisticsView userRole={activeRole} />
           </div>);
 
