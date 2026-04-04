@@ -119,7 +119,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">Sem pacientes em lista de espera.</p>
+                <p className="p-4 text-sm text-muted-foreground">{t('waitingList.noPatients')}</p>
               )}
             </CardContent>
           </Card>
