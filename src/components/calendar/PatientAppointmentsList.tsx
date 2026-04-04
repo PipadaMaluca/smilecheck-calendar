@@ -144,7 +144,7 @@ export function PatientAppointmentsList({
                         // Handle reschedule
                       }}>
 
-                        Reagendar
+                        {t('agenda.reschedule')}
                       </Button>
                       <Button
                       variant="outline"
@@ -152,10 +152,9 @@ export function PatientAppointmentsList({
                       className="flex-1 text-xs text-destructive hover:text-destructive"
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Handle cancel
                       }}>
 
-                        Cancelar
+                        {t('common.cancel')}
                       </Button>
                     </div>
                   )}
