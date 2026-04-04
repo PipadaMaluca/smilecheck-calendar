@@ -14,6 +14,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockDentists, mockClinics, mockConsultations } from '@/data/mockData';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface ReferralLetterFlowProps {
   onClose: () => void;
@@ -24,7 +25,6 @@ interface ReferralLetterFlowProps {
   preSelectedDentist?: DentistSearchResult;
 }
 
-// Extract recent patients from consultations (same as PrescriptionFlow)
 const getRecentPatients = () => {
   const seen = new Map<string, {id: string;name: string;age: number;lastDate: Date;}>();
   mockConsultations.forEach((c) => {
@@ -48,14 +48,26 @@ interface MockAttachment {
   size: string;
 }
 
-
 const SPECIALTIES = [
 'Dentisteria Generalista', 'Dentisteria Estética', 'Cirurgia Oral', 'Endodontia',
 'Implantologia', 'Odontopediatria', 'Ortodontia', 'Periodontologia',
 'Prostodontia Fixa', 'Prostodontia Removível'];
 
+const SPECIALTY_KEYS: Record<string, string> = {
+  'Dentisteria Generalista': 'generalDentistry',
+  'Dentisteria Estética': 'cosmeticDentistry',
+  'Cirurgia Oral': 'oralSurgery',
+  'Endodontia': 'endodontics',
+  'Implantologia': 'implantology',
+  'Odontopediatria': 'pediatricDentistry',
+  'Ortodontia': 'orthodontics',
+  'Periodontologia': 'periodontics',
+  'Prostodontia Fixa': 'fixedProsthodontics',
+  'Prostodontia Removível': 'removableProsthodontics',
+};
 
 export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite, preSelectedDentist }: ReferralLetterFlowProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [step, setStep] = useState(1);
   const [patientSearch, setPatientSearch] = useState('');
@@ -96,7 +108,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
   const handleSend = () => {
     setCompleted(true);
-    toast.success('Carta de Referência enviada com sucesso!');
+    toast.success(t('referral.referralSuccess'));
   };
 
   if (completed) {
@@ -106,9 +118,9 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto">
             <Check className="w-8 h-8 text-emerald-500" />
           </div>
-          <h2 className="text-xl font-bold text-foreground">Carta de Referência enviada!</h2>
+          <h2 className="text-xl font-bold text-foreground">{t('referral.success')}</h2>
           <p className="text-sm text-muted-foreground">
-            O paciente {selectedPatient?.name} foi notificado.
+            {t('referral.patientNotified', { name: selectedPatient?.name })}
           </p>
           <div className="flex gap-3 pt-4">
             <Button variant="outline" className="flex-1" onClick={() => {
@@ -116,29 +128,28 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               setSelectedDentist(null);setReason('');setNotes('');
               setCompleted(false);
             }}>
-              Nova Referência
+              {t('referral.newReferral')}
             </Button>
             <Button className="flex-1" onClick={() => {onClose();onGoHome?.();}}>
-              Voltar ao Início
+              {t('referral.goHome')}
             </Button>
           </div>
         </div>
       </div>);
-
   }
 
   const renderStep = () => {
     switch (step) {
-      case 1: // Select Patient
+      case 1:
         return (
           <div className="space-y-4">
-            <h3 className="font-bold text-lg text-center">Para quem é a referência?</h3>
+            <h3 className="font-bold text-lg text-center">{t('referral.forWhom')}</h3>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 value={patientSearch}
                 onChange={(e) => setPatientSearch(e.target.value)}
-                placeholder="Pesquisar paciente..."
+                placeholder={t('referral.searchPatient')}
                 className="pl-10" />
             </div>
             <div className="space-y-2">
@@ -156,7 +167,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                   </Avatar>
                   <div className="text-left flex-1">
                     <p className="text-sm font-medium">{p.name}</p>
-                    <p className="text-xs text-muted-foreground">{p.age} anos</p>
+                    <p className="text-xs text-muted-foreground">{p.age} {t('profile.years')}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <p className="text-xs text-muted-foreground">
@@ -169,11 +180,10 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             </div>
           </div>);
 
-
-      case 2: // Select Specialty
+      case 2:
         return (
           <div className="space-y-4">
-            <h3 className="text-base font-semibold">Qual a especialidade necessária?</h3>
+            <h3 className="text-base font-semibold">{t('referral.whichSpecialty')}</h3>
             <div className="grid grid-cols-2 gap-2">
               {SPECIALTIES.map((s) =>
               <button
@@ -185,27 +195,25 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                   'border-primary bg-primary/10 text-primary font-medium' :
                   'border-border hover:border-primary/50'
                 )}>
-
-                  {s}
+                  {t(`specialties.${SPECIALTY_KEYS[s] || s}`)}
                 </button>
               )}
             </div>
           </div>);
 
-
-      case 3: // Select Dentist
+      case 3:
         return (
           <div className="space-y-4">
-            <h3 className="text-base font-semibold">Escolha o dentista para referenciar</h3>
+            <h3 className="text-base font-semibold">{t('referral.chooseDentist')}</h3>
             <div className="flex gap-2">
               <button
                 onClick={() => setDentistFilter('all')}
                 className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
-                Todos</button>
+                {t('referral.allDentists')}</button>
               <button
                 onClick={() => setDentistFilter('favorites')}
                 className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
-                ⭐ Só Favoritos</button>
+                ⭐ {t('referral.onlyFavorites')}</button>
             </div>
             <div className="space-y-2">
               {filteredDentists.map((d) => {
@@ -221,7 +229,6 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                       'w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left',
                       selectedDentist?.id === d.id ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50'
                     )}>
-
                     <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-sm font-bold text-primary flex-shrink-0">
                       {initials}
                     </div>
@@ -236,7 +243,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                         <span className="text-xs text-muted-foreground">· {d.clinics[0]?.name}</span>
                         <span className="text-xs text-muted-foreground">· {d.distance} km</span>
                       </div>
-                      <Badge variant="outline" className="text-[10px] mt-1 h-4">Aceita novos pacientes</Badge>
+                      <Badge variant="outline" className="text-[10px] mt-1 h-4">{t('profile.acceptsNewPatients')}</Badge>
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
@@ -245,41 +252,36 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                       </button>
                     </div>
                   </button>);
-
               })}
             </div>
           </div>);
 
-
-      case 4: // Reason + Attachments
+      case 4:
         return (
           <div className="space-y-4">
-            <h3 className="text-base font-semibold">Detalhes da referência</h3>
+            <h3 className="text-base font-semibold">{t('referral.referralDetails')}</h3>
             <div>
-              <label className="text-xs text-muted-foreground mb-1.5 block">Motivo da Referência *</label>
-              <Textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={4} placeholder="Descreva o motivo da referência..." />
+              <label className="text-xs text-muted-foreground mb-1.5 block">{t('referral.referralReason')} *</label>
+              <Textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={4} placeholder={t('referral.referralReasonPlaceholder')} />
             </div>
             <div>
-              <label className="text-xs text-muted-foreground mb-1.5 block">Observações Clínicas (opcional)</label>
-              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Observações adicionais..." />
+              <label className="text-xs text-muted-foreground mb-1.5 block">{t('referral.clinicalObs')}</label>
+              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder={t('referral.clinicalObsPlaceholder')} />
             </div>
 
-            {/* Attachments Section */}
             <Separator />
             <div className="space-y-3">
               <div>
-                <h4 className="text-sm font-semibold">Anexos</h4>
-                <p className="text-xs text-muted-foreground">Anexe radiografias, fotografias ou documentos relevantes</p>
+                <h4 className="text-sm font-semibold">{t('referral.attachments')}</h4>
+                <p className="text-xs text-muted-foreground">{t('referral.attachmentsDesc')}</p>
               </div>
 
-              {/* Drop zone */}
               <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer">
                 <Upload className="w-6 h-6 mx-auto text-muted-foreground mb-2" />
-                <p className="text-sm text-muted-foreground">Arraste ficheiros ou clique para selecionar</p>
-                <p className="text-xs text-muted-foreground mt-1">PDF, JPG, PNG, DICOM · Máx. 10MB por ficheiro</p>
+                <p className="text-sm text-muted-foreground">{t('referral.dropFiles')}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t('referral.fileTypes')}</p>
               </div>
 
-              {/* Attached files list */}
               {attachments.length > 0 &&
               <div className="space-y-2">
                   {attachments.map((file) =>
@@ -301,33 +303,30 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 const newId = `a${Date.now()}`;
                 setAttachments((prev) => [...prev, { id: newId, name: `Documento_${prev.length + 1}.pdf`, size: '0.5 MB' }]);
               }}>
-                <Plus className="w-4 h-4" /> Adicionar ficheiro
+                <Plus className="w-4 h-4" /> {t('referral.addFile')}
               </Button>
             </div>
           </div>);
 
-
-      case 5: // Preview
+      case 5:
         return (
           <div className="space-y-4">
-            {/* OMD Warning Banner */}
             <Alert className="border-amber-500/50 bg-amber-500/10">
               <AlertTriangle className="h-4 w-4 text-amber-500" />
-              <AlertTitle className="text-sm font-semibold text-amber-600">Nº da Ordem em falta</AlertTitle>
+              <AlertTitle className="text-sm font-semibold text-amber-600">{t('referral.omdMissing')}</AlertTitle>
               <AlertDescription className="text-xs text-muted-foreground">
-                O seu Nº da Ordem dos Médicos Dentistas não está preenchido. Este número é obrigatório para emitir cartas de referência oficiais.
+                {t('referral.omdMissingDesc')}
                 <button className="block mt-1 text-xs font-medium text-primary hover:underline">
-                  Completar perfil profissional →
+                  {t('referral.completeProfile')}
                 </button>
               </AlertDescription>
             </Alert>
 
-            <h3 className="text-base font-semibold">Pré-visualizar Carta</h3>
-            {/* PDF Preview */}
+            <h3 className="text-base font-semibold">{t('referral.previewLetter')}</h3>
             <div className="border border-border rounded-xl bg-card p-5 space-y-4 text-sm">
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="font-bold text-base">CARTA DE REFERÊNCIA</p>
+                  <p className="font-bold text-base">{t('referral.referralLetter')}</p>
                 </div>
               </div>
               <Separator />
@@ -335,57 +334,55 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 <p className="font-semibold">{mockDentists[0].name}</p>
                 <p className="text-muted-foreground text-xs">{mockClinics[0].name}</p>
                 <p className="text-muted-foreground text-xs">{mockClinics[0].address}</p>
-                <p className="text-muted-foreground text-xs">Nº Ordem: OMD-12345</p>
-                <p className="text-muted-foreground text-xs">Data: {new Date().toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="text-muted-foreground text-xs">{t('prescription.orderNumber')}: OMD-12345</p>
+                <p className="text-muted-foreground text-xs">{t('prescription.dateLabel')}: {new Date().toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
               <Separator />
               <div>
-                <p className="text-xs text-muted-foreground uppercase font-semibold">Paciente:</p>
-                <p>{selectedPatient?.name}, {selectedPatient?.age} anos</p>
+                <p className="text-xs text-muted-foreground uppercase font-semibold">{t('prescription.patientLabel')}:</p>
+                <p>{selectedPatient?.name}, {selectedPatient?.age} {t('profile.years')}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground uppercase font-semibold">Referencio Para:</p>
+                <p className="text-xs text-muted-foreground uppercase font-semibold">{t('referral.referTo')}:</p>
                 <p className="font-medium">{selectedDentist?.name}</p>
-                <p className="text-xs text-muted-foreground">Especialidade: {selectedSpecialty}</p>
+                <p className="text-xs text-muted-foreground">{t('referral.specialty')}: {selectedSpecialty ? t(`specialties.${SPECIALTY_KEYS[selectedSpecialty] || selectedSpecialty}`) : ''}</p>
                 <p className="text-xs text-muted-foreground">{selectedDentist?.clinics[0]?.name}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground uppercase font-semibold">Motivo:</p>
+                <p className="text-xs text-muted-foreground uppercase font-semibold">{t('referral.reasonLabel')}:</p>
                 <p className="text-muted-foreground">{reason}</p>
               </div>
               {notes &&
               <div>
-                  <p className="text-xs text-muted-foreground uppercase font-semibold">Observações:</p>
+                  <p className="text-xs text-muted-foreground uppercase font-semibold">{t('referral.observations')}:</p>
                   <p className="text-muted-foreground">{notes}</p>
                 </div>
               }
               <Separator />
               <div className="flex justify-between items-end">
-                <p className="text-xs text-muted-foreground">Assinatura: _______________</p>
+                <p className="text-xs text-muted-foreground">{t('referral.signature')}: _______________</p>
                 <div className="w-16 h-16 border border-dashed border-muted-foreground rounded flex items-center justify-center">
                   <span className="text-[8px] text-muted-foreground">QR Code</span>
                 </div>
               </div>
             </div>
 
-            {/* Send Options */}
             <div className="space-y-3">
-              <p className="text-xs font-semibold text-muted-foreground">Opções de envio:</p>
+              <p className="text-xs font-semibold text-muted-foreground">{t('referral.sendOptions')}:</p>
               <label className="flex items-center gap-3 cursor-pointer">
                 <Checkbox checked={sendToHealth} onCheckedChange={(v) => setSendToHealth(!!v)} />
-                <span className="text-sm">Enviar para a área Saúde do paciente</span>
+                <span className="text-sm">{t('referral.sendToHealth')}</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer">
                 <Checkbox checked={sendEmail} onCheckedChange={(v) => setSendEmail(!!v)} />
-                <span className="text-sm">Enviar por Email</span>
+                <span className="text-sm">{t('referral.sendByEmail')}</span>
               </label>
               <label className="flex items-center gap-3 cursor-pointer">
                 <Checkbox checked={downloadPdf} onCheckedChange={(v) => setDownloadPdf(!!v)} />
-                <span className="text-sm">Download PDF</span>
+                <span className="text-sm">{t('referral.downloadPdf')}</span>
               </label>
             </div>
           </div>);
-
     }
   };
 
@@ -413,16 +410,15 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
         'w-full h-full pb-[60px]' :
         'w-full h-full max-w-2xl mx-auto'
       )}>
-      {/* Header */}
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
         <div className="w-full max-w-[600px]">
-          <h1 className="font-bold text-lg text-center">Carta de Referência</h1>
+          <h1 className="font-bold text-lg text-center">{t('referral.title')}</h1>
         </div>
       </div>
 
       <div className="max-w-[600px] mx-auto w-full">
         <div className="space-y-2 py-[10px] px-[15px]">
-          <p className="text-xs text-muted-foreground text-center">Passo {step} de 5</p>
+          <p className="text-xs text-muted-foreground text-center">{t('referral.step', { step })}</p>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
               <div key={s} className="flex-1">
@@ -433,21 +429,18 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto px-0 pl-[20px]">
         <div className="p-4 md:p-6 max-w-[600px] pb-[5px] px-0 mx-0 pt-0 py-[5px]">
           {renderStep()}
         </div>
       </div>
 
-      {/* Footer */}
       <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-[30px] px-0",
-
         isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
         )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>
-            {step > 1 ? 'Anterior' : 'Cancelar'}
+            {step > 1 ? t('referral.previous') : t('referral.cancel')}
           </Button>
           <Button
               size="sm"
@@ -457,18 +450,15 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 if (step === 5) handleSend();else
                 setStep(step + 1);
               }}>
-
             {step === 5 ?
               <>
                 <Send className="w-4 h-4 mr-1" />
-                Assinar e Enviar
+                {t('referral.signAndSend')}
               </> :
-              step === 4 ? 'Pré-visualizar' : 'Seguinte'}
+              step === 4 ? t('referral.previewBtn') : t('referral.next')}
           </Button>
         </div>
       </div>
     </div>
     </div>);
-
-
 }

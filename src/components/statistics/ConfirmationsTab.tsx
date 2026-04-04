@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -79,6 +80,7 @@ interface ConfirmationsTabProps {
 }
 
 export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTabProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
@@ -128,11 +130,11 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-xs">Hora</TableHead>
-                        <TableHead className="text-xs">Paciente</TableHead>
-                        <TableHead className="text-xs">Tipo</TableHead>
-                        <TableHead className="text-xs text-center">24h</TableHead>
-                        <TableHead className="text-xs text-center">1h</TableHead>
+                        <TableHead className="text-xs">{t('confirmations.time')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.patient')}</TableHead>
+                        <TableHead className="text-xs">{t('confirmations.type')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('confirmations.h24')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('confirmations.h1')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -161,7 +163,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">Sem consultas hoje.</p>
+                <p className="p-4 text-sm text-muted-foreground">{t('confirmations.noConsultations')}</p>
               )}
             </CardContent>
           </Card>

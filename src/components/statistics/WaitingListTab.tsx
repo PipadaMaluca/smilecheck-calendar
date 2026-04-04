@@ -7,6 +7,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { UserRole, getCategoryBadgeStyle } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface WaitlistPatient {
   id: string;
@@ -47,6 +48,7 @@ interface WaitingListTabProps {
 }
 
 export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProps) {
+  const { t } = useTranslation();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistsToShow = useMemo(() => {
@@ -72,7 +74,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
                 <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 self-start sm:self-auto">
-                  {patients.length} pacientes
+                  {patients.length} {t('waitingList.patients')}
                 </Badge>
               </div>
               {patients.length > 0 ? (
@@ -80,11 +82,11 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-xs">Paciente</TableHead>
-                        <TableHead className="text-xs">Consulta</TableHead>
-                        <TableHead className="text-xs hidden sm:table-cell">Disponibilidade</TableHead>
-                        <TableHead className="text-xs">Prioridade</TableHead>
-                        <TableHead className="text-xs hidden sm:table-cell">Data Pedido</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.patient')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.consultation')}</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">{t('waitingList.availability')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.priority')}</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">{t('waitingList.requestDate')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -117,7 +119,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">Sem pacientes em lista de espera.</p>
+                <p className="p-4 text-sm text-muted-foreground">{t('waitingList.noPatients')}</p>
               )}
             </CardContent>
           </Card>

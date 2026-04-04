@@ -71,7 +71,16 @@
     "repeat": "Répéter",
     "preview": "Aperçu",
     "selected": "sélectionnées",
-    "view": "Voir"
+    "view": "Voir",
+    "weekdays": {
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mer",
+      "thu": "Jeu",
+      "fri": "Ven",
+      "sat": "Sam",
+      "sun": "Dim"
+    }
   },
   "nav": {
     "home": "Accueil",
@@ -2204,7 +2213,24 @@
     "parking": "Stationnement",
     "meals": "Restauration",
     "acceptsNewPatients": "Accepte les nouveaux patients",
-    "onlyFavorites": "Favoris uniquement"
+    "onlyFavorites": "Favoris uniquement",
+    "yearsExperience": "{{count}} ans d'expérience",
+    "availableForTeleconsultas": "Disponible pour téléconsultations",
+    "published_2days": "il y a 2 jours",
+    "published_3days": "il y a 3 jours",
+    "published_5days": "il y a 5 jours",
+    "published_1week": "il y a 1 semaine",
+    "proposalWarning": "Cette proposition sera envoyée au dentiste. Il pourra accepter, refuser ou proposer des modifications.",
+    "valuePlaceholder": "Montant",
+    "benefit_healthInsurance": "Assurance santé",
+    "benefit_continuousTraining": "Formation continue payée",
+    "benefit_conferences": "Participation aux congrès",
+    "benefit_materialIncluded": "Matériel clinique inclus",
+    "benefit_parking": "Stationnement",
+    "benefit_meals": "Restauration",
+    "avail_afternoons_mon_thu": "Après-midis disponibles (Lun-Jeu)",
+    "avail_saturdays_full": "Samedis complets",
+    "avail_mon_fri_available": "Lun-Ven disponible"
   },
   "prescription": {
     "title": "Prescrire",
@@ -2274,5 +2300,46 @@
     "rating": "Note",
     "performance": "Performance",
     "topPatients": "Top Patients"
+  },
+  "waitingList": {
+    "patients": "patients",
+    "patient": "Patient",
+    "consultation": "Consultation",
+    "availability": "Disponibilité",
+    "priority": "Priorité",
+    "requestDate": "Date de demande",
+    "noPatients": "Aucun patient en liste d'attente."
+  },
+  "confirmations": {
+    "time": "Heure",
+    "type": "Type",
+    "h24": "24h",
+    "h1": "1h",
+    "noConsultations": "Aucune consultation aujourd'hui."
+  },
+  "export": {
+    "selectAtLeast": "Sélectionnez au moins un type de rapport.",
+    "downloaded": "Rapport téléchargé !",
+    "generatedSuccess": "Rapport généré avec succès !",
+    "download": "Télécharger",
+    "generating": "Génération du rapport...",
+    "reportType": "Type de rapport",
+    "period": "Période",
+    "format": "Format",
+    "exportBtn": "Exporter",
+    "to": "à",
+    "report_summary": "Résumé général",
+    "report_confirmations": "Confirmations",
+    "report_waitingList": "Liste d'attente",
+    "report_history": "Historique des consultations",
+    "report_scoring": "Score et XP",
+    "report_teamStats": "Statistiques de l'équipe",
+    "report_rankings": "Classement des dentistes",
+    "period_today": "Aujourd'hui",
+    "period_thisWeek": "Cette semaine",
+    "period_thisMonth": "Ce mois-ci",
+    "period_thisQuarter": "Ce trimestre",
+    "period_thisYear": "Cette année",
+    "period_custom": "Personnalisé"
   }
 }

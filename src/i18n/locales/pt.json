@@ -71,7 +71,16 @@
     "repeat": "Repetir",
     "preview": "Pré-visualização",
     "selected": "selecionadas",
-    "view": "Ver"
+    "view": "Ver",
+    "weekdays": {
+      "mon": "Seg",
+      "tue": "Ter",
+      "wed": "Qua",
+      "thu": "Qui",
+      "fri": "Sex",
+      "sat": "Sáb",
+      "sun": "Dom"
+    }
   },
   "nav": {
     "home": "Início",
@@ -2204,7 +2213,24 @@
     "parking": "Estacionamento",
     "meals": "Alimentação",
     "acceptsNewPatients": "Aceita novos pacientes",
-    "onlyFavorites": "Só Favoritos"
+    "onlyFavorites": "Só Favoritos",
+    "yearsExperience": "{{count}} anos de experiência",
+    "availableForTeleconsultas": "Disponível para teleconsultas",
+    "published_2days": "há 2 dias",
+    "published_3days": "há 3 dias",
+    "published_5days": "há 5 dias",
+    "published_1week": "há 1 semana",
+    "proposalWarning": "Esta proposta será enviada ao dentista. Poderá aceitar, recusar ou propor alterações.",
+    "valuePlaceholder": "Valor",
+    "benefit_healthInsurance": "Seguro de saúde",
+    "benefit_continuousTraining": "Formação contínua paga",
+    "benefit_conferences": "Participação em congressos",
+    "benefit_materialIncluded": "Material clínico incluído",
+    "benefit_parking": "Estacionamento",
+    "benefit_meals": "Alimentação",
+    "avail_afternoons_mon_thu": "Tardes disponíveis (Seg-Qui)",
+    "avail_saturdays_full": "Sábados inteiros",
+    "avail_mon_fri_available": "Seg-Sex disponível"
   },
   "prescription": {
     "title": "Prescrever Receita",
@@ -2274,5 +2300,46 @@
     "rating": "Rating",
     "performance": "Desempenho",
     "topPatients": "Top Pacientes"
+  },
+  "waitingList": {
+    "patients": "pacientes",
+    "patient": "Paciente",
+    "consultation": "Consulta",
+    "availability": "Disponibilidade",
+    "priority": "Prioridade",
+    "requestDate": "Data Pedido",
+    "noPatients": "Sem pacientes em lista de espera."
+  },
+  "confirmations": {
+    "time": "Hora",
+    "type": "Tipo",
+    "h24": "24h",
+    "h1": "1h",
+    "noConsultations": "Sem consultas hoje."
+  },
+  "export": {
+    "selectAtLeast": "Selecione pelo menos um tipo de relatório.",
+    "downloaded": "Relatório descarregado!",
+    "generatedSuccess": "Relatório gerado com sucesso!",
+    "download": "Descarregar",
+    "generating": "A gerar relatório...",
+    "reportType": "Tipo de Relatório",
+    "period": "Período",
+    "format": "Formato",
+    "exportBtn": "Exportar",
+    "to": "a",
+    "report_summary": "Resumo geral",
+    "report_confirmations": "Confirmações",
+    "report_waitingList": "Lista de espera",
+    "report_history": "Histórico de consultas",
+    "report_scoring": "Pontuação e XP",
+    "report_teamStats": "Estatísticas da equipa",
+    "report_rankings": "Rankings dos dentistas",
+    "period_today": "Hoje",
+    "period_thisWeek": "Esta semana",
+    "period_thisMonth": "Este mês",
+    "period_thisQuarter": "Este trimestre",
+    "period_thisYear": "Este ano",
+    "period_custom": "Personalizado"
   }
 }

@@ -71,7 +71,16 @@
     "repeat": "Repeat",
     "preview": "Preview",
     "selected": "selected",
-    "view": "View"
+    "view": "View",
+    "weekdays": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
   },
   "nav": {
     "home": "Home",
@@ -2204,7 +2213,24 @@
     "parking": "Parking",
     "meals": "Meals",
     "acceptsNewPatients": "Accepts new patients",
-    "onlyFavorites": "Favourites only"
+    "onlyFavorites": "Favourites only",
+    "yearsExperience": "{{count}} years of experience",
+    "availableForTeleconsultas": "Available for teleconsultations",
+    "published_2days": "2 days ago",
+    "published_3days": "3 days ago",
+    "published_5days": "5 days ago",
+    "published_1week": "1 week ago",
+    "proposalWarning": "This proposal will be sent to the dentist. They can accept, decline, or suggest changes.",
+    "valuePlaceholder": "Amount",
+    "benefit_healthInsurance": "Health insurance",
+    "benefit_continuousTraining": "Paid continuous training",
+    "benefit_conferences": "Conference attendance",
+    "benefit_materialIncluded": "Clinical materials included",
+    "benefit_parking": "Parking",
+    "benefit_meals": "Meals",
+    "avail_afternoons_mon_thu": "Afternoons available (Mon-Thu)",
+    "avail_saturdays_full": "Full Saturdays",
+    "avail_mon_fri_available": "Mon-Fri available"
   },
   "prescription": {
     "title": "Prescribe",
@@ -2274,5 +2300,46 @@
     "rating": "Rating",
     "performance": "Performance",
     "topPatients": "Top Patients"
+  },
+  "waitingList": {
+    "patients": "patients",
+    "patient": "Patient",
+    "consultation": "Consultation",
+    "availability": "Availability",
+    "priority": "Priority",
+    "requestDate": "Request Date",
+    "noPatients": "No patients on the waiting list."
+  },
+  "confirmations": {
+    "time": "Time",
+    "type": "Type",
+    "h24": "24h",
+    "h1": "1h",
+    "noConsultations": "No appointments today."
+  },
+  "export": {
+    "selectAtLeast": "Select at least one report type.",
+    "downloaded": "Report downloaded!",
+    "generatedSuccess": "Report generated successfully!",
+    "download": "Download",
+    "generating": "Generating report...",
+    "reportType": "Report Type",
+    "period": "Period",
+    "format": "Format",
+    "exportBtn": "Export",
+    "to": "to",
+    "report_summary": "General summary",
+    "report_confirmations": "Confirmations",
+    "report_waitingList": "Waiting list",
+    "report_history": "Appointment history",
+    "report_scoring": "Scoring and XP",
+    "report_teamStats": "Team statistics",
+    "report_rankings": "Dentist rankings",
+    "period_today": "Today",
+    "period_thisWeek": "This week",
+    "period_thisMonth": "This month",
+    "period_thisQuarter": "This quarter",
+    "period_thisYear": "This year",
+    "period_custom": "Custom"
   }
 }

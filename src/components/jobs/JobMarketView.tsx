@@ -16,29 +16,30 @@ import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
 import { UserRole } from '@/types/calendar';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 // Mock job data - clinic offers (seen by dentists)
 const MOCK_CLINIC_OFFERS = [
   {
     id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.9, level: 'ouro' as const,
     location: 'Av. da Liberdade 123, Lisboa', distance: 2.5,
-    contractType: 'Tempo Parcial', schedule: 'Seg-Qua-Sex 09:00-13:00',
-    salary: '35% por consulta + Bónus teleconsulta €5', specialties: ['Generalista', 'Estética Dentária'],
-    benefits: ['Formação contínua', 'Material incluído'], publishedAgo: 'há 2 dias',
+    contractType: 'fullTime', schedule: 'Seg-Qua-Sex 09:00-13:00',
+    salary: '35% por consulta + Bónus teleconsulta €5', specialties: ['generalDentistry', 'cosmeticDentistry'],
+    benefits: ['continuousTraining', 'materialIncluded'], publishedAgo: '2days',
   },
   {
     id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.6, level: 'prata' as const,
     location: 'Rue de Paris 45, Mitry-Mory', distance: 4.2,
-    contractType: 'Tempo Inteiro', schedule: 'Seg-Sex 09:00-19:00',
-    salary: '€3.200/mês', specialties: ['Cirurgia', 'Endodontia'],
-    benefits: ['Seguro saúde', 'Estacionamento', 'Congressos'], publishedAgo: 'há 5 dias',
+    contractType: 'fullTime', schedule: 'Seg-Sex 09:00-19:00',
+    salary: '€3.200/mês', specialties: ['oralSurgery', 'endodontics'],
+    benefits: ['healthInsurance', 'parking', 'conferences'], publishedAgo: '5days',
   },
   {
     id: 'co3', clinicId: '3', clinicName: 'Clínica Montfermeil', rating: 4.8, level: 'ouro' as const,
     location: 'Avenue Jean Moulin 12, Montfermeil', distance: 6.0,
-    contractType: 'Freelancer', schedule: 'Sáb 09:00-14:00',
-    salary: '€30/consulta', specialties: ['Ortodontia', 'Implantologia'],
-    benefits: ['Material incluído'], publishedAgo: 'há 1 semana',
+    contractType: 'freelancer', schedule: 'Sáb 09:00-14:00',
+    salary: '€30/consulta', specialties: ['orthodontics', 'implantology'],
+    benefits: ['materialIncluded'], publishedAgo: '1week',
   },
 ];
 
@@ -46,40 +47,40 @@ const MOCK_CLINIC_OFFERS = [
 const MOCK_DENTIST_AVAILABILITY = [
   {
     id: 'da1', dentistId: '6', name: 'Dr. Fábio Lobo', rating: 4.8, level: 'prata' as const,
-    specialties: ['Cirurgia', 'Prótese', 'Implantologia'],
-    availability: 'Tempo Parcial', availabilityDetail: 'Tardes disponíveis (Seg-Qui)',
-    schedule: 'Seg-Qui 14:00-20:00', experience: '12 anos de experiência',
-    teleconsultas: true, salary: 'A partir de €2.800/mês', publishedAgo: 'há 3 dias',
+    specialties: ['oralSurgery', 'prosthodontics', 'implantology'],
+    availability: 'partTime', availabilityDetail: 'afternoons_mon_thu',
+    schedule: 'Seg-Qui 14:00-20:00', experience: 12,
+    teleconsultas: true, salary: 'A partir de €2.800/mês', publishedAgo: '3days',
     availableDate: '1 Mar 2026',
   },
   {
     id: 'da2', dentistId: '7', name: 'Dra. Catarina Fernandes', rating: 4.7, level: 'ouro' as const,
-    specialties: ['Ortodontia', 'Odontopediatria'],
-    availability: 'Freelancer', availabilityDetail: 'Sábados inteiros',
-    schedule: 'Sáb 09:00-18:00', experience: '6 anos de experiência',
-    teleconsultas: true, salary: '€28/consulta', publishedAgo: 'há 1 semana',
+    specialties: ['orthodontics', 'pediatricDentistry'],
+    availability: 'freelancer', availabilityDetail: 'saturdays_full',
+    schedule: 'Sáb 09:00-18:00', experience: 6,
+    teleconsultas: true, salary: '€28/consulta', publishedAgo: '1week',
     availableDate: '15 Mar 2026',
   },
   {
     id: 'da3', dentistId: '4', name: 'Dr. Frederico Cardoso', rating: 4.6, level: 'prata' as const,
-    specialties: ['Cirurgia', 'Prótese'],
-    availability: 'Tempo Inteiro', availabilityDetail: 'Seg-Sex disponível',
-    schedule: 'Seg-Sex 09:00-19:00', experience: '15 anos de experiência',
-    teleconsultas: false, salary: 'Negociável (mín. €3.000/mês)', publishedAgo: 'há 2 dias',
+    specialties: ['oralSurgery', 'prosthodontics'],
+    availability: 'fullTime', availabilityDetail: 'mon_fri_available',
+    schedule: 'Seg-Sex 09:00-19:00', experience: 15,
+    teleconsultas: false, salary: 'Negociável (mín. €3.000/mês)', publishedAgo: '2days',
     availableDate: '1 Abr 2026',
   },
 ];
 
-const CONTRACT_TYPES = ['Todos', 'Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição'];
-const BENEFITS_OPTIONS = ['Seguro de saúde', 'Formação contínua paga', 'Participação em congressos', 'Material clínico incluído', 'Estacionamento', 'Alimentação'];
-const WEEKDAYS_SHORT = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
-const TIME_PERIODS = ['Manhã', 'Tarde', 'Noite'];
-const SPECIALTIES = [
-  'Generalista', 'Ortodontia', 'Implantologia', 'Endodontia',
-  'Cirurgia Oral', 'Prostodontia', 'Estética Dentária', 'Odontopediatria',
+const CONTRACT_TYPE_KEYS = ['allTypes', 'fullTime', 'partTime', 'freelancer', 'replacement'];
+const BENEFITS_KEYS = ['healthInsurance', 'continuousTraining', 'conferences', 'materialIncluded', 'parking', 'meals'];
+const JOB_TYPE_KEYS = ['fullTime', 'partTime', 'freelancer', 'replacement'];
+const JOB_PERIOD_KEYS = ['mornings', 'afternoons', 'evenings', 'weekends'];
+const SPECIALTY_KEYS = [
+  'generalDentistry', 'orthodontics', 'implantology', 'endodontics',
+  'oralSurgery', 'prosthodontics', 'cosmeticDentistry', 'pediatricDentistry',
 ];
-const JOB_TYPES = ['Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição'];
-const JOB_PERIODS = ['Manhãs', 'Tardes', 'Noites', 'Fins de semana'];
+const WEEKDAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+const TIME_PERIOD_KEYS = ['morning', 'afternoon', 'night'];
 
 interface JobMarketViewProps {
   userRole: UserRole;
@@ -89,6 +90,7 @@ interface JobMarketViewProps {
 
 // Manage availability panel for dentists
 function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useTranslation();
   const [enabled, setEnabled] = useState(false);
   const [jobTypes, setJobTypes] = useState<string[]>([]);
   const [periods, setPeriods] = useState<string[]>([]);
@@ -106,56 +108,56 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> Gerir Disponibilidade</DialogTitle>
-          <DialogDescription>Configure a sua disponibilidade para propostas de clínicas</DialogDescription>
+          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> {t('jobs.manageAvailability')}</DialogTitle>
+          <DialogDescription>{t('jobs.configureAvailability')}</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Disponível para novas oportunidades</span>
+            <span className="text-sm font-medium">{t('jobs.availableForWork')}</span>
             <Switch checked={enabled} onCheckedChange={setEnabled} />
           </div>
           {enabled && (
             <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
               <div>
-                <Label className="text-xs text-muted-foreground mb-2 block">Tipo pretendido</Label>
+                <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.preferredType')}</Label>
                 <div className="flex flex-wrap gap-2">
-                  {JOB_TYPES.map(t => <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>)}
+                  {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={jobTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
                 </div>
               </div>
               <div>
-                <Label className="text-xs text-muted-foreground mb-2 block">Disponibilidade horária</Label>
+                <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.timeAvailability')}</Label>
                 <div className="flex flex-wrap gap-2">
-                  {JOB_PERIODS.map(p => <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>)}
+                  {JOB_PERIOD_KEYS.map(k => <Badge key={k} variant={periods.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, k)}>{t(`jobs.${k}`)}</Badge>)}
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Teleconsultas</span>
+                <span className="text-sm">{t('agenda.teleconsultation')}</span>
                 <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Mostrar expectativa salarial?</span>
+                <span className="text-sm">{t('jobs.showSalaryExpectation')}</span>
                 <Switch checked={showSalary} onCheckedChange={setShowSalary} />
               </div>
               {showSalary && (
                 <div>
-                  <Label className="text-xs">Expectativa (€)</Label>
+                  <Label className="text-xs">{t('jobs.salaryExpectation')}</Label>
                   <Input type="number" placeholder="Ex: 2500" value={salary} onChange={e => setSalary(e.target.value)} />
                 </div>
               )}
               <div>
-                <Label className="text-xs">Data de disponibilidade</Label>
+                <Label className="text-xs">{t('jobs.availableDate')}</Label>
                 <Input type="date" value={availableDate} onChange={e => setAvailableDate(e.target.value)} />
               </div>
               <div>
-                <Label className="text-xs">Nota adicional</Label>
-                <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
+                <Label className="text-xs">{t('jobs.additionalNote')}</Label>
+                <Textarea value={note} onChange={e => setNote(e.target.value)} rows={2} placeholder={t('jobs.additionalInfo')} />
               </div>
             </div>
           )}
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Cancelar</Button>
-          <Button onClick={() => { toast.success('Disponibilidade atualizada!'); onClose(); }}>Guardar</Button>
+          <Button variant="outline" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button onClick={() => { toast.success(t('jobs.availabilityUpdated')); onClose(); }}>{t('common.save')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -164,12 +166,13 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
 
 // Publish vacancy panel for clinics
 function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useTranslation();
   const [enabled, setEnabled] = useState(true);
   const [contractTypes, setContractTypes] = useState<string[]>([]);
   const [specialties, setSpecialties] = useState<string[]>([]);
   const [schedule, setSchedule] = useState('');
   const [salaryValue, setSalaryValue] = useState('');
-  const [salaryType, setSalaryType] = useState('Mensal');
+  const [salaryType, setSalaryType] = useState('monthly');
   const [benefits, setBenefits] = useState<string[]>([]);
   const [startDate, setStartDate] = useState('');
   const [description, setDescription] = useState('');
@@ -182,66 +185,66 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> Publicar Vaga</DialogTitle>
-          <DialogDescription>Publique uma vaga para atrair dentistas qualificados</DialogDescription>
+          <DialogTitle className="flex items-center gap-2"><Settings className="w-5 h-5 text-primary" /> {t('jobs.publishVacancy')}</DialogTitle>
+          <DialogDescription>{t('jobs.publishVacancyDesc')}</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
           <div>
-            <Label className="text-xs text-muted-foreground mb-2 block">Tipo de contrato</Label>
+            <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.contractTypeLabel')}</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPES.map(t => <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>)}
+              {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={contractTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
             </div>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground mb-2 block">Especialidades procuradas</Label>
+            <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.soughtSpecialties')}</Label>
             <div className="flex flex-wrap gap-2">
-              {SPECIALTIES.map(s => <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>)}
+              {SPECIALTY_KEYS.map(k => <Badge key={k} variant={specialties.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, k)}>{t(`specialties.${k}`)}</Badge>)}
             </div>
           </div>
           <div>
-            <Label className="text-xs">Horário</Label>
-            <Input placeholder="Ex: Seg-Sex 14:00-20:00" value={schedule} onChange={e => setSchedule(e.target.value)} />
+            <Label className="text-xs">{t('jobs.schedules')}</Label>
+            <Input placeholder={t('jobs.schedulePlaceholder')} value={schedule} onChange={e => setSchedule(e.target.value)} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label className="text-xs">Remuneração</Label>
-              <Input type="number" placeholder="Valor" value={salaryValue} onChange={e => setSalaryValue(e.target.value)} />
+              <Label className="text-xs">{t('jobs.remuneration')}</Label>
+              <Input type="number" placeholder={t('jobs.valuePlaceholder')} value={salaryValue} onChange={e => setSalaryValue(e.target.value)} />
             </div>
             <div>
-              <Label className="text-xs">Tipo</Label>
+              <Label className="text-xs">{t('jobs.salaryType')}</Label>
               <Select value={salaryType} onValueChange={setSalaryType}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Mensal">€/mês</SelectItem>
-                  <SelectItem value="Por consulta">€/consulta</SelectItem>
-                  <SelectItem value="Percentagem">%/consulta</SelectItem>
+                  <SelectItem value="monthly">{t('jobs.perMonth')}</SelectItem>
+                  <SelectItem value="perConsult">{t('jobs.perConsultation')}</SelectItem>
+                  <SelectItem value="percent">{t('jobs.percentPerConsult')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <div>
-            <Label className="text-xs mb-2 block">Benefícios</Label>
+            <Label className="text-xs mb-2 block">{t('jobs.benefits')}</Label>
             <div className="grid grid-cols-2 gap-2">
-              {BENEFITS_OPTIONS.map(b => (
-                <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
-                  {b}
+              {BENEFITS_KEYS.map(k => (
+                <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
+                  <input type="checkbox" checked={benefits.includes(k)} onChange={() => toggle(benefits, setBenefits, k)} className="rounded" />
+                  {t(`jobs.benefit_${k}`)}
                 </label>
               ))}
             </div>
           </div>
           <div>
-            <Label className="text-xs">Data de início</Label>
+            <Label className="text-xs">{t('jobs.startDateLabel')}</Label>
             <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
           </div>
           <div>
-            <Label className="text-xs">Descrição da vaga</Label>
-            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder="Descreva a oportunidade..." />
+            <Label className="text-xs">{t('jobs.vacancyDescription')}</Label>
+            <Textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} placeholder={t('jobs.describeOpportunity')} />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>Cancelar</Button>
-          <Button onClick={() => { toast.success('Vaga publicada com sucesso!'); onClose(); }}>Publicar</Button>
+          <Button variant="outline" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button onClick={() => { toast.success(t('jobs.vacancyPublished')); onClose(); }}>{t('jobs.publish')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -249,8 +252,9 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
 }
 
 export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const [contractFilter, setContractFilter] = useState('Todos');
+  const [contractFilter, setContractFilter] = useState('allTypes');
   const [sortBy, setSortBy] = useState('recent');
   const [showManagePanel, setShowManagePanel] = useState(false);
 
@@ -260,9 +264,9 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
   const [proposalData, setProposalData] = useState({
     contractType: '',
     startDate: '',
-    duration: 'Indefinido',
+    duration: 'indefinite',
     durationOther: '',
-    weekSchedule: WEEKDAYS_SHORT.map(d => ({ day: d, morning: false, afternoon: false, night: false })),
+    weekSchedule: WEEKDAY_KEYS.map(d => ({ day: d, morning: false, afternoon: false, night: false })),
     includesTeleconsultas: false,
     consultasPerDay: '',
     salaryMonthly: '',
@@ -271,7 +275,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     bonusTeleconsulta: '',
     benefits: [] as string[],
     notes: '',
-    message: 'Gostaríamos de convidá-lo a juntar-se à nossa equipa.',
+    message: '',
   });
 
   // Apply flow state (dentist applying to clinic)
@@ -279,13 +283,13 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
 
   const filteredOffers = useMemo(() => {
     let results = [...MOCK_CLINIC_OFFERS];
-    if (contractFilter !== 'Todos') results = results.filter(o => o.contractType === contractFilter);
+    if (contractFilter !== 'allTypes') results = results.filter(o => o.contractType === contractFilter);
     return results;
   }, [contractFilter]);
 
   const filteredDentists = useMemo(() => {
     let results = [...MOCK_DENTIST_AVAILABILITY];
-    if (contractFilter !== 'Todos') results = results.filter(d => d.availability === contractFilter);
+    if (contractFilter !== 'allTypes') results = results.filter(d => d.availability === contractFilter);
     return results;
   }, [contractFilter]);
 
@@ -293,21 +297,21 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     setProposalTarget(null);
     setProposalStep(1);
     setProposalData({
-      contractType: '', startDate: '', duration: 'Indefinido', durationOther: '',
-      weekSchedule: WEEKDAYS_SHORT.map(d => ({ day: d, morning: false, afternoon: false, night: false })),
+      contractType: '', startDate: '', duration: 'indefinite', durationOther: '',
+      weekSchedule: WEEKDAY_KEYS.map(d => ({ day: d, morning: false, afternoon: false, night: false })),
       includesTeleconsultas: false, consultasPerDay: '', salaryMonthly: '', salaryPercentage: '',
       salaryFixed: '', bonusTeleconsulta: '', benefits: [], notes: '',
-      message: 'Gostaríamos de convidá-lo a juntar-se à nossa equipa.',
+      message: '',
     });
   };
 
   const handleSendProposal = () => {
-    toast.success(`Proposta enviada a ${proposalTarget?.name}! Receberá uma notificação quando houver resposta.`);
+    toast.success(t('jobs.proposalSent', { name: proposalTarget?.name }));
     resetProposal();
   };
 
   const handleApply = () => {
-    toast.success(`Candidatura enviada a ${applyTarget?.clinicName}!`);
+    toast.success(t('jobs.applicationSent', { name: applyTarget?.clinicName }));
     setApplyTarget(null);
   };
 
@@ -322,28 +326,28 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
             </button>
             <div>
               <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
+                <Briefcase className="w-5 h-5 text-primary" /> {t('jobs.title')}
               </h2>
-              <p className="text-xs text-muted-foreground">Clínicas à procura de dentistas</p>
+              <p className="text-xs text-muted-foreground">{t('jobs.clinicsLookingForDentists')}</p>
             </div>
           </div>
           <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowManagePanel(true)}>
-            <Settings className="w-3.5 h-3.5" /> Gerir Disponibilidade
+            <Settings className="w-3.5 h-3.5" /> {t('jobs.manageAvailability')}
           </Button>
         </div>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2">
           <Select value={contractFilter} onValueChange={setContractFilter}>
-            <SelectTrigger className="w-40 h-9 text-xs"><SelectValue placeholder="Tipo de contrato" /></SelectTrigger>
-            <SelectContent>{CONTRACT_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+            <SelectTrigger className="w-40 h-9 text-xs"><SelectValue placeholder={t('jobs.contractTypeLabel')} /></SelectTrigger>
+            <SelectContent>{CONTRACT_TYPE_KEYS.map(k => <SelectItem key={k} value={k}>{t(`jobs.${k}`)}</SelectItem>)}</SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-40 h-9 text-xs"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="recent">Mais recentes</SelectItem>
-              <SelectItem value="salary">Melhor remuneração</SelectItem>
-              <SelectItem value="distance">Mais próximo</SelectItem>
+              <SelectItem value="recent">{t('jobs.mostRecent')}</SelectItem>
+              <SelectItem value="salary">{t('jobs.bestSalary')}</SelectItem>
+              <SelectItem value="distance">{t('jobs.nearest')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -374,28 +378,28 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </div>
 
                 <div className="space-y-1.5">
-                  <Badge variant="secondary" className="text-xs">{offer.contractType}</Badge>
+                  <Badge variant="secondary" className="text-xs">{t(`jobs.${offer.contractType}`)}</Badge>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="w-3 h-3" /><span>{offer.schedule}</span>
                   </div>
                   <p className="text-sm font-semibold text-primary">{offer.salary}</p>
                   <div className="flex flex-wrap gap-1">
-                    {offer.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{s}</span>)}
+                    {offer.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                   </div>
                   {offer.benefits.length > 0 && (
                     <div className="flex flex-wrap gap-1">
-                      {offer.benefits.map(b => <span key={b} className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{b}</span>)}
+                      {offer.benefits.map(b => <span key={b} className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{t(`jobs.benefit_${b}`)}</span>)}
                     </div>
                   )}
-                  <p className="text-[10px] text-muted-foreground">{offer.publishedAgo}</p>
+                  <p className="text-[10px] text-muted-foreground">{t(`jobs.published_${offer.publishedAgo}`)}</p>
                 </div>
 
                 <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
                   <Button size="sm" className="flex-1 text-xs gap-1" onClick={() => setApplyTarget(offer)}>
-                    <Send className="w-3 h-3" /> Candidatar-me
+                    <Send className="w-3 h-3" /> {t('jobs.apply')}
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(offer.clinicName); toast.info('Funcionalidade de mensagens em breve!'); }}>
-                    <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+                  <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(offer.clinicName); toast.info(t('jobs.messagingSoon')); }}>
+                    <MessageCircle className="w-3 h-3" /> {t('jobs.sendMessage')}
                   </Button>
                 </div>
               </div>
@@ -407,13 +411,13 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
         <Dialog open={!!applyTarget} onOpenChange={() => setApplyTarget(null)}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Candidatar-me</DialogTitle>
-              <DialogDescription>Enviar candidatura para {applyTarget?.clinicName}?</DialogDescription>
+              <DialogTitle>{t('jobs.applyTitle')}</DialogTitle>
+              <DialogDescription>{t('jobs.applyDesc', { name: applyTarget?.clinicName })}</DialogDescription>
             </DialogHeader>
-            <p className="text-sm text-muted-foreground">A sua candidatura será enviada com o seu perfil profissional.</p>
+            <p className="text-sm text-muted-foreground">{t('jobs.applyNote')}</p>
             <DialogFooter className="flex gap-2 sm:gap-2">
-              <Button variant="outline" onClick={() => setApplyTarget(null)}>Cancelar</Button>
-              <Button onClick={handleApply}>Enviar Candidatura</Button>
+              <Button variant="outline" onClick={() => setApplyTarget(null)}>{t('common.cancel')}</Button>
+              <Button onClick={handleApply}>{t('jobs.sendApplication')}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -433,28 +437,28 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           </button>
           <div>
             <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <Briefcase className="w-5 h-5 text-primary" /> Propostas de Trabalho
+              <Briefcase className="w-5 h-5 text-primary" /> {t('jobs.title')}
             </h2>
-            <p className="text-xs text-muted-foreground">Dentistas disponíveis</p>
+            <p className="text-xs text-muted-foreground">{t('jobs.dentistsAvailable')}</p>
           </div>
         </div>
         <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowManagePanel(true)}>
-          <Settings className="w-3.5 h-3.5" /> Publicar Vaga
+          <Settings className="w-3.5 h-3.5" /> {t('jobs.publishVacancy')}
         </Button>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2">
         <Select value={contractFilter} onValueChange={setContractFilter}>
-          <SelectTrigger className="w-40 h-9 text-xs"><SelectValue placeholder="Disponibilidade" /></SelectTrigger>
-          <SelectContent>{CONTRACT_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
+          <SelectTrigger className="w-40 h-9 text-xs"><SelectValue placeholder={t('jobs.timeAvailability')} /></SelectTrigger>
+          <SelectContent>{CONTRACT_TYPE_KEYS.map(k => <SelectItem key={k} value={k}>{t(`jobs.${k}`)}</SelectItem>)}</SelectContent>
         </Select>
         <Select value={sortBy} onValueChange={setSortBy}>
           <SelectTrigger className="w-40 h-9 text-xs"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="recent">Mais recentes</SelectItem>
-            <SelectItem value="rating">Melhor rating</SelectItem>
-            <SelectItem value="distance">Mais próximo</SelectItem>
+            <SelectItem value="recent">{t('jobs.mostRecent')}</SelectItem>
+            <SelectItem value="rating">{t('jobs.bestRating')}</SelectItem>
+            <SelectItem value="distance">{t('jobs.nearest')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -487,21 +491,21 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
 
               <div className="space-y-1.5">
                 <div className="flex flex-wrap gap-1">
-                  {d.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{s}</span>)}
+                  {d.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                 </div>
-                <Badge variant="secondary" className="text-xs">{d.availability} — {d.availabilityDetail}</Badge>
+                <Badge variant="secondary" className="text-xs">{t(`jobs.${d.availability}`)} — {t(`jobs.avail_${d.availabilityDetail}`)}</Badge>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <Clock className="w-3 h-3" /><span>{d.schedule}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{d.experience}</p>
+                <p className="text-xs text-muted-foreground">{t('jobs.yearsExperience', { count: d.experience })}</p>
                 {d.teleconsultas ? (
-                  <p className="text-[10px] text-primary font-medium">📱 Disponível para teleconsultas ✅</p>
+                  <p className="text-[10px] text-primary font-medium">📱 {t('jobs.availableForTeleconsultas')} ✅</p>
                 ) : (
-                  <p className="text-[10px] text-muted-foreground">📱 Teleconsultas ❌</p>
+                  <p className="text-[10px] text-muted-foreground">📱 {t('agenda.teleconsultation')} ❌</p>
                 )}
                 {d.salary && <p className="text-sm font-semibold text-primary">{d.salary}</p>}
-                <p className="text-[10px] text-muted-foreground">📅 Disponível desde: {d.availableDate}</p>
-                <p className="text-[10px] text-muted-foreground">{d.publishedAgo}</p>
+                <p className="text-[10px] text-muted-foreground">📅 {t('jobs.availableSince')}: {d.availableDate}</p>
+                <p className="text-[10px] text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
               </div>
 
               <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
@@ -509,10 +513,10 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   setProposalTarget(d);
                   setProposalStep(1);
                 }}>
-                  <Users className="w-3 h-3" /> Enviar Proposta
+                  <Users className="w-3 h-3" /> {t('jobs.sendProposal')}
                 </Button>
-                <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
-                  <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+                <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info(t('jobs.messagingSoon')); }}>
+                  <MessageCircle className="w-3 h-3" /> {t('jobs.sendMessage')}
                 </Button>
               </div>
             </div>
@@ -526,14 +530,14 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Briefcase className="w-5 h-5 text-primary" />
-              Enviar Proposta — Passo {proposalStep} de 5
+              {t('jobs.sendProposal')} — {t('prescription.step', { current: proposalStep, total: 5 })}
             </DialogTitle>
             <DialogDescription>
-              {proposalStep === 1 && 'Confirmar dentista'}
-              {proposalStep === 2 && 'Tipo de contrato'}
-              {proposalStep === 3 && 'Horários'}
-              {proposalStep === 4 && 'Proposta financeira'}
-              {proposalStep === 5 && 'Resumo e enviar'}
+              {proposalStep === 1 && t('jobs.confirmDentist')}
+              {proposalStep === 2 && t('jobs.contractTypeLabel')}
+              {proposalStep === 3 && t('jobs.schedules')}
+              {proposalStep === 4 && t('jobs.financialProposal')}
+              {proposalStep === 5 && t('jobs.summaryAndSend')}
             </DialogDescription>
           </DialogHeader>
 
@@ -546,7 +550,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold">{proposalTarget.name}</p>
-                  <p className="text-xs text-muted-foreground">{proposalTarget.specialties.join(', ')}</p>
+                  <p className="text-xs text-muted-foreground">{proposalTarget.specialties.map(s => t(`specialties.${s}`)).join(', ')}</p>
                 </div>
                 <Check className="w-5 h-5 text-primary" />
               </div>
@@ -557,34 +561,34 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           {proposalStep === 2 && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
-                {['Tempo Inteiro', 'Tempo Parcial', 'Freelancer', 'Substituição Temporária'].map(t => (
-                  <button key={t} onClick={() => setProposalData(p => ({ ...p, contractType: t }))}
+                {['fullTime', 'partTime', 'freelancer', 'temporaryReplacement'].map(k => (
+                  <button key={k} onClick={() => setProposalData(p => ({ ...p, contractType: k }))}
                     className={cn('p-3 rounded-xl border text-sm font-medium transition-colors text-left',
-                      proposalData.contractType === t ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-accent')}>
-                    {t}
+                      proposalData.contractType === k ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-accent')}>
+                    {t(`jobs.${k}`)}
                   </button>
                 ))}
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs">Data de início pretendida</Label>
+                  <Label className="text-xs">{t('jobs.preferredStartDate')}</Label>
                   <Input type="date" value={proposalData.startDate} onChange={e => setProposalData(p => ({ ...p, startDate: e.target.value }))} />
                 </div>
                 <div>
-                  <Label className="text-xs">Duração</Label>
+                  <Label className="text-xs">{t('jobs.durationLabel')}</Label>
                   <Select value={proposalData.duration} onValueChange={v => setProposalData(p => ({ ...p, duration: v }))}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Indefinido">Indefinido</SelectItem>
-                      <SelectItem value="6 meses">6 meses</SelectItem>
-                      <SelectItem value="1 ano">1 ano</SelectItem>
-                      <SelectItem value="Outro">Outro</SelectItem>
+                      <SelectItem value="indefinite">{t('jobs.indefinite')}</SelectItem>
+                      <SelectItem value="6months">{t('jobs.sixMonths')}</SelectItem>
+                      <SelectItem value="1year">{t('jobs.oneYear')}</SelectItem>
+                      <SelectItem value="other">{t('jobs.otherDuration')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-              {proposalData.duration === 'Outro' && (
-                <Input placeholder="Especificar duração..." value={proposalData.durationOther} onChange={e => setProposalData(p => ({ ...p, durationOther: e.target.value }))} />
+              {proposalData.duration === 'other' && (
+                <Input placeholder={t('jobs.specifyDuration')} value={proposalData.durationOther} onChange={e => setProposalData(p => ({ ...p, durationOther: e.target.value }))} />
               )}
             </div>
           )}
@@ -595,12 +599,12 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
               <div className="overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr><th className="text-left p-1"></th>{TIME_PERIODS.map(p => <th key={p} className="p-1 text-center text-muted-foreground">{p}</th>)}</tr>
+                    <tr><th className="text-left p-1"></th>{TIME_PERIOD_KEYS.map(p => <th key={p} className="p-1 text-center text-muted-foreground">{t(`jobs.${p}`)}</th>)}</tr>
                   </thead>
                   <tbody>
                     {proposalData.weekSchedule.map((ws, i) => (
                       <tr key={ws.day}>
-                        <td className="p-1 font-medium">{ws.day}</td>
+                        <td className="p-1 font-medium">{t(`common.weekdays.${ws.day}`)}</td>
                         {(['morning', 'afternoon', 'night'] as const).map(period => (
                           <td key={period} className="p-1 text-center">
                             <button onClick={() => {
@@ -619,11 +623,11 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </table>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Inclui teleconsultas?</span>
+                <span className="text-sm">{t('jobs.includesTeleconsult')}</span>
                 <Switch checked={proposalData.includesTeleconsultas} onCheckedChange={v => setProposalData(p => ({ ...p, includesTeleconsultas: v }))} />
               </div>
               <div>
-                <Label className="text-xs">Nº estimado de consultas/dia</Label>
+                <Label className="text-xs">{t('jobs.estimatedConsultsDay')}</Label>
                 <Input type="number" value={proposalData.consultasPerDay} onChange={e => setProposalData(p => ({ ...p, consultasPerDay: e.target.value }))} placeholder="Ex: 8" />
               </div>
             </div>
@@ -634,41 +638,41 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs">Salário mensal bruto (€)</Label>
-                  <Input type="number" value={proposalData.salaryMonthly} onChange={e => setProposalData(p => ({ ...p, salaryMonthly: e.target.value }))} placeholder="Opcional" />
+                  <Label className="text-xs">{t('jobs.grossMonthlySalary')}</Label>
+                  <Input type="number" value={proposalData.salaryMonthly} onChange={e => setProposalData(p => ({ ...p, salaryMonthly: e.target.value }))} placeholder={t('jobs.optional')} />
                 </div>
                 <div>
-                  <Label className="text-xs">% por consulta</Label>
-                  <Input type="number" value={proposalData.salaryPercentage} onChange={e => setProposalData(p => ({ ...p, salaryPercentage: e.target.value }))} placeholder="Opcional" />
+                  <Label className="text-xs">{t('jobs.percentPerConsultLabel')}</Label>
+                  <Input type="number" value={proposalData.salaryPercentage} onChange={e => setProposalData(p => ({ ...p, salaryPercentage: e.target.value }))} placeholder={t('jobs.optional')} />
                 </div>
                 <div>
-                  <Label className="text-xs">Valor fixo/consulta (€)</Label>
-                  <Input type="number" value={proposalData.salaryFixed} onChange={e => setProposalData(p => ({ ...p, salaryFixed: e.target.value }))} placeholder="Opcional" />
+                  <Label className="text-xs">{t('jobs.fixedPerConsultLabel')}</Label>
+                  <Input type="number" value={proposalData.salaryFixed} onChange={e => setProposalData(p => ({ ...p, salaryFixed: e.target.value }))} placeholder={t('jobs.optional')} />
                 </div>
                 <div>
-                  <Label className="text-xs">Bónus teleconsulta (€)</Label>
-                  <Input type="number" value={proposalData.bonusTeleconsulta} onChange={e => setProposalData(p => ({ ...p, bonusTeleconsulta: e.target.value }))} placeholder="Opcional" />
+                  <Label className="text-xs">{t('jobs.teleconsultBonus')}</Label>
+                  <Input type="number" value={proposalData.bonusTeleconsulta} onChange={e => setProposalData(p => ({ ...p, bonusTeleconsulta: e.target.value }))} placeholder={t('jobs.optional')} />
                 </div>
               </div>
               <Separator />
               <div>
-                <Label className="text-xs mb-2 block">Benefícios</Label>
+                <Label className="text-xs mb-2 block">{t('jobs.benefits')}</Label>
                 <div className="grid grid-cols-2 gap-2">
-                  {BENEFITS_OPTIONS.map(b => (
-                    <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
-                      <input type="checkbox" checked={proposalData.benefits.includes(b)} onChange={() => {
+                  {BENEFITS_KEYS.map(k => (
+                    <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
+                      <input type="checkbox" checked={proposalData.benefits.includes(k)} onChange={() => {
                         setProposalData(p => ({
-                          ...p, benefits: p.benefits.includes(b) ? p.benefits.filter(x => x !== b) : [...p.benefits, b]
+                          ...p, benefits: p.benefits.includes(k) ? p.benefits.filter(x => x !== k) : [...p.benefits, k]
                         }));
                       }} className="rounded" />
-                      {b}
+                      {t(`jobs.benefit_${k}`)}
                     </label>
                   ))}
                 </div>
               </div>
               <div>
-                <Label className="text-xs">Notas adicionais</Label>
-                <Textarea value={proposalData.notes} onChange={e => setProposalData(p => ({ ...p, notes: e.target.value }))} rows={2} placeholder="Opcional..." />
+                <Label className="text-xs">{t('jobs.additionalNotes')}</Label>
+                <Textarea value={proposalData.notes} onChange={e => setProposalData(p => ({ ...p, notes: e.target.value }))} rows={2} placeholder={t('jobs.optional')} />
               </div>
             </div>
           )}
@@ -677,21 +681,21 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           {proposalStep === 5 && proposalTarget && (
             <div className="space-y-4">
               <div className="bg-secondary/50 rounded-xl p-4 space-y-2 text-sm">
-                <p><span className="text-muted-foreground">Dentista:</span> <span className="font-semibold">{proposalTarget.name}</span></p>
-                {proposalData.contractType && <p><span className="text-muted-foreground">Contrato:</span> {proposalData.contractType}</p>}
-                {proposalData.startDate && <p><span className="text-muted-foreground">Início:</span> {proposalData.startDate}</p>}
-                {proposalData.duration && <p><span className="text-muted-foreground">Duração:</span> {proposalData.duration === 'Outro' ? proposalData.durationOther : proposalData.duration}</p>}
-                {proposalData.salaryMonthly && <p><span className="text-muted-foreground">Salário:</span> €{proposalData.salaryMonthly}/mês</p>}
-                {proposalData.salaryPercentage && <p><span className="text-muted-foreground">Percentagem:</span> {proposalData.salaryPercentage}%</p>}
-                {proposalData.salaryFixed && <p><span className="text-muted-foreground">Valor/consulta:</span> €{proposalData.salaryFixed}</p>}
-                {proposalData.benefits.length > 0 && <p><span className="text-muted-foreground">Benefícios:</span> {proposalData.benefits.join(', ')}</p>}
+                <p><span className="text-muted-foreground">{t('statistics.dentist')}:</span> <span className="font-semibold">{proposalTarget.name}</span></p>
+                {proposalData.contractType && <p><span className="text-muted-foreground">{t('jobs.contractTypeLabel')}:</span> {t(`jobs.${proposalData.contractType}`)}</p>}
+                {proposalData.startDate && <p><span className="text-muted-foreground">{t('jobs.startDateLabel')}:</span> {proposalData.startDate}</p>}
+                {proposalData.duration && <p><span className="text-muted-foreground">{t('jobs.durationLabel')}:</span> {proposalData.duration === 'other' ? proposalData.durationOther : t(`jobs.${proposalData.duration === 'indefinite' ? 'indefinite' : proposalData.duration === '6months' ? 'sixMonths' : 'oneYear'}`)}</p>}
+                {proposalData.salaryMonthly && <p><span className="text-muted-foreground">{t('jobs.grossMonthlySalary')}:</span> €{proposalData.salaryMonthly}/{t('plan.month')}</p>}
+                {proposalData.salaryPercentage && <p><span className="text-muted-foreground">{t('jobs.percentPerConsultLabel')}:</span> {proposalData.salaryPercentage}%</p>}
+                {proposalData.salaryFixed && <p><span className="text-muted-foreground">{t('jobs.fixedPerConsultLabel')}:</span> €{proposalData.salaryFixed}</p>}
+                {proposalData.benefits.length > 0 && <p><span className="text-muted-foreground">{t('jobs.benefits')}:</span> {proposalData.benefits.map(k => t(`jobs.benefit_${k}`)).join(', ')}</p>}
               </div>
               <div>
-                <Label className="text-xs">Mensagem pessoal</Label>
+                <Label className="text-xs">{t('jobs.personalMessage')}</Label>
                 <Textarea value={proposalData.message} onChange={e => setProposalData(p => ({ ...p, message: e.target.value }))} rows={3} />
               </div>
               <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-                ⚠️ Esta proposta será enviada ao dentista. Poderá aceitar, recusar ou propor alterações.
+                ⚠️ {t('jobs.proposalWarning')}
               </p>
             </div>
           )}
@@ -699,16 +703,16 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           <DialogFooter className="flex gap-2 sm:gap-2">
             {proposalStep > 1 && (
               <Button variant="outline" onClick={() => setProposalStep(s => s - 1)} className="gap-1">
-                <ChevronLeft className="w-4 h-4" /> Voltar
+                <ChevronLeft className="w-4 h-4" /> {t('common.back')}
               </Button>
             )}
             {proposalStep < 5 ? (
               <Button onClick={() => setProposalStep(s => s + 1)} className="gap-1 ml-auto">
-                Seguinte <ChevronRight className="w-4 h-4" />
+                {t('prescription.next')} <ChevronRight className="w-4 h-4" />
               </Button>
             ) : (
               <Button onClick={handleSendProposal} className="gap-1 ml-auto">
-                <Send className="w-4 h-4" /> Enviar Proposta
+                <Send className="w-4 h-4" /> {t('jobs.sendProposal')}
               </Button>
             )}
           </DialogFooter>
