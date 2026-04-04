@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_LABELS } from '@/types/calendar';
+import { Consultation, CATEGORY_LABELS , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { CalendarDays, User } from 'lucide-react';
@@ -24,6 +25,7 @@ interface MoveConsultationModalProps {
 }
 
 export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: MoveConsultationModalProps) {
+  const { t } = useTranslation();
   if (!moveInfo) return null;
 
   const { consultation, fromDate, fromTime, fromDentistName, toDate, toTime, toDentistName } = moveInfo;
@@ -40,7 +42,7 @@ export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: 
           {/* Patient info */}
           <div className="space-y-1">
             <p className="text-sm font-medium">Paciente: <span className="font-bold">{consultation.patient.name}</span></p>
-            <p className="text-sm text-muted-foreground">Tipo: {CATEGORY_LABELS[category]}</p>
+            <p className="text-sm text-muted-foreground">Tipo: {getCategoryLabel(t, category)}</p>
           </div>
 
           {/* From */}
@@ -104,7 +106,7 @@ export function OverlapWarningModal({ isOpen, existingConsultation, onClose, onC
           <p className="text-sm text-muted-foreground">Já existe uma consulta neste horário:</p>
           <div className="bg-secondary/50 rounded-lg p-3">
             <p className="text-sm font-medium">
-              {existingConsultation.time} - {existingConsultation.patient.name} ({CATEGORY_LABELS[category]})
+              {existingConsultation.time} - {existingConsultation.patient.name} ({getCategoryLabel(t, category)})
             </p>
           </div>
           <p className="text-sm text-muted-foreground">Deseja agendar mesmo assim?</p>

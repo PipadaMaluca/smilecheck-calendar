@@ -5,7 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,7 @@ const MOCK_HISTORY: Record<string, { date: string; type: string; dentist: string
 };
 
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
+  const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
@@ -61,7 +63,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
-  const categoryLabel = consultation.category ? CATEGORY_LABELS[consultation.category] : 'Consulta';
+  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : 'Consulta';
   const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
   const history = MOCK_HISTORY.default;
 

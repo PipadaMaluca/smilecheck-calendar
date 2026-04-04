@@ -1,4 +1,5 @@
-import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
+import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -24,6 +25,7 @@ function timeToSlotIndex(time: string): number {
 }
 
 export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }: ThreeDayViewProps) {
+  const { t } = useTranslation();
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDate: Date; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   const days = [
@@ -234,7 +236,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         </div>
                         {/* Line 2: TYPE (colored) */}
                         <span className="text-[7px] font-bold truncate px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
-                          {CATEGORY_LABELS[category]}
+                          {getCategoryLabel(t, category)}
                         </span>
                       </div>
                     </div>

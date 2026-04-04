@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
+import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Video, AlertTriangle, Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -38,6 +39,7 @@ export function MultiDentistGrid({
   showFullName = false,
   onDragMove,
 }: MultiDentistGridProps) {
+  const { t } = useTranslation();
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
@@ -286,7 +288,7 @@ export function MultiDentistGrid({
                         {/* Line 2: Type (colored) + Notes (gray) */}
                         <div className="flex items-center gap-1">
                           <span className="font-bold text-[9px] px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
-                            {CATEGORY_LABELS[category]}
+                            {getCategoryLabel(t, category)}
                           </span>
                           {isTeleconsulta && (
                             <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />

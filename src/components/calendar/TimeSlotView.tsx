@@ -1,5 +1,6 @@
 import { Video, MapPin, Lock, AlertTriangle } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface TimeSlotViewProps {
@@ -20,6 +21,7 @@ function timeToSlotIndex(time: string): number {
 }
 
 export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotViewProps) {
+  const { t } = useTranslation();
   // Build slot occupancy map for proper spanning
   const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
   const occupiedIndices = new Set<number>();
@@ -131,7 +133,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                     className="text-xs font-bold px-1.5 py-0 rounded-full inline-block"
                     style={getCategoryBadgeStyle(colors.hex)}
                   >
-                    {CATEGORY_LABELS[category]}
+                    {getCategoryLabel(t, category)}
                   </span>
                   {showNotes && consultation.notes && (
                     <span className="text-[9px] text-[#8B9CB6] truncate">

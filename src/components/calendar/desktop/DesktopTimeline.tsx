@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Video, Flag, AlertTriangle, Check, Ban } from 'lucide-react';
 import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -45,7 +46,7 @@ function getConsultationStyles(consultation: Consultation) {
 
 function getCategoryLabel(consultation: Consultation): string {
   if (consultation.category) {
-    return CATEGORY_LABELS[consultation.category] || 'Consulta';
+    return getCategoryLabel(t, consultation.category);
   }
   if (consultation.type === 'teleconsulta') return 'Teleconsulta';
   return 'Consulta Presencial';
@@ -71,6 +72,7 @@ export function DesktopTimeline({
   onEmptySlotClick,
   onDragMove,
 }: DesktopTimelineProps) {
+  const { t } = useTranslation();
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
   const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; x: number; y: number } | null>(null);

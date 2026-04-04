@@ -4,7 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConsultationScore } from '@/types/scoring';
-import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, UserRole, getCategoryBadgeStyle } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,7 @@ interface HistoryScoreCardProps {
 }
 
 export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, onContest, userRole }: HistoryScoreCardProps) {
+  const { t } = useTranslation();
   const isPositive = score.totalPoints > 0;
   const isNegative = score.totalPoints < 0;
   const Icon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
@@ -29,7 +31,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
 
   const catKey = score.category as ConsultationCategory | undefined;
   const catColor = catKey ? CATEGORY_COLORS[catKey] : null;
-  const catLabel = catKey ? CATEGORY_LABELS[catKey] : null;
+  const catLabel = catKey ? getCategoryLabel(t, catKey) : null;
 
   // Main line: date + primary name
   const dateStr = score.consultationTime
