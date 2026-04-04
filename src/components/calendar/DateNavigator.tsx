@@ -4,7 +4,7 @@ import { format, addDays, subDays } from 'date-fns';
 import { pt, enUS, fr } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
 
-const dateLocales: Record<string, Locale> = { pt, en: enUS, fr };
+const dateLocales = { pt, en: enUS, fr } as const;
 
 interface DateNavigatorProps {
   date: Date;

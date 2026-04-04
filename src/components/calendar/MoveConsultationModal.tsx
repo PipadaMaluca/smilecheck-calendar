@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { pt, enUS, fr } from 'date-fns/locale';
 import { CalendarDays, User } from 'lucide-react';
 
-const dateLocales: Record<string, Locale> = { pt, en: enUS, fr };
+const dateLocales = { pt, en: enUS, fr } as const;
 
 export interface DragMoveInfo {
   consultation: Consultation;

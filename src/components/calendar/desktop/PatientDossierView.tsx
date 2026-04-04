@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, ArrowLeft, Star, Video, Calendar as CalendarIcon, Check, SkipForward } from 'lucide-react';
-import { UserRole , getCategoryLabel} from '@/types/calendar';
+import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
