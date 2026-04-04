@@ -8,9 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Consultation, getCategoryLabel } from '@/types/calendar';
-import { getCategoryLabel as _getCL } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
