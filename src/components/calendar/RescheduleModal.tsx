@@ -95,7 +95,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                 {selectedDate && (
                   <div>
                     <p className="text-sm font-medium mb-2">
-                      {t('consultationDetail.rescheduleModal.availableSlots')} — {format(selectedDate, "EEEE, d 'de' MMMM", { locale: pt })}
+                      {t('consultationDetail.rescheduleModal.availableSlots')} — {format(selectedDate, "EEEE, d MMMM", { locale: dateLoc })}
                     </p>
                     <div className="grid grid-cols-4 gap-2">
                       {AVAILABLE_SLOTS.map(slot => {
