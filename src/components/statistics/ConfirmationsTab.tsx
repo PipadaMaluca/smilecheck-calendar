@@ -130,11 +130,11 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-xs">Hora</TableHead>
-                        <TableHead className="text-xs">Paciente</TableHead>
-                        <TableHead className="text-xs">Tipo</TableHead>
-                        <TableHead className="text-xs text-center">24h</TableHead>
-                        <TableHead className="text-xs text-center">1h</TableHead>
+                        <TableHead className="text-xs">{t('confirmations.time')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.patient')}</TableHead>
+                        <TableHead className="text-xs">{t('confirmations.type')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('confirmations.h24')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('confirmations.h1')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
