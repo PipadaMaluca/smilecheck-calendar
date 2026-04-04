@@ -2338,6 +2338,7 @@
     "currentPatientMeds": "Medicação actual do paciente"
   },
   "statistics": {
+    "title": "Estatísticas",
     "general": "Geral",
     "confirmations": "Confirmações",
     "waitingList": "Lista de Espera",
