@@ -694,7 +694,8 @@
     "followUp": "Follow-up Consultation",
     "implantology": "Implantology",
     "oralSurgery": "Oral Surgery",
-    "aesthetics": "Cosmetic Dentistry"
+    "aesthetics": "Cosmetic Dentistry",
+    "other": "Other"
   },
   "consultationDetail": {
     "title": "Appointment Details",

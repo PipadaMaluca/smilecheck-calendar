@@ -694,7 +694,8 @@
     "followUp": "Consulta de Acompanhamento",
     "implantology": "Implantologia",
     "oralSurgery": "Cirurgia Oral",
-    "aesthetics": "Estética Dentária"
+    "aesthetics": "Estética Dentária",
+    "other": "Outro"
   },
   "consultationDetail": {
     "title": "Detalhes da Consulta",
