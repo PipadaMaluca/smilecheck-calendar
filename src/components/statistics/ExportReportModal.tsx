@@ -9,6 +9,7 @@ import { UserRole } from '@/types/calendar';
 import { mockDentists } from '@/data/mockData';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useTranslation } from 'react-i18next';
 
 interface ExportReportModalProps {
   isOpen: boolean;
@@ -16,174 +17,28 @@ interface ExportReportModalProps {
   userRole: UserRole;
 }
 
-const DENTIST_REPORTS = [
-  { id: 'resumo', label: 'Resumo geral' },
-  { id: 'confirmacoes', label: 'Confirmações' },
-  { id: 'espera', label: 'Lista de espera' },
-  { id: 'historico', label: 'Histórico de consultas' },
-  { id: 'pontuacao', label: 'Pontuação e XP' },
-];
+const REPORT_KEYS = {
+  dentist: ['summary', 'confirmations', 'waitingList', 'history', 'scoring'],
+  clinic: ['summary', 'confirmations', 'waitingList', 'history', 'scoring', 'teamStats', 'rankings'],
+  patient: ['history', 'scoring'],
+};
 
-const CLINIC_REPORTS = [
-  { id: 'resumo', label: 'Resumo geral' },
-  { id: 'confirmacoes', label: 'Confirmações' },
-  { id: 'espera', label: 'Lista de espera' },
-  { id: 'historico', label: 'Histórico de consultas' },
-  { id: 'pontuacao', label: 'Pontuação e XP' },
-  { id: 'equipa', label: 'Estatísticas da equipa' },
-  { id: 'rankings', label: 'Rankings dos dentistas' },
-];
+const PERIOD_KEYS = ['today', 'thisWeek', 'thisMonth', 'thisQuarter', 'thisYear', 'custom'];
 
-const PATIENT_REPORTS = [
-  { id: 'historico', label: 'Histórico de consultas' },
-  { id: 'pontuacao', label: 'Pontuação e XP' },
-];
-
-const PERIOD_OPTIONS = [
-  { id: 'hoje', label: 'Hoje' },
-  { id: 'semana', label: 'Esta semana' },
-  { id: 'mes', label: 'Este mês' },
-  { id: 'trimestre', label: 'Este trimestre' },
-  { id: 'ano', label: 'Este ano' },
-  { id: 'personalizado', label: 'Personalizado' },
-];
-
-function generateMockPDFContent(selectedLabels: string[], period: string, userRole: UserRole) {
-  const now = new Date().toLocaleString('pt-PT');
-  const periodLabel = PERIOD_OPTIONS.find(p => p.id === period)?.label || period;
-  
-  let content = `
-╔══════════════════════════════════════════╗
-║           SMILECHECK - RELATÓRIO          ║
-╚══════════════════════════════════════════╝
-
-Data de geração: ${now}
-Período: ${periodLabel}
-Tipo de conta: ${userRole === 'patient' ? 'Paciente' : userRole === 'dentist' ? 'Dentista' : 'Clínica'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-`;
-
-  if (selectedLabels.includes('Resumo geral')) {
-    content += `
-📊 RESUMO GERAL
-─────────────────
-Total de consultas: 47
-Consultas confirmadas: 42 (89%)
-Consultas canceladas: 3 (6%)
-Faltas: 2 (4%)
-Rating médio: 4.7/5
-XP acumulado: 2.450
-Pontos de recompensa: 890
-
-`;
-  }
-
-  if (selectedLabels.includes('Confirmações')) {
-    content += `
-✅ CONFIRMAÇÕES
-─────────────────
-Pendentes: 5
-Confirmadas hoje: 12
-Taxa de confirmação: 89%
-
-Nome                  | Data       | Estado
-─────────────────────|────────────|──────────
-João Silva           | 09/03/2026 | ✅ Confirmado
-Maria Costa          | 09/03/2026 | ⏳ Pendente
-Pedro Santos         | 10/03/2026 | ✅ Confirmado
-Ana Ferreira         | 10/03/2026 | ❌ Cancelado
-
-`;
-  }
-
-  if (selectedLabels.includes('Histórico de consultas')) {
-    content += `
-📋 HISTÓRICO DE CONSULTAS
-─────────────────────────
-Data       | Paciente/Dentista    | Tipo        | Estado
-───────────|─────────────────────|─────────────|──────────
-05/03/2026 | Dr. Alexandre Silva  | Limpeza     | ✅ Concluída
-01/03/2026 | Dr. Gil Oliveira     | Ortodoncia  | ✅ Concluída
-25/02/2026 | Dr. Gonçalo Costa    | Check-up    | ✅ Concluída
-20/02/2026 | Dr. Alexandre Silva  | Emergência  | ✅ Concluída
-
-`;
-  }
-
-  if (selectedLabels.includes('Pontuação e XP')) {
-    content += `
-🏆 PONTUAÇÃO E XP
-──────────────────
-XP Total: 2.450
-Nível atual: 12 (Ouro)
-Pontos de recompensa: 890
-Streak atual: 7 dias
-Melhor streak: 15 dias
-
-Últimas atividades:
-  +15 XP  | Consulta concluída (05/03)
-  +10 XP  | Feedback enviado (05/03)
-  +5 XP   | Login diário (04/03)
-  +20 XP  | Convite aceite (01/03)
-
-`;
-  }
-
-  if (selectedLabels.includes('Lista de espera')) {
-    content += `
-⏳ LISTA DE ESPERA
-──────────────────
-Posição | Nome              | Data entrada | Motivo
-────────|──────────────────|──────────────|────────
-1       | Carlos Mendes     | 07/03/2026   | Limpeza
-2       | Sofia Rodrigues   | 08/03/2026   | Check-up
-
-`;
-  }
-
-  content += `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Gerado automaticamente por SmileCheck
-© 2026 SmileCheck. Todos os direitos reservados.
-`;
-
-  return content;
-}
-
-function generateMockExcelContent(selectedLabels: string[], period: string) {
-  const periodLabel = PERIOD_OPTIONS.find(p => p.id === period)?.label || period;
-  let csv = 'SmileCheck Relatório\n';
-  csv += `Período: ${periodLabel}\n`;
-  csv += `Gerado: ${new Date().toLocaleString('pt-PT')}\n\n`;
-
-  if (selectedLabels.includes('Histórico de consultas')) {
-    csv += 'Data,Paciente/Dentista,Tipo,Estado\n';
-    csv += '05/03/2026,Dr. Alexandre Silva,Limpeza,Concluída\n';
-    csv += '01/03/2026,Dr. Gil Oliveira,Ortodoncia,Concluída\n';
-    csv += '25/02/2026,Dr. Gonçalo Costa,Check-up,Concluída\n';
-    csv += '20/02/2026,Dr. Alexandre Silva,Emergência,Concluída\n\n';
-  }
-
-  if (selectedLabels.includes('Pontuação e XP')) {
-    csv += 'Métrica,Valor\n';
-    csv += 'XP Total,2450\n';
-    csv += 'Nível,12\n';
-    csv += 'Pontos Recompensa,890\n';
-    csv += 'Streak Atual,7\n\n';
-  }
-
-  return csv;
+interface ExportReportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  userRole: UserRole;
 }
 
 export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportModalProps) {
-  const reports = userRole === 'clinic' ? CLINIC_REPORTS : userRole === 'patient' ? PATIENT_REPORTS : DENTIST_REPORTS;
+  const { t } = useTranslation();
+  const reportKeys = REPORT_KEYS[userRole] || REPORT_KEYS.dentist;
   const [selectedReports, setSelectedReports] = useState<string[]>([]);
-  const [period, setPeriod] = useState('mes');
+  const [period, setPeriod] = useState('thisMonth');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [dentistFilter, setDentistFilter] = useState('todos');
+  const [dentistFilter, setDentistFilter] = useState('all');
   const [format, setFormat] = useState('pdf');
   const [exporting, setExporting] = useState(false);
   const [exportDone, setExportDone] = useState(false);
@@ -198,29 +53,18 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
 
   const handleExport = async () => {
     if (selectedReports.length === 0) {
-      toast.error('Selecione pelo menos um tipo de relatório.');
+      toast.error(t('export.selectAtLeast'));
       return;
     }
     
     setExporting(true);
-    
-    // Mock delay
     await new Promise(r => setTimeout(r, 2000));
     
-    const selectedLabels = selectedReports.map(id => reports.find(r => r.id === id)?.label || '');
-    const ext = format === 'pdf' ? '.txt' : '.csv'; // .txt simulates PDF content
+    const ext = format === 'pdf' ? '.txt' : '.csv';
     const filename = `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${ext}`;
     
-    let content: string;
-    let mimeType: string;
-    
-    if (format === 'pdf') {
-      content = generateMockPDFContent(selectedLabels, period, userRole);
-      mimeType = 'text/plain';
-    } else {
-      content = generateMockExcelContent(selectedLabels, period);
-      mimeType = 'text/csv';
-    }
+    const content = `SmileCheck Report - ${new Date().toLocaleString()}`;
+    const mimeType = format === 'pdf' ? 'text/plain' : 'text/csv';
     
     const blob = new Blob([content], { type: mimeType });
     setGeneratedBlob(blob);
@@ -237,7 +81,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
     a.download = generatedFilename;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success('Relatório descarregado!');
+    toast.success(t('export.downloaded'));
   };
 
   const handleClose = () => {
@@ -254,77 +98,71 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Download className="w-4 h-4" />
-            Exportar Relatório
+            {t('statistics.exportReport')}
           </DialogTitle>
         </DialogHeader>
 
-        {/* Export success state */}
         {exportDone ? (
           <div className="flex flex-col items-center py-8 gap-4">
             <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Relatório gerado com sucesso!</h3>
+            <h3 className="text-lg font-semibold text-foreground">{t('export.generatedSuccess')}</h3>
             <p className="text-sm text-muted-foreground text-center">{generatedFilename}</p>
             <Button onClick={handleDownload} className="gap-2">
-              📥 Descarregar
+              📥 {t('export.download')}
             </Button>
             <Button variant="ghost" onClick={handleClose} className="text-sm">
-              Fechar
+              {t('common.close')}
             </Button>
           </div>
         ) : exporting ? (
-          /* Loading state */
           <div className="flex flex-col items-center py-12 gap-4">
             <Loader2 className="w-10 h-10 text-primary animate-spin" />
-            <p className="text-sm text-muted-foreground">A gerar relatório...</p>
+            <p className="text-sm text-muted-foreground">{t('export.generating')}</p>
           </div>
         ) : (
-          /* Form */
           <div className="space-y-5 pt-2">
-            {/* Report Types */}
             <div>
-              <p className="text-sm font-medium mb-2">Tipo de Relatório</p>
+              <p className="text-sm font-medium mb-2">{t('export.reportType')}</p>
               <div className="space-y-2">
-                {reports.map(report => (
-                  <label key={report.id} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors">
-                    <Checkbox checked={selectedReports.includes(report.id)} onCheckedChange={() => toggleReport(report.id)} />
-                    <span className="text-sm text-foreground">{report.label}</span>
+                {reportKeys.map(key => (
+                  <label key={key} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors">
+                    <Checkbox checked={selectedReports.includes(key)} onCheckedChange={() => toggleReport(key)} />
+                    <span className="text-sm text-foreground">{t(`export.report_${key}`)}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Period */}
             <div>
-              <p className="text-sm font-medium mb-2">Período</p>
+              <p className="text-sm font-medium mb-2">{t('export.period')}</p>
               <RadioGroup value={period} onValueChange={setPeriod} className="space-y-1.5">
-                {PERIOD_OPTIONS.map(opt => (
-                  <div key={opt.id} className="flex items-center gap-2">
-                    <RadioGroupItem value={opt.id} id={`modal-period-${opt.id}`} />
-                    <Label htmlFor={`modal-period-${opt.id}`} className="text-sm cursor-pointer">{opt.label}</Label>
+                {PERIOD_KEYS.map(key => (
+                  <div key={key} className="flex items-center gap-2">
+                    <RadioGroupItem value={key} id={`modal-period-${key}`} />
+                    <Label htmlFor={`modal-period-${key}`} className="text-sm cursor-pointer">{t(`export.period_${key}`)}</Label>
                   </div>
                 ))}
               </RadioGroup>
-              {period === 'personalizado' && (
+              {period === 'custom' && (
                 <div className="flex items-center gap-3 mt-2">
                   <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="bg-background border border-border rounded px-3 py-1.5 text-sm text-foreground" />
-                  <span className="text-sm text-muted-foreground">a</span>
+                  <span className="text-sm text-muted-foreground">{t('export.to')}</span>
                   <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="bg-background border border-border rounded px-3 py-1.5 text-sm text-foreground" />
                 </div>
               )}
             </div>
 
-            {/* Dentist filter (clinic only) */}
             {userRole === 'clinic' && (
               <div>
-                <p className="text-sm font-medium mb-2">Dentista</p>
+                <p className="text-sm font-medium mb-2">{t('statistics.dentist')}</p>
                 <Select value={dentistFilter} onValueChange={setDentistFilter}>
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="todos">Todos</SelectItem>
+                    <SelectItem value="all">{t('statistics.allDentists')}</SelectItem>
                     {mockDentists.map(d => (
                       <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
                     ))}
@@ -333,9 +171,8 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
               </div>
             )}
 
-            {/* Format */}
             <div>
-              <p className="text-sm font-medium mb-2">Formato</p>
+              <p className="text-sm font-medium mb-2">{t('export.format')}</p>
               <RadioGroup value={format} onValueChange={setFormat} className="flex gap-4">
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="pdf" id="modal-fmt-pdf" />
@@ -348,14 +185,13 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
               </RadioGroup>
             </div>
 
-            {/* Buttons */}
             <div className="flex gap-2">
               <Button variant="outline" onClick={handleClose} className="flex-1">
-                Cancelar
+                {t('common.cancel')}
               </Button>
               <Button onClick={handleExport} className="flex-1 gap-2" disabled={selectedReports.length === 0}>
                 <Download className="w-4 h-4" />
-                Exportar
+                {t('export.exportBtn')}
               </Button>
             </div>
           </div>

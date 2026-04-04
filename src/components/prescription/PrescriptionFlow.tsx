@@ -15,6 +15,7 @@ import {
   type MedicationDef,
   type InteractionWarning } from
 '@/data/drugSafetyData';
+import { useTranslation } from 'react-i18next';
 
 interface PrescriptionFlowProps {
   onClose: () => void;
@@ -32,7 +33,7 @@ interface Medication {
   posology: string;
 }
 
-// Mock patient health data (mirrors HealthView's defaultHealthData)
+// Mock patient health data
 const PATIENT_HEALTH: Record<string, {
   allergies: string[];
   medications: {name: string;dosage: string;}[];
@@ -62,7 +63,6 @@ const PATIENT_HEALTH: Record<string, {
 const getPatientHealth = (patientId: string) =>
 PATIENT_HEALTH[patientId] || { allergies: [], medications: [] };
 
-// Extract recent patients from consultations
 const getRecentPatients = () => {
   const seen = new Map<string, {id: string;name: string;age: number;lastDate: Date;}>();
   mockConsultations.forEach((c) => {
@@ -79,6 +79,7 @@ const getRecentPatients = () => {
 };
 
 export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: PrescriptionFlowProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const skipPatient = !!preSelectedPatient;
 
@@ -102,7 +103,6 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     return recentPatients.filter((p) => p.name.toLowerCase().includes(q));
   }, [patientSearch, recentPatients]);
 
-  // Patient health data for allergy/interaction checks
   const patientHealth = useMemo(() => {
     if (!selectedPatient) return { allergies: [], medications: [] };
     return getPatientHealth(selectedPatient.id);
@@ -163,10 +163,9 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const totalVisibleSteps = steps.filter((s) => s !== 'success').length;
   const currentStepNumber = Math.min(stepIndex + 1, totalVisibleSteps);
 
-  // Progress bar
   const ProgressBar = () =>
   <div className="space-y-2 px-[15px] py-[10px]">
-      <p className="text-xs text-muted-foreground text-center">Passo {currentStepNumber} de {totalVisibleSteps}</p>
+      <p className="text-xs text-muted-foreground text-center">{t('prescription.step', { current: currentStepNumber, total: totalVisibleSteps })}</p>
       <div className="flex items-center gap-2">
         {steps.filter((s) => s !== 'success').map((step, i) =>
       <div key={step} className="flex-1">
@@ -179,19 +178,17 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       </div>
     </div>;
 
-
   // Step 1: Patient Selection
   const renderPatientStep = () =>
   <div className="flex-1 overflow-y-auto p-4 space-y-4 py-[15px] px-[15px]">
-      <h2 className="text-lg font-bold text-center">Para quem é a receita?</h2>
+      <h2 className="text-lg font-bold text-center">{t('prescription.forWhom')}</h2>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
-        placeholder="Pesquisar paciente..."
+        placeholder={t('prescription.searchPatient')}
         value={patientSearch}
         onChange={(e) => setPatientSearch(e.target.value)}
         className="pl-9" />
-      
       </div>
       <div className="space-y-2">
         {filteredPatients.map((patient) =>
@@ -199,10 +196,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         key={patient.id}
         onClick={() => setSelectedPatient(patient)}
         className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
-
         selectedPatient?.id === patient.id ? 'border-primary bg-primary/10' : 'border-border'
         )}>
-        
             <Avatar className="h-10 w-10">
               <AvatarFallback className="bg-primary/20 text-primary text-xs">
                 {patient.name.split(' ').map((n) => n[0]).join('').slice(0, 2)}
@@ -210,7 +205,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             </Avatar>
             <div className="text-left flex-1">
               <p className="text-sm font-medium">{patient.name}</p>
-              <p className="text-xs text-muted-foreground">{patient.age} anos</p>
+              <p className="text-xs text-muted-foreground">{patient.age} {t('profile.years')}</p>
             </div>
             <div className="flex items-center gap-2">
               <p className="text-xs text-muted-foreground">
@@ -222,7 +217,6 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       )}
       </div>
     </div>;
-
 
   // Medication item with allergy/interaction checks
   const MedicationListItem = ({ med }: {med: MedicationDef;}) => {
@@ -247,30 +241,25 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5' :
         'hover:bg-muted/50 border border-transparent hover:border-border'
       )}>
-      
         <div className="flex items-center gap-2">
           {isBlocked ?
         <AlertTriangle className="w-4 h-4 text-destructive" /> :
         hasInteraction ?
         <AlertTriangle className="w-4 h-4 text-amber-500" /> :
-
         <Pill className="w-4 h-4 text-muted-foreground" />
         }
           <span className={cn(isBlocked && 'line-through text-muted-foreground')}>{med.name} {med.dosage}</span>
         </div>
         {isBlocked ?
-      <span className="text-[10px] font-medium text-destructive">BLOQUEADO</span> :
+      <span className="text-[10px] font-medium text-destructive">{t('prescription.blocked')}</span> :
       hasInteraction ?
-      <span className="text-[10px] font-medium text-amber-500">INTERAÇÃO</span> :
+      <span className="text-[10px] font-medium text-amber-500">{t('prescription.interaction')}</span> :
       alreadyAdded ?
       <Check className="w-4 h-4 text-primary" /> :
-
       <Plus className="w-4 h-4 text-muted-foreground" />
       }
       </button>;
 
-
-    // Wrap with tooltip if blocked or has interaction
     if (isBlocked) {
       return (
         <TooltipProvider delayDuration={200}>
@@ -278,15 +267,14 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             <TooltipTrigger asChild>{content}</TooltipTrigger>
             <TooltipContent side="right" className="max-w-xs p-3 space-y-1">
               <p className="text-sm font-semibold text-destructive flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5" /> ALERGIA DETECTADA
+                <AlertTriangle className="w-3.5 h-3.5" /> {t('prescription.allergyDetected')}
               </p>
-              <p className="text-xs">Paciente alérgico a: <strong>{allergyBlock!.matchedAllergy}</strong></p>
-              <p className="text-xs">Este medicamento contém <strong>{allergyBlock!.matchedTag}</strong></p>
-              <p className="text-xs text-muted-foreground mt-1">Prescrição bloqueada por segurança</p>
+              <p className="text-xs">{t('prescription.allergyPatient')}: <strong>{allergyBlock!.matchedAllergy}</strong></p>
+              <p className="text-xs">{t('prescription.medContains')} <strong>{allergyBlock!.matchedTag}</strong></p>
+              <p className="text-xs text-muted-foreground mt-1">{t('prescription.prescriptionBlocked')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>);
-
     }
 
     if (hasInteraction && !alreadyAdded) {
@@ -296,20 +284,19 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             <TooltipTrigger asChild>{content}</TooltipTrigger>
             <TooltipContent side="right" className="max-w-xs p-3 space-y-1">
               <p className="text-sm font-semibold text-amber-500 flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5" /> INTERAÇÃO MEDICAMENTOSA
+                <AlertTriangle className="w-3.5 h-3.5" /> {t('prescription.drugInteraction')}
               </p>
               {interactions.map((w, i) =>
               <div key={i} className="text-xs space-y-0.5">
-                  <p>Paciente toma: <strong>{w.currentMedName}</strong></p>
-                  <p>Interação com: <strong>{w.prescribedMedName}</strong></p>
-                  <p className="text-muted-foreground">Risco: {w.risk}</p>
+                  <p>{t('prescription.patientTakes')}: <strong>{w.currentMedName}</strong></p>
+                  <p>{t('prescription.interactionWith')}: <strong>{w.prescribedMedName}</strong></p>
+                  <p className="text-muted-foreground">{t('prescription.risk')}: {w.risk}</p>
                 </div>
               )}
-              <p className="text-xs text-muted-foreground mt-1">Pode prescrever com precaução</p>
+              <p className="text-xs text-muted-foreground mt-1">{t('prescription.prescribeWithCaution')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>);
-
     }
 
     return content;
@@ -318,9 +305,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   // Step 2: Medications
   const renderMedicationsStep = () =>
   <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-lg font-bold">Prescrever medicamentos</h2>
+      <h2 className="text-lg font-bold">{t('prescription.prescribeMeds')}</h2>
 
-      {/* Patient banner */}
       {selectedPatient &&
     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50 border border-border">
           <Avatar className="h-8 w-8">
@@ -330,9 +316,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           </Avatar>
           <div className="flex-1">
             <p className="text-sm font-medium">{selectedPatient.name}</p>
-            <p className="text-xs text-muted-foreground">{selectedPatient.age} anos</p>
+            <p className="text-xs text-muted-foreground">{selectedPatient.age} {t('profile.years')}</p>
           </div>
-          {/* Allergy badges */}
           {patientHealth.allergies.length > 0 &&
       <div className="flex flex-wrap gap-1">
               {patientHealth.allergies.map((a) =>
@@ -345,10 +330,9 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         </div>
     }
 
-      {/* Current medication warning */}
       {patientHealth.medications.length > 0 &&
     <div className="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/5">
-          <p className="text-xs font-medium text-amber-600 mb-1">Medicação actual do paciente:</p>
+          <p className="text-xs font-medium text-amber-600 mb-1">{t('prescription.currentPatientMeds')}:</p>
           <div className="flex flex-wrap gap-1">
             {patientHealth.medications.map((m) =>
         <span key={m.name} className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
@@ -360,16 +344,14 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     }
 
       <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2')}>
-        {/* Left: medication list */}
         <div className="space-y-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-            placeholder="Pesquisar medicamento..."
+            placeholder={t('prescription.searchMed')}
             value={medSearch}
             onChange={(e) => setMedSearch(e.target.value)}
             className="pl-9" />
-          
           </div>
           <div className="space-y-1 max-h-[300px] overflow-y-auto">
             {filteredMeds.map((med) =>
@@ -377,36 +359,31 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           )}
           </div>
 
-          {/* Manual add */}
           {manualMode ?
         <div className="space-y-2 p-3 rounded-lg border border-border bg-card">
-              <Input placeholder="Nome do medicamento" value={manualName} onChange={(e) => setManualName(e.target.value)} />
-              <Input placeholder="Dosagem (ex: 500mg)" value={manualDosage} onChange={(e) => setManualDosage(e.target.value)} />
+              <Input placeholder={t('prescription.medName')} value={manualName} onChange={(e) => setManualName(e.target.value)} />
+              <Input placeholder={t('prescription.dosagePlaceholder')} value={manualDosage} onChange={(e) => setManualDosage(e.target.value)} />
               <div className="flex gap-2">
-                <Button size="sm" onClick={addManualMedication} disabled={!manualName.trim()}>Adicionar</Button>
-                <Button size="sm" variant="outline" onClick={() => setManualMode(false)}>Cancelar</Button>
+                <Button size="sm" onClick={addManualMedication} disabled={!manualName.trim()}>{t('prescription.add')}</Button>
+                <Button size="sm" variant="outline" onClick={() => setManualMode(false)}>{t('common.cancel')}</Button>
               </div>
             </div> :
-
         <Button variant="outline" size="sm" className="w-full gap-2" onClick={() => setManualMode(true)}>
-              <Plus className="w-4 h-4" /> Adicionar medicamento manualmente
+              <Plus className="w-4 h-4" /> {t('prescription.addManually')}
             </Button>
         }
         </div>
 
-        {/* Right: current prescription */}
         <div className="space-y-3">
           <h3 className="text-sm font-semibold flex items-center gap-2">
-            <FileText className="w-4 h-4" /> Receita actual ({medications.length})
+            <FileText className="w-4 h-4" /> {t('prescription.currentPrescription')} ({medications.length})
           </h3>
           {medications.length === 0 ?
         <div className="p-6 text-center text-sm text-muted-foreground border border-dashed border-border rounded-lg">
-              Adicione medicamentos à receita
+              {t('prescription.addMedsToRx')}
             </div> :
-
         <div className="space-y-3">
               {medications.map((med) => {
-            // Check interaction for already-added meds
             const medDef = MEDICATIONS_WITH_TAGS.find((m) => m.name === med.name);
             const interactions = medDef ? getMedicationInteractions(medDef, patientHealth.medications) : [];
             return (
@@ -425,17 +402,15 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
                     </div>
                     {interactions.length > 0 &&
                 <p className="text-[10px] text-amber-500 font-medium">
-                        ⚠️ Interação com {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
+                        ⚠️ {t('prescription.interactionWith')} {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
                       </p>
                 }
                     <Input
-                  placeholder="Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)"
+                  placeholder={t('prescription.posologyPlaceholder')}
                   value={med.posology}
                   onChange={(e) => updatePosology(med.id, e.target.value)}
                   className="text-xs h-8" />
-                
                   </div>);
-
           })}
             </div>
         }
@@ -443,39 +418,33 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       </div>
     </div>;
 
-
   // Step 3: Preview
   const renderPreviewStep = () =>
   <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      <h2 className="text-lg font-bold">Pré-visualização da receita</h2>
+      <h2 className="text-lg font-bold">{t('prescription.preview')}</h2>
 
-      {/* PDF Preview */}
       <div className="bg-white text-gray-900 rounded-lg border-2 border-gray-200 p-6 space-y-4 shadow-sm max-w-lg mx-auto">
-        {/* Header */}
         <div className="border-b border-gray-300 pb-3 space-y-1">
           <h3 className="text-base font-bold text-gray-900">{mockDentists[0].name}</h3>
           <p className="text-xs text-gray-600">{mockDentists[0].specialty}</p>
           <p className="text-xs text-gray-600">{mockClinics[0].name} • {mockClinics[0].address}</p>
-          <p className="text-xs text-gray-600">Nº Ordem: OMD-12345</p>
+          <p className="text-xs text-gray-600">{t('prescription.orderNumber')}: OMD-12345</p>
         </div>
 
-        {/* Date */}
         <div className="text-xs text-gray-500">
-          Data: {today.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}
+          {t('prescription.dateLabel')}: {today.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}
         </div>
 
-        {/* Patient */}
         <div className="border-b border-gray-200 pb-2">
-          <p className="text-sm"><span className="font-semibold">Paciente:</span> {selectedPatient?.name}</p>
-          <p className="text-xs text-gray-600">{selectedPatient?.age} anos</p>
+          <p className="text-sm"><span className="font-semibold">{t('prescription.patientLabel')}:</span> {selectedPatient?.name}</p>
+          <p className="text-xs text-gray-600">{selectedPatient?.age} {t('profile.years')}</p>
           {patientHealth.allergies.length > 0 &&
-        <p className="text-xs text-red-600 mt-1">⚠️ Alergias: {patientHealth.allergies.join(', ')}</p>
+        <p className="text-xs text-red-600 mt-1">⚠️ {t('prescription.allergiesWarning')}: {patientHealth.allergies.join(', ')}</p>
         }
         </div>
 
-        {/* Medications */}
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold">Medicamentos:</h4>
+          <h4 className="text-sm font-semibold">{t('prescription.medications')}:</h4>
           {medications.map((med, i) =>
         <div key={med.id} className="pl-3 border-l-2 border-primary space-y-0.5">
               <p className="text-sm font-medium">{i + 1}. {med.name} {med.dosage}</p>
@@ -484,11 +453,10 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         )}
         </div>
 
-        {/* Signature area */}
         <div className="pt-6 border-t border-gray-200 flex items-end justify-between">
           <div>
             <div className="w-40 border-b border-gray-400 mb-1" />
-            <p className="text-xs text-gray-600">Assinatura do Médico Dentista</p>
+            <p className="text-xs text-gray-600">{t('prescription.dentistSignature')}</p>
           </div>
           <div className="flex flex-col items-center gap-1">
             <QrCode className="w-12 h-12 text-gray-400" />
@@ -497,27 +465,25 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         </div>
       </div>
 
-      {/* Send options */}
       <div className="space-y-3 max-w-lg mx-auto">
-        <h3 className="text-sm font-semibold">Opções de envio:</h3>
+        <h3 className="text-sm font-semibold">{t('prescription.sendOptions')}:</h3>
         <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
           <Checkbox checked={sendToHealth} onCheckedChange={(v) => setSendToHealth(!!v)} />
           <Send className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm">Enviar para a área Saúde do paciente</span>
+          <span className="text-sm">{t('prescription.sendToHealth')}</span>
         </label>
         <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
           <Checkbox checked={sendByEmail} onCheckedChange={(v) => setSendByEmail(!!v)} />
           <Mail className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm">Enviar por Email</span>
+          <span className="text-sm">{t('prescription.sendByEmail')}</span>
         </label>
         <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
           <Checkbox checked={downloadPdf} onCheckedChange={(v) => setDownloadPdf(!!v)} />
           <Download className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm">Download PDF</span>
+          <span className="text-sm">{t('prescription.downloadPdf')}</span>
         </label>
       </div>
     </div>;
-
 
   // Success
   const renderSuccessStep = () =>
@@ -526,12 +492,12 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto">
           <Check className="w-8 h-8 text-green-500" />
         </div>
-        <h2 className="text-xl font-bold">Receita enviada com sucesso!</h2>
+        <h2 className="text-xl font-bold">{t('prescription.success')}</h2>
         <p className="text-sm text-muted-foreground">
-          O paciente <span className="font-medium text-foreground">{selectedPatient?.name}</span> foi notificado
+          {t('prescription.patientNotified', { name: selectedPatient?.name })}
         </p>
         <div className="text-left bg-muted/30 rounded-lg p-4 space-y-1">
-          <p className="text-xs font-semibold text-muted-foreground mb-2">Medicamentos prescritos:</p>
+          <p className="text-xs font-semibold text-muted-foreground mb-2">{t('prescription.prescribedMeds')}:</p>
           {medications.map((med) =>
         <p key={med.id} className="text-sm">• {med.name} {med.dosage}</p>
         )}
@@ -542,18 +508,17 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           setSelectedPatient(preSelectedPatient || null);
           setMedications([]);
         }}>
-            Nova Receita
+            {t('prescription.newPrescription')}
           </Button>
           <Button className="flex-1" onClick={() => {
           if (onGoHome) onGoHome();else
           onClose();
         }}>
-            Voltar ao Início
+            {t('prescription.goHome')}
           </Button>
         </div>
       </div>
     </div>;
-
 
   // Bottom buttons
   const renderBottomButtons = () => {
@@ -566,20 +531,18 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           {currentStep === steps[0] ?
-          <Button variant="outline" size="sm" className="flex-1" onClick={onClose}>Cancelar</Button> :
-
-          <Button variant="outline" size="sm" className="flex-1" onClick={goPrev}>Anterior</Button>
+          <Button variant="outline" size="sm" className="flex-1" onClick={onClose}>{t('common.cancel')}</Button> :
+          <Button variant="outline" size="sm" className="flex-1" onClick={goPrev}>{t('prescription.previous')}</Button>
           }
           {currentStep === 'patient' ?
-          <Button size="sm" className="flex-1" disabled={!selectedPatient} onClick={goNext}>Seguinte</Button> :
+          <Button size="sm" className="flex-1" disabled={!selectedPatient} onClick={goNext}>{t('prescription.next')}</Button> :
           currentStep === 'medications' ?
-          <Button size="sm" className="flex-1" disabled={medications.length === 0} onClick={goNext}>Pré-visualizar</Button> :
+          <Button size="sm" className="flex-1" disabled={medications.length === 0} onClick={goNext}>{t('prescription.previewBtn')}</Button> :
           currentStep === 'preview' ?
-          <Button size="sm" className="flex-1" onClick={goNext}>Assinar e Enviar</Button> :
+          <Button size="sm" className="flex-1" onClick={goNext}>{t('prescription.signAndSend')}</Button> :
           null}
         </div>
       </div>);
-
   };
 
   return (
@@ -595,24 +558,20 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         'w-full h-full pb-[60px]' :
         'w-full h-full max-w-2xl mx-auto'
       )}>
-        {/* Header */}
         <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
           <div className="w-full max-w-[600px]">
-            <h1 className="font-bold text-center text-lg">Prescrever Receita</h1>
+            <h1 className="font-bold text-center text-lg">{t('prescription.title')}</h1>
           </div>
         </div>
 
         <div className="max-w-[600px] mx-auto w-full"><ProgressBar /></div>
 
-        {/* Step content */}
         {currentStep === 'patient' && renderPatientStep()}
         {currentStep === 'medications' && renderMedicationsStep()}
         {currentStep === 'preview' && renderPreviewStep()}
         {currentStep === 'success' && renderSuccessStep()}
 
-        {/* Bottom buttons */}
         {renderBottomButtons()}
       </div>
     </div>);
-
 }
