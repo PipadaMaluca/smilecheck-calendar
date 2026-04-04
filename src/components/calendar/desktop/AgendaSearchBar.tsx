@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCircle2 } from 'lucide-react';
@@ -42,6 +43,7 @@ interface AgendaSearchBarProps {
 }
 
 export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -208,7 +210,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
             setIsFocused(true);
             if (query.length >= 2) setIsOpen(true);
           }}
-          placeholder="Pesquisar pacientes, dentistas ou clínicas"
+          placeholder={t('search.placeholder')}
           className={cn(
             'pl-9 pr-8 h-9 w-full text-sm transition-all',
             isFocused && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
