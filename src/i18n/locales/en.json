@@ -2367,7 +2367,13 @@
     "availability": "Availability",
     "priority": "Priority",
     "requestDate": "Request Date",
-    "noPatients": "No patients on the waiting list."
+    "noPatients": "No patients on the waiting list.",
+    "mornings": "Mornings",
+    "afternoons": "Afternoons",
+    "any": "Any",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
   },
   "confirmations": {
     "time": "Time",

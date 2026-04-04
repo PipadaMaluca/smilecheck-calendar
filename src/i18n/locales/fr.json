@@ -2367,7 +2367,13 @@
     "availability": "Disponibilité",
     "priority": "Priorité",
     "requestDate": "Date de demande",
-    "noPatients": "Aucun patient en liste d'attente."
+    "noPatients": "Aucun patient en liste d'attente.",
+    "mornings": "Matins",
+    "afternoons": "Après-midi",
+    "any": "Indifférent",
+    "high": "Haute",
+    "medium": "Moyenne",
+    "low": "Basse"
   },
   "confirmations": {
     "time": "Heure",
