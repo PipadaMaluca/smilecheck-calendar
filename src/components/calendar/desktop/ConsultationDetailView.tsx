@@ -40,7 +40,6 @@ const MOCK_HISTORY: Record<string, { date: string; type: string; dentist: string
 
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
   const { t } = useTranslation();
-  const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
