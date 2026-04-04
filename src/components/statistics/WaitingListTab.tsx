@@ -82,11 +82,11 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-xs">Paciente</TableHead>
-                        <TableHead className="text-xs">Consulta</TableHead>
-                        <TableHead className="text-xs hidden sm:table-cell">Disponibilidade</TableHead>
-                        <TableHead className="text-xs">Prioridade</TableHead>
-                        <TableHead className="text-xs hidden sm:table-cell">Data Pedido</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.patient')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.consultation')}</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">{t('waitingList.availability')}</TableHead>
+                        <TableHead className="text-xs">{t('waitingList.priority')}</TableHead>
+                        <TableHead className="text-xs hidden sm:table-cell">{t('waitingList.requestDate')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
