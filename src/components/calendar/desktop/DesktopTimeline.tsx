@@ -383,7 +383,7 @@ export function DesktopTimeline({
                                 className="text-[10px] font-bold truncate px-1 py-0 rounded-full inline-block" 
                                 style={getCategoryBadgeStyle(styles.borderColor)}
                               >
-                                {getCategoryLabel(consultation)}
+                                {getConsultationLabel(t, consultation)}
                               </span>
                               {consultation.notes && (
                                 <span className="text-[9px] text-[#8B9CB6] truncate">
