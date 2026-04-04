@@ -44,12 +44,12 @@ function getConsultationStyles(consultation: Consultation) {
   };
 }
 
-function getCategoryLabel(consultation: Consultation): string {
+function getConsultationLabel(t: (key: string) => string, consultation: Consultation): string {
   if (consultation.category) {
-    return getCategoryLabel(t, consultation.category);
+    return getCatLabel(t, consultation.category);
   }
-  if (consultation.type === 'teleconsulta') return 'Teleconsulta';
-  return 'Consulta Presencial';
+  if (consultation.type === 'teleconsulta') return t('consultationTypes.teleconsultation');
+  return t('agenda.presencial');
 }
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
