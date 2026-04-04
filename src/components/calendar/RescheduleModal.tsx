@@ -28,7 +28,8 @@ const AVAILABLE_SLOTS = [
 const OCCUPIED = ['09:30', '10:30', '14:30', '16:00'];
 
 export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount = 0 }: RescheduleModalProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const dateLoc = { pt, en: enUS, fr }[i18n.language] || pt;
   const [step, setStep] = useState<'datetime' | 'reason' | 'done'>('datetime');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
