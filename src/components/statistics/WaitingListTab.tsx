@@ -74,7 +74,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
                 <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 self-start sm:self-auto">
-                  {patients.length} pacientes
+                  {patients.length} {t('waitingList.patients')}
                 </Badge>
               </div>
               {patients.length > 0 ? (
