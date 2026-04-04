@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useTranslation } from 'react-i18next';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
