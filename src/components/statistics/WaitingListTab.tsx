@@ -48,6 +48,7 @@ interface WaitingListTabProps {
 }
 
 export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProps) {
+  const { t } = useTranslation();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistsToShow = useMemo(() => {
