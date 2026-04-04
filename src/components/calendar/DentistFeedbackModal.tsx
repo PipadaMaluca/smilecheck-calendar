@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -17,6 +18,7 @@ interface DentistFeedbackModalProps {
 }
 
 export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }: DentistFeedbackModalProps) {
+  const { t } = useTranslation();
   const [checkedIds, setCheckedIds] = useState<string[]>(['compareceu']);
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState(0);
@@ -41,7 +43,7 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
   const handleSubmit = () => {
     if (!consultation) return;
     onSubmit(consultation.id, checkedIds, totalPoints);
-    toast.success(`Feedback submetido: ${totalPoints >= 0 ? '+' : ''}${totalPoints} pontos`);
+    toast.success(`${t('feedback.feedbackSubmitted')}: ${totalPoints >= 0 ? '+' : ''}${totalPoints} ${t('feedback.points')}`);
     setCheckedIds(['compareceu']);
     setRating(0);
     setHovered(0);
@@ -52,28 +54,26 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
   if (!consultation) return null;
 
   const display = hovered || rating;
-  const ratingLabels = ['', 'Mau', 'Razoável', 'Bom', 'Muito Bom', 'Excelente'];
+  const ratingLabels = ['', t('feedback.bad'), t('feedback.fair'), t('feedback.good'), t('feedback.veryGood'), t('feedback.excellent')];
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Feedback do Paciente</DialogTitle>
+          <DialogTitle>{t('feedback.patientFeedback')}</DialogTitle>
           <DialogDescription>
-            Avalie {consultation.patient.name} após a consulta
+            {t('feedback.rateAfterConsultation')} — {consultation.patient.name}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
-          {/* Patient info */}
           <div className="bg-secondary/30 rounded-lg p-3">
             <p className="text-sm font-medium text-foreground">{consultation.patient.name}</p>
             <p className="text-xs text-muted-foreground">{consultation.time} • {consultation.clinic.name}</p>
           </div>
 
-          {/* Behavior checkboxes */}
           <div className="space-y-2">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Comportamento (pontos 2x paciente)</p>
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('feedback.behaviorPoints')}</p>
             {visibleCheckboxes.map((cb) => (
               <label
                 key={cb.id}
@@ -101,9 +101,8 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
             ))}
           </div>
 
-          {/* Star rating + comment */}
           <div className="border-t border-border pt-3 space-y-2">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Avaliação geral</p>
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('feedback.generalRating')}</p>
             <div className="flex items-center justify-center gap-2 py-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -129,30 +128,28 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
             <Textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              placeholder="Observações sobre o paciente..."
+              placeholder={t('feedback.observationsPatient')}
               className="resize-none"
               rows={2}
             />
           </div>
 
-          {/* Total */}
           <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-border">
-            <span className="text-sm font-medium">Pontuação:</span>
+            <span className="text-sm font-medium">{t('feedback.score')}:</span>
             <span className={cn(
               'text-xl font-bold',
               totalPoints > 0 ? 'text-primary' : totalPoints < 0 ? 'text-destructive' : 'text-muted-foreground'
             )}>
-              {totalPoints >= 0 ? '+' : ''}{totalPoints} pontos
+              {totalPoints >= 0 ? '+' : ''}{totalPoints} {t('feedback.points')}
             </span>
           </div>
 
-          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <Button variant="outline" className="flex-1" onClick={onClose}>
-              Cancelar
+              {t('common.cancel')}
             </Button>
             <Button className="flex-1" onClick={handleSubmit}>
-              Submeter Feedback
+              {t('feedback.submitFeedback')}
             </Button>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { CATEGORY_COLORS, CATEGORY_LABELS, LEGEND_ORDER } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, LEGEND_ORDER , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface CategoryLegendProps {
@@ -10,6 +11,7 @@ export function CategoryLegend({
   className,
   compact = false
 }: CategoryLegendProps) {
+  const { t } = useTranslation();
   return (
     <div className={cn(
       "flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-4 py-2 border border-border bg-card/50 w-full",
@@ -18,7 +20,7 @@ export function CategoryLegend({
     )}>
       {LEGEND_ORDER.map(category => {
         const colors = CATEGORY_COLORS[category];
-        const label = CATEGORY_LABELS[category];
+        const label = getCategoryLabel(t, category);
         return (
           <div key={category} className="flex items-center gap-1.5">
             <div

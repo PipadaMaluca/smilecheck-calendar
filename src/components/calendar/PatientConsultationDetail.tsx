@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -45,7 +45,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const category = consultation.category || 'restauracao';
   const colors = CATEGORY_COLORS[category];
-  const categoryLabel = CATEGORY_LABELS[category];
+  const categoryLabel = getCategoryLabel(t, category);
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const dentistAvatar = DENTIST_AVATAR_PHOTOS[consultation.dentist.id];

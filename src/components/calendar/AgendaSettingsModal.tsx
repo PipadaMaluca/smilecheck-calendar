@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
-import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, LEGEND_ORDER, UserRole } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, LEGEND_ORDER, UserRole , getCategoryLabel} from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -216,7 +216,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
                 const color = local.categoryColors[cat] || defaultColor;
                 return (
                   <div key={cat} className="flex items-center justify-between">
-                    <span className="text-xs text-foreground">{CATEGORY_LABELS[cat]}</span>
+                    <span className="text-xs text-foreground">{getCategoryLabel(t, cat)}</span>
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded border border-border" style={{ backgroundColor: color }} />
                       {canEditColors && (
@@ -274,7 +274,7 @@ export function AgendaSettingsModal({ isOpen, onClose, settings, onSave, userRol
           {editingCategory && hasPremiumPicker && (
             <section className="bg-secondary/30 rounded-xl p-4 space-y-3 border border-border">
               <h4 className="text-xs font-semibold text-foreground">
-                {t('agendaSettings.rgbColor')} — {CATEGORY_LABELS[editingCategory as ConsultationCategory]}
+                {t('agendaSettings.rgbColor')} — {getCategoryLabel(t, editingCategory as ConsultationCategory)}
               </h4>
               <div
                 className="w-full h-10 rounded-lg border border-border"

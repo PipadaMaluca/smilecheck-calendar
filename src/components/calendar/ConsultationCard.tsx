@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -29,7 +29,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
   
   const category = consultation.category || 'restauracao';
   const colors = CATEGORY_COLORS[category];
-  const categoryLabel = CATEGORY_LABELS[category];
+  const categoryLabel = getCategoryLabel(t, category);
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   

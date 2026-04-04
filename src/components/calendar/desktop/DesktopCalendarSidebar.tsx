@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ export function DesktopCalendarSidebar({
   isTodosSelected = false,
   onToggleTodos,
 }: DesktopCalendarSidebarProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1', '2', '3']);
@@ -200,7 +202,7 @@ export function DesktopCalendarSidebar({
           className="w-full text-xs font-medium bg-primary/20 hover:bg-primary/30 text-primary"
           onClick={onSelectPresentDentists}
         >
-          Filtrar Presentes
+          {t('agenda.filterPresent')}
         </Button>
       </div>
 
@@ -209,7 +211,7 @@ export function DesktopCalendarSidebar({
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
           <Input
-            placeholder="Pesquisar"
+            placeholder={t('common.search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-7 h-7 text-xs bg-[#152238] border-[#1E3A5F]"

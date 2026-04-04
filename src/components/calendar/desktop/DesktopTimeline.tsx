@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Video, Flag, AlertTriangle, Check, Ban } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -43,12 +44,12 @@ function getConsultationStyles(consultation: Consultation) {
   };
 }
 
-function getCategoryLabel(consultation: Consultation): string {
+function getConsultationLabel(t: (key: string) => string, consultation: Consultation): string {
   if (consultation.category) {
-    return CATEGORY_LABELS[consultation.category] || 'Consulta';
+    return getCatLabel(t, consultation.category);
   }
-  if (consultation.type === 'teleconsulta') return 'Teleconsulta';
-  return 'Consulta Presencial';
+  if (consultation.type === 'teleconsulta') return t('consultationTypes.teleconsultation');
+  return t('agenda.presencial');
 }
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
@@ -71,6 +72,7 @@ export function DesktopTimeline({
   onEmptySlotClick,
   onDragMove,
 }: DesktopTimelineProps) {
+  const { t } = useTranslation();
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
   const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; x: number; y: number } | null>(null);
@@ -381,7 +383,7 @@ export function DesktopTimeline({
                                 className="text-[10px] font-bold truncate px-1 py-0 rounded-full inline-block" 
                                 style={getCategoryBadgeStyle(styles.borderColor)}
                               >
-                                {getCategoryLabel(consultation)}
+                                {getConsultationLabel(t, consultation)}
                               </span>
                               {consultation.notes && (
                                 <span className="text-[9px] text-[#8B9CB6] truncate">

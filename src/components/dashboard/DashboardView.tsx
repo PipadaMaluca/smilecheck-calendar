@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -250,7 +250,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                  const catLabel = c.category ? CATEGORY_LABELS[c.category] : c.type;
+                  const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
                   return (
                     <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 hover:brightness-110 rounded transition-all cursor-pointer"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
@@ -290,7 +290,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <div className="space-y-1.5 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                  const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
+                  const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
                   return (
                     <div
                       key={c.consultationId}
@@ -446,7 +446,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {confirmations.slice(0, 2).map((c) => {
                     const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                    const catLabel = c.category ? CATEGORY_LABELS[c.category as ConsultationCategory] : '';
+                    const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
                     return (
                       <div
                         key={c.consultationId}
@@ -541,7 +541,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <div className="space-y-2">
                 {upcomingItems.map((item) => {
                   const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
-                  const catLabel = item.category ? CATEGORY_LABELS[item.category] : '';
+                  const catLabel = item.category ? getCategoryLabel(t, item.category) : '';
                   return (
                     <div key={item.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
                       <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>

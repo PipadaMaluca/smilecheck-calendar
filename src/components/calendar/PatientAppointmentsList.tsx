@@ -1,6 +1,7 @@
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,7 @@ export function PatientAppointmentsList({
   selectedConsultationId,
   compact = false
 }: PatientAppointmentsListProps) {
+  const { t } = useTranslation();
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {
     const dateCompare = a.date.getTime() - b.date.getTime();
@@ -106,7 +108,7 @@ export function PatientAppointmentsList({
                         style={getCategoryBadgeStyle(colors.hex)}>
 
                           {isTeleconsulta && <Video className="w-3.5 h-3.5" />}
-                          {CATEGORY_LABELS[category] || 'Consulta'}
+                          {getCategoryLabel(t, category)}
                         </span>
                         {getPaymentStatus(consultation)}
                       </div>
@@ -142,7 +144,7 @@ export function PatientAppointmentsList({
                         // Handle reschedule
                       }}>
 
-                        Reagendar
+                        {t('agenda.reschedule')}
                       </Button>
                       <Button
                       variant="outline"
@@ -150,10 +152,9 @@ export function PatientAppointmentsList({
                       className="flex-1 text-xs text-destructive hover:text-destructive"
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Handle cancel
                       }}>
 
-                        Cancelar
+                        {t('common.cancel')}
                       </Button>
                     </div>
                   )}

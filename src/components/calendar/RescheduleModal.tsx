@@ -7,9 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Consultation } from '@/types/calendar';
+import { Consultation, getCategoryLabel } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -28,7 +28,8 @@ const AVAILABLE_SLOTS = [
 const OCCUPIED = ['09:30', '10:30', '14:30', '16:00'];
 
 export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount = 0 }: RescheduleModalProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const dateLoc = { pt, en: enUS, fr }[i18n.language] || pt;
   const [step, setStep] = useState<'datetime' | 'reason' | 'done'>('datetime');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -71,7 +72,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
             <DialogHeader>
               <DialogTitle>{t('consultationDetail.rescheduleModal.title')}</DialogTitle>
               <DialogDescription>
-                {consultation.category ? consultation.category.charAt(0).toUpperCase() + consultation.category.slice(1) : 'Consulta'} com {consultation.dentist?.name || 'Dentista'} — {format(consultation.date, "d 'de' MMMM", { locale: pt })} às {consultation.time}
+                {consultation.category ? getCategoryLabel(t, consultation.category) : t('consultationTypes.teleconsultation')} — {consultation.dentist?.name} — {format(consultation.date, "d MMMM", { locale: dateLoc })}, {consultation.time}
               </DialogDescription>
             </DialogHeader>
 
@@ -94,7 +95,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                 {selectedDate && (
                   <div>
                     <p className="text-sm font-medium mb-2">
-                      {t('consultationDetail.rescheduleModal.availableSlots')} — {format(selectedDate, "EEEE, d 'de' MMMM", { locale: pt })}
+                      {t('consultationDetail.rescheduleModal.availableSlots')} — {format(selectedDate, "EEEE, d MMMM", { locale: dateLoc })}
                     </p>
                     <div className="grid grid-cols-4 gap-2">
                       {AVAILABLE_SLOTS.map(slot => {

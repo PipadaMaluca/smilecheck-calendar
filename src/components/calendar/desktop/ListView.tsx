@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import {
@@ -20,6 +21,7 @@ interface ListViewProps {
 }
 
 export function ListView({ consultations, dentists, onConsultationClick }: ListViewProps) {
+  const { t } = useTranslation();
   // Sort consultations by time
   const sortedConsultations = [...consultations].sort((a, b) => {
     const timeA = a.time.split(':').map(Number);
@@ -145,7 +147,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                         {isUrgentTeleconsulta && (
                           <AlertTriangle className="w-3 h-3" />
                         )}
-                        {CATEGORY_LABELS[category] || 'Consulta'}
+                        {getCategoryLabel(t, category)}
                       </span>
                     </div>
                   </TableCell>

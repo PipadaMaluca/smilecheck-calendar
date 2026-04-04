@@ -5,7 +5,8 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,8 @@ const MOCK_HISTORY: Record<string, { date: string; type: string; dentist: string
 };
 
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
+  const { t } = useTranslation();
+  const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
@@ -50,18 +53,18 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success('Paciente bloqueado com sucesso');
+    toast.success(t('consultationDetail.blocked'));
   };
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success('Paciente desbloqueado');
+    toast.success(t('consultationDetail.unblocked'));
   };
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
-  const categoryLabel = consultation.category ? CATEGORY_LABELS[consultation.category] : 'Consulta';
+  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('consultationTypes.teleconsultation');
   const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
   const history = MOCK_HISTORY.default;
 
@@ -143,7 +146,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
           {/* Triagem */}
           {consultation.triage && (
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Triagem do Paciente</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.triage')}</h3>
               <div className="space-y-2 text-sm">
                 <p><span className="text-muted-foreground">Sintomas:</span> {consultation.triage.symptom}</p>
                 <p><span className="text-muted-foreground">Duração:</span> {consultation.triage.duration}</p>
@@ -314,7 +317,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>⚠️ Bloquear {consultation.patient.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('consultationDetail.blockConfirm')} {consultation.patient.name}?</DialogTitle>
             <DialogDescription>
               Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
             </DialogDescription>
@@ -331,9 +334,9 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
             </div>
             <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
             <div className="flex gap-2">
-              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>Cancelar</Button>
+              <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
               <Button className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground" disabled={!blockReason.trim()} onClick={handleBlock}>
-                Bloquear
+                {t('consultationDetail.blockConfirm')}
               </Button>
             </div>
           </div>
