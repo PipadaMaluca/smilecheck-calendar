@@ -163,7 +163,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">Sem consultas hoje.</p>
+                <p className="p-4 text-sm text-muted-foreground">{t('confirmations.noConsultations')}</p>
               )}
             </CardContent>
           </Card>
