@@ -1,7 +1,10 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format, addDays, subDays } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
+
+const dateLocales: Record<string, Locale> = { pt, en: enUS, fr };
 
 interface DateNavigatorProps {
   date: Date;
@@ -18,6 +21,9 @@ export function DateNavigator({
   onViewModeChange,
   showViewToggle = false,
 }: DateNavigatorProps) {
+  const { t, i18n } = useTranslation();
+  const locale = dateLocales[i18n.language] || pt;
+
   return (
     <div className="px-4 py-3 space-y-3 w-full max-w-full">
       <div className="flex items-center justify-between w-full">
@@ -30,7 +36,7 @@ export function DateNavigator({
           <ChevronLeft className="w-5 h-5" />
         </Button>
         <h2 className="text-base font-semibold capitalize text-center flex-1 px-2">
-          {format(date, "EEEE, d 'de' MMMM", { locale: pt })}
+          {format(date, "EEEE, d MMMM", { locale })}
         </h2>
         <Button
           variant="ghost"
@@ -52,7 +58,7 @@ export function DateNavigator({
               onClick={() => onViewModeChange(mode)}
               className="flex-1 text-xs capitalize"
             >
-              {mode === 'day' ? 'Dia' : mode === 'week' ? 'Semana' : 'Mês'}
+              {mode === 'day' ? t('agenda.day') : mode === 'week' ? t('agenda.week') : t('agenda.month')}
             </Button>
           ))}
         </div>

@@ -1,10 +1,12 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_LABELS , getCategoryLabel} from '@/types/calendar';
+import { Consultation, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
 import { CalendarDays, User } from 'lucide-react';
+
+const dateLocales: Record<string, Locale> = { pt, en: enUS, fr };
 
 export interface DragMoveInfo {
   consultation: Consultation;
@@ -25,7 +27,8 @@ interface MoveConsultationModalProps {
 }
 
 export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: MoveConsultationModalProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = dateLocales[i18n.language] || pt;
   if (!moveInfo) return null;
 
   const { consultation, fromDate, fromTime, fromDentistName, toDate, toTime, toDentistName } = moveInfo;
@@ -35,22 +38,20 @@ export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: 
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg">Mover Consulta</DialogTitle>
+          <DialogTitle className="text-lg">{t('agenda.moveConsultation')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
-          {/* Patient info */}
           <div className="space-y-1">
-            <p className="text-sm font-medium">Paciente: <span className="font-bold">{consultation.patient.name}</span></p>
-            <p className="text-sm text-muted-foreground">Tipo: {getCategoryLabel(t, category)}</p>
+            <p className="text-sm font-medium">{t('agenda.patient')}: <span className="font-bold">{consultation.patient.name}</span></p>
+            <p className="text-sm text-muted-foreground">{t('agenda.type')}: {getCategoryLabel(t, category)}</p>
           </div>
 
-          {/* From */}
           <div className="bg-destructive/10 rounded-lg p-3 space-y-1">
-            <p className="text-xs font-semibold text-destructive uppercase">De:</p>
+            <p className="text-xs font-semibold text-destructive uppercase">{t('agenda.from')}:</p>
             <div className="flex items-center gap-2 text-sm">
               <CalendarDays className="w-4 h-4 text-muted-foreground" />
-              <span>{format(fromDate, "d MMM yyyy", { locale: pt })}, {fromTime}</span>
+              <span>{format(fromDate, "d MMM yyyy", { locale })}, {fromTime}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <User className="w-4 h-4 text-muted-foreground" />
@@ -58,12 +59,11 @@ export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: 
             </div>
           </div>
 
-          {/* To */}
           <div className="bg-primary/10 rounded-lg p-3 space-y-1">
-            <p className="text-xs font-semibold text-primary uppercase">Para:</p>
+            <p className="text-xs font-semibold text-primary uppercase">{t('agenda.to')}:</p>
             <div className="flex items-center gap-2 text-sm">
               <CalendarDays className="w-4 h-4 text-muted-foreground" />
-              <span>{format(toDate, "d MMM yyyy", { locale: pt })}, {toTime}</span>
+              <span>{format(toDate, "d MMM yyyy", { locale })}, {toTime}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <User className="w-4 h-4 text-muted-foreground" />
@@ -73,8 +73,8 @@ export function MoveConsultationModal({ moveInfo, isOpen, onClose, onConfirm }: 
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={onClose}>Cancelar</Button>
-          <Button onClick={() => onConfirm(moveInfo)}>Guardar Alterações</Button>
+          <Button variant="outline" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button onClick={() => onConfirm(moveInfo)}>{t('agenda.saveChanges')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -89,6 +89,7 @@ interface OverlapWarningModalProps {
 }
 
 export function OverlapWarningModal({ isOpen, existingConsultation, onClose, onConfirm }: OverlapWarningModalProps) {
+  const { t } = useTranslation();
   if (!existingConsultation) return null;
 
   const category = existingConsultation.category || 'restauracao';
@@ -98,23 +99,23 @@ export function OverlapWarningModal({ isOpen, existingConsultation, onClose, onC
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-lg flex items-center gap-2">
-            <span className="text-amber-500">⚠️</span> Horário Ocupado
+            <span className="text-amber-500">⚠️</span> {t('agenda.slotOccupied')}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-3 py-2">
-          <p className="text-sm text-muted-foreground">Já existe uma consulta neste horário:</p>
+          <p className="text-sm text-muted-foreground">{t('agenda.existingConsultation')}:</p>
           <div className="bg-secondary/50 rounded-lg p-3">
             <p className="text-sm font-medium">
               {existingConsultation.time} - {existingConsultation.patient.name} ({getCategoryLabel(t, category)})
             </p>
           </div>
-          <p className="text-sm text-muted-foreground">Deseja agendar mesmo assim?</p>
+          <p className="text-sm text-muted-foreground">{t('agenda.confirmScheduleAnyway')}</p>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={onClose}>Cancelar</Button>
-          <Button variant="default" onClick={onConfirm}>Agendar Mesmo Assim</Button>
+          <Button variant="outline" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button variant="default" onClick={onConfirm}>{t('agenda.scheduleAnyway')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
