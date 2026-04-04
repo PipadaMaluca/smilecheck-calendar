@@ -72,7 +72,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
             <DialogHeader>
               <DialogTitle>{t('consultationDetail.rescheduleModal.title')}</DialogTitle>
               <DialogDescription>
-                {consultation.category ? consultation.category.charAt(0).toUpperCase() + consultation.category.slice(1) : 'Consulta'} com {consultation.dentist?.name || 'Dentista'} — {format(consultation.date, "d 'de' MMMM", { locale: pt })} às {consultation.time}
+                {consultation.category ? getCategoryLabel(t, consultation.category) : t('consultationTypes.teleconsultation')} — {consultation.dentist?.name} — {format(consultation.date, "d MMMM", { locale: dateLoc })}, {consultation.time}
               </DialogDescription>
             </DialogHeader>
 
