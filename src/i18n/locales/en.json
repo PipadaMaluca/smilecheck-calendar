@@ -2338,6 +2338,7 @@
     "currentPatientMeds": "Patient current medication"
   },
   "statistics": {
+    "title": "Statistics",
     "general": "General",
     "confirmations": "Confirmations",
     "waitingList": "Waiting List",
