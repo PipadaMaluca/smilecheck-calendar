@@ -265,7 +265,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderDateTimeStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Escolha a data e hora</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.chooseDatetime')}</h3>
       <div className="flex justify-center">
         <Calendar
           mode="single"
