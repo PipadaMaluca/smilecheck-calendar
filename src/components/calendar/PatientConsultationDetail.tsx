@@ -25,9 +25,9 @@ interface PatientConsultationDetailProps {
 }
 
 const MOCK_HISTORY = [
-  { date: '15 Jan 2026', type: 'Restauração', dentist: 'Dr. Gonçalo Pipo', category: 'restauracao' },
-  { date: '02 Dez 2025', type: 'Destartarização', dentist: 'Dr. Alexandre Bernardo', category: 'destartarizacao' },
-  { date: '18 Out 2025', type: '1ª Consulta', dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
+  { date: '15 Jan 2026', category: 'restauracao' as const, dentist: 'Dr. Gonçalo Pipo' },
+  { date: '02 Dez 2025', category: 'destartarizacao' as const, dentist: 'Dr. Alexandre Bernardo' },
+  { date: '18 Out 2025', category: 'primeira_consulta' as const, dentist: 'Dr. Gonçalo Pipo' },
 ];
 
 export function PatientConsultationDetail({ consultation, isOpen, onClose, onNavigateToChat }: PatientConsultationDetailProps) {
