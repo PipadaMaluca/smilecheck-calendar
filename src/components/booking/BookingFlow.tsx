@@ -548,8 +548,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Points */}
       {paymentMethod === 'pontos' && (
         <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
-          <p className="text-sm text-foreground">Usar {Math.round(finalPrice * 10)} pontos (= €{finalPrice.toFixed(2)})</p>
-          <p className="text-xs text-muted-foreground">Saldo após: {850 - Math.round(finalPrice * 10)} pts</p>
+          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: finalPrice.toFixed(2) })}</p>
+          <p className="text-xs text-muted-foreground">{t('booking.balanceAfter', { balance: 850 - Math.round(finalPrice * 10) })}</p>
         </div>
       )}
 
