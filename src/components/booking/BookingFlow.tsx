@@ -348,9 +348,9 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         </div>
         {/* Price */}
         <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
-          <span className="text-sm font-semibold text-foreground">Preço</span>
+          <span className="text-sm font-semibold text-foreground">{t('booking.price')}</span>
           <span className="text-sm font-bold text-primary">
-            {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : 'A pagar na clínica'}
+            {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : t('booking.payAtClinicLabel')}
           </span>
         </div>
       </div>
