@@ -560,8 +560,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Input placeholder={t('booking.code')} value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
           <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
-        {promoApplied === true && <p className="text-xs text-emerald-400">✅ -20% aplicado! Total: €{finalPrice.toFixed(2)}</p>}
-        {promoApplied === false && <p className="text-xs text-destructive">❌ Código inválido</p>}
+        {promoApplied === true && <p className="text-xs text-emerald-400">✅ {t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
+        {promoApplied === false && <p className="text-xs text-destructive">❌ {t('booking.invalidCode')}</p>}
       </div>
 
       {/* Terms */}
