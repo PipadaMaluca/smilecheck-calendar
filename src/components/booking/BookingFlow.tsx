@@ -359,7 +359,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderPaymentStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Pagamento</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.payment')}</h3>
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
