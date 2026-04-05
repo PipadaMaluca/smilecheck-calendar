@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { Button } from '@/components/ui/button';
