@@ -186,7 +186,7 @@ export function PatientSidebar({
                 'w-4 h-4 text-muted-foreground transition-transform',
                 !isFamilyOpen && '-rotate-90'
               )} />
-            <span className="text-sm text-muted-foreground">Família</span>
+            <span className="text-sm text-muted-foreground">{t('account.family')}</span>
           </CollapsibleTrigger>
           <CollapsibleContent className="pl-4">
             {filteredMembers.map((member) => {

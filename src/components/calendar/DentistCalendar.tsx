@@ -427,7 +427,7 @@ export function DentistCalendar() {
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
-            <p className="text-lg">Secção em construção...</p>
+            <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>
         )}
 
