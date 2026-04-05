@@ -341,7 +341,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <CalendarIcon className="w-5 h-5 text-primary shrink-0" />
           <div>
             <p className="text-sm font-semibold text-foreground">
-              {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
+              {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
             <p className="text-xs text-muted-foreground">{data.time}</p>
           </div>
