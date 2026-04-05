@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'lucide-react';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { Button } from '@/components/ui/button';
@@ -52,6 +53,7 @@ const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForCli
 const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function DentistCalendar() {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
@@ -427,7 +429,7 @@ export function DentistCalendar() {
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
-            <p className="text-lg">Secção em construção...</p>
+            <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>
         )}
 

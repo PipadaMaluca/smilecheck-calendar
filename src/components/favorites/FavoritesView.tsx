@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Share2, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -41,6 +42,7 @@ export function FavoritesView({
   onToggleClinicFavorite, onBookDentist, onBookClinic, onRecommendPatient, onSendMessage,
   onViewClinicProfile, userRole = 'patient'
 }: FavoritesViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
@@ -297,7 +299,7 @@ export function FavoritesView({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate">{c.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Clínica Dentária</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t('agenda.dentalClinic')}</p>
                     <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <MapPin className="w-3 h-3" />
                       <span className="truncate">{c.address}</span>

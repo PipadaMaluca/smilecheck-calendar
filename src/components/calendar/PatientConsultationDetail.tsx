@@ -100,7 +100,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                 <div className="flex-1 min-w-0">
                   <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">{t('consultationDetail.consultationWith')}</p>
                   <ClickableDentistName name={consultation.dentist.name} className="text-base font-bold leading-tight" />
-                  <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || 'Médico Dentista'}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || t('agenda.generalDentist')}</p>
                   <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                     {colors && (
                       <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full" style={getCategoryBadgeStyle(colors.hex)}>

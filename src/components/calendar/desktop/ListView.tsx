@@ -57,13 +57,13 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
         <Table>
           <TableHeader>
             <TableRow className="border-b border-[#1E3A5F] hover:bg-transparent">
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[140px]">Agenda</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">Horário</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[100px]">Estatuto</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">Chegou às</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[180px]">Paciente</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">Ação</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground">Motivo de consulta</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[140px]">{t('agenda.schedule')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.time')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[100px]">{t('agenda.status')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.arrivedAt')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[180px]">{t('common.patient')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.action')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground">{t('agenda.consultationReason')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -158,7 +158,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
             {sortedConsultations.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
-                  Sem consultas para este dia
+                  {t('agenda.noConsultationsToday')}
                 </TableCell>
               </TableRow>
             )}

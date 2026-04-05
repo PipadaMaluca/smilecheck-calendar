@@ -228,7 +228,7 @@ export function DesktopTimeline({
                     <div className="text-center px-4">
                       <Ban className="w-8 h-8 mx-auto mb-2 text-[#8B9CB6]" />
                       <p className="text-sm text-[#8B9CB6] leading-tight">
-                        Hoje o médico<br />não trabalha<br />nesta clínica
+                        {t('agenda.doctorNotWorking')}
                       </p>
                     </div>
                   </div>

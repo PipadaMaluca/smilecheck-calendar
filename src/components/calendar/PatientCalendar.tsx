@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { MonthlyCalendar } from './MonthlyCalendar';
@@ -37,6 +38,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
@@ -279,7 +281,7 @@ export function PatientCalendar() {
           <ContestationView onBack={() => setActiveTab('home')} />
         ) : (
           <div className="flex items-center justify-center py-20 text-muted-foreground">
-            <p className="text-lg">Secção em construção...</p>
+            <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>
         )}
 

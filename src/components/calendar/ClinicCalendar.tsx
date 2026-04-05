@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { DateNavigator } from './DateNavigator';
 import { MultiDentistGrid, DentistColumn } from './MultiDentistGrid';
@@ -47,6 +48,7 @@ const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.i
 const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
@@ -409,7 +411,7 @@ export function ClinicCalendar() {
         <ContestationView onBack={() => setActiveTab('home')} />
       ) : (
         <div className="flex items-center justify-center py-20 text-muted-foreground">
-          <p className="text-lg">Secção em construção...</p>
+          <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
         </div>
       )}
 

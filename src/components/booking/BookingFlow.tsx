@@ -44,7 +44,7 @@ const ALL_SLOTS = [
 const OCCUPIED_SLOTS = ['09:30', '10:30', '14:30', '16:00', '17:30', '19:30'];
 
 export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTime, initialDayLabel }: BookingFlowProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
   const skipClinic = dentist.clinics.length <= 1;
 
@@ -180,7 +180,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   // Step renderers
   const renderClinicStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Onde prefere ser atendido?</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.wherePrefer')}</h3>
       <div className="space-y-3">
         {dentist.clinics.map(c => (
           <button
@@ -209,7 +209,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderTypeStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Que tipo de consulta pretende?</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.whatType')}</h3>
       <div className="space-y-3">
         <button
           onClick={() => setData(d => ({ ...d, consultationType: 'presencial', isUrgent: false }))}
@@ -265,7 +265,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderDateTimeStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Escolha a data e hora</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.chooseDatetime')}</h3>
       <div className="flex justify-center">
         <Calendar
           mode="single"
@@ -278,7 +278,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {data.date && (
         <div>
           <p className="text-sm font-medium text-foreground mb-2">
-            Horários disponíveis — {data.date.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
+            {t('booking.availableSlots')} — {data.date.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
           <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
             {ALL_SLOTS
@@ -310,7 +310,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderConfirmStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Confirme a sua marcação</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.confirmBooking')}</h3>
       <div className="space-y-3">
         {/* Dentist */}
         <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
@@ -332,7 +332,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
           {data.consultationType === 'teleconsulta' ? <Video className="w-5 h-5 text-primary" /> : <Building2 className="w-5 h-5 text-primary" />}
           <div>
-            <p className="text-sm font-semibold text-foreground">{data.consultationType === 'teleconsulta' ? 'Teleconsulta' : 'Presencial'}</p>
+            <p className="text-sm font-semibold text-foreground">{data.consultationType === 'teleconsulta' ? t('booking.teleconsulta') : t('booking.presencial')}</p>
             {data.isUrgent && <p className="text-xs text-destructive">⚠️ Urgente (+€5)</p>}
           </div>
         </div>
@@ -341,16 +341,16 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <CalendarIcon className="w-5 h-5 text-primary shrink-0" />
           <div>
             <p className="text-sm font-semibold text-foreground">
-              {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
+              {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
             <p className="text-xs text-muted-foreground">{data.time}</p>
           </div>
         </div>
         {/* Price */}
         <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
-          <span className="text-sm font-semibold text-foreground">Preço</span>
+          <span className="text-sm font-semibold text-foreground">{t('booking.price')}</span>
           <span className="text-sm font-bold text-primary">
-            {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : 'A pagar na clínica'}
+            {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : t('booking.payAtClinicLabel')}
           </span>
         </div>
       </div>
@@ -359,11 +359,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderPaymentStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Pagamento</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.payment')}</h3>
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
-        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString('pt-PT')} ⏰ {data.time} (30 min)</p>
+        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} ⏰ {data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
@@ -470,7 +470,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 maxLength={5}
               />
               {cardExpiry.length > 0 && cardExpiry.length < 5 && (
-                <p className="text-xs text-destructive mt-1">Formato: MM/AA</p>
+                <p className="text-xs text-destructive mt-1">{t('booking.formatMMYY')}</p>
               )}
             </div>
             <div className="w-24">
@@ -512,13 +512,13 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                   }}
                   className="text-xs"
                 >
-                  ✅ Confirmar Cartão
+                  ✅ {t('booking.confirmCard')}
                 </Button>
                 <button
                   className="text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
               </div>
               </div>
@@ -548,8 +548,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Points */}
       {paymentMethod === 'pontos' && (
         <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
-          <p className="text-sm text-foreground">Usar {Math.round(finalPrice * 10)} pontos (= €{finalPrice.toFixed(2)})</p>
-          <p className="text-xs text-muted-foreground">Saldo após: {850 - Math.round(finalPrice * 10)} pts</p>
+          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: finalPrice.toFixed(2) })}</p>
+          <p className="text-xs text-muted-foreground">{t('booking.balanceAfter', { balance: 850 - Math.round(finalPrice * 10) })}</p>
         </div>
       )}
 
@@ -560,8 +560,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Input placeholder={t('booking.code')} value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
           <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
-        {promoApplied === true && <p className="text-xs text-emerald-400">✅ -20% aplicado! Total: €{finalPrice.toFixed(2)}</p>}
-        {promoApplied === false && <p className="text-xs text-destructive">❌ Código inválido</p>}
+        {promoApplied === true && <p className="text-xs text-emerald-400">✅ {t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
+        {promoApplied === false && <p className="text-xs text-destructive">❌ {t('booking.invalidCode')}</p>}
       </div>
 
       {/* Terms */}
@@ -607,8 +607,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {data.consultationType === 'teleconsulta' && (
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
-              <p>Nº {receiptId}</p>
-              <p>{data.date?.toLocaleDateString('pt-PT')} — €{finalPrice.toFixed(2)}</p>
+              <p>{t('booking.receiptNumber')} {receiptId}</p>
+              <p>{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} — €{finalPrice.toFixed(2)}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
