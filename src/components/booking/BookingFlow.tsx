@@ -209,7 +209,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderTypeStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Que tipo de consulta pretende?</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.whatType')}</h3>
       <div className="space-y-3">
         <button
           onClick={() => setData(d => ({ ...d, consultationType: 'presencial', isUrgent: false }))}
