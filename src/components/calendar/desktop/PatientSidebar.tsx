@@ -39,6 +39,7 @@ export function PatientSidebar({
   appointmentDates = [],
   onNewConsultation
 }: PatientSidebarProps) {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [isFamilyOpen, setIsFamilyOpen] = useState(true);
   const [currentMonth, setCurrentMonth] = useState(new Date());
