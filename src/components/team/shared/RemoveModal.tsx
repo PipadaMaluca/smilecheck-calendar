@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface RemoveModalProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface RemoveModalProps {
 }
 
 export function RemoveModal({ open, onClose, dentistName, otherDentists }: RemoveModalProps) {
+  const { t } = useTranslation();
   const [transferTo, setTransferTo] = useState('');
 
   return (
@@ -20,19 +22,19 @@ export function RemoveModal({ open, onClose, dentistName, otherDentists }: Remov
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <AlertCircle className="w-5 h-5 text-destructive" />
-            Remover da Equipa
+            {t('removeTeam.title')}
           </DialogTitle>
           <DialogDescription>
-            Tem a certeza que deseja remover {dentistName}? Esta ação irá solicitar feedback mútuo.
+            {t('removeTeam.confirmRemove', { name: dentistName })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
           <div>
-            <label className="text-sm font-medium">Transferir consultas para:</label>
+            <label className="text-sm font-medium">{t('removeTeam.transferTo')}</label>
             <Select value={transferTo} onValueChange={setTransferTo}>
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Selecionar dentista..." />
+                <SelectValue placeholder={t('removeTeam.selectDentist')} />
               </SelectTrigger>
               <SelectContent>
                 {otherDentists.map((d) => (
@@ -44,8 +46,8 @@ export function RemoveModal({ open, onClose, dentistName, otherDentists }: Remov
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" size="sm" onClick={onClose}>Cancelar</Button>
-          <Button variant="destructive" size="sm" onClick={onClose}>Remover</Button>
+          <Button variant="outline" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button variant="destructive" size="sm" onClick={onClose}>{t('removeTeam.remove')}</Button>
         </div>
       </DialogContent>
     </Dialog>

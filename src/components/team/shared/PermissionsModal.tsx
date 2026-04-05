@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
@@ -11,50 +12,49 @@ interface PermissionsModalProps {
   dentistName: string;
 }
 
-const defaultPermissions = [
-  { key: 'agenda', label: '📅 Gerir própria agenda', default: true },
-  { key: 'patients', label: '📋 Ver lista de pacientes', default: true },
-  { key: 'prescriptions', label: '💊 Prescrever receitas', default: true },
-  { key: 'referrals', label: '📄 Emitir cartas de referência', default: true },
-  { key: 'stats', label: '📊 Ver estatísticas da clínica', default: false },
-  { key: 'billing', label: '💰 Ver tarifas e faturação', default: false },
-  { key: 'invite', label: '👥 Convidar dentistas', default: false },
-  { key: 'settings', label: '⚙️ Alterar configurações da clínica', default: false },
-  { key: 'teleconsulta', label: '📱 Realizar teleconsultas', default: true },
-];
-
-const presets: Record<string, Record<string, boolean>> = {
-  'Padrão': { agenda: true, patients: true, prescriptions: true, referrals: true, stats: false, billing: false, invite: false, settings: false, teleconsulta: true },
-  'Administrador': { agenda: true, patients: true, prescriptions: true, referrals: true, stats: true, billing: true, invite: true, settings: true, teleconsulta: true },
-  'Apenas consultas': { agenda: true, patients: true, prescriptions: false, referrals: false, stats: false, billing: false, invite: false, settings: false, teleconsulta: false },
-};
-
 export function PermissionsModal({ open, onClose, dentistName }: PermissionsModalProps) {
-  const [perms, setPerms] = useState<Record<string, boolean>>(
-    Object.fromEntries(defaultPermissions.map((p) => [p.key, p.default]))
-  );
+  const { t } = useTranslation();
 
-  const applyPreset = (name: string) => {
-    setPerms({ ...presets[name] });
+  const permissionsList = [
+    { key: 'agenda', labelKey: 'permissions.manageAgenda', default: true },
+    { key: 'patients', labelKey: 'permissions.viewPatients', default: true },
+    { key: 'prescriptions', labelKey: 'permissions.prescribe', default: true },
+    { key: 'referrals', labelKey: 'permissions.referralLetters', default: true },
+    { key: 'stats', labelKey: 'permissions.viewStats', default: false },
+    { key: 'billing', labelKey: 'permissions.viewBilling', default: false },
+    { key: 'invite', labelKey: 'permissions.inviteDentists', default: false },
+    { key: 'settings', labelKey: 'permissions.changeSettings', default: false },
+    { key: 'teleconsulta', labelKey: 'permissions.doTeleconsults', default: true },
+  ];
+
+  const presetKeys = ['presetDefault', 'presetAdmin', 'presetConsultOnly'] as const;
+  const presetValues: Record<string, Record<string, boolean>> = {
+    presetDefault: { agenda: true, patients: true, prescriptions: true, referrals: true, stats: false, billing: false, invite: false, settings: false, teleconsulta: true },
+    presetAdmin: { agenda: true, patients: true, prescriptions: true, referrals: true, stats: true, billing: true, invite: true, settings: true, teleconsulta: true },
+    presetConsultOnly: { agenda: true, patients: true, prescriptions: false, referrals: false, stats: false, billing: false, invite: false, settings: false, teleconsulta: false },
   };
+
+  const [perms, setPerms] = useState<Record<string, boolean>>(
+    Object.fromEntries(permissionsList.map((p) => [p.key, p.default]))
+  );
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Permissões — {dentistName}</DialogTitle>
-          <DialogDescription>Configure os acessos deste dentista</DialogDescription>
+          <DialogTitle>{t('permissions.title')} — {dentistName}</DialogTitle>
+          <DialogDescription>{t('permissions.description')}</DialogDescription>
         </DialogHeader>
 
         <div className="flex gap-2 mb-3">
-          {Object.keys(presets).map((name) => (
+          {presetKeys.map((key) => (
             <Badge
-              key={name}
+              key={key}
               variant="outline"
               className="cursor-pointer hover:bg-primary/10 transition-colors text-xs"
-              onClick={() => applyPreset(name)}
+              onClick={() => setPerms({ ...presetValues[key] })}
             >
-              {name}
+              {t(`permissions.${key}`)}
             </Badge>
           ))}
         </div>
@@ -62,9 +62,9 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
         <Separator />
 
         <div className="space-y-3 py-2">
-          {defaultPermissions.map((p) => (
+          {permissionsList.map((p) => (
             <div key={p.key} className="flex items-center justify-between">
-              <span className="text-sm">{p.label}</span>
+              <span className="text-sm">{t(p.labelKey)}</span>
               <Switch
                 checked={perms[p.key]}
                 onCheckedChange={(v) => setPerms((prev) => ({ ...prev, [p.key]: v }))}
@@ -76,8 +76,8 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
         <Separator />
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" size="sm" onClick={onClose}>Cancelar</Button>
-          <Button size="sm" onClick={onClose}>Guardar</Button>
+          <Button variant="outline" size="sm" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button size="sm" onClick={onClose}>{t('common.save')}</Button>
         </div>
       </DialogContent>
     </Dialog>

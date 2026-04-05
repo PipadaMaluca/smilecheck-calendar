@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-
-const countryCodes = [
-  { code: '+351', flag: '🇵🇹', label: 'Portugal' },
-  { code: '+33', flag: '🇫🇷', label: 'França' },
-];
+import { useTranslation } from 'react-i18next';
 
 interface PhoneInputProps {
   countryCode: string;
@@ -17,7 +13,14 @@ interface PhoneInputProps {
 }
 
 export function PhoneInput({ countryCode, onCountryCodeChange, phone, onPhoneChange, error, className }: PhoneInputProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const countryCodes = [
+    { code: '+351', flag: '🇵🇹', label: 'Portugal' },
+    { code: '+33', flag: '🇫🇷', label: t('phoneInput.france') },
+  ];
+
   const selected = countryCodes.find(c => c.code === countryCode) || countryCodes[0];
 
   return (
@@ -70,7 +73,7 @@ export function PhoneInput({ countryCode, onCountryCodeChange, phone, onPhoneCha
         />
       </div>
       {error && <p className="text-destructive text-xs mt-1">{error}</p>}
-      <p className="text-xs text-muted-foreground mt-1.5">📱 Número obrigatório para verificação da conta</p>
+      <p className="text-xs text-muted-foreground mt-1.5">{t('phoneInput.requiredForVerification')}</p>
     </div>
   );
 }
