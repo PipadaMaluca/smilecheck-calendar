@@ -6,53 +6,11 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 
 const DEMO_DATE = new Date(2026, 0, 31);
-
-type BadgeStatus = 'confirmed' | 'cancelled' | 'pending' | 'irrelevant';
-
-const statusBadge = (status: BadgeStatus) => {
-  const styles: Record<BadgeStatus, string> = {
-    confirmed: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    cancelled: 'bg-red-500/20 text-red-400 border-red-500/30',
-    pending: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-    irrelevant: 'bg-muted text-muted-foreground border-border',
-  };
-  const icons: Record<BadgeStatus, string> = {
-    confirmed: '✓',
-    cancelled: '✗',
-    pending: '●',
-    irrelevant: '—',
-  };
-  return (
-    <span className={cn('inline-flex items-center justify-center w-7 h-7 rounded-md border text-xs font-bold', styles[status])}>
-      {icons[status]}
-    </span>
-  );
-};
-
-const getCategoryLabel = (cat: string) => {
-  const labels: Record<string, string> = {
-    primeira_consulta: '1ª Consulta', restauracao: 'Restauração', destartarizacao: 'Destartarização',
-    endodontia: 'Endodontia', cirurgia: 'Cirurgia', protese: 'Prótese', ortodontia: 'Ortodontia',
-    urgencia: 'Urgência', teleconsulta: 'Teleconsulta', odontopediatria: 'Odontopediatria',
-    implante: 'Implante', branqueamento: 'Branqueamento', followup: 'Follow-up',
-  };
-  return labels[cat] || cat;
-};
-
-const getCategoryLabelShort = (cat: string) => {
-  const labels: Record<string, string> = {
-    primeira_consulta: '1ª Cons.', restauracao: 'Restaur.', destartarizacao: 'Destart.',
-    endodontia: 'Endod.', cirurgia: 'Cirurgia', protese: 'Prótese', ortodontia: 'Ortodon.',
-    urgencia: 'Urgência', teleconsulta: 'Telecons.', odontopediatria: 'Odontoped.',
-    implante: 'Implante', branqueamento: 'Branq.', followup: 'Follow-up',
-  };
-  return labels[cat] || cat;
-};
 
 function get24hStatus(status?: string): BadgeStatus {
   if (!status) return 'pending';
