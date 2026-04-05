@@ -149,7 +149,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
             {/* Bidirectional feedback display */}
             {score.patientFeedback && (
               <div className="bg-secondary/30 rounded-lg p-3 space-y-1">
-                <p className="text-xs font-medium text-muted-foreground">Avaliação dada:</p>
+                <p className="text-xs font-medium text-muted-foreground">{t('history.ratingGiven')}</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(s => (
                     <Star key={s} className={cn('w-3.5 h-3.5', s <= score.patientFeedback!.rating ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/20')} />
