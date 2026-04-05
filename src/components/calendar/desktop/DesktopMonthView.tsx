@@ -119,7 +119,7 @@ export function DesktopMonthView({
                     )}
                   </div>
                   {hasUrgent && (
-                    <div className="text-[9px] text-destructive font-medium">⚠ Urgência</div>
+                    <div className="text-[9px] text-destructive font-medium">⚠ {t('agenda.urgency')}</div>
                   )}
                 </div>
               )}

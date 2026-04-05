@@ -158,7 +158,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
             {sortedConsultations.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
-                  Sem consultas para este dia
+                  {t('agenda.noConsultationsToday')}
                 </TableCell>
               </TableRow>
             )}
