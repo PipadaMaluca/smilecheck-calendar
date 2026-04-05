@@ -36,11 +36,11 @@ function getUserName(role: UserRole): string {
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
-// Mock waiting list data
+// Mock waiting list data - detail values are i18n keys
 const MOCK_WAITING_LIST = [
-{ id: 'wl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-{ id: 'wl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-{ id: 'wl-3', patientName: 'Sofia Lopes', detail: 'Qualquer horário manhã', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
+{ id: 'wl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+{ id: 'wl-2', patientName: 'Bruno Pereira', detailKey: 'availableMonWed', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+{ id: 'wl-3', patientName: 'Sofia Lopes', detailKey: 'anyMorning', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
 
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
