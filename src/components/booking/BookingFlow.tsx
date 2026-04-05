@@ -278,7 +278,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {data.date && (
         <div>
           <p className="text-sm font-medium text-foreground mb-2">
-            Horários disponíveis — {data.date.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
+            {t('booking.availableSlots')} — {data.date.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
           <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
             {ALL_SLOTS
