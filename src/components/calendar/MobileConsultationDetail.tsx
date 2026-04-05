@@ -48,7 +48,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
-  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : 'Consulta';
+  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('nav.consultations');
   const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
   const isDentist = userRole === 'dentist';
   const isClinic = userRole === 'clinic';
