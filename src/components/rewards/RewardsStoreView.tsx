@@ -10,6 +10,16 @@ import { RewardsHistory } from './RewardsHistory';
 import { AllProductsList } from './AllProductsList';
 import { useTranslation } from 'react-i18next';
 
+const TAB_LABEL_KEYS: Record<string, string> = {
+  consultas: 'store.tabConsultas',
+  higiene: 'store.tabHigiene',
+  marcas: 'store.tabMarcas',
+  subscricao: 'store.tabSubscricao',
+  equipamento: 'store.tabEquipamento',
+  formacao: 'store.tabFormacao',
+  software: 'store.tabSoftware',
+};
+
 interface RewardsStoreViewProps {
   userRole: UserRole;
 }
@@ -29,19 +39,11 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const tabs = REWARD_TABS[userRole] || REWARD_TABS.patient;
   const allProducts = getAllProductsForRole(userRole);
 
-  const handleRedeem = (product: RewardProduct) => {
-    setRedeemProduct(product);
-  };
-
-  const handleConfirmRedeem = () => {
-    if (redeemProduct) {
-      setUserPoints(prev => prev - redeemProduct.points);
-    }
-  };
+  const handleRedeem = (product: RewardProduct) => { setRedeemProduct(product); };
+  const handleConfirmRedeem = () => { if (redeemProduct) setUserPoints(prev => prev - redeemProduct.points); };
 
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-6 pb-28">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-foreground">{t('store.title')}</h2>
@@ -55,7 +57,6 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </div>
       </div>
 
-      {/* Main tabs: Store + History */}
       <Tabs defaultValue="loja" className="w-full">
         <TabsList className="w-full grid grid-cols-2">
           <TabsTrigger value="loja">{t('store.shop')}</TabsTrigger>
@@ -63,18 +64,18 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsList>
 
         <TabsContent value="loja" className="mt-4">
-          {/* Category tabs per role — "Todos" first — horizontally scrollable on mobile */}
           <Tabs defaultValue="todos" className="w-full">
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
               <TabsList className="w-max sm:w-full sm:grid h-auto" style={{ gridTemplateColumns: `repeat(${tabs.length + 1}, minmax(0, 1fr))` }}>
                 <TabsTrigger value="todos" className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">{t('store.all')}</TabsTrigger>
                 {tabs.map(tab => (
-                  <TabsTrigger key={tab.key} value={tab.key} className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">{tab.label}</TabsTrigger>
+                  <TabsTrigger key={tab.key} value={tab.key} className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">
+                    {t(TAB_LABEL_KEYS[tab.key] || tab.key)}
+                  </TabsTrigger>
                 ))}
               </TabsList>
             </div>
 
-            {/* "Todos" tab content */}
             <TabsContent value="todos" className="mt-4">
               <AllProductsList products={allProducts} userPoints={userPoints} onRedeem={handleRedeem} />
             </TabsContent>
@@ -84,12 +85,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
                 {tab.type === 'brands' && tab.brands ? (
                   <BrandsList brands={tab.brands} userPoints={userPoints} onRedeem={handleRedeem} />
                 ) : tab.products ? (
-                  <ProductGrid
-                    products={tab.products}
-                    userPoints={userPoints}
-                    onRedeem={handleRedeem}
-                    groupBySubcategory={tab.products.length > 10}
-                  />
+                  <ProductGrid products={tab.products} userPoints={userPoints} onRedeem={handleRedeem} groupBySubcategory={tab.products.length > 10} />
                 ) : null}
               </TabsContent>
             ))}
@@ -101,13 +97,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsContent>
       </Tabs>
 
-      {/* Redeem Modal */}
-      <RedeemModal
-        product={redeemProduct}
-        userPoints={userPoints}
-        onClose={() => setRedeemProduct(null)}
-        onConfirm={handleConfirmRedeem}
-      />
+      <RedeemModal product={redeemProduct} userPoints={userPoints} onClose={() => setRedeemProduct(null)} onConfirm={handleConfirmRedeem} />
     </div>
   );
 }

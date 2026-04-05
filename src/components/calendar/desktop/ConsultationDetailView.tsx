@@ -5,10 +5,10 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enGB, fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { toast } from 'sonner';
@@ -22,14 +22,12 @@ interface ConsultationDetailViewProps {
   userRole?: UserRole;
 }
 
-// Mock health alerts for demo
 const MOCK_HEALTH_ALERTS: Record<string, { allergies: string[]; medications: { name: string; interaction?: string }[] }> = {
   'gp-p4': { allergies: ['Penicilina', 'Látex'], medications: [{ name: 'Varfarina', interaction: 'Risco com AINEs' }] },
   'gp-p9': { allergies: ['AINEs'], medications: [{ name: 'Metformina' }, { name: 'Lisinopril' }] },
   'ab-p4': { allergies: [], medications: [{ name: 'Aspirina', interaction: 'Risco hemorrágico' }] },
 };
 
-// Mock patient history
 const MOCK_HISTORY: Record<string, { date: string; category: string; dentist: string }[]> = {
   default: [
     { date: '15 Jan 2026', category: 'restauracao', dentist: 'Dr. Gonçalo Pipo' },
@@ -38,8 +36,10 @@ const MOCK_HISTORY: Record<string, { date: string; category: string; dentist: st
   ],
 };
 
+const DATE_LOCALES: Record<string, typeof pt> = { pt, en: enGB, fr };
+
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
@@ -52,11 +52,11 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
     setIsBlocked(true);
     setShowBlockModal(false);
     setBlockReason('');
-    toast.success(t('consultationDetail.blocked'));
+    toast.success(t('consultationDetail.blockedSuccess'));
   };
   const handleUnblock = () => {
     setIsBlocked(false);
-    toast.success(t('consultationDetail.unblocked'));
+    toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
@@ -66,6 +66,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
   const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('consultationTypes.teleconsultation');
   const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
   const history = MOCK_HISTORY.default;
+  const dateLocale = DATE_LOCALES[i18n.language] || pt;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -100,7 +101,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" />
-                    {format(consultation.date, "d MMM yyyy", { locale: pt })}
+                    {format(consultation.date, "d MMM yyyy", { locale: dateLocale })}
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5" />
@@ -118,13 +119,13 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               onClick={() => startTeleconsulta(consultation.patient.name)}
             >
               <Video className="w-5 h-5" />
-              Iniciar Teleconsulta
+              {t('consultationDetail.startTeleconsulta')}
             </Button>
           )}
 
-          {/* Informações */}
+          {/* Information */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Informações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.information')}</h3>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -132,45 +133,45 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
-                <span>Duração prevista: {consultation.duration} minutos</span>
+                <span>{t('consultationDetail.expectedDuration')}: {consultation.duration} {t('agenda.minutes')}</span>
               </div>
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
-                  <span>💰 Montante a receber: €{consultation.price}</span>
+                  <span>💰 {t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Triagem */}
+          {/* Triage */}
           {consultation.triage && (
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.triage')}</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.triage')}</h3>
               <div className="space-y-2 text-sm">
-                <p><span className="text-muted-foreground">Sintomas:</span> {consultation.triage.symptom}</p>
-                <p><span className="text-muted-foreground">Duração:</span> {consultation.triage.duration}</p>
-                <p><span className="text-muted-foreground">Intensidade da dor:</span> {consultation.triage.intensity}/5</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageSymptoms')}:</span> {consultation.triage.symptom}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageDuration')}:</span> {consultation.triage.duration}</p>
+                <p><span className="text-muted-foreground">{t('consultationDetail.triageIntensity')}:</span> {consultation.triage.intensity}/5</p>
                 {consultation.triage.photos > 0 && (
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Camera className="w-4 h-4" />
-                    <span>{consultation.triage.photos} foto(s) anexada(s)</span>
-                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">Ver</Button>
+                    <span>{consultation.triage.photos} {t('consultationDetail.triagePhotos')}</span>
+                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">{t('consultationDetail.triageView')}</Button>
                   </div>
                 )}
               </div>
             </div>
           )}
 
-          {/* Alertas de Saúde */}
+          {/* Health Alerts */}
           {healthAlerts && (healthAlerts.allergies.length > 0 || healthAlerts.medications.some(m => m.interaction)) && (
             <div className="bg-destructive/10 rounded-xl border border-destructive/30 p-4 space-y-3">
               <h3 className="text-xs font-semibold text-destructive uppercase flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
-                Alertas de Saúde
+                {t('consultationDetail.healthAlerts')}
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">⚠️ Alergias:</p>
+                  <p className="text-sm font-medium text-destructive">⚠️ {t('consultationDetail.allergies')}:</p>
                   <div className="flex flex-wrap gap-1.5">
                     {healthAlerts.allergies.map(a => (
                       <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
@@ -187,33 +188,33 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
             </div>
           )}
 
-          {/* Notas */}
+          {/* Notes */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-4">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Notas</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.notes')}</h3>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota geral do paciente</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.generalNote')}</label>
               <Textarea
                 value={generalNotes}
                 onChange={(e) => setGeneralNotes(e.target.value)}
-                placeholder="Notas gerais sobre este paciente..."
+                placeholder={t('consultationDetail.generalNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-xs text-muted-foreground">Nota desta consulta</label>
+              <label className="text-xs text-muted-foreground">{t('consultationDetail.consultationNote')}</label>
               <Textarea
                 value={consultationNotes}
                 onChange={(e) => setConsultationNotes(e.target.value)}
-                placeholder="Notas específicas desta consulta..."
+                placeholder={t('consultationDetail.consultationNotePlaceholder')}
                 className="min-h-[60px] bg-secondary/50 border-border text-sm"
               />
             </div>
           </div>
 
-          {/* Histórico */}
+          {/* History */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <button className="flex items-center justify-between w-full" onClick={() => setShowHistory(!showHistory)}>
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.briefHistory')}</h3>
               {showHistory ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </button>
             {showHistory && (
@@ -232,79 +233,79 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
             )}
           </div>
 
-          {/* Ações */}
+          {/* Actions */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase">Ações</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.actions')}</h3>
             {userRole === 'dentist' ? (
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
-                  <Copy className="w-4 h-4" /> Copiar Consulta
+                  <Copy className="w-4 h-4" /> {t('consultationDetail.copy')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('prescrever')}>
-                  <Pill className="w-4 h-4" /> Prescrever Receita
+                  <Pill className="w-4 h-4" /> {t('consultationDetail.prescribe')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
-                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                  <MessageCircle className="w-4 h-4" /> {t('consultationDetail.message')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('referencia')}>
-                  <FileText className="w-4 h-4" /> Recomendar Paciente
+                  <FileText className="w-4 h-4" /> {t('consultationDetail.recommend')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start">
-                  <RefreshCw className="w-4 h-4" /> Reagendar Consulta
+                  <RefreshCw className="w-4 h-4" /> {t('consultationDetail.rescheduleAction')}
                 </Button>
                 {isBlocked ? (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400" onClick={handleUnblock}>
-                    <Unlock className="w-4 h-4" /> Desbloquear
+                    <Unlock className="w-4 h-4" /> {t('consultationDetail.unblock')}
                   </Button>
                 ) : (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
-                    <Ban className="w-4 h-4" /> Bloquear Paciente
+                    <Ban className="w-4 h-4" /> {t('consultationDetail.block')}
                   </Button>
                 )}
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier(consultation.patient.id)}>
-                  <FileText className="w-4 h-4" /> Ver Dossier
+                  <FileText className="w-4 h-4" /> {t('consultationDetail.viewDossier')}
                 </Button>
                 <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-                  <X className="w-4 h-4" /> Cancelar Consulta
+                  <X className="w-4 h-4" /> {t('consultationDetail.cancelAction')}
                 </Button>
               </div>
             ) : userRole === 'clinic' ? (
               <div className="grid grid-cols-2 gap-2">
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onCopy?.(consultation)}>
-                  <Copy className="w-4 h-4" /> Copiar Consulta
+                  <Copy className="w-4 h-4" /> {t('consultationDetail.copy')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onNavigate('conversas')}>
-                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                  <MessageCircle className="w-4 h-4" /> {t('consultationDetail.message')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 justify-start">
-                  <RefreshCw className="w-4 h-4" /> Reagendar Consulta
+                  <RefreshCw className="w-4 h-4" /> {t('consultationDetail.rescheduleAction')}
                 </Button>
                 {isBlocked ? (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400" onClick={handleUnblock}>
-                    <Unlock className="w-4 h-4" /> Desbloquear
+                    <Unlock className="w-4 h-4" /> {t('consultationDetail.unblock')}
                   </Button>
                 ) : (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-destructive" onClick={() => setShowBlockModal(true)}>
-                    <Ban className="w-4 h-4" /> Bloquear Paciente
+                    <Ban className="w-4 h-4" /> {t('consultationDetail.block')}
                   </Button>
                 )}
                 <Button variant="secondary" size="sm" className="gap-2 justify-start" onClick={() => onViewDossier(consultation.patient.id)}>
-                  <FileText className="w-4 h-4" /> Ver Dossier
+                  <FileText className="w-4 h-4" /> {t('consultationDetail.viewDossier')}
                 </Button>
                 <Button variant="outline" size="sm" className="gap-2 justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
-                  <X className="w-4 h-4" /> Cancelar Consulta
+                  <X className="w-4 h-4" /> {t('consultationDetail.cancelAction')}
                 </Button>
               </div>
             ) : (
               <div className="flex gap-2">
                 <Button variant="secondary" size="sm" className="gap-2 flex-1" onClick={() => onNavigate('conversas')}>
-                  <MessageCircle className="w-4 h-4" /> Enviar Mensagem
+                  <MessageCircle className="w-4 h-4" /> {t('consultationDetail.message')}
                 </Button>
                 <Button variant="secondary" size="sm" className="gap-2 flex-1">
-                  <RefreshCw className="w-4 h-4" /> Reagendar
+                  <RefreshCw className="w-4 h-4" /> {t('consultationDetail.rescheduleAction')}
                 </Button>
                 <Button variant="outline" size="sm" className="gap-2 flex-1 border-destructive/30 text-destructive hover:bg-destructive/10">
-                  <X className="w-4 h-4" /> Cancelar Consulta
+                  <X className="w-4 h-4" /> {t('consultationDetail.cancelAction')}
                 </Button>
               </div>
             )}
@@ -316,22 +317,22 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>⚠️ {t('consultationDetail.blockConfirm')} {consultation.patient.name}?</DialogTitle>
+            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
-              Este paciente não poderá agendar consultas consigo. Poderá continuar a marcar com outros dentistas da mesma clínica.
+              {t('consultationDetail.blockDesc')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium">Motivo (obrigatório)</label>
+              <label className="text-sm font-medium">{t('consultationDetail.blockReasonLabel')}</label>
               <Textarea
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
-                placeholder="Indique o motivo do bloqueio..."
+                placeholder={t('consultationDetail.blockReasonPlaceholder')}
                 className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
               />
             </div>
-            <p className="text-xs text-muted-foreground">A clínica será notificada deste bloqueio.</p>
+            <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>
             <div className="flex gap-2">
               <Button variant="outline" className="flex-1" onClick={() => setShowBlockModal(false)}>{t('common.cancel')}</Button>
               <Button className="flex-1 bg-destructive hover:bg-destructive/90 text-destructive-foreground" disabled={!blockReason.trim()} onClick={handleBlock}>

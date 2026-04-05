@@ -1,4 +1,5 @@
 import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart, Receipt } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { UserRole, ViewMode } from '@/types/calendar';
@@ -173,8 +174,13 @@ export function MobileSidebar({
             <MenuSection className="border-b-0">
               <MenuItem icon={LogOut} label={t('settings.logout')} />
             </MenuSection>
-          </>
+           </>
         }
+
+        {/* Language Switcher */}
+        <div className="px-4 py-3 border-t border-border mt-auto">
+          <LanguageSwitcher size="sm" />
+        </div>
       </SheetContent>
     </Sheet>);
 
