@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-import { pt } from 'date-fns/locale';
+import { pt, enUS, fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 import { mockFamilyMembers } from '@/data/mockData';
 
