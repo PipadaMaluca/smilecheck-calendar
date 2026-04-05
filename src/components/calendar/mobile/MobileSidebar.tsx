@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
+import { useTranslation } from 'react-i18next';
 
 interface MobileSidebarProps {
   isOpen: boolean;
