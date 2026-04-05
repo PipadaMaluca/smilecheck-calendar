@@ -29,9 +29,9 @@ const MOCK_HEALTH_ALERTS: Record<string, { allergies: string[]; medications: { n
 };
 
 const MOCK_HISTORY = [
-  { date: '15 Jan 2026', type: 'Restauração', dentist: 'Dr. Gonçalo Pipo', category: 'restauracao' },
-  { date: '02 Dez 2025', type: 'Destartarização', dentist: 'Dr. Alexandre Bernardo', category: 'destartarizacao' },
-  { date: '18 Out 2025', type: '1ª Consulta', dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
+  { date: '15 Jan 2026', typeKey: 'restauracao' as const, dentist: 'Dr. Gonçalo Pipo', category: 'restauracao' },
+  { date: '02 Dez 2025', typeKey: 'destartarizacao' as const, dentist: 'Dr. Alexandre Bernardo', category: 'destartarizacao' },
+  { date: '18 Out 2025', typeKey: 'primeira_consulta' as const, dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
 ];
 
 export function MobileConsultationDetail({ consultation, onClose, onNavigate, onCopy, onViewDossier, userRole = 'dentist' }: MobileConsultationDetailProps) {
@@ -48,7 +48,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const status = consultation.status || 'agendada';
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
-  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : 'Consulta';
+  const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('nav.consultations');
   const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
   const isDentist = userRole === 'dentist';
   const isClinic = userRole === 'clinic';
@@ -311,7 +311,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }} />
                         <span className="text-[13px] text-muted-foreground whitespace-nowrap">{h.date}</span>
-                        <span className="text-[13px] font-medium">{h.type}</span>
+                        <span className="text-[13px] font-medium">{getCategoryLabel(t, h.typeKey as any)}</span>
                       </div>
                       <span className="text-xs text-muted-foreground pl-4">{h.dentist}</span>
                     </div>

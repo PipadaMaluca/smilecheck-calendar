@@ -662,6 +662,12 @@
     "searchPlaceholder": "Pesquisar pacientes, dentistas ou clínicas",
     "allAgendas": "Todas as Agendas",
     "filterPresent": "Filtrar Presentes",
+    "agendasSelected": "agendas selecionadas",
+    "notWorkingToday": "não trabalha hoje",
+    "me": "Eu",
+    "all": "Todas",
+    "clinics": "clínicas",
+    "searchPatients": "Pesquisar pacientes...",
     "showMoreResults": "Mostrar todos os resultados",
     "noResults": "Nenhum resultado para",
     "consultationType": "Tipo de Consulta",
@@ -1830,7 +1836,11 @@
     "title": "Resumo do Dia",
     "inPerson": "Presenciais",
     "teleconsultations": "Teleconsultas",
-    "freeSlots": "Vagas Livres"
+    "freeSlots": "Vagas Livres",
+    "allClinics": "Todas as Clínicas",
+    "multipleClinics": "Múltiplas Clínicas",
+    "noCalendarSelected": "Nenhum calendário selecionado",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "Primeiros Passos",

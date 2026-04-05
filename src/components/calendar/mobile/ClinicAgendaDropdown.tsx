@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { mockClinics, getDentistsForClinic, clinicDentists } from '@/data/mockData';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ViewMode } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface ClinicAgendaDropdownProps {
   selectedDentistIds: string[];
@@ -18,6 +19,7 @@ export function ClinicAgendaDropdown({
   onClinicToggle,
   viewMode,
 }: ClinicAgendaDropdownProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
   const [filterPresentes, setFilterPresentes] = useState(false);
@@ -33,9 +35,8 @@ export function ClinicAgendaDropdown({
     );
   };
 
-  // Build display label
   const getLabel = () => {
-    if (allSelected) return 'Todas as Agendas';
+    if (allSelected) return t('agenda.allAgendas');
     if (selectedDentistIds.length === 1) {
       const parts = selectedDentistIds[0].split('-');
       const clinicId = parts[0];
@@ -45,7 +46,7 @@ export function ClinicAgendaDropdown({
       const dentist = dentists.find(d => d.id === dentistId);
       if (dentist && clinic) return `${dentist.name} — ${clinic.name.replace('Clínica ', '')}`;
     }
-    return `${selectedDentistIds.length} agendas selecionadas`;
+    return `${selectedDentistIds.length} ${t('agenda.agendasSelected')}`;
   };
 
   const CustomCheck = ({ checked, radio, onChange }: { checked: boolean; radio?: boolean; onChange: () => void }) => (
@@ -73,7 +74,6 @@ export function ClinicAgendaDropdown({
         {open ? <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
       </CollapsibleTrigger>
       <CollapsibleContent className="bg-card/80 border-b border-border px-4 py-2 space-y-2">
-        {/* Todas as Agendas */}
         <div className="flex items-center gap-2 py-1">
           <CustomCheck
             checked={allSelected}
@@ -83,11 +83,10 @@ export function ClinicAgendaDropdown({
             className="text-xs font-medium hover:text-primary"
             onClick={() => { setFilterPresentes(false); onDentistToggle('all', false); }}
           >
-            Todas as Agendas
+            {t('agenda.allAgendas')}
           </button>
         </div>
 
-        {/* Filtrar Presentes */}
         <div className="flex items-center gap-2 py-1">
           <button
             onClick={() => {
@@ -107,30 +106,22 @@ export function ClinicAgendaDropdown({
             )}
           >
             <Users className="w-3.5 h-3.5" />
-            Filtrar Presentes
+            {t('agenda.filterPresent')}
           </button>
         </div>
 
         {mockClinics.map(clinic => {
           const isExpanded = expandedClinics.includes(clinic.id);
           const dentistsInClinic = getDentistsForClinic(clinic.id);
-          
           const visibleDentists = dentistsInClinic;
-          
-          // When filterPresentes is active, we still show all dentists in the list
-          // but unchecked ones that don't work today
-
-          // Check if all dentists in this clinic are selected
           const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
-          // Toggle all dentists of this clinic (CHECKMARK behavior)
           const handleClinicCheckbox = () => {
             if (onClinicToggle) {
               onClinicToggle(clinic.id, true);
             }
           };
 
-          // Click clinic NAME → exclusive select: only dentists from this clinic
           const handleClinicName = () => {
             if (onClinicToggle) {
               onClinicToggle(clinic.id, false);

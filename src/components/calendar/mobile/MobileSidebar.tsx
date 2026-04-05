@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
+import { useTranslation } from 'react-i18next';
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -41,6 +42,8 @@ export function MobileSidebar({
   activeTab
 }: MobileSidebarProps) {
 
+  const { t } = useTranslation();
+
   const userName = userRole === 'patient' ?
   mockFamilyMembers[0].name :
   userRole === 'dentist' ?
@@ -48,10 +51,10 @@ export function MobileSidebar({
   mockClinics[0].name;
 
   const userSubtitle = userRole === 'patient' ?
-  'Paciente' :
+  t('roles.patient') :
   userRole === 'dentist' ?
-  'Dentista' :
-  'Clínica';
+  t('roles.dentist') :
+  t('roles.clinic');
 
 
   const MenuSection = ({ children, className }: {children: React.ReactNode;className?: string;}) =>
@@ -149,7 +152,7 @@ export function MobileSidebar({
             </MenuSection>
 
             <MenuSection className="border-b-0">
-              <MenuItem icon={LogOut} label="Terminar Sessão" />
+              <MenuItem icon={LogOut} label={t('settings.logout')} />
             </MenuSection>
           </>
         }
@@ -158,17 +161,17 @@ export function MobileSidebar({
         {userRole === 'clinic' &&
         <>
             <MenuSection>
-              <MenuItem icon={Award} label="Conquistas" onClick={() => {onClose();onNavigate?.('conquistas');}} />
-              <MenuItem icon={BarChart3} label="Estatísticas" onClick={() => {onClose();onNavigate?.('estatisticas');}} />
-              <MenuItem icon={Receipt} label="Faturação" onClick={() => {onClose();onNavigate?.('faturacao');}} />
-              <MenuItem icon={CreditCard} label="Gerir Plano" onClick={() => {onClose();onNavigate?.('plano');}} />
-              <MenuItem icon={Gift} label="Loja de Recompensas" onClick={() => {onClose();onNavigate?.('loja');}} />
-              <MenuItem icon={Search} label="Pesquisa" onClick={() => {onClose();onNavigate?.('pesquisa');}} />
-              <MenuItem icon={TrendingUp} label="Pontuações" onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
+              <MenuItem icon={Award} label={t('nav.achievements')} onClick={() => {onClose();onNavigate?.('conquistas');}} />
+              <MenuItem icon={BarChart3} label={t('nav.statistics')} onClick={() => {onClose();onNavigate?.('estatisticas');}} />
+              <MenuItem icon={Receipt} label={t('nav.billing')} onClick={() => {onClose();onNavigate?.('faturacao');}} />
+              <MenuItem icon={CreditCard} label={t('nav.managePlan')} onClick={() => {onClose();onNavigate?.('plano');}} />
+              <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
+              <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
             <MenuSection className="border-b-0">
-              <MenuItem icon={LogOut} label="Terminar Sessão" />
+              <MenuItem icon={LogOut} label={t('settings.logout')} />
             </MenuSection>
           </>
         }

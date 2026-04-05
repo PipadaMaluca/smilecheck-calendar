@@ -662,6 +662,12 @@
     "searchPlaceholder": "Search patients, dentists or clinics",
     "allAgendas": "All Agendas",
     "filterPresent": "Filter Present",
+    "agendasSelected": "agendas selected",
+    "notWorkingToday": "not working today",
+    "me": "Me",
+    "all": "All",
+    "clinics": "clinics",
+    "searchPatients": "Search patients...",
     "showMoreResults": "Show all results",
     "noResults": "No results for",
     "consultationType": "Consultation Type",
@@ -1830,7 +1836,11 @@
     "title": "Day Summary",
     "inPerson": "In-Person",
     "teleconsultations": "Teleconsultations",
-    "freeSlots": "Free Slots"
+    "freeSlots": "Free Slots",
+    "allClinics": "All Clinics",
+    "multipleClinics": "Multiple Clinics",
+    "noCalendarSelected": "No calendar selected",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "First Steps",

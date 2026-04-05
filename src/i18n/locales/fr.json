@@ -662,6 +662,12 @@
     "searchPlaceholder": "Rechercher patients, dentistes ou cabinets",
     "allAgendas": "Tous les Agendas",
     "filterPresent": "Filtrer les Présents",
+    "agendasSelected": "agendas sélectionnés",
+    "notWorkingToday": "ne travaille pas aujourd'hui",
+    "me": "Moi",
+    "all": "Tous",
+    "clinics": "cabinets",
+    "searchPatients": "Rechercher patients...",
     "showMoreResults": "Afficher tous les résultats",
     "noResults": "Aucun résultat pour",
     "consultationType": "Type de Rendez-vous",
@@ -1830,7 +1836,11 @@
     "title": "Résumé du Jour",
     "inPerson": "En cabinet",
     "teleconsultations": "Téléconsultations",
-    "freeSlots": "Créneaux Libres"
+    "freeSlots": "Créneaux Libres",
+    "allClinics": "Tous les Cabinets",
+    "multipleClinics": "Plusieurs Cabinets",
+    "noCalendarSelected": "Aucun calendrier sélectionné",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "Premiers Pas",

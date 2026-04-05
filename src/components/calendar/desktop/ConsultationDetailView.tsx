@@ -30,11 +30,11 @@ const MOCK_HEALTH_ALERTS: Record<string, { allergies: string[]; medications: { n
 };
 
 // Mock patient history
-const MOCK_HISTORY: Record<string, { date: string; type: string; dentist: string; category: string }[]> = {
+const MOCK_HISTORY: Record<string, { date: string; category: string; dentist: string }[]> = {
   default: [
-    { date: '15 Jan 2026', type: 'Restauração', dentist: 'Dr. Gonçalo Pipo', category: 'restauracao' },
-    { date: '02 Dez 2025', type: 'Destartarização', dentist: 'Dr. Alexandre Bernardo', category: 'destartarizacao' },
-    { date: '18 Out 2025', type: '1ª Consulta', dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
+    { date: '15 Jan 2026', category: 'restauracao', dentist: 'Dr. Gonçalo Pipo' },
+    { date: '02 Dez 2025', category: 'destartarizacao', dentist: 'Dr. Alexandre Bernardo' },
+    { date: '18 Out 2025', category: 'primeira_consulta', dentist: 'Dr. Gonçalo Pipo' },
   ],
 };
 
@@ -223,7 +223,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                     <div className="flex items-center gap-2">
                       <div className={cn('w-2 h-2 rounded-full', CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS]?.bg || 'bg-muted')} />
                       <span className="text-muted-foreground">{h.date}</span>
-                      <span>{h.type}</span>
+                      <span>{getCategoryLabel(t, h.category as any)}</span>
                     </div>
                     <span className="text-xs text-muted-foreground">{h.dentist}</span>
                   </div>
