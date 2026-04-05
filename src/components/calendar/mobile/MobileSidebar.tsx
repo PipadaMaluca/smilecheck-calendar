@@ -174,8 +174,13 @@ export function MobileSidebar({
             <MenuSection className="border-b-0">
               <MenuItem icon={LogOut} label={t('settings.logout')} />
             </MenuSection>
-          </>
+           </>
         }
+
+        {/* Language Switcher */}
+        <div className="px-4 py-3 border-t border-border mt-auto">
+          <LanguageSwitcher size="sm" />
+        </div>
       </SheetContent>
     </Sheet>);
 
