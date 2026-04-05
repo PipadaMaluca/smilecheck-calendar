@@ -518,7 +518,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                   className="text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
               </div>
               </div>
