@@ -4,8 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { mockConfirmations, ConfirmationStatus } from '@/types/scoring';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export function ClinicConfirmations() {
+  const { t } = useTranslation();
   const confirmed = useMemo(() =>
     mockConfirmations.filter(c => c.status24h === 'confirmed' && c.status1h === 'confirmed').length,
   []);
@@ -16,10 +18,10 @@ export function ClinicConfirmations() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-foreground">Confirmações de Hoje</h2>
+        <h2 className="text-lg font-semibold text-foreground">{t('dashboard.confirmations')}</h2>
         <Badge variant="outline" className="gap-1.5 text-xs border-primary/30 text-primary">
           <Radio className="w-3 h-3 animate-pulse" />
-          Ao vivo
+          {t('dashboard.live')}
         </Badge>
       </div>
 
@@ -27,11 +29,11 @@ export function ClinicConfirmations() {
       <div className="flex gap-4">
         <div className="flex items-center gap-2 bg-primary/10 rounded-lg px-4 py-2">
           <CheckCircle2 className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-foreground">Confirmados: {confirmed}</span>
+          <span className="text-sm font-medium text-foreground">{t('dashboard.confirmed')}: {confirmed}</span>
         </div>
         <div className="flex items-center gap-2 bg-amber-500/10 rounded-lg px-4 py-2">
           <Clock className="w-4 h-4 text-amber-400" />
-          <span className="text-sm font-medium text-foreground">Aguardam: {pending}</span>
+          <span className="text-sm font-medium text-foreground">{t('dashboard.pending')}: {pending}</span>
         </div>
       </div>
 
@@ -61,9 +63,7 @@ function ConfirmationRow({ confirmation }: { confirmation: typeof mockConfirmati
           <p className="text-xs text-muted-foreground truncate">{confirmation.dentistName}</p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* 24h badge */}
           <ConfirmBadge label="24h" status={confirmation.status24h} />
-          {/* 1h badge */}
           <ConfirmBadge label="1h" status={confirmation.status1h} />
           <StatusIcon className={cn('w-5 h-5', statusColor)} />
         </div>

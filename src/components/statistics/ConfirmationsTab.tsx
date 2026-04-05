@@ -100,7 +100,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                         const s24 = get24hStatus(c.status);
                         const s1 = get1hStatus(s24, c.status);
                         const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                        const catLabel = c.category ? (isMobile ? getCategoryLabelShort(c.category) : getCategoryLabel(c.category)) : '';
+                        const catLabel = c.category ? getCategoryLabel(t, c.category) : '';
                         return (
                           <TableRow key={c.id}>
                             <TableCell className="text-sm font-medium">{c.time}</TableCell>
