@@ -311,7 +311,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }} />
                         <span className="text-[13px] text-muted-foreground whitespace-nowrap">{h.date}</span>
-                        <span className="text-[13px] font-medium">{h.type}</span>
+                        <span className="text-[13px] font-medium">{getCategoryLabel(t, h.typeKey as any)}</span>
                       </div>
                       <span className="text-xs text-muted-foreground pl-4">{h.dentist}</span>
                     </div>
