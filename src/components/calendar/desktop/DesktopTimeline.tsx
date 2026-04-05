@@ -143,7 +143,7 @@ export function DesktopTimeline({
                 <div>
                   <p className="text-xs font-medium truncate">{dentist.name}</p>
                   <p className="text-[9px] text-muted-foreground truncate">
-                    {clinic?.name || 'Clínica'} • {dentist.workingHours || '9h-21h'}
+                    {clinic?.name || ''} • {dentist.workingHours || '9h-21h'}
                   </p>
                 </div>
               </div>
