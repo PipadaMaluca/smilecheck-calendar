@@ -223,7 +223,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                     <div className="flex items-center gap-2">
                       <div className={cn('w-2 h-2 rounded-full', CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS]?.bg || 'bg-muted')} />
                       <span className="text-muted-foreground">{h.date}</span>
-                      <span>{h.type}</span>
+                      <span>{getCategoryLabel(t, h.category as any)}</span>
                     </div>
                     <span className="text-xs text-muted-foreground">{h.dentist}</span>
                   </div>

@@ -186,7 +186,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                           style={{ backgroundColor: hColors?.hex || 'hsl(var(--muted-foreground))' }}
                         />
                         <span className="text-muted-foreground text-xs">{h.date}</span>
-                        <span className="font-medium text-foreground">{h.type}</span>
+                        <span className="font-medium text-foreground">{getCategoryLabel(t, h.category as any)}</span>
                       </div>
                       <span className="text-xs text-muted-foreground">{h.dentist}</span>
                     </div>
