@@ -1085,7 +1085,7 @@ export function DesktopCalendarView() {
       default:
         return (
           <div className="flex-1 flex items-center justify-center text-muted-foreground">
-            <p className="text-lg">Secção em construção...</p>
+            <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>);
 
     }

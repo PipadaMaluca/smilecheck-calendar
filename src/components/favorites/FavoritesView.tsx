@@ -297,7 +297,7 @@ export function FavoritesView({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate">{c.name}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Clínica Dentária</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t('agenda.dentalClinic')}</p>
                     <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <MapPin className="w-3 h-3" />
                       <span className="truncate">{c.address}</span>
