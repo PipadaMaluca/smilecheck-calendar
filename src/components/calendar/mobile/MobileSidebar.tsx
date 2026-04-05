@@ -1,4 +1,5 @@
 import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart, Receipt } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { UserRole, ViewMode } from '@/types/calendar';
