@@ -512,7 +512,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                   }}
                   className="text-xs"
                 >
-                  ✅ Confirmar Cartão
+                  ✅ {t('booking.confirmCard')}
                 </Button>
                 <button
                   className="text-xs text-muted-foreground hover:text-foreground"
