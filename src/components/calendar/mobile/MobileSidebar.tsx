@@ -152,7 +152,7 @@ export function MobileSidebar({
             </MenuSection>
 
             <MenuSection className="border-b-0">
-              <MenuItem icon={LogOut} label="Terminar Sessão" />
+              <MenuItem icon={LogOut} label={t('settings.logout')} />
             </MenuSection>
           </>
         }
