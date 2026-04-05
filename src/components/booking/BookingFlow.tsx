@@ -180,7 +180,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   // Step renderers
   const renderClinicStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Onde prefere ser atendido?</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.wherePrefer')}</h3>
       <div className="space-y-3">
         {dentist.clinics.map(c => (
           <button
