@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { mockClinics, mockDentists, getDentistsForClinic, clinicDentists } from '@/data/mockData';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ViewMode } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface DentistAgendaDropdownProps {
   currentDentistId: string;
@@ -20,6 +21,7 @@ export function DentistAgendaDropdown({
   onClinicToggle,
   viewMode,
 }: DentistAgendaDropdownProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [filterPresentes, setFilterPresentes] = useState(false);
   const currentDentist = mockDentists.find(d => d.id === currentDentistId);
@@ -27,7 +29,6 @@ export function DentistAgendaDropdown({
   const allClinicDentistKeys = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
   const allSelected = allClinicDentistKeys.length > 0 && allClinicDentistKeys.every(k => selectedDentistIds.includes(k));
 
-  // Clinics where this dentist works
   const dentistClinics = clinicDentists
     .filter(cd => cd.dentistId === currentDentistId)
     .map(cd => ({
@@ -37,18 +38,18 @@ export function DentistAgendaDropdown({
     .filter(item => item.clinic);
 
   const getLabel = () => {
-    if (!currentDentist) return 'Agenda';
+    if (!currentDentist) return t('nav.agenda');
     const allKeysForLabel = mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
     const isAll = allKeysForLabel.length > 0 && allKeysForLabel.every(k => selectedDentistIds.includes(k));
-    if (isAll) return `${currentDentist.name} (Eu) — Todas`;
+    if (isAll) return `${currentDentist.name} (${t('agenda.me')}) — ${t('agenda.all')}`;
     const selectedKeys = selectedDentistIds.filter(id => id.includes(`-${currentDentistId}`));
     if (selectedKeys.length === 1) {
       const clinicId = selectedKeys[0].split('-')[0];
       const clinic = mockClinics.find(c => c.id === clinicId);
-      return `${currentDentist.name} (Eu) — ${clinic?.name.replace('Clínica ', '') || ''}`;
+      return `${currentDentist.name} (${t('agenda.me')}) — ${clinic?.name.replace('Clínica ', '') || ''}`;
     }
-    if (selectedKeys.length > 1) return `${currentDentist.name} (Eu) — ${selectedKeys.length} clínicas`;
-    return `${currentDentist.name} (Eu)`;
+    if (selectedKeys.length > 1) return `${currentDentist.name} (${t('agenda.me')}) — ${selectedKeys.length} ${t('agenda.clinics')}`;
+    return `${currentDentist.name} (${t('agenda.me')})`;
   };
 
   const CustomCheck = ({ checked, radio, onChange }: { checked: boolean; radio?: boolean; onChange: () => void }) => (
@@ -76,7 +77,6 @@ export function DentistAgendaDropdown({
         {open ? <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />}
       </CollapsibleTrigger>
       <CollapsibleContent className="bg-card/80 border-b border-border px-4 py-2 space-y-2">
-        {/* Todas as Agendas */}
         <div className="flex items-center gap-2 py-1">
           <CustomCheck
             checked={allSelected}
@@ -86,11 +86,10 @@ export function DentistAgendaDropdown({
             className="text-xs font-medium hover:text-primary"
             onClick={() => { setFilterPresentes(false); onDentistToggle('all', false); }}
           >
-            Todas as Agendas
+            {t('agenda.allAgendas')}
           </button>
         </div>
 
-        {/* Filtrar Presentes */}
         <div className="flex items-center gap-2 py-1">
           <button
             onClick={() => {
@@ -110,33 +109,26 @@ export function DentistAgendaDropdown({
             )}
           >
             <Users className="w-3.5 h-3.5" />
-            Filtrar Presentes
+            {t('agenda.filterPresent')}
           </button>
         </div>
 
         {dentistClinics.map(({ clinic, worksOnDemo }) => {
           const allDentistsInClinic = getDentistsForClinic(clinic.id);
-          
           const visibleDentists = allDentistsInClinic;
-          
-          // When filterPresentes is active, show all dentists but uncheck non-working ones
-
           const otherDentists = visibleDentists.filter(d => d.id !== currentDentistId);
           const currentVisible = visibleDentists.some(d => d.id === currentDentistId);
           
           const key = `${clinic.id}-${currentDentistId}`;
           const isSelected = selectedDentistIds.includes(key);
-
           const allClinicSelected = visibleDentists.every(d => selectedDentistIds.includes(`${clinic.id}-${d.id}`));
 
-          // CHECKMARK: Toggle all dentists of this clinic
           const handleClinicCheckbox = () => {
             if (onClinicToggle) {
               onClinicToggle(clinic.id, true);
             }
           };
 
-          // NAME: Exclusive select all dentists of this clinic
           const handleClinicName = () => {
             if (onClinicToggle) {
               onClinicToggle(clinic.id, false);
@@ -157,9 +149,8 @@ export function DentistAgendaDropdown({
                   <Building2 className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                   <span className="text-xs font-semibold text-foreground">{clinic.name.replace('Clínica ', '')}</span>
                 </button>
-                {!worksOnDemo && <span className="text-[10px] text-muted-foreground">(não trabalha hoje)</span>}
+                {!worksOnDemo && <span className="text-[10px] text-muted-foreground">({t('agenda.notWorkingToday')})</span>}
               </div>
-              {/* Own agenda at this clinic */}
               {currentVisible && (
                 <div className="flex items-center gap-2 ml-5 py-1">
                   <CustomCheck
@@ -171,11 +162,10 @@ export function DentistAgendaDropdown({
                     className="text-xs hover:text-primary"
                     onClick={() => onDentistToggle(currentDentistId, false, clinic.id)}
                   >
-                    {currentDentist?.name} (Eu)
+                    {currentDentist?.name} ({t('agenda.me')})
                   </button>
                 </div>
               )}
-              {/* Other dentists */}
               {otherDentists.map(d => {
                 const dKey = `${clinic.id}-${d.id}`;
                 const dSelected = selectedDentistIds.includes(dKey);
