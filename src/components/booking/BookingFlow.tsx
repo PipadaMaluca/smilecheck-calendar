@@ -363,7 +363,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
-        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString('pt-PT')} ⏰ {data.time} (30 min)</p>
+        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} ⏰ {data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
