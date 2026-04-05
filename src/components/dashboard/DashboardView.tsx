@@ -367,19 +367,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     // Mock waitlist grouped by dentist
     const CLINIC_WAITLIST: Record<string, typeof MOCK_WAITING_LIST> = {
       'Dr. Gonçalo Pipo': [
-      { id: 'cwl-1', patientName: 'Rita Oliveira', detail: 'Quer antecipar', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-      { id: 'cwl-2', patientName: 'Bruno Pereira', detail: 'Disponível 2ª e 4ª', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-      { id: 'cwl-3', patientName: 'André Gomes', detail: 'Qualquer horário manhã', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }],
+      { id: 'cwl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-2', patientName: 'Bruno Pereira', detailKey: 'availableMonWed', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-3', patientName: 'André Gomes', detailKey: 'anyMorning', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }],
 
       'Dr. Alexandre Bernardo': [
-      { id: 'cwl-4', patientName: 'Sofia Lopes', detail: 'Quer antecipar', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true },
-      { id: 'cwl-5', patientName: 'Helena Nunes', detail: 'Disponível tardes', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false },
-      { id: 'cwl-6', patientName: 'Carlos Santos', detail: 'Qualquer dia', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false }],
+      { id: 'cwl-4', patientName: 'Sofia Lopes', detailKey: 'wantsToAnticipate', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-5', patientName: 'Helena Nunes', detailKey: 'availableAfternoons', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-6', patientName: 'Carlos Santos', detailKey: 'anyDay', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false }],
 
       'Dr. Gil Santos': [
-      { id: 'cwl-7', patientName: 'Teresa Martins', detail: 'Disponível 3ª e 5ª', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
-      { id: 'cwl-8', patientName: 'Paulo Dias', detail: 'Quer antecipar', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
-      { id: 'cwl-9', patientName: 'Beatriz Nunes', detail: 'Qualquer horário', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }]
+      { id: 'cwl-7', patientName: 'Teresa Martins', detailKey: 'availableTueThu', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false },
+      { id: 'cwl-8', patientName: 'Paulo Dias', detailKey: 'wantsToAnticipate', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true },
+      { id: 'cwl-9', patientName: 'Beatriz Nunes', detailKey: 'anyTime', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false }]
 
     };
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
