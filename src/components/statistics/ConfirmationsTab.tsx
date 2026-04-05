@@ -6,7 +6,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationCategory, getCategoryBadgeStyle } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 
@@ -32,26 +32,6 @@ const statusBadge = (status: BadgeStatus) => {
       {icons[status]}
     </span>
   );
-};
-
-const getCategoryLabel = (cat: string) => {
-  const labels: Record<string, string> = {
-    primeira_consulta: '1ª Consulta', restauracao: 'Restauração', destartarizacao: 'Destartarização',
-    endodontia: 'Endodontia', cirurgia: 'Cirurgia', protese: 'Prótese', ortodontia: 'Ortodontia',
-    urgencia: 'Urgência', teleconsulta: 'Teleconsulta', odontopediatria: 'Odontopediatria',
-    implante: 'Implante', branqueamento: 'Branqueamento', followup: 'Follow-up',
-  };
-  return labels[cat] || cat;
-};
-
-const getCategoryLabelShort = (cat: string) => {
-  const labels: Record<string, string> = {
-    primeira_consulta: '1ª Cons.', restauracao: 'Restaur.', destartarizacao: 'Destart.',
-    endodontia: 'Endod.', cirurgia: 'Cirurgia', protese: 'Prótese', ortodontia: 'Ortodon.',
-    urgencia: 'Urgência', teleconsulta: 'Telecons.', odontopediatria: 'Odontoped.',
-    implante: 'Implante', branqueamento: 'Branq.', followup: 'Follow-up',
-  };
-  return labels[cat] || cat;
 };
 
 function get24hStatus(status?: string): BadgeStatus {
@@ -142,7 +122,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                         const s24 = get24hStatus(c.status);
                         const s1 = get1hStatus(s24, c.status);
                         const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                        const catLabel = c.category ? (isMobile ? getCategoryLabelShort(c.category) : getCategoryLabel(c.category)) : '';
+                        const catLabel = c.category ? getCategoryLabel(t, c.category) : '';
                         return (
                           <TableRow key={c.id}>
                             <TableCell className="text-sm font-medium">{c.time}</TableCell>
