@@ -12,6 +12,28 @@ import { useTranslation } from 'react-i18next';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
+type BadgeStatus = 'confirmed' | 'cancelled' | 'pending' | 'irrelevant';
+
+const statusBadge = (status: BadgeStatus) => {
+  const styles: Record<BadgeStatus, string> = {
+    confirmed: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    cancelled: 'bg-red-500/20 text-red-400 border-red-500/30',
+    pending: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+    irrelevant: 'bg-muted text-muted-foreground border-border',
+  };
+  const icons: Record<BadgeStatus, string> = {
+    confirmed: '✓',
+    cancelled: '✗',
+    pending: '●',
+    irrelevant: '—',
+  };
+  return (
+    <span className={cn('inline-flex items-center justify-center w-7 h-7 rounded-md border text-xs font-bold', styles[status])}>
+      {icons[status]}
+    </span>
+  );
+};
+
 function get24hStatus(status?: string): BadgeStatus {
   if (!status) return 'pending';
   if (status === 'falta_justificada' || status === 'falta_nao_justificada') return 'cancelled';
