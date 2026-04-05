@@ -332,7 +332,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
           {data.consultationType === 'teleconsulta' ? <Video className="w-5 h-5 text-primary" /> : <Building2 className="w-5 h-5 text-primary" />}
           <div>
-            <p className="text-sm font-semibold text-foreground">{data.consultationType === 'teleconsulta' ? 'Teleconsulta' : 'Presencial'}</p>
+            <p className="text-sm font-semibold text-foreground">{data.consultationType === 'teleconsulta' ? t('booking.teleconsulta') : t('booking.presencial')}</p>
             {data.isUrgent && <p className="text-xs text-destructive">⚠️ Urgente (+€5)</p>}
           </div>
         </div>
