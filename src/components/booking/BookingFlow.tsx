@@ -607,8 +607,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {data.consultationType === 'teleconsulta' && (
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
-              <p>Nº {receiptId}</p>
-              <p>{data.date?.toLocaleDateString('pt-PT')} — €{finalPrice.toFixed(2)}</p>
+              <p>{t('booking.receiptNumber')} {receiptId}</p>
+              <p>{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} — €{finalPrice.toFixed(2)}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
