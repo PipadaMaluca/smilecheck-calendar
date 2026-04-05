@@ -42,6 +42,7 @@ export function FavoritesView({
   onToggleClinicFavorite, onBookDentist, onBookClinic, onRecommendPatient, onSendMessage,
   onViewClinicProfile, userRole = 'patient'
 }: FavoritesViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
