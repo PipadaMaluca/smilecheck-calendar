@@ -310,7 +310,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   const renderConfirmStep = () => (
     <div className="space-y-4 animate-fade-in">
-      <h3 className="text-lg font-semibold text-foreground">Confirme a sua marcação</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t('booking.confirmBooking')}</h3>
       <div className="space-y-3">
         {/* Dentist */}
         <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
