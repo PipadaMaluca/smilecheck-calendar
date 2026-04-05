@@ -470,7 +470,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 maxLength={5}
               />
               {cardExpiry.length > 0 && cardExpiry.length < 5 && (
-                <p className="text-xs text-destructive mt-1">Formato: MM/AA</p>
+                <p className="text-xs text-destructive mt-1">{t('booking.formatMMYY')}</p>
               )}
             </div>
             <div className="w-24">
