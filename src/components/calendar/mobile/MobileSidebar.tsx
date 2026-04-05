@@ -42,6 +42,8 @@ export function MobileSidebar({
   activeTab
 }: MobileSidebarProps) {
 
+  const { t } = useTranslation();
+
   const userName = userRole === 'patient' ?
   mockFamilyMembers[0].name :
   userRole === 'dentist' ?
@@ -49,10 +51,10 @@ export function MobileSidebar({
   mockClinics[0].name;
 
   const userSubtitle = userRole === 'patient' ?
-  'Paciente' :
+  t('roles.patient') :
   userRole === 'dentist' ?
-  'Dentista' :
-  'Clínica';
+  t('roles.dentist') :
+  t('roles.clinic');
 
 
   const MenuSection = ({ children, className }: {children: React.ReactNode;className?: string;}) =>
