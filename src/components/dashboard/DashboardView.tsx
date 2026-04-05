@@ -490,7 +490,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     {patients.slice(0, 2).map((wl) =>
                   <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                        <span className="text-[10px] text-muted-foreground flex-shrink-0">— {wl.detail}</span>
+                        <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                       </div>
                   )}
                   </div>
