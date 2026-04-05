@@ -213,7 +213,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
           {/* Histórico */}
           <div className="bg-card rounded-xl border border-border p-4 space-y-3">
             <button className="flex items-center justify-between w-full" onClick={() => setShowHistory(!showHistory)}>
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase">Histórico Resumido</h3>
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.briefHistory')}</h3>
               {showHistory ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </button>
             {showHistory && (
