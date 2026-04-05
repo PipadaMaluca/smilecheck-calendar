@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,55 +7,52 @@ import { Copy, Check, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { RedeemHistoryItem, MOCK_REDEEM_HISTORY } from '@/data/rewardsData';
 
-const STATUS_MAP: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
-  pendente: { label: 'Pendente', variant: 'secondary' },
-  usado: { label: 'Usado', variant: 'default' },
-  expirado: { label: 'Expirado', variant: 'destructive' },
+const STATUS_KEYS: Record<string, { labelKey: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
+  pendente: { labelKey: 'store.statusPending', variant: 'secondary' },
+  usado: { labelKey: 'store.statusUsed', variant: 'default' },
+  expirado: { labelKey: 'store.statusExpired', variant: 'destructive' },
 };
 
-const FILTERS = ['Todos', 'Pendentes', 'Usados', 'Expirados'] as const;
+const FILTER_KEYS = [
+  { value: 'all', labelKey: 'store.filterAll' },
+  { value: 'pendente', labelKey: 'store.filterPending' },
+  { value: 'usado', labelKey: 'store.filterUsed' },
+  { value: 'expirado', labelKey: 'store.filterExpired' },
+] as const;
 
 export function RewardsHistory() {
-  const [filter, setFilter] = useState<string>('Todos');
+  const { t } = useTranslation();
+  const [filter, setFilter] = useState<string>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const filtered = MOCK_REDEEM_HISTORY.filter(item => {
-    if (filter === 'Todos') return true;
-    if (filter === 'Pendentes') return item.status === 'pendente';
-    if (filter === 'Usados') return item.status === 'usado';
-    if (filter === 'Expirados') return item.status === 'expirado';
-    return true;
+    if (filter === 'all') return true;
+    return item.status === filter;
   });
 
   const handleCopy = (item: RedeemHistoryItem) => {
     navigator.clipboard.writeText(item.code);
     setCopiedId(item.id);
-    toast.success('Código copiado!');
+    toast.success(t('store.codeCopied'));
     setTimeout(() => setCopiedId(null), 2000);
   };
 
   return (
     <div className="space-y-4">
       <div className="flex gap-2 flex-wrap">
-        {FILTERS.map(f => (
-          <Button
-            key={f}
-            variant={filter === f ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setFilter(f)}
-            className="text-xs"
-          >
-            {f}
+        {FILTER_KEYS.map(f => (
+          <Button key={f.value} variant={filter === f.value ? 'default' : 'outline'} size="sm" onClick={() => setFilter(f.value)} className="text-xs">
+            {t(f.labelKey)}
           </Button>
         ))}
       </div>
 
       {filtered.length === 0 ? (
-        <p className="text-center text-muted-foreground py-8">Nenhum resgate encontrado.</p>
+        <p className="text-center text-muted-foreground py-8">{t('store.noRedeems')}</p>
       ) : (
         <div className="space-y-2">
           {filtered.map(item => {
-            const status = STATUS_MAP[item.status];
+            const status = STATUS_KEYS[item.status];
             return (
               <Card key={item.id}>
                 <CardContent className="p-3 flex items-center gap-3">
@@ -69,7 +67,7 @@ export function RewardsHistory() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <Badge variant={status.variant} className="text-xs">{status.label}</Badge>
+                    <Badge variant={status.variant} className="text-xs">{t(status.labelKey)}</Badge>
                     <span className="text-sm font-bold text-destructive">−{item.points}</span>
                     {item.status === 'pendente' && (
                       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleCopy(item)}>
