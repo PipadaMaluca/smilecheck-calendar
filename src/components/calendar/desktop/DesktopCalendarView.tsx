@@ -768,19 +768,19 @@ export function DesktopCalendarView() {
                       <Stethoscope className="w-4 h-4" /> Dentista
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                      <Building2 className="w-4 h-4" /> Clínica
+                      <Building2 className="w-4 h-4" /> {t('common.clinic')}
                     </Button>
                   </div>
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Lista</ToggleGroupItem>
-                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Dia</ToggleGroupItem>
-                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Semana</ToggleGroupItem>
-                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">Mês</ToggleGroupItem>
+                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
                     </ToggleGroup>
                     <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground" onClick={() => setShowSettings(true)}>
-                      <CalendarClock className="w-4 h-4" /> Modificar Agenda
+                      <CalendarClock className="w-4 h-4" /> {t('agenda.modifyAgenda')}
                     </Button>
                   </>}
                 </div>
