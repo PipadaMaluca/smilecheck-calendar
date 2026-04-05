@@ -2373,7 +2373,16 @@
     "any": "Qualquer",
     "high": "Alta",
     "medium": "Média",
-    "low": "Baixa"
+    "low": "Baixa",
+    "details": {
+      "wantsToAnticipate": "Quer antecipar",
+      "availableMonWed": "Disponível 2ª e 4ª",
+      "anyMorning": "Qualquer horário manhã",
+      "availableAfternoons": "Disponível tardes",
+      "anyDay": "Qualquer dia",
+      "availableTueThu": "Disponível 3ª e 5ª",
+      "anyTime": "Qualquer horário"
+    }
   },
   "confirmations": {
     "time": "Hora",
