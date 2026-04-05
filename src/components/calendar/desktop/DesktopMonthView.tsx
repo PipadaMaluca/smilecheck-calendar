@@ -19,6 +19,7 @@ export function DesktopMonthView({
   onDateSelect,
   onSwitchToDay,
 }: DesktopMonthViewProps) {
+  const { t } = useTranslation();
   const [clinicId, dentistId] = useMemo(() => {
     const parts = selectedDentistKey.split('-');
     return [parts[0], parts.slice(1).join('-') || parts[0]];
