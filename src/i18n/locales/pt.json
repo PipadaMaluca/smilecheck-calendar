@@ -1830,7 +1830,11 @@
     "title": "Resumo do Dia",
     "inPerson": "Presenciais",
     "teleconsultations": "Teleconsultas",
-    "freeSlots": "Vagas Livres"
+    "freeSlots": "Vagas Livres",
+    "allClinics": "Todas as Clínicas",
+    "multipleClinics": "Múltiplas Clínicas",
+    "noCalendarSelected": "Nenhum calendário selecionado",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "Primeiros Passos",

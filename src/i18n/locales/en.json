@@ -1830,7 +1830,11 @@
     "title": "Day Summary",
     "inPerson": "In-Person",
     "teleconsultations": "Teleconsultations",
-    "freeSlots": "Free Slots"
+    "freeSlots": "Free Slots",
+    "allClinics": "All Clinics",
+    "multipleClinics": "Multiple Clinics",
+    "noCalendarSelected": "No calendar selected",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "First Steps",

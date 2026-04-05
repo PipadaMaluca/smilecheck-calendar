@@ -1830,7 +1830,11 @@
     "title": "Résumé du Jour",
     "inPerson": "En cabinet",
     "teleconsultations": "Téléconsultations",
-    "freeSlots": "Créneaux Libres"
+    "freeSlots": "Créneaux Libres",
+    "allClinics": "Tous les Cabinets",
+    "multipleClinics": "Plusieurs Cabinets",
+    "noCalendarSelected": "Aucun calendrier sélectionné",
+    "total": "Total"
   },
   "achievementData": {
     "firstSteps": "Premiers Pas",
