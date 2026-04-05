@@ -36,7 +36,7 @@ const MOCK_HISTORY: Record<string, { date: string; category: string; dentist: st
   ],
 };
 
-const DATE_LOCALES: Record<string, Locale> = { pt, en: enGB, fr };
+const DATE_LOCALES: Record<string, typeof pt> = { pt, en: enGB, fr };
 
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
   const { t, i18n } = useTranslation();
