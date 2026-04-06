@@ -59,21 +59,21 @@ export function CalendarDemo() {
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <User className="w-4 h-4" />
-              <span className="hidden sm:inline">Paciente</span>
+              <span className="hidden sm:inline">{t('demo.patientLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="dentist"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Stethoscope className="w-4 h-4" />
-              <span className="hidden sm:inline">Dentista</span>
+              <span className="hidden sm:inline">{t('demo.dentistLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="clinic"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Building2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Clínica</span>
+              <span className="hidden sm:inline">{t('demo.clinicLabel')}</span>
             </TabsTrigger>
           </TabsList>
 
