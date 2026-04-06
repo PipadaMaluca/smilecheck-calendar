@@ -254,7 +254,7 @@ export function FavoritesView({
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
                     <MiniBadges
                       achievements={getShowcasedAchievements(
-                        dentistAchievements.flatMap(c => c.achievements),
+                        getAchievementCategories('dentist', t).flatMap(c => c.achievements),
                         'dentist',
                         3
                       )}
