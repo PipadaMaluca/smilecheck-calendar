@@ -3036,7 +3036,10 @@
     "patient": "Paciente",
     "dentist": "Dentista",
     "clinic": "Clínica",
-    "backToLogin": "Voltar ao login"
+    "backToLogin": "Voltar ao login",
+    "patientLabel": "Paciente",
+    "dentistLabel": "Dentista",
+    "clinicLabel": "Clínica"
   },
   "account": {
     "editProfile": "Editar Perfil",
