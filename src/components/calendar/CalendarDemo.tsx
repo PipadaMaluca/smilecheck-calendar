@@ -10,6 +10,7 @@ import { VideoSplashScreen, hasSeenVideoSplash } from '@/components/splash/Video
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const roleParam = searchParams.get('role');
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
