@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PatientCalendar } from './PatientCalendar';
 import { DentistCalendar } from './DentistCalendar';
@@ -9,6 +10,7 @@ import { VideoSplashScreen, hasSeenVideoSplash } from '@/components/splash/Video
 import { User, Stethoscope, Building2 } from 'lucide-react';
 
 export function CalendarDemo() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const roleParam = searchParams.get('role');
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
@@ -57,21 +59,21 @@ export function CalendarDemo() {
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <User className="w-4 h-4" />
-              <span className="hidden sm:inline">Paciente</span>
+              <span className="hidden sm:inline">{t('demo.patientLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="dentist"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Stethoscope className="w-4 h-4" />
-              <span className="hidden sm:inline">Dentista</span>
+              <span className="hidden sm:inline">{t('demo.dentistLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="clinic"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
               <Building2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Clínica</span>
+              <span className="hidden sm:inline">{t('demo.clinicLabel')}</span>
             </TabsTrigger>
           </TabsList>
 

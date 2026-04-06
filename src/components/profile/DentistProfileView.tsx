@@ -204,7 +204,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       {/* Badge Showcase */}
       <BadgeShowcase
       userRole="dentist"
-      categories={getAchievementCategories('dentist')}
+      categories={getAchievementCategories('dentist', t)}
       isOwnProfile={isOwnProfile} />
     
 

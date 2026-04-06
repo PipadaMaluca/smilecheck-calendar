@@ -21,7 +21,7 @@ interface ManagePlanViewProps {
 type PlanTier = 'free' | 'pro' | 'premium';
 
 interface PlanFeature {
-  text: string;
+  textKey: string;
   included: boolean;
   isInherited?: boolean;
   isWarning?: boolean;
@@ -29,12 +29,12 @@ interface PlanFeature {
 
 interface Plan {
   id: PlanTier;
-  name: string;
+  nameKey: string;
   monthlyPrice: number;
   annualPrice: number;
   features: PlanFeature[];
   popular?: boolean;
-  badge?: string;
+  badgeKey?: string;
   icon: React.ElementType;
 }
 
@@ -48,148 +48,138 @@ const ToothIcon = ({ className }: {className?: string;}) =>
 const PLANS_BY_ROLE: Record<string, Plan[]> = {
   patient: [
   {
-    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
     features: [
-    { text: 'Acesso à app', included: true },
-    { text: 'Marcar consultas', included: true },
-    { text: '1 teleconsulta/mês', included: true },
-    { text: 'Sistema de pontos básico', included: true },
-    { text: 'Notificações: App, Push, Email', included: true },
-    { text: 'Tema claro/escuro', included: true },
-    { text: '10 cores de consulta (fixas)', included: true },
-    { text: 'Reset anual de pontos', included: false, isWarning: true },
-    { text: 'Sem bónus de pontos', included: false },
-    { text: 'Com anúncios', included: false }]
-
+    { textKey: 'plan.features.appAccess', included: true },
+    { textKey: 'plan.features.bookAppointments', included: true },
+    { textKey: 'plan.features.1teleconsultMonth', included: true },
+    { textKey: 'plan.features.basicPointsSystem', included: true },
+    { textKey: 'plan.features.notifAppPushEmail', included: true },
+    { textKey: 'plan.features.lightDarkTheme', included: true },
+    { textKey: 'plan.features.10fixedColors', included: true },
+    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
+    { textKey: 'plan.features.noPointsBonus', included: false },
+    { textKey: 'plan.features.withAds', included: false }]
   },
   {
-    id: 'pro', name: 'Pro', monthlyPrice: 4.99, annualPrice: 50.90, icon: Star, popular: true, badge: 'Popular',
+    id: 'pro', nameKey: 'Pro', monthlyPrice: 4.99, annualPrice: 50.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
     features: [
-    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-    { text: 'Teleconsultas ilimitadas', included: true },
-    { text: 'Mantém pontos (sem reset anual)', included: true },
-    { text: 'Notificações SMS incluídas', included: true },
-    { text: 'Prioridade nas marcações', included: true },
-    { text: 'Sem anúncios', included: true },
-    { text: 'Histórico completo', included: true },
-    { text: '13 cores de consulta (editáveis)', included: true },
-    { text: 'Sem bónus de pontos', included: false }]
-
+    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
+    { textKey: 'plan.features.unlimitedTeleconsults', included: true },
+    { textKey: 'plan.features.keepPoints', included: true },
+    { textKey: 'plan.features.smsNotifications', included: true },
+    { textKey: 'plan.features.bookingPriority', included: true },
+    { textKey: 'plan.features.noAds', included: true },
+    { textKey: 'plan.features.fullHistory', included: true },
+    { textKey: 'plan.features.13editableColors', included: true },
+    { textKey: 'plan.features.noPointsBonus', included: false }]
   },
   {
-    id: 'premium', name: 'Premium', monthlyPrice: 9.99, annualPrice: 101.90, icon: Crown, badge: 'Melhor',
+    id: 'premium', nameKey: 'Premium', monthlyPrice: 9.99, annualPrice: 101.90, icon: Crown, badgeKey: 'plan.badges.best',
     features: [
-    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-    { text: 'Teleconsultas com 10% desconto', included: true },
-    { text: 'Descontos em consultas', included: true },
-    { text: 'Prioridade máxima em pesquisas', included: true },
-    { text: 'Prioridade máxima nas marcações', included: true },
-    { text: 'Prioridade máxima nas urgências', included: true },
-    { text: 'Suporte prioritário', included: true },
-    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-    { text: 'Badge Premium no perfil', included: true },
-    { text: 'Recompensas exclusivas', included: true }]
-
+    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
+    { textKey: 'plan.features.pointsBonus10', included: true },
+    { textKey: 'plan.features.teleconsult10discount', included: true },
+    { textKey: 'plan.features.appointmentDiscounts', included: true },
+    { textKey: 'plan.features.maxSearchPriority', included: true },
+    { textKey: 'plan.features.maxBookingPriority', included: true },
+    { textKey: 'plan.features.maxUrgencyPriority', included: true },
+    { textKey: 'plan.features.prioritySupport', included: true },
+    { textKey: 'plan.features.fullCustomColors', included: true },
+    { textKey: 'plan.features.premiumBadge', included: true },
+    { textKey: 'plan.features.exclusiveRewards', included: true }]
   }],
 
   dentist: [
   {
-    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
     features: [
-    { text: '10 teleconsultas/mês', included: true },
-    { text: '1 clínica', included: true },
-    { text: 'Sistema de pontos básico', included: true },
-    { text: 'Notificações: App, Push, Email', included: true },
-    { text: '10 cores de consulta (fixas)', included: true },
-    { text: 'Tema claro/escuro', included: true },
-    { text: 'Exportar relatórios básicos (PDF)', included: true },
-    { text: 'Prescrições limitadas', included: true },
-    { text: 'Reset anual de pontos', included: false, isWarning: true },
-    { text: 'Sem bónus de pontos', included: false },
-    { text: 'Com anúncios', included: false }]
-
+    { textKey: 'plan.features.10teleconsultsMonth', included: true },
+    { textKey: 'plan.features.1clinic', included: true },
+    { textKey: 'plan.features.basicPointsSystem', included: true },
+    { textKey: 'plan.features.notifAppPushEmail', included: true },
+    { textKey: 'plan.features.10fixedColors', included: true },
+    { textKey: 'plan.features.lightDarkTheme', included: true },
+    { textKey: 'plan.features.basicReportsPdf', included: true },
+    { textKey: 'plan.features.limitedPrescriptions', included: true },
+    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
+    { textKey: 'plan.features.noPointsBonus', included: false },
+    { textKey: 'plan.features.withAds', included: false }]
   },
   {
-    id: 'pro', name: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badge: 'Popular',
+    id: 'pro', nameKey: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
     features: [
-    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-    { text: 'Teleconsultas ilimitadas', included: true },
-    { text: 'Até 3 clínicas', included: true },
-    { text: 'Mantém pontos (sem reset anual)', included: true },
-    { text: 'Notificações SMS', included: true },
-    { text: 'Estatísticas', included: true },
-    { text: 'Prescrições ilimitadas', included: true },
-    { text: '13 cores de consulta (editáveis)', included: true },
-    { text: 'Exportar todos os relatórios (PDF, Excel)', included: true },
-    { text: 'Sem anúncios', included: true },
-    { text: 'Sem bónus de pontos', included: false }]
-
+    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
+    { textKey: 'plan.features.unlimitedTeleconsults', included: true },
+    { textKey: 'plan.features.upTo3clinics', included: true },
+    { textKey: 'plan.features.keepPoints', included: true },
+    { textKey: 'plan.features.smsNotifications', included: true },
+    { textKey: 'plan.features.statistics', included: true },
+    { textKey: 'plan.features.unlimitedPrescriptions', included: true },
+    { textKey: 'plan.features.13editableColors', included: true },
+    { textKey: 'plan.features.allReportsPdfExcel', included: true },
+    { textKey: 'plan.features.noAds', included: true },
+    { textKey: 'plan.features.noPointsBonus', included: false }]
   },
   {
-    id: 'premium', name: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badge: 'Melhor',
+    id: 'premium', nameKey: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badgeKey: 'plan.badges.best',
     features: [
-    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-    { text: 'Clínicas ilimitadas', included: true },
-    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-    { text: 'Prioridade máxima em pesquisas', included: true },
-    { text: 'Prioridade máxima nas marcações', included: true },
-    { text: 'Prioridade máxima nas urgências', included: true },
-    { text: 'Estatísticas avançadas', included: true },
-    { text: 'Destaque nos resultados de pesquisa', included: true },
-    { text: 'Suporte prioritário', included: true },
-    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-    { text: 'Sincronização calendário externo', included: true }]
-
+    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
+    { textKey: 'plan.features.unlimitedClinics', included: true },
+    { textKey: 'plan.features.pointsBonus10', included: true },
+    { textKey: 'plan.features.maxSearchPriority', included: true },
+    { textKey: 'plan.features.maxBookingPriority', included: true },
+    { textKey: 'plan.features.maxUrgencyPriority', included: true },
+    { textKey: 'plan.features.advancedStatistics', included: true },
+    { textKey: 'plan.features.searchHighlight', included: true },
+    { textKey: 'plan.features.prioritySupport', included: true },
+    { textKey: 'plan.features.fullCustomColors', included: true },
+    { textKey: 'plan.features.externalCalendarSync', included: true }]
   }],
 
   clinic: [
   {
-    id: 'free', name: 'Free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
+    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
     features: [
-    { text: 'Até 3 dentistas', included: true },
-    { text: 'Funcionalidades básicas', included: true },
-    { text: 'Sistema de pontos básico', included: true },
-    { text: '10 cores de consulta (fixas)', included: true },
-    { text: 'Tema claro/escuro', included: true },
-    { text: 'Reset anual de pontos', included: false, isWarning: true },
-    { text: 'Sem bónus de pontos', included: false },
-    { text: 'Com anúncios', included: false }]
-
+    { textKey: 'plan.features.upTo3dentists', included: true },
+    { textKey: 'plan.features.basicFeatures', included: true },
+    { textKey: 'plan.features.basicPointsSystem', included: true },
+    { textKey: 'plan.features.10fixedColors', included: true },
+    { textKey: 'plan.features.lightDarkTheme', included: true },
+    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
+    { textKey: 'plan.features.noPointsBonus', included: false },
+    { textKey: 'plan.features.withAds', included: false }]
   },
   {
-    id: 'pro', name: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badge: 'Popular',
+    id: 'pro', nameKey: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
     features: [
-    { text: 'Tudo do plano Free, mais:', included: true, isInherited: true },
-    { text: 'Até 5 dentistas', included: true },
-    { text: 'Mantém pontos (sem reset anual)', included: true },
-    { text: 'Estatísticas', included: true },
-    { text: 'Relatórios mensais', included: true },
-    { text: 'Notificações SMS', included: true },
-    { text: '13 cores de consulta (editáveis)', included: true },
-    { text: 'Exportar relatórios (PDF, Excel)', included: true },
-    { text: 'Dashboard confirmações em tempo real', included: true },
-    { text: 'Sem anúncios', included: true },
-    { text: 'Sem bónus de pontos', included: false }]
-
+    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
+    { textKey: 'plan.features.upTo5dentists', included: true },
+    { textKey: 'plan.features.keepPoints', included: true },
+    { textKey: 'plan.features.statistics', included: true },
+    { textKey: 'plan.features.monthlyReports', included: true },
+    { textKey: 'plan.features.smsNotifications', included: true },
+    { textKey: 'plan.features.13editableColors', included: true },
+    { textKey: 'plan.features.exportReportsPdfExcel', included: true },
+    { textKey: 'plan.features.realtimeConfirmations', included: true },
+    { textKey: 'plan.features.noAds', included: true },
+    { textKey: 'plan.features.noPointsBonus', included: false }]
   },
   {
-    id: 'premium', name: 'Premium', monthlyPrice: 49.99, annualPrice: 509.90, icon: Crown, badge: 'Melhor',
+    id: 'premium', nameKey: 'Premium', monthlyPrice: 49.99, annualPrice: 509.90, icon: Crown, badgeKey: 'plan.badges.best',
     features: [
-    { text: 'Tudo do plano Pro, mais:', included: true, isInherited: true },
-    { text: 'Dentistas ilimitados', included: true },
-    { text: 'Bónus pontos (+10% no fim do ano)', included: true },
-    { text: 'Prioridade máxima em pesquisas', included: true },
-    { text: 'Prioridade máxima nas marcações', included: true },
-    { text: 'Prioridade máxima nas urgências', included: true },
-    { text: 'Estatísticas avançadas', included: true },
-    { text: 'Suporte prioritário', included: true },
-    { text: 'Destaque nos resultados', included: true },
-    { text: 'Cores 100% personalizáveis (tema + consultas)', included: true },
-    { text: 'Sincronização calendário externo', included: true }]
-
+    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
+    { textKey: 'plan.features.unlimitedDentists', included: true },
+    { textKey: 'plan.features.pointsBonus10', included: true },
+    { textKey: 'plan.features.maxSearchPriority', included: true },
+    { textKey: 'plan.features.maxBookingPriority', included: true },
+    { textKey: 'plan.features.maxUrgencyPriority', included: true },
+    { textKey: 'plan.features.advancedStatistics', included: true },
+    { textKey: 'plan.features.prioritySupport', included: true },
+    { textKey: 'plan.features.searchHighlight', included: true },
+    { textKey: 'plan.features.fullCustomColors', included: true },
+    { textKey: 'plan.features.externalCalendarSync', included: true }]
   }]
-
 };
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
@@ -200,6 +190,11 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const [paymentMethod, setPaymentMethod] = useState('card');
 
   const plans = PLANS_BY_ROLE[userRole] || PLANS_BY_ROLE.patient;
+
+  const getPlanDisplayName = (plan: Plan) => {
+    if (plan.nameKey.startsWith('plan.')) return t(plan.nameKey);
+    return plan.nameKey; // Pro, Premium stay as-is
+  };
 
   const formatPrice = (plan: Plan) => {
     if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
@@ -213,7 +208,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   };
 
   const handleSubscribe = () => {
-    toast.success(t('plan.planActivated', { plan: checkoutPlan?.name }));
+    toast.success(t('plan.planActivated', { plan: getPlanDisplayName(checkoutPlan!) }));
     setCheckoutPlan(null);
   };
 
@@ -225,7 +220,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
     <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 pb-28">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <h2 className="text-xl sm:text-2xl font-bold text-foreground">{t('plan.title')}</h2>
           <p className="text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
@@ -235,7 +230,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           currentPlan === 'pro' ? 'bg-primary/20 text-primary border-primary/30' :
           'bg-secondary text-secondary-foreground'
         )}>
-          {currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : 'Free'}
+          {currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : t('plan.tiers.free')}
         </Badge>
       </div>
 
@@ -249,7 +244,6 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-primary text-primary-foreground border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
-
           {t('plan.monthly')}
         </button>
         <button
@@ -261,7 +255,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.annual')}
-          <span className="ml-1.5 text-xs font-bold text-emerald-400">-15%</span>
+          <span className="ml-1.5 text-xs font-bold text-emerald-400">{t('plan.discount')}</span>
         </button>
       </div>
 
@@ -288,6 +282,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           const isCurrent = plan.id === currentPlan;
           const Icon = plan.icon;
           const price = formatPrice(plan);
+          const displayName = getPlanDisplayName(plan);
+          const badgeText = plan.badgeKey ? t(plan.badgeKey) : undefined;
           const includedFeatures = plan.features.filter((f) => f.included);
           const warningFeatures = plan.features.filter((f) => !f.included && f.isWarning);
           const excludedFeatures = plan.features.filter((f) => !f.included && !f.isWarning);
@@ -298,13 +294,13 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
               className={cn(
                 'relative transition-all duration-200 flex flex-col',
                 isCurrent && 'border-primary ring-2 ring-primary/20',
-                plan.badge && !isCurrent && 'border-amber-500/30'
+                badgeText && !isCurrent && 'border-amber-500/30'
               )}>
 
-              {plan.badge &&
+              {badgeText &&
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-amber-500 text-white border-0 text-[10px] px-3">
-                    {plan.badge}
+                    {badgeText}
                   </Badge>
                 </div>
               }
@@ -322,10 +318,9 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                     'text-muted-foreground'
                   )} />
                 </div>
-                <CardTitle className="text-lg">{plan.name}</CardTitle>
+                <CardTitle className="text-lg">{displayName}</CardTitle>
                 <div className="mt-1">
                   <span className={cn("font-bold text-foreground text-center",
-
                   isAnnual && plan.monthlyPrice > 0 ? "text-xl" : "text-2xl"
                   )}>
                     {price.main}
@@ -346,11 +341,10 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   {includedFeatures.map((feat, i) =>
                   <div key={i} className={cn("flex items-start gap-2 text-sm", feat.isInherited && "mb-1")}>
                       {feat.isInherited ?
-                    <span className="text-muted-foreground text-xs italic">{feat.text}</span> :
-
+                    <span className="text-muted-foreground text-xs italic">{t(feat.textKey)}</span> :
                     <>
                           <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                          <span className="text-foreground">{feat.text}</span>
+                          <span className="text-foreground">{t(feat.textKey)}</span>
                         </>
                     }
                     </div>
@@ -363,7 +357,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                         {warningFeatures.map((feat, i) =>
                         <div key={i} className="flex items-start gap-2 text-sm">
                           <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                          <span className="text-amber-400 font-medium">{feat.text}</span>
+                          <span className="text-amber-400 font-medium">{t(feat.textKey)}</span>
                         </div>
                         )}
                       </div>
@@ -376,7 +370,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                       {excludedFeatures.map((feat, i) =>
                     <div key={i} className="flex items-start gap-2 text-sm">
                           <X className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
-                          <span className="text-muted-foreground line-through">{feat.text}</span>
+                          <span className="text-muted-foreground line-through">{t(feat.textKey)}</span>
                         </div>
                     )}
                     </div>
@@ -387,12 +381,10 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   variant={isCurrent ? 'outline' : 'default'}
                   disabled={isCurrent}
                   onClick={() => !isCurrent && setCheckoutPlan(plan)}>
-
                   {isCurrent ? t('plan.currentPlanBtn') : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? t('plan.subscribe') : t('plan.choose')}
                 </Button>
               </CardContent>
             </Card>);
-
         })}
       </div>
 
@@ -400,7 +392,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t('plan.subscribeTo')} {checkoutPlan?.name}</DialogTitle>
+            <DialogTitle>{t('plan.subscribeTo')} {checkoutPlan && getPlanDisplayName(checkoutPlan)}</DialogTitle>
             <DialogDescription>
               {checkoutPlan && formatPrice(checkoutPlan).main}
             </DialogDescription>
@@ -440,7 +432,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             }
             <div className="bg-secondary/50 rounded-lg p-3 space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Plano {checkoutPlan?.name} ({isAnnual ? 'anual' : 'mensal'})</span>
+                <span className="text-muted-foreground">{t('plan.planLabel')} {checkoutPlan && getPlanDisplayName(checkoutPlan)} ({isAnnual ? t('plan.annual').toLowerCase() : t('plan.monthly').toLowerCase()})</span>
                 <span className="font-medium text-foreground">{checkoutPlan && formatPrice(checkoutPlan).main}</span>
               </div>
               <div className="flex justify-between text-sm font-bold border-t border-border pt-1">
@@ -456,5 +448,4 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
         </DialogContent>
       </Dialog>
     </div>);
-
 }

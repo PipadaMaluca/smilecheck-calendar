@@ -1020,6 +1020,449 @@
       "foundation": "Fundação",
       "team": "Equipa",
       "volume": "Volume"
+    },
+    "cat": {
+      "firstSteps": "Primeiros Passos",
+      "consultations": "Consultas",
+      "health": "Saúde",
+      "social": "Social",
+      "loyalty": "Fidelidade",
+      "secrets": "Secretas",
+      "workVolume": "Volume de Trabalho",
+      "quality": "Qualidade",
+      "rankings": "Rankings",
+      "consistency": "Consistência",
+      "teleconsult": "Teleconsulta",
+      "foundation": "Fundação",
+      "team": "Equipa",
+      "volume": "Volume"
+    },
+    "secretAchievement": "Conquista secreta",
+    "patient": {
+      "p1": {
+        "name": "Verificado",
+        "desc": "Verificar email/telemóvel"
+      },
+      "p2": {
+        "name": "Estudante",
+        "desc": "Completar tutorial"
+      },
+      "p3": {
+        "name": "Perfil Completo",
+        "desc": "Preencher info saúde"
+      },
+      "p4": {
+        "name": "Bem-vindo",
+        "desc": "Criar conta"
+      },
+      "p5": {
+        "name": "Familiar",
+        "desc": "Adicionar membro familiar"
+      },
+      "p6": {
+        "name": "Primeira Consulta",
+        "desc": "Ir à primeira consulta"
+      },
+      "c1": {
+        "name": "Digital",
+        "desc": "1ª teleconsulta"
+      },
+      "c2": {
+        "name": "Madrugador",
+        "desc": "5 consultas antes das 9h"
+      },
+      "c3": {
+        "name": "Regular",
+        "desc": "3 consultas em 12 meses"
+      },
+      "c4": {
+        "name": "Explorador",
+        "desc": "3 clínicas diferentes"
+      },
+      "c5": {
+        "name": "Fiel",
+        "desc": "5 consultas no mesmo dentista"
+      },
+      "c6": {
+        "name": "Teleconsultor",
+        "desc": "10 teleconsultas"
+      },
+      "c7": {
+        "name": "Dedicado",
+        "desc": "6 consultas em 12 meses"
+      },
+      "c8": {
+        "name": "Globetrotter",
+        "desc": "5 clínicas diferentes"
+      },
+      "c9": {
+        "name": "VIP",
+        "desc": "12 consultas em 12 meses"
+      },
+      "c10": {
+        "name": "Mestre Digital",
+        "desc": "50 teleconsultas"
+      },
+      "s1": {
+        "name": "Check-in Saúde",
+        "desc": "Completar 5 check-ins diários"
+      },
+      "s2": {
+        "name": "Avaliador",
+        "desc": "Avaliar 5 consultas"
+      },
+      "s3": {
+        "name": "Pontual",
+        "desc": "10 consultas a chegar a horas"
+      },
+      "s4": {
+        "name": "Sorriso Saudável",
+        "desc": "3 destartarizações"
+      },
+      "s5": {
+        "name": "Crítico",
+        "desc": "Avaliar 20 consultas"
+      },
+      "s6": {
+        "name": "Exemplar",
+        "desc": "10x \"Colaborou\" positivo"
+      },
+      "s7": {
+        "name": "Sorriso Perfeito",
+        "desc": "6 destartarizações"
+      },
+      "s8": {
+        "name": "Mestre Avaliador",
+        "desc": "Avaliar 50 consultas"
+      },
+      "so1": {
+        "name": "Mensageiro",
+        "desc": "Enviar 1ª mensagem"
+      },
+      "so2": {
+        "name": "Primeiro Favorito",
+        "desc": "Adicionar 1º favorito"
+      },
+      "so3": {
+        "name": "Rede",
+        "desc": "5 dentistas favoritos"
+      },
+      "so4": {
+        "name": "Comunicativo",
+        "desc": "50 mensagens enviadas"
+      },
+      "so5": {
+        "name": "Influenciador",
+        "desc": "Convidar 5 amigos"
+      },
+      "f1": {
+        "name": "Streak 7",
+        "desc": "7 dias consecutivos"
+      },
+      "f2": {
+        "name": "Streak 30",
+        "desc": "30 dias consecutivos"
+      },
+      "f3": {
+        "name": "Aniversário",
+        "desc": "1 ano na app"
+      },
+      "f4": {
+        "name": "Streak 90",
+        "desc": "90 dias consecutivos"
+      },
+      "f5": {
+        "name": "Veterano",
+        "desc": "2 anos na app"
+      },
+      "sec3": {
+        "name": "Zero Faltas",
+        "desc": "0 faltas em 12 meses"
+      }
+    },
+    "dentist": {
+      "dp1": {
+        "name": "Verificado",
+        "desc": "Verificar email/telemóvel"
+      },
+      "dp2": {
+        "name": "Bem-vindo",
+        "desc": "Criar conta"
+      },
+      "dp3": {
+        "name": "Perfil Completo",
+        "desc": "Preencher perfil"
+      },
+      "dp4": {
+        "name": "Primeira Consulta",
+        "desc": "Realizar 1ª consulta"
+      },
+      "d1": {
+        "name": "Noturno",
+        "desc": "50 consultas após 20h"
+      },
+      "d2": {
+        "name": "Veterano Bronze",
+        "desc": "100 teleconsultas"
+      },
+      "d3": {
+        "name": "Dedicado",
+        "desc": "500 consultas presenciais"
+      },
+      "d4": {
+        "name": "Maratonista",
+        "desc": "20 consultas num dia"
+      },
+      "d5": {
+        "name": "Veterano Prata",
+        "desc": "250 teleconsultas"
+      },
+      "d6": {
+        "name": "Veterano Ouro",
+        "desc": "500 teleconsultas"
+      },
+      "d7": {
+        "name": "Lenda",
+        "desc": "1000 consultas presenciais"
+      },
+      "q1": {
+        "name": "Mentor",
+        "desc": "10 cartas de referência"
+      },
+      "q2": {
+        "name": "Detalhista",
+        "desc": "50 receitas emitidas"
+      },
+      "q3": {
+        "name": "Comunicador",
+        "desc": "100 respostas em 24h"
+      },
+      "q4": {
+        "name": "Farmacêutico",
+        "desc": "100 receitas emitidas"
+      },
+      "q5": {
+        "name": "Precisão",
+        "desc": "0 cancelamentos em 3 meses"
+      },
+      "q6": {
+        "name": "Excelência",
+        "desc": "Rating médio ≥ 4.8"
+      },
+      "r1": {
+        "name": "Top 100",
+        "desc": "Entrar no top 100 nacional"
+      },
+      "r2": {
+        "name": "Nº 1 Clínica",
+        "desc": "1º lugar numa clínica"
+      },
+      "r3": {
+        "name": "Top 10",
+        "desc": "Entrar no top 10 nacional"
+      },
+      "r4": {
+        "name": "Nº 1 Nacional",
+        "desc": "1º lugar nacional"
+      },
+      "cs1": {
+        "name": "Streak 7",
+        "desc": "7 dias consecutivos"
+      },
+      "cs2": {
+        "name": "Streak 30",
+        "desc": "30 dias consecutivos"
+      },
+      "cs3": {
+        "name": "Streak 90",
+        "desc": "90 dias consecutivos"
+      },
+      "cs4": {
+        "name": "Streak 365",
+        "desc": "365 dias consecutivos"
+      },
+      "dso1": {
+        "name": "Primeiro Favorito",
+        "desc": "Ser favorito de 1 paciente"
+      },
+      "dso2": {
+        "name": "Comunicativo",
+        "desc": "100 mensagens respondidas"
+      },
+      "dso3": {
+        "name": "Popular",
+        "desc": "Ser favorito de 50 pacientes"
+      },
+      "df1": {
+        "name": "Aniversário",
+        "desc": "1 ano na plataforma"
+      },
+      "df2": {
+        "name": "Veterano",
+        "desc": "3 anos na plataforma"
+      },
+      "df3": {
+        "name": "Lenda Viva",
+        "desc": "5 anos na plataforma"
+      },
+      "dt1": {
+        "name": "Pioneiro Digital",
+        "desc": "1ª teleconsulta"
+      },
+      "dt2": {
+        "name": "Especialista Online",
+        "desc": "100 teleconsultas"
+      },
+      "dt3": {
+        "name": "Guru Digital",
+        "desc": "500 teleconsultas"
+      },
+      "dsec3": {
+        "name": "Streak Anual",
+        "desc": "365 dias consecutivos"
+      }
+    },
+    "clinic": {
+      "cl1": {
+        "name": "Vitrine",
+        "desc": "Adicionar 5 fotos"
+      },
+      "cl2": {
+        "name": "Verificada",
+        "desc": "Verificar dados oficiais"
+      },
+      "cl3": {
+        "name": "Digital",
+        "desc": "Ativar teleconsultas"
+      },
+      "cl4": {
+        "name": "Inauguração",
+        "desc": "Criar conta"
+      },
+      "cl5": {
+        "name": "Perfil Completo",
+        "desc": "Preencher dados"
+      },
+      "eq1": {
+        "name": "Equipa Mínima",
+        "desc": "3 dentistas ativos"
+      },
+      "eq2": {
+        "name": "Especializada",
+        "desc": "5 especialidades diferentes"
+      },
+      "eq3": {
+        "name": "Grande Equipa",
+        "desc": "7 dentistas ativos"
+      },
+      "eq4": {
+        "name": "Referência",
+        "desc": "Todos dentistas rating ≥ 4.5"
+      },
+      "eq5": {
+        "name": "Mega Equipa",
+        "desc": "15 dentistas ativos"
+      },
+      "v1": {
+        "name": "1.000 Consultas",
+        "desc": "Total acumulado"
+      },
+      "v2": {
+        "name": "Mês Recorde",
+        "desc": "500 consultas num mês"
+      },
+      "v3": {
+        "name": "5.000 Consultas",
+        "desc": "Total acumulado"
+      },
+      "v4": {
+        "name": "10.000 Consultas",
+        "desc": "Total acumulado"
+      },
+      "v5": {
+        "name": "25.000 Consultas",
+        "desc": "Total acumulado"
+      },
+      "cq1": {
+        "name": "Rating 4.5+",
+        "desc": "Média ≥ 4.5"
+      },
+      "cq2": {
+        "name": "100 Avaliações",
+        "desc": "100 reviews positivas"
+      },
+      "cq3": {
+        "name": "Zero Reclamações",
+        "desc": "0 reclamações em 6 meses"
+      },
+      "cq4": {
+        "name": "Rating 4.8+",
+        "desc": "Média ≥ 4.8"
+      },
+      "cq5": {
+        "name": "Rating 4.9+",
+        "desc": "Média ≥ 4.9"
+      },
+      "cr1": {
+        "name": "Top 50",
+        "desc": "Entrar no top 50 nacional"
+      },
+      "cr2": {
+        "name": "Top 10",
+        "desc": "Entrar no top 10 nacional"
+      },
+      "cr3": {
+        "name": "Top 3",
+        "desc": "Pódio nacional"
+      },
+      "cr4": {
+        "name": "Nº 1",
+        "desc": "1º lugar nacional"
+      },
+      "ccs1": {
+        "name": "Streak 30",
+        "desc": "30 dias sem faltas"
+      },
+      "ccs2": {
+        "name": "Streak 90",
+        "desc": "90 dias sem faltas"
+      },
+      "ccs3": {
+        "name": "Streak 365",
+        "desc": "1 ano sem faltas"
+      },
+      "cf1": {
+        "name": "Aniversário",
+        "desc": "1 ano"
+      },
+      "cf2": {
+        "name": "Instituição",
+        "desc": "3 anos"
+      },
+      "cf3": {
+        "name": "Referência Nacional",
+        "desc": "5 anos"
+      },
+      "ct1": {
+        "name": "Digital",
+        "desc": "1ª teleconsulta na clínica"
+      },
+      "ct2": {
+        "name": "Hub Digital",
+        "desc": "100 teleconsultas"
+      },
+      "ct3": {
+        "name": "Centro Online",
+        "desc": "500 teleconsultas"
+      },
+      "ct4": {
+        "name": "Líder Digital",
+        "desc": "1000 teleconsultas"
+      },
+      "csec5": {
+        "name": "Nº 1 Nacional",
+        "desc": "1º lugar no ranking nacional"
+      }
     }
   },
   "scores": {
@@ -2198,7 +2641,66 @@
     "exportReports": "Exportar relatórios (PDF, Excel)",
     "realtimeDashboard": "Dashboard confirmações em tempo real",
     "unlimitedDentists": "Dentistas ilimitados",
-    "searchResultsHighlight": "Destaque nos resultados"
+    "searchResultsHighlight": "Destaque nos resultados",
+    "features": {
+      "appAccess": "Acesso à app",
+      "bookAppointments": "Marcar consultas",
+      "1teleconsultMonth": "1 teleconsulta/mês",
+      "basicPointsSystem": "Sistema de pontos básico",
+      "notifAppPushEmail": "Notificações: App, Push, Email",
+      "lightDarkTheme": "Tema claro/escuro",
+      "10fixedColors": "10 cores de consulta (fixas)",
+      "annualPointsReset": "Reset anual de pontos",
+      "noPointsBonus": "Sem bónus de pontos",
+      "withAds": "Com anúncios",
+      "allFromFree": "Tudo do plano Free, mais:",
+      "unlimitedTeleconsults": "Teleconsultas ilimitadas",
+      "keepPoints": "Mantém pontos (sem reset anual)",
+      "smsNotifications": "Notificações SMS incluídas",
+      "bookingPriority": "Prioridade nas marcações",
+      "noAds": "Sem anúncios",
+      "fullHistory": "Histórico completo",
+      "13editableColors": "13 cores de consulta (editáveis)",
+      "allFromPro": "Tudo do plano Pro, mais:",
+      "pointsBonus10": "Bónus pontos (+10% no fim do ano)",
+      "teleconsult10discount": "Teleconsultas com 10% desconto",
+      "appointmentDiscounts": "Descontos em consultas",
+      "maxSearchPriority": "Prioridade máxima em pesquisas",
+      "maxBookingPriority": "Prioridade máxima nas marcações",
+      "maxUrgencyPriority": "Prioridade máxima nas urgências",
+      "prioritySupport": "Suporte prioritário",
+      "fullCustomColors": "Cores 100% personalizáveis (tema + consultas)",
+      "premiumBadge": "Badge Premium no perfil",
+      "exclusiveRewards": "Recompensas exclusivas",
+      "10teleconsultsMonth": "10 teleconsultas/mês",
+      "1clinic": "1 clínica",
+      "basicReportsPdf": "Exportar relatórios básicos (PDF)",
+      "limitedPrescriptions": "Prescrições limitadas",
+      "upTo3clinics": "Até 3 clínicas",
+      "statistics": "Estatísticas",
+      "unlimitedPrescriptions": "Prescrições ilimitadas",
+      "allReportsPdfExcel": "Exportar todos os relatórios (PDF, Excel)",
+      "unlimitedClinics": "Clínicas ilimitadas",
+      "advancedStatistics": "Estatísticas avançadas",
+      "searchHighlight": "Destaque nos resultados de pesquisa",
+      "externalCalendarSync": "Sincronização calendário externo",
+      "upTo3dentists": "Até 3 dentistas",
+      "basicFeatures": "Funcionalidades básicas",
+      "upTo5dentists": "Até 5 dentistas",
+      "monthlyReports": "Relatórios mensais",
+      "exportReportsPdfExcel": "Exportar relatórios (PDF, Excel)",
+      "realtimeConfirmations": "Dashboard confirmações em tempo real",
+      "unlimitedDentists": "Dentistas ilimitados"
+    },
+    "badges": {
+      "popular": "Popular",
+      "best": "Melhor"
+    },
+    "tiers": {
+      "free": "Grátis"
+    },
+    "discount": "-15%",
+    "planLabel": "Plano"
   },
   "health": {
     "title": "A Minha Saúde",
@@ -2534,7 +3036,10 @@
     "patient": "Paciente",
     "dentist": "Dentista",
     "clinic": "Clínica",
-    "backToLogin": "Voltar ao login"
+    "backToLogin": "Voltar ao login",
+    "patientLabel": "Paciente",
+    "dentistLabel": "Dentista",
+    "clinicLabel": "Clínica"
   },
   "account": {
     "editProfile": "Editar Perfil",

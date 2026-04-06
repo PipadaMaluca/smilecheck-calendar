@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 import { UserRole } from '@/types/calendar';
 import { JobMarketView } from '@/components/jobs/JobMarketView';
 import { MiniBadges, getShowcasedAchievements } from '@/components/achievements/MiniBadges';
-import { dentistAchievements, clinicAchievements } from '@/components/achievements/AchievementsView';
+import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -254,7 +254,7 @@ export function FavoritesView({
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
                     <MiniBadges
                       achievements={getShowcasedAchievements(
-                        dentistAchievements.flatMap(c => c.achievements),
+                        getAchievementCategories('dentist', t).flatMap(c => c.achievements),
                         'dentist',
                         3
                       )}

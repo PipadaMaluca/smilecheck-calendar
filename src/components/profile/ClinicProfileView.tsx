@@ -299,7 +299,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       {/* Badge Showcase */}
       <BadgeShowcase
         userRole="clinic"
-        categories={getAchievementCategories('clinic')}
+        categories={getAchievementCategories('clinic', t)}
         isOwnProfile={isOwnProfile}
       />
 
