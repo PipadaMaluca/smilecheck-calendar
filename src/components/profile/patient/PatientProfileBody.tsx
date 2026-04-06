@@ -261,7 +261,7 @@ export function PatientProfileBody({
         {/* Conquistas */}
         <BadgeShowcase
           userRole={userRole}
-          categories={getAchievementCategories(userRole)}
+          categories={getAchievementCategories(userRole, t)}
           isOwnProfile={isOwnProfile}
           className="p-5 md:p-6" />
         
