@@ -7,7 +7,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { UserRole } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
@@ -19,257 +18,292 @@ interface AchievementsViewProps {
   userRole: UserRole;
 }
 
-// --- Patient Achievements (40 total: 34 regular + 6 secrets) ---
-export const patientAchievements: AchievementCategory[] = [
+// Achievement data uses i18n keys instead of hardcoded text
+interface AchievementDef {
+  id: string;
+  emoji: string;
+  nameKey: string;
+  descKey: string;
+  points: number;
+  unlocked: boolean;
+  progress?: { current: number; target: number };
+  secret?: boolean;
+}
+
+interface CategoryDef {
+  titleKey: string;
+  achievements: AchievementDef[];
+}
+
+const patientDefs: CategoryDef[] = [
   {
-    title: 'Primeiros Passos',
+    titleKey: 'achievements.cat.firstSteps',
     achievements: [
-      { id: 'p1', emoji: '📱', name: 'Verificado', description: 'Verificar email/telemóvel', points: 2, unlocked: true },
-      { id: 'p2', emoji: '🎓', name: 'Estudante', description: 'Completar tutorial', points: 2, unlocked: true },
-      { id: 'p3', emoji: '📝', name: 'Perfil Completo', description: 'Preencher info saúde', points: 3, unlocked: true },
-      { id: 'p4', emoji: '🌟', name: 'Bem-vindo', description: 'Criar conta', points: 5, unlocked: true },
-      { id: 'p5', emoji: '👨‍👩‍👧', name: 'Familiar', description: 'Adicionar membro familiar', points: 5, unlocked: false },
-      { id: 'p6', emoji: '🦷', name: 'Primeira Consulta', description: 'Ir à primeira consulta', points: 10, unlocked: true },
+      { id: 'p1', emoji: '📱', nameKey: 'achievements.patient.p1.name', descKey: 'achievements.patient.p1.desc', points: 2, unlocked: true },
+      { id: 'p2', emoji: '🎓', nameKey: 'achievements.patient.p2.name', descKey: 'achievements.patient.p2.desc', points: 2, unlocked: true },
+      { id: 'p3', emoji: '📝', nameKey: 'achievements.patient.p3.name', descKey: 'achievements.patient.p3.desc', points: 3, unlocked: true },
+      { id: 'p4', emoji: '🌟', nameKey: 'achievements.patient.p4.name', descKey: 'achievements.patient.p4.desc', points: 5, unlocked: true },
+      { id: 'p5', emoji: '👨‍👩‍👧', nameKey: 'achievements.patient.p5.name', descKey: 'achievements.patient.p5.desc', points: 5, unlocked: false },
+      { id: 'p6', emoji: '🦷', nameKey: 'achievements.patient.p6.name', descKey: 'achievements.patient.p6.desc', points: 10, unlocked: true },
     ],
   },
   {
-    title: 'Consultas',
+    titleKey: 'achievements.cat.consultations',
     achievements: [
-      { id: 'c1', emoji: '📹', name: 'Digital', description: '1ª teleconsulta', points: 10, unlocked: true },
-      { id: 'c2', emoji: '🌅', name: 'Madrugador', description: '5 consultas antes das 9h', points: 10, unlocked: false, progress: { current: 1, target: 5 } },
-      { id: 'c3', emoji: '📅', name: 'Regular', description: '3 consultas em 12 meses', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
-      { id: 'c4', emoji: '🏥', name: 'Explorador', description: '3 clínicas diferentes', points: 15, unlocked: false, progress: { current: 1, target: 3 } },
-      { id: 'c5', emoji: '🤝', name: 'Fiel', description: '5 consultas no mesmo dentista', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
-      { id: 'c6', emoji: '📹', name: 'Teleconsultor', description: '10 teleconsultas', points: 20, unlocked: false, progress: { current: 4, target: 10 } },
-      { id: 'c7', emoji: '🏃', name: 'Dedicado', description: '6 consultas em 12 meses', points: 25, unlocked: false, progress: { current: 3, target: 6 } },
-      { id: 'c8', emoji: '🌍', name: 'Globetrotter', description: '5 clínicas diferentes', points: 30, unlocked: false, progress: { current: 1, target: 5 } },
-      { id: 'c9', emoji: '💎', name: 'VIP', description: '12 consultas em 12 meses', points: 50, unlocked: false, progress: { current: 3, target: 12 } },
-      { id: 'c10', emoji: '🖥️', name: 'Mestre Digital', description: '50 teleconsultas', points: 75, unlocked: false, progress: { current: 4, target: 50 } },
+      { id: 'c1', emoji: '📹', nameKey: 'achievements.patient.c1.name', descKey: 'achievements.patient.c1.desc', points: 10, unlocked: true },
+      { id: 'c2', emoji: '🌅', nameKey: 'achievements.patient.c2.name', descKey: 'achievements.patient.c2.desc', points: 10, unlocked: false, progress: { current: 1, target: 5 } },
+      { id: 'c3', emoji: '📅', nameKey: 'achievements.patient.c3.name', descKey: 'achievements.patient.c3.desc', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
+      { id: 'c4', emoji: '🏥', nameKey: 'achievements.patient.c4.name', descKey: 'achievements.patient.c4.desc', points: 15, unlocked: false, progress: { current: 1, target: 3 } },
+      { id: 'c5', emoji: '🤝', nameKey: 'achievements.patient.c5.name', descKey: 'achievements.patient.c5.desc', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
+      { id: 'c6', emoji: '📹', nameKey: 'achievements.patient.c6.name', descKey: 'achievements.patient.c6.desc', points: 20, unlocked: false, progress: { current: 4, target: 10 } },
+      { id: 'c7', emoji: '🏃', nameKey: 'achievements.patient.c7.name', descKey: 'achievements.patient.c7.desc', points: 25, unlocked: false, progress: { current: 3, target: 6 } },
+      { id: 'c8', emoji: '🌍', nameKey: 'achievements.patient.c8.name', descKey: 'achievements.patient.c8.desc', points: 30, unlocked: false, progress: { current: 1, target: 5 } },
+      { id: 'c9', emoji: '💎', nameKey: 'achievements.patient.c9.name', descKey: 'achievements.patient.c9.desc', points: 50, unlocked: false, progress: { current: 3, target: 12 } },
+      { id: 'c10', emoji: '🖥️', nameKey: 'achievements.patient.c10.name', descKey: 'achievements.patient.c10.desc', points: 75, unlocked: false, progress: { current: 4, target: 50 } },
     ],
   },
   {
-    title: 'Saúde',
+    titleKey: 'achievements.cat.health',
     achievements: [
-      { id: 's1', emoji: '🪥', name: 'Check-in Saúde', description: 'Completar 5 check-ins diários', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
-      { id: 's2', emoji: '⭐', name: 'Avaliador', description: 'Avaliar 5 consultas', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
-      { id: 's3', emoji: '⏰', name: 'Pontual', description: '10 consultas a chegar a horas', points: 15, unlocked: false, progress: { current: 6, target: 10 } },
-      { id: 's4', emoji: '🦷', name: 'Sorriso Saudável', description: '3 destartarizações', points: 15, unlocked: false, progress: { current: 2, target: 3 } },
-      { id: 's5', emoji: '📝', name: 'Crítico', description: 'Avaliar 20 consultas', points: 20, unlocked: false, progress: { current: 2, target: 20 } },
-      { id: 's6', emoji: '🌟', name: 'Exemplar', description: '10x "Colaborou" positivo', points: 20, unlocked: false, progress: { current: 4, target: 10 } },
-      { id: 's7', emoji: '✨', name: 'Sorriso Perfeito', description: '6 destartarizações', points: 30, unlocked: false, progress: { current: 2, target: 6 } },
-      { id: 's8', emoji: '🏆', name: 'Mestre Avaliador', description: 'Avaliar 50 consultas', points: 50, unlocked: false, progress: { current: 2, target: 50 } },
+      { id: 's1', emoji: '🪥', nameKey: 'achievements.patient.s1.name', descKey: 'achievements.patient.s1.desc', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
+      { id: 's2', emoji: '⭐', nameKey: 'achievements.patient.s2.name', descKey: 'achievements.patient.s2.desc', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
+      { id: 's3', emoji: '⏰', nameKey: 'achievements.patient.s3.name', descKey: 'achievements.patient.s3.desc', points: 15, unlocked: false, progress: { current: 6, target: 10 } },
+      { id: 's4', emoji: '🦷', nameKey: 'achievements.patient.s4.name', descKey: 'achievements.patient.s4.desc', points: 15, unlocked: false, progress: { current: 2, target: 3 } },
+      { id: 's5', emoji: '📝', nameKey: 'achievements.patient.s5.name', descKey: 'achievements.patient.s5.desc', points: 20, unlocked: false, progress: { current: 2, target: 20 } },
+      { id: 's6', emoji: '🌟', nameKey: 'achievements.patient.s6.name', descKey: 'achievements.patient.s6.desc', points: 20, unlocked: false, progress: { current: 4, target: 10 } },
+      { id: 's7', emoji: '✨', nameKey: 'achievements.patient.s7.name', descKey: 'achievements.patient.s7.desc', points: 30, unlocked: false, progress: { current: 2, target: 6 } },
+      { id: 's8', emoji: '🏆', nameKey: 'achievements.patient.s8.name', descKey: 'achievements.patient.s8.desc', points: 50, unlocked: false, progress: { current: 2, target: 50 } },
     ],
   },
   {
-    title: 'Social',
+    titleKey: 'achievements.cat.social',
     achievements: [
-      { id: 'so1', emoji: '💬', name: 'Mensageiro', description: 'Enviar 1ª mensagem', points: 5, unlocked: true },
-      { id: 'so2', emoji: '❤️', name: 'Primeiro Favorito', description: 'Adicionar 1º favorito', points: 5, unlocked: true },
-      { id: 'so3', emoji: '🌐', name: 'Rede', description: '5 dentistas favoritos', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
-      { id: 'so4', emoji: '🗣️', name: 'Comunicativo', description: '50 mensagens enviadas', points: 15, unlocked: false, progress: { current: 12, target: 50 } },
-      { id: 'so5', emoji: '📣', name: 'Influenciador', description: 'Convidar 5 amigos', points: 30, unlocked: false, progress: { current: 1, target: 5 } },
+      { id: 'so1', emoji: '💬', nameKey: 'achievements.patient.so1.name', descKey: 'achievements.patient.so1.desc', points: 5, unlocked: true },
+      { id: 'so2', emoji: '❤️', nameKey: 'achievements.patient.so2.name', descKey: 'achievements.patient.so2.desc', points: 5, unlocked: true },
+      { id: 'so3', emoji: '🌐', nameKey: 'achievements.patient.so3.name', descKey: 'achievements.patient.so3.desc', points: 10, unlocked: false, progress: { current: 2, target: 5 } },
+      { id: 'so4', emoji: '🗣️', nameKey: 'achievements.patient.so4.name', descKey: 'achievements.patient.so4.desc', points: 15, unlocked: false, progress: { current: 12, target: 50 } },
+      { id: 'so5', emoji: '📣', nameKey: 'achievements.patient.so5.name', descKey: 'achievements.patient.so5.desc', points: 30, unlocked: false, progress: { current: 1, target: 5 } },
     ],
   },
   {
-    title: 'Fidelidade',
+    titleKey: 'achievements.cat.loyalty',
     achievements: [
-      { id: 'f1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
-      { id: 'f2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 20, unlocked: false, progress: { current: 12, target: 30 } },
-      { id: 'f3', emoji: '🎂', name: 'Aniversário', description: '1 ano na app', points: 25, unlocked: false, progress: { current: 4, target: 12 } },
-      { id: 'f4', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 40, unlocked: false, progress: { current: 12, target: 90 } },
-      { id: 'f5', emoji: '🎖️', name: 'Veterano', description: '2 anos na app', points: 50, unlocked: false, progress: { current: 4, target: 24 } },
+      { id: 'f1', emoji: '🔥', nameKey: 'achievements.patient.f1.name', descKey: 'achievements.patient.f1.desc', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
+      { id: 'f2', emoji: '🔥', nameKey: 'achievements.patient.f2.name', descKey: 'achievements.patient.f2.desc', points: 20, unlocked: false, progress: { current: 12, target: 30 } },
+      { id: 'f3', emoji: '🎂', nameKey: 'achievements.patient.f3.name', descKey: 'achievements.patient.f3.desc', points: 25, unlocked: false, progress: { current: 4, target: 12 } },
+      { id: 'f4', emoji: '🔥', nameKey: 'achievements.patient.f4.name', descKey: 'achievements.patient.f4.desc', points: 40, unlocked: false, progress: { current: 12, target: 90 } },
+      { id: 'f5', emoji: '🎖️', nameKey: 'achievements.patient.f5.name', descKey: 'achievements.patient.f5.desc', points: 50, unlocked: false, progress: { current: 4, target: 24 } },
     ],
   },
   {
-    title: 'Secretas',
+    titleKey: 'achievements.cat.secrets',
     achievements: [
-      { id: 'sec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 25, unlocked: false, secret: true },
-      { id: 'sec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 30, unlocked: false, secret: true },
-      { id: 'sec3', emoji: '✨', name: 'Zero Faltas', description: '0 faltas em 12 meses', points: 50, unlocked: true, secret: true },
-      { id: 'sec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
-      { id: 'sec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
-      { id: 'sec6', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
+      { id: 'sec1', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 25, unlocked: false, secret: true },
+      { id: 'sec2', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 30, unlocked: false, secret: true },
+      { id: 'sec3', emoji: '✨', nameKey: 'achievements.patient.sec3.name', descKey: 'achievements.patient.sec3.desc', points: 50, unlocked: true, secret: true },
+      { id: 'sec4', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 50, unlocked: false, secret: true },
+      { id: 'sec5', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 75, unlocked: false, secret: true },
+      { id: 'sec6', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 100, unlocked: false, secret: true },
     ],
   },
 ];
 
-// --- Dentist Achievements (40 total: 34 regular + 6 secrets) ---
-export const dentistAchievements: AchievementCategory[] = [
+const dentistDefs: CategoryDef[] = [
   {
-    title: 'Primeiros Passos',
+    titleKey: 'achievements.cat.firstSteps',
     achievements: [
-      { id: 'dp1', emoji: '📱', name: 'Verificado', description: 'Verificar email/telemóvel', points: 3, unlocked: true },
-      { id: 'dp2', emoji: '🌟', name: 'Bem-vindo', description: 'Criar conta', points: 5, unlocked: true },
-      { id: 'dp3', emoji: '📝', name: 'Perfil Completo', description: 'Preencher perfil', points: 5, unlocked: true },
-      { id: 'dp4', emoji: '🦷', name: 'Primeira Consulta', description: 'Realizar 1ª consulta', points: 10, unlocked: true },
+      { id: 'dp1', emoji: '📱', nameKey: 'achievements.dentist.dp1.name', descKey: 'achievements.dentist.dp1.desc', points: 3, unlocked: true },
+      { id: 'dp2', emoji: '🌟', nameKey: 'achievements.dentist.dp2.name', descKey: 'achievements.dentist.dp2.desc', points: 5, unlocked: true },
+      { id: 'dp3', emoji: '📝', nameKey: 'achievements.dentist.dp3.name', descKey: 'achievements.dentist.dp3.desc', points: 5, unlocked: true },
+      { id: 'dp4', emoji: '🦷', nameKey: 'achievements.dentist.dp4.name', descKey: 'achievements.dentist.dp4.desc', points: 10, unlocked: true },
     ],
   },
   {
-    title: 'Volume de Trabalho',
+    titleKey: 'achievements.cat.workVolume',
     achievements: [
-      { id: 'd1', emoji: '🌙', name: 'Noturno', description: '50 consultas após 20h', points: 20, unlocked: false, progress: { current: 38, target: 50 } },
-      { id: 'd2', emoji: '🏅', name: 'Veterano Bronze', description: '100 teleconsultas', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
-      { id: 'd3', emoji: '🏋️', name: 'Dedicado', description: '500 consultas presenciais', points: 30, unlocked: false, progress: { current: 280, target: 500 } },
-      { id: 'd4', emoji: '👨‍⚕️', name: 'Maratonista', description: '20 consultas num dia', points: 30, unlocked: true },
-      { id: 'd5', emoji: '🏅', name: 'Veterano Prata', description: '250 teleconsultas', points: 50, unlocked: false, progress: { current: 127, target: 250 } },
-      { id: 'd6', emoji: '🏅', name: 'Veterano Ouro', description: '500 teleconsultas', points: 75, unlocked: false, progress: { current: 127, target: 500 } },
-      { id: 'd7', emoji: '👑', name: 'Lenda', description: '1000 consultas presenciais', points: 100, unlocked: false, progress: { current: 280, target: 1000 } },
+      { id: 'd1', emoji: '🌙', nameKey: 'achievements.dentist.d1.name', descKey: 'achievements.dentist.d1.desc', points: 20, unlocked: false, progress: { current: 38, target: 50 } },
+      { id: 'd2', emoji: '🏅', nameKey: 'achievements.dentist.d2.name', descKey: 'achievements.dentist.d2.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
+      { id: 'd3', emoji: '🏋️', nameKey: 'achievements.dentist.d3.name', descKey: 'achievements.dentist.d3.desc', points: 30, unlocked: false, progress: { current: 280, target: 500 } },
+      { id: 'd4', emoji: '👨‍⚕️', nameKey: 'achievements.dentist.d4.name', descKey: 'achievements.dentist.d4.desc', points: 30, unlocked: true },
+      { id: 'd5', emoji: '🏅', nameKey: 'achievements.dentist.d5.name', descKey: 'achievements.dentist.d5.desc', points: 50, unlocked: false, progress: { current: 127, target: 250 } },
+      { id: 'd6', emoji: '🏅', nameKey: 'achievements.dentist.d6.name', descKey: 'achievements.dentist.d6.desc', points: 75, unlocked: false, progress: { current: 127, target: 500 } },
+      { id: 'd7', emoji: '👑', nameKey: 'achievements.dentist.d7.name', descKey: 'achievements.dentist.d7.desc', points: 100, unlocked: false, progress: { current: 280, target: 1000 } },
     ],
   },
   {
-    title: 'Qualidade',
+    titleKey: 'achievements.cat.quality',
     achievements: [
-      { id: 'q1', emoji: '📄', name: 'Mentor', description: '10 cartas de referência', points: 15, unlocked: false, progress: { current: 4, target: 10 } },
-      { id: 'q2', emoji: '📋', name: 'Detalhista', description: '50 receitas emitidas', points: 15, unlocked: true, progress: { current: 50, target: 50 } },
-      { id: 'q3', emoji: '💬', name: 'Comunicador', description: '100 respostas em 24h', points: 20, unlocked: true, progress: { current: 100, target: 100 } },
-      { id: 'q4', emoji: '💊', name: 'Farmacêutico', description: '100 receitas emitidas', points: 25, unlocked: false, progress: { current: 50, target: 100 } },
-      { id: 'q5', emoji: '🎯', name: 'Precisão', description: '0 cancelamentos em 3 meses', points: 30, unlocked: false },
-      { id: 'q6', emoji: '⭐', name: 'Excelência', description: 'Rating médio ≥ 4.8', points: 40, unlocked: true },
+      { id: 'q1', emoji: '📄', nameKey: 'achievements.dentist.q1.name', descKey: 'achievements.dentist.q1.desc', points: 15, unlocked: false, progress: { current: 4, target: 10 } },
+      { id: 'q2', emoji: '📋', nameKey: 'achievements.dentist.q2.name', descKey: 'achievements.dentist.q2.desc', points: 15, unlocked: true, progress: { current: 50, target: 50 } },
+      { id: 'q3', emoji: '💬', nameKey: 'achievements.dentist.q3.name', descKey: 'achievements.dentist.q3.desc', points: 20, unlocked: true, progress: { current: 100, target: 100 } },
+      { id: 'q4', emoji: '💊', nameKey: 'achievements.dentist.q4.name', descKey: 'achievements.dentist.q4.desc', points: 25, unlocked: false, progress: { current: 50, target: 100 } },
+      { id: 'q5', emoji: '🎯', nameKey: 'achievements.dentist.q5.name', descKey: 'achievements.dentist.q5.desc', points: 30, unlocked: false },
+      { id: 'q6', emoji: '⭐', nameKey: 'achievements.dentist.q6.name', descKey: 'achievements.dentist.q6.desc', points: 40, unlocked: true },
     ],
   },
   {
-    title: 'Rankings',
+    titleKey: 'achievements.cat.rankings',
     achievements: [
-      { id: 'r1', emoji: '🏆', name: 'Top 100', description: 'Entrar no top 100 nacional', points: 30, unlocked: true },
-      { id: 'r2', emoji: '🏆', name: 'Nº 1 Clínica', description: '1º lugar numa clínica', points: 40, unlocked: true },
-      { id: 'r3', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 75, unlocked: true },
-      { id: 'r4', emoji: '👑', name: 'Nº 1 Nacional', description: '1º lugar nacional', points: 150, unlocked: false },
+      { id: 'r1', emoji: '🏆', nameKey: 'achievements.dentist.r1.name', descKey: 'achievements.dentist.r1.desc', points: 30, unlocked: true },
+      { id: 'r2', emoji: '🏆', nameKey: 'achievements.dentist.r2.name', descKey: 'achievements.dentist.r2.desc', points: 40, unlocked: true },
+      { id: 'r3', emoji: '🏆', nameKey: 'achievements.dentist.r3.name', descKey: 'achievements.dentist.r3.desc', points: 75, unlocked: true },
+      { id: 'r4', emoji: '👑', nameKey: 'achievements.dentist.r4.name', descKey: 'achievements.dentist.r4.desc', points: 150, unlocked: false },
     ],
   },
   {
-    title: 'Consistência',
+    titleKey: 'achievements.cat.consistency',
     achievements: [
-      { id: 'cs1', emoji: '🔥', name: 'Streak 7', description: '7 dias consecutivos', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
-      { id: 'cs2', emoji: '🔥', name: 'Streak 30', description: '30 dias consecutivos', points: 30, unlocked: true, progress: { current: 30, target: 30 } },
-      { id: 'cs3', emoji: '🔥', name: 'Streak 90', description: '90 dias consecutivos', points: 60, unlocked: false, progress: { current: 45, target: 90 } },
-      { id: 'cs4', emoji: '🔥', name: 'Streak 365', description: '365 dias consecutivos', points: 120, unlocked: false, progress: { current: 45, target: 365 } },
+      { id: 'cs1', emoji: '🔥', nameKey: 'achievements.dentist.cs1.name', descKey: 'achievements.dentist.cs1.desc', points: 10, unlocked: true, progress: { current: 7, target: 7 } },
+      { id: 'cs2', emoji: '🔥', nameKey: 'achievements.dentist.cs2.name', descKey: 'achievements.dentist.cs2.desc', points: 30, unlocked: true, progress: { current: 30, target: 30 } },
+      { id: 'cs3', emoji: '🔥', nameKey: 'achievements.dentist.cs3.name', descKey: 'achievements.dentist.cs3.desc', points: 60, unlocked: false, progress: { current: 45, target: 90 } },
+      { id: 'cs4', emoji: '🔥', nameKey: 'achievements.dentist.cs4.name', descKey: 'achievements.dentist.cs4.desc', points: 120, unlocked: false, progress: { current: 45, target: 365 } },
     ],
   },
   {
-    title: 'Social',
+    titleKey: 'achievements.cat.social',
     achievements: [
-      { id: 'dso1', emoji: '❤️', name: 'Primeiro Favorito', description: 'Ser favorito de 1 paciente', points: 5, unlocked: true },
-      { id: 'dso2', emoji: '💬', name: 'Comunicativo', description: '100 mensagens respondidas', points: 15, unlocked: false, progress: { current: 42, target: 100 } },
-      { id: 'dso3', emoji: '🌟', name: 'Popular', description: 'Ser favorito de 50 pacientes', points: 30, unlocked: false, progress: { current: 18, target: 50 } },
+      { id: 'dso1', emoji: '❤️', nameKey: 'achievements.dentist.dso1.name', descKey: 'achievements.dentist.dso1.desc', points: 5, unlocked: true },
+      { id: 'dso2', emoji: '💬', nameKey: 'achievements.dentist.dso2.name', descKey: 'achievements.dentist.dso2.desc', points: 15, unlocked: false, progress: { current: 42, target: 100 } },
+      { id: 'dso3', emoji: '🌟', nameKey: 'achievements.dentist.dso3.name', descKey: 'achievements.dentist.dso3.desc', points: 30, unlocked: false, progress: { current: 18, target: 50 } },
     ],
   },
   {
-    title: 'Fidelidade',
+    titleKey: 'achievements.cat.loyalty',
     achievements: [
-      { id: 'df1', emoji: '🎂', name: 'Aniversário', description: '1 ano na plataforma', points: 20, unlocked: false, progress: { current: 8, target: 12 } },
-      { id: 'df2', emoji: '🎖️', name: 'Veterano', description: '3 anos na plataforma', points: 50, unlocked: false, progress: { current: 8, target: 36 } },
-      { id: 'df3', emoji: '👑', name: 'Lenda Viva', description: '5 anos na plataforma', points: 100, unlocked: false, progress: { current: 8, target: 60 } },
+      { id: 'df1', emoji: '🎂', nameKey: 'achievements.dentist.df1.name', descKey: 'achievements.dentist.df1.desc', points: 20, unlocked: false, progress: { current: 8, target: 12 } },
+      { id: 'df2', emoji: '🎖️', nameKey: 'achievements.dentist.df2.name', descKey: 'achievements.dentist.df2.desc', points: 50, unlocked: false, progress: { current: 8, target: 36 } },
+      { id: 'df3', emoji: '👑', nameKey: 'achievements.dentist.df3.name', descKey: 'achievements.dentist.df3.desc', points: 100, unlocked: false, progress: { current: 8, target: 60 } },
     ],
   },
   {
-    title: 'Teleconsulta',
+    titleKey: 'achievements.cat.teleconsult',
     achievements: [
-      { id: 'dt1', emoji: '📹', name: 'Pioneiro Digital', description: '1ª teleconsulta', points: 10, unlocked: true },
-      { id: 'dt2', emoji: '📹', name: 'Especialista Online', description: '100 teleconsultas', points: 30, unlocked: false, progress: { current: 42, target: 100 } },
-      { id: 'dt3', emoji: '📹', name: 'Guru Digital', description: '500 teleconsultas', points: 75, unlocked: false, progress: { current: 42, target: 500 } },
+      { id: 'dt1', emoji: '📹', nameKey: 'achievements.dentist.dt1.name', descKey: 'achievements.dentist.dt1.desc', points: 10, unlocked: true },
+      { id: 'dt2', emoji: '📹', nameKey: 'achievements.dentist.dt2.name', descKey: 'achievements.dentist.dt2.desc', points: 30, unlocked: false, progress: { current: 42, target: 100 } },
+      { id: 'dt3', emoji: '📹', nameKey: 'achievements.dentist.dt3.name', descKey: 'achievements.dentist.dt3.desc', points: 75, unlocked: false, progress: { current: 42, target: 500 } },
     ],
   },
   {
-    title: 'Secretas',
+    titleKey: 'achievements.cat.secrets',
     achievements: [
-      { id: 'dsec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
-      { id: 'dsec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
-      { id: 'dsec3', emoji: '🔥', name: 'Streak Anual', description: '365 dias consecutivos', points: 100, unlocked: true, secret: true },
-      { id: 'dsec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
-      { id: 'dsec5', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
-      { id: 'dsec6', emoji: '❓', name: '???', description: 'Conquista secreta', points: 150, unlocked: false, secret: true },
+      { id: 'dsec1', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 50, unlocked: false, secret: true },
+      { id: 'dsec2', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 75, unlocked: false, secret: true },
+      { id: 'dsec3', emoji: '🔥', nameKey: 'achievements.dentist.dsec3.name', descKey: 'achievements.dentist.dsec3.desc', points: 100, unlocked: true, secret: true },
+      { id: 'dsec4', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 100, unlocked: false, secret: true },
+      { id: 'dsec5', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 100, unlocked: false, secret: true },
+      { id: 'dsec6', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 150, unlocked: false, secret: true },
     ],
   },
 ];
 
-// --- Clinic Achievements (40 total: 34 regular + 6 secrets) ---
-export const clinicAchievements: AchievementCategory[] = [
+const clinicDefs: CategoryDef[] = [
   {
-    title: 'Fundação',
+    titleKey: 'achievements.cat.foundation',
     achievements: [
-      { id: 'cl1', emoji: '📸', name: 'Vitrine', description: 'Adicionar 5 fotos', points: 5, unlocked: true, progress: { current: 5, target: 5 } },
-      { id: 'cl2', emoji: '✅', name: 'Verificada', description: 'Verificar dados oficiais', points: 5, unlocked: true },
-      { id: 'cl3', emoji: '💻', name: 'Digital', description: 'Ativar teleconsultas', points: 10, unlocked: true },
-      { id: 'cl4', emoji: '🏥', name: 'Inauguração', description: 'Criar conta', points: 10, unlocked: true },
-      { id: 'cl5', emoji: '📋', name: 'Perfil Completo', description: 'Preencher dados', points: 10, unlocked: true },
+      { id: 'cl1', emoji: '📸', nameKey: 'achievements.clinic.cl1.name', descKey: 'achievements.clinic.cl1.desc', points: 5, unlocked: true, progress: { current: 5, target: 5 } },
+      { id: 'cl2', emoji: '✅', nameKey: 'achievements.clinic.cl2.name', descKey: 'achievements.clinic.cl2.desc', points: 5, unlocked: true },
+      { id: 'cl3', emoji: '💻', nameKey: 'achievements.clinic.cl3.name', descKey: 'achievements.clinic.cl3.desc', points: 10, unlocked: true },
+      { id: 'cl4', emoji: '🏥', nameKey: 'achievements.clinic.cl4.name', descKey: 'achievements.clinic.cl4.desc', points: 10, unlocked: true },
+      { id: 'cl5', emoji: '📋', nameKey: 'achievements.clinic.cl5.name', descKey: 'achievements.clinic.cl5.desc', points: 10, unlocked: true },
     ],
   },
   {
-    title: 'Equipa',
+    titleKey: 'achievements.cat.team',
     achievements: [
-      { id: 'eq1', emoji: '👥', name: 'Equipa Mínima', description: '3 dentistas ativos', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
-      { id: 'eq2', emoji: '🔬', name: 'Especializada', description: '5 especialidades diferentes', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
-      { id: 'eq3', emoji: '👥', name: 'Grande Equipa', description: '7 dentistas ativos', points: 30, unlocked: true, progress: { current: 7, target: 7 } },
-      { id: 'eq4', emoji: '⭐', name: 'Referência', description: 'Todos dentistas rating ≥ 4.5', points: 40, unlocked: false },
-      { id: 'eq5', emoji: '👥', name: 'Mega Equipa', description: '15 dentistas ativos', points: 60, unlocked: false, progress: { current: 7, target: 15 } },
+      { id: 'eq1', emoji: '👥', nameKey: 'achievements.clinic.eq1.name', descKey: 'achievements.clinic.eq1.desc', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
+      { id: 'eq2', emoji: '🔬', nameKey: 'achievements.clinic.eq2.name', descKey: 'achievements.clinic.eq2.desc', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
+      { id: 'eq3', emoji: '👥', nameKey: 'achievements.clinic.eq3.name', descKey: 'achievements.clinic.eq3.desc', points: 30, unlocked: true, progress: { current: 7, target: 7 } },
+      { id: 'eq4', emoji: '⭐', nameKey: 'achievements.clinic.eq4.name', descKey: 'achievements.clinic.eq4.desc', points: 40, unlocked: false },
+      { id: 'eq5', emoji: '👥', nameKey: 'achievements.clinic.eq5.name', descKey: 'achievements.clinic.eq5.desc', points: 60, unlocked: false, progress: { current: 7, target: 15 } },
     ],
   },
   {
-    title: 'Volume',
+    titleKey: 'achievements.cat.volume',
     achievements: [
-      { id: 'v1', emoji: '📈', name: '1.000 Consultas', description: 'Total acumulado', points: 25, unlocked: true, progress: { current: 1000, target: 1000 } },
-      { id: 'v2', emoji: '🚀', name: 'Mês Recorde', description: '500 consultas num mês', points: 40, unlocked: false, progress: { current: 320, target: 500 } },
-      { id: 'v3', emoji: '📈', name: '5.000 Consultas', description: 'Total acumulado', points: 50, unlocked: false, progress: { current: 3200, target: 5000 } },
-      { id: 'v4', emoji: '📈', name: '10.000 Consultas', description: 'Total acumulado', points: 75, unlocked: false, progress: { current: 3200, target: 10000 } },
-      { id: 'v5', emoji: '📈', name: '25.000 Consultas', description: 'Total acumulado', points: 120, unlocked: false, progress: { current: 3200, target: 25000 } },
+      { id: 'v1', emoji: '📈', nameKey: 'achievements.clinic.v1.name', descKey: 'achievements.clinic.v1.desc', points: 25, unlocked: true, progress: { current: 1000, target: 1000 } },
+      { id: 'v2', emoji: '🚀', nameKey: 'achievements.clinic.v2.name', descKey: 'achievements.clinic.v2.desc', points: 40, unlocked: false, progress: { current: 320, target: 500 } },
+      { id: 'v3', emoji: '📈', nameKey: 'achievements.clinic.v3.name', descKey: 'achievements.clinic.v3.desc', points: 50, unlocked: false, progress: { current: 3200, target: 5000 } },
+      { id: 'v4', emoji: '📈', nameKey: 'achievements.clinic.v4.name', descKey: 'achievements.clinic.v4.desc', points: 75, unlocked: false, progress: { current: 3200, target: 10000 } },
+      { id: 'v5', emoji: '📈', nameKey: 'achievements.clinic.v5.name', descKey: 'achievements.clinic.v5.desc', points: 120, unlocked: false, progress: { current: 3200, target: 25000 } },
     ],
   },
   {
-    title: 'Qualidade',
+    titleKey: 'achievements.cat.quality',
     achievements: [
-      { id: 'cq1', emoji: '⭐', name: 'Rating 4.5+', description: 'Média ≥ 4.5', points: 20, unlocked: true },
-      { id: 'cq2', emoji: '💬', name: '100 Avaliações', description: '100 reviews positivas', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
-      { id: 'cq3', emoji: '🛡️', name: 'Zero Reclamações', description: '0 reclamações em 6 meses', points: 35, unlocked: false },
-      { id: 'cq4', emoji: '⭐', name: 'Rating 4.8+', description: 'Média ≥ 4.8', points: 50, unlocked: true },
-      { id: 'cq5', emoji: '⭐', name: 'Rating 4.9+', description: 'Média ≥ 4.9', points: 75, unlocked: false },
+      { id: 'cq1', emoji: '⭐', nameKey: 'achievements.clinic.cq1.name', descKey: 'achievements.clinic.cq1.desc', points: 20, unlocked: true },
+      { id: 'cq2', emoji: '💬', nameKey: 'achievements.clinic.cq2.name', descKey: 'achievements.clinic.cq2.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
+      { id: 'cq3', emoji: '🛡️', nameKey: 'achievements.clinic.cq3.name', descKey: 'achievements.clinic.cq3.desc', points: 35, unlocked: false },
+      { id: 'cq4', emoji: '⭐', nameKey: 'achievements.clinic.cq4.name', descKey: 'achievements.clinic.cq4.desc', points: 50, unlocked: true },
+      { id: 'cq5', emoji: '⭐', nameKey: 'achievements.clinic.cq5.name', descKey: 'achievements.clinic.cq5.desc', points: 75, unlocked: false },
     ],
   },
   {
-    title: 'Rankings',
+    titleKey: 'achievements.cat.rankings',
     achievements: [
-      { id: 'cr1', emoji: '🏆', name: 'Top 50', description: 'Entrar no top 50 nacional', points: 25, unlocked: true },
-      { id: 'cr2', emoji: '🏆', name: 'Top 10', description: 'Entrar no top 10 nacional', points: 60, unlocked: true },
-      { id: 'cr3', emoji: '🏆', name: 'Top 3', description: 'Pódio nacional', points: 100, unlocked: true },
-      { id: 'cr4', emoji: '👑', name: 'Nº 1', description: '1º lugar nacional', points: 200, unlocked: false },
+      { id: 'cr1', emoji: '🏆', nameKey: 'achievements.clinic.cr1.name', descKey: 'achievements.clinic.cr1.desc', points: 25, unlocked: true },
+      { id: 'cr2', emoji: '🏆', nameKey: 'achievements.clinic.cr2.name', descKey: 'achievements.clinic.cr2.desc', points: 60, unlocked: true },
+      { id: 'cr3', emoji: '🏆', nameKey: 'achievements.clinic.cr3.name', descKey: 'achievements.clinic.cr3.desc', points: 100, unlocked: true },
+      { id: 'cr4', emoji: '👑', nameKey: 'achievements.clinic.cr4.name', descKey: 'achievements.clinic.cr4.desc', points: 200, unlocked: false },
     ],
   },
   {
-    title: 'Consistência',
+    titleKey: 'achievements.cat.consistency',
     achievements: [
-      { id: 'ccs1', emoji: '🔥', name: 'Streak 30', description: '30 dias sem faltas', points: 15, unlocked: false, progress: { current: 12, target: 30 } },
-      { id: 'ccs2', emoji: '🔥', name: 'Streak 90', description: '90 dias sem faltas', points: 35, unlocked: false, progress: { current: 12, target: 90 } },
-      { id: 'ccs3', emoji: '🔥', name: 'Streak 365', description: '1 ano sem faltas', points: 80, unlocked: false, progress: { current: 12, target: 365 } },
+      { id: 'ccs1', emoji: '🔥', nameKey: 'achievements.clinic.ccs1.name', descKey: 'achievements.clinic.ccs1.desc', points: 15, unlocked: false, progress: { current: 12, target: 30 } },
+      { id: 'ccs2', emoji: '🔥', nameKey: 'achievements.clinic.ccs2.name', descKey: 'achievements.clinic.ccs2.desc', points: 35, unlocked: false, progress: { current: 12, target: 90 } },
+      { id: 'ccs3', emoji: '🔥', nameKey: 'achievements.clinic.ccs3.name', descKey: 'achievements.clinic.ccs3.desc', points: 80, unlocked: false, progress: { current: 12, target: 365 } },
     ],
   },
   {
-    title: 'Fidelidade',
+    titleKey: 'achievements.cat.loyalty',
     achievements: [
-      { id: 'cf1', emoji: '🎂', name: 'Aniversário', description: '1 ano', points: 20, unlocked: false, progress: { current: 6, target: 12 } },
-      { id: 'cf2', emoji: '🏛️', name: 'Instituição', description: '3 anos', points: 50, unlocked: false, progress: { current: 6, target: 36 } },
-      { id: 'cf3', emoji: '👑', name: 'Referência Nacional', description: '5 anos', points: 100, unlocked: false, progress: { current: 6, target: 60 } },
+      { id: 'cf1', emoji: '🎂', nameKey: 'achievements.clinic.cf1.name', descKey: 'achievements.clinic.cf1.desc', points: 20, unlocked: false, progress: { current: 6, target: 12 } },
+      { id: 'cf2', emoji: '🏛️', nameKey: 'achievements.clinic.cf2.name', descKey: 'achievements.clinic.cf2.desc', points: 50, unlocked: false, progress: { current: 6, target: 36 } },
+      { id: 'cf3', emoji: '👑', nameKey: 'achievements.clinic.cf3.name', descKey: 'achievements.clinic.cf3.desc', points: 100, unlocked: false, progress: { current: 6, target: 60 } },
     ],
   },
   {
-    title: 'Teleconsulta',
+    titleKey: 'achievements.cat.teleconsult',
     achievements: [
-      { id: 'ct1', emoji: '📹', name: 'Digital', description: '1ª teleconsulta na clínica', points: 10, unlocked: true },
-      { id: 'ct2', emoji: '📹', name: 'Hub Digital', description: '100 teleconsultas', points: 25, unlocked: false, progress: { current: 45, target: 100 } },
-      { id: 'ct3', emoji: '📹', name: 'Centro Online', description: '500 teleconsultas', points: 50, unlocked: false, progress: { current: 45, target: 500 } },
-      { id: 'ct4', emoji: '📹', name: 'Líder Digital', description: '1000 teleconsultas', points: 100, unlocked: false, progress: { current: 45, target: 1000 } },
+      { id: 'ct1', emoji: '📹', nameKey: 'achievements.clinic.ct1.name', descKey: 'achievements.clinic.ct1.desc', points: 10, unlocked: true },
+      { id: 'ct2', emoji: '📹', nameKey: 'achievements.clinic.ct2.name', descKey: 'achievements.clinic.ct2.desc', points: 25, unlocked: false, progress: { current: 45, target: 100 } },
+      { id: 'ct3', emoji: '📹', nameKey: 'achievements.clinic.ct3.name', descKey: 'achievements.clinic.ct3.desc', points: 50, unlocked: false, progress: { current: 45, target: 500 } },
+      { id: 'ct4', emoji: '📹', nameKey: 'achievements.clinic.ct4.name', descKey: 'achievements.clinic.ct4.desc', points: 100, unlocked: false, progress: { current: 45, target: 1000 } },
     ],
   },
   {
-    title: 'Secretas',
+    titleKey: 'achievements.cat.secrets',
     achievements: [
-      { id: 'csec1', emoji: '❓', name: '???', description: 'Conquista secreta', points: 50, unlocked: false, secret: true },
-      { id: 'csec2', emoji: '❓', name: '???', description: 'Conquista secreta', points: 75, unlocked: false, secret: true },
-      { id: 'csec3', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
-      { id: 'csec4', emoji: '❓', name: '???', description: 'Conquista secreta', points: 100, unlocked: false, secret: true },
-      { id: 'csec5', emoji: '🏆', name: 'Nº 1 Nacional', description: '1º lugar no ranking nacional', points: 150, unlocked: true, secret: true },
-      { id: 'csec6', emoji: '❓', name: '???', description: 'Conquista secreta', points: 200, unlocked: false, secret: true },
+      { id: 'csec1', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 50, unlocked: false, secret: true },
+      { id: 'csec2', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 75, unlocked: false, secret: true },
+      { id: 'csec3', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 100, unlocked: false, secret: true },
+      { id: 'csec4', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 100, unlocked: false, secret: true },
+      { id: 'csec5', emoji: '🏆', nameKey: 'achievements.clinic.csec5.name', descKey: 'achievements.clinic.csec5.desc', points: 150, unlocked: true, secret: true },
+      { id: 'csec6', emoji: '❓', nameKey: '???', descKey: 'achievements.secretAchievement', points: 200, unlocked: false, secret: true },
     ],
   },
 ];
+
+function resolveCategories(defs: CategoryDef[], t: (key: string) => string): AchievementCategory[] {
+  return defs.map(cat => ({
+    title: t(cat.titleKey),
+    achievements: cat.achievements.map(a => ({
+      id: a.id,
+      emoji: a.emoji,
+      name: a.nameKey === '???' ? '???' : t(a.nameKey),
+      description: t(a.descKey),
+      points: a.points,
+      unlocked: a.unlocked,
+      progress: a.progress,
+      secret: a.secret,
+    })),
+  }));
+}
+
+// Keep exports for other components that use these
+export const patientAchievements: AchievementCategory[] = []; // Will be resolved at render time
+export const dentistAchievements: AchievementCategory[] = [];
+export const clinicAchievements: AchievementCategory[] = [];
 
 function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
   const { t } = useTranslation();
@@ -346,12 +380,13 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
   );
 }
 
-export function getAchievementCategories(userRole: UserRole): AchievementCategory[] {
-  return userRole === 'patient'
-    ? patientAchievements
-    : userRole === 'dentist'
-    ? dentistAchievements
-    : clinicAchievements;
+export function getAchievementCategories(userRole: UserRole, t?: (key: string) => string): AchievementCategory[] {
+  if (!t) {
+    // Fallback - should not happen in practice
+    return [];
+  }
+  const defs = userRole === 'patient' ? patientDefs : userRole === 'dentist' ? dentistDefs : clinicDefs;
+  return resolveCategories(defs, t);
 }
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
@@ -361,7 +396,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
   const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
 
-  const categories = getAchievementCategories(userRole);
+  const categories = getAchievementCategories(userRole, t);
 
   const totalAchievements = categories.reduce((sum, cat) => sum + cat.achievements.length, 0);
   const unlockedAchievements = categories.reduce(
@@ -369,7 +404,6 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
   );
   const progressPercent = Math.round((unlockedAchievements / totalAchievements) * 100);
 
-  const allAchievements = categories.flatMap(c => c.achievements);
   const completedCategories = categories.map(cat => ({
     ...cat,
     achievements: cat.achievements.filter(a => a.unlocked),
@@ -388,16 +422,16 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
     }
   };
 
+  const secretsTitle = t('achievements.cat.secrets');
+
   const renderAchievementGrid = (cats: AchievementCategory[], showClickHandler: boolean) => (
     <>
       {cats.map(category => {
-        const isSecretsSection = category.title === 'Secretas';
-        // Always show secrets section; for other categories, hide if no visible achievements
+        const isSecretsSection = category.title === secretsTitle;
         if (!isSecretsSection) {
           const hasVisible = category.achievements.some(a => !a.secret || a.unlocked);
           if (!hasVisible) return null;
         }
-        // (isSecretsSection already declared above)
         return (
           <div key={category.title}>
             <Separator className="mb-4" />
