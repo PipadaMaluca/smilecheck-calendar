@@ -38,6 +38,7 @@ const levelColors: Record<string, string> = {
 };
 
 export function DentistTeamTab() {
+  const { t } = useTranslation();
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
   const myClinics = clinicDentists
