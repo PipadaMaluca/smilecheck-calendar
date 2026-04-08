@@ -71,7 +71,7 @@ export function CoverageTab() {
                 {t('team.hour')}
               </div>
               {activeDayIndices.map((d) => (
-                <div key={d.dayIdx} className="text-xs font-medium text-center">{t(dayShortKeys[d.dayIdx])}</div>
+                <div key={d.dayIdx} className="font-medium text-center text-sm">{t(dayShortKeys[d.dayIdx])}</div>
               ))}
             </div>
             {hours.map((hour) => (
@@ -107,7 +107,7 @@ export function CoverageTab() {
           <Table className="w-full table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead className="font-semibold border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>{t('team.day')}</TableHead>
+                <TableHead className="font-semibold border-r border-border/50 text-base text-center" style={{ width: '25%', padding: '12px 16px' }}>{t('team.day')}</TableHead>
                 <TableHead className="font-semibold border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>{t('team.coverageLabel')}</TableHead>
                 <TableHead className="font-semibold" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>{t('team.status')}</TableHead>
               </TableRow>
@@ -115,7 +115,7 @@ export function CoverageTab() {
             <TableBody>
               {allDays.map((day) => (
                 <TableRow key={day.dayIdx}>
-                  <TableCell className="font-medium text-sm border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>
+                  <TableCell className="font-medium border-r border-border/50 text-base" style={{ width: '25%', padding: '12px 16px' }}>
                     {isMobile ? t(dayShortKeys[day.dayIdx]) : t(dayFullKeys[day.dayIdx])}
                   </TableCell>
                   <TableCell className="border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>
