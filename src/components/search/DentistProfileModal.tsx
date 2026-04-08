@@ -21,6 +21,7 @@ interface DentistProfileModalProps {
 }
 
 export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }: DentistProfileModalProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
