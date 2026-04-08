@@ -73,18 +73,17 @@ export function FavoritesView({
   const handleCopyPhone = (phone: string) => {
     navigator.clipboard.writeText(phone);
     setCopied(true);
-    toast.success('Número copiado!');
+    toast.success(t('search.numberCopied'));
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleInvite = () => {
     if (!inviteTarget) return;
-    toast.success(`Convite enviado a ${inviteTarget.name}!`);
+    toast.success(t('search.inviteSentTo', { name: inviteTarget.name }));
     setInviteTarget(null);
     setInviteMessage('');
   };
 
-  // Show job market view
   if (showJobs) {
     return <JobMarketView userRole={userRole} onBack={() => setShowJobs(false)} onSendMessage={onSendMessage} />;
   }
@@ -94,10 +93,10 @@ export function FavoritesView({
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
           <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookDentist?.(d); }}>
-            <Calendar className="w-3 h-3" /> Marcar Consulta
+            <Calendar className="w-3 h-3" /> {t('search.bookAppointment')}
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
-            <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+            <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
         </div>
       );
@@ -105,11 +104,11 @@ export function FavoritesView({
     if (userRole === 'dentist') {
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
-            <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+            <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
           <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onRecommendPatient?.(d); }}>
-            <FileText className="w-3 h-3" /> Recomendar Paciente
+            <FileText className="w-3 h-3" /> {t('search.recommendPatient')}
           </Button>
         </div>
       );
@@ -117,11 +116,11 @@ export function FavoritesView({
     // clinic
     return (
       <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
-          <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+          <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); setInviteTarget(d); setInviteMessage(`Gostaríamos de convidá-lo a juntar-se à nossa equipa.`); }}>
-          <Users className="w-3 h-3" /> Convidar para Equipa
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); setInviteTarget(d); setInviteMessage(t('search.inviteDefaultMessage')); }}>
+          <Users className="w-3 h-3" /> {t('search.inviteToTeam')}
         </Button>
       </div>
     );
@@ -131,11 +130,11 @@ export function FavoritesView({
     if (userRole === 'patient') {
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info('Selecione um dentista desta clínica para marcar consulta.'); }}>
-            <Calendar className="w-3 h-3" /> Marcar Consulta
+          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info(t('search.selectDentistFromClinic')); }}>
+            <Calendar className="w-3 h-3" /> {t('search.bookAppointment')}
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info('Funcionalidade de mensagens em breve!'); }}>
-            <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info(t('search.messagingSoon')); }}>
+            <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
         </div>
       );
@@ -143,11 +142,11 @@ export function FavoritesView({
     if (userRole === 'dentist') {
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); toast.info('Funcionalidade de mensagens em breve!'); }}>
-            <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); toast.info(t('search.messagingSoon')); }}>
+            <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
-          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info('Booking flow com clínica pré-selecionada.'); }}>
-            <Calendar className="w-3 h-3" /> Marcar nesta Clínica
+          <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); }}>
+            <Calendar className="w-3 h-3" /> {t('search.bookAtClinic')}
           </Button>
         </div>
       );
@@ -155,66 +154,63 @@ export function FavoritesView({
     // clinic viewing clinic
     return (
       <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info('Funcionalidade de mensagens em breve!'); }}>
-          <MessageCircle className="w-3 h-3" /> Enviar Mensagem
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info(t('search.messagingSoon')); }}>
+          <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
         </Button>
         <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
-          <Phone className="w-3 h-3" /> Ligar
+          <Phone className="w-3 h-3" /> {t('search.call')}
         </Button>
       </div>
     );
   };
 
+  const totalResults = filteredResults.dentists.length + filteredResults.clinics.length;
+
   return (
     <div className="p-4 md:p-6 space-y-4">
       <div className="flex items-center gap-2">
         <Search className="w-5 h-5 text-primary" />
-        <h2 className="text-lg font-bold text-foreground">Pesquisa</h2>
+        <h2 className="text-lg font-bold text-foreground">{t('search.searchTitle')}</h2>
       </div>
 
-      {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input placeholder="Pesquisar dentistas ou clínicas..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
+        <Input placeholder={t('search.searchPlaceholder')} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="pl-10" />
       </div>
 
-      {/* Tabs: Dentistas | Clínicas + Propostas button + Favoritos toggle */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex gap-1 bg-muted rounded-lg p-1 flex-shrink-0">
           <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
-            Dentistas
+            {t('search.dentistsTab')}
           </button>
           <button onClick={() => setTypeFilter('clinics')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'clinics' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
-            Clínicas
+            {t('search.clinicsTab')}
           </button>
         </div>
         <div className="flex gap-2 flex-wrap flex-1 justify-start sm:justify-end">
           {userRole !== 'patient' && (
             <Button size="sm" className="gap-1.5 text-xs" onClick={() => setShowJobs(true)}>
-              <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Propostas de Trabalho</span><span className="sm:hidden">Propostas</span>
+              <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t('search.jobOffers')}</span><span className="sm:hidden">{t('search.jobOffersShort')}</span>
             </Button>
           )}
           <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
-            <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> Favoritos
+            <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
           </button>
         </div>
       </div>
 
-      {/* Results count */}
       <p className="text-xs text-muted-foreground">
-        {filteredResults.dentists.length + filteredResults.clinics.length} resultado{filteredResults.dentists.length + filteredResults.clinics.length !== 1 ? 's' : ''}
+        {t('search.resultsFound', { count: totalResults })}
       </p>
 
-      {/* Results */}
-      {filteredResults.dentists.length === 0 && filteredResults.clinics.length === 0 ? (
+      {totalResults === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Search className="w-10 h-10 mx-auto mb-3 opacity-30" />
-          <p className="text-sm">Nenhum resultado encontrado.</p>
-          <p className="text-xs mt-1">Tente ajustar os filtros ou a pesquisa.</p>
+          <p className="text-sm">{t('search.noResults')}</p>
+          <p className="text-xs mt-1">{t('search.adjustFilters')}</p>
         </div>
       ) : (
         <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3')}>
-          {/* Dentist cards */}
           {filteredResults.dentists.map(d => {
             const levelCfg = LEVEL_CONFIG[d.level];
             const initials = getDentistInitials(d.name);
@@ -226,7 +222,6 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
                 onClick={() => onViewProfile(d)}
               >
-                {/* Star toggle top-right */}
                 <button
                   onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
                   className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
@@ -270,13 +265,11 @@ export function FavoritesView({
                   </div>
                 </div>
 
-                {/* Action buttons — no time slots */}
                 {renderDentistActions(d)}
               </div>
             );
           })}
 
-          {/* Clinic cards */}
           {filteredResults.clinics.map(c => {
             const isFav = clinicFavorites.includes(c.id);
             const initials = getClinicInitials(c.name);
@@ -285,7 +278,6 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >
-                {/* Star toggle top-right */}
                 <button
                   onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
                   className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
@@ -307,7 +299,6 @@ export function FavoritesView({
                   </div>
                 </div>
 
-                {/* Action buttons */}
                 {renderClinicActions(c)}
               </div>
             );
@@ -321,7 +312,7 @@ export function FavoritesView({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Phone className="w-5 h-5 text-primary" />
-              Contactar Clínica
+              {t('search.contactClinic')}
             </DialogTitle>
           </DialogHeader>
           {callClinic && (
@@ -336,11 +327,11 @@ export function FavoritesView({
               <div className="flex gap-2">
                 <Button variant="outline" className="flex-1 gap-2" onClick={() => handleCopyPhone(callClinic.phone)}>
                   {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {copied ? 'Copiado!' : 'Copiar número'}
+                  {copied ? t('search.copied') : t('search.copyNumber')}
                 </Button>
                 <Button className="flex-1 gap-2" asChild>
                   <a href={`tel:${callClinic.phone.replace(/\s/g, '')}`}>
-                    <Phone className="w-4 h-4" /> Ligar agora
+                    <Phone className="w-4 h-4" /> {t('search.callNow')}
                   </a>
                 </Button>
               </div>
@@ -355,21 +346,21 @@ export function FavoritesView({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="w-5 h-5 text-primary" />
-              Convidar para Equipa
+              {t('search.inviteToTeam')}
             </DialogTitle>
             <DialogDescription>
-              Convidar <span className="font-semibold text-foreground">{inviteTarget?.name}</span> para a {mockClinics[0]?.name}?
+              {t('search.inviteConfirm', { name: inviteTarget?.name, clinic: mockClinics[0]?.name })}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-sm font-medium text-foreground mb-1 block">Mensagem (opcional)</label>
-              <Textarea value={inviteMessage} onChange={(e) => setInviteMessage(e.target.value)} placeholder="Escreva uma mensagem..." rows={3} />
+              <label className="text-sm font-medium text-foreground mb-1 block">{t('search.messageOptional')}</label>
+              <Textarea value={inviteMessage} onChange={(e) => setInviteMessage(e.target.value)} placeholder={t('search.writeMessage')} rows={3} />
             </div>
           </div>
           <DialogFooter className="flex gap-2 sm:gap-2">
-            <Button variant="outline" onClick={() => { setInviteTarget(null); setInviteMessage(''); }}>Cancelar</Button>
-            <Button onClick={handleInvite}>Enviar Convite</Button>
+            <Button variant="outline" onClick={() => { setInviteTarget(null); setInviteMessage(''); }}>{t('common.cancel')}</Button>
+            <Button onClick={handleInvite}>{t('search.sendInvite')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
