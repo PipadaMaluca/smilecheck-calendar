@@ -1,10 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
-const dayKeys = ['common.weekdays.mon', 'common.weekdays.tue', 'common.weekdays.wed', 'common.weekdays.thu', 'common.weekdays.fri', 'common.weekdays.sat', 'common.weekdays.sun'];
+const dayShortKeys = ['common.weekdays.mon', 'common.weekdays.tue', 'common.weekdays.wed', 'common.weekdays.thu', 'common.weekdays.fri', 'common.weekdays.sat', 'common.weekdays.sun'];
+const dayFullKeys = ['common.weekdays.monFull', 'common.weekdays.tueFull', 'common.weekdays.wedFull', 'common.weekdays.thuFull', 'common.weekdays.friFull', 'common.weekdays.satFull', 'common.weekdays.sunFull'];
 const hours = Array.from({ length: 13 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 
 const dentistColors = [
@@ -25,6 +28,7 @@ const coverageData: { dentists: number[]; status: 'full' | 'partial' | 'minimum'
 
 export function CoverageTab() {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const statusTextKeys: Record<string, string> = {
     full: 'team.fullCoverage',
@@ -44,6 +48,8 @@ export function CoverageTab() {
 
   const activeDayIndices = coverageData.map((c, i) => ({ ...c, dayIdx: i })).filter(c => c.status !== 'closed');
   const colCount = activeDayIndices.length;
+
+  const allDays = coverageData.map((c, i) => ({ ...c, dayIdx: i }));
 
   return (
     <div className="space-y-6 pb-20">
@@ -65,7 +71,7 @@ export function CoverageTab() {
                 {t('team.hour')}
               </div>
               {activeDayIndices.map((d) => (
-                <div key={d.dayIdx} className="text-xs font-medium text-center">{t(dayKeys[d.dayIdx]).slice(0, 3)}</div>
+                <div key={d.dayIdx} className="text-xs font-medium text-center">{t(dayShortKeys[d.dayIdx])}</div>
               ))}
             </div>
             {hours.map((hour) => (
@@ -97,17 +103,30 @@ export function CoverageTab() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base">📋 {t('team.coverageSummary')}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 px-4">
-          {activeDayIndices.map((day) => (
-            <div key={day.dayIdx} className="text-sm">
-              <span className="font-medium">{t(dayKeys[day.dayIdx])}</span>
-              <span className="text-muted-foreground"> — </span>
-              <span className={cn('text-xs', statusClassNames[day.status])}>
-                {day.count} {day.count === 1 ? t('team.dentist1') : t('team.dentists')} ({statusIcons[day.status]} {t(statusTextKeys[day.status])})
-              </span>
-            </div>
-          ))}
-          <div className="mt-3 p-2 rounded-md bg-amber-500/10 border border-amber-500/20 text-xs text-amber-500">
+        <CardContent className="px-0 pb-2">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="font-semibold w-[120px] md:w-[160px]">{t('team.day')}</TableHead>
+                <TableHead className="font-semibold">{t('team.coverageLabel')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {allDays.map((day) => (
+                <TableRow key={day.dayIdx}>
+                  <TableCell className="font-medium text-sm">
+                    {isMobile ? t(dayShortKeys[day.dayIdx]) : t(dayFullKeys[day.dayIdx])}
+                  </TableCell>
+                  <TableCell>
+                    <span className={cn('text-sm', statusClassNames[day.status])}>
+                      {day.count} {day.count === 1 ? t('team.dentist1') : t('team.dentists')} ({statusIcons[day.status]} {t(statusTextKeys[day.status])})
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className="mt-3 mx-4 p-2 rounded-md bg-amber-500/10 border border-amber-500/20 text-xs text-amber-500">
             ⚠️ {t('team.considerAddingCoverage')}
           </div>
         </CardContent>
