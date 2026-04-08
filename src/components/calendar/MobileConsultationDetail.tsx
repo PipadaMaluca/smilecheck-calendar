@@ -111,28 +111,28 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.copy')}</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('copy', 'copyTablet')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.message')}</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('message', 'messageTablet')}</span>
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.rescheduleAction')}</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('rescheduleAction', 'rescheduleTablet')}</span>
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.unblock')}</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('unblock', 'unblockTablet')}</span>
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.block')}</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('block', 'blockTablet')}</span>
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.viewDossier')}</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('viewDossier', 'viewDossierTablet')}</span>
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{t('consultationDetail.cancelAction')}</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('cancelAction', 'cancelTablet')}</span>
             </Button>
           </div>
       );
