@@ -46,10 +46,10 @@ export function getNextLevel(currentLevel: LevelConfig): LevelConfig | null {
   return idx < LEVELS.length - 1 ? LEVELS[idx + 1] : null;
 }
 
-export function getXPProgress(xp: number): { current: number; target: number; percent: number; remaining: number; nextLevelName: string | null } {
+export function getXPProgress(xp: number): { current: number; target: number; percent: number; remaining: number; nextLevelName: string | null; nextLevelKey: string | null } {
   const level = getLevelForXP(xp);
   const next = getNextLevel(level);
-  if (!next) return { current: xp, target: xp, percent: 100, remaining: 0, nextLevelName: null };
+  if (!next) return { current: xp, target: xp, percent: 100, remaining: 0, nextLevelName: null, nextLevelKey: null };
   const range = next.minXP - level.minXP;
   const progress = xp - level.minXP;
   return {
@@ -58,6 +58,7 @@ export function getXPProgress(xp: number): { current: number; target: number; pe
     percent: Math.min(100, (progress / range) * 100),
     remaining: next.minXP - xp,
     nextLevelName: next.name,
+    nextLevelKey: next.key,
   };
 }
 

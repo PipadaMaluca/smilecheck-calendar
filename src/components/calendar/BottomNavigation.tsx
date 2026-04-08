@@ -18,21 +18,21 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
       { id: 'consultas', icon: Calendar, label: t('nav.consultations') },
       { id: 'saude', icon: Heart, label: t('nav.health') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
     dentist: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
     clinic: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: 'Config.' },
+      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
   };
 
