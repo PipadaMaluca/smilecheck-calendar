@@ -84,7 +84,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     isCurrent ? `${l.bgColor} ${l.borderColor} border-2` : isPast ? 'opacity-60' : 'opacity-30'
                   )}>
                     <span className="text-lg">{l.icon}</span>
-                    <span className={cn('text-[9px] font-bold', isCurrent ? l.color : 'text-muted-foreground')}>{l.name}</span>
+                    <span className={cn('text-[9px] font-bold', isCurrent ? l.color : 'text-muted-foreground')}>{t(LEVEL_TRANSLATION_KEYS[l.key] || l.name)}</span>
                   </div>
                   {i < LEVELS.length - 1 && <div className={cn('w-3 h-0.5 mx-0.5', isPast || isCurrent ? 'bg-primary' : 'bg-muted')} />}
                 </div>

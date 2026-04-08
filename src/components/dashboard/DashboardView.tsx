@@ -90,7 +90,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     if (userRole === 'clinic') {
       return [
       { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda' },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
