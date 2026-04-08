@@ -1015,7 +1015,7 @@ export function DesktopCalendarView() {
       case 'exportar':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Exportar Relatórios')}
+            {renderStandardHeader(t('nav.exportReports'))}
             <div className="flex-1 overflow-y-auto">
               <ExportReportsView userRole={activeRole} />
             </div>
