@@ -71,7 +71,7 @@ export function CoverageTab() {
                 {t('team.hour')}
               </div>
               {activeDayIndices.map((d) => (
-                <div key={d.dayIdx} className="text-xs font-medium text-center">{t(dayShortKeys[d.dayIdx])}</div>
+                <div key={d.dayIdx} className="font-medium text-center text-sm">{t(dayShortKeys[d.dayIdx])}</div>
               ))}
             </div>
             {hours.map((hour) => (
