@@ -1920,6 +1920,8 @@
     "holidays": "Holidays & Closures",
     "capacity": "Capacity",
     "coverageSummary": "Coverage Summary",
+    "day": "Day",
+    "coverageLabel": "Coverage",
     "fullCoverage": "full coverage",
     "partialCoverage": "partial coverage",
     "minimumCoverage": "minimum coverage",

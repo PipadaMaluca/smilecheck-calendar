@@ -1920,6 +1920,8 @@
     "holidays": "Jours Fériés et Fermetures",
     "capacity": "Capacité",
     "coverageSummary": "Résumé de Couverture",
+    "day": "Jour",
+    "coverageLabel": "Couverture",
     "fullCoverage": "couverture totale",
     "partialCoverage": "couverture partielle",
     "minimumCoverage": "couverture minimale",
