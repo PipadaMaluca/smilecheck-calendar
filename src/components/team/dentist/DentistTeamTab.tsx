@@ -18,6 +18,16 @@ const dentistExtras: Record<string, { rating: number; level: string; scheduleSum
   '7': { rating: 4.4, level: 'Prata', scheduleSummary: 'Seg-Sex 08:00-20:00' },
 };
 
+const LEVEL_KEY_MAP: Record<string, string> = {
+  'Lata': 'onboarding.levels.can',
+  'Bronze': 'onboarding.levels.bronze',
+  'Prata': 'onboarding.levels.silver',
+  'Ouro': 'onboarding.levels.gold',
+  'Platina': 'onboarding.levels.platinum',
+  'Diamante': 'onboarding.levels.diamond',
+  'Adamantino': 'onboarding.levels.adamantine',
+};
+
 const levelColors: Record<string, string> = {
   'Lata': 'bg-muted text-muted-foreground border-muted',
   'Bronze': 'bg-amber-900/20 text-amber-700 border-amber-700/30',
