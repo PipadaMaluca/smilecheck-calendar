@@ -80,34 +80,34 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('copy', 'copyTablet')}</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('copy', 'copyTablet', 'copyFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('prescrever')}>
-              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('prescribe', 'prescribeTablet')}</span>
+              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('prescribe', 'prescribeTablet', 'prescribeFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('message', 'messageTablet')}</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('message', 'messageTablet', 'messageFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('referencia')}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('recommend', 'recommendTablet')}</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('recommend', 'recommendTablet', 'recommendFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('rescheduleAction', 'rescheduleTablet')}</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('rescheduleAction', 'rescheduleTablet', 'rescheduleFull')}
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('unblock', 'unblockTablet')}</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('unblock', 'unblockTablet', 'unblockFull')}
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('block', 'blockTablet')}</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('block', 'blockTablet', 'blockFull')}
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('viewDossier', 'viewDossierTablet')}</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('viewDossier', 'viewDossierTablet', 'viewDossierFull')}
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('cancelAction', 'cancelTablet')}</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('cancelAction', 'cancelTablet', 'cancelFull')}
             </Button>
           </div>
       );
@@ -117,28 +117,28 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       return (
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('copy', 'copyTablet')}</span>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('copy', 'copyTablet', 'copyFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('message', 'messageTablet')}</span>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('message', 'messageTablet', 'messageFull')}
             </Button>
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('rescheduleAction', 'rescheduleTablet')}</span>
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('rescheduleAction', 'rescheduleTablet', 'rescheduleFull')}
             </Button>
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('unblock', 'unblockTablet')}</span>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('unblock', 'unblockTablet', 'unblockFull')}
               </Button>
             ) : (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('block', 'blockTablet')}</span>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('block', 'blockTablet', 'blockFull')}
               </Button>
             )}
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('viewDossier', 'viewDossierTablet')}</span>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('viewDossier', 'viewDossierTablet', 'viewDossierFull')}
             </Button>
             <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> <span className="truncate">{actionLabel('cancelAction', 'cancelTablet')}</span>
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('cancelAction', 'cancelTablet', 'cancelFull')}
             </Button>
           </div>
       );
