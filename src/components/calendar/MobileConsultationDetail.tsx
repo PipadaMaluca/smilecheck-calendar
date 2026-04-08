@@ -44,6 +44,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
+  const isMobile = useIsMobile();
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
