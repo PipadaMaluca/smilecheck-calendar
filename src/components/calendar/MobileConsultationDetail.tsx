@@ -67,7 +67,13 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
     toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
-  const actionLabel = (shortKey: string, tabletKey: string) => isMobile ? t(`consultationDetail.${shortKey}`) : t(`consultationDetail.${tabletKey}`);
+  const actionSpans = (shortKey: string, medKey: string, fullKey: string) => (
+    <>
+      <span className="hidden lg:inline">{t(`consultationDetail.${fullKey}`)}</span>
+      <span className="hidden md:inline lg:hidden">{t(`consultationDetail.${medKey}`)}</span>
+      <span className="md:hidden">{t(`consultationDetail.${shortKey}`)}</span>
+    </>
+  );
 
   const renderActions = () => {
     if (isDentist) {
