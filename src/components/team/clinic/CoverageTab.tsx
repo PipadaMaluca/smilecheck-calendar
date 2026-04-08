@@ -107,20 +107,24 @@ export function CoverageTab() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-semibold w-[120px] md:w-[160px]">{t('team.day')}</TableHead>
-                <TableHead className="font-semibold">{t('team.coverageLabel')}</TableHead>
+                <TableHead className="font-semibold w-[100px] md:w-[160px] border-r border-border/50">{t('team.day')}</TableHead>
+                <TableHead className="font-semibold border-r border-border/50">{t('team.coverageLabel')}</TableHead>
+                <TableHead className="font-semibold w-[60px] text-center">{t('team.status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {allDays.map((day) => (
                 <TableRow key={day.dayIdx}>
-                  <TableCell className="font-medium text-sm">
+                  <TableCell className="font-medium text-sm border-r border-border/50">
                     {isMobile ? t(dayShortKeys[day.dayIdx]) : t(dayFullKeys[day.dayIdx])}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="border-r border-border/50">
                     <span className={cn('text-sm', statusClassNames[day.status])}>
-                      {day.count} {day.count === 1 ? t('team.dentist1') : t('team.dentists')} ({statusIcons[day.status]} {t(statusTextKeys[day.status])})
+                      {day.count} {day.count === 1 ? t('team.dentist1') : t('team.dentists')} ({t(statusTextKeys[day.status])})
                     </span>
+                  </TableCell>
+                  <TableCell className="text-center text-base">
+                    {statusIcons[day.status]}
                   </TableCell>
                 </TableRow>
               ))}
