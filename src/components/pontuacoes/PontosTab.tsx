@@ -54,7 +54,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
           <div className="flex items-center gap-4">
             <span className="text-5xl">{level.icon}</span>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-foreground">{level.name}</h3>
+              <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
               <p className="text-2xl font-bold text-primary">{data.xp.toLocaleString()} XP</p>
             </div>
           </div>
