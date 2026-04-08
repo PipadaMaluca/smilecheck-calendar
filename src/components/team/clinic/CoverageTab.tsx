@@ -115,7 +115,7 @@ export function CoverageTab() {
             <TableBody>
               {allDays.map((day) => (
                 <TableRow key={day.dayIdx}>
-                  <TableCell className="font-medium text-sm border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>
+                  <TableCell className="font-medium border-r border-border/50 text-base" style={{ width: '25%', padding: '12px 16px' }}>
                     {isMobile ? t(dayShortKeys[day.dayIdx]) : t(dayFullKeys[day.dayIdx])}
                   </TableCell>
                   <TableCell className="border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>
