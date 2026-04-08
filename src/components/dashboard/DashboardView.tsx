@@ -74,7 +74,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       t('dashboard.bookConsultation');
       return [
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
