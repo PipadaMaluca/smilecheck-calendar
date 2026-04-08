@@ -23,6 +23,17 @@ export const LEVELS: LevelConfig[] = [
   { key: 'adamantino', name: 'Adamantino', icon: '🔱', minXP: 5000, maxXP: Infinity, color: 'text-red-500', bgColor: 'bg-red-500/20', borderColor: 'border-red-500/40' },
 ];
 
+// Map from level key to translation key
+export const LEVEL_TRANSLATION_KEYS: Record<string, string> = {
+  lata: 'onboarding.levels.can',
+  bronze: 'onboarding.levels.bronze',
+  prata: 'onboarding.levels.silver',
+  ouro: 'onboarding.levels.gold',
+  platina: 'onboarding.levels.platinum',
+  diamante: 'onboarding.levels.diamond',
+  adamantino: 'onboarding.levels.adamantine',
+};
+
 export function getLevelForXP(xp: number): LevelConfig {
   for (let i = LEVELS.length - 1; i >= 0; i--) {
     if (xp >= LEVELS[i].minXP) return LEVELS[i];
