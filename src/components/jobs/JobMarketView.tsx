@@ -368,7 +368,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-medium">{offer.rating}</span>
-                      <span className={cn('text-[10px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{levelCfg.label}</span>
+                      <span className={cn('text-[10px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                     </div>
                     <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <MapPin className="w-3 h-3" /><span className="truncate">{offer.location}</span>
