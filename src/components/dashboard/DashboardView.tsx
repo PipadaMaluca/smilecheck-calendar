@@ -17,7 +17,7 @@ import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
-import { USER_POINTS, getLevelForXP, getXPProgress } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
 
 interface DashboardViewProps {
   userRole: UserRole;

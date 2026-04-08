@@ -1025,7 +1025,7 @@ export function DesktopCalendarView() {
       case 'historico':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Histórico Completo')}
+            {renderStandardHeader(t('nav.fullHistory'))}
             <FullHistoryView userRole={activeRole} onBack={() => handleNavTabChange('home')} inline />
           </div>);
 
