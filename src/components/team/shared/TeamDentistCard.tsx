@@ -95,7 +95,7 @@ export function TeamDentistCard({
                     <span className="text-xs text-muted-foreground ml-0.5">{dentist.rating.toFixed(1)}</span>
                   </div>
                   <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0', levelColors[dentist.level] || levelColors['Lata'])}>
-                    <Award className="w-2.5 h-2.5 mr-0.5" />{dentist.level}
+                    <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[dentist.level] || dentist.level)}
                   </Badge>
                   <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0', status.className)}>
                     {status.icon} {status.label}
