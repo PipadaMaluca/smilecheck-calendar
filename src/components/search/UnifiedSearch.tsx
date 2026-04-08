@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Search, X, Star, MapPin, User, Building2, Stethoscope, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,6 @@ interface UnifiedSearchProps {
   inline?: boolean;
 }
 
-// Mock patients (the dentist's/clinic's patients)
 const MOCK_PATIENTS = [
   { id: 'p1', name: 'Maria Silva', age: 34, lastConsultation: '15 Jan 2026', phone: '+351 912 000 002' },
   { id: 'p2', name: 'João Costa', age: 28, lastConsultation: '10 Jan 2026', phone: '+351 933 333 333' },
@@ -43,6 +43,7 @@ const MOCK_CLINIC_SEARCH = [
 ];
 
 export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile, onViewClinicProfile, favorites = [], onToggleFavorite, inline }: UnifiedSearchProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'patients' | 'dentists' | 'clinics'>('all');
   const isMobile = useIsMobile();
@@ -72,16 +73,22 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
   const showDentists = activeFilter === 'all' || activeFilter === 'dentists';
   const showClinics = activeFilter === 'all' || activeFilter === 'clinics';
 
+  const filterLabels: Record<string, string> = {
+    all: t('search.all'),
+    patients: t('search.patients'),
+    dentists: t('search.dentistsTab'),
+    clinics: t('search.clinicsTab'),
+  };
+
   const content = (
     <div className="flex flex-col h-full max-h-[80vh]">
-      {/* Search Input */}
       <div className="p-4 border-b border-border">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Pesquisar pacientes, dentistas ou clínicas..."
+            placeholder={t('search.searchAllPlaceholder')}
             className="pl-10 pr-10"
             autoFocus
           />
@@ -92,7 +99,6 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
           )}
         </div>
 
-        {/* Filter tabs */}
         <div className="flex gap-2 mt-3">
           {(['all', 'patients', 'dentists', 'clinics'] as const).map(f => (
             <button
@@ -105,25 +111,23 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                   : 'bg-secondary text-muted-foreground hover:text-foreground'
               )}
             >
-              {f === 'all' ? 'Todos' : f === 'patients' ? 'Pacientes' : f === 'dentists' ? 'Dentistas' : 'Clínicas'}
+              {filterLabels[f]}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Results */}
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-5">
-          {/* Patients */}
           {showPatients && filteredPatients.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                  Pacientes ({filteredPatients.length})
+                  {t('search.patients')} ({filteredPatients.length})
                 </h3>
                 {activeFilter === 'all' && (
                   <button onClick={() => setActiveFilter('patients')} className="text-xs text-primary hover:underline flex items-center gap-1">
-                    Ver todos <ChevronRight className="w-3 h-3" />
+                    {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
                   </button>
                 )}
               </div>
@@ -135,7 +139,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.age} anos · Última consulta: {p.lastConsultation}</p>
+                      <p className="text-xs text-muted-foreground">{p.age} {t('search.yearsOld')} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
                     </div>
                   </button>
                 ))}
@@ -143,16 +147,15 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             </div>
           )}
 
-          {/* Dentists */}
           {showDentists && filteredDentists.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                  Dentistas ({filteredDentists.length})
+                  {t('search.dentistsTab')} ({filteredDentists.length})
                 </h3>
                 {activeFilter === 'all' && (
                   <button onClick={() => setActiveFilter('dentists')} className="text-xs text-primary hover:underline flex items-center gap-1">
-                    Ver todos <ChevronRight className="w-3 h-3" />
+                    {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
                   </button>
                 )}
               </div>
@@ -191,16 +194,15 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             </div>
           )}
 
-          {/* Clinics */}
           {showClinics && filteredClinics.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                  Clínicas ({filteredClinics.length})
+                  {t('search.clinicsTab')} ({filteredClinics.length})
                 </h3>
                 {activeFilter === 'all' && (
                   <button onClick={() => setActiveFilter('clinics')} className="text-xs text-primary hover:underline flex items-center gap-1">
-                    Ver todas <ChevronRight className="w-3 h-3" />
+                    {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
                   </button>
                 )}
               </div>
@@ -227,11 +229,10 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             </div>
           )}
 
-          {/* No results */}
           {query && filteredPatients.length === 0 && filteredDentists.length === 0 && filteredClinics.length === 0 && (
             <div className="text-center py-8 text-muted-foreground">
               <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">Nenhum resultado para "{query}"</p>
+              <p className="text-sm">{t('search.noResultsFor', { query })}</p>
             </div>
           )}
         </div>
@@ -249,7 +250,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
     return (
       <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-base font-semibold">Pesquisar</h2>
+          <h2 className="text-base font-semibold">{t('search.searchTitle')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
           </Button>

@@ -1723,7 +1723,25 @@
     "result": "result",
     "selectClinicDentist": "Select a dentist from this clinic to book an appointment.",
     "bookingWithClinic": "Booking flow with pre-selected clinic.",
-    "inviteDefaultMessage": "We would like to invite you to join our team."
+    "inviteDefaultMessage": "We would like to invite you to join our team.",
+    "searchTitle": "Search",
+    "searchPlaceholder": "Search dentists or clinics...",
+    "searchAllPlaceholder": "Search patients, dentists or clinics...",
+    "dentistsTab": "Dentists",
+    "clinicsTab": "Clinics",
+    "jobOffersShort": "Jobs",
+    "resultsFound": "{{count}} result(s) found",
+    "noResultsFor": "No results for \"{{query}}\"",
+    "viewAll": "View all",
+    "all": "All",
+    "patients": "Patients",
+    "yearsOld": "years old",
+    "lastConsultation": "Last appointment",
+    "inviteSentTo": "Invite sent to {{name}}!",
+    "inviteConfirm": "Invite {{name}} to {{clinic}}?",
+    "writeMessage": "Write a message...",
+    "copied": "Copied!",
+    "selectDentistFromClinic": "Select a dentist from this clinic to book."
   },
   "history": {
     "consultationHistory": "Consultation History",
@@ -1966,7 +1984,14 @@
     "copied": "Copied!",
     "inviteDesc": "Invite a dentist to your team",
     "referralPointsHint": "The dentist will receive referral points when they register",
-    "send": "Send"
+    "send": "Send",
+    "statusActive": "Active",
+    "statusPaused": "Paused",
+    "statusPending": "Pending Invite",
+    "consultationsLabel": "appointments",
+    "teleconsultationsLabel": "teleconsultations",
+    "confirmationLabel": "confirmation",
+    "noTeleconsultations": "No teleconsultations"
   },
   "chat": {
     "title": "Conversations",

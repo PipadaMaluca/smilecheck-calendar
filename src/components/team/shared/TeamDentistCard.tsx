@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Star, Award, MoreVertical, Calendar, BarChart3, Key, Pause, Play, X, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -43,10 +42,16 @@ const levelColors: Record<string, string> = {
   'Diamante': 'bg-cyan-400/20 text-cyan-300 border-cyan-400/30'
 };
 
+const STATUS_KEY_MAP: Record<string, string> = {
+  active: 'team.statusActive',
+  paused: 'team.statusPaused',
+  pending: 'team.statusPending',
+};
+
 const statusConfig = {
-  active: { label: 'Ativo', icon: '✅', className: 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30' },
-  paused: { label: 'Pausado', icon: '⏸️', className: 'bg-amber-500/15 text-amber-500 border-amber-500/30' },
-  pending: { label: 'Convite Pendente', icon: '⏳', className: 'bg-muted text-muted-foreground border-border' },
+  active: { icon: '✅', className: 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30' },
+  paused: { icon: '⏸️', className: 'bg-amber-500/15 text-amber-500 border-amber-500/30' },
+  pending: { icon: '⏳', className: 'bg-muted text-muted-foreground border-border' },
 };
 
 interface TeamDentistCardProps {
@@ -98,7 +103,7 @@ export function TeamDentistCard({
                     <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[dentist.level] || dentist.level)}
                   </Badge>
                   <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0', status.className)}>
-                    {status.icon} {status.label}
+                    {status.icon} {t(STATUS_KEY_MAP[dentist.status])}
                   </Badge>
                 </div>
               </div>
@@ -110,18 +115,18 @@ export function TeamDentistCard({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-52">
-                    <DropdownMenuItem onClick={onViewAgenda}><Calendar className="w-4 h-4 mr-2" />Ver Agenda</DropdownMenuItem>
-                    <DropdownMenuItem onClick={onEditSchedule}><Calendar className="w-4 h-4 mr-2" />Editar Horário</DropdownMenuItem>
-                    <DropdownMenuItem onClick={onViewStats}><BarChart3 className="w-4 h-4 mr-2" />Ver Estatísticas</DropdownMenuItem>
+                    <DropdownMenuItem onClick={onViewAgenda}><Calendar className="w-4 h-4 mr-2" />{t('team.viewAgenda')}</DropdownMenuItem>
+                    <DropdownMenuItem onClick={onEditSchedule}><Calendar className="w-4 h-4 mr-2" />{t('team.editSchedule')}</DropdownMenuItem>
+                    <DropdownMenuItem onClick={onViewStats}><BarChart3 className="w-4 h-4 mr-2" />{t('team.viewStats')}</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={onManagePermissions}><Key className="w-4 h-4 mr-2" />Gerir Permissões</DropdownMenuItem>
+                    <DropdownMenuItem onClick={onManagePermissions}><Key className="w-4 h-4 mr-2" />{t('team.managePermissions')}</DropdownMenuItem>
                     <DropdownMenuItem onClick={onTogglePause}>
                       {dentist.status === 'paused' ? <Play className="w-4 h-4 mr-2" /> : <Pause className="w-4 h-4 mr-2" />}
-                      {dentist.status === 'paused' ? 'Reativar' : 'Pausar'}
+                      {dentist.status === 'paused' ? t('team.reactivate') : t('team.pause')}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={onRemove} className="text-destructive focus:text-destructive">
-                      <X className="w-4 h-4 mr-2" />Remover da Equipa
+                      <X className="w-4 h-4 mr-2" />{t('team.removeFromTeam')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -141,14 +146,14 @@ export function TeamDentistCard({
             <div className="mt-2 space-y-0.5 text-xs text-muted-foreground">
               {dentist.scheduleSummary && <p>🕐 {dentist.scheduleSummary}</p>}
               {dentist.teleconsultas !== undefined && (
-                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? '✅ Teleconsultas' : '❌ Sem teleconsultas'}</p>
+                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? `✅ ${t('team.teleconsultations')}` : `❌ ${t('team.noTeleconsultations')}`}</p>
               )}
               <p>
-                {dentist.consultationsThisMonth} consultas
-                {dentist.teleconsultationsThisMonth !== undefined && ` · ${dentist.teleconsultationsThisMonth} teleconsultas`}
-                {dentist.confirmationRate !== undefined && ` · ${dentist.confirmationRate}% confirmação`}
+                {dentist.consultationsThisMonth} {t('team.consultationsLabel')}
+                {dentist.teleconsultationsThisMonth !== undefined && ` · ${dentist.teleconsultationsThisMonth} ${t('team.teleconsultationsLabel')}`}
+                {dentist.confirmationRate !== undefined && ` · ${dentist.confirmationRate}% ${t('team.confirmationLabel')}`}
               </p>
-              {dentist.memberSince && <p className="text-muted-foreground/60">Membro desde {dentist.memberSince}</p>}
+              {dentist.memberSince && <p className="text-muted-foreground/60">{t('team.memberSince')} {dentist.memberSince}</p>}
             </div>
           </div>
         </div>
