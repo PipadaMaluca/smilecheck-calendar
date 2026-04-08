@@ -95,7 +95,8 @@
     "rewardsStore": "Boutique de Récompenses",
     "search": "Recherche",
     "scores": "Scores",
-    "settings": "Paramètres",
+    "settings": "Param.",
+    "settingsFull": "Paramètres",
     "team": "Équipe",
     "referralLetter": "Lettre de Référence",
     "prescribe": "Prescrire une Ordonnance",
@@ -104,7 +105,11 @@
     "referralLetterLine1": "Lettre de",
     "referralLetterLine2": "Référence",
     "prescribeLine1": "Prescrire",
-    "prescribeLine2": "Ordonnance"
+    "prescribeLine2": "Ordonnance",
+    "notifications": "Notifications",
+    "inviteFriends": "Inviter des Amis",
+    "exportReports": "Exporter les Rapports",
+    "fullHistory": "Historique Complet"
   },
   "auth": {
     "login": "Se connecter",

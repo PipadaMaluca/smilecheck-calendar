@@ -96,6 +96,7 @@
     "search": "Search",
     "scores": "Scores",
     "settings": "Settings",
+    "settingsFull": "Settings",
     "team": "Team",
     "referralLetter": "Referral Letter",
     "prescribe": "Prescribe",
@@ -104,7 +105,11 @@
     "referralLetterLine1": "Referral",
     "referralLetterLine2": "Letter",
     "prescribeLine1": "Prescribe",
-    "prescribeLine2": "Prescription"
+    "prescribeLine2": "Prescription",
+    "notifications": "Notifications",
+    "inviteFriends": "Invite Friends",
+    "exportReports": "Export Reports",
+    "fullHistory": "Full History"
   },
   "auth": {
     "login": "Log In",
