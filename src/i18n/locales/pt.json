@@ -79,7 +79,14 @@
       "thu": "Qui",
       "fri": "Sex",
       "sat": "Sáb",
-      "sun": "Dom"
+      "sun": "Dom",
+      "monFull": "Segunda",
+      "tueFull": "Terça",
+      "wedFull": "Quarta",
+      "thuFull": "Quinta",
+      "friFull": "Sexta",
+      "satFull": "Sábado",
+      "sunFull": "Domingo"
     }
   },
   "nav": {

@@ -79,7 +79,14 @@
       "thu": "Jeu",
       "fri": "Ven",
       "sat": "Sam",
-      "sun": "Dim"
+      "sun": "Dim",
+      "monFull": "Lundi",
+      "tueFull": "Mardi",
+      "wedFull": "Mercredi",
+      "thuFull": "Jeudi",
+      "friFull": "Vendredi",
+      "satFull": "Samedi",
+      "sunFull": "Dimanche"
     }
   },
   "nav": {
