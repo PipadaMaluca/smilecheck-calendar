@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
