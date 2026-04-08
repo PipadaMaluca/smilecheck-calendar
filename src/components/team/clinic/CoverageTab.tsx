@@ -107,7 +107,7 @@ export function CoverageTab() {
           <Table className="w-full table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead className="font-semibold border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>{t('team.day')}</TableHead>
+                <TableHead className="font-semibold border-r border-border/50 text-base text-center" style={{ width: '25%', padding: '12px 16px' }}>{t('team.day')}</TableHead>
                 <TableHead className="font-semibold border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>{t('team.coverageLabel')}</TableHead>
                 <TableHead className="font-semibold" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>{t('team.status')}</TableHead>
               </TableRow>
