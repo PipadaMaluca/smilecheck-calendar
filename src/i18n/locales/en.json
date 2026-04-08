@@ -3282,5 +3282,31 @@
   "phoneInput": {
     "france": "France",
     "requiredForVerification": "📱 Phone number required for account verification"
+  },
+  "actions": {
+    "copyFull": "Copy Appointment",
+    "copyMed": "Copy Appt.",
+    "copyShort": "Copy",
+    "prescribeFull": "Prescribe",
+    "prescribeMed": "Prescribe",
+    "prescribeShort": "Prescribe",
+    "messageFull": "Send Message",
+    "messageMed": "Message",
+    "messageShort": "Message",
+    "recommendFull": "Recommend Patient",
+    "recommendMed": "Recommend",
+    "recommendShort": "Recom.",
+    "rescheduleFull": "Reschedule Appointment",
+    "rescheduleMed": "Reschedule",
+    "rescheduleShort": "Reschedule",
+    "blockFull": "Block Patient",
+    "blockMed": "Block",
+    "blockShort": "Block",
+    "dossierFull": "View Dossier",
+    "dossierMed": "Dossier",
+    "dossierShort": "Dossier",
+    "cancelFull": "Cancel Appointment",
+    "cancelMed": "Cancel",
+    "cancelShort": "Cancel"
   }
 }

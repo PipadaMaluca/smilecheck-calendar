@@ -104,26 +104,26 @@ export function CoverageTab() {
           <CardTitle className="text-base">📋 {t('team.coverageSummary')}</CardTitle>
         </CardHeader>
         <CardContent className="px-0 pb-2">
-          <Table>
+          <Table className="w-full table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead className="font-semibold w-[100px] md:w-[160px] border-r border-border/50">{t('team.day')}</TableHead>
-                <TableHead className="font-semibold border-r border-border/50">{t('team.coverageLabel')}</TableHead>
-                <TableHead className="font-semibold w-[60px] text-center">{t('team.status')}</TableHead>
+                <TableHead className="font-semibold border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>{t('team.day')}</TableHead>
+                <TableHead className="font-semibold border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>{t('team.coverageLabel')}</TableHead>
+                <TableHead className="font-semibold" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>{t('team.status')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {allDays.map((day) => (
                 <TableRow key={day.dayIdx}>
-                  <TableCell className="font-medium text-sm border-r border-border/50">
+                  <TableCell className="font-medium text-sm border-r border-border/50" style={{ width: '25%', padding: '12px 16px' }}>
                     {isMobile ? t(dayShortKeys[day.dayIdx]) : t(dayFullKeys[day.dayIdx])}
                   </TableCell>
-                  <TableCell className="border-r border-border/50">
+                  <TableCell className="border-r border-border/50" style={{ width: '55%', padding: '12px 16px' }}>
                     <span className={cn('text-sm', statusClassNames[day.status])}>
                       {day.count} {day.count === 1 ? t('team.dentist1') : t('team.dentists')} ({t(statusTextKeys[day.status])})
                     </span>
                   </TableCell>
-                  <TableCell className="text-center text-base">
+                  <TableCell className="text-base" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>
                     {statusIcons[day.status]}
                   </TableCell>
                 </TableRow>
