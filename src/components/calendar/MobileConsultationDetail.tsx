@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,6 +34,29 @@ const MOCK_HISTORY = [
   { date: '18 Out 2025', typeKey: 'primeira_consulta' as const, dentist: 'Dr. Gonçalo Pipo', category: 'primeira_consulta' },
 ];
 
+interface ResponsiveTextProps {
+  full: string;
+  med: string;
+  short: string;
+}
+
+function ResponsiveText({ full, med, short }: ResponsiveTextProps) {
+  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const text = width >= 1024 ? full : width >= 768 ? med : short;
+
+  return <span style={{ display: 'inline-block', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{text}</span>;
+}
+
 export function MobileConsultationDetail({ consultation, onClose, onNavigate, onCopy, onViewDossier, userRole = 'dentist' }: MobileConsultationDetailProps) {
   const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
@@ -44,7 +66,6 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
-  const isMobile = useIsMobile();
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
@@ -67,47 +88,47 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
     toast.success(t('consultationDetail.unblockedSuccess'));
   };
 
-  const actionSpans = (shortKey: string, medKey: string, fullKey: string) => (
-    <>
-      <span className="hidden lg:inline">{t(`consultationDetail.${fullKey}`)}</span>
-      <span className="hidden md:inline lg:hidden">{t(`consultationDetail.${medKey}`)}</span>
-      <span className="md:hidden">{t(`consultationDetail.${shortKey}`)}</span>
-    </>
+  const actionText = (fullKey: string, medKey: string, shortKey: string, namespace = 'actions') => (
+    <ResponsiveText
+      full={t(`${namespace}.${fullKey}`)}
+      med={t(`${namespace}.${medKey}`)}
+      short={t(`${namespace}.${shortKey}`)}
+    />
   );
 
   const renderActions = () => {
     if (isDentist) {
       return (
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('copy', 'copyTablet', 'copyFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('copyFull', 'copyMed', 'copyShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('prescrever')}>
-              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('prescribe', 'prescribeTablet', 'prescribeFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('prescrever')}>
+              <Pill className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('prescribeFull', 'prescribeMed', 'prescribeShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('message', 'messageTablet', 'messageFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('conversas')}>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('messageFull', 'messageMed', 'messageShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('referencia')}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('recommend', 'recommendTablet', 'recommendFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('referencia')}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('recommendFull', 'recommendMed', 'recommendShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('rescheduleAction', 'rescheduleTablet', 'rescheduleFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0">
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
             {isBlocked ? (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('unblock', 'unblockTablet', 'unblockFull')}
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30 min-w-0" onClick={handleUnblock}>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
               </Button>
             ) : (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('block', 'blockTablet', 'blockFull')}
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive min-w-0" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('blockFull', 'blockMed', 'blockShort')}
               </Button>
             )}
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('viewDossier', 'viewDossierTablet', 'viewDossierFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('dossierFull', 'dossierMed', 'dossierShort')}
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('cancelAction', 'cancelTablet', 'cancelFull')}
+            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('cancelFull', 'cancelMed', 'cancelShort')}
             </Button>
           </div>
       );
@@ -116,29 +137,29 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
     if (isClinic) {
       return (
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onCopy?.(consultation)}>
-              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('copy', 'copyTablet', 'copyFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onCopy?.(consultation)}>
+              <Copy className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('copyFull', 'copyMed', 'copyShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onNavigate('conversas')}>
-              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('message', 'messageTablet', 'messageFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('conversas')}>
+              <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('messageFull', 'messageMed', 'messageShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto">
-              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('rescheduleAction', 'rescheduleTablet', 'rescheduleFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0">
+              <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
             {isBlocked ? (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
-                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('unblock', 'unblockTablet', 'unblockFull')}
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30 min-w-0" onClick={handleUnblock}>
+                <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
               </Button>
             ) : (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive" onClick={() => setShowBlockModal(true)}>
-                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('block', 'blockTablet', 'blockFull')}
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-destructive min-w-0" onClick={() => setShowBlockModal(true)}>
+                <Ban className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('blockFull', 'blockMed', 'blockShort')}
               </Button>
             )}
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto" onClick={() => onViewDossier?.(consultation.patient.id)}>
-              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('viewDossier', 'viewDossierTablet', 'viewDossierFull')}
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onViewDossier?.(consultation.patient.id)}>
+              <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('dossierFull', 'dossierMed', 'dossierShort')}
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10">
-              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionSpans('cancelAction', 'cancelTablet', 'cancelFull')}
+            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
+              <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('cancelFull', 'cancelMed', 'cancelShort')}
             </Button>
           </div>
       );
