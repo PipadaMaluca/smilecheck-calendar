@@ -65,9 +65,9 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <span>{xpProgress.target.toLocaleString()} XP</span>
             </div>
             <Progress value={xpProgress.percent} className="h-3" />
-            {xpProgress.nextLevelName && (
+            {xpProgress.nextLevelKey && (
               <p className="text-xs text-muted-foreground">
-                {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {xpProgress.nextLevelName}
+                {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
               </p>
             )}
           </div>
