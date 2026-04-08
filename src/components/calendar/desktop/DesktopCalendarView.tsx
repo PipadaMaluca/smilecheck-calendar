@@ -853,7 +853,7 @@ export function DesktopCalendarView() {
       case 'saude':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Saúde')}
+            {renderStandardHeader(t('nav.health'))}
             <HealthView userRole="patient" onNavigate={handleNavTabChange} />
           </div>);
 
@@ -861,7 +861,7 @@ export function DesktopCalendarView() {
       case 'configuracoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Configurações')}
+            {renderStandardHeader(t('nav.settingsFull'))}
             <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setActiveNavTab('convite')} />
           </div>);
 
@@ -869,7 +869,7 @@ export function DesktopCalendarView() {
       case 'convite':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Convidar Amigos')}
+            {renderStandardHeader(t('nav.inviteFriends'))}
             <div className="flex-1 overflow-y-auto">
               <InviteView onClose={() => setActiveNavTab('configuracoes')} inline />
             </div>
