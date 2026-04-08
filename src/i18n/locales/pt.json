@@ -1931,6 +1931,7 @@
     "coverageSummary": "Resumo de Cobertura",
     "day": "Dia",
     "coverageLabel": "Cobertura",
+    "status": "Estado",
     "fullCoverage": "cobertura total",
     "partialCoverage": "cobertura parcial",
     "minimumCoverage": "cobertura mínima",

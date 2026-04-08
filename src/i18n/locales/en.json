@@ -1931,6 +1931,7 @@
     "coverageSummary": "Coverage Summary",
     "day": "Day",
     "coverageLabel": "Coverage",
+    "status": "Status",
     "fullCoverage": "full coverage",
     "partialCoverage": "partial coverage",
     "minimumCoverage": "minimum coverage",
