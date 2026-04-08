@@ -70,6 +70,7 @@ export function TeamDentistCard({
   onTogglePause,
   onRemove,
 }: TeamDentistCardProps) {
+  const { t } = useTranslation();
   const status = statusConfig[dentist.status];
 
   return (
