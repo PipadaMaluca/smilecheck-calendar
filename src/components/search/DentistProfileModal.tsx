@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Clock, Video, X, Calendar, MessageCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -20,6 +21,7 @@ interface DentistProfileModalProps {
 }
 
 export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }: DentistProfileModalProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
   const levelCfg = LEVEL_CONFIG[dentist.level];
@@ -60,7 +62,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
               <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
             </div>
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-              {levelCfg.label}
+              {t(levelCfg.labelKey)}
             </span>
           </div>
           {dentist.previousPatient && (

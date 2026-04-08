@@ -95,7 +95,8 @@
     "rewardsStore": "Loja de Recompensas",
     "search": "Pesquisa",
     "scores": "Pontuações",
-    "settings": "Configurações",
+    "settings": "Config.",
+    "settingsFull": "Configurações",
     "team": "Equipa",
     "referralLetter": "Carta de Referência",
     "prescribe": "Prescrever Receita",
@@ -104,7 +105,11 @@
     "referralLetterLine1": "Carta de",
     "referralLetterLine2": "Referência",
     "prescribeLine1": "Prescrever",
-    "prescribeLine2": "Receita"
+    "prescribeLine2": "Receita",
+    "notifications": "Notificações",
+    "inviteFriends": "Convidar Amigos",
+    "exportReports": "Exportar Relatórios",
+    "fullHistory": "Histórico Completo"
   },
   "auth": {
     "login": "Entrar",

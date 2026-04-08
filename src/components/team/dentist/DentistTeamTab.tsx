@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { User, Star, Award, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,16 @@ const dentistExtras: Record<string, { rating: number; level: string; scheduleSum
   '7': { rating: 4.4, level: 'Prata', scheduleSummary: 'Seg-Sex 08:00-20:00' },
 };
 
+const LEVEL_KEY_MAP: Record<string, string> = {
+  'Lata': 'onboarding.levels.can',
+  'Bronze': 'onboarding.levels.bronze',
+  'Prata': 'onboarding.levels.silver',
+  'Ouro': 'onboarding.levels.gold',
+  'Platina': 'onboarding.levels.platinum',
+  'Diamante': 'onboarding.levels.diamond',
+  'Adamantino': 'onboarding.levels.adamantine',
+};
+
 const levelColors: Record<string, string> = {
   'Lata': 'bg-muted text-muted-foreground border-muted',
   'Bronze': 'bg-amber-900/20 text-amber-700 border-amber-700/30',
@@ -27,6 +38,7 @@ const levelColors: Record<string, string> = {
 };
 
 export function DentistTeamTab() {
+  const { t } = useTranslation();
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 
   const myClinics = clinicDentists
@@ -87,7 +99,7 @@ export function DentistTeamTab() {
                                 <span className="text-[10px] text-muted-foreground ml-0.5">{extras.rating.toFixed(1)}</span>
                               </div>
                               <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0', levelColors[extras.level])}>
-                                <Award className="w-2.5 h-2.5 mr-0.5" />{extras.level}
+                                <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[extras.level] || extras.level)}
                               </Badge>
                             </div>
                             {extras.scheduleSummary && (

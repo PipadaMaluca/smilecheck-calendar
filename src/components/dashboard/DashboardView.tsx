@@ -17,7 +17,7 @@ import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
-import { USER_POINTS, getLevelForXP, getXPProgress } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -74,7 +74,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       t('dashboard.bookConsultation');
       return [
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, icon: Calendar, clickTab: 'consulta-detalhe' },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
@@ -83,14 +83,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const next = dentistCons[0];
       return [
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', icon: Calendar, clickTab: 'consulta-detalhe' },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }
     if (userRole === 'clinic') {
       return [
       { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda' },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${level.name}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
     }

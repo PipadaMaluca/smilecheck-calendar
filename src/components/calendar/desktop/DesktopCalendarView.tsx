@@ -853,7 +853,7 @@ export function DesktopCalendarView() {
       case 'saude':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Saúde')}
+            {renderStandardHeader(t('nav.health'))}
             <HealthView userRole="patient" onNavigate={handleNavTabChange} />
           </div>);
 
@@ -861,7 +861,7 @@ export function DesktopCalendarView() {
       case 'configuracoes':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Configurações')}
+            {renderStandardHeader(t('nav.settingsFull'))}
             <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setActiveNavTab('convite')} />
           </div>);
 
@@ -869,7 +869,7 @@ export function DesktopCalendarView() {
       case 'convite':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Convidar Amigos')}
+            {renderStandardHeader(t('nav.inviteFriends'))}
             <div className="flex-1 overflow-y-auto">
               <InviteView onClose={() => setActiveNavTab('configuracoes')} inline />
             </div>
@@ -994,7 +994,7 @@ export function DesktopCalendarView() {
       case 'pesquisa':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Pesquisa')}
+            {renderStandardHeader(t('nav.search'))}
             <div className="flex-1 overflow-y-auto">
               <FavoritesView
                 favorites={favorites}
@@ -1015,7 +1015,7 @@ export function DesktopCalendarView() {
       case 'exportar':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Exportar Relatórios')}
+            {renderStandardHeader(t('nav.exportReports'))}
             <div className="flex-1 overflow-y-auto">
               <ExportReportsView userRole={activeRole} />
             </div>
@@ -1025,7 +1025,7 @@ export function DesktopCalendarView() {
       case 'historico':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Histórico Completo')}
+            {renderStandardHeader(t('nav.fullHistory'))}
             <FullHistoryView userRole={activeRole} onBack={() => handleNavTabChange('home')} inline />
           </div>);
 
