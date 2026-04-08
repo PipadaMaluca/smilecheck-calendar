@@ -1723,7 +1723,25 @@
     "result": "resultado",
     "selectClinicDentist": "Selecione um dentista desta clínica para marcar consulta.",
     "bookingWithClinic": "Booking flow com clínica pré-selecionada.",
-    "inviteDefaultMessage": "Gostaríamos de convidá-lo a juntar-se à nossa equipa."
+    "inviteDefaultMessage": "Gostaríamos de convidá-lo a juntar-se à nossa equipa.",
+    "searchTitle": "Pesquisa",
+    "searchPlaceholder": "Pesquisar dentistas ou clínicas...",
+    "searchAllPlaceholder": "Pesquisar pacientes, dentistas ou clínicas...",
+    "dentistsTab": "Dentistas",
+    "clinicsTab": "Clínicas",
+    "jobOffersShort": "Propostas",
+    "resultsFound": "{{count}} resultado(s) encontrado(s)",
+    "noResultsFor": "Nenhum resultado para \"{{query}}\"",
+    "viewAll": "Ver todos",
+    "all": "Todos",
+    "patients": "Pacientes",
+    "yearsOld": "anos",
+    "lastConsultation": "Última consulta",
+    "inviteSentTo": "Convite enviado a {{name}}!",
+    "inviteConfirm": "Convidar {{name}} para a {{clinic}}?",
+    "writeMessage": "Escreva uma mensagem...",
+    "copied": "Copiado!",
+    "selectDentistFromClinic": "Selecione um dentista desta clínica para marcar consulta."
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",
@@ -1966,7 +1984,14 @@
     "copied": "Copiado!",
     "inviteDesc": "Convide um dentista para a sua equipa",
     "referralPointsHint": "O dentista receberá pontos de referral quando se registar",
-    "send": "Enviar"
+    "send": "Enviar",
+    "statusActive": "Ativo",
+    "statusPaused": "Pausado",
+    "statusPending": "Convite Pendente",
+    "consultationsLabel": "consultas",
+    "teleconsultationsLabel": "teleconsultas",
+    "confirmationLabel": "confirmação",
+    "noTeleconsultations": "Sem teleconsultas"
   },
   "chat": {
     "title": "Conversas",
