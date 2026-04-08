@@ -234,7 +234,7 @@ export function PatientProfileBody({
 
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-2">
                 <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-                  {levelCfg.label}
+                  {t(levelCfg.labelKey)}
                 </span>
                 <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
                   📋 {planCfg.label}

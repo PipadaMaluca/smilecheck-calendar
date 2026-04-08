@@ -48,7 +48,7 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
               <span className="text-[10px] text-muted-foreground">({dentist.reviewCount})</span>
             </div>
             <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-              {levelCfg.label}
+              {t(levelCfg.labelKey)}
             </span>
           </div>
           <div className="flex flex-wrap gap-1 mt-1.5">

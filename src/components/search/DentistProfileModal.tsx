@@ -60,7 +60,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
               <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
             </div>
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-              {levelCfg.label}
+              {t(levelCfg.labelKey)}
             </span>
           </div>
           {dentist.previousPatient && (

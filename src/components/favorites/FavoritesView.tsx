@@ -248,7 +248,7 @@ export function FavoritesView({
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-medium">{d.rating}</span>
                       <span className={cn('text-[10px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
-                        {levelCfg.label}
+                        {t(levelCfg.labelKey)}
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
