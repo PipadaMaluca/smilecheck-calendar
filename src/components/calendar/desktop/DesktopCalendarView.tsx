@@ -994,7 +994,7 @@ export function DesktopCalendarView() {
       case 'pesquisa':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader('Pesquisa')}
+            {renderStandardHeader(t('nav.search'))}
             <div className="flex-1 overflow-y-auto">
               <FavoritesView
                 favorites={favorites}
