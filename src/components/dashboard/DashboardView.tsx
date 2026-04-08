@@ -248,21 +248,45 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
-                {morningCons.map((c) => {
+              {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
                   return (
-                    <div key={c.id} className="grid grid-cols-[40px_1fr_1fr_auto] items-center gap-2 py-1.5 border-b border-border/50 last:border-0 hover:bg-muted/30 hover:brightness-110 rounded transition-all cursor-pointer"
+                    <div key={c.id}
+                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
-                      <span className="text-xs font-bold text-primary">{c.time}</span>
-                      <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
-                        <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
-                      </span>
-                      <div className="flex items-center gap-1.5 truncate text-left">
-                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
-                        <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
+                      {/* Desktop/Tablet: 3-column grid */}
+                      <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
+                        <div className="flex items-center gap-2 text-left min-w-0">
+                          <span className="text-xs font-bold text-primary flex-shrink-0">{c.time}</span>
+                          <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
+                            <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-center gap-1.5 truncate">
+                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
+                          <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
+                        </div>
+                        <div className="flex justify-end">
+                          {getStatusBadge(c.status)}
+                        </div>
                       </div>
-                      {getStatusBadge(c.status)}
+                      {/* Mobile: 2-row layout */}
+                      <div className="sm:hidden py-1.5 space-y-0.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-xs font-bold text-primary flex-shrink-0">{c.time}</span>
+                            <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
+                              <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
+                            </span>
+                          </div>
+                          {getStatusBadge(c.status)}
+                        </div>
+                        <div className="flex items-center gap-1.5 pl-[48px]">
+                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
+                          <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
+                        </div>
+                      </div>
                     </div>);
 
                 })}

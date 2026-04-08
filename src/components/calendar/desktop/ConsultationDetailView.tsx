@@ -56,7 +56,7 @@ function ResponsiveText({ full, med, short }: ResponsiveTextProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const text = width >= 1024 ? full : width >= 768 ? med : short;
+  const text = width >= 768 ? full : short;
 
   return <span style={{ display: 'inline-block', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{text}</span>;
 }
