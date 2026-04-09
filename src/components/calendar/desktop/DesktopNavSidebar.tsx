@@ -58,6 +58,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
     dentist: [
@@ -68,6 +69,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
     clinic: [
@@ -77,6 +79,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
   };
