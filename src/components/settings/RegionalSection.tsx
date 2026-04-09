@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Globe, DollarSign, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -29,7 +30,7 @@ const TIMEZONES = [
 ];
 
 export function RegionalSection() {
-  const [language, setLanguage] = useState('pt');
+  const { t, i18n } = useTranslation();
   const [currency, setCurrency] = useState('EUR');
   const [timezone, setTimezone] = useState('Europe/Lisbon');
   const [autoTimezone, setAutoTimezone] = useState(true);
@@ -37,16 +38,16 @@ export function RegionalSection() {
   return (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">Regional</CardTitle>
+        <CardTitle className="text-sm">{t('settings.regional', 'Regional')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Language */}
+        {/* Language — unified here, no separate section */}
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <Globe className="w-3.5 h-3.5" />
             Idioma
           </div>
-          <Select value={language} onValueChange={setLanguage}>
+          <Select value={i18n.language} onValueChange={(val) => i18n.changeLanguage(val)}>
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
@@ -95,8 +96,8 @@ export function RegionalSection() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {TIMEZONES.map(t => (
-                  <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                {TIMEZONES.map(tz => (
+                  <SelectItem key={tz.value} value={tz.value}>{tz.label}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
