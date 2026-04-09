@@ -1115,8 +1115,7 @@ export function DesktopCalendarView() {
           isExpanded={isNavExpanded}
           activeTab={activeNavTab}
           onTabChange={handleNavTabChange}
-          userRole={activeRole}
-          onPrescribe={() => setActiveNavTab('prescrever')} />
+          userRole={activeRole} />
 
 
       {renderMainArea()}

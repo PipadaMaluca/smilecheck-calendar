@@ -1912,7 +1912,9 @@
     "weekly": "Hebdomadaire",
     "totalRevenue": "Chiffre d'affaires total",
     "consultations": "consultations",
-    "tele": "télé"
+    "tele": "télé",
+    "myPlan": "Mon Plan",
+    "paymentsAndBilling": "Paiements et Facturation"
   },
   "team": {
     "title": "Gestion d'Équipe",

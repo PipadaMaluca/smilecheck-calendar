@@ -1,4 +1,4 @@
-import { Home, Calendar, Heart, MessageCircle, Users, Settings } from 'lucide-react';
+import { Home, Calendar, Gift, MessageCircle, Users, Settings } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
@@ -16,7 +16,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
     patient: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'consultas', icon: Calendar, label: t('nav.consultations') },
-      { id: 'saude', icon: Heart, label: t('nav.health') },
+      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
       { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
