@@ -12,80 +12,62 @@ interface DesktopNavSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   userRole: UserRole;
-  onPrescribe?: () => void;
 }
 
 export function DesktopNavSidebar({
   isExpanded,
   activeTab,
   onTabChange,
-  userRole,
-  onPrescribe
+  userRole
 }: DesktopNavSidebarProps) {
   const { t } = useTranslation();
 
-  const MAIN_NAV_ITEMS_BY_ROLE = {
+  // Patient: 10 items | Dentist: 12 items | Clinic: 12 items
+  const NAV_ITEMS_BY_ROLE = {
     patient: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.consultations') },
-      { id: 'saude', icon: Heart, label: t('nav.health') },
+      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
+      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
+      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
+      { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
     ],
     dentist: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'team', icon: Users, label: t('nav.team') },
+      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
+      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
+      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
+      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
+      { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
     ],
     clinic: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'team', icon: Users, label: t('nav.team') },
+      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
+      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
+      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
+      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
+      { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
     ],
   };
 
   const TWO_LINE_LABELS: Record<string, [string, string]> = {
     'loja': [t('nav.rewardsStoreLine1'), t('nav.rewardsStoreLine2')],
-    'referencia': [t('nav.referralLetterLine1'), t('nav.referralLetterLine2')],
-    'prescrever': [t('nav.prescribeLine1'), t('nav.prescribeLine2')],
   };
 
-  const SECONDARY_NAV_BY_ROLE = {
-    patient: [
-      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
-      { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
-      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
-      { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
-      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
-    ],
-    dentist: [
-      { id: 'referencia', icon: FileText, label: t('nav.referralLetter') },
-      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
-      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
-      { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
-      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
-      { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
-      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
-    ],
-    clinic: [
-      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
-      { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
-      { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
-      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
-      { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
-      { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
-    ],
-  };
-
-  const mainItems = MAIN_NAV_ITEMS_BY_ROLE[userRole];
-  const secondaryItems = SECONDARY_NAV_BY_ROLE[userRole];
+  const items = NAV_ITEMS_BY_ROLE[userRole];
 
   const onboardingIdMap: Record<string, string> = {
     'agenda': 'onboarding-nav-agenda',
@@ -98,7 +80,7 @@ export function DesktopNavSidebar({
     'configuracoes': 'onboarding-nav-configuracoes',
   };
 
-  const renderNavButton = (item: { id: string; icon: React.ElementType; label: string; }, onClick?: () => void) => {
+  const renderNavButton = (item: { id: string; icon: React.ElementType; label: string; }) => {
     const Icon = item.icon;
     const isActive = activeTab === item.id;
     const twoLine = TWO_LINE_LABELS[item.id];
@@ -108,7 +90,7 @@ export function DesktopNavSidebar({
         key={item.id}
         id={onboardingIdMap[item.id]}
         variant="ghost"
-        onClick={onClick || (() => onTabChange(item.id))}
+        onClick={() => onTabChange(item.id)}
         className={cn(
           'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200',
           isActive
@@ -151,18 +133,9 @@ export function DesktopNavSidebar({
         </span>
       </div>
 
-      {/* Main Navigation */}
-      <nav className="p-2 flex-1 items-center justify-start flex flex-col py-[10px] border border-secondary px-[4px] gap-[5px]">
-        {mainItems.map((item) => renderNavButton(item))}
-
-        <Separator className="my-1 bg-[#1E3A5F]" />
-
-        {userRole === 'dentist' && renderNavButton(
-          { id: 'prescrever', icon: FilePlus, label: t('nav.prescribe') },
-          onPrescribe
-        )}
-
-        {secondaryItems.map((item) => renderNavButton(item))}
+      {/* Navigation */}
+      <nav className="p-2 flex-1 items-center justify-start flex flex-col py-[10px] border border-secondary px-[4px] gap-[5px] overflow-y-auto">
+        {items.map((item) => renderNavButton(item))}
       </nav>
 
       {/* Bottom: Configurações + Language */}
