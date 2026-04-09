@@ -1,4 +1,4 @@
-import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search, TrendingUp, Receipt } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search, TrendingUp, Receipt, Gift as GiftIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -58,6 +58,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
     dentist: [
@@ -68,6 +69,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
     clinic: [
@@ -77,6 +79,7 @@ export function DesktopNavSidebar({
       { id: 'plano', icon: CreditCard, label: t('nav.managePlan') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'pontuacoes', icon: TrendingUp, label: t('nav.scores') },
     ],
   };

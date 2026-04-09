@@ -255,7 +255,9 @@ export function PatientCalendar() {
         ) : activeTab === 'conversas' ? (
           <ConversationsView userRole="patient" onNavigate={handleTabChange} />
         ) : activeTab === 'configuracoes' ? (
-          <SettingsView userRole="patient" onNavigate={handleTabChange} onInvite={() => setShowInvite(true)} />
+          <SettingsView userRole="patient" onNavigate={handleTabChange} />
+        ) : activeTab === 'convidar' ? (
+          <InviteView onClose={() => handleTabChange('home')} />
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="patient" /></div>
         ) : activeTab === 'notificacoes' ? (

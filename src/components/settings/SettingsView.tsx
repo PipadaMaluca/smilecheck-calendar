@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen, CreditCard, Receipt, ClipboardList, Globe
+  Lock, Trash2, BookOpen, Globe, Mail, HelpCircle as FAQ
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';
 import { NotificationSettingsSection } from '@/components/settings/NotificationSettingsSection';
-import { InviteView } from '@/components/settings/InviteView';
 import { ConnectedDevicesSection } from '@/components/settings/ConnectedDevicesSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -16,7 +15,18 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useOnboarding } from '@/contexts/OnboardingContext';
-import { cn } from '@/lib/utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { toast } from 'sonner';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -43,103 +53,43 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
   const { replayFull, replayTooltips } = useOnboarding();
-  const { t, i18n } = useTranslation();
-
-  const languages = [
-    { code: 'pt', flag: '🇵🇹', label: 'Português' },
-    { code: 'fr', flag: '🇫🇷', label: 'Français' },
-    { code: 'en', flag: '🇬🇧', label: 'English' },
-  ];
+  const { t } = useTranslation();
 
   return (
     <ScrollArea className="flex-1">
       <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
         <h1 className="text-xl font-bold text-foreground">{t('settings.title')}</h1>
 
-        {/* 1. Convidar (Referral) - inline */}
-        <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.invite')}</CardTitle></CardHeader>
-          <CardContent className="p-0">
-            <InviteView onClose={() => {}} inline />
-          </CardContent>
-        </Card>
-
-        {/* 2. Aparência */}
+        {/* 1. Aparência */}
         <AppearanceSection
           isPremium={true}
           onViewPlans={() => onNavigate?.('plano')}
         />
 
+        {/* 2. Regional (includes language — unified, no separate language section) */}
+        <RegionalSection />
+
         {/* 3. Notificações */}
         <NotificationSettingsSection userRole={userRole} />
 
-        {/* 4. Regional */}
-        <RegionalSection />
-
-        {/* Idioma */}
-        <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Globe className="w-4 h-4" /> {t('language.title')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => i18n.changeLanguage(lang.code)}
-                className={cn(
-                  'flex items-center gap-3 w-full p-3 rounded-lg transition-all',
-                  i18n.language === lang.code
-                    ? 'bg-primary/10 border border-primary/30'
-                    : 'hover:bg-muted/50'
-                )}
-              >
-                <span className="text-xl">{lang.flag}</span>
-                <span className={cn(
-                  'text-sm font-medium',
-                  i18n.language === lang.code ? 'text-primary' : 'text-foreground'
-                )}>
-                  {lang.label}
-                </span>
-                {i18n.language === lang.code && (
-                  <span className="ml-auto text-xs text-primary">✓</span>
-                )}
-              </button>
-            ))}
-          </CardContent>
-        </Card>
+        {/* 4. Sincronização */}
+        {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
 
         {/* 5. Dispositivos Conectados */}
         <ConnectedDevicesSection />
 
-        {/* 6. Sincronização */}
-        {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
-
-        {/* Pagamentos */}
+        {/* 6. Ajuda & Suporte */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.payments')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.helpAndSupport')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={CreditCard} label={t('settings.managePaymentMethods')} onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={Receipt} label={t('settings.billingData')} onClick={() => onNavigate?.('faturacao')} />
-            <LinkRow icon={ClipboardList} label={t('settings.viewHistory')} onClick={() => onNavigate?.('faturacao')} />
+            <LinkRow icon={BookOpen} label={t('settings.reviewTutorial')} onClick={() => replayFull(userRole)} />
+            <LinkRow icon={HelpCircle} label={t('settings.reviewTips')} onClick={() => replayTooltips(userRole)} />
+            <LinkRow icon={Mail} label={t('settings.contactSupport')} />
+            <LinkRow icon={FAQ} label={t('settings.faq')} />
           </CardContent>
         </Card>
 
-        {/* Tutorial */}
-        <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.tutorial')}</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
-            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayFull(userRole)}>
-              <BookOpen className="w-4 h-4" /> {t('settings.reviewTutorial')}
-            </Button>
-            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => replayTooltips(userRole)}>
-              <HelpCircle className="w-4 h-4" /> {t('settings.reviewTips')}
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* 6. Legal */}
+        {/* 7. Legal */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.legal')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
@@ -148,21 +98,35 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           </CardContent>
         </Card>
 
-        {/* 7. Outros */}
-        <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.other')}</CardTitle></CardHeader>
-          <CardContent className="space-y-0 divide-y divide-border">
-            <LinkRow icon={HelpCircle} label={t('settings.helpAndSupport')} />
-          </CardContent>
-        </Card>
-
-        {/* 7. Segurança */}
+        {/* 8. Segurança — always last */}
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.security')}</CardTitle></CardHeader>
           <CardContent className="space-y-0">
             <LinkRow icon={Lock} label={t('settings.changePassword')} />
-            <Separator className="my-2" />
-            <LinkRow icon={Trash2} label={t('settings.deleteAccount')} danger />
+            <Separator className="my-3" />
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="flex items-center gap-3 py-3 w-full text-left hover:opacity-80 transition-opacity">
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                  <span className="text-sm text-destructive font-medium">{t('settings.deleteAccount')}</span>
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t('settings.deleteAccountTitle')}</AlertDialogTitle>
+                  <AlertDialogDescription>{t('settings.deleteAccountDesc')}</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={() => toast.success(t('settings.accountDeleted'))}
+                  >
+                    {t('common.confirm')}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <LinkRow icon={LogOut} label={t('settings.logout')} danger />
           </CardContent>
         </Card>

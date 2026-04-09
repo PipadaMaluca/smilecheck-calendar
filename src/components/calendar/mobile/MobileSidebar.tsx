@@ -1,4 +1,4 @@
-import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart, Receipt } from 'lucide-react';
+import { X, User, CreditCard, Gift, FileText, LogOut, Award, TrendingUp, FilePlus, BarChart3, Search, Bell, Heart, Receipt, Gift as GiftInvite } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -128,6 +128,7 @@ export function MobileSidebar({
               <MenuItem icon={CreditCard} label={t('nav.managePlan')} onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
               <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
@@ -149,6 +150,7 @@ export function MobileSidebar({
               <MenuItem icon={CreditCard} label={t('nav.managePlan')} onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
               <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
@@ -168,6 +170,7 @@ export function MobileSidebar({
               <MenuItem icon={CreditCard} label={t('nav.managePlan')} onClick={() => {onClose();onNavigate?.('plano');}} />
               <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
               <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
+              <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
               <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
             </MenuSection>
 
