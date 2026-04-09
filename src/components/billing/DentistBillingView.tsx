@@ -153,6 +153,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                   <p>{t('billing.method')}: Visa ****4532</p>
                 </div>
                 <Button variant="outline" className="w-full" onClick={() => onNavigate?.('plano')}>{t('billing.changePlan')}</Button>
+                <button className="text-xs text-destructive hover:underline w-full text-center mt-1">{t('plan.cancelSubscription')}</button>
               </CardContent>
             </Card>
           </TabsContent>
