@@ -862,16 +862,17 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader(t('nav.settingsFull'))}
-            <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} onInvite={() => setActiveNavTab('convite')} />
+            <SettingsView userRole={activeRole} onNavigate={handleNavTabChange} />
           </div>);
 
 
+      case 'convidar':
       case 'convite':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader(t('nav.inviteFriends'))}
             <div className="flex-1 overflow-y-auto">
-              <InviteView onClose={() => setActiveNavTab('configuracoes')} inline />
+              <InviteView onClose={() => setActiveNavTab('home')} inline />
             </div>
           </div>);
 
