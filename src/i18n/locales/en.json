@@ -1912,7 +1912,9 @@
     "weekly": "Weekly",
     "totalRevenue": "Total revenue",
     "consultations": "consultations",
-    "tele": "tele"
+    "tele": "tele",
+    "myPlan": "My Plan",
+    "paymentsAndBilling": "Payments & Billing"
   },
   "team": {
     "title": "Team Management",
