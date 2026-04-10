@@ -131,68 +131,94 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // Shared stats cards renderer
   const renderStatsCards = () => {
     if (!stats) return null;
+    const heroStat = stats[0];
+    const restStats = stats.slice(1);
+    const HeroIcon = heroStat.icon;
+
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          const isClickable = !!stat.clickTab;
-          const isXPCard = stat.label === t('dashboard.levelAndXp');
-          return (
-            <Card
-              key={stat.label}
-              id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
-              className={cn(
-                "bg-card/80 backdrop-blur border-border min-w-0",
-                isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
-              )}
-              onClick={isClickable ? () => {
-                if (stat.clickTab === 'pontuacoes-streak') {
-                  onNavigate('pontuacoes');
-                } else if (stat.clickTab === 'consulta-detalhe') {
-                  onNavigate('consulta-detalhe');
-                } else if (stat.clickTab === 'agenda') {
-                  window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
-                  onNavigate('agenda');
-                } else {
-                  onNavigate(stat.clickTab!);
-                }
-              } : undefined}>
-              
-              <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
-                <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
-                  <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
-                </div>
-                <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
-                {isXPCard &&
-                <div className="space-y-1">
-                    <Progress value={xpProgress.percent} className="h-2" />
-                    <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
-                  </div>
-                }
-                {'subtitle' in stat && stat.subtitle &&
-                <span className="text-[10px] text-muted-foreground truncate text-center sm:text-base">
-                    {String(stat.subtitle).split('·').map((part, i) => {
+      <div className="flex flex-col gap-3 sm:gap-4">
+        {/* Row: Hero card (40%) + 3 standard cards (20% each) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+          {/* Hero Card 1 */}
+          <Card
+            className={cn(
+              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] md:col-span-3 lg:col-span-1",
+              heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
+            )}
+            onClick={heroStat.clickTab ? () => {
+              if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
+              else if (heroStat.clickTab === 'agenda') {
+                window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
+                onNavigate('agenda');
+              } else onNavigate(heroStat.clickTab!);
+            } : undefined}
+          >
+            <CardContent className="p-4 sm:p-5 flex flex-col gap-1.5 min-w-0">
+              <div className="text-muted-foreground min-w-0 gap-2 flex items-center">
+                <HeroIcon className="w-5 h-5 flex-shrink-0 text-[#2196F3]" />
+                <span className="text-xs font-medium truncate sm:text-base">{heroStat.label}</span>
+              </div>
+              <span className="text-3xl font-bold text-foreground truncate sm:text-4xl">{heroStat.value}</span>
+              {'subtitle' in heroStat && heroStat.subtitle &&
+                <span className="text-xs text-muted-foreground truncate sm:text-sm">
+                  {String(heroStat.subtitle).split('·').map((part, i) => {
                     const trimmed = part.trim();
                     const isPresencial = trimmed.includes(t('dashboard.presential'));
                     const isTeleconsulta = trimmed.includes(t('dashboard.teleconsultations'));
                     return (
                       <span key={i}>
-                          {i > 0 && <span className="text-muted-foreground"> · </span>}
-                          <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
-                            {trimmed}
-                          </span>
-                        </span>);
-
+                        {i > 0 && <span className="text-muted-foreground"> · </span>}
+                        <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
+                          {trimmed}
+                        </span>
+                      </span>
+                    );
                   })}
-                  </span>
-                }
-              </CardContent>
-            </Card>);
+                </span>
+              }
+              {'extraLine' in heroStat && heroStat.extraLine &&
+                <span className="text-xs text-muted-foreground/70 truncate">{heroStat.extraLine}</span>
+              }
+            </CardContent>
+          </Card>
 
-        })}
-      </div>);
-
+          {/* Cards 2-4 */}
+          {restStats.map((stat) => {
+            const Icon = stat.icon;
+            const isClickable = !!stat.clickTab;
+            const isXPCard = stat.label === t('dashboard.levelAndXp');
+            return (
+              <Card
+                key={stat.label}
+                id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
+                className={cn(
+                  "bg-card/80 backdrop-blur border-border min-w-0",
+                  isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
+                )}
+                onClick={isClickable ? () => {
+                  if (stat.clickTab === 'pontuacoes-streak') onNavigate('pontuacoes');
+                  else onNavigate(stat.clickTab!);
+                } : undefined}
+              >
+                <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
+                  <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
+                    <Icon className="w-4 h-4 flex-shrink-0" />
+                    <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
+                  </div>
+                  <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
+                  {isXPCard &&
+                    <div className="space-y-1">
+                      <Progress value={xpProgress.percent} className="h-2" />
+                      <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
+                    </div>
+                  }
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   // Status badge helper
