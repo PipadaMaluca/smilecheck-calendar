@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { CheckCircle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { mockConsultations, getDentistsForClinic } from '@/data/mockData';
@@ -143,7 +144,11 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">{t('confirmations.noConsultations')}</p>
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <CheckCircle className="w-12 h-12 text-muted-foreground/30 mb-4" />
+                  <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.confirmationsTitle')}</h3>
+                  <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.confirmationsDesc')}</p>
+                </div>
               )}
             </CardContent>
           </Card>
