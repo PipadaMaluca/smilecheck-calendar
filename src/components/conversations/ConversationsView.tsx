@@ -10,6 +10,8 @@ import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { ChatListSkeleton } from '@/components/skeletons';
 
 interface Message {
   id: string;
@@ -168,6 +170,7 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const isMobile = useIsMobile();
+  const isLoading = useSimulatedLoading(1000);
 
   const conversations = mockConversations[userRole] || [];
 
