@@ -6,6 +6,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { UserRole } from '@/types/calendar';
 import { Separator } from '@/components/ui/separator';
 import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
+import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
 
 interface DesktopNavSidebarProps {
   isExpanded: boolean;
@@ -14,6 +15,14 @@ interface DesktopNavSidebarProps {
   userRole: UserRole;
 }
 
+const BADGE_CONFIG: Record<string, { color: string; type: 'count' | 'alert'; key: string }> = {
+  conversas: { color: 'bg-blue-500', type: 'count', key: 'conversas' },
+  conquistas: { color: 'bg-orange-500', type: 'alert', key: 'conquistas' },
+  pontuacoes: { color: 'bg-green-500', type: 'alert', key: 'pontuacoes' },
+  convidar: { color: 'bg-green-500', type: 'count', key: 'convidar' },
+  faturacao: { color: 'bg-red-500', type: 'alert', key: 'faturacao' },
+};
+
 export function DesktopNavSidebar({
   isExpanded,
   activeTab,
@@ -21,6 +30,7 @@ export function DesktopNavSidebar({
   userRole
 }: DesktopNavSidebarProps) {
   const { t } = useTranslation();
+  const { badges, clearBadge } = useNotificationBadges();
 
   // Patient: 10 items | Dentist: 12 items | Clinic: 12 items
   const NAV_ITEMS_BY_ROLE = {
@@ -80,25 +90,50 @@ export function DesktopNavSidebar({
     'configuracoes': 'onboarding-nav-configuracoes',
   };
 
+  const getBadgeInfo = (itemId: string) => {
+    const config = BADGE_CONFIG[itemId];
+    if (!config) return null;
+    const value = badges[config.key as keyof typeof badges];
+    if (!value) return null;
+    return { ...config, value };
+  };
+
+  const handleTabChange = (tab: string) => {
+    const config = BADGE_CONFIG[tab];
+    if (config) clearBadge(config.key as keyof typeof badges);
+    onTabChange(tab);
+  };
+
   const renderNavButton = (item: { id: string; icon: React.ElementType; label: string; }) => {
     const Icon = item.icon;
     const isActive = activeTab === item.id;
     const twoLine = TWO_LINE_LABELS[item.id];
+    const badge = getBadgeInfo(item.id);
 
     return (
       <Button
         key={item.id}
         id={onboardingIdMap[item.id]}
         variant="ghost"
-        onClick={() => onTabChange(item.id)}
+        onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200',
+          'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 relative',
           isActive
             ? 'bg-primary text-primary-foreground hover:bg-primary/90'
             : 'text-muted-foreground hover:text-foreground hover:bg-[#152238]'
         )}
       >
-        <Icon className="w-5 h-5 flex-shrink-0" />
+        <div className="relative">
+          <Icon className="w-5 h-5 flex-shrink-0" />
+          {badge && (
+            <span className={cn(
+              'absolute -top-1.5 -right-2.5 min-w-[16px] h-[16px] rounded-full flex items-center justify-center text-[9px] font-bold text-white border-2 border-[#0A1929]',
+              badge.color
+            )}>
+              {badge.type === 'count' ? badge.value : '!'}
+            </span>
+          )}
+        </div>
         {isExpanded && (
           <span className="text-[10px] font-medium text-center leading-tight">
             {twoLine ? <>{twoLine[0]}<br />{twoLine[1]}</> : item.label}

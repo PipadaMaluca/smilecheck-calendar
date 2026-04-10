@@ -6,6 +6,14 @@ import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 import { useTranslation } from 'react-i18next';
+import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
+
+const BADGE_CONFIG: Record<string, { color: string; type: 'count' | 'alert'; key: string }> = {
+  conquistas: { color: 'bg-orange-500', type: 'alert', key: 'conquistas' },
+  pontuacoes: { color: 'bg-green-500', type: 'alert', key: 'pontuacoes' },
+  convidar: { color: 'bg-green-500', type: 'count', key: 'convidar' },
+  faturacao: { color: 'bg-red-500', type: 'alert', key: 'faturacao' },
+};
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -44,6 +52,7 @@ export function MobileSidebar({
 }: MobileSidebarProps) {
 
   const { t } = useTranslation();
+  const { badges, clearBadge } = useNotificationBadges();
 
   const userName = userRole === 'patient' ?
   mockFamilyMembers[0].name :
@@ -62,20 +71,58 @@ export function MobileSidebar({
       {children}
     </div>;
 
+  const getBadgeInfo = (itemId: string) => {
+    const config = BADGE_CONFIG[itemId];
+    if (!config) return null;
+    const value = badges[config.key as keyof typeof badges];
+    if (!value) return null;
+    return { ...config, value };
+  };
+
+  const handleNavigate = (tab: string) => {
+    const config = BADGE_CONFIG[tab];
+    if (config) clearBadge(config.key as keyof typeof badges);
+    onClose();
+    onNavigate?.(tab);
+  };
+
   const MenuItem = ({
     icon: Icon,
     label,
     onClick,
-    active = false
-  }: {icon: React.ElementType;label: string;onClick?: () => void;active?: boolean;}) =>
-  <button
-    onClick={onClick}
-    className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-0 gap-[15px]",
-    active && 'text-primary bg-primary/10'
-    )}>
-      <Icon className="w-4 h-4" />
-      <span>{label}</span>
-    </button>;
+    active = false,
+    itemId
+  }: {icon: React.ElementType;label: string;onClick?: () => void;active?: boolean;itemId?: string;}) => {
+    const badge = itemId ? getBadgeInfo(itemId) : null;
+    return (
+      <button
+        onClick={onClick}
+        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-4 gap-[15px]",
+        active && 'text-primary bg-primary/10'
+        )}>
+        <div className="relative">
+          <Icon className="w-4 h-4" />
+          {badge && (
+            <span className={cn(
+              'absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[8px] font-bold text-white border-2 border-card',
+              badge.color
+            )}>
+              {badge.type === 'count' ? badge.value : '!'}
+            </span>
+          )}
+        </div>
+        <span className="flex-1 text-left">{label}</span>
+        {badge && (
+          <span className={cn(
+            'min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white',
+            badge.color
+          )}>
+            {badge.type === 'count' ? badge.value : '!'}
+          </span>
+        )}
+      </button>
+    );
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -107,39 +154,39 @@ export function MobileSidebar({
         {/* ========== PATIENT MENU ========== */}
         {userRole === 'patient' &&
         <MenuSection>
-            <MenuItem icon={Heart} label={t('nav.health')} onClick={() => {onClose();onNavigate?.('saude');}} />
-            <MenuItem icon={Award} label={t('nav.achievements')} onClick={() => {onClose();onNavigate?.('conquistas');}} />
-            <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
-            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
-            <MenuItem icon={Receipt} label={t('nav.billing')} onClick={() => {onClose();onNavigate?.('faturacao');}} />
-            <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
-            <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
+            <MenuItem icon={Heart} label={t('nav.health')} onClick={() => handleNavigate('saude')} />
+            <MenuItem icon={Award} label={t('nav.achievements')} itemId="conquistas" onClick={() => handleNavigate('conquistas')} />
+            <MenuItem icon={TrendingUp} label={t('nav.scores')} itemId="pontuacoes" onClick={() => handleNavigate('pontuacoes')} />
+            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => handleNavigate('loja')} />
+            <MenuItem icon={Receipt} label={t('nav.billing')} itemId="faturacao" onClick={() => handleNavigate('faturacao')} />
+            <MenuItem icon={Search} label={t('nav.search')} onClick={() => handleNavigate('pesquisa')} />
+            <MenuItem icon={GiftInvite} label={t('nav.invite')} itemId="convidar" onClick={() => handleNavigate('convidar')} />
           </MenuSection>
         }
 
         {/* ========== DENTIST MENU ========== */}
         {userRole === 'dentist' &&
         <MenuSection>
-            <MenuItem icon={BarChart3} label={t('nav.statistics')} onClick={() => {onClose();onNavigate?.('estatisticas');}} />
-            <MenuItem icon={Award} label={t('nav.achievements')} onClick={() => {onClose();onNavigate?.('conquistas');}} />
-            <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
-            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
-            <MenuItem icon={Receipt} label={t('nav.billing')} onClick={() => {onClose();onNavigate?.('faturacao');}} />
-            <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
-            <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
+            <MenuItem icon={BarChart3} label={t('nav.statistics')} onClick={() => handleNavigate('estatisticas')} />
+            <MenuItem icon={Award} label={t('nav.achievements')} itemId="conquistas" onClick={() => handleNavigate('conquistas')} />
+            <MenuItem icon={TrendingUp} label={t('nav.scores')} itemId="pontuacoes" onClick={() => handleNavigate('pontuacoes')} />
+            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => handleNavigate('loja')} />
+            <MenuItem icon={Receipt} label={t('nav.billing')} itemId="faturacao" onClick={() => handleNavigate('faturacao')} />
+            <MenuItem icon={Search} label={t('nav.search')} onClick={() => handleNavigate('pesquisa')} />
+            <MenuItem icon={GiftInvite} label={t('nav.invite')} itemId="convidar" onClick={() => handleNavigate('convidar')} />
           </MenuSection>
         }
 
         {/* ========== CLINIC MENU ========== */}
         {userRole === 'clinic' &&
         <MenuSection>
-            <MenuItem icon={BarChart3} label={t('nav.statistics')} onClick={() => {onClose();onNavigate?.('estatisticas');}} />
-            <MenuItem icon={Award} label={t('nav.achievements')} onClick={() => {onClose();onNavigate?.('conquistas');}} />
-            <MenuItem icon={TrendingUp} label={t('nav.scores')} onClick={() => {onClose();onNavigate?.('pontuacoes');}} />
-            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => {onClose();onNavigate?.('loja');}} />
-            <MenuItem icon={Receipt} label={t('nav.billing')} onClick={() => {onClose();onNavigate?.('faturacao');}} />
-            <MenuItem icon={Search} label={t('nav.search')} onClick={() => {onClose();onNavigate?.('pesquisa');}} />
-            <MenuItem icon={GiftInvite} label={t('nav.invite')} onClick={() => {onClose();onNavigate?.('convidar');}} />
+            <MenuItem icon={BarChart3} label={t('nav.statistics')} onClick={() => handleNavigate('estatisticas')} />
+            <MenuItem icon={Award} label={t('nav.achievements')} itemId="conquistas" onClick={() => handleNavigate('conquistas')} />
+            <MenuItem icon={TrendingUp} label={t('nav.scores')} itemId="pontuacoes" onClick={() => handleNavigate('pontuacoes')} />
+            <MenuItem icon={Gift} label={t('nav.rewardsStore')} onClick={() => handleNavigate('loja')} />
+            <MenuItem icon={Receipt} label={t('nav.billing')} itemId="faturacao" onClick={() => handleNavigate('faturacao')} />
+            <MenuItem icon={Search} label={t('nav.search')} onClick={() => handleNavigate('pesquisa')} />
+            <MenuItem icon={GiftInvite} label={t('nav.invite')} itemId="convidar" onClick={() => handleNavigate('convidar')} />
           </MenuSection>
         }
 
