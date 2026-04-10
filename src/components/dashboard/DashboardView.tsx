@@ -626,9 +626,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
+          <DashboardSkeleton />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 animate-fade-in">
         {/* Greeting */}
         <div className="items-center justify-between flex flex-col gap-[5px] min-w-0">
           <div>
