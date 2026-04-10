@@ -3317,5 +3317,33 @@
     "cancelFull": "Annuler Consultation",
     "cancelMed": "Annuler",
     "cancelShort": "Annuler"
+  },
+  "emptyStates": {
+    "chatTitle": "Aucune conversation",
+    "chatDescPatient": "Vos conversations avec les dentistes et cliniques apparaîtront ici.",
+    "chatDescDentist": "Vos conversations avec les patients et cliniques apparaîtront ici.",
+    "chatDescClinic": "Vos conversations avec les patients et dentistes apparaîtront ici.",
+    "chatActionPatient": "Rechercher des Dentistes",
+    "chatActionDentist": "Rechercher des Patients",
+    "chatActionClinic": "Rechercher des Patients",
+    "agendaTitle": "Aucun rendez-vous prévu",
+    "agendaDesc": "Prenez votre premier rendez-vous pour commencer.",
+    "agendaAction": "Prendre Rendez-vous",
+    "achievementsTitle": "Pas encore de succès",
+    "achievementsDesc": "Complétez des actions dans l'app pour débloquer des succès et gagner des points !",
+    "storeTitle": "Aucun point disponible",
+    "storeDesc": "Gagnez des points en utilisant l'app, en assistant aux rendez-vous et en donnant des avis.",
+    "storeAction": "Comment gagner des points ?",
+    "billingTitle": "Aucun historique de paiement",
+    "billingDesc": "Vos reçus et paiements apparaîtront ici.",
+    "searchTitle": "Aucun résultat trouvé",
+    "searchDesc": "Essayez de rechercher avec d'autres termes.",
+    "inviteTitle": "Invitez vos amis !",
+    "inviteDesc": "Partagez votre code et gagnez 50 points par inscription.",
+    "inviteAction": "Partager le Code",
+    "waitlistTitle": "Aucun patient en attente",
+    "waitlistDesc": "Aucun patient ne souhaite avancer son rendez-vous pour le moment.",
+    "confirmationsTitle": "Tout est confirmé !",
+    "confirmationsDesc": "Tous les patients d'aujourd'hui ont confirmé leur présence."
   }
 }
