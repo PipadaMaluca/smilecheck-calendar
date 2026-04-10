@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ArrowLeft, Send, User, Stethoscope, Building2 } from 'lucide-react';
+import { Search, ArrowLeft, Send, User, Stethoscope, Building2, MessageSquare } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -232,7 +232,15 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
 
           <ScrollArea className="flex-1">
             <div className="divide-y divide-border">
-              {filtered.map((conversation) => {
+              {filtered.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+                  <MessageSquare className="w-12 h-12 text-muted-foreground/30 mb-4" />
+                  <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.chatTitle')}</h3>
+                  <p className="text-sm text-muted-foreground max-w-xs">
+                    {t(userRole === 'patient' ? 'emptyStates.chatDescPatient' : userRole === 'dentist' ? 'emptyStates.chatDescDentist' : 'emptyStates.chatDescClinic')}
+                  </p>
+                </div>
+              ) : filtered.map((conversation) => {
               const isActive = selectedConversation?.id === conversation.id;
               const badge = typeBadgeConfig[conversation.type];
               const BadgeIcon = badge.icon;

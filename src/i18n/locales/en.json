@@ -3317,5 +3317,33 @@
     "cancelFull": "Cancel Appointment",
     "cancelMed": "Cancel",
     "cancelShort": "Cancel"
+  },
+  "emptyStates": {
+    "chatTitle": "No conversations",
+    "chatDescPatient": "Your conversations with dentists and clinics will appear here.",
+    "chatDescDentist": "Your conversations with patients and clinics will appear here.",
+    "chatDescClinic": "Your conversations with patients and dentists will appear here.",
+    "chatActionPatient": "Search Dentists",
+    "chatActionDentist": "Search Patients",
+    "chatActionClinic": "Search Patients",
+    "agendaTitle": "No appointments scheduled",
+    "agendaDesc": "Book your first appointment to get started.",
+    "agendaAction": "Book Appointment",
+    "achievementsTitle": "No achievements yet",
+    "achievementsDesc": "Complete actions in the app to unlock achievements and earn points!",
+    "storeTitle": "No points available",
+    "storeDesc": "Earn points by using the app, attending appointments and giving feedback.",
+    "storeAction": "How to earn points?",
+    "billingTitle": "No payment history",
+    "billingDesc": "Your receipts and payments will appear here.",
+    "searchTitle": "No results found",
+    "searchDesc": "Try searching with different terms.",
+    "inviteTitle": "Invite your friends!",
+    "inviteDesc": "Share your code and earn 50 points for each registration.",
+    "inviteAction": "Share Code",
+    "waitlistTitle": "No patients waiting",
+    "waitlistDesc": "No patients want to reschedule earlier at the moment.",
+    "confirmationsTitle": "All confirmed!",
+    "confirmationsDesc": "All of today's patients have confirmed attendance."
   }
 }

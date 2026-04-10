@@ -3317,5 +3317,33 @@
     "cancelFull": "Cancelar Consulta",
     "cancelMed": "Cancelar",
     "cancelShort": "Cancelar"
+  },
+  "emptyStates": {
+    "chatTitle": "Sem conversas",
+    "chatDescPatient": "As suas conversas com dentistas e clínicas aparecerão aqui.",
+    "chatDescDentist": "As suas conversas com pacientes e clínicas aparecerão aqui.",
+    "chatDescClinic": "As suas conversas com pacientes e dentistas aparecerão aqui.",
+    "chatActionPatient": "Pesquisar Dentistas",
+    "chatActionDentist": "Pesquisar Pacientes",
+    "chatActionClinic": "Pesquisar Pacientes",
+    "agendaTitle": "Sem consultas agendadas",
+    "agendaDesc": "Marque a sua primeira consulta para começar.",
+    "agendaAction": "Marcar Consulta",
+    "achievementsTitle": "Ainda sem conquistas",
+    "achievementsDesc": "Complete ações na app para desbloquear conquistas e ganhar pontos!",
+    "storeTitle": "Sem pontos disponíveis",
+    "storeDesc": "Ganhe pontos ao usar a app, comparecer a consultas e dar feedback.",
+    "storeAction": "Como ganhar pontos?",
+    "billingTitle": "Sem histórico de pagamentos",
+    "billingDesc": "Os seus recibos e pagamentos aparecerão aqui.",
+    "searchTitle": "Nenhum resultado encontrado",
+    "searchDesc": "Tente pesquisar com outros termos.",
+    "inviteTitle": "Convide os seus amigos!",
+    "inviteDesc": "Partilhe o seu código e ganhe 50 pontos por cada registo.",
+    "inviteAction": "Partilhar Código",
+    "waitlistTitle": "Sem pacientes em espera",
+    "waitlistDesc": "Nenhum paciente quer antecipar consulta de momento.",
+    "confirmationsTitle": "Tudo confirmado!",
+    "confirmationsDesc": "Todos os pacientes de hoje confirmaram presença."
   }
 }

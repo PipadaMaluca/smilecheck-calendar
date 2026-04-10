@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -116,7 +117,11 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   </Table>
                 </div>
               ) : (
-                <p className="p-4 text-sm text-muted-foreground">{t('waitingList.noPatients')}</p>
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Users className="w-12 h-12 text-muted-foreground/30 mb-4" />
+                  <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.waitlistTitle')}</h3>
+                  <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.waitlistDesc')}</p>
+                </div>
               )}
             </CardContent>
           </Card>

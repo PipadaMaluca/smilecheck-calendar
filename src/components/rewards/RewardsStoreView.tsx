@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Gift } from 'lucide-react';
+import { Gift, ShoppingBag } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { REWARD_TABS, RewardProduct, getAllProductsForRole } from '@/data/rewardsData';
@@ -56,6 +56,14 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
           <span className="text-xs text-amber-400/70 sm:hidden">pts</span>
         </div>
       </div>
+
+      {userPoints === 0 && (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <ShoppingBag className="w-12 h-12 text-muted-foreground/30 mb-4" />
+          <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.storeTitle')}</h3>
+          <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.storeDesc')}</p>
+        </div>
+      )}
 
       <Tabs defaultValue="loja" className="w-full">
         <TabsList className="w-full grid grid-cols-2">
