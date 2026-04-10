@@ -25,6 +25,7 @@ export function ProfileView(props: ProfileViewProps) {
   const [showEdit, setShowEdit] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1000);
   if (!isOpen) return null;
 
   if (showEdit) {
