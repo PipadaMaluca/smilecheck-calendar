@@ -552,19 +552,7 @@ export function DesktopCalendarView() {
       </div>
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
-        <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
-          <div className="text-right">
-            <p className="text-sm font-bold text-foreground">
-              {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
-            </p>
-          </div>
-          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-            <User className="w-5 h-5 text-primary" />
-          </div>
-        </button>
+        <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
       </div>
     </header>;
 
@@ -715,19 +703,7 @@ export function DesktopCalendarView() {
               </div>
               <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
-                <button className="flex items-center gap-3 hover:opacity-80 transition-opacity border-0" onClick={() => setActiveNavTab('perfil')}>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-foreground">
-                      {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
-                    </p>
-                  </div>
-                  <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2 border-secondary">
-                    <User className="w-5 h-5 text-primary" />
-                  </div>
-                </button>
+                <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
               </div>
             </header>
             <DashboardView userRole={activeRole} onNavigate={handleNavTabChange} onStartTriage={() => {setShowTriage(true);setActiveNavTab('agenda');}} onViewFullHistory={() => handleNavTabChange('historico')} />
@@ -786,19 +762,7 @@ export function DesktopCalendarView() {
                 </div>
                 <div className="flex items-center gap-2">
                   <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
-                  <button className="flex items-center gap-3 hover:opacity-80 transition-opacity" onClick={() => setActiveNavTab('perfil')}>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-foreground">
-                        {activeRole === 'patient' ? mockFamilyMembers[0].name : activeRole === 'dentist' ? mockDentists[0].name : mockClinics[0].name}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {activeRole === 'patient' ? t('common.patient') : activeRole === 'dentist' ? t('common.dentist') : t('common.clinic')}
-                      </p>
-                    </div>
-                    <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
-                      <User className="w-5 h-5 text-primary" />
-                    </div>
-                  </button>
+                  <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
                 </div>
               </header>
               {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}
