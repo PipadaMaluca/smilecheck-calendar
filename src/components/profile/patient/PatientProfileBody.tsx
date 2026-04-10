@@ -214,7 +214,19 @@ export function PatientProfileBody({
     <>
       <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6">
         {/* Header */}
-        <SectionCard className="p-5 md:p-6">
+        <SectionCard className="p-5 md:p-6 relative">
+          {/* Edit button top-right (own profile only) */}
+          {isOwnProfile && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="absolute top-4 right-4 md:top-5 md:right-5 text-xs h-8 px-3"
+              onClick={onEditProfile}
+            >
+              {t('profile.editProfile')}
+            </Button>
+          )}
+
           <div className="flex flex-col md:flex-row items-center md:items-start gap-5">
             <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
               {initials}
@@ -240,19 +252,7 @@ export function PatientProfileBody({
                   📋 {planCfg.label}
                 </span>
               </div>
-
-              {/* Action buttons - different per viewer */}
-              {isOwnProfile ?
-              <div className={cn('flex gap-2 mt-3', isMobile ? 'w-full flex-col' : '')}>
-                  <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
-                    {t('profile.editProfile')}
-                  </Button>
-                </div> :
-              null}
             </div>
-
-            {/* Non-own-profile buttons at the top */}
-            {!isOwnProfile && !isMobile && null}
           </div>
           {/* Action buttons for non-own profile */}
           {!isOwnProfile && renderActionButtons()}
