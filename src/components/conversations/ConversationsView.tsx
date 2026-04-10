@@ -233,6 +233,9 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
             </div>
           </div>
 
+          {isLoading ? (
+            <div className="p-2"><ChatListSkeleton /></div>
+          ) : (
           <ScrollArea className="flex-1">
             <div className="divide-y divide-border">
               {filtered.length === 0 ? (
