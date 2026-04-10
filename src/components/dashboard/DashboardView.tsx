@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
@@ -45,6 +47,7 @@ const MOCK_WAITING_LIST = [
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1200);
   const userName = getUserName(userRole);
 
   const greeting = useMemo(() => {
