@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Gift, ShoppingBag } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { CardGridSkeleton } from '@/components/skeletons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { REWARD_TABS, RewardProduct, getAllProductsForRole } from '@/data/rewardsData';
 import { ProductGrid } from './ProductGrid';
@@ -26,6 +28,7 @@ interface RewardsStoreViewProps {
 
 export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1200);
   const getInitialPoints = () => {
     switch (userRole) {
       case 'patient': return 450;
@@ -41,6 +44,14 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
 
   const handleRedeem = (product: RewardProduct) => { setRedeemProduct(product); };
   const handleConfirmRedeem = () => { if (redeemProduct) setUserPoints(prev => prev - redeemProduct.points); };
+
+  if (isLoading) {
+    return (
+      <div className="p-4 md:p-6 max-w-6xl mx-auto pb-28">
+        <CardGridSkeleton cards={8} columns="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-6 pb-28">

@@ -1,4 +1,6 @@
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle } from 'lucide-react';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { ListSkeleton } from '@/components/skeletons';
 import { Button } from '@/components/ui/button';
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +26,7 @@ export function PatientAppointmentsList({
   compact = false
 }: PatientAppointmentsListProps) {
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1000);
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {
     const dateCompare = a.date.getTime() - b.date.getTime();
@@ -56,8 +59,16 @@ export function PatientAppointmentsList({
 
   };
 
+  if (isLoading) {
+    return (
+      <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D]", compact && "p-3")}>
+        <ListSkeleton rows={5} showAvatar />
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D]", compact && "p-3")}>
+    <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D] animate-fade-in", compact && "p-3")}>
       <div className={cn("space-y-4", compact ? "max-w-full" : "max-w-2xl mx-auto")}>
         <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>Minhas Consultas</h2>
 

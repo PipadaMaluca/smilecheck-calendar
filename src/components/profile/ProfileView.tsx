@@ -6,6 +6,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { ProfileSkeleton } from '@/components/skeletons';
 import { EditProfileView } from './EditProfileView';
 import { PatientProfileBody } from './patient/PatientProfileBody';
 
@@ -23,6 +25,7 @@ export function ProfileView(props: ProfileViewProps) {
   const [showEdit, setShowEdit] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1000);
   if (!isOpen) return null;
 
   if (showEdit) {
@@ -41,12 +44,16 @@ export function ProfileView(props: ProfileViewProps) {
   // Dentista e Clínica usam os seus componentes dedicados.
   if (userRole !== 'patient') return null;
 
-  const profileBody = (
-    <PatientProfileBody
-      userRole={userRole}
-      isMobile={isMobile}
-      onEditProfile={() => setShowEdit(true)}
-    />
+  const profileBody = isLoading ? (
+    <ProfileSkeleton />
+  ) : (
+    <div className="animate-fade-in">
+      <PatientProfileBody
+        userRole={userRole}
+        isMobile={isMobile}
+        onEditProfile={() => setShowEdit(true)}
+      />
+    </div>
   );
 
   if (inline) {

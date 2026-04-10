@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
@@ -45,6 +47,7 @@ const MOCK_WAITING_LIST = [
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1200);
   const userName = getUserName(userRole);
 
   const greeting = useMemo(() => {
@@ -623,9 +626,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="p-4 sm:p-6 max-w-7xl mx-auto w-full">
+          <DashboardSkeleton />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0">
+      <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 animate-fade-in">
         {/* Greeting */}
         <div className="items-center justify-between flex flex-col gap-[5px] min-w-0">
           <div>

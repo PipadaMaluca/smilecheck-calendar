@@ -10,6 +10,8 @@ import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { ChatListSkeleton } from '@/components/skeletons';
 
 interface Message {
   id: string;
@@ -168,6 +170,7 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
   const isMobile = useIsMobile();
+  const isLoading = useSimulatedLoading(1000);
 
   const conversations = mockConversations[userRole] || [];
 
@@ -230,6 +233,9 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
             </div>
           </div>
 
+          {isLoading ? (
+            <div className="p-2"><ChatListSkeleton /></div>
+          ) : (
           <ScrollArea className="flex-1">
             <div className="divide-y divide-border">
               {filtered.length === 0 ? (
@@ -293,6 +299,7 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
             })}
             </div>
           </ScrollArea>
+          )}
         </div>
       }
 

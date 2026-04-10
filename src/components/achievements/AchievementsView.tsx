@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { CardGridSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { Lock, HelpCircle, Star as StarIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -391,6 +393,7 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
+  const isLoading = useSimulatedLoading(1200);
   const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
@@ -462,9 +465,17 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
     </>
   );
 
+  if (isLoading) {
+    return (
+      <div className="p-4 md:p-6 max-w-4xl mx-auto pb-32">
+        <CardGridSkeleton cards={8} columns="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" />
+      </div>
+    );
+  }
+
   return (
     <ScrollArea className="flex-1">
-      <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32">
+      <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32 animate-fade-in">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div>
