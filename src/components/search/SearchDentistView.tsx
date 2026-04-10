@@ -181,9 +181,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
             </div>
             {filteredDentists.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-3" />
-                <p className="text-sm text-muted-foreground font-medium">{t('search.noDentistsFound')}</p>
-                <p className="text-xs text-muted-foreground/60 mt-1">{t('search.adjustFilters')}</p>
+                <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-4" />
+                <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.searchTitle')}</h3>
+                <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.searchDesc')}</p>
               </div>
             ) : (
               <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2')}>
