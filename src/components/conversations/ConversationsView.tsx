@@ -299,6 +299,7 @@ export function ConversationsView({ userRole }: ConversationsViewProps) {
             })}
             </div>
           </ScrollArea>
+          )}
         </div>
       }
 
