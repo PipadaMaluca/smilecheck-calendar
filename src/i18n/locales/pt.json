@@ -872,6 +872,8 @@
   "profile": {
     "myProfile": "Meu Perfil",
     "editProfile": "Editar Perfil",
+    "viewProfile": "Ver Perfil",
+    "myLevel": "O Meu Nível",
     "about": "Sobre",
     "personalInfo": "Informação Pessoal",
     "locations": "Locais de Atendimento",
@@ -1585,7 +1587,8 @@
     "logout": "Terminar Sessão",
     "deleteAccountTitle": "Eliminar conta?",
     "deleteAccountDesc": "Esta ação é irreversível. Todos os seus dados serão permanentemente eliminados.",
-    "accountDeleted": "Conta eliminada (simulação)"
+    "accountDeleted": "Conta eliminada (simulação)",
+    "logoutConfirm": "Tem a certeza que deseja terminar sessão?"
   },
   "editProfile": {
     "title": "Editar Perfil",

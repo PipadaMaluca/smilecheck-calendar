@@ -872,6 +872,8 @@
   "profile": {
     "myProfile": "My Profile",
     "editProfile": "Edit Profile",
+    "viewProfile": "View Profile",
+    "myLevel": "My Level",
     "about": "About",
     "personalInfo": "Personal Information",
     "locations": "Practice Locations",
@@ -1585,7 +1587,8 @@
     "logout": "Log Out",
     "deleteAccountTitle": "Delete account?",
     "deleteAccountDesc": "This action is irreversible. All your data will be permanently deleted.",
-    "accountDeleted": "Account deleted (simulation)"
+    "accountDeleted": "Account deleted (simulation)",
+    "logoutConfirm": "Are you sure you want to log out?"
   },
   "editProfile": {
     "title": "Edit Profile",
