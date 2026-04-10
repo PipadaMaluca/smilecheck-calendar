@@ -44,12 +44,16 @@ export function ProfileView(props: ProfileViewProps) {
   // Dentista e Clínica usam os seus componentes dedicados.
   if (userRole !== 'patient') return null;
 
-  const profileBody = (
-    <PatientProfileBody
-      userRole={userRole}
-      isMobile={isMobile}
-      onEditProfile={() => setShowEdit(true)}
-    />
+  const profileBody = isLoading ? (
+    <ProfileSkeleton />
+  ) : (
+    <div className="animate-fade-in">
+      <PatientProfileBody
+        userRole={userRole}
+        isMobile={isMobile}
+        onEditProfile={() => setShowEdit(true)}
+      />
+    </div>
   );
 
   if (inline) {
