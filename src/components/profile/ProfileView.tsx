@@ -6,6 +6,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { ProfileSkeleton } from '@/components/skeletons';
 import { EditProfileView } from './EditProfileView';
 import { PatientProfileBody } from './patient/PatientProfileBody';
 
