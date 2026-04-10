@@ -62,9 +62,10 @@ export function PatientAppointmentsList({
         <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>Minhas Consultas</h2>
 
         {sortedConsultations.length === 0 ?
-        <div className="text-center py-12 text-muted-foreground">
-            <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>Sem consultas agendadas</p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+            <Calendar className="w-12 h-12 text-muted-foreground/30 mb-4" />
+            <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.agendaTitle')}</h3>
+            <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.agendaDesc')}</p>
           </div> :
 
         <div className="space-y-3">
