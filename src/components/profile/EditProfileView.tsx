@@ -54,7 +54,6 @@ function DentistJobToggles() {
   const [negotiable, setNegotiable] = useState(true);
   const [availableDate, setAvailableDate] = useState('');
   const [note, setNote] = useState('');
-  const { t } = useTranslation();
 
   const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
     setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
