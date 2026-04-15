@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ConnectedDevice {
   id: string;
@@ -29,6 +30,7 @@ const deviceIcons = {
 type ScanPhase = 'idle' | 'scanning' | 'confirm' | 'authorized';
 
 export function ConnectedDevicesSection() {
+  const { t } = useTranslation();
   const [devices, setDevices] = useState<ConnectedDevice[]>(mockDevices);
   const [scanPhase, setScanPhase] = useState<ScanPhase>('idle');
   const [showScanner, setShowScanner] = useState(false);
@@ -98,7 +100,7 @@ export function ConnectedDevicesSection() {
                     <button
                       onClick={() => disconnectDevice(device.id)}
                       className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
-                      title="Desconectar"
+                      title={t('devices.disconnect')}
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -109,11 +111,11 @@ export function ConnectedDevicesSection() {
                 onClick={disconnectAll}
                 className="text-xs text-destructive hover:underline w-full text-center pt-1"
               >
-                Desconectar todos os dispositivos
+                {t('devices.disconnectAll')}
               </button>
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground text-center py-2">Nenhum dispositivo conectado</p>
+            <p className="text-xs text-muted-foreground text-center py-2">{t('devices.noDevices')}</p>
           )}
         </CardContent>
       </Card>

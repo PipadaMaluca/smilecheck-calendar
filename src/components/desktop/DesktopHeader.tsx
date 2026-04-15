@@ -4,6 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 import { getDentistInitials, getClinicInitials, getPatientInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { useTranslation } from 'react-i18next';
 
 interface DesktopHeaderProps {
   userRole: UserRole;
@@ -11,22 +12,23 @@ interface DesktopHeaderProps {
 }
 
 export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
+  const { t } = useTranslation();
   const getUserInfo = () => {
     switch (userRole) {
       case 'patient':
         return {
           name: mockFamilyMembers[0].name,
-          subtitle: 'Paciente',
+          subtitle: t('roles.patient'),
         };
       case 'dentist':
         return {
           name: mockDentists[0].name,
-          subtitle: 'Dentista',
+          subtitle: t('roles.dentist'),
         };
       case 'clinic':
         return {
           name: mockClinics[0].name,
-          subtitle: 'Clínica',
+          subtitle: t('roles.clinic'),
         };
     }
   };
@@ -52,7 +54,7 @@ export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Pesquisar pacientes..."
+              placeholder={t('dashboard.searchPatients')}
               className="pl-9 h-8 w-56 text-sm"
             />
           </div>
