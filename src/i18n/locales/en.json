@@ -12,6 +12,11 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
+    "markedAs": "✓ {{name}} marked as {{status}}",
+    "message": "Message",
+    "noShowLabel": "No-show",
+    "confirmLabel": "Confirm",
+    "cancelConsultation": "Cancel consultation"
     "close": "Close",
     "yes": "Yes",
     "no": "No",
