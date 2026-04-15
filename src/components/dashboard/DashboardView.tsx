@@ -21,6 +21,8 @@ import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
+import { SwipeableRow } from '@/components/ui/swipeable-row';
+import { useToast } from '@/hooks/use-toast';
 
 interface DashboardViewProps {
   userRole: UserRole;
