@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, UserPlus, Gift, Users, Clock } from 'lucide-react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +58,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <div>
             <label className="text-xs text-muted-foreground block mb-1.5">Código de convite pessoal</label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-secondary rounded-lg px-4 py-2.5 text-base font-mono font-bold text-foreground tracking-widest text-center">{code}</div>
+              <div id="coachmark-referral-code" className="flex-1 bg-secondary rounded-lg px-4 py-2.5 text-base font-mono font-bold text-foreground tracking-widest text-center">{code}</div>
               <Button variant="outline" size="sm" onClick={() => copyToClipboard(code, 'code')} className="gap-1.5">
                 {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 {copiedCode ? 'Copiado' : 'Copiar'}
