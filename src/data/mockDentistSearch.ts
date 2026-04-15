@@ -229,9 +229,13 @@ export const SORT_OPTIONS = [
 ];
 
 export const LEVEL_CONFIG: Record<string, { labelKey: string; label: string; color: string; bg: string }> = {
-  ouro: { labelKey: 'onboarding.levels.gold', label: 'Ouro', color: 'text-amber-400', bg: 'bg-amber-400/15 border-amber-400/30' },
-  prata: { labelKey: 'onboarding.levels.silver', label: 'Prata', color: 'text-slate-300', bg: 'bg-slate-300/15 border-slate-300/30' },
+  lata: { labelKey: 'onboarding.levels.tin', label: 'Lata', color: 'text-slate-400', bg: 'bg-slate-400/15 border-slate-400/30' },
   bronze: { labelKey: 'onboarding.levels.bronze', label: 'Bronze', color: 'text-orange-400', bg: 'bg-orange-400/15 border-orange-400/30' },
+  prata: { labelKey: 'onboarding.levels.silver', label: 'Prata', color: 'text-slate-300', bg: 'bg-slate-300/15 border-slate-300/30' },
+  ouro: { labelKey: 'onboarding.levels.gold', label: 'Ouro', color: 'text-amber-400', bg: 'bg-amber-400/15 border-amber-400/30' },
+  platina: { labelKey: 'onboarding.levels.platinum', label: 'Platina', color: 'text-purple-400', bg: 'bg-purple-400/15 border-purple-400/30' },
+  diamante: { labelKey: 'onboarding.levels.diamond', label: 'Diamante', color: 'text-blue-400', bg: 'bg-blue-400/15 border-blue-400/30' },
+  adamantino: { labelKey: 'onboarding.levels.adamantine', label: 'Adamantino', color: 'text-red-400', bg: 'bg-red-400/15 border-red-400/30' },
 };
 
 export const PLAN_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
