@@ -243,7 +243,7 @@ export function useConsultationMode(consultations: Consultation[]) {
   useEffect(() => {
     if (isDismissed || activeConsultation) return;
     const match = consultations.find(
-      (c) => c.time === '10:00' && c.status !== 'visto' && c.status !== 'cancelada'
+      (c) => c.time === '10:00' && c.status !== 'visto' && (c.status as string) !== 'cancelada'
     );
     if (match) {
       setActiveConsultation(match);
