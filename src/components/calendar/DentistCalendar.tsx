@@ -325,6 +325,16 @@ export function DentistCalendar() {
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
+      {/* Consultation Mode Top Bar */}
+      {consultationMode.activeConsultation && (
+        <InConsultationBar
+          consultation={consultationMode.activeConsultation}
+          elapsedSeconds={consultationMode.elapsedSeconds}
+          onDismiss={consultationMode.dismiss}
+          onOpenDossier={(id) => setViewPatientDossier(id)}
+        />
+      )}
+
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
