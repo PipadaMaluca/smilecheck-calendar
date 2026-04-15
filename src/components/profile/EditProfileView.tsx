@@ -157,8 +157,8 @@ function ClinicJobToggles() {
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.contractType')}</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPES.map((t) =>
-            <Badge key={t} variant={contractTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, t)}>{t}</Badge>
+              {JOB_TYPES.map((jt) =>
+            <Badge key={jt} variant={contractTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, jt)}>{jt}</Badge>
             )}
             </div>
           </div>
