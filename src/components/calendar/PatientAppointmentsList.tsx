@@ -29,7 +29,9 @@ export function PatientAppointmentsList({
   compact = false
 }: PatientAppointmentsListProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const isLoading = useSimulatedLoading(1000);
+  const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {
     const dateCompare = a.date.getTime() - b.date.getTime();
