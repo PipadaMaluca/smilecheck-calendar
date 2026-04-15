@@ -145,9 +145,18 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     </div>
   );
 
+  const coachMark = (
+    <CoachMark
+      id="invite"
+      targetId="coachmark-referral-code"
+      title="Ganhe pontos extra!"
+      description="Partilhe o seu código. 50 pontos por cada amigo que se registar."
+    />
+  );
+
   // Inline mode
   if (inline) {
-    return inviteContent;
+    return <>{inviteContent}{coachMark}</>;
   }
 
   if (isMobile) {
@@ -158,6 +167,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <h2 className="text-base font-semibold">Convidar Amigos</h2>
         </div>
         <ScrollArea className="flex-1">{inviteContent}</ScrollArea>
+        {coachMark}
       </div>
     );
   }
@@ -170,6 +180,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <h2 className="text-base font-semibold">Convidar Amigos</h2>
         </div>
         <ScrollArea className="flex-1">{inviteContent}</ScrollArea>
+        {coachMark}
       </div>
     </div>
   );
