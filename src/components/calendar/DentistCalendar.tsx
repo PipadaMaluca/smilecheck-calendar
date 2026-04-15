@@ -594,6 +594,32 @@ export function DentistCalendar() {
           onClose={() => setViewPatientDossier(null)}
           userRole="dentist"
         />
+
+        {/* Consultation Mode FAB + Dialogs */}
+        {consultationMode.activeConsultation && (
+          <ConsultationFAB
+            consultation={consultationMode.activeConsultation}
+            onEndConsultation={consultationMode.requestEnd}
+            onOpenDossier={() => setViewPatientDossier(consultationMode.activeConsultation!.patient.id)}
+            onPrescribe={() => setActiveTab('prescrever')}
+            onReferral={() => setActiveTab('referenciar')}
+          />
+        )}
+        {consultationMode.showEndDialog && consultationMode.activeConsultation && (
+          <EndConsultationDialog
+            consultation={consultationMode.activeConsultation}
+            onConfirm={consultationMode.confirmEnd}
+            onCancel={consultationMode.cancelEnd}
+          />
+        )}
+        {consultationMode.showPoints && <PointsEarnedAnimation xp={8} pts={12} />}
+        {consultationMode.showRating && consultationMode.endedConsultation && (
+          <QuickRatingPrompt
+            consultation={consultationMode.endedConsultation}
+            onRate={() => consultationMode.finishRating()}
+            onSkip={consultationMode.finishRating}
+          />
+        )}
       </div>
     </div>
     </ProfileNavigationProvider>
