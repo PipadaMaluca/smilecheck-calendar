@@ -3353,5 +3353,25 @@
     "waitlistDesc": "Nenhum paciente quer antecipar consulta de momento.",
     "confirmationsTitle": "Tudo confirmado!",
     "confirmationsDesc": "Todos os pacientes de hoje confirmaram presença."
+  },
+  "coachmarks": {
+    "dashboardTitle": "Os seus números",
+    "dashboardDesc": "Aqui vê o seu nível, pontos e streak de um relance.",
+    "chatTitle": "As suas conversas",
+    "chatDesc": "Fale com dentistas, pacientes e clínicas. Tudo num só lugar.",
+    "achievementsTitle": "Conquistas",
+    "achievementsDesc": "Complete ações para desbloquear conquistas e mostrar no seu perfil!",
+    "scoresTitle": "Dois tipos de pontos",
+    "scoresDesc": "XP define o seu nível (nunca desce). Pontos de Recompensa são para gastar na loja.",
+    "storeTitle": "A sua moeda",
+    "storeDesc": "100 pontos = €10 de desconto. Gaste com sabedoria!",
+    "profileTitle": "O seu cartão de visita",
+    "profileDesc": "Arraste as conquistas para personalizar o que os outros vêem.",
+    "agendaPatientTitle": "As suas consultas",
+    "agendaPatientDesc": "Veja, marque e gerir todas as suas consultas aqui.",
+    "agendaDentistTitle": "Filtre por dentista",
+    "agendaDentistDesc": "Use os filtros para ver agendas individuais ou de toda a equipa.",
+    "inviteTitle": "Ganhe pontos extra!",
+    "inviteDesc": "Partilhe o seu código. 50 pontos por cada amigo que se registar."
   }
 }
