@@ -15,6 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useOnboarding } from '@/contexts/OnboardingContext';
+import { resetAllCoachMarks } from '@/components/onboarding/CoachMark';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -83,7 +84,8 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.helpAndSupport')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={BookOpen} label={t('settings.reviewTutorial')} onClick={() => replayFull(userRole)} />
-            <LinkRow icon={HelpCircle} label={t('settings.reviewTips')} onClick={() => replayTooltips(userRole)} />
+            <LinkRow icon={HelpCircle} label={t('settings.reviewTips')} onClick={() => { resetAllCoachMarks(); replayTooltips(userRole); toast.success(t('settings.tipsReset')); }} />
+            <LinkRow icon={BookOpen} label={t('settings.resetCoachMarks')} onClick={() => { resetAllCoachMarks(); toast.success(t('settings.coachMarksReset')); }} />
             <LinkRow icon={Mail} label={t('settings.contactSupport')} />
             <LinkRow icon={FAQ} label={t('settings.faq')} />
           </CardContent>
