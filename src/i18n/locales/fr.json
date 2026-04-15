@@ -3457,5 +3457,37 @@
     "disconnect": "Déconnecter",
     "disconnectAll": "Déconnecter tous les appareils",
     "noDevices": "Aucun appareil connecté"
+  },
+  "odontogram": {
+    "title": "Odontogramme",
+    "tooth": "Dent",
+    "save": "Enregistrer",
+    "saved": "Odontogramme mis à jour avec succès",
+    "notesPlaceholder": "Notes cliniques sur cette dent...",
+    "historyTitle": "Modifications de l'odontogramme",
+    "surfaces": {
+      "mesial": "Mésial (M)",
+      "distal": "Distal (D)",
+      "occlusal": "Occlusal (O)",
+      "vestibular": "Vestibulaire (V)",
+      "lingual": "Lingual (L)"
+    },
+    "status": {
+      "healthy": "Saine",
+      "cavity": "Carie",
+      "restoration": "Restauration",
+      "crown": "Couronne",
+      "missing": "Absente",
+      "implant": "Implant",
+      "rootCanal": "Endodontie",
+      "prosthesis": "Prothèse",
+      "toTreat": "À traiter"
+    },
+    "history": {
+      "cavityDetected": "Carie détectée (M, O)",
+      "restorationDone": "Restauration occlusale terminée",
+      "rootCanalCrown": "Endodontie + couronne définitive posée",
+      "crownPlaced": "Couronne céramo-métallique posée"
+    }
   }
 }

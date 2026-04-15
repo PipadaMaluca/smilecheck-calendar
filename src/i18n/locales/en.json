@@ -3457,5 +3457,37 @@
     "disconnect": "Disconnect",
     "disconnectAll": "Disconnect all devices",
     "noDevices": "No connected devices"
+  },
+  "odontogram": {
+    "title": "Dental Chart",
+    "tooth": "Tooth",
+    "save": "Save",
+    "saved": "Dental chart updated successfully",
+    "notesPlaceholder": "Clinical notes about this tooth...",
+    "historyTitle": "Dental Chart Changes",
+    "surfaces": {
+      "mesial": "Mesial (M)",
+      "distal": "Distal (D)",
+      "occlusal": "Occlusal (O)",
+      "vestibular": "Buccal (V)",
+      "lingual": "Lingual (L)"
+    },
+    "status": {
+      "healthy": "Healthy",
+      "cavity": "Cavity",
+      "restoration": "Restoration",
+      "crown": "Crown",
+      "missing": "Missing",
+      "implant": "Implant",
+      "rootCanal": "Root Canal",
+      "prosthesis": "Prosthesis",
+      "toTreat": "To Treat"
+    },
+    "history": {
+      "cavityDetected": "Cavity detected (M, O)",
+      "restorationDone": "Occlusal restoration completed",
+      "rootCanalCrown": "Root canal + permanent crown placed",
+      "crownPlaced": "Porcelain-fused-to-metal crown placed"
+    }
   }
 }
