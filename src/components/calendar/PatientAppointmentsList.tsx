@@ -1,4 +1,5 @@
-import { Video, MapPin, Clock, Calendar, Check, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ListSkeleton } from '@/components/skeletons';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,8 @@ import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { SwipeableRow } from '@/components/ui/swipeable-row';
+import { useToast } from '@/hooks/use-toast';
 
 interface PatientAppointmentsListProps {
   consultations: Consultation[];
@@ -26,7 +29,9 @@ export function PatientAppointmentsList({
   compact = false
 }: PatientAppointmentsListProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const isLoading = useSimulatedLoading(1000);
+  const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {
     const dateCompare = a.date.getTime() - b.date.getTime();
@@ -87,8 +92,29 @@ export function PatientAppointmentsList({
             const isSelected = selectedConsultationId === consultation.id;
 
             return (
-              <div
+              <SwipeableRow
                 key={consultation.id}
+                rowId={consultation.id}
+                activeRowId={activeSwipeRow}
+                onSwipeOpen={setActiveSwipeRow}
+                leftActions={[{
+                  label: t('common.message'),
+                  icon: <MessageCircle className="w-5 h-5" />,
+                  color: '#2196F3',
+                  onAction: () => {
+                    toast({ title: `💬 ${t('common.message')}: ${consultation.dentist.name}`, duration: 2000 });
+                  }
+                }]}
+                rightActions={[{
+                  label: t('common.cancel'),
+                  icon: <Ban className="w-5 h-5" />,
+                  color: '#F44336',
+                  onAction: () => {
+                    toast({ title: `❌ ${t('common.cancelConsultation')}`, duration: 2000 });
+                  }
+                }]}
+              >
+              <div
                 className={cn(
                   'bg-card rounded-xl cursor-pointer transition-all duration-200',
                   'border-l-4',
@@ -170,7 +196,8 @@ export function PatientAppointmentsList({
                       </Button>
                     </div>
                   )}
-                </div>);
+                </div>
+              </SwipeableRow>);
 
           })}
           </div>

@@ -1,10 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -21,6 +21,8 @@ import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
+import { SwipeableRow } from '@/components/ui/swipeable-row';
+import { useToast } from '@/hooks/use-toast';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -48,8 +50,11 @@ const MOCK_WAITING_LIST = [
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const isLoading = useSimulatedLoading(1200);
   const userName = getUserName(userRole);
+  const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
+  const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
@@ -288,7 +293,41 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
                   return (
-                    <div key={c.id}
+                    <SwipeableRow
+                      key={c.id}
+                      rowId={c.id}
+                      activeRowId={activeSwipeRow}
+                      onSwipeOpen={setActiveSwipeRow}
+                      leftActions={[{
+                        label: t('common.confirmLabel'),
+                        icon: <Check className="w-5 h-5" />,
+                        color: '#4CAF50',
+                        onAction: () => {
+                          setConsultationStatuses(prev => ({ ...prev, [c.id]: 'confirmada' }));
+                          toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.confirmed') }), duration: 2000 });
+                        }
+                      }]}
+                      rightActions={[
+                        {
+                          label: t('common.noShowLabel'),
+                          icon: <X className="w-5 h-5" />,
+                          color: '#F44336',
+                          onAction: () => {
+                            setConsultationStatuses(prev => ({ ...prev, [c.id]: 'falta_nao_justificada' }));
+                            toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.noShow') }), duration: 2000 });
+                          }
+                        },
+                        {
+                          label: t('common.cancel'),
+                          icon: <Ban className="w-5 h-5" />,
+                          color: '#FF9800',
+                          onAction: () => {
+                            toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.cancelled') }), duration: 2000 });
+                          }
+                        }
+                      ]}
+                    >
+                    <div
                       className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
@@ -304,7 +343,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
                         <div className="flex justify-end">
-                          {getStatusBadge(c.status)}
+                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
                       {/* Mobile: 2-row layout */}
@@ -316,14 +355,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                               <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
                             </span>
                           </div>
-                          {getStatusBadge(c.status)}
+                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                         <div className="flex items-center gap-1.5 pl-[48px]">
                           <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
                       </div>
-                    </div>);
+                    </div>
+                    </SwipeableRow>
+                  );
 
                 })}
               </div>
