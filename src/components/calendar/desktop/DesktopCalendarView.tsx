@@ -65,6 +65,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManager';
+import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
