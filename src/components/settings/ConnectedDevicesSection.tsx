@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface ConnectedDevice {
   id: string;
@@ -29,6 +30,7 @@ const deviceIcons = {
 type ScanPhase = 'idle' | 'scanning' | 'confirm' | 'authorized';
 
 export function ConnectedDevicesSection() {
+  const { t } = useTranslation();
   const [devices, setDevices] = useState<ConnectedDevice[]>(mockDevices);
   const [scanPhase, setScanPhase] = useState<ScanPhase>('idle');
   const [showScanner, setShowScanner] = useState(false);

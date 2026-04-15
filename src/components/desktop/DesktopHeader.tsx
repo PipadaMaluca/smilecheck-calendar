@@ -4,6 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
 import { getDentistInitials, getClinicInitials, getPatientInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { useTranslation } from 'react-i18next';
 
 interface DesktopHeaderProps {
   userRole: UserRole;
@@ -11,6 +12,7 @@ interface DesktopHeaderProps {
 }
 
 export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
+  const { t } = useTranslation();
   const getUserInfo = () => {
     switch (userRole) {
       case 'patient':
