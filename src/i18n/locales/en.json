@@ -2051,6 +2051,25 @@
     "confirmationLabel": "confirmation",
     "noTeleconsultations": "No teleconsultations"
   },
+  "availability": {
+    "selectClinic": "Select clinic",
+    "applyToAll": "Apply to all clinics",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "eveningTele": "Evening (Teleconsultations)",
+    "eveningShort": "Evening",
+    "exceptionsTitle": "Exceptions & Holidays",
+    "addException": "Add Exception",
+    "noExceptions": "No scheduled exceptions",
+    "reasonHoliday": "Holiday",
+    "reasonTraining": "Training",
+    "reasonPersonal": "Personal",
+    "reasonOther": "Other",
+    "teleAvailability": "Teleconsultation Availability",
+    "teleScheduleNote": "Teleconsultation slots (evening) are configured in the weekly schedule above.",
+    "saveChanges": "Save Changes",
+    "savedSuccess": "✅ Availability updated successfully"
+  },
   "chat": {
     "title": "Conversations",
     "noMessages": "No conversations",

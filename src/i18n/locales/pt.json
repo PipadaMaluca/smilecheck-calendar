@@ -2051,6 +2051,25 @@
     "confirmationLabel": "confirmação",
     "noTeleconsultations": "Sem teleconsultas"
   },
+  "availability": {
+    "selectClinic": "Selecionar clínica",
+    "applyToAll": "Aplicar a todas as clínicas",
+    "morning": "Manhã",
+    "afternoon": "Tarde",
+    "eveningTele": "Noite (Teleconsultas)",
+    "eveningShort": "Noite",
+    "exceptionsTitle": "Exceções e Férias",
+    "addException": "Adicionar Exceção",
+    "noExceptions": "Sem exceções agendadas",
+    "reasonHoliday": "Férias",
+    "reasonTraining": "Formação",
+    "reasonPersonal": "Pessoal",
+    "reasonOther": "Outro",
+    "teleAvailability": "Disponibilidade Teleconsultas",
+    "teleScheduleNote": "Os horários de teleconsulta (noite) são configurados na grelha semanal acima.",
+    "saveChanges": "Guardar Alterações",
+    "savedSuccess": "✅ Disponibilidade atualizada com sucesso"
+  },
   "chat": {
     "title": "Conversas",
     "noMessages": "Sem conversas",
