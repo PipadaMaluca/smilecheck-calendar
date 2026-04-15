@@ -138,7 +138,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="flex flex-col gap-3 sm:gap-4">
         {/* Row: Hero card (40%) + 3 standard cards (20% each) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
