@@ -1702,7 +1702,20 @@
     "deleteAccountDesc": "Cette action est irréversible. Toutes vos données seront définitivement supprimées.",
     "saveChanges": "Enregistrer les Modifications",
     "profileUpdated": "Profil mis à jour avec succès",
-    "accountDeleted": "Compte supprimé (simulation)"
+    "accountDeleted": "Compte supprimé (simulation)",
+    "xrayPanoramic": "Radio panoramique",
+    "xrayPeriapical": "Radio périapicale",
+    "xrayCephalometric": "Radio céphalométrique",
+    "dentalCT": "Scanner dentaire",
+    "wheelchairAccess": "Accès fauteuil roulant",
+    "elevator": "Ascenseur",
+    "adaptedWC": "WC adapté",
+    "reservedParking": "Parking réservé",
+    "freeParking": "Parking gratuit",
+    "nearTransport": "Proche des transports",
+    "salaryExample": "Ex : 2500",
+    "certExample": "Ex : ISO 9001",
+    "consultationsPerDay": "Ex : 8"
   },
   "search": {
     "title": "Recherche",
@@ -1988,7 +2001,6 @@
     "memberSince": "Membre depuis",
     "yesTeleconsultas": "Téléconsultations",
     "noTeleconsultas": "Sans téléconsultations",
-    "day": "Jour",
     "open": "Ouvert",
     "opening": "Ouverture",
     "closing": "Fermeture",
@@ -3391,5 +3403,10 @@
     "confirm": "Terminer",
     "ratePatient": "Évaluer le patient ?",
     "skipRating": "Passer"
+  },
+  "devices": {
+    "disconnect": "Déconnecter",
+    "disconnectAll": "Déconnecter tous les appareils",
+    "noDevices": "Aucun appareil connecté"
   }
 }
