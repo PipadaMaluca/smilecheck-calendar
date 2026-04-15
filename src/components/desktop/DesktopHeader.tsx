@@ -18,17 +18,17 @@ export function DesktopHeader({ userRole, currentDate }: DesktopHeaderProps) {
       case 'patient':
         return {
           name: mockFamilyMembers[0].name,
-          subtitle: 'Paciente',
+          subtitle: t('roles.patient'),
         };
       case 'dentist':
         return {
           name: mockDentists[0].name,
-          subtitle: 'Dentista',
+          subtitle: t('roles.dentist'),
         };
       case 'clinic':
         return {
           name: mockClinics[0].name,
-          subtitle: 'Clínica',
+          subtitle: t('roles.clinic'),
         };
     }
   };
