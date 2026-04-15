@@ -2038,7 +2038,11 @@
     "selectConversation": "Select a conversation to start",
     "patient": "Patient",
     "dentistType": "Dentist",
-    "clinicType": "Clinic"
+    "clinicType": "Clinic",
+    "you": "You",
+    "typing": "Typing...",
+    "newConversation": "New Conversation",
+    "searchContact": "Search contact..."
   },
   "notifications": {
     "title": "Notifications",
