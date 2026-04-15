@@ -1072,7 +1072,18 @@ export function DesktopCalendarView() {
       onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
     <TeleconsultaManager userRole={activeRole}>
     {(startTeleconsulta) => (
-    <div className="h-screen flex bg-background relative">
+    <div className="h-screen flex flex-col bg-background relative">
+      {/* Consultation Mode Top Bar */}
+      {activeRole === 'dentist' && consultationMode.activeConsultation && (
+        <InConsultationBar
+          consultation={consultationMode.activeConsultation}
+          elapsedSeconds={consultationMode.elapsedSeconds}
+          onDismiss={consultationMode.dismiss}
+          onOpenDossier={(id) => { setDossierPatientId(id); setActiveNavTab('dossier'); }}
+        />
+      )}
+
+      <div className="flex flex-1 min-h-0 relative">
       {/* Background Watermark Logo */}
       <div
           className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
