@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { CardGridSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
@@ -499,7 +500,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="todas" className="w-full">
+        <Tabs defaultValue="todas" className="w-full" id="coachmark-achievements-grid">
           <TabsList className="w-full">
             <TabsTrigger value="todas" className="flex-1">{t('achievements.all')}</TabsTrigger>
             <TabsTrigger value="completas" className="flex-1">{t('achievements.completed')} ({unlockedAchievements})</TabsTrigger>
@@ -533,6 +534,13 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         categories={categories}
         selectedIds={showcasedIds}
         onSave={setShowcasedIds}
+      />
+      <CoachMark
+        id={`achievements-${userRole}`}
+        targetId="coachmark-achievements-grid"
+        title={t('coachmarks.achievementsTitle')}
+        description={t('coachmarks.achievementsDesc')}
+        enabled={!isLoading}
       />
     </ScrollArea>
   );
