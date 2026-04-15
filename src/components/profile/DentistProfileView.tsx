@@ -378,7 +378,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{r.comment}</p>
-              <p className="text-[10px] text-muted-foreground/60 mt-1">{r.date}</p>
+              <p className="text-[10px] text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
             </div>
         )}
         </div>
