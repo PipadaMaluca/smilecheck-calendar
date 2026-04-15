@@ -3378,5 +3378,18 @@
     "agendaDentistDesc": "Use the filters to view individual or team schedules.",
     "inviteTitle": "Earn extra points!",
     "inviteDesc": "Share your code. 50 points for each friend who signs up."
+  },
+  "consultationMode": {
+    "inConsultation": "In consultation",
+    "postpone": "Postpone",
+    "prescribe": "Prescribe",
+    "referralLetter": "Referral Letter",
+    "openDossier": "Open Dossier",
+    "endConsultation": "End Consultation",
+    "endTitle": "End consultation?",
+    "endDescription": "End consultation with {{name}}?",
+    "confirm": "End",
+    "ratePatient": "Rate patient?",
+    "skipRating": "Skip"
   }
 }
