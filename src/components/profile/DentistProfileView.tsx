@@ -242,19 +242,28 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <h4 className="text-sm font-semibold text-foreground">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-        { label: t('profile.totalConsultations'), value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope },
-        { label: t('profile.teleconsultations'), value: DENTIST_EXTRA.stats.teleconsultations, icon: Video },
-        { label: t('profile.confirmationRate'), value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp },
-        { label: t('profile.avgDuration'), value: DENTIST_EXTRA.stats.avgDuration, icon: Clock }].
-        map((stat) =>
+        { label: t('profile.totalConsultations'), value: DENTIST_EXTRA.stats.totalConsultations, icon: Stethoscope, trendKey: 'totalConsultations' },
+        { label: t('profile.teleconsultations'), value: DENTIST_EXTRA.stats.teleconsultations, icon: Video, trendKey: 'teleconsultations' },
+        { label: t('profile.confirmationRate'), value: DENTIST_EXTRA.stats.confirmationRate, icon: TrendingUp, trendKey: 'confirmationRate' },
+        { label: t('profile.avgDuration'), value: DENTIST_EXTRA.stats.avgDuration, icon: Clock, trendKey: 'avgDuration' }].
+        map((stat) => {
+        const trend = DENTIST_TRENDS[stat.trendKey];
+        const display = trend ? getTrendDisplay(trend) : null;
+        return (
         <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
                 <stat.icon className="w-3.5 h-3.5 text-primary" />
                 <span className="text-[10px] text-muted-foreground">{stat.label}</span>
               </div>
               <span className="text-lg font-bold">{stat.value}</span>
+              {display && (
+                <p className={cn('text-[11px] mt-0.5', display.color)}>
+                  {display.arrow} {display.text}
+                </p>
+              )}
             </div>
-        )}
+        );
+        })}
         </div>
       </section>
 
