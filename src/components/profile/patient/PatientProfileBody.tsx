@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LEVEL_GLOW, PATIENT_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import {
   Building2,
   Calendar,
