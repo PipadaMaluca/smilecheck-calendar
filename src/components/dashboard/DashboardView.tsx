@@ -81,7 +81,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
       { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'dentist') {
       const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
@@ -91,14 +91,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
       { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'clinic') {
       return [
       { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true },
       { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
-      { label: t('dashboard.streak'), value: `🔥 ${pointsData.streak} ${t('points.days')}`, icon: Flame, clickTab: 'pontuacoes-streak' }];
+      { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     return null;
   }, [userRole, todayConsultations, level, pointsData, t]);
@@ -143,7 +143,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] md:col-span-3 lg:col-span-1",
+              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] md:col-span-3 lg:col-span-1 card-hover-lift",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
             onClick={heroStat.clickTab ? () => {
@@ -193,7 +193,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 key={stat.label}
                 id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
                 className={cn(
-                  "bg-card/80 backdrop-blur border-border min-w-0",
+                  "bg-card/80 backdrop-blur border-border min-w-0 card-hover-lift",
                   isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
                 )}
                 onClick={isClickable ? () => {
