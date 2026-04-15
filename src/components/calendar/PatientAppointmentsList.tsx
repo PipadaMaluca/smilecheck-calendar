@@ -1,4 +1,5 @@
-import { Video, MapPin, Clock, Calendar, Check, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ListSkeleton } from '@/components/skeletons';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,8 @@ import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { SwipeableRow } from '@/components/ui/swipeable-row';
+import { useToast } from '@/hooks/use-toast';
 
 interface PatientAppointmentsListProps {
   consultations: Consultation[];
