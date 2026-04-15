@@ -92,8 +92,29 @@ export function PatientAppointmentsList({
             const isSelected = selectedConsultationId === consultation.id;
 
             return (
-              <div
+              <SwipeableRow
                 key={consultation.id}
+                rowId={consultation.id}
+                activeRowId={activeSwipeRow}
+                onSwipeOpen={setActiveSwipeRow}
+                leftActions={[{
+                  label: t('common.message'),
+                  icon: <MessageCircle className="w-5 h-5" />,
+                  color: '#2196F3',
+                  onAction: () => {
+                    toast({ title: `💬 ${t('common.message')}: ${consultation.dentist.name}`, duration: 2000 });
+                  }
+                }]}
+                rightActions={[{
+                  label: t('common.cancel'),
+                  icon: <Ban className="w-5 h-5" />,
+                  color: '#F44336',
+                  onAction: () => {
+                    toast({ title: `❌ ${t('common.cancelConsultation')}`, duration: 2000 });
+                  }
+                }]}
+              >
+              <div
                 className={cn(
                   'bg-card rounded-xl cursor-pointer transition-all duration-200',
                   'border-l-4',
