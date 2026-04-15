@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -64,7 +65,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <span>{data.xp.toLocaleString()} XP</span>
               <span>{xpProgress.target.toLocaleString()} XP</span>
             </div>
-            <Progress value={xpProgress.percent} className="h-3" />
+            <Progress id="coachmark-xp-bar" value={xpProgress.percent} className="h-3" />
             {xpProgress.nextLevelKey && (
               <p className="text-xs text-muted-foreground">
                 {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
@@ -253,7 +254,13 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             <p className="text-center text-sm text-muted-foreground py-8">{t('scores.noResults')}</p>
           )}
         </div>
-      </div>
+       </div>
+      <CoachMark
+        id={`scores-${userRole}`}
+        targetId="coachmark-xp-bar"
+        title={t('coachmarks.scoresTitle')}
+        description={t('coachmarks.scoresDesc')}
+      />
     </div>
   );
 }
