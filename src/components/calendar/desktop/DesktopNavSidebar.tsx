@@ -117,7 +117,7 @@ export function DesktopNavSidebar({
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 relative',
+          'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 relative sidebar-slide-bg',
           isActive
             ? 'bg-primary text-primary-foreground hover:bg-primary/90'
             : 'text-muted-foreground hover:text-foreground hover:bg-[#152238]'
