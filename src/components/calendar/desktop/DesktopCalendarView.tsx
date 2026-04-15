@@ -1240,6 +1240,36 @@ export function DesktopCalendarView() {
           dentistName={slotCreation.dentistName} />
 
         }
+
+      {/* Consultation Mode FAB */}
+      {activeRole === 'dentist' && consultationMode.activeConsultation && (
+        <ConsultationFAB
+          consultation={consultationMode.activeConsultation}
+          onEndConsultation={consultationMode.requestEnd}
+          onOpenDossier={() => { setDossierPatientId(consultationMode.activeConsultation!.patient.id); setActiveNavTab('dossier'); }}
+          onPrescribe={() => setActiveNavTab('prescrever')}
+          onReferral={() => setActiveNavTab('referenciar')}
+        />
+      )}
+
+      {/* Consultation Mode Dialogs */}
+      {consultationMode.showEndDialog && consultationMode.activeConsultation && (
+        <EndConsultationDialog
+          consultation={consultationMode.activeConsultation}
+          onConfirm={consultationMode.confirmEnd}
+          onCancel={consultationMode.cancelEnd}
+        />
+      )}
+      {consultationMode.showPoints && <PointsEarnedAnimation xp={8} pts={12} />}
+      {consultationMode.showRating && consultationMode.endedConsultation && (
+        <QuickRatingPrompt
+          consultation={consultationMode.endedConsultation}
+          onRate={() => consultationMode.finishRating()}
+          onSkip={consultationMode.finishRating}
+        />
+      )}
+
+      </div>
     </div>
     )}
     </TeleconsultaManager>
