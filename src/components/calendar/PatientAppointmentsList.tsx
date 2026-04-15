@@ -196,7 +196,8 @@ export function PatientAppointmentsList({
                       </Button>
                     </div>
                   )}
-                </div>);
+                </div>
+              </SwipeableRow>);
 
           })}
           </div>
