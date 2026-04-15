@@ -292,8 +292,41 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
-                  return (
-                    <div key={c.id}
+                    <SwipeableRow
+                      key={c.id}
+                      rowId={c.id}
+                      activeRowId={activeSwipeRow}
+                      onSwipeOpen={setActiveSwipeRow}
+                      leftActions={[{
+                        label: t('common.confirmLabel'),
+                        icon: <Check className="w-5 h-5" />,
+                        color: '#4CAF50',
+                        onAction: () => {
+                          setConsultationStatuses(prev => ({ ...prev, [c.id]: 'confirmada' }));
+                          toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.confirmed') }), duration: 2000 });
+                        }
+                      }]}
+                      rightActions={[
+                        {
+                          label: t('common.noShowLabel'),
+                          icon: <X className="w-5 h-5" />,
+                          color: '#F44336',
+                          onAction: () => {
+                            setConsultationStatuses(prev => ({ ...prev, [c.id]: 'falta_nao_justificada' }));
+                            toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.noShow') }), duration: 2000 });
+                          }
+                        },
+                        {
+                          label: t('common.cancel'),
+                          icon: <Ban className="w-5 h-5" />,
+                          color: '#FF9800',
+                          onAction: () => {
+                            toast({ title: t('common.markedAs', { name: c.patient.name, status: t('consultation.cancelled') }), duration: 2000 });
+                          }
+                        }
+                      ]}
+                    >
+                    <div
                       className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
@@ -309,7 +342,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
                         <div className="flex justify-end">
-                          {getStatusBadge(c.status)}
+                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
                       {/* Mobile: 2-row layout */}
@@ -321,14 +354,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                               <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
                             </span>
                           </div>
-                          {getStatusBadge(c.status)}
+                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                         <div className="flex items-center gap-1.5 pl-[48px]">
                           <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
                       </div>
-                    </div>);
+                    </div>
+                    </SwipeableRow>;
 
                 })}
               </div>
