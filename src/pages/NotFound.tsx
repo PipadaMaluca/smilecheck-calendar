@@ -1,8 +1,25 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
+
+const ToothSearchSVG = () => (
+  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
+    {/* Tooth */}
+    <path
+      d="M40 30C40 20 50 12 60 12C70 12 80 20 80 30C80 40 82 55 78 68C74 81 72 95 68 95C64 95 63 80 60 80C57 80 56 95 52 95C48 95 46 81 42 68C38 55 40 40 40 30Z"
+      fill="hsl(var(--muted))"
+      stroke="hsl(var(--muted-foreground))"
+      strokeWidth="2"
+      opacity="0.6"
+    />
+    {/* Question mark on tooth */}
+    <text x="54" y="52" fontSize="24" fontWeight="bold" fill="hsl(var(--muted-foreground))" opacity="0.8">?</text>
+    {/* Magnifying glass */}
+    <circle cx="85" cy="80" r="16" stroke="hsl(var(--primary))" strokeWidth="3" fill="none" opacity="0.8" />
+    <line x1="96" y1="92" x2="108" y2="104" stroke="hsl(var(--primary))" strokeWidth="3" strokeLinecap="round" opacity="0.8" />
+  </svg>
+);
 
 const NotFound = () => {
   const location = useLocation();
@@ -24,26 +41,29 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 text-center max-w-md mx-auto space-y-6">
-        {/* Illustration */}
-        <div className="flex items-center justify-center">
-          <div className="relative">
-            <div className="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center">
-              <Search className="w-16 h-16 text-primary/60" />
-            </div>
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 text-5xl font-extrabold text-primary/80 font-['Russo_One']">
-              404
-            </span>
-          </div>
-        </div>
+        {/* Logo */}
+        <img
+          src="/assets/smilecheck-logo.png"
+          alt="SmileCheck"
+          className="h-8 mx-auto opacity-60"
+        />
 
-        <div className="pt-6 space-y-2">
-          <h1 className="text-2xl font-bold text-foreground">{t('errors.404title')}</h1>
+        {/* Illustration */}
+        <ToothSearchSVG />
+
+        {/* 404 number */}
+        <p className="text-[64px] font-extrabold leading-none text-foreground/90 tracking-tight">
+          404
+        </p>
+
+        <div className="space-y-2">
+          <h1 className="text-lg font-bold text-foreground">{t('errors.404title')}</h1>
           <p className="text-sm text-muted-foreground">
             {t('errors.404subtitle')}
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
           <Button onClick={() => navigate("/")} className="gap-2 min-h-[44px]">
             🏠 {t('errors.goHome')}
           </Button>
