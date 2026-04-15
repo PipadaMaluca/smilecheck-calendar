@@ -363,7 +363,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </div>
                       </div>
                     </div>
-                    </SwipeableRow>;
+                    </SwipeableRow>
+                  );
 
                 })}
               </div>
