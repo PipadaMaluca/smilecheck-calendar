@@ -353,10 +353,13 @@ export function PatientProfileBody({
         <SectionCard title={t('profile.stats')}>
           <div className="grid grid-cols-3 gap-3">
             {[
-            { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope },
-            { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video },
-            { label: t('profile.attendance'), value: data.stats.attendanceRate, icon: TrendingUp }].
-            map((stat) =>
+            { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope, trendKey: 'totalConsultations' },
+            { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video, trendKey: 'teleconsultations' },
+            { label: t('profile.attendance'), value: data.stats.attendanceRate, icon: TrendingUp, trendKey: 'attendance' }].
+            map((stat) => {
+            const trend = PATIENT_TRENDS[stat.trendKey];
+            const display = trend ? getTrendDisplay(trend) : null;
+            return (
             <div
               key={stat.label}
               className="bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4">
@@ -365,8 +368,14 @@ export function PatientProfileBody({
                   <span className="text-[11px] text-muted-foreground">{stat.label}</span>
                 </div>
                 <span className="text-lg font-bold text-foreground">{stat.value}</span>
+                {display && (
+                  <p className={cn('text-[11px] mt-0.5', display.color)}>
+                    {display.arrow} {display.text}
+                  </p>
+                )}
               </div>
-            )}
+            );
+            })}
           </div>
         </SectionCard>
 
