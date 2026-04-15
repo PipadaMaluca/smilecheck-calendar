@@ -1577,6 +1577,9 @@
     "helpAndSupport": "Help & Support",
     "reviewTutorial": "Review Tutorial",
     "reviewTips": "Review Tips",
+    "resetCoachMarks": "Review Contextual Tips",
+    "tipsReset": "Tips reset!",
+    "coachMarksReset": "Contextual tips reset! Navigate through sections to see them again.",
     "contactSupport": "Contact Support",
     "faq": "Frequently Asked Questions (FAQ)",
     "legal": "Legal",
@@ -3350,5 +3353,25 @@
     "waitlistDesc": "No patients want to reschedule earlier at the moment.",
     "confirmationsTitle": "All confirmed!",
     "confirmationsDesc": "All of today's patients have confirmed attendance."
+  },
+  "coachmarks": {
+    "dashboardTitle": "Your numbers",
+    "dashboardDesc": "See your level, points and streak at a glance.",
+    "chatTitle": "Your conversations",
+    "chatDesc": "Talk to dentists, patients and clinics. All in one place.",
+    "achievementsTitle": "Achievements",
+    "achievementsDesc": "Complete actions to unlock achievements and display them on your profile!",
+    "scoresTitle": "Two types of points",
+    "scoresDesc": "XP defines your level (never decreases). Reward Points are for spending in the store.",
+    "storeTitle": "Your currency",
+    "storeDesc": "100 points = €10 discount. Spend wisely!",
+    "profileTitle": "Your business card",
+    "profileDesc": "Drag achievements to customize what others see.",
+    "agendaPatientTitle": "Your appointments",
+    "agendaPatientDesc": "View, book and manage all your appointments here.",
+    "agendaDentistTitle": "Filter by dentist",
+    "agendaDentistDesc": "Use the filters to view individual or team schedules.",
+    "inviteTitle": "Earn extra points!",
+    "inviteDesc": "Share your code. 50 points for each friend who signs up."
   }
 }

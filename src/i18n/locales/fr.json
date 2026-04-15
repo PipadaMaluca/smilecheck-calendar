@@ -1577,6 +1577,9 @@
     "helpAndSupport": "Aide & Support",
     "reviewTutorial": "Revoir le Tutoriel",
     "reviewTips": "Revoir les Conseils",
+    "resetCoachMarks": "Revoir les Conseils Contextuels",
+    "tipsReset": "Conseils réinitialisés !",
+    "coachMarksReset": "Conseils contextuels réinitialisés ! Naviguez dans les sections pour les revoir.",
     "contactSupport": "Contacter le Support",
     "faq": "Questions Fréquentes (FAQ)",
     "legal": "Juridique",
@@ -3350,5 +3353,25 @@
     "waitlistDesc": "Aucun patient ne souhaite avancer son rendez-vous pour le moment.",
     "confirmationsTitle": "Tout est confirmé !",
     "confirmationsDesc": "Tous les patients d'aujourd'hui ont confirmé leur présence."
+  },
+  "coachmarks": {
+    "dashboardTitle": "Vos chiffres",
+    "dashboardDesc": "Voyez votre niveau, vos points et votre série d'un coup d'œil.",
+    "chatTitle": "Vos conversations",
+    "chatDesc": "Parlez avec des dentistes, patients et cliniques. Tout au même endroit.",
+    "achievementsTitle": "Succès",
+    "achievementsDesc": "Complétez des actions pour débloquer des succès et les afficher sur votre profil !",
+    "scoresTitle": "Deux types de points",
+    "scoresDesc": "L'XP définit votre niveau (ne diminue jamais). Les Points de Récompense servent à dépenser en boutique.",
+    "storeTitle": "Votre monnaie",
+    "storeDesc": "100 points = 10€ de réduction. Dépensez judicieusement !",
+    "profileTitle": "Votre carte de visite",
+    "profileDesc": "Glissez les succès pour personnaliser ce que les autres voient.",
+    "agendaPatientTitle": "Vos rendez-vous",
+    "agendaPatientDesc": "Consultez, réservez et gérez tous vos rendez-vous ici.",
+    "agendaDentistTitle": "Filtrer par dentiste",
+    "agendaDentistDesc": "Utilisez les filtres pour voir les agendas individuels ou d'équipe.",
+    "inviteTitle": "Gagnez des points bonus !",
+    "inviteDesc": "Partagez votre code. 50 points pour chaque ami qui s'inscrit."
   }
 }
