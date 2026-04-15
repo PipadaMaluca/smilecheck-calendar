@@ -28,7 +28,7 @@ export function ProductGrid({ products, userPoints, onRedeem, groupBySubcategory
         {Object.entries(groups).map(([subcategory, items]) => (
           <div key={subcategory}>
             <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{subcategory}</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
               {items.map(product => (
                 <ProductCard key={product.id} product={product} userPoints={userPoints} onRedeem={onRedeem} />
               ))}
@@ -40,7 +40,7 @@ export function ProductGrid({ products, userPoints, onRedeem, groupBySubcategory
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
       {products.map(product => (
         <ProductCard key={product.id} product={product} userPoints={userPoints} onRedeem={onRedeem} />
       ))}

@@ -143,12 +143,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
     return (
       <div className="flex flex-col gap-3 sm:gap-4">
-        {/* Row: Hero card (40%) + 3 standard cards (20% each) */}
-        <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        {/* Row: 2×2 on mobile, hero full-width on tablet, 40%+20%×3 on desktop */}
+        <div id="coachmark-stat-cards" className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] md:col-span-3 lg:col-span-1 card-hover-lift",
+              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] col-span-2 md:col-span-4 lg:col-span-1 card-hover-lift",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
             onClick={heroStat.clickTab ? () => {
