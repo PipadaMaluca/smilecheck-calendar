@@ -3378,5 +3378,18 @@
     "agendaDentistDesc": "Use os filtros para ver agendas individuais ou de toda a equipa.",
     "inviteTitle": "Ganhe pontos extra!",
     "inviteDesc": "Partilhe o seu código. 50 pontos por cada amigo que se registar."
+  },
+  "consultationMode": {
+    "inConsultation": "Em consulta",
+    "postpone": "Adiar",
+    "prescribe": "Prescrever Receita",
+    "referralLetter": "Carta de Referência",
+    "openDossier": "Abrir Dossier",
+    "endConsultation": "Terminar Consulta",
+    "endTitle": "Terminar consulta?",
+    "endDescription": "Terminar consulta com {{name}}?",
+    "confirm": "Terminar",
+    "ratePatient": "Avaliar paciente?",
+    "skipRating": "Saltar"
   }
 }
