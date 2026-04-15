@@ -151,7 +151,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             </div>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
-            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[dentist.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
