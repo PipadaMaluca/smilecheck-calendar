@@ -50,8 +50,11 @@ const MOCK_WAITING_LIST = [
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const isLoading = useSimulatedLoading(1200);
   const userName = getUserName(userRole);
+  const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
+  const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
