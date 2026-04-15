@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
@@ -700,7 +701,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         {/* Role-specific content */}
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
+
+        <CoachMark
+          id={`dashboard-stats-${userRole}`}
+          targetId="coachmark-stat-cards"
+          title={t('coachmarks.dashboardTitle')}
+          description={t('coachmarks.dashboardDesc')}
+          enabled={!isLoading}
+        />
       </div>
     </div>);
-
 }
