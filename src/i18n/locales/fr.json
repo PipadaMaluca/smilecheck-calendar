@@ -2051,6 +2051,25 @@
     "confirmationLabel": "confirmation",
     "noTeleconsultations": "Pas de téléconsultations"
   },
+  "availability": {
+    "selectClinic": "Sélectionner le cabinet",
+    "applyToAll": "Appliquer à tous les cabinets",
+    "morning": "Matin",
+    "afternoon": "Après-midi",
+    "eveningTele": "Soir (Téléconsultations)",
+    "eveningShort": "Soir",
+    "exceptionsTitle": "Exceptions et Congés",
+    "addException": "Ajouter une Exception",
+    "noExceptions": "Aucune exception prévue",
+    "reasonHoliday": "Vacances",
+    "reasonTraining": "Formation",
+    "reasonPersonal": "Personnel",
+    "reasonOther": "Autre",
+    "teleAvailability": "Disponibilité Téléconsultations",
+    "teleScheduleNote": "Les créneaux de téléconsultation (soir) sont configurés dans le planning hebdomadaire ci-dessus.",
+    "saveChanges": "Enregistrer les Modifications",
+    "savedSuccess": "✅ Disponibilité mise à jour avec succès"
+  },
   "chat": {
     "title": "Conversations",
     "noMessages": "Aucune conversation",
