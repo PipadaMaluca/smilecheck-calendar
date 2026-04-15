@@ -75,6 +75,7 @@ const PATIENT_DATA = {
   mainDentist: { id: '1', name: 'Dr. Gonçalo Pipo', rating: 4.9, consultations: 12 },
   mainClinic: { id: '1', name: 'Clínica SmileCheck' },
   nextAppointment: '15 Mar 2026, 10:00 — Destartarização — Dr. Gonçalo Pipo',
+  lastConsultation: { date: '28 Jan 2026', procedure: 'Destartarização', dentist: 'Dr. Gonçalo Pipo' },
   reviews: [
   { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente exemplar, pontual e colaborativo.', date: '28 Jan 2026' },
   { dentistName: 'Dr. Alexandre Bernardo', rating: 4, comment: 'Boa higiene oral. Pode melhorar na regularidade.', date: '15 Jan 2026' }]
