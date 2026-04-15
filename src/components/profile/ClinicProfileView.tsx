@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
+import { LEVEL_GLOW, CLINIC_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -255,7 +256,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
-            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
@@ -423,19 +424,28 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <h4 className="text-sm font-semibold">{t('profile.stats')}</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
-            { label: t('profile.totalConsultations'), value: stats.totalConsultations, icon: Stethoscope },
-            { label: t('profile.activePatients'), value: stats.activePatients, icon: Users },
-            { label: t('profile.confirmationRate'), value: stats.confirmationRate, icon: TrendingUp },
-            { label: t('profile.activeDentists'), value: String(stats.activeDentists), icon: User },
-          ].map(stat => (
+            { label: t('profile.totalConsultations'), value: stats.totalConsultations, icon: Stethoscope, trendKey: 'totalConsultations' },
+            { label: t('profile.activePatients'), value: stats.activePatients, icon: Users, trendKey: 'activePatients' },
+            { label: t('profile.confirmationRate'), value: stats.confirmationRate, icon: TrendingUp, trendKey: 'confirmationRate' },
+            { label: t('profile.activeDentists'), value: String(stats.activeDentists), icon: User, trendKey: 'activeDentists' },
+          ].map(stat => {
+            const trend = CLINIC_TRENDS[stat.trendKey];
+            const display = trend ? getTrendDisplay(trend) : null;
+            return (
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
                 <stat.icon className="w-3.5 h-3.5 text-primary" />
                 <span className="text-[10px] text-muted-foreground">{stat.label}</span>
               </div>
               <span className="text-lg font-bold">{stat.value}</span>
+              {display && (
+                <p className={cn('text-[11px] mt-0.5', display.color)}>
+                  {display.arrow} {display.text}
+                </p>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -516,7 +526,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{r.comment}</p>
-              <p className="text-[10px] text-muted-foreground/60 mt-1">{r.date}</p>
+              <p className="text-[10px] text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
             </div>
           ))}
         </div>

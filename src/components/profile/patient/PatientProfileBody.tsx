@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LEVEL_GLOW, PATIENT_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import {
   Building2,
   Calendar,
@@ -74,6 +75,7 @@ const PATIENT_DATA = {
   mainDentist: { id: '1', name: 'Dr. Gonçalo Pipo', rating: 4.9, consultations: 12 },
   mainClinic: { id: '1', name: 'Clínica SmileCheck' },
   nextAppointment: '15 Mar 2026, 10:00 — Destartarização — Dr. Gonçalo Pipo',
+  lastConsultation: { date: '28 Jan 2026', procedure: 'Destartarização', dentist: 'Dr. Gonçalo Pipo' },
   reviews: [
   { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente exemplar, pontual e colaborativo.', date: '28 Jan 2026' },
   { dentistName: 'Dr. Alexandre Bernardo', rating: 4, comment: 'Boa higiene oral. Pode melhorar na regularidade.', date: '15 Jan 2026' }]
@@ -245,7 +247,7 @@ export function PatientProfileBody({
               </div>
 
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-2">
-                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
                   {t(levelCfg.labelKey)}
                 </span>
                 <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
@@ -352,10 +354,13 @@ export function PatientProfileBody({
         <SectionCard title={t('profile.stats')}>
           <div className="grid grid-cols-3 gap-3">
             {[
-            { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope },
-            { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video },
-            { label: t('profile.attendance'), value: data.stats.attendanceRate, icon: TrendingUp }].
-            map((stat) =>
+            { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope, trendKey: 'totalConsultations' },
+            { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video, trendKey: 'teleconsultations' },
+            { label: t('profile.attendance'), value: data.stats.attendanceRate, icon: TrendingUp, trendKey: 'attendance' }].
+            map((stat) => {
+            const trend = PATIENT_TRENDS[stat.trendKey];
+            const display = trend ? getTrendDisplay(trend) : null;
+            return (
             <div
               key={stat.label}
               className="bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4">
@@ -364,10 +369,27 @@ export function PatientProfileBody({
                   <span className="text-[11px] text-muted-foreground">{stat.label}</span>
                 </div>
                 <span className="text-lg font-bold text-foreground">{stat.value}</span>
+                {display && (
+                  <p className={cn('text-[11px] mt-0.5', display.color)}>
+                    {display.arrow} {display.text}
+                  </p>
+                )}
               </div>
-            )}
+            );
+            })}
           </div>
         </SectionCard>
+
+        {/* Última Consulta */}
+        <div className="bg-secondary/30 border border-border/40 rounded-lg px-4 py-3 flex items-start gap-3">
+          <Calendar className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-muted-foreground">
+            {t('profile.lastConsultation')}:{' '}
+            <span className="text-foreground font-medium">
+              {data.lastConsultation.date} — {data.lastConsultation.procedure} — {data.lastConsultation.dentist}
+            </span>
+          </p>
+        </div>
 
         {/* Os Meus Profissionais */}
         <SectionCard title={t('profile.myProfessionals')}>
@@ -447,7 +469,7 @@ export function PatientProfileBody({
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground">{r.comment}</p>
-                <p className="text-[10px] text-muted-foreground/70 mt-2">{r.date}</p>
+                <p className="text-[10px] text-muted-foreground/70 mt-2">{formatRelativeDate(r.date)}</p>
               </div>
             )}
           </div>
