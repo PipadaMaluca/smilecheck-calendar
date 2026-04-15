@@ -14,6 +14,7 @@ import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { generateClinicalAlerts, calculateRecall, SEVERITY_CONFIG, ClinicalAlert } from '@/data/clinicalSafetyData';
 import { toast } from 'sonner';
+import { OdontogramChart } from '@/components/odontogram/OdontogramChart';
 
 interface PatientDossierViewProps {
   patientId: string;
@@ -325,6 +326,11 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
             </div>
           </div>
+
+          {/* Odontogram - Dentist and Clinic only */}
+          {(isDentist || isClinic) && (
+            <OdontogramChart readOnly={!isDentist && !isClinic} />
+          )}
 
           {/* Below grid: Recall + Histórico + Documentos (unchanged) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
