@@ -111,11 +111,11 @@ export function ConnectedDevicesSection() {
                 onClick={disconnectAll}
                 className="text-xs text-destructive hover:underline w-full text-center pt-1"
               >
-                Desconectar todos os dispositivos
+                {t('devices.disconnectAll')}
               </button>
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground text-center py-2">Nenhum dispositivo conectado</p>
+            <p className="text-xs text-muted-foreground text-center py-2">{t('devices.noDevices')}</p>
           )}
         </CardContent>
       </Card>
