@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
@@ -138,7 +139,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="flex flex-col gap-3 sm:gap-4">
         {/* Row: Hero card (40%) + 3 standard cards (20% each) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
@@ -700,7 +701,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
         {/* Role-specific content */}
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
+
+        <CoachMark
+          id={`dashboard-stats-${userRole}`}
+          targetId="coachmark-stat-cards"
+          title={t('coachmarks.dashboardTitle')}
+          description={t('coachmarks.dashboardDesc')}
+          enabled={!isLoading}
+        />
       </div>
     </div>);
-
 }

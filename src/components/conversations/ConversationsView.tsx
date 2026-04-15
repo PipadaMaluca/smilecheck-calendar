@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2, MessageSquare, Plus, X } from 'lucide-react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -370,6 +371,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
   };
 
   return (
+    <>
     <div className={cn('flex-1 flex overflow-hidden', showSplit ? 'flex-row' : 'flex-col')}>
       {showList && (
         <div
@@ -391,7 +393,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-            <div className="relative">
+            <div className="relative" id="coachmark-chat-list">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder={t('chat.searchPlaceholder')}
@@ -663,5 +665,13 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
         </div>
       )}
     </div>
+    <CoachMark
+      id={`chat-${userRole}`}
+      targetId="coachmark-chat-list"
+      title={t('coachmarks.chatTitle')}
+      description={t('coachmarks.chatDesc')}
+      enabled={!isLoading}
+    />
+    </>
   );
 }
