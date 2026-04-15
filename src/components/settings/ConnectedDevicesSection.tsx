@@ -98,7 +98,7 @@ export function ConnectedDevicesSection() {
                     <button
                       onClick={() => disconnectDevice(device.id)}
                       className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
-                      title="Desconectar"
+                      title={t('devices.disconnect')}
                     >
                       <X className="w-4 h-4" />
                     </button>

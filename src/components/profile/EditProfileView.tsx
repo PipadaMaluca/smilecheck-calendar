@@ -53,6 +53,7 @@ function DentistJobToggles() {
   const [negotiable, setNegotiable] = useState(true);
   const [availableDate, setAvailableDate] = useState('');
   const [note, setNote] = useState('');
+  const { t } = useTranslation();
 
   const toggle = (list: string[], setList: (v: string[]) => void, item: string) => {
     setList(list.includes(item) ? list.filter((i) => i !== item) : [...list, item]);
@@ -63,22 +64,22 @@ function DentistJobToggles() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SearchIcon className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm font-medium">Disponível para novas oportunidades</span>
+          <span className="text-sm font-medium">{t('editProfile.availableForOpportunities')}</span>
         </div>
         <Switch checked={enabled} onCheckedChange={setEnabled} />
       </div>
       {enabled &&
       <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
           <div>
-            <Label className="text-xs text-muted-foreground mb-2 block">Tipo pretendido</Label>
+            <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.typeWanted')}</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPES.map((t) =>
-            <Badge key={t} variant={jobTypes.includes(t) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, t)}>{t}</Badge>
+              {JOB_TYPES.map((jt) =>
+            <Badge key={jt} variant={jobTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, jt)}>{jt}</Badge>
             )}
             </div>
           </div>
           <div>
-            <Label className="text-xs text-muted-foreground mb-2 block">Disponibilidade horária</Label>
+            <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.scheduleAvailability')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_PERIODS.map((p) =>
             <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
@@ -86,39 +87,39 @@ function DentistJobToggles() {
             </div>
           </div>
           <div>
-            <Label className="text-xs">Horários específicos (opcional)</Label>
-            <Input placeholder="Ex: Seg e Qua tardes" value={specificHours} onChange={(e) => setSpecificHours(e.target.value)} />
+            <Label className="text-xs">{t('editProfile.specificHours')}</Label>
+            <Input placeholder={t('editProfile.specificHoursPlaceholder')} value={specificHours} onChange={(e) => setSpecificHours(e.target.value)} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm">Disponível para teleconsultas</span>
+            <span className="text-sm">{t('editProfile.teleconsultAvailableLabel')}</span>
             <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm">Mostrar expectativa salarial?</span>
+            <span className="text-sm">{t('editProfile.showSalary')}</span>
             <Switch checked={showSalary} onCheckedChange={setShowSalary} />
           </div>
           {showSalary &&
         <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs">Expectativa (€)</Label>
-                <Input type="number" placeholder="Ex: 2500" value={salary} onChange={(e) => setSalary(e.target.value)} />
+                <Label className="text-xs">{t('editProfile.salaryExpectation')}</Label>
+                <Input type="number" placeholder={t('editProfile.salaryExample')} value={salary} onChange={(e) => setSalary(e.target.value)} />
               </div>
               <div className="flex items-center gap-2 self-end">
                 <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded" />
-                <span className="text-xs">Negociável</span>
+                <span className="text-xs">{t('editProfile.negotiable')}</span>
               </div>
             </div>
         }
           <div>
-            <Label className="text-xs">Data de disponibilidade</Label>
+            <Label className="text-xs">{t('editProfile.availabilityDate')}</Label>
             <Input type="date" value={availableDate} onChange={(e) => setAvailableDate(e.target.value)} />
           </div>
           <div>
-            <Label className="text-xs">Nota adicional</Label>
-            <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder="Informações adicionais..." />
+            <Label className="text-xs">{t('editProfile.additionalNote')}</Label>
+            <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder={t('editProfile.additionalInfo')} />
           </div>
           <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-            ⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho.
+            {t('editProfile.visibleToClinics')}
           </p>
         </div>
       }
