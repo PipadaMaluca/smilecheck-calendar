@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Gift, ShoppingBag } from 'lucide-react';
+import { CoachMark } from '@/components/onboarding/CoachMark';
 import { UserRole } from '@/types/calendar';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { CardGridSkeleton } from '@/components/skeletons';
@@ -60,7 +61,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
           <h2 className="text-xl md:text-2xl font-bold text-foreground">{t('store.title')}</h2>
           <p className="text-sm text-muted-foreground">{t('store.pointsEquiv')}</p>
         </div>
-        <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 sm:px-4 py-2 self-start sm:self-auto">
+        <div id="coachmark-store-balance" className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 sm:px-4 py-2 self-start sm:self-auto">
           <Gift className="w-4 h-4 text-amber-400 flex-shrink-0" />
           <span className="font-bold text-amber-400">{userPoints.toLocaleString()}</span>
           <span className="text-xs text-amber-400/70 hidden sm:inline">{t('store.available')}</span>
@@ -117,6 +118,13 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
       </Tabs>
 
       <RedeemModal product={redeemProduct} userPoints={userPoints} onClose={() => setRedeemProduct(null)} onConfirm={handleConfirmRedeem} />
+      <CoachMark
+        id={`store-${userRole}`}
+        targetId="coachmark-store-balance"
+        title={t('coachmarks.storeTitle')}
+        description={t('coachmarks.storeDesc')}
+        enabled={!isLoading}
+      />
     </div>
   );
 }
