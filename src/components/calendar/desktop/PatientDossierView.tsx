@@ -327,10 +327,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             </div>
           </div>
 
-          {/* Odontogram - Dentist and Clinic only */}
-          {(isDentist || isClinic) && (
-            <OdontogramChart readOnly={!isDentist && !isClinic} />
-          )}
+          {/* Odontogram - editable for dentist/clinic, read-only for patient */}
+          <OdontogramChart readOnly={!isDentist && !isClinic} />
 
           {/* Below grid: Recall + Histórico + Documentos (unchanged) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
