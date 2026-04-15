@@ -206,7 +206,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <Icon className="w-4 h-4 flex-shrink-0" />
                     <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                   </div>
-                  <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">{stat.value}</span>
+                  <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">
+                    {'isStreak' in stat && stat.isStreak ? (
+                      <><span className="animate-fire-flicker inline-block">🔥</span> {stat.value} {t('points.days')}</>
+                    ) : stat.value}
+                  </span>
                   {isXPCard &&
                     <div className="space-y-1">
                       <Progress value={xpProgress.percent} className="h-2" />
