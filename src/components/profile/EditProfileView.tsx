@@ -149,7 +149,7 @@ function ClinicJobToggles() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SearchIcon className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm font-medium">À procura de dentistas</span>
+          <span className="text-sm font-medium">{t('editProfile.lookingForDentists')}</span>
         </div>
         <Switch checked={enabled} onCheckedChange={setEnabled} />
       </div>
@@ -410,7 +410,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                       <SelectItem value="masculino">{t('editProfile.male')}</SelectItem>
                       <SelectItem value="feminino">{t('editProfile.female')}</SelectItem>
                       <SelectItem value="outro">Outro</SelectItem>
-                      <SelectItem value="prefiro_nao_dizer">Prefiro não dizer</SelectItem>
+                      <SelectItem value="prefiro_nao_dizer">{t('editProfile.preferNotToSay')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </FieldGroup>
@@ -528,7 +528,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </FieldGroup>
 
               <div>
-                <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
+                <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.languages')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((l) =>
               <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
@@ -544,7 +544,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Disponível para teleconsultas</span>
+                  <span className="text-sm font-medium">{t('editProfile.teleconsultAvailable')}</span>
                   <Switch checked={teleconsultaAvailable} onCheckedChange={setTeleconsultaAvailable} />
                 </div>
               </div>
@@ -603,9 +603,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           )}
 
               <Separator />
-              <SectionTitle>Notificações</SectionTitle>
+              <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between"><span className="text-sm">Notificações por email</span><Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
                 <div className="flex items-center justify-between"><span className="text-sm">Notificações por SMS</span><Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
                 <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.bookingAlerts')}</span><Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} /></div>
               </div>
@@ -640,7 +640,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 </FieldGroup>
               </div>
 
-              <SectionTitle>Morada</SectionTitle>
+              <SectionTitle>{t('editProfile.addressSection')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label="Morada" className="md:col-span-2">
                   <Input value={clinicAddress} onChange={(e) => setClinicAddress(e.target.value)} />
@@ -670,7 +670,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <div>
-                <Label className="text-xs text-muted-foreground mb-2 block">Idiomas</Label>
+                <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.languages')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((l) =>
               <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
@@ -702,10 +702,10 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <Separator />
-              <SectionTitle>Disponibilidade</SectionTitle>
+              <SectionTitle>{t('editProfile.availability')}</SectionTitle>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Aceita novos pacientes</span>
+                  <span className="text-sm font-medium">{t('editProfile.acceptsNewPatients')}</span>
                   <Switch checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
                 </div>
                 <div className="flex items-center justify-between">
@@ -789,9 +789,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               </div>
 
               <Separator />
-              <SectionTitle>Notificações</SectionTitle>
+              <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between"><span className="text-sm">Notificações por email</span><Switch checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} /></div>
                 <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.weeklyReports')}</span><Switch checked={clinicWeeklyReports} onCheckedChange={setClinicWeeklyReports} /></div>
                 <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.onlineBookings')}</span><Switch checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} /></div>
               </div>
