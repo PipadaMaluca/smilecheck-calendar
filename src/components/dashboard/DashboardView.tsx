@@ -292,6 +292,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               {morningCons.map((c) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
+                  return (
                     <SwipeableRow
                       key={c.id}
                       rowId={c.id}
