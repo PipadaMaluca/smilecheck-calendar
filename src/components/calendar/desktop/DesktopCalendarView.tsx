@@ -131,6 +131,13 @@ export function DesktopCalendarView() {
   const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
 
+  // Consultation mode (dentist only)
+  const dentistConsultations = useMemo(() =>
+    mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id),
+    []
+  );
+  const consultationMode = useConsultationMode(activeRole === 'dentist' ? dentistConsultations : []);
+
   // Onboarding: trigger on first visit per role
   const { hasCompletedOnboarding, startCarousel, showCarousel, showTooltips } = useOnboarding();
   const onboardingTriggeredRef = useRef<Set<UserRole>>(new Set());
