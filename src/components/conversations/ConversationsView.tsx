@@ -371,6 +371,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
   };
 
   return (
+    <>
     <div className={cn('flex-1 flex overflow-hidden', showSplit ? 'flex-row' : 'flex-col')}>
       {showList && (
         <div
@@ -664,13 +665,13 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
         </div>
       )}
     </div>
-      <CoachMark
-        id={`chat-${userRole}`}
-        targetId="coachmark-chat-list"
-        title={t('coachmarks.chatTitle')}
-        description={t('coachmarks.chatDesc')}
-        enabled={!isLoading}
-      />
-    </div>
+    <CoachMark
+      id={`chat-${userRole}`}
+      targetId="coachmark-chat-list"
+      title={t('coachmarks.chatTitle')}
+      description={t('coachmarks.chatDesc')}
+      enabled={!isLoading}
+    />
+    </>
   );
 }
