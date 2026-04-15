@@ -65,6 +65,7 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { toast } from 'sonner';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManager';
+import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Build all clinic-dentist combinations as composite keys
 const getAllClinicDentistKeys = () => {
@@ -129,6 +130,13 @@ export function DesktopCalendarView() {
   const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
   const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
+
+  // Consultation mode (dentist only)
+  const dentistConsultations = useMemo(() =>
+    mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id),
+    []
+  );
+  const consultationMode = useConsultationMode(activeRole === 'dentist' ? dentistConsultations : []);
 
   // Onboarding: trigger on first visit per role
   const { hasCompletedOnboarding, startCarousel, showCarousel, showTooltips } = useOnboarding();
@@ -1064,7 +1072,18 @@ export function DesktopCalendarView() {
       onOpenPatientProfile={(id) => {setDossierPatientId(id);}}>
     <TeleconsultaManager userRole={activeRole}>
     {(startTeleconsulta) => (
-    <div className="h-screen flex bg-background relative">
+    <div className="h-screen flex flex-col bg-background relative">
+      {/* Consultation Mode Top Bar */}
+      {activeRole === 'dentist' && consultationMode.activeConsultation && (
+        <InConsultationBar
+          consultation={consultationMode.activeConsultation}
+          elapsedSeconds={consultationMode.elapsedSeconds}
+          onDismiss={consultationMode.dismiss}
+          onOpenDossier={(id) => { setDossierPatientId(id); setActiveNavTab('dossier'); }}
+        />
+      )}
+
+      <div className="flex flex-1 min-h-0 relative">
       {/* Background Watermark Logo */}
       <div
           className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
@@ -1221,6 +1240,36 @@ export function DesktopCalendarView() {
           dentistName={slotCreation.dentistName} />
 
         }
+
+      {/* Consultation Mode FAB */}
+      {activeRole === 'dentist' && consultationMode.activeConsultation && (
+        <ConsultationFAB
+          consultation={consultationMode.activeConsultation}
+          onEndConsultation={consultationMode.requestEnd}
+          onOpenDossier={() => { setDossierPatientId(consultationMode.activeConsultation!.patient.id); setActiveNavTab('dossier'); }}
+          onPrescribe={() => setActiveNavTab('prescrever')}
+          onReferral={() => setActiveNavTab('referenciar')}
+        />
+      )}
+
+      {/* Consultation Mode Dialogs */}
+      {consultationMode.showEndDialog && consultationMode.activeConsultation && (
+        <EndConsultationDialog
+          consultation={consultationMode.activeConsultation}
+          onConfirm={consultationMode.confirmEnd}
+          onCancel={consultationMode.cancelEnd}
+        />
+      )}
+      {consultationMode.showPoints && <PointsEarnedAnimation xp={8} pts={12} />}
+      {consultationMode.showRating && consultationMode.endedConsultation && (
+        <QuickRatingPrompt
+          consultation={consultationMode.endedConsultation}
+          onRate={() => consultationMode.finishRating()}
+          onSkip={consultationMode.finishRating}
+        />
+      )}
+
+      </div>
     </div>
     )}
     </TeleconsultaManager>

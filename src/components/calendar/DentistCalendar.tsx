@@ -47,6 +47,7 @@ import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 import { ContestationView } from '@/components/contestation/ContestationView';
+import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Helper functions for filter state
 const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
@@ -81,6 +82,12 @@ export function DentistCalendar() {
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
   const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === mockDentists[0].id) || MOCK_DENTIST_RESULTS[0];
+
+  // Consultation mode
+  const dentistConsultations = useMemo(() =>
+    mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id), []
+  );
+  const consultationMode = useConsultationMode(dentistConsultations);
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
   const columns = useMemo<DentistColumn[]>(() => {
@@ -318,6 +325,16 @@ export function DentistCalendar() {
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
+      {/* Consultation Mode Top Bar */}
+      {consultationMode.activeConsultation && (
+        <InConsultationBar
+          consultation={consultationMode.activeConsultation}
+          elapsedSeconds={consultationMode.elapsedSeconds}
+          onDismiss={consultationMode.dismiss}
+          onOpenDossier={(id) => setViewPatientDossier(id)}
+        />
+      )}
+
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
@@ -577,6 +594,32 @@ export function DentistCalendar() {
           onClose={() => setViewPatientDossier(null)}
           userRole="dentist"
         />
+
+        {/* Consultation Mode FAB + Dialogs */}
+        {consultationMode.activeConsultation && (
+          <ConsultationFAB
+            consultation={consultationMode.activeConsultation}
+            onEndConsultation={consultationMode.requestEnd}
+            onOpenDossier={() => setViewPatientDossier(consultationMode.activeConsultation!.patient.id)}
+            onPrescribe={() => setActiveTab('prescrever')}
+            onReferral={() => setActiveTab('referenciar')}
+          />
+        )}
+        {consultationMode.showEndDialog && consultationMode.activeConsultation && (
+          <EndConsultationDialog
+            consultation={consultationMode.activeConsultation}
+            onConfirm={consultationMode.confirmEnd}
+            onCancel={consultationMode.cancelEnd}
+          />
+        )}
+        {consultationMode.showPoints && <PointsEarnedAnimation xp={8} pts={12} />}
+        {consultationMode.showRating && consultationMode.endedConsultation && (
+          <QuickRatingPrompt
+            consultation={consultationMode.endedConsultation}
+            onRate={() => consultationMode.finishRating()}
+            onSkip={consultationMode.finishRating}
+          />
+        )}
       </div>
     </div>
     </ProfileNavigationProvider>
