@@ -380,6 +380,17 @@ export function PatientProfileBody({
           </div>
         </SectionCard>
 
+        {/* Última Consulta */}
+        <div className="bg-secondary/30 border border-border/40 rounded-lg px-4 py-3 flex items-start gap-3">
+          <Calendar className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-muted-foreground">
+            {t('profile.lastConsultation')}:{' '}
+            <span className="text-foreground font-medium">
+              {data.lastConsultation.date} — {data.lastConsultation.procedure} — {data.lastConsultation.dentist}
+            </span>
+          </p>
+        </div>
+
         {/* Os Meus Profissionais */}
         <SectionCard title={t('profile.myProfessionals')}>
           <div className="space-y-3">
