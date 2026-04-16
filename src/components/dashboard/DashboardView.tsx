@@ -539,8 +539,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="space-y-4">
         {renderStatsCards()}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-          {/* LEFT: Consultas de Hoje (all dentists) */}
+        {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
+          {/* LEFT column */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+          {/* Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
@@ -553,7 +556,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
                   { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
                   { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }];
-
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
@@ -562,10 +564,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
                       onNavigate('agenda');
                     }}>
-                       <ClickableDentistName
-                      name={d.name}
-                      className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
-                    
+                       <ClickableDentistName name={d.name} className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
                        <span className="text-muted-foreground text-[11px]">:</span>
                        <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
                        <span className="text-[10px] text-muted-foreground">·</span>
@@ -580,7 +579,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             </CardContent>
           </Card>
 
-          {/* CENTER: Confirmações grouped by dentist */}
+          {/* Confirmações grouped by dentist */}
           <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
@@ -611,7 +610,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           {confirmIndicator(c.status24h)}
                           {confirmIndicator(c.status1h, c.isNoShow === true)}
                         </div>);
-
                   })}
                   </div>
                 )}
@@ -619,13 +617,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
-                
                 {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
 
-          {/* RIGHT: Lista de Espera grouped by dentist */}
+          {/* Lista de Espera grouped by dentist */}
           <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
@@ -648,11 +645,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
-                
                 {t('dashboard.viewAll')} →
               </button>
             </CardContent>
           </Card>
+          </div>
+
+          {/* RIGHT column: Quick Actions + Pending Points */}
+          {renderRightColumn('clinic')}
         </div>
 
         {/* Full width: Histórico de Pacientes do Dia — card style */}
