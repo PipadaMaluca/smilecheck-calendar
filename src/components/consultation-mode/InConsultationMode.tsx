@@ -80,10 +80,10 @@ export function ConsultationFAB({
   const [isOpen, setIsOpen] = useState(false);
 
   const actions = [
-    { label: t('consultationMode.prescribe'), icon: Pill, color: 'bg-blue-500', onClick: onPrescribe },
-    { label: t('consultationMode.referralLetter'), icon: FileText, color: 'bg-indigo-500', onClick: onReferral },
-    { label: t('consultationMode.openDossier'), icon: FolderOpen, color: 'bg-amber-500', onClick: onOpenDossier },
-    { label: t('consultationMode.endConsultation'), icon: CheckCircle2, color: 'bg-emerald-500', onClick: onEndConsultation },
+    { label: t('consultationMode.openDossier'), icon: FolderOpen, onClick: onOpenDossier, bg: '#FF9800' },
+    { label: t('consultationMode.referralLetter'), icon: FileText, onClick: onReferral, bg: '#9C27B0' },
+    { label: t('consultationMode.prescribe'), icon: Pill, onClick: onPrescribe, bg: '#2196F3' },
+    { label: t('consultationMode.endConsultation'), icon: CheckCircle2, onClick: onEndConsultation, bg: '#4CAF50' },
   ];
 
   return (
