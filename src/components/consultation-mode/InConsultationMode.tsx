@@ -99,10 +99,8 @@ export function ConsultationFAB({
             return (
               <button
                 key={action.label}
-                className={cn(
-                  'flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-all hover:scale-105 whitespace-nowrap',
-                  action.color
-                )}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-all hover:scale-105 whitespace-nowrap"
+                style={{ backgroundColor: action.bg }}
                 onClick={() => { setIsOpen(false); action.onClick(); }}
               >
                 <Icon className="w-4 h-4" />
