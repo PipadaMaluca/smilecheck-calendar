@@ -542,7 +542,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
           {/* LEFT column */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="space-y-6">
           {/* Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
