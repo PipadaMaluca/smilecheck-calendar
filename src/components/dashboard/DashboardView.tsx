@@ -279,7 +279,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const renderQuickActionsCard = (actions: typeof dentistQuickActionCards) => (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardContent className="p-4 space-y-3">
-        <h3 className="text-sm font-bold text-foreground">{t('dashboard.quickActions')}</h3>
+        <h3 className="text-sm font-bold text-foreground py-[5px]">{t('dashboard.quickActions')}</h3>
         <div className="flex flex-col gap-2">
           {actions.map((action) => {
             const ActionIcon = action.icon;
@@ -416,7 +416,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
                 })}
               </div>
-              <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
+              <button className="text-xs text-primary hover:underline w-full text-left mt-2 py-[3px]" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
@@ -442,7 +442,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div
                       key={c.consultationId}
-                      className="flex items-center gap-2 py-1 rounded-md cursor-pointer hover:bg-muted/30 transition-colors"
+                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-[5px]"
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
@@ -473,7 +473,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="space-y-0 flex-1">
                 {MOCK_WAITING_LIST.map((wl) =>
-                <div key={wl.id} className="flex items-center gap-1.5 py-1 border-b border-border/50 last:border-0">
+                <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                     <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                   </div>
