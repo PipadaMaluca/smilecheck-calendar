@@ -327,9 +327,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
           {/* LEFT column: 3 sub-cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {/* Consultas de Hoje (spans 2 cols) */}
-          <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border lg:col-span-2 flex flex-col">
+          <div className="space-y-6">
+          {/* Consultas de Hoje */}
+          <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
@@ -542,7 +542,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
           {/* LEFT column */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="space-y-6">
           {/* Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
             <CardContent className="p-4 flex flex-col flex-1">
