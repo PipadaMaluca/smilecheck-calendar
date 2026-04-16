@@ -300,7 +300,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     </Card>
   );
 
-  // ─── Dentist dashboard ───
+  const renderRightColumn = (role: 'dentist' | 'clinic') => {
+    const actions = role === 'dentist' ? dentistQuickActionCards : clinicQuickActionCards;
+    return (
+      <div className="space-y-6">
+        {renderQuickActionsCard(actions)}
+        <PatientScoreHistory mode="pending-only" userRole={role} onNavigateHistory={() => {}} />
+      </div>
+    );
+  };
+
   const renderDentistDashboard = () => {
     const dentistCons = todayConsultations.
     filter((c) => c.dentist.id === mockDentists[0].id).
