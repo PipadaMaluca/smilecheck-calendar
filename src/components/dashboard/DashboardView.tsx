@@ -330,7 +330,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <div className="space-y-6">
           {/* Consultas de Hoje */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
+            <CardContent className="border-0 p-4 flex flex-col flex-1 py-[10px] px-[15px]">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
