@@ -416,7 +416,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
                 })}
               </div>
-              <button className="text-xs text-primary hover:underline w-full text-left mt-2 py-[3px]" onClick={() => onNavigate('agenda')}>
+              <button className="text-xs text-primary hover:underline w-full mt-2 py-[3px] text-center" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
