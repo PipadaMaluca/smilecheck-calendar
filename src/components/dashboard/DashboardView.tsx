@@ -776,20 +776,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               })}
             </p>
           </div>
-          {/* Quick actions for dentist/clinic inline */}
-          {(userRole === 'dentist' || userRole === 'clinic') &&
-          <div className="flex-wrap flex items-center justify-center gap-[5px] max-w-full">
-              {quickActions.map((a) => {
-              const ActionIcon = a.icon;
-              return (
-                <Button key={a.label} variant="outline" size="sm" className="text-xs gap-1.5" onClick={a.action}>
-                    <ActionIcon className="w-3.5 h-3.5" />
-                    {a.label}
-                  </Button>);
-
-            })}
-            </div>
-          }
         </div>
 
         {/* Role-specific content */}
