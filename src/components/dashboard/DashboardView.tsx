@@ -43,6 +43,63 @@ function getUserName(role: UserRole): string {
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
+/** Persist collapse state in sessionStorage so it survives navigation but resets per session. */
+function useSessionCollapse(key: string, defaultOpen = true) {
+  const storageKey = `sc:collapse:${key}`;
+  const [open, setOpen] = useState<boolean>(() => {
+    if (typeof sessionStorage === 'undefined') return defaultOpen;
+    const v = sessionStorage.getItem(storageKey);
+    return v === null ? defaultOpen : v === '1';
+  });
+  const toggle = (next: boolean) => {
+    setOpen(next);
+    try { sessionStorage.setItem(storageKey, next ? '1' : '0'); } catch { /* ignore */ }
+  };
+  return [open, toggle] as const;
+}
+
+function CollapsibleSection({
+  title,
+  badge,
+  persistKey,
+  defaultOpen = true,
+  liveBadge,
+  children,
+  cardId,
+}: {
+  title: string;
+  badge?: React.ReactNode;
+  persistKey: string;
+  defaultOpen?: boolean;
+  liveBadge?: React.ReactNode;
+  children: React.ReactNode;
+  cardId?: string;
+}) {
+  const [open, setOpen] = useSessionCollapse(persistKey, defaultOpen);
+  return (
+    <Card id={cardId} className="bg-card/80 border-border flex flex-col">
+      <CardContent className="p-4 flex flex-col flex-1">
+        <Collapsible open={open} onOpenChange={setOpen}>
+          <CollapsibleTrigger className="flex items-center justify-between w-full mb-3 group">
+            <div className="flex items-center gap-2">
+              <ChevronDown
+                className={cn(
+                  'w-4 h-4 text-muted-foreground transition-transform duration-200',
+                  !open && '-rotate-90'
+                )}
+              />
+              <h3 className="t-h3 text-foreground">{title}</h3>
+              {liveBadge}
+            </div>
+            {badge}
+          </CollapsibleTrigger>
+          <CollapsibleContent>{children}</CollapsibleContent>
+        </Collapsible>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Mock waiting list data - detail values are i18n keys
 const MOCK_WAITING_LIST = [
 { id: 'wl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
