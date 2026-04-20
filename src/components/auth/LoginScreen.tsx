@@ -106,7 +106,7 @@ export function LoginScreen() {
         <button onClick={() => navigate('/signup')} className="text-primary hover:underline font-medium">{t('auth.createAccount')}</button>
       </p>
 
-      <button onClick={() => navigate('/demo')} className="mt-3 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
+      <button onClick={() => navigate('/demo?demo=true')} className="mt-3 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
         {t('auth.demo')}
       </button>
     </div>
