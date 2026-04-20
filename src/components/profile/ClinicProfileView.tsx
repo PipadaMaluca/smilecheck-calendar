@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility, Lock } from 'lucide-react';
 import { LEVEL_GLOW, CLINIC_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { getViewerRole } from '@/lib/viewerRole';
+import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
 
 interface ClinicProfileViewProps {
   clinicId: string;
