@@ -4,7 +4,7 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle, ChevronDown } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
@@ -42,6 +43,63 @@ function getUserName(role: UserRole): string {
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
+/** Persist collapse state in sessionStorage so it survives navigation but resets per session. */
+function useSessionCollapse(key: string, defaultOpen = true) {
+  const storageKey = `sc:collapse:${key}`;
+  const [open, setOpen] = useState<boolean>(() => {
+    if (typeof sessionStorage === 'undefined') return defaultOpen;
+    const v = sessionStorage.getItem(storageKey);
+    return v === null ? defaultOpen : v === '1';
+  });
+  const toggle = (next: boolean) => {
+    setOpen(next);
+    try { sessionStorage.setItem(storageKey, next ? '1' : '0'); } catch { /* ignore */ }
+  };
+  return [open, toggle] as const;
+}
+
+function CollapsibleSection({
+  title,
+  badge,
+  persistKey,
+  defaultOpen = true,
+  liveBadge,
+  children,
+  cardId,
+}: {
+  title: string;
+  badge?: React.ReactNode;
+  persistKey: string;
+  defaultOpen?: boolean;
+  liveBadge?: React.ReactNode;
+  children: React.ReactNode;
+  cardId?: string;
+}) {
+  const [open, setOpen] = useSessionCollapse(persistKey, defaultOpen);
+  return (
+    <Card id={cardId} className="bg-card/80 border-border flex flex-col">
+      <CardContent className="p-4 flex flex-col flex-1">
+        <Collapsible open={open} onOpenChange={setOpen}>
+          <CollapsibleTrigger className="flex items-center justify-between w-full mb-3 group">
+            <div className="flex items-center gap-2">
+              <ChevronDown
+                className={cn(
+                  'w-4 h-4 text-muted-foreground transition-transform duration-200',
+                  !open && '-rotate-90'
+                )}
+              />
+              <h3 className="t-h3 text-foreground">{title}</h3>
+              {liveBadge}
+            </div>
+            {badge}
+          </CollapsibleTrigger>
+          <CollapsibleContent>{children}</CollapsibleContent>
+        </Collapsible>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Mock waiting list data - detail values are i18n keys
 const MOCK_WAITING_LIST = [
 { id: 'wl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
@@ -52,7 +110,7 @@ const MOCK_WAITING_LIST = [
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const isLoading = useSimulatedLoading(1200);
+  const isLoading = useSimulatedLoading(1200, `dashboard:${userRole}`);
   const userName = getUserName(userRole);
   const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
@@ -208,13 +266,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 } : undefined}
               >
                 <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
-                  <div className="text-muted-foreground min-w-0 gap-[10px] flex items-center justify-center">
+                  <div className="text-muted-foreground min-w-0 gap-2.5 flex items-center justify-center">
                     <Icon className="w-4 h-4 flex-shrink-0" />
                     <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
                   </div>
                   <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">
                     {'isStreak' in stat && stat.isStreak ? (
-                      <><span className="animate-fire-flicker inline-block">🔥</span> {stat.value} {t('points.days')}</>
+                      <><span className="inline-block">🔥</span> {stat.value} {t('points.days')}</>
                     ) : stat.value}
                   </span>
                   {isXPCard &&
@@ -280,7 +338,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const renderQuickActionsCard = (actions: typeof dentistQuickActionCards) => (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardContent className="p-4 space-y-3">
-        <h3 className="text-sm font-bold text-foreground py-[5px]">{t('dashboard.quickActions')}</h3>
+        <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
         <div className="flex flex-col gap-2">
           {actions.map((action) => {
             const ActionIcon = action.icon;
@@ -331,9 +389,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <div className="space-y-6">
           {/* Consultas de Hoje */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="border-0 p-4 flex flex-col flex-1 py-[10px] px-[15px]">
+            <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
@@ -406,7 +464,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           </div>
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
-                        <div className="flex items-center gap-1.5 pl-[48px]">
+                        <div className="flex items-center gap-1.5 pl-12">
                           <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
@@ -417,21 +475,23 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
                 })}
               </div>
-              <button className="text-xs text-primary hover:underline w-full mt-2 py-[3px] text-center" onClick={() => onNavigate('agenda')}>
+              <button className="text-xs text-primary hover:underline w-full mt-2 py-1 text-center" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
           </Card>
 
           {/* Confirmações */}
-          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
-                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-                </Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-confirmacoes"
+            title={t('dashboard.confirmations')}
+            persistKey="dentist:confirmacoes"
+            liveBadge={
+              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
+              </Badge>
+            }
+          >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
@@ -443,7 +503,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div
                       key={c.consultationId}
-                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-[5px]"
+                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5"
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
@@ -462,19 +522,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
 
           {/* Lista de Espera */}
-          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
-                <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-lista-espera"
+            title={t('dashboard.waitingList')}
+            persistKey="dentist:lista-espera"
+            badge={<Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>}
+          >
               <div className="space-y-0 flex-1">
                 {MOCK_WAITING_LIST.map((wl) =>
-                <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                     <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                   </div>
@@ -485,8 +544,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
           </div>
 
           {/* RIGHT column: Quick Actions + Pending Points */}
@@ -546,9 +604,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <div className="space-y-6">
           {/* Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="border-0 p-4 flex flex-col flex-1 py-[10px] px-[15px]">
+            <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
@@ -560,7 +618,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
+                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
                       onNavigate('agenda');
@@ -581,14 +639,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* Confirmações grouped by dentist */}
-          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
-                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-                </Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-confirmacoes"
+            title={t('dashboard.confirmations')}
+            persistKey="clinic:confirmacoes"
+            liveBadge={
+              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
+              </Badge>
+            }
+          >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {confirmationsByDentist.map(({ dentist, confirmations }) =>
                 <div key={dentist.id}>
@@ -620,22 +680,21 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
 
           {/* Lista de Espera grouped by dentist */}
-          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
-                <Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-lista-espera"
+            title={t('dashboard.waitingList')}
+            persistKey="clinic:lista-espera"
+            badge={<Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+          >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
                 <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
-                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                         <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                       </div>
@@ -648,8 +707,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
           </div>
 
           {/* RIGHT column: Quick Actions + Pending Points */}
@@ -685,7 +743,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-consultas-hoje" className="bg-card/80 backdrop-blur border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.upcomingConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
               </div>
               <div className="space-y-2">
@@ -717,7 +775,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             {/* Ações Rápidas */}
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardContent className="p-4 space-y-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.quickActions')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
                 <div className="flex flex-col gap-2">
                   {patientActions.map((action) => {
                     const ActionIcon = action.icon;
@@ -763,12 +821,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
       <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 animate-fade-in">
         {/* Greeting */}
-        <div className="items-center justify-between flex flex-col gap-[5px] min-w-0">
+        <div className="items-center justify-between flex flex-col gap-1.5 min-w-0">
           <div>
-            <h1 className="font-bold text-foreground text-center text-xl truncate max-w-full">
+            <h1 className="t-h1 text-foreground text-center truncate max-w-full">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-[5px]">
+            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5">
               {DEMO_DATE.toLocaleDateString('pt-PT', {
                 weekday: 'long',
                 day: 'numeric',

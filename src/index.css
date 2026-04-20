@@ -38,19 +38,19 @@
     --radius: 0.75rem;
 
     /* SmileCheck Consultation Type Colors */
-    --restauracao: 207 90% 54%;       /* Blue #2196F3 */
-    --primeira-consulta: 49 98% 60%;  /* Yellow #FDD835 */
-    --protese: 122 39% 49%;           /* Green #4CAF50 */
-    --urgencia: 4 90% 58%;            /* Red #F44336 */
-    --teleconsulta: 36 100% 50%;      /* Orange #FF9800 */
+    --restauracao: 207 70% 56%;       /* Blue (desaturated ~22%) */
+    --primeira-consulta: 49 76% 62%;  /* Yellow (desaturated ~22%) */
+    --protese: 122 30% 51%;           /* Green (desaturated ~22%) */
+    --urgencia: 4 70% 60%;            /* Red (desaturated ~22%) */
+    --teleconsulta: 36 78% 54%;       /* Orange (desaturated ~22%) */
     --bloqueado: 0 0% 62%;            /* Grey #9E9E9E */
     --livre: 0 0% 62%;                /* Grey #9E9E9E */
 
-    /* Legacy colors for compatibility */
-    --presencial: 207 90% 54%;
-    --urgente: 4 90% 58%;
-    --prioritario: 49 98% 60%;
-    --rotina: 207 90% 54%;
+    /* Legacy colors for compatibility — mirror desaturated tokens */
+    --presencial: 207 70% 56%;
+    --urgente: 4 70% 60%;
+    --prioritario: 49 76% 62%;
+    --rotina: 207 70% 56%;
 
     /* Gaming/Onboarding colors */
     --gaming-dark: 213 56% 10%;
@@ -150,6 +150,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  /* === Typography rhythm (use across dashboards & content surfaces) === */
+  .t-h1 { @apply text-2xl font-semibold leading-tight; }    /* 24px */
+  .t-h2 { @apply text-xl font-semibold leading-snug; }      /* 20px */
+  .t-h3 { @apply text-base font-medium leading-snug; }      /* 16px */
+  .t-h4 { @apply text-sm font-medium leading-normal; }      /* 14px */
   
   /* Allow action buttons in grids to wrap text when needed */
   .grid button {

@@ -105,6 +105,7 @@ export function DesktopCalendarView() {
   const urlParams = new URLSearchParams(window.location.search);
   const urlRole = urlParams.get('role');
   const initialRole: UserRole = (urlRole === 'patient' || urlRole === 'dentist' || urlRole === 'clinic') ? urlRole : 'clinic';
+  const isDemoMode = urlParams.get('demo') === 'true';
   const [activeRole, setActiveRole] = useState<UserRole>(initialRole);
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
@@ -548,7 +549,7 @@ export function DesktopCalendarView() {
   const renderStandardHeader = (title: string) =>
   <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
       <span className="text-sm font-medium text-foreground">{title}</span>
-      <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
+      {isDemoMode && <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
         <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
           <User className="w-4 h-4" /> Paciente
         </Button>
@@ -558,7 +559,7 @@ export function DesktopCalendarView() {
         <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
           <Building2 className="w-4 h-4" /> Clínica
         </Button>
-      </div>
+      </div>}
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
         <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
@@ -699,7 +700,7 @@ export function DesktopCalendarView() {
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
-              <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-[5px]">
+              {isDemoMode && <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-1.5">
                 <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                   <User className="w-4 h-4" /> Paciente
                 </Button>
@@ -709,8 +710,8 @@ export function DesktopCalendarView() {
                 <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                   <Building2 className="w-4 h-4" /> Clínica
                 </Button>
-              </div>
-              <div id="onboarding-level-points" className="flex items-center gap-[10px] border-0">
+              </div>}
+              <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
                 <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
               </div>
@@ -745,7 +746,7 @@ export function DesktopCalendarView() {
                   {(activeRole === 'clinic' || activeRole === 'dentist') && (
                     <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
                   )}
-                  <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center py-[5px] px-[5px] gap-[5px]">
+                  {isDemoMode && <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-1.5">
                     <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                       <User className="w-4 h-4" /> Paciente
                     </Button>
@@ -755,7 +756,7 @@ export function DesktopCalendarView() {
                     <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
                       <Building2 className="w-4 h-4" /> {t('common.clinic')}
                     </Button>
-                  </div>
+                  </div>}
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">

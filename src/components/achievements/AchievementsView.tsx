@@ -394,7 +394,7 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
-  const isLoading = useSimulatedLoading(1200);
+  const isLoading = useSimulatedLoading(1200, 'achievements');
   const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);

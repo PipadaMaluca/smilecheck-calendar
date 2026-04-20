@@ -88,7 +88,7 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
                   className="h-7 text-xs flex-shrink-0 border-amber-500/30 text-amber-600 hover:bg-amber-500/10"
                   onClick={() => setFeedbackScore(score)}
                 >
-                  {t('dashboard.giveFeedback')}
+                  {t('bidirectionalFeedback.rate')}
                 </Button>
               </div>
             ))}
