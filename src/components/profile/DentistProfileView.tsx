@@ -380,6 +380,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
         </div>
         <div className="space-y-2 mt-3">
+          {canViewerRate && hasPendingRating && (
+            <div className="bg-muted/40 border border-dashed border-border rounded-lg p-3 flex items-center gap-2">
+              <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                🔒 {t('bidirectionalFeedback.lockedHint')}
+              </p>
+            </div>
+          )}
           {reviews.slice(0, 5).map((r) =>
         <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
@@ -422,7 +430,19 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
 
   if (inline) {
-    return <div className="p-5">{profileContent}</div>;
+    return (
+      <>
+        <div className="p-5">{profileContent}</div>
+        <BidirectionalFeedbackModal
+          isOpen={showRateModal}
+          onClose={() => setShowRateModal(false)}
+          targetName={dentist.name}
+          targetRole="dentist"
+          contextLabel={dentist.specialties.join(' · ')}
+          onSubmit={() => setHasPendingRating(false)}
+        />
+      </>
+    );
   }
 
   return (
@@ -435,6 +455,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       <ScrollArea className="flex-1">
         <div className="p-5">{profileContent}</div>
       </ScrollArea>
+      <BidirectionalFeedbackModal
+        isOpen={showRateModal}
+        onClose={() => setShowRateModal(false)}
+        targetName={dentist.name}
+        targetRole="dentist"
+        contextLabel={dentist.specialties.join(' · ')}
+        onSubmit={() => setHasPendingRating(false)}
+      />
     </div>);
 
 }
