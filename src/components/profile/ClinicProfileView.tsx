@@ -575,7 +575,19 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   );
 
   if (inline) {
-    return <div className="p-5">{profileContent}</div>;
+    return (
+      <>
+        <div className="p-5">{profileContent}</div>
+        <BidirectionalFeedbackModal
+          isOpen={showRateModal}
+          onClose={() => setShowRateModal(false)}
+          targetName={clinic.name}
+          targetRole="clinic"
+          contextLabel={clinic.address}
+          onSubmit={() => setHasPendingRating(false)}
+        />
+      </>
+    );
   }
 
   return (
@@ -588,6 +600,14 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       <ScrollArea className="flex-1">
         <div className="p-5">{profileContent}</div>
       </ScrollArea>
+      <BidirectionalFeedbackModal
+        isOpen={showRateModal}
+        onClose={() => setShowRateModal(false)}
+        targetName={clinic.name}
+        targetRole="clinic"
+        contextLabel={clinic.address}
+        onSubmit={() => setHasPendingRating(false)}
+      />
     </div>
   );
 }
