@@ -30,7 +30,7 @@ export function PatientAppointmentsList({
 }: PatientAppointmentsListProps) {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const isLoading = useSimulatedLoading(1000);
+  const isLoading = useSimulatedLoading(1000, 'patient-appointments');
   const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   // Sort by date and time
   const sortedConsultations = [...consultations].sort((a, b) => {

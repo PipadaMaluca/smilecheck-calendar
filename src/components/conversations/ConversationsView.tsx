@@ -264,7 +264,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
   const [showNewConversation, setShowNewConversation] = useState(false);
   const [newConvSearch, setNewConvSearch] = useState('');
   const isMobile = useIsMobile();
-  const isLoading = useSimulatedLoading(1000);
+  const isLoading = useSimulatedLoading(1000, 'conversations');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const conversations = mockConversations[userRole] || [];

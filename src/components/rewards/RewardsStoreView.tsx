@@ -29,7 +29,7 @@ interface RewardsStoreViewProps {
 
 export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const { t } = useTranslation();
-  const isLoading = useSimulatedLoading(1200);
+  const isLoading = useSimulatedLoading(1200, 'rewards');
   const getInitialPoints = () => {
     switch (userRole) {
       case 'patient': return 450;
