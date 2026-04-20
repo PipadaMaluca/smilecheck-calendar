@@ -68,11 +68,11 @@ export function CalendarDemo() {
         <Tabs value={activeView} onValueChange={setActiveView} className="w-full max-w-full overflow-x-hidden">
           <TabsList className="w-full h-14 bg-card/50 rounded-none grid grid-cols-3">
             <TabsTrigger
-              value="patient"
+              value="clinic"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
-              <User className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('demo.patientLabel')}</span>
+              <Building2 className="w-4 h-4" />
+              <span className="hidden sm:inline">{t('demo.clinicLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
               value="dentist"
@@ -82,11 +82,11 @@ export function CalendarDemo() {
               <span className="hidden sm:inline">{t('demo.dentistLabel')}</span>
             </TabsTrigger>
             <TabsTrigger
-              value="clinic"
+              value="patient"
               className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
             >
-              <Building2 className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('demo.clinicLabel')}</span>
+              <User className="w-4 h-4" />
+              <span className="hidden sm:inline">{t('demo.patientLabel')}</span>
             </TabsTrigger>
           </TabsList>
 
