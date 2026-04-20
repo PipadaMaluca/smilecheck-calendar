@@ -4,9 +4,9 @@ import { User, Stethoscope, Building2 } from 'lucide-react';
 import { AuthBackground } from './AuthBackground';
 
 const options = [
-  { icon: User, labelKey: 'demo.patient', name: 'João Silva', path: '/app?role=patient' },
-  { icon: Stethoscope, labelKey: 'demo.dentist', name: 'Dr. Gonçalo Pipo', path: '/app?role=dentist' },
-  { icon: Building2, labelKey: 'demo.clinic', name: 'SmileCheck', path: '/app?role=clinic' },
+  { icon: User, labelKey: 'demo.patient', name: 'João Silva', path: '/app?role=patient&demo=true' },
+  { icon: Stethoscope, labelKey: 'demo.dentist', name: 'Dr. Gonçalo Pipo', path: '/app?role=dentist&demo=true' },
+  { icon: Building2, labelKey: 'demo.clinic', name: 'SmileCheck', path: '/app?role=clinic&demo=true' },
 ];
 
 export function DemoSelector() {
