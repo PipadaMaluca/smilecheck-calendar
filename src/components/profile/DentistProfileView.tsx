@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { getViewerRole } from '@/lib/viewerRole';
+import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -99,6 +101,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
+  const [showRateModal, setShowRateModal] = useState(false);
+  const [hasPendingRating, setHasPendingRating] = useState(true);
+  const viewerRole = getViewerRole();
+  const canViewerRate = !isOwnProfile && viewerRole === 'clinic';
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
   const reviews = getReviewsForDentist(dentist.id);
