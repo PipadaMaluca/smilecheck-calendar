@@ -281,7 +281,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const renderQuickActionsCard = (actions: typeof dentistQuickActionCards) => (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardContent className="p-4 space-y-3">
-        <h3 className="text-sm font-bold text-foreground py-[5px]">{t('dashboard.quickActions')}</h3>
+        <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
         <div className="flex flex-col gap-2">
           {actions.map((action) => {
             const ActionIcon = action.icon;
@@ -332,9 +332,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <div className="space-y-6">
           {/* Consultas de Hoje */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="border-0 p-4 flex flex-col flex-1 py-[10px] px-[15px]">
+            <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
@@ -407,7 +407,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           </div>
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
-                        <div className="flex items-center gap-1.5 pl-[48px]">
+                        <div className="flex items-center gap-1.5 pl-12">
                           <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
@@ -418,7 +418,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
                 })}
               </div>
-              <button className="text-xs text-primary hover:underline w-full mt-2 py-[3px] text-center" onClick={() => onNavigate('agenda')}>
+              <button className="text-xs text-primary hover:underline w-full mt-2 py-1 text-center" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
               </button>
             </CardContent>
