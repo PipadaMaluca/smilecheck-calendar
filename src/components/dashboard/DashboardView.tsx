@@ -20,6 +20,7 @@ import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
+import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
@@ -305,7 +306,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="space-y-6">
         {renderQuickActionsCard(actions)}
-        <PatientScoreHistory mode="pending-only" userRole={role} onNavigateHistory={() => {}} />
+        <PendingFeedbackCard userRole={role} />
       </div>
     );
   };
@@ -738,7 +739,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             </Card>
 
             {/* Feedback Pendente */}
-            <PatientScoreHistory mode="pending-only" onNavigateHistory={() => {}} />
+            <PendingFeedbackCard userRole="patient" />
           </div>
         </div>
 
