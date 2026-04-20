@@ -2207,7 +2207,30 @@
     "fair": "Razoável",
     "good": "Bom",
     "veryGood": "Muito Bom",
-    "excellent": "Excelente"
+    "excellent": "Excelente",
+    "scaleHint": "1★ = 0 pts · 2★ = +3 · 3★ = +6 · 4★ = +10 · 5★ = +15"
+  },
+  "bidirectionalFeedback": {
+    "rate": "Avaliar",
+    "rateAction": "Avaliar",
+    "rolePatient": "Paciente",
+    "roleDentist": "Dentista",
+    "roleClinic": "Clínica",
+    "selectStarsHint": "Selecione 1 a 5 estrelas",
+    "willGive": "Esta avaliação dará +{{points}} pts a {{name}}",
+    "giverReward": "para si por dar feedback",
+    "commentPlaceholder": "Escreva um comentário (opcional)",
+    "send": "Enviar Avaliação",
+    "later": "Mais Tarde",
+    "sentToast": "Avaliação enviada!",
+    "pendingTitle": "Pontos Pendentes",
+    "pendingHint": "Avalie e ganhe +2 pts por cada feedback enviado.",
+    "evaluatePatient": "Avaliar {{name}}",
+    "evaluateDentist": "Avaliar Dr. {{name}}",
+    "evaluateClinic": "Avaliar {{name}}",
+    "giveFeedback": "Dar Feedback",
+    "forYou": "para si",
+    "lockedHint": "O feedback será visível quando ambas as partes avaliarem"
   },
   "contestation": {
     "title": "Contestar Avaliação",

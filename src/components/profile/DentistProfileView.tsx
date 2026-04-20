@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { getViewerRole } from '@/lib/viewerRole';
+import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -99,6 +101,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
+  const [showRateModal, setShowRateModal] = useState(false);
+  const [hasPendingRating, setHasPendingRating] = useState(true);
+  const viewerRole = getViewerRole();
+  const canViewerRate = !isOwnProfile && viewerRole === 'clinic';
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
   const reviews = getReviewsForDentist(dentist.id);
@@ -186,6 +192,18 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <Button variant="outline" className="flex-1 min-h-[44px]">
                 <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
+              {canViewerRate && (
+                <Button
+                  variant="outline"
+                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-amber-600 hover:bg-amber-500/10"
+                  onClick={() => setShowRateModal(true)}
+                >
+                  <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
+                  {hasPendingRating && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-background animate-pulse" />
+                  )}
+                </Button>
+              )}
             </div>
             {onToggleFavorite &&
         <button
@@ -362,6 +380,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
         </div>
         <div className="space-y-2 mt-3">
+          {canViewerRate && hasPendingRating && (
+            <div className="bg-muted/40 border border-dashed border-border rounded-lg p-3 flex items-center gap-2">
+              <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                🔒 {t('bidirectionalFeedback.lockedHint')}
+              </p>
+            </div>
+          )}
           {reviews.slice(0, 5).map((r) =>
         <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
@@ -404,7 +430,19 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
 
   if (inline) {
-    return <div className="p-5">{profileContent}</div>;
+    return (
+      <>
+        <div className="p-5">{profileContent}</div>
+        <BidirectionalFeedbackModal
+          isOpen={showRateModal}
+          onClose={() => setShowRateModal(false)}
+          targetName={dentist.name}
+          targetRole="dentist"
+          contextLabel={dentist.specialties.join(' · ')}
+          onSubmit={() => setHasPendingRating(false)}
+        />
+      </>
+    );
   }
 
   return (
@@ -417,6 +455,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       <ScrollArea className="flex-1">
         <div className="p-5">{profileContent}</div>
       </ScrollArea>
+      <BidirectionalFeedbackModal
+        isOpen={showRateModal}
+        onClose={() => setShowRateModal(false)}
+        targetName={dentist.name}
+        targetRole="dentist"
+        contextLabel={dentist.specialties.join(' · ')}
+        onSubmit={() => setHasPendingRating(false)}
+      />
     </div>);
 
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility, Lock } from 'lucide-react';
 import { LEVEL_GLOW, CLINIC_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,8 @@ import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { getViewerRole } from '@/lib/viewerRole';
+import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
 
 interface ClinicProfileViewProps {
   clinicId: string;
@@ -235,6 +237,10 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     .sort((a, b) => (DENTIST_RATINGS[b.id] || 4.0) - (DENTIST_RATINGS[a.id] || 4.0));
   const levelCfg = LEVEL_CONFIG[data.level] || LEVEL_CONFIG['ouro'];
   const planCfg = PLAN_CONFIG[data.plan] || PLAN_CONFIG['free'];
+  const [showRateModal, setShowRateModal] = useState(false);
+  const [hasPendingRating, setHasPendingRating] = useState(true);
+  const viewerRole = getViewerRole();
+  const canViewerRate = !isOwnProfile && viewerRole === 'dentist';
 
   if (!isOpen || !clinic) return null;
 
@@ -281,6 +287,18 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
+              {canViewerRate && (
+                <Button
+                  variant="outline"
+                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-amber-600 hover:bg-amber-500/10"
+                  onClick={() => setShowRateModal(true)}
+                >
+                  <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
+                  {hasPendingRating && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-background animate-pulse" />
+                  )}
+                </Button>
+              )}
             </div>
             {onToggleFavorite && (
               <button
@@ -510,6 +528,14 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
         </div>
         <div className="space-y-2">
+          {canViewerRate && hasPendingRating && (
+            <div className="bg-muted/40 border border-dashed border-border rounded-lg p-3 flex items-center gap-2">
+              <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                🔒 {t('bidirectionalFeedback.lockedHint')}
+              </p>
+            </div>
+          )}
           {reviews.map(r => (
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
@@ -549,7 +575,19 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   );
 
   if (inline) {
-    return <div className="p-5">{profileContent}</div>;
+    return (
+      <>
+        <div className="p-5">{profileContent}</div>
+        <BidirectionalFeedbackModal
+          isOpen={showRateModal}
+          onClose={() => setShowRateModal(false)}
+          targetName={clinic.name}
+          targetRole="clinic"
+          contextLabel={clinic.address}
+          onSubmit={() => setHasPendingRating(false)}
+        />
+      </>
+    );
   }
 
   return (
@@ -562,6 +600,14 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       <ScrollArea className="flex-1">
         <div className="p-5">{profileContent}</div>
       </ScrollArea>
+      <BidirectionalFeedbackModal
+        isOpen={showRateModal}
+        onClose={() => setShowRateModal(false)}
+        targetName={clinic.name}
+        targetRole="clinic"
+        contextLabel={clinic.address}
+        onSubmit={() => setHasPendingRating(false)}
+      />
     </div>
   );
 }

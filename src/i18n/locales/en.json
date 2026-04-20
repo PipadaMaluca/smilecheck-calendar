@@ -2207,7 +2207,30 @@
     "fair": "Fair",
     "good": "Good",
     "veryGood": "Very Good",
-    "excellent": "Excellent"
+    "excellent": "Excellent",
+    "scaleHint": "1★ = 0 pts · 2★ = +3 · 3★ = +6 · 4★ = +10 · 5★ = +15"
+  },
+  "bidirectionalFeedback": {
+    "rate": "Rate",
+    "rateAction": "Rate",
+    "rolePatient": "Patient",
+    "roleDentist": "Dentist",
+    "roleClinic": "Clinic",
+    "selectStarsHint": "Select 1 to 5 stars",
+    "willGive": "This rating will give +{{points}} pts to {{name}}",
+    "giverReward": "for you, for giving feedback",
+    "commentPlaceholder": "Write a comment (optional)",
+    "send": "Send Rating",
+    "later": "Later",
+    "sentToast": "Rating sent!",
+    "pendingTitle": "Pending Points",
+    "pendingHint": "Rate and earn +2 pts for each feedback you send.",
+    "evaluatePatient": "Rate {{name}}",
+    "evaluateDentist": "Rate Dr. {{name}}",
+    "evaluateClinic": "Rate {{name}}",
+    "giveFeedback": "Give Feedback",
+    "forYou": "for you",
+    "lockedHint": "The feedback will be visible when both parties have rated"
   },
   "contestation": {
     "title": "Dispute Rating",

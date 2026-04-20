@@ -94,7 +94,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
         <div className="space-y-5 py-2">
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">{t('feedback.howRateDentist')} {score.dentistName}?</p>
-            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts · 3★ = +1 pt · 1-2★ = -3 pts</p>
+            <p className="text-[10px] text-muted-foreground">{t('feedback.scaleHint')}</p>
             <StarRating
               value={dentistRating}
               hovered={dentistHover}
@@ -119,7 +119,7 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
 
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">{t('feedback.howRateClinic')} {score.clinicName}?</p>
-            <p className="text-[10px] text-muted-foreground">4-5★ = +5 pts · 3★ = +1 pt · 1-2★ = -3 pts</p>
+            <p className="text-[10px] text-muted-foreground">{t('feedback.scaleHint')}</p>
             <StarRating
               value={clinicRating}
               hovered={clinicHover}
