@@ -482,14 +482,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* Confirmações */}
-          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
-                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-                </Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-confirmacoes"
+            title={t('dashboard.confirmations')}
+            persistKey="dentist:confirmacoes"
+            liveBadge={
+              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
+              </Badge>
+            }
+          >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
@@ -501,7 +503,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div
                       key={c.consultationId}
-                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-[5px]"
+                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5"
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
@@ -520,19 +522,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
 
           {/* Lista de Espera */}
-          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
-                <Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-lista-espera"
+            title={t('dashboard.waitingList')}
+            persistKey="dentist:lista-espera"
+            badge={<Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>}
+          >
               <div className="space-y-0 flex-1">
                 {MOCK_WAITING_LIST.map((wl) =>
-                <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                     <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                   </div>
@@ -543,8 +544,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
           </div>
 
           {/* RIGHT column: Quick Actions + Pending Points */}
