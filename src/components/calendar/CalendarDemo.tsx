@@ -14,6 +14,7 @@ export function CalendarDemo() {
   const [searchParams] = useSearchParams();
   const roleParam = searchParams.get('role');
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
+  const isDemoMode = searchParams.get('demo') === 'true';
   const [activeView, setActiveView] = useState(initialRole);
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -42,6 +43,18 @@ export function CalendarDemo() {
         {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
         <DesktopCalendarView />
       </>
+    );
+  }
+
+  // When NOT in demo mode, render only the role-specific calendar (no switcher).
+  if (!isDemoMode) {
+    return (
+      <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
+        {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
+        {initialRole === 'patient' && <PatientCalendar />}
+        {initialRole === 'dentist' && <DentistCalendar />}
+        {initialRole === 'clinic' && <ClinicCalendar />}
+      </div>
     );
   }
 
