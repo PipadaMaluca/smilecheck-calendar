@@ -604,9 +604,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <div className="space-y-6">
           {/* Consultas de Hoje (all dentists) */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="border-0 p-4 flex flex-col flex-1 py-[10px] px-[15px]">
+            <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.todayConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
@@ -618,7 +618,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-[0_0_6px_hsl(var(--primary)/0.12)] rounded transition-all cursor-pointer px-[8px] py-[8px] my-[6px] flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
+                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
                       onNavigate('agenda');
@@ -639,14 +639,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </Card>
 
           {/* Confirmações grouped by dentist */}
-          <Card id="onboarding-confirmacoes" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.confirmations')}</h3>
-                <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-                </Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-confirmacoes"
+            title={t('dashboard.confirmations')}
+            persistKey="clinic:confirmacoes"
+            liveBadge={
+              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
+              </Badge>
+            }
+          >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {confirmationsByDentist.map(({ dentist, confirmations }) =>
                 <div key={dentist.id}>
@@ -678,22 +680,21 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
 
           {/* Lista de Espera grouped by dentist */}
-          <Card id="onboarding-lista-espera" className="bg-card/80 border-border flex flex-col">
-            <CardContent className="p-4 flex flex-col flex-1">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.waitingList')}</h3>
-                <Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>
-              </div>
+          <CollapsibleSection
+            cardId="onboarding-lista-espera"
+            title={t('dashboard.waitingList')}
+            persistKey="clinic:lista-espera"
+            badge={<Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+          >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
                 <div key={dentistName}>
                     <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
-                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-[5px]">
+                  <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                         <span className="text-[10px] text-muted-foreground flex-shrink-0">— {t(`waitingList.details.${wl.detailKey}`)}</span>
                       </div>
@@ -706,8 +707,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-            </CardContent>
-          </Card>
+          </CollapsibleSection>
           </div>
 
           {/* RIGHT column: Quick Actions + Pending Points */}
@@ -743,7 +743,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <Card id="onboarding-consultas-hoje" className="bg-card/80 backdrop-blur border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.upcomingConsultations')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
               </div>
               <div className="space-y-2">
@@ -775,7 +775,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             {/* Ações Rápidas */}
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardContent className="p-4 space-y-3">
-                <h3 className="text-sm font-bold text-foreground">{t('dashboard.quickActions')}</h3>
+                <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
                 <div className="flex flex-col gap-2">
                   {patientActions.map((action) => {
                     const ActionIcon = action.icon;
@@ -821,12 +821,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
       <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 animate-fade-in">
         {/* Greeting */}
-        <div className="items-center justify-between flex flex-col gap-[5px] min-w-0">
+        <div className="items-center justify-between flex flex-col gap-1.5 min-w-0">
           <div>
-            <h1 className="font-bold text-foreground text-center text-xl truncate max-w-full">
+            <h1 className="t-h1 text-foreground text-center truncate max-w-full">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-[5px]">
+            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5">
               {DEMO_DATE.toLocaleDateString('pt-PT', {
                 weekday: 'long',
                 day: 'numeric',
