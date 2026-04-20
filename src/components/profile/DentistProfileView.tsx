@@ -192,6 +192,18 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <Button variant="outline" className="flex-1 min-h-[44px]">
                 <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
+              {canViewerRate && (
+                <Button
+                  variant="outline"
+                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-amber-600 hover:bg-amber-500/10"
+                  onClick={() => setShowRateModal(true)}
+                >
+                  <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
+                  {hasPendingRating && (
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-background animate-pulse" />
+                  )}
+                </Button>
+              )}
             </div>
             {onToggleFavorite &&
         <button
