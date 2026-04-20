@@ -170,7 +170,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
             )}
             {isPending && onGiveFeedback && (
               <Button size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onGiveFeedback(); }}>
-                <Star className="w-3.5 h-3.5 mr-1" /> Dar Feedback para receber pontos
+                <Star className="w-3.5 h-3.5 mr-1" /> {t('bidirectionalFeedback.rate')}
               </Button>
             )}
             {score.totalPoints < 0 && onContest && (
