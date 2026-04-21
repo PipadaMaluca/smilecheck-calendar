@@ -42,15 +42,64 @@ const clinics = [
   { id: '3', name: 'Clínica Montfermeil' },
 ];
 
-const defaultWeek: DaySchedule[] = [
-  { dayKey: 'common.weekdays.mon', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.tue', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.wed', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: false, start: '', end: '' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.thu', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.fri', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: false, start: '', end: '' } },
-  { dayKey: 'common.weekdays.sat', morning: { active: false, start: '', end: '' }, afternoon: { active: false, start: '', end: '' }, evening: { active: false, start: '', end: '' } },
-  { dayKey: 'common.weekdays.sun', morning: { active: false, start: '', end: '' }, afternoon: { active: false, start: '', end: '' }, evening: { active: false, start: '', end: '' } },
+const offSlot = { active: false, start: '', end: '' };
+const dayKeys = [
+  'common.weekdays.mon',
+  'common.weekdays.tue',
+  'common.weekdays.wed',
+  'common.weekdays.thu',
+  'common.weekdays.fri',
+  'common.weekdays.sat',
+  'common.weekdays.sun',
 ];
+
+// Clínica SmileCheck: Seg-Sex 09:00-19:00 + Tele 19:00-21:30, Sáb 09:00-13:00, Dom Fechado
+const smilecheckWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i <= 4) {
+    return {
+      dayKey,
+      morning: { active: true, start: '09:00', end: '13:00' },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { active: true, start: '19:00', end: '21:30' },
+    };
+  }
+  if (i === 5) {
+    return { dayKey, morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+// Mitry-Mory: Ter+Qui 09:00-19:00, rest Fechado
+const mitryWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i === 1 || i === 3) {
+    return {
+      dayKey,
+      morning: { active: true, start: '09:00', end: '13:00' },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { ...offSlot },
+    };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+// Montfermeil: Qua+Sex 14:00-19:00, rest Fechado
+const montfermeilWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i === 2 || i === 4) {
+    return {
+      dayKey,
+      morning: { ...offSlot },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { ...offSlot },
+    };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+const clinicSchedules: Record<string, DaySchedule[]> = {
+  '1': smilecheckWeek,
+  '2': mitryWeek,
+  '3': montfermeilWeek,
+};
 
 const mockExceptions: ExceptionItem[] = [
   { id: '1', startDate: '2026-08-15', endDate: '2026-08-22', reason: 'Férias', reasonKey: 'availability.reasonHoliday', note: '' },
