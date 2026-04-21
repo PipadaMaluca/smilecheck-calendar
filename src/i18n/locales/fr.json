@@ -92,7 +92,13 @@
       "friFull": "Vendredi",
       "satFull": "Samedi",
       "sunFull": "Dimanche"
-    }
+    },
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "tomorrow": "Demain",
+    "minAgo": "il y a {{n}} min",
+    "hoursAgo": "il y a {{n}} h",
+    "daysAgo": "il y a {{n}} jours"
   },
   "nav": {
     "home": "Accueil",
@@ -3523,5 +3529,84 @@
       "rootCanalCrown": "Endodontie + couronne définitive posée",
       "crownPlaced": "Couronne céramo-métallique posée"
     }
+  },
+  "months": {
+    "jan": "janvier",
+    "feb": "février",
+    "mar": "mars",
+    "apr": "avril",
+    "may": "mai",
+    "jun": "juin",
+    "jul": "juillet",
+    "aug": "août",
+    "sep": "septembre",
+    "oct": "octobre",
+    "nov": "novembre",
+    "dec": "décembre",
+    "janShort": "janv.",
+    "febShort": "févr.",
+    "marShort": "mars",
+    "aprShort": "avr.",
+    "mayShort": "mai",
+    "junShort": "juin",
+    "julShort": "juil.",
+    "augShort": "août",
+    "sepShort": "sept.",
+    "octShort": "oct.",
+    "novShort": "nov.",
+    "decShort": "déc."
+  },
+  "paymentMethods": {
+    "card": "Carte",
+    "mbway": "MB WAY",
+    "multibanco": "Multibanco",
+    "newCard": "Nouvelle carte",
+    "savedCards": "Cartes enregistrées"
+  },
+  "swipeActions": {
+    "confirm": "Confirmer",
+    "noShow": "Absent",
+    "cancel": "Annuler",
+    "message": "Message",
+    "reschedule": "Reprogrammer"
+  },
+  "demoTooltips": {
+    "roleClinic": "Voir en tant que Clinique",
+    "roleDentist": "Voir en tant que Dentiste",
+    "rolePatient": "Voir en tant que Patient",
+    "languagePt": "Portugais",
+    "languageFr": "Français",
+    "languageEn": "Anglais",
+    "themeLight": "Thème clair",
+    "themeDark": "Thème sombre"
+  },
+  "onboardingTooltips": {
+    "skip": "Passer le tour",
+    "finish": "Terminer",
+    "next": "Suivant",
+    "stepOf": "{{current}} sur {{total}}"
+  },
+  "preCall": {
+    "title": "Démarrer la téléconsultation",
+    "description": "Confirmez avant de lancer l'appel",
+    "healthAlerts": "Alertes de santé",
+    "lastConsultation": "Dernière consultation",
+    "startCall": "Démarrer la téléconsultation",
+    "cancel": "Annuler",
+    "tooth": "Dent",
+    "occlusal": "face occlusale",
+    "years": "ans"
+  },
+  "incomingCall": {
+    "starting": "Téléconsultation en démarrage",
+    "autoReject": "Rejet automatique dans {{n}} s",
+    "reject": "Refuser",
+    "accept": "Rejoindre",
+    "teleconsulta": "Téléconsultation"
+  },
+  "editProfileLabels": {
+    "yearsExperience": "Années d'expérience",
+    "certifications": "Certifications",
+    "teleconsultaPrice": "Prix téléconsultation (€)"
   }
 }

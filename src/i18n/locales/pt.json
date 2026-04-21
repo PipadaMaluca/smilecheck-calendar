@@ -92,7 +92,13 @@
       "friFull": "Sexta",
       "satFull": "Sábado",
       "sunFull": "Domingo"
-    }
+    },
+    "today": "Hoje",
+    "yesterday": "Ontem",
+    "tomorrow": "Amanhã",
+    "minAgo": "há {{n}} min",
+    "hoursAgo": "há {{n}}h",
+    "daysAgo": "há {{n}} dias"
   },
   "nav": {
     "home": "Início",
@@ -3523,5 +3529,84 @@
       "rootCanalCrown": "Endodontia + coroa definitiva colocada",
       "crownPlaced": "Coroa metalocerâmica colocada"
     }
+  },
+  "months": {
+    "jan": "Janeiro",
+    "feb": "Fevereiro",
+    "mar": "Março",
+    "apr": "Abril",
+    "may": "Maio",
+    "jun": "Junho",
+    "jul": "Julho",
+    "aug": "Agosto",
+    "sep": "Setembro",
+    "oct": "Outubro",
+    "nov": "Novembro",
+    "dec": "Dezembro",
+    "janShort": "Jan",
+    "febShort": "Fev",
+    "marShort": "Mar",
+    "aprShort": "Abr",
+    "mayShort": "Mai",
+    "junShort": "Jun",
+    "julShort": "Jul",
+    "augShort": "Ago",
+    "sepShort": "Set",
+    "octShort": "Out",
+    "novShort": "Nov",
+    "decShort": "Dez"
+  },
+  "paymentMethods": {
+    "card": "Cartão",
+    "mbway": "MB WAY",
+    "multibanco": "Multibanco",
+    "newCard": "Novo cartão",
+    "savedCards": "Cartões guardados"
+  },
+  "swipeActions": {
+    "confirm": "Confirmar",
+    "noShow": "Falta",
+    "cancel": "Cancelar",
+    "message": "Mensagem",
+    "reschedule": "Reagendar"
+  },
+  "demoTooltips": {
+    "roleClinic": "Ver como Clínica",
+    "roleDentist": "Ver como Dentista",
+    "rolePatient": "Ver como Paciente",
+    "languagePt": "Português",
+    "languageFr": "Francês",
+    "languageEn": "Inglês",
+    "themeLight": "Tema claro",
+    "themeDark": "Tema escuro"
+  },
+  "onboardingTooltips": {
+    "skip": "Saltar tour",
+    "finish": "Concluir",
+    "next": "Seguinte",
+    "stepOf": "{{current}} de {{total}}"
+  },
+  "preCall": {
+    "title": "Iniciar Teleconsulta",
+    "description": "Confirme antes de iniciar a chamada",
+    "healthAlerts": "Alertas de Saúde",
+    "lastConsultation": "Última consulta",
+    "startCall": "Iniciar Teleconsulta",
+    "cancel": "Cancelar",
+    "tooth": "Dente",
+    "occlusal": "face oclusal",
+    "years": "anos"
+  },
+  "incomingCall": {
+    "starting": "Teleconsulta a iniciar",
+    "autoReject": "Auto-rejeição em {{n}}s",
+    "reject": "Recusar",
+    "accept": "Entrar",
+    "teleconsulta": "Teleconsulta"
+  },
+  "editProfileLabels": {
+    "yearsExperience": "Anos de experiência",
+    "certifications": "Certificações",
+    "teleconsultaPrice": "Preço teleconsulta (€)"
   }
 }

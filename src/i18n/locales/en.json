@@ -92,7 +92,13 @@
       "friFull": "Friday",
       "satFull": "Saturday",
       "sunFull": "Sunday"
-    }
+    },
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "minAgo": "{{n}} min ago",
+    "hoursAgo": "{{n}}h ago",
+    "daysAgo": "{{n}} days ago"
   },
   "nav": {
     "home": "Home",
@@ -3523,5 +3529,84 @@
       "rootCanalCrown": "Root canal + permanent crown placed",
       "crownPlaced": "Porcelain-fused-to-metal crown placed"
     }
+  },
+  "months": {
+    "jan": "January",
+    "feb": "February",
+    "mar": "March",
+    "apr": "April",
+    "may": "May",
+    "jun": "June",
+    "jul": "July",
+    "aug": "August",
+    "sep": "September",
+    "oct": "October",
+    "nov": "November",
+    "dec": "December",
+    "janShort": "Jan",
+    "febShort": "Feb",
+    "marShort": "Mar",
+    "aprShort": "Apr",
+    "mayShort": "May",
+    "junShort": "Jun",
+    "julShort": "Jul",
+    "augShort": "Aug",
+    "sepShort": "Sep",
+    "octShort": "Oct",
+    "novShort": "Nov",
+    "decShort": "Dec"
+  },
+  "paymentMethods": {
+    "card": "Card",
+    "mbway": "MB WAY",
+    "multibanco": "Multibanco",
+    "newCard": "New card",
+    "savedCards": "Saved cards"
+  },
+  "swipeActions": {
+    "confirm": "Confirm",
+    "noShow": "No-show",
+    "cancel": "Cancel",
+    "message": "Message",
+    "reschedule": "Reschedule"
+  },
+  "demoTooltips": {
+    "roleClinic": "View as Clinic",
+    "roleDentist": "View as Dentist",
+    "rolePatient": "View as Patient",
+    "languagePt": "Portuguese",
+    "languageFr": "French",
+    "languageEn": "English",
+    "themeLight": "Light theme",
+    "themeDark": "Dark theme"
+  },
+  "onboardingTooltips": {
+    "skip": "Skip tour",
+    "finish": "Finish",
+    "next": "Next",
+    "stepOf": "{{current}} of {{total}}"
+  },
+  "preCall": {
+    "title": "Start Teleconsultation",
+    "description": "Confirm before starting the call",
+    "healthAlerts": "Health Alerts",
+    "lastConsultation": "Last consultation",
+    "startCall": "Start Teleconsultation",
+    "cancel": "Cancel",
+    "tooth": "Tooth",
+    "occlusal": "occlusal surface",
+    "years": "years old"
+  },
+  "incomingCall": {
+    "starting": "Teleconsultation starting",
+    "autoReject": "Auto-reject in {{n}}s",
+    "reject": "Decline",
+    "accept": "Join",
+    "teleconsulta": "Teleconsultation"
+  },
+  "editProfileLabels": {
+    "yearsExperience": "Years of experience",
+    "certifications": "Certifications",
+    "teleconsultaPrice": "Teleconsultation price (€)"
   }
 }
