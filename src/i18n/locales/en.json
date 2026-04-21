@@ -3297,7 +3297,11 @@
     "appleStep3": "Paste the link above",
     "outlookStep1": "Open Outlook",
     "outlookStep2": "Add Calendar → From Internet",
-    "outlookStep3": "Paste the link above"
+    "outlookStep3": "Paste the link above",
+    "appleStep4": "Confirm \"Subscribe\" and choose sync options",
+    "outlookStep4": "Name the calendar and click \"Import\"",
+    "tryAgain": "Try again",
+    "syncError": "Sync error"
   },
   "demo": {
     "title": "Demo Mode",
