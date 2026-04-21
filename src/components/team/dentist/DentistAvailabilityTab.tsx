@@ -168,6 +168,50 @@ export function DentistAvailabilityTab() {
     setExceptions(prev => prev.filter(e => e.id !== id));
   };
 
+  const openAddException = () => {
+    setEditingExceptionId(null);
+    setExForm({ startDate: '', endDate: '', reasonKey: 'availability.reasonHoliday', note: '' });
+    setExceptionModalOpen(true);
+  };
+
+  const openEditException = (ex: ExceptionItem) => {
+    setEditingExceptionId(ex.id);
+    setExForm({ startDate: ex.startDate, endDate: ex.endDate, reasonKey: ex.reasonKey, note: ex.note || '' });
+    setExceptionModalOpen(true);
+  };
+
+  const reasonLabel = (key: string) => {
+    if (key.includes('Holiday')) return 'Férias';
+    if (key.includes('Training')) return 'Formação';
+    if (key.includes('Personal')) return 'Pessoal';
+    return 'Outro';
+  };
+
+  const saveException = () => {
+    if (!exForm.startDate) return;
+    const endDate = exForm.endDate || exForm.startDate;
+    if (editingExceptionId) {
+      setExceptions(prev => prev.map(e => e.id === editingExceptionId ? {
+        ...e,
+        startDate: exForm.startDate,
+        endDate,
+        reason: reasonLabel(exForm.reasonKey),
+        reasonKey: exForm.reasonKey,
+        note: exForm.note || undefined,
+      } : e));
+    } else {
+      setExceptions(prev => [...prev, {
+        id: String(Date.now()),
+        startDate: exForm.startDate,
+        endDate,
+        reason: reasonLabel(exForm.reasonKey),
+        reasonKey: exForm.reasonKey,
+        note: exForm.note || undefined,
+      }]);
+    }
+    setExceptionModalOpen(false);
+  };
+
   const handleSave = () => {
     toast.success(t('availability.savedSuccess'));
   };
@@ -348,7 +392,7 @@ export function DentistAvailabilityTab() {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">📅 {t('availability.exceptionsTitle')}</CardTitle>
-            <Button variant="outline" size="sm" className="gap-1 text-xs">
+            <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={openAddException}>
               <Plus className="w-3 h-3" />{t('availability.addException')}
             </Button>
           </div>
@@ -373,7 +417,7 @@ export function DentistAvailabilityTab() {
                   </div>
                 </div>
                 <div className="flex gap-1">
-                  <Button variant="ghost" size="sm" className="h-8 text-xs">{t('common.edit')}</Button>
+                  <Button variant="ghost" size="sm" className="h-8 text-xs" onClick={() => openEditException(ex)}>{t('common.edit')}</Button>
                   <Button variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </Button>
