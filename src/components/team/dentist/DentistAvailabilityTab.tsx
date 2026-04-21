@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Pencil, Plus, Trash2, Save, Calendar, Video, Plane, GraduationCap, User, MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -39,15 +42,64 @@ const clinics = [
   { id: '3', name: 'Clínica Montfermeil' },
 ];
 
-const defaultWeek: DaySchedule[] = [
-  { dayKey: 'common.weekdays.mon', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.tue', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.wed', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: false, start: '', end: '' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.thu', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: true, start: '19:00', end: '21:30' } },
-  { dayKey: 'common.weekdays.fri', morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { active: true, start: '14:00', end: '19:00' }, evening: { active: false, start: '', end: '' } },
-  { dayKey: 'common.weekdays.sat', morning: { active: false, start: '', end: '' }, afternoon: { active: false, start: '', end: '' }, evening: { active: false, start: '', end: '' } },
-  { dayKey: 'common.weekdays.sun', morning: { active: false, start: '', end: '' }, afternoon: { active: false, start: '', end: '' }, evening: { active: false, start: '', end: '' } },
+const offSlot = { active: false, start: '', end: '' };
+const dayKeys = [
+  'common.weekdays.mon',
+  'common.weekdays.tue',
+  'common.weekdays.wed',
+  'common.weekdays.thu',
+  'common.weekdays.fri',
+  'common.weekdays.sat',
+  'common.weekdays.sun',
 ];
+
+// Clínica SmileCheck: Seg-Sex 09:00-19:00 + Tele 19:00-21:30, Sáb 09:00-13:00, Dom Fechado
+const smilecheckWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i <= 4) {
+    return {
+      dayKey,
+      morning: { active: true, start: '09:00', end: '13:00' },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { active: true, start: '19:00', end: '21:30' },
+    };
+  }
+  if (i === 5) {
+    return { dayKey, morning: { active: true, start: '09:00', end: '13:00' }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+// Mitry-Mory: Ter+Qui 09:00-19:00, rest Fechado
+const mitryWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i === 1 || i === 3) {
+    return {
+      dayKey,
+      morning: { active: true, start: '09:00', end: '13:00' },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { ...offSlot },
+    };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+// Montfermeil: Qua+Sex 14:00-19:00, rest Fechado
+const montfermeilWeek: DaySchedule[] = dayKeys.map((dayKey, i) => {
+  if (i === 2 || i === 4) {
+    return {
+      dayKey,
+      morning: { ...offSlot },
+      afternoon: { active: true, start: '14:00', end: '19:00' },
+      evening: { ...offSlot },
+    };
+  }
+  return { dayKey, morning: { ...offSlot }, afternoon: { ...offSlot }, evening: { ...offSlot } };
+});
+
+const clinicSchedules: Record<string, DaySchedule[]> = {
+  '1': smilecheckWeek,
+  '2': mitryWeek,
+  '3': montfermeilWeek,
+};
 
 const mockExceptions: ExceptionItem[] = [
   { id: '1', startDate: '2026-08-15', endDate: '2026-08-22', reason: 'Férias', reasonKey: 'availability.reasonHoliday', note: '' },
@@ -58,11 +110,34 @@ export function DentistAvailabilityTab() {
   const { t } = useTranslation();
   const [selectedClinic, setSelectedClinic] = useState('1');
   const [applyToAll, setApplyToAll] = useState(false);
-  const [week, setWeek] = useState<DaySchedule[]>(defaultWeek);
+  const [schedulesByClinic, setSchedulesByClinic] = useState<Record<string, DaySchedule[]>>(() => ({
+    '1': clinicSchedules['1'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+    '2': clinicSchedules['2'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+    '3': clinicSchedules['3'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+  }));
+  const week = schedulesByClinic[selectedClinic];
   const [exceptions, setExceptions] = useState<ExceptionItem[]>(mockExceptions);
   const [teleEnabled, setTeleEnabled] = useState(true);
   const [maxTelePerDay, setMaxTelePerDay] = useState(4);
   const [editingCell, setEditingCell] = useState<{ day: number; period: 'morning' | 'afternoon' | 'evening'; field: 'start' | 'end' } | null>(null);
+  const [exceptionModalOpen, setExceptionModalOpen] = useState(false);
+  const [editingExceptionId, setEditingExceptionId] = useState<string | null>(null);
+  const [exForm, setExForm] = useState<{ startDate: string; endDate: string; reasonKey: string; note: string }>({
+    startDate: '',
+    endDate: '',
+    reasonKey: 'availability.reasonHoliday',
+    note: '',
+  });
+
+  const setWeek = (updater: (prev: DaySchedule[]) => DaySchedule[]) => {
+    setSchedulesByClinic(prev => {
+      const updated = updater(prev[selectedClinic]);
+      if (applyToAll) {
+        return { '1': updated, '2': updated, '3': updated };
+      }
+      return { ...prev, [selectedClinic]: updated };
+    });
+  };
 
   const togglePeriod = (dayIdx: number, period: 'morning' | 'afternoon' | 'evening') => {
     setWeek(prev => prev.map((d, i) => {
@@ -91,6 +166,50 @@ export function DentistAvailabilityTab() {
 
   const deleteException = (id: string) => {
     setExceptions(prev => prev.filter(e => e.id !== id));
+  };
+
+  const openAddException = () => {
+    setEditingExceptionId(null);
+    setExForm({ startDate: '', endDate: '', reasonKey: 'availability.reasonHoliday', note: '' });
+    setExceptionModalOpen(true);
+  };
+
+  const openEditException = (ex: ExceptionItem) => {
+    setEditingExceptionId(ex.id);
+    setExForm({ startDate: ex.startDate, endDate: ex.endDate, reasonKey: ex.reasonKey, note: ex.note || '' });
+    setExceptionModalOpen(true);
+  };
+
+  const reasonLabel = (key: string) => {
+    if (key.includes('Holiday')) return 'Férias';
+    if (key.includes('Training')) return 'Formação';
+    if (key.includes('Personal')) return 'Pessoal';
+    return 'Outro';
+  };
+
+  const saveException = () => {
+    if (!exForm.startDate) return;
+    const endDate = exForm.endDate || exForm.startDate;
+    if (editingExceptionId) {
+      setExceptions(prev => prev.map(e => e.id === editingExceptionId ? {
+        ...e,
+        startDate: exForm.startDate,
+        endDate,
+        reason: reasonLabel(exForm.reasonKey),
+        reasonKey: exForm.reasonKey,
+        note: exForm.note || undefined,
+      } : e));
+    } else {
+      setExceptions(prev => [...prev, {
+        id: String(Date.now()),
+        startDate: exForm.startDate,
+        endDate,
+        reason: reasonLabel(exForm.reasonKey),
+        reasonKey: exForm.reasonKey,
+        note: exForm.note || undefined,
+      }]);
+    }
+    setExceptionModalOpen(false);
   };
 
   const handleSave = () => {
@@ -273,7 +392,7 @@ export function DentistAvailabilityTab() {
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">📅 {t('availability.exceptionsTitle')}</CardTitle>
-            <Button variant="outline" size="sm" className="gap-1 text-xs">
+            <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={openAddException}>
               <Plus className="w-3 h-3" />{t('availability.addException')}
             </Button>
           </div>
@@ -298,7 +417,7 @@ export function DentistAvailabilityTab() {
                   </div>
                 </div>
                 <div className="flex gap-1">
-                  <Button variant="ghost" size="sm" className="h-8 text-xs">{t('common.edit')}</Button>
+                  <Button variant="ghost" size="sm" className="h-8 text-xs" onClick={() => openEditException(ex)}>{t('common.edit')}</Button>
                   <Button variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </Button>
@@ -347,6 +466,65 @@ export function DentistAvailabilityTab() {
       <Button className="gap-2 w-full sm:w-auto" onClick={handleSave}>
         <Save className="w-4 h-4" />{t('availability.saveChanges')}
       </Button>
+
+      {/* Add/Edit Exception Modal */}
+      <Dialog open={exceptionModalOpen} onOpenChange={setExceptionModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {editingExceptionId ? t('common.edit') : t('availability.addException')}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ex-start" className="text-xs">{t('common.from') !== 'common.from' ? t('common.from') : 'De'}</Label>
+                <Input
+                  id="ex-start"
+                  type="date"
+                  value={exForm.startDate}
+                  onChange={(e) => setExForm(f => ({ ...f, startDate: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ex-end" className="text-xs">{t('common.to') !== 'common.to' ? t('common.to') : 'Até'}</Label>
+                <Input
+                  id="ex-end"
+                  type="date"
+                  value={exForm.endDate}
+                  onChange={(e) => setExForm(f => ({ ...f, endDate: e.target.value }))}
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">{t('availability.reasonLabel') !== 'availability.reasonLabel' ? t('availability.reasonLabel') : 'Motivo'}</Label>
+              <Select value={exForm.reasonKey} onValueChange={(v) => setExForm(f => ({ ...f, reasonKey: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="availability.reasonHoliday">{t('availability.reasonHoliday')}</SelectItem>
+                  <SelectItem value="availability.reasonTraining">{t('availability.reasonTraining')}</SelectItem>
+                  <SelectItem value="availability.reasonPersonal">{t('availability.reasonPersonal')}</SelectItem>
+                  <SelectItem value="availability.reasonOther">{t('availability.reasonOther')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ex-note" className="text-xs">{t('common.optional')} - {t('common.message')}</Label>
+              <Textarea
+                id="ex-note"
+                rows={2}
+                value={exForm.note}
+                onChange={(e) => setExForm(f => ({ ...f, note: e.target.value }))}
+                placeholder=""
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setExceptionModalOpen(false)}>{t('common.cancel')}</Button>
+            <Button onClick={saveException} disabled={!exForm.startDate}>{t('common.save')}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
