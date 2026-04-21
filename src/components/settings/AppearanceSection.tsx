@@ -13,6 +13,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { useTheme } from '@/hooks/useTheme';
 
 interface AppearanceSectionProps {
   isPremium?: boolean;
@@ -26,7 +27,9 @@ const DEFAULT_COLORS = {
 };
 
 export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceSectionProps) {
-  const [darkMode, setDarkMode] = useState(true);
+  const [theme, setTheme] = useTheme();
+  const darkMode = theme === 'dark';
+  const setDarkMode = (v: boolean) => setTheme(v ? 'dark' : 'light');
   const [showCustomize, setShowCustomize] = useState(false);
   const [colors, setColors] = useState({ ...DEFAULT_COLORS });
   const [savedColors, setSavedColors] = useState({ ...DEFAULT_COLORS });
