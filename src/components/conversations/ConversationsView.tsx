@@ -461,7 +461,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         </div>
                         <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0', badge.className)}>
                           <BadgeIcon className="w-2.5 h-2.5" />
-                          {contact.type}
+                            {typeLabel(contact.type)}
                         </span>
                       </button>
                     );
@@ -540,7 +540,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                               )}
                             >
                               <BadgeIcon className="w-2.5 h-2.5" />
-                              {conversation.type}
+                              {typeLabel(conversation.type)}
                             </span>
                           </div>
                           {conversation.isTyping ? (
@@ -558,7 +558,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         </div>
 
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                          <span className="text-[10px] text-muted-foreground">{conversation.lastMessageTime}</span>
+                          <span className="text-[10px] text-muted-foreground">{resolveDateLabel(conversation.lastMessageTime)}</span>
                           {isUnread && (
                             <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
                               {conversation.unread}
@@ -605,7 +605,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         typeBadgeConfig[selectedConversation.type].className
                       )}
                     >
-                      {selectedConversation.type}
+                    {typeLabel(selectedConversation.type)}
                     </span>
                   )}
                 </div>
@@ -616,7 +616,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                 <div className="max-w-2xl mx-auto space-y-1">
                   {getMessagesWithSeparators(selectedConversation.messages).map((item, idx) => {
                     if (item.type === 'date') {
-                      return <DateSeparator key={`date-${idx}`} date={item.date} />;
+                      return <DateSeparator key={`date-${idx}`} date={resolveDateLabel(item.date)} />;
                     }
                     const msg = item.message;
                     return (
