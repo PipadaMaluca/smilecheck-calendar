@@ -47,62 +47,66 @@ const NOTIFICATION_ICONS: Record<NotificationType, React.ElementType> = {
   referenciou_paciente: Star
 };
 
-// Role-specific notifications
-const PATIENT_NOTIFICATIONS: Notification[] = [
-{ id: 'p1', type: 'lembrete_24h', title: 'Consulta amanhã', description: 'Consulta amanhã às 09:00 com Dr. Gonçalo Pipo', time: 'há 5 min', read: false, actionLabel: 'Confirmar', action: 'agenda' },
-{ id: 'p2', type: 'lembrete_1h', title: 'Consulta em 1 hora', description: 'Consulta às 14:30 com Dra. Sofia Almeida', time: 'há 30 min', read: false, action: 'agenda' },
-...mockScoreHistory.
-filter((s) => s.feedbackStatus === 'pending').
-map((s, i) => ({
-  id: `fb-${s.id}`,
-  type: 'feedback' as NotificationType,
-  title: 'Feedback pendente',
-  description: `Dê o seu feedback sobre a consulta com ${s.dentistName}`,
-  time: i === 0 ? 'há 1h' : `há ${i + 1} dias`,
-  read: false,
-  actionLabel: 'Dar Feedback',
-  linkedScoreId: s.id,
-  action: 'feedback'
-})),
-{ id: 'p3', type: 'mensagem', title: 'Nova mensagem', description: 'Dr. Alexandre Melo enviou uma mensagem', time: 'há 15 min', read: false, action: 'conversas' },
-{ id: 'p4', type: 'pontos', title: 'Pontos ganhos!', description: '+15 pontos pela consulta de hoje', time: 'há 1h', read: false },
-{ id: 'p5', type: 'consulta_alterada', title: 'Consulta alterada', description: 'A consulta de 5 Fev foi movida para as 14:00', time: 'há 2h', read: true, action: 'agenda' },
-{ id: 'p6', type: 'conquista', title: 'Conquista desbloqueada!', description: '"Paciente Exemplar" - 10 consultas seguidas sem faltas', time: 'há 3h', read: true },
-{ id: 'p7', type: 'receita', title: 'Nova receita disponível', description: 'Dr. Gonçalo Pipo prescreveu uma receita', time: 'há 5h', read: true, action: 'saude_receitas' },
-{ id: 'p8', type: 'referencia', title: 'Nova carta de referência', description: 'Dr. Gonçalo emitiu uma carta de referência', time: 'ontem', read: true, action: 'saude_referencias' },
-{ id: 'p9', type: 'consulta_cancelada', title: 'Consulta cancelada', description: 'A consulta de 10 Fev com Dr. Gil Santos foi cancelada', time: 'ontem', read: true },
-{ id: 'p10', type: 'referral_usado', title: 'Referral usado!', description: 'João Costa usou o seu código e subscreveu um plano! +50 pontos', time: '2 dias', read: true },
-{ id: 'p11', type: 'mensagem', title: 'Nova mensagem', description: 'Clínica SmileCheck enviou uma mensagem', time: '2 dias', read: true, action: 'conversas' }];
+// Role-specific notifications — built lazily via t() so they react to language switches.
+import i18n from '@/i18n';
 
+const tn = (k: string, opts?: Record<string, unknown>) => i18n.t(`notifMock.${k}`, opts);
 
-const DENTIST_NOTIFICATIONS: Notification[] = [
-{ id: 'd1', type: 'novo_agendamento', title: 'Novo agendamento', description: 'Pedro Almeida agendou consulta para 10 Fev às 09:00', time: 'há 10 min', read: false, action: 'agenda' },
-{ id: 'd2', type: 'paciente_confirmou', title: 'Paciente confirmou', description: 'Maria Silva confirmou consulta de amanhã às 09:30', time: 'há 20 min', read: false, action: 'agenda' },
-{ id: 'd3', type: 'paciente_cancelou', title: 'Paciente cancelou', description: 'João Costa cancelou consulta de 12 Fev às 10:00', time: 'há 1h', read: false, action: 'agenda' },
-{ id: 'd4', type: 'sala_espera', title: 'Paciente em sala de espera', description: 'Ana Ferreira chegou e está na sala de espera', time: 'há 5 min', read: false, action: 'agenda' },
-{ id: 'd5', type: 'feedback_recebido', title: 'Feedback recebido', description: 'Carlos Santos deu 5 estrelas à sua consulta', time: 'há 2h', read: false },
-{ id: 'd6', type: 'mensagem', title: 'Nova mensagem', description: 'Beatriz Lopes enviou uma mensagem', time: 'há 3h', read: true, action: 'conversas' },
-{ id: 'd7', type: 'pontos', title: 'Pontos ganhos!', description: '+25 pontos esta semana por consultas realizadas', time: 'há 5h', read: true },
-{ id: 'd8', type: 'referral_usado', title: 'Referral usado!', description: 'Dr. Ana Costa usou o seu código e subscreveu Pro! +100 pontos', time: 'ontem', read: true },
-{ id: 'd9', type: 'referenciou_paciente', title: 'Paciente referenciado', description: 'O paciente que referenciou a Dr. Ana Costa concluiu consulta. +10 pontos', time: '2 dias', read: true }];
+const buildPatientNotifications = (): Notification[] => [
+  { id: 'p1', type: 'lembrete_24h', title: tn('p1Title'), description: tn('p1Desc'), time: tn('time5min'), read: false, actionLabel: i18n.t('swipeActions.confirm'), action: 'agenda' },
+  { id: 'p2', type: 'lembrete_1h', title: tn('p2Title'), description: tn('p2Desc'), time: tn('time30min'), read: false, action: 'agenda' },
+  ...mockScoreHistory
+    .filter((s) => s.feedbackStatus === 'pending')
+    .map((s, i) => ({
+      id: `fb-${s.id}`,
+      type: 'feedback' as NotificationType,
+      title: tn('fbTitle'),
+      description: tn('fbDescTpl', { name: s.dentistName }) as string,
+      time: i === 0 ? tn('time1h') as string : i18n.t('common.daysAgo', { n: i + 1 }) as string,
+      read: false,
+      actionLabel: tn('fbAction') as string,
+      linkedScoreId: s.id,
+      action: 'feedback',
+    })),
+  { id: 'p3', type: 'mensagem', title: tn('p3Title'), description: tn('p3Desc'), time: tn('time15min'), read: false, action: 'conversas' },
+  { id: 'p4', type: 'pontos', title: tn('p4Title'), description: tn('p4Desc'), time: tn('time1h'), read: false },
+  { id: 'p5', type: 'consulta_alterada', title: tn('p5Title'), description: tn('p5Desc'), time: tn('time2h'), read: true, action: 'agenda' },
+  { id: 'p6', type: 'conquista', title: tn('p6Title'), description: tn('p6Desc'), time: tn('time3h'), read: true },
+  { id: 'p7', type: 'receita', title: tn('p7Title'), description: tn('p7Desc'), time: tn('time5h'), read: true, action: 'saude_receitas' },
+  { id: 'p8', type: 'referencia', title: tn('p8Title'), description: tn('p8Desc'), time: tn('yesterday'), read: true, action: 'saude_referencias' },
+  { id: 'p9', type: 'consulta_cancelada', title: tn('p9Title'), description: tn('p9Desc'), time: tn('yesterday'), read: true },
+  { id: 'p10', type: 'referral_usado', title: tn('p10Title'), description: tn('p10Desc'), time: tn('days2'), read: true },
+  { id: 'p11', type: 'mensagem', title: tn('p11Title'), description: tn('p11Desc'), time: tn('days2'), read: true, action: 'conversas' },
+];
 
+const buildDentistNotifications = (): Notification[] => [
+  { id: 'd1', type: 'novo_agendamento', title: tn('d1Title'), description: tn('d1Desc'), time: tn('time10min'), read: false, action: 'agenda' },
+  { id: 'd2', type: 'paciente_confirmou', title: tn('d2Title'), description: tn('d2Desc'), time: tn('time20min'), read: false, action: 'agenda' },
+  { id: 'd3', type: 'paciente_cancelou', title: tn('d3Title'), description: tn('d3Desc'), time: tn('time1h'), read: false, action: 'agenda' },
+  { id: 'd4', type: 'sala_espera', title: tn('d4Title'), description: tn('d4Desc'), time: tn('time5min'), read: false, action: 'agenda' },
+  { id: 'd5', type: 'feedback_recebido', title: tn('d5Title'), description: tn('d5Desc'), time: tn('time2h'), read: false },
+  { id: 'd6', type: 'mensagem', title: tn('d6Title'), description: tn('d6Desc'), time: tn('time3h'), read: true, action: 'conversas' },
+  { id: 'd7', type: 'pontos', title: tn('d7Title'), description: tn('d7Desc'), time: tn('time5h'), read: true },
+  { id: 'd8', type: 'referral_usado', title: tn('d8Title'), description: tn('d8Desc'), time: tn('yesterday'), read: true },
+  { id: 'd9', type: 'referenciou_paciente', title: tn('d9Title'), description: tn('d9Desc'), time: tn('days2'), read: true },
+];
 
-const CLINIC_NOTIFICATIONS: Notification[] = [
-{ id: 'c1', type: 'novo_agendamento', title: 'Novo agendamento', description: 'Pedro Almeida agendou com Dr. Gonçalo Pipo para 10 Fev', time: 'há 10 min', read: false, action: 'agenda' },
-{ id: 'c2', type: 'paciente_confirmou', title: 'Paciente confirmou', description: 'Maria Silva confirmou consulta com Dr. Gonçalo Pipo', time: 'há 30 min', read: false },
-{ id: 'c3', type: 'paciente_cancelou', title: 'Paciente cancelou', description: 'João Costa cancelou consulta com Dr. Alexandre Bernardo', time: 'há 1h', read: false },
-{ id: 'c4', type: 'resumo_diario', title: 'Resumo diário', description: '15 consultas hoje, 93% confirmação, 2 faltas', time: 'há 2h', read: false, actionLabel: 'Ver estatísticas', action: 'estatisticas' },
-{ id: 'c5', type: 'novo_dentista', title: 'Novo dentista registou-se', description: 'Dra. Mariana Costa registou-se na plataforma', time: 'há 4h', read: true },
-{ id: 'c6', type: 'mensagem', title: 'Nova mensagem', description: 'Pedro Almeida enviou uma mensagem', time: 'há 5h', read: true, action: 'conversas' },
-{ id: 'c7', type: 'referral_usado', title: 'Referral usado!', description: 'Clínica DentalPro usou o seu código e subscreveu Pro!', time: 'ontem', read: true }];
-
+const buildClinicNotifications = (): Notification[] => [
+  { id: 'c1', type: 'novo_agendamento', title: tn('c1Title'), description: tn('c1Desc'), time: tn('time10min'), read: false, action: 'agenda' },
+  { id: 'c2', type: 'paciente_confirmou', title: tn('c2Title'), description: tn('c2Desc'), time: tn('time30min'), read: false },
+  { id: 'c3', type: 'paciente_cancelou', title: tn('c3Title'), description: tn('c3Desc'), time: tn('time1h'), read: false },
+  { id: 'c4', type: 'resumo_diario', title: tn('c4Title'), description: tn('c4Desc'), time: tn('time2h'), read: false, actionLabel: tn('c4Action') as string, action: 'estatisticas' },
+  { id: 'c5', type: 'novo_dentista', title: tn('c5Title'), description: tn('c5Desc'), time: tn('time4h'), read: true },
+  { id: 'c6', type: 'mensagem', title: tn('c6Title'), description: tn('c6Desc'), time: tn('time5h'), read: true, action: 'conversas' },
+  { id: 'c7', type: 'referral_usado', title: tn('c7Title'), description: tn('c7Desc'), time: tn('yesterday'), read: true },
+];
 
 const getNotificationsForRole = (role: UserRole): Notification[] => {
   switch (role) {
-    case 'patient':return PATIENT_NOTIFICATIONS;
-    case 'dentist':return DENTIST_NOTIFICATIONS;
-    case 'clinic':return CLINIC_NOTIFICATIONS;
-    default:return PATIENT_NOTIFICATIONS;
+    case 'patient': return buildPatientNotifications();
+    case 'dentist': return buildDentistNotifications();
+    case 'clinic': return buildClinicNotifications();
+    default: return buildPatientNotifications();
   }
 };
 
