@@ -274,30 +274,6 @@
     border-top-color: hsl(var(--border));
   }
 
-  /* Inputs and selects: brand-blue border + subtle blue-tint background */
-  .light input,
-  .light textarea,
-  .light select,
-  .light [role="combobox"] {
-    background-color: hsl(var(--input)) !important;
-    border-color: hsl(var(--border));
-  }
-  .light input:focus,
-  .light textarea:focus,
-  .light select:focus,
-  .light [role="combobox"]:focus {
-    border-color: hsl(var(--primary));
-  }
-
-  /* Headings on key surfaces pick up the deep brand blue (#1565C0) */
-  .light h1, .light h2, .light h3 {
-    color: hsl(var(--accent-foreground));
-  }
-  /* But keep paragraph/inline text untouched */
-  .light p, .light span, .light li, .light a {
-    color: inherit;
-  }
-
   /* Card shadow utility: any element using the .shadow-sm class gets the brand soft shadow */
   .light .shadow-sm {
     box-shadow: var(--shadow-card) !important;
