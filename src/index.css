@@ -96,7 +96,7 @@
   /* Light mode for landing page - scoped via .light class */
   .light {
     /* === Surfaces === */
-    --background: 0 0% 100%;            /* #FFFFFF */
+    --background: 213 100% 98%;         /* #F5F9FF subtle blue tint */
     --foreground: 220 26% 14%;          /* #1A202C */
 
     --card: 0 0% 100%;
