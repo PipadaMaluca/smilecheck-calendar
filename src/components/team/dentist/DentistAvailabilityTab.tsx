@@ -110,11 +110,34 @@ export function DentistAvailabilityTab() {
   const { t } = useTranslation();
   const [selectedClinic, setSelectedClinic] = useState('1');
   const [applyToAll, setApplyToAll] = useState(false);
-  const [week, setWeek] = useState<DaySchedule[]>(defaultWeek);
+  const [schedulesByClinic, setSchedulesByClinic] = useState<Record<string, DaySchedule[]>>(() => ({
+    '1': clinicSchedules['1'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+    '2': clinicSchedules['2'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+    '3': clinicSchedules['3'].map(d => ({ ...d, morning: { ...d.morning }, afternoon: { ...d.afternoon }, evening: { ...d.evening } })),
+  }));
+  const week = schedulesByClinic[selectedClinic];
   const [exceptions, setExceptions] = useState<ExceptionItem[]>(mockExceptions);
   const [teleEnabled, setTeleEnabled] = useState(true);
   const [maxTelePerDay, setMaxTelePerDay] = useState(4);
   const [editingCell, setEditingCell] = useState<{ day: number; period: 'morning' | 'afternoon' | 'evening'; field: 'start' | 'end' } | null>(null);
+  const [exceptionModalOpen, setExceptionModalOpen] = useState(false);
+  const [editingExceptionId, setEditingExceptionId] = useState<string | null>(null);
+  const [exForm, setExForm] = useState<{ startDate: string; endDate: string; reasonKey: string; note: string }>({
+    startDate: '',
+    endDate: '',
+    reasonKey: 'availability.reasonHoliday',
+    note: '',
+  });
+
+  const setWeek = (updater: (prev: DaySchedule[]) => DaySchedule[]) => {
+    setSchedulesByClinic(prev => {
+      const updated = updater(prev[selectedClinic]);
+      if (applyToAll) {
+        return { '1': updated, '2': updated, '3': updated };
+      }
+      return { ...prev, [selectedClinic]: updated };
+    });
+  };
 
   const togglePeriod = (dayIdx: number, period: 'morning' | 'afternoon' | 'evening') => {
     setWeek(prev => prev.map((d, i) => {
