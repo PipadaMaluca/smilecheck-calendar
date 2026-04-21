@@ -34,7 +34,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [searchQuery, setSearchQuery] = useState('');
   const [specialty, setSpecialty] = useState('Todas');
   const [distance, setDistance] = useState(0);
-  const [availability, setAvailability] = useState('Qualquer Dia');
+  const [availability, setAvailability] = useState('any');
   const [sortBy, setSortBy] = useState('recommended');
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
   const [acceptsNewPatients, setAcceptsNewPatients] = useState(false);
