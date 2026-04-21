@@ -1,3 +1,6 @@
+import i18n from '@/i18n';
+import { formatDate } from '@/lib/formatters';
+
 // Level glow styles for badge pills
 export const LEVEL_GLOW: Record<string, string> = {
   lata: 'shadow-[0_0_8px_rgba(156,163,175,0.2)]',
@@ -52,13 +55,12 @@ export function formatRelativeDate(dateStr: string): string {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffDays < 0) return formatReadableDate(date);
-  if (diffDays === 0) return 'Hoje';
-  if (diffDays === 1) return 'Ontem';
-  if (diffDays < 7) return `Há ${diffDays} dias`;
+  if (diffDays === 0) return i18n.t('common.today');
+  if (diffDays === 1) return i18n.t('common.yesterday');
+  if (diffDays < 7) return i18n.t('common.daysAgo', { n: diffDays });
   return formatReadableDate(date);
 }
 
 function formatReadableDate(date: Date): string {
-  const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-  return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+  return formatDate(date, { day: 'numeric', month: 'short', year: 'numeric' });
 }
