@@ -160,11 +160,6 @@ export function DesktopNavSidebar({
             isExpanded ? 'h-11 w-11' : 'h-8 w-8'
           )}
         />
-        {isExpanded && (
-          <span className="text-[14px] font-bold text-sidebar-foreground leading-none">
-            SmileCheck
-          </span>
-        )}
         <span className={cn(
           'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
           isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
