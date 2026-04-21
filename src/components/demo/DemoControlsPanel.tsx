@@ -85,9 +85,8 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
       )}
     >
       {/* Logo header */}
-      <div className="flex items-center justify-center gap-1.5 mb-2">
-        <img src={smileIcon} alt="SmileCheck" className="h-7 w-7" />
-        <span className="text-[12px] font-semibold text-foreground">SmileCheck</span>
+      <div className="flex items-center justify-center mb-2">
+        <span className="text-[12px] font-semibold text-foreground text-center">SmileCheck</span>
       </div>
 
       <div className="space-y-1">
