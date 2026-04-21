@@ -1,5 +1,5 @@
 import { X, User, Gift, Award, TrendingUp, BarChart3, Search, Heart, Receipt, Gift as GiftInvite } from 'lucide-react';
-import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
+import { DemoControlsPanel } from '@/components/demo/DemoControlsPanel';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { UserRole, ViewMode } from '@/types/calendar';
@@ -190,9 +190,9 @@ export function MobileSidebar({
           </MenuSection>
         }
 
-        {/* Language Switcher */}
-        <div className="px-4 py-3 border-t border-border mt-auto">
-          <LanguageSwitcher size="sm" />
+        {/* Demo controls panel */}
+        <div className="px-3 py-3 border-t border-border mt-auto">
+          <DemoControlsPanel />
         </div>
       </SheetContent>
     </Sheet>);
