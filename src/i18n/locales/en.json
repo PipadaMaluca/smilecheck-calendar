@@ -2115,7 +2115,8 @@
     "you": "You",
     "typing": "Typing...",
     "newConversation": "New Conversation",
-    "searchContact": "Search contact..."
+    "searchContact": "Search contact...",
+    "now": "Now"
   },
   "notifications": {
     "title": "Notifications",
