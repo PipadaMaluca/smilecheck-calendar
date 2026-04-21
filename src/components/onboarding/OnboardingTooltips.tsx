@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { TOOLTIP_STEPS } from '@/data/onboardingData';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface TooltipPosition {
   top: number;
@@ -12,6 +13,7 @@ interface TooltipPosition {
 }
 
 export function OnboardingTooltips() {
+  const { t } = useTranslation();
   const { showTooltips, tooltipRole, finishTooltips } = useOnboarding();
   const [currentStep, setCurrentStep] = useState(0);
   const [position, setPosition] = useState<TooltipPosition | null>(null);
@@ -143,13 +145,15 @@ export function OnboardingTooltips() {
           <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{step.description}</p>
 
           <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">{currentStep + 1} de {total}</span>
+            <span className="text-xs text-muted-foreground">
+              {t('onboardingTooltips.stepOf', { current: currentStep + 1, total })}
+            </span>
             <div className="flex gap-2">
               <button onClick={handleSkip} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                Saltar tour
+                {t('onboardingTooltips.skip')}
               </button>
               <Button size="sm" onClick={goNext} className="text-xs h-7 px-3">
-                {currentStep >= total - 1 ? 'Concluir' : 'Seguinte'}
+                {currentStep >= total - 1 ? t('onboardingTooltips.finish') : t('onboardingTooltips.next')}
               </Button>
             </div>
           </div>
