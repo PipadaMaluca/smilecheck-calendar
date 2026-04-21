@@ -18,6 +18,7 @@ import { LoginScreen } from "./components/auth/LoginScreen";
 import { SignUpScreen } from "./components/auth/SignUpScreen";
 import { ForgotPasswordScreen } from "./components/auth/ForgotPasswordScreen";
 import { DemoSelector } from "./components/auth/DemoSelector";
+import { DemoModeBanner } from "./components/demo/DemoModeBanner";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
       <OnboardingCarousel />
       <OnboardingTooltips />
       <BrowserRouter>
+        <DemoModeBanner />
         <Routes>
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/signup" element={<SignUpScreen />} />
