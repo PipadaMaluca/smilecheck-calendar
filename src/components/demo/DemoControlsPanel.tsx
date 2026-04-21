@@ -5,6 +5,8 @@ import smileIcon from '@/assets/smilecheck-icon.png';
 import { cn } from '@/lib/utils';
 import { useTheme, Theme } from '@/hooks/useTheme';
 import { UserRole } from '@/types/calendar';
+import { Building2, Stethoscope, User } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const ROLE_EVENT = 'smilecheck:set-role';
 
@@ -54,7 +56,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const [role, setRole] = useDemoRole();
 
   const baseBtn =
-    'flex-1 h-8 rounded-md text-[10px] font-medium transition-all flex items-center justify-center px-0.5 truncate';
+    'flex-1 h-8 rounded-md text-[11px] font-medium transition-all flex items-center justify-center px-0.5';
   const active = 'bg-primary text-primary-foreground';
   const inactive =
     'bg-transparent border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40';
@@ -63,10 +65,10 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
     <div className="flex items-center gap-1">{children}</div>
   );
 
-  const roles: { id: UserRole; label: string }[] = [
-    { id: 'clinic', label: 'Clínica' },
-    { id: 'dentist', label: 'Dentista' },
-    { id: 'patient', label: 'Paciente' },
+  const roles: { id: UserRole; label: string; Icon: typeof Building2 }[] = [
+    { id: 'clinic', label: 'Clínica', Icon: Building2 },
+    { id: 'dentist', label: 'Dentista', Icon: Stethoscope },
+    { id: 'patient', label: 'Paciente', Icon: User },
   ];
   const langs = ['pt', 'fr', 'en'] as const;
   const themes: { id: Theme; label: string }[] = [
@@ -89,19 +91,29 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
       </div>
 
       <div className="space-y-1">
-        {/* Role */}
-        <Row>
-          {roles.map((r) => (
-            <button
-              key={r.id}
-              onClick={() => setRole(r.id)}
-              className={cn(baseBtn, role === r.id ? active : inactive)}
-              aria-pressed={role === r.id}
-            >
-              {r.label}
-            </button>
-          ))}
-        </Row>
+        {/* Role (icons only with tooltip) */}
+        <TooltipProvider delayDuration={200}>
+          <Row>
+            {roles.map((r) => {
+              const Ico = r.Icon;
+              return (
+                <Tooltip key={r.id}>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => setRole(r.id)}
+                      className={cn(baseBtn, role === r.id ? active : inactive)}
+                      aria-pressed={role === r.id}
+                      aria-label={r.label}
+                    >
+                      <Ico className="w-4 h-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="top">{r.label}</TooltipContent>
+                </Tooltip>
+              );
+            })}
+          </Row>
+        </TooltipProvider>
 
         {/* Language */}
         <Row>
