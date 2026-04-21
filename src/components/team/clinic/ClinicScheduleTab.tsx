@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { Plus, Trash2, Save, Copy, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -65,6 +67,13 @@ export function ClinicScheduleTab() {
   const [holidays, setHolidays] = useState<HolidayClosure[]>(defaultHolidays);
   const [customClosures, setCustomClosures] = useState<HolidayClosure[]>(defaultCustomClosures);
   const [nationalHolidaysEnabled, setNationalHolidaysEnabled] = useState(true);
+  const [closureModalOpen, setClosureModalOpen] = useState(false);
+  const [closureForm, setClosureForm] = useState<{ name: string; dateStart: string; dateEnd: string; reason: string }>({
+    name: '',
+    dateStart: '',
+    dateEnd: '',
+    reason: 'exceptional',
+  });
 
   const dayKeys = [
     'common.weekdays.mon', 'common.weekdays.tue', 'common.weekdays.wed',
@@ -96,6 +105,34 @@ export function ClinicScheduleTab() {
 
   const removeCustomClosure = (id: string) => {
     setCustomClosures(prev => prev.filter(c => c.id !== id));
+  };
+
+  const openAddClosure = () => {
+    setClosureForm({ name: '', dateStart: '', dateEnd: '', reason: 'exceptional' });
+    setClosureModalOpen(true);
+  };
+
+  const formatDateLabel = (iso: string) => {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const saveClosure = () => {
+    if (!closureForm.dateStart || !closureForm.name.trim()) return;
+    const dateLabel = closureForm.dateEnd && closureForm.dateEnd !== closureForm.dateStart
+      ? `${formatDateLabel(closureForm.dateStart)} — ${formatDateLabel(closureForm.dateEnd)}`
+      : formatDateLabel(closureForm.dateStart);
+    setCustomClosures(prev => [...prev, {
+      id: `c-${Date.now()}`,
+      date: dateLabel,
+      endDate: closureForm.dateEnd || undefined,
+      name: closureForm.name.trim(),
+      type: 'custom',
+      reason: closureForm.reason,
+      openDespite: false,
+    }]);
+    setClosureModalOpen(false);
   };
 
   const handleSave = () => {
