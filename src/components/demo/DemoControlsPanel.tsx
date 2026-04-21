@@ -54,7 +54,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const [role, setRole] = useDemoRole();
 
   const baseBtn =
-    'flex-1 h-7 rounded-md text-[11px] font-medium transition-all flex items-center justify-center';
+    'flex-1 h-8 rounded-md text-[10px] font-medium transition-all flex items-center justify-center px-0.5 truncate';
   const active = 'bg-primary text-primary-foreground';
   const inactive =
     'bg-transparent border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40';
@@ -78,13 +78,13 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
     <div
       className={cn(
         'rounded-lg border border-dashed border-border bg-background/30',
-        compact ? 'p-1.5' : 'p-2',
+        compact ? 'p-2.5' : 'p-3',
         className
       )}
     >
       {/* Logo header */}
       <div className="flex items-center justify-center gap-1.5 mb-2">
-        <img src={smileIcon} alt="SmileCheck" className="h-5 w-5" />
+        <img src={smileIcon} alt="SmileCheck" className="h-7 w-7" />
         <span className="text-[12px] font-semibold text-foreground">SmileCheck</span>
       </div>
 

@@ -124,10 +124,10 @@ export function DesktopNavSidebar({
         )}
       >
         <div className="relative">
-          <Icon className="w-5 h-5 flex-shrink-0" />
+          <Icon className="w-6 h-6 flex-shrink-0" />
           {badge && (
             <span className={cn(
-              'absolute -top-1.5 -right-2.5 min-w-[16px] h-[16px] rounded-full flex items-center justify-center text-[9px] font-bold text-white border-2 border-[#0A1929]',
+              'absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[#0A1929]',
               badge.color
             )}>
               {badge.type === 'count' ? badge.value : '!'}
@@ -135,7 +135,7 @@ export function DesktopNavSidebar({
           )}
         </div>
         {isExpanded && (
-          <span className="text-[10px] font-medium text-center leading-tight">
+          <span className="text-[12px] font-medium text-center leading-tight">
             {twoLine ? <>{twoLine[0]}<br />{twoLine[1]}</> : item.label}
           </span>
         )}
@@ -147,7 +147,7 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-[#0A1929] flex flex-col transition-all duration-300 z-40 flex-shrink-0',
-        isExpanded ? 'w-[80px]' : 'w-[60px]'
+        isExpanded ? 'w-[80px]' : 'w-[64px]'
       )}
     >
       {/* Logo + Pro Badge */}
@@ -157,24 +157,24 @@ export function DesktopNavSidebar({
           alt="SmileCheck"
           className={cn(
             'transition-all duration-300',
-            isExpanded ? 'h-14 w-14' : 'h-10 w-10'
+            isExpanded ? 'h-8 w-8' : 'h-7 w-7'
           )}
         />
         <span className={cn(
           'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
-          isExpanded ? 'text-[9px] px-2.5 py-0.5' : 'text-[7px] px-1.5 py-0'
+          isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
         )}>
           Pro
         </span>
       </div>
 
       {/* Navigation */}
-      <nav className="p-2 flex-1 items-center justify-start flex flex-col py-[10px] border border-secondary px-[4px] gap-[5px] overflow-y-auto">
+      <nav className="p-2 flex-1 items-center justify-start flex flex-col py-[12px] border border-secondary px-[6px] gap-[8px] overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
       {/* Bottom: Configurações + Language */}
-      <div className="border-t p-2 flex-shrink-0 px-[4px] py-[10px] rounded-none border border-secondary flex flex-col items-center gap-2">
+      <div className="border-t p-2 flex-shrink-0 px-[6px] py-[12px] rounded-none border border-secondary flex flex-col items-center gap-2">
         {isExpanded && <DemoControlsPanel className="w-full" compact />}
         {renderNavButton({ id: 'configuracoes', icon: Settings, label: t('nav.settings') })}
       </div>
