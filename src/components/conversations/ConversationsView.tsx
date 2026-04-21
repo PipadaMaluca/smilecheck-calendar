@@ -52,9 +52,9 @@ const mockConversations: Record<UserRole, Conversation[]> = {
         { id: 'm1', text: 'Olá Dr. Gonçalo, gostaria de confirmar a minha consulta.', fromMe: true, time: '10:15', date: '28 Jan 2026' },
         { id: 'm2', text: 'Claro! Deixe-me verificar a agenda.', fromMe: false, time: '10:20', date: '28 Jan 2026' },
         { id: 'm3', text: 'Obrigado, fico a aguardar.', fromMe: true, time: '10:22', date: '28 Jan 2026' },
-        { id: 'm4', text: 'Temos disponibilidade amanhã às 10h. Serve-lhe?', fromMe: false, time: '11:00', date: 'Ontem' },
-        { id: 'm5', text: 'Perfeito, pode confirmar!', fromMe: true, time: '14:20', date: 'Hoje' },
-        { id: 'm6', text: 'Bom dia! A sua consulta está confirmada para amanhã às 10h.', fromMe: false, time: '14:32', date: 'Hoje' },
+        { id: 'm4', text: 'Temos disponibilidade amanhã às 10h. Serve-lhe?', fromMe: false, time: '11:00', date: '__yesterday__' },
+        { id: 'm5', text: 'Perfeito, pode confirmar!', fromMe: true, time: '14:20', date: '__today__' },
+        { id: 'm6', text: 'Bom dia! A sua consulta está confirmada para amanhã às 10h.', fromMe: false, time: '14:32', date: '__today__' },
       ],
     },
     {
@@ -62,12 +62,12 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       name: 'Clínica SmileCheck',
       type: 'Clínica',
       lastMessage: 'Lembrete: a sua próxima consulta é dia 5 de Fevereiro.',
-      lastMessageTime: 'Ontem',
+      lastMessageTime: '__yesterday__',
       lastMessageFromMe: false,
       unread: 0,
       online: null,
       messages: [
-        { id: 'm1', text: 'Lembrete: a sua próxima consulta é dia 5 de Fevereiro.', fromMe: false, time: '09:00', date: 'Ontem' },
+        { id: 'm1', text: 'Lembrete: a sua próxima consulta é dia 5 de Fevereiro.', fromMe: false, time: '09:00', date: '__yesterday__' },
       ],
     },
     {
@@ -97,10 +97,10 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       online: true,
       isTyping: true,
       messages: [
-        { id: 'm1', text: 'Bom dia Maria, como se sente após o tratamento?', fromMe: true, time: '09:30', date: 'Ontem' },
-        { id: 'm2', text: 'Muito melhor, obrigada! A dor passou.', fromMe: false, time: '10:15', date: 'Ontem' },
-        { id: 'm3', text: 'Ótimo! Lembro-lhe da consulta amanhã às 09:30.', fromMe: true, time: '15:50', date: 'Hoje' },
-        { id: 'm4', text: 'Obrigada doutor! Até amanhã.', fromMe: false, time: '16:05', date: 'Hoje' },
+        { id: 'm1', text: 'Bom dia Maria, como se sente após o tratamento?', fromMe: true, time: '09:30', date: '__yesterday__' },
+        { id: 'm2', text: 'Muito melhor, obrigada! A dor passou.', fromMe: false, time: '10:15', date: '__yesterday__' },
+        { id: 'm3', text: 'Ótimo! Lembro-lhe da consulta amanhã às 09:30.', fromMe: true, time: '15:50', date: '__today__' },
+        { id: 'm4', text: 'Obrigada doutor! Até amanhã.', fromMe: false, time: '16:05', date: '__today__' },
       ],
     },
     {
@@ -113,9 +113,9 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       unread: 3,
       online: false,
       messages: [
-        { id: 'm1', text: 'Bom dia João, a sua consulta é hoje às 14h.', fromMe: true, time: '09:00', date: 'Hoje' },
-        { id: 'm2', text: 'Bom dia doutor, infelizmente surgiu um imprevisto.', fromMe: false, time: '09:45', date: 'Hoje' },
-        { id: 'm3', text: 'Posso remarcar para sexta-feira?', fromMe: false, time: '10:22', date: 'Hoje' },
+        { id: 'm1', text: 'Bom dia João, a sua consulta é hoje às 14h.', fromMe: true, time: '09:00', date: '__today__' },
+        { id: 'm2', text: 'Bom dia doutor, infelizmente surgiu um imprevisto.', fromMe: false, time: '09:45', date: '__today__' },
+        { id: 'm3', text: 'Posso remarcar para sexta-feira?', fromMe: false, time: '10:22', date: '__today__' },
       ],
     },
     {
@@ -123,12 +123,12 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       name: 'Clínica SmileCheck',
       type: 'Clínica',
       lastMessage: 'A reunião de equipa foi movida para as 18h.',
-      lastMessageTime: 'Ontem',
+      lastMessageTime: '__yesterday__',
       lastMessageFromMe: false,
       unread: 0,
       online: null,
       messages: [
-        { id: 'm1', text: 'A reunião de equipa foi movida para as 18h.', fromMe: false, time: '17:30', date: 'Ontem' },
+        { id: 'm1', text: 'A reunião de equipa foi movida para as 18h.', fromMe: false, time: '17:30', date: '__yesterday__' },
       ],
     },
     {
@@ -158,8 +158,8 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       online: true,
       isTyping: true,
       messages: [
-        { id: 'm1', text: 'Boa tarde, gostaria de agendar uma consulta para o meu filho.', fromMe: false, time: '15:30', date: 'Hoje' },
-        { id: 'm2', text: 'Gostaria de agendar uma consulta para o meu filho.', fromMe: false, time: '15:40', date: 'Hoje' },
+        { id: 'm1', text: 'Boa tarde, gostaria de agendar uma consulta para o meu filho.', fromMe: false, time: '15:30', date: '__today__' },
+        { id: 'm2', text: 'Gostaria de agendar uma consulta para o meu filho.', fromMe: false, time: '15:40', date: '__today__' },
       ],
     },
     {
@@ -172,7 +172,7 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       unread: 1,
       online: false,
       messages: [
-        { id: 'm1', text: 'Preciso de bloquear o horário da manhã de quarta.', fromMe: false, time: '11:15', date: 'Hoje' },
+        { id: 'm1', text: 'Preciso de bloquear o horário da manhã de quarta.', fromMe: false, time: '11:15', date: '__today__' },
       ],
     },
     {
@@ -180,13 +180,13 @@ const mockConversations: Record<UserRole, Conversation[]> = {
       name: 'Dr. Alexandre Bernardo',
       type: 'Dentista',
       lastMessage: 'Sim, já está disponível no stock.',
-      lastMessageTime: 'Ontem',
+      lastMessageTime: '__yesterday__',
       lastMessageFromMe: true,
       unread: 0,
       online: null,
       messages: [
-        { id: 'm1', text: 'O material de ortodontia já chegou?', fromMe: false, time: '10:00', date: 'Ontem' },
-        { id: 'm2', text: 'Sim, já está disponível no stock.', fromMe: true, time: '10:30', date: 'Ontem' },
+        { id: 'm1', text: 'O material de ortodontia já chegou?', fromMe: false, time: '10:00', date: '__yesterday__' },
+        { id: 'm2', text: 'Sim, já está disponível no stock.', fromMe: true, time: '10:30', date: '__yesterday__' },
       ],
     },
     {
