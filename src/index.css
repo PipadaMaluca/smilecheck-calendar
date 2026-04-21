@@ -183,6 +183,31 @@
   .light .gaming-surface {
     background-color: hsl(220 13% 95%); /* #F0F2F5 */
   }
+
+  /* === Override hardcoded dark hex utilities in light mode === */
+  /* Map legacy dark blues to light-mode equivalents */
+  .light .bg-\[\#0A1929\] { background-color: hsl(0 0% 100%) !important; }
+  .light .bg-\[\#0D2137\] { background-color: hsl(210 38% 97%) !important; }   /* #F7FAFC */
+  .light .bg-\[\#1A2F3D\] { background-color: hsl(214 27% 97%) !important; }   /* #F5F7FA */
+  .light .bg-\[\#1E3A5F\] { background-color: hsl(214 32% 91%) !important; }   /* #E2E8F0 */
+  .light .bg-\[\#152238\] { background-color: hsl(214 22% 94%) !important; }   /* #EDF0F4 */
+  .light .hover\:bg-\[\#152238\]:hover { background-color: hsl(214 22% 94%) !important; }
+
+  .light .border-\[\#1E3A5F\] { border-color: hsl(214 32% 91%) !important; }
+  .light .border-\[\#0A1929\] { border-color: hsl(214 32% 91%) !important; }
+
+  .light .text-\[\#1E3A5F\] { color: hsl(220 26% 14%) !important; }
+
+  /* Modal overlays — use neutral dim instead of dark blue */
+  .light .modal-overlay {
+    background-color: rgba(15, 23, 42, 0.32);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Skeleton shimmer */
+  .light [class*="animate-pulse"] {
+    background-color: hsl(214 22% 94%);
+  }
 }
 
 /* Light mode logo: no filter needed — logos are identical in both themes */
