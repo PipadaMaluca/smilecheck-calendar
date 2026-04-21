@@ -98,16 +98,16 @@ export function DentistFilters({
               <div className="flex gap-1.5">
                 {AVAILABILITY_FILTERS.map((a) => (
                   <button
-                    key={a}
-                    onClick={() => onAvailabilityChange(a)}
+                    key={a.key}
+                    onClick={() => onAvailabilityChange(a.key)}
                     className={cn(
                       'px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors border',
-                      availability === a
+                      availability === a.key
                         ? 'bg-primary text-primary-foreground border-primary'
                         : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
                     )}
                   >
-                    {a}
+                    {t(a.labelKey)}
                   </button>
                 ))}
               </div>
@@ -120,7 +120,7 @@ export function DentistFilters({
               </SelectTrigger>
               <SelectContent className="bg-popover border-border z-50">
                 {AVAILABILITY_FILTERS.map((a) => (
-                  <SelectItem key={a} value={a}>{a}</SelectItem>
+                  <SelectItem key={a.key} value={a.key}>{t(a.labelKey)}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
