@@ -228,6 +228,80 @@
   .light [class*="animate-pulse"] {
     background-color: hsl(214 22% 94%);
   }
+
+  /* === Light-mode patches for hardcoded tints in landing/auth/legal === */
+
+  /* Auth card frame: AuthBackground children sit directly on the page; in
+     light mode wrap social-login white buttons with a soft brand border so
+     they don't disappear on the white-ish surface. */
+  .light .bg-white.text-gray-800 {
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* QR code panel — keep the QR itself on white but add a brand border */
+  .light .bg-white {
+    border-color: hsl(var(--border));
+  }
+
+  /* Landing dashboard mockup inner muted blocks: soften to brand-blue tint */
+  .light .bg-muted\/30,
+  .light .bg-muted\/50 {
+    background-color: hsl(213 100% 97%) !important; /* near #F0F7FF */
+  }
+
+  /* Landing CTA banner — slight blue lift instead of plain primary/5 */
+  .light .bg-primary\/5 {
+    background-color: hsl(213 100% 96%) !important; /* #EBF4FF */
+  }
+
+  /* Footer always dark (#121f30) — keep its inner text light regardless of mode.
+     The hardcoded #121f30 already enforces this; nothing to override. */
+
+  /* FAQ accordion items: subtle brand frame + faint hover surface */
+  .light [data-state="open"].border-b,
+  .light [data-radix-accordion-item][data-state="open"] {
+    background-color: hsl(214 100% 98%); /* #F5FBFF */
+  }
+
+  /* Sidebar hover/active surfaces in light mode get the brand-blue tint */
+  .light .hover\:bg-accent:hover {
+    background-color: hsl(var(--accent)) !important;
+  }
+
+  /* Section dividers (between feature/pricing/testimonial blocks) */
+  .light section + section {
+    border-top-color: hsl(var(--border));
+  }
+
+  /* Inputs and selects: brand-blue border + subtle blue-tint background */
+  .light input,
+  .light textarea,
+  .light select,
+  .light [role="combobox"] {
+    background-color: hsl(var(--input)) !important;
+    border-color: hsl(var(--border));
+  }
+  .light input:focus,
+  .light textarea:focus,
+  .light select:focus,
+  .light [role="combobox"]:focus {
+    border-color: hsl(var(--primary));
+  }
+
+  /* Headings on key surfaces pick up the deep brand blue (#1565C0) */
+  .light h1, .light h2, .light h3 {
+    color: hsl(var(--accent-foreground));
+  }
+  /* But keep paragraph/inline text untouched */
+  .light p, .light span, .light li, .light a {
+    color: inherit;
+  }
+
+  /* Card shadow utility: any element using the .shadow-sm class gets the brand soft shadow */
+  .light .shadow-sm {
+    box-shadow: var(--shadow-card) !important;
+  }
 }
 
 /* Light mode logo: no filter needed — logos are identical in both themes */
