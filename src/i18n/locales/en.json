@@ -3686,5 +3686,9 @@
     "time5h": "5h ago",
     "yesterday": "yesterday",
     "days2": "2 days"
+  },
+  "demoBanner": {
+    "label": "🔧 Demo Mode — Fictional data",
+    "dismiss": "Dismiss banner"
   }
 }
