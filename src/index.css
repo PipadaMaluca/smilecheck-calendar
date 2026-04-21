@@ -869,4 +869,148 @@ html, body, #root {
 }
 
 /* 23. Normalize border thickness — ensure all borders use 1px unless explicit */
+
+/* ============================================================
+   LIGHT MODE — BLUE BRAND IDENTITY POLISH
+   Card borders, blue tints, and brand-colored accents.
+   Dark mode is untouched.
+   ============================================================ */
+
+/* --- 1. CARD BORDERS & SHADOWS --- */
+/* All cards get a subtle blue-gray border + soft blue-tinted shadow */
+.light [class*="rounded-"][class*="bg-card"],
+.light .bg-card,
+.light [data-card],
+.light .stat-card,
+.light .content-card {
+  border: 1px solid hsl(210 60% 89%) !important;          /* #D6E4F0 */
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.06) !important;
+}
+
+/* Dashboard / profile / faturação / loja / achievement / settings cards
+   often render as white surfaces via these utility patterns. */
+.light .bg-white,
+.light .bg-\[\#FFFFFF\],
+.light .bg-\[\#ffffff\] {
+  border: 1px solid hsl(210 60% 89%);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.06);
+}
+
+/* Settings sections separator */
+.light .settings-section + .settings-section,
+.light [data-settings-section] + [data-settings-section] {
+  border-top: 1px solid hsl(213 100% 94%) !important;     /* #E8F0FE */
+}
+
+/* --- 2. SECTION HEADERS — branded blue --- */
+.light .section-header,
+.light [data-section-header],
+.light .card-header h2,
+.light .card-header h3 {
+  color: hsl(210 78% 42%) !important;                     /* #1565C0 */
+}
+/* Subtle background strip on section headers */
+.light .section-header-strip,
+.light [data-section-header-strip] {
+  background-color: hsl(213 100% 97%) !important;         /* #F0F7FF */
+}
+
+/* --- 3. INTERACTIVE ELEMENTS --- */
+/* Hover: blue tint instead of plain gray */
+.light .hover\:bg-muted:hover,
+.light .hover\:bg-accent:hover,
+.light .hover\:bg-gray-50:hover,
+.light .hover\:bg-gray-100:hover,
+.light .hover\:bg-slate-50:hover,
+.light .hover\:bg-slate-100:hover {
+  background-color: hsl(213 100% 97%) !important;         /* #F0F7FF */
+}
+
+/* Collapsible chevrons → brand blue */
+.light [data-state] > svg.lucide-chevron-down,
+.light [data-state] > svg.lucide-chevron-up,
+.light [data-state] > svg.lucide-chevron-right,
+.light .collapsible-trigger svg {
+  color: hsl(207 90% 54%) !important;
+}
+
+/* Active tabs — blue underline */
+.light [data-state="active"][role="tab"] {
+  color: hsl(207 90% 54%) !important;
+  border-bottom-color: hsl(207 90% 54%) !important;
+}
+
+/* --- 4. SIDEBAR — blue identity & active state --- */
+.light aside .text-sidebar-foreground\/70,
+.light aside .text-sidebar-foreground {
+  color: hsl(207 33% 54%) !important;                     /* #5B8DB8 */
+}
+/* Active sidebar item: stronger blue + left border accent */
+.light aside button.bg-sidebar-primary {
+  background-color: hsl(213 100% 92%) !important;         /* #D6E8FF */
+  color: hsl(210 78% 42%) !important;                     /* #1565C0 */
+  border-left: 3px solid hsl(207 90% 54%) !important;
+  border-radius: 0.5rem;
+}
+.light aside button.bg-sidebar-primary svg {
+  color: hsl(207 90% 54%) !important;
+}
+
+/* Demo panel border */
+.light .demo-controls-panel,
+.light [data-demo-panel] {
+  border-color: hsl(210 60% 89%) !important;              /* #D6E4F0 */
+}
+
+/* --- 5. STAT CARD ACCENTS --- */
+/* Próxima Consulta — primary blue accent (5px) */
+.light .stat-card-primary,
+.light [data-stat="primary"] {
+  border-left: 5px solid hsl(207 90% 54%) !important;
+}
+/* Themed top borders on stat cards */
+.light [data-stat="level"]   { border-top: 2px solid hsl(270 70% 60%) !important; }
+.light [data-stat="points"]  { border-top: 2px solid hsl(45 100% 50%) !important; }
+.light [data-stat="streak"]  { border-top: 2px solid hsl(25 100% 50%) !important; }
+
+/* --- 6. INPUTS --- */
+.light input[type="text"],
+.light input[type="search"],
+.light input[type="email"],
+.light input[type="tel"],
+.light input[type="password"],
+.light input[type="number"],
+.light textarea {
+  background-color: hsl(213 100% 98%) !important;         /* #F5F9FF */
+  border-color: hsl(210 60% 89%) !important;              /* #D6E4F0 */
+}
+.light input:focus-visible,
+.light textarea:focus-visible {
+  border-color: hsl(207 90% 54%) !important;
+  box-shadow: 0 0 0 2px hsl(207 90% 54% / 0.18) !important;
+}
+
+/* --- 7. TABLES & LIST ROWS — alternating blue tint --- */
+.light tbody tr:nth-child(even) { background-color: hsl(213 100% 98%); }   /* #F5F9FF */
+.light tbody tr:nth-child(odd)  { background-color: hsl(0 0% 100%); }
+.light tbody tr:hover           { background-color: hsl(213 100% 96%) !important; } /* #EBF4FF */
+.light thead th {
+  background-color: hsl(213 100% 97%) !important;         /* #F0F7FF */
+  color: hsl(210 78% 42%) !important;                     /* #1565C0 */
+}
+
+/* --- 8. HEADER bottom border --- */
+.light header,
+.light [data-app-header] {
+  border-bottom: 1px solid hsl(210 60% 89%) !important;
+}
+
+/* --- 9. KEEP UNCHANGED — gaming pages opt-out ---
+   Pontuações / Loja / Rankings / Conquistas use .gaming-surface;
+   the rule above already preserves their warm-gray surface. */
+.light .gaming-surface .bg-white,
+.light .gaming-surface [class*="bg-card"] {
+  /* Preserve existing gaming-page treatment — no border injection */
+  box-shadow: none !important;
+}
 /* (No global override — handled by border token; this guards stray styles) */
