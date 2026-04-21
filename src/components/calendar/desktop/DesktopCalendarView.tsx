@@ -149,6 +149,18 @@ export function DesktopCalendarView() {
     }
   }, [activeRole, hasCompletedOnboarding, startCarousel, showCarousel, showTooltips]);
 
+  // Listen to global role-change events emitted by DemoControlsPanel
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const next = (e as CustomEvent<UserRole>).detail;
+      if (next === 'patient' || next === 'dentist' || next === 'clinic') {
+        setActiveRole(next);
+      }
+    };
+    window.addEventListener('smilecheck:set-role', handler);
+    return () => window.removeEventListener('smilecheck:set-role', handler);
+  }, []);
+
   const handleNotificationFeedback = useCallback((scoreId: string) => {
     const score = mockScoreHistory.find((s) => s.id === scoreId);
     if (score) {
@@ -549,17 +561,6 @@ export function DesktopCalendarView() {
   const renderStandardHeader = (title: string) =>
   <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
       <span className="text-sm font-medium text-foreground">{title}</span>
-      {isDemoMode && <div className="flex items-center gap-1 bg-secondary/50 rounded-lg p-1">
-        <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-          <User className="w-4 h-4" /> Paciente
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-          <Stethoscope className="w-4 h-4" /> Dentista
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-          <Building2 className="w-4 h-4" /> Clínica
-        </Button>
-      </div>}
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
         <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
@@ -700,17 +701,6 @@ export function DesktopCalendarView() {
               <span className="text-sm font-medium capitalize text-foreground">
                 {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
-              {isDemoMode && <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-1.5">
-                <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                  <User className="w-4 h-4" /> Paciente
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                  <Stethoscope className="w-4 h-4" /> Dentista
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                  <Building2 className="w-4 h-4" /> Clínica
-                </Button>
-              </div>}
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
                 <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
