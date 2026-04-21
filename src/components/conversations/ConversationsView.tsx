@@ -269,6 +269,23 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
 
   const conversations = mockConversations[userRole] || [];
 
+  // Resolve sentinel date markers in mock data to localized labels
+  const resolveDateLabel = (raw?: string): string => {
+    if (!raw) return '';
+    if (raw === '__today__') return t('common.today');
+    if (raw === '__yesterday__') return t('common.yesterday');
+    if (raw === '__now__') return t('chat.now');
+    return raw;
+  };
+
+  // Translate the conversation type badge labels
+  const typeLabel = (type: Conversation['type']): string => {
+    if (type === 'Paciente') return t('chat.patient');
+    if (type === 'Dentista') return t('chat.dentistType');
+    if (type === 'Clínica') return t('chat.clinicType');
+    return type;
+  };
+
   useEffect(() => {
     const handler = (e: Event) => {
       const dentistName = (e as CustomEvent<string>).detail;
