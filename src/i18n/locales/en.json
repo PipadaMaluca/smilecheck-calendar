@@ -245,7 +245,7 @@
   "points": {
     "level": "Level",
     "xp": "XP",
-    "availablePoints": "Available points",
+    "availablePoints": "Points",
     "streak": "Streak",
     "days": "days"
   },
