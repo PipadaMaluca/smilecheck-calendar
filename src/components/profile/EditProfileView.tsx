@@ -655,15 +655,15 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 </FieldGroup>
               </div>
 
-              <FieldGroup label={`Descrição (${clinicDescription.length}/1000)`}>
+              <FieldGroup label={`${t('editProfile.about')} (${clinicDescription.length}/1000)`}>
                 <Textarea value={clinicDescription} onChange={(e) => e.target.value.length <= 1000 && setClinicDescription(e.target.value)} rows={3} />
               </FieldGroup>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Anos de experiência">
+                <FieldGroup label={t('editProfile.yearsExperience')}>
                   <Input type="number" value={clinicYearsExp} onChange={(e) => setClinicYearsExp(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Certificações">
+                <FieldGroup label={t('editProfileLabels.certifications')}>
                   <Input value={clinicCertifications} onChange={(e) => setClinicCertifications(e.target.value)} placeholder={t('editProfile.certExample')} />
                 </FieldGroup>
               </div>
@@ -715,7 +715,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
               <SectionTitle>{t('editProfile.tariffs')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Preço teleconsulta (€)">
+                <FieldGroup label={t('editProfileLabels.teleconsultaPrice')}>
                   <Input type="number" value={clinicTeleconsultaPrice} onChange={(e) => setClinicTeleconsultaPrice(e.target.value)} />
                 </FieldGroup>
               </div>
