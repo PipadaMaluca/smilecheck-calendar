@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { User, Video, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface IncomingCallModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface IncomingCallModalProps {
 }
 
 export function IncomingCallModal({ isOpen, dentistName, onAccept, onReject }: IncomingCallModalProps) {
+  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(60);
 
   useEffect(() => {
@@ -38,15 +40,15 @@ export function IncomingCallModal({ isOpen, dentistName, onAccept, onReject }: I
         </div>
 
         <div className="space-y-2">
-          <p className="text-white/50 text-sm">Teleconsulta a iniciar</p>
+          <p className="text-white/50 text-sm">{t('incomingCall.starting')}</p>
           <h2 className="text-2xl font-bold text-white">{dentistName}</h2>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400">
-            <Video className="w-3.5 h-3.5" /> Teleconsulta
+            <Video className="w-3.5 h-3.5" /> {t('incomingCall.teleconsulta')}
           </span>
         </div>
 
         <p className="text-xs text-white/30">
-          Auto-rejeição em {timeLeft}s
+          {t('incomingCall.autoReject', { n: timeLeft })}
         </p>
 
         <div className="flex gap-4">
@@ -56,14 +58,14 @@ export function IncomingCallModal({ isOpen, dentistName, onAccept, onReject }: I
             className="gap-2 border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 px-8"
             onClick={onReject}
           >
-            <Phone className="w-5 h-5 rotate-[135deg]" /> Recusar
+            <Phone className="w-5 h-5 rotate-[135deg]" /> {t('incomingCall.reject')}
           </Button>
           <Button
             size="lg"
             className="gap-2 bg-green-600 hover:bg-green-700 text-white px-8"
             onClick={onAccept}
           >
-            <Phone className="w-5 h-5" /> Entrar
+            <Phone className="w-5 h-5" /> {t('incomingCall.accept')}
           </Button>
         </div>
       </div>

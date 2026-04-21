@@ -51,7 +51,7 @@ interface DemoControlsPanelProps {
 }
 
 export function DemoControlsPanel({ className, compact = false }: DemoControlsPanelProps) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [theme, setTheme] = useTheme();
   const [role, setRole] = useDemoRole();
 
@@ -66,15 +66,20 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   );
 
   const roles: { id: UserRole; label: string; Icon: typeof Building2 }[] = [
-    { id: 'clinic', label: 'Clínica', Icon: Building2 },
-    { id: 'dentist', label: 'Dentista', Icon: Stethoscope },
-    { id: 'patient', label: 'Paciente', Icon: User },
+    { id: 'clinic', label: t('demoTooltips.roleClinic'), Icon: Building2 },
+    { id: 'dentist', label: t('demoTooltips.roleDentist'), Icon: Stethoscope },
+    { id: 'patient', label: t('demoTooltips.rolePatient'), Icon: User },
   ];
   const langs = ['pt', 'fr', 'en'] as const;
-  const themes: { id: Theme; label: string }[] = [
-    { id: 'light', label: '☀️' },
-    { id: 'dark', label: '🌙' },
+  const themes: { id: Theme; label: string; tip: string }[] = [
+    { id: 'light', label: '☀️', tip: t('demoTooltips.themeLight') },
+    { id: 'dark', label: '🌙', tip: t('demoTooltips.themeDark') },
   ];
+  const langTips: Record<string, string> = {
+    pt: t('demoTooltips.languagePt'),
+    fr: t('demoTooltips.languageFr'),
+    en: t('demoTooltips.languageEn'),
+  };
 
   return (
     <div
