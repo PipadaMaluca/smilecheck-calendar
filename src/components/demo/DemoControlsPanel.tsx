@@ -54,7 +54,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const [role, setRole] = useDemoRole();
 
   const baseBtn =
-    'flex-1 h-8 rounded-md text-[12px] font-medium transition-all flex items-center justify-center';
+    'flex-1 h-8 rounded-md text-[10px] font-medium transition-all flex items-center justify-center px-0.5 truncate';
   const active = 'bg-primary text-primary-foreground';
   const inactive =
     'bg-transparent border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40';
