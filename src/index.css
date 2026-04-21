@@ -23,7 +23,7 @@
     --secondary-foreground: 210 40% 98%;
 
     --muted: 214 35% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 22% 75%;
 
     --accent: 214 40% 22%;
     --accent-foreground: 210 40% 98%;
@@ -768,3 +768,105 @@ html, body, #root {
     box-sizing: border-box;
   }
 }
+
+/* =============================================================
+   GLOBAL POLISH LAYER — Audit fixes (contrast, fonts, hovers, light-mode)
+   ============================================================= */
+
+/* 18. Boost contrast on the gray-on-dark utility used widely */
+.text-\[\#8B9CB6\] { color: hsl(214 22% 75%) !important; }
+.light .text-\[\#8B9CB6\] { color: hsl(218 17% 35%) !important; }
+
+/* 20. Enforce 12px minimum font-size globally (text-[8/9/10/11px] -> 12px) */
+.text-\[8px\],
+.text-\[9px\],
+.text-\[10px\],
+.text-\[11px\] {
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+}
+/* Tooltip content / sidebar labels can stay at 12px even when dense */
+
+/* 24. Universal hover feedback for clickable elements (desktop only) */
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover,
+  [role="button"]:not([aria-disabled="true"]):hover,
+  a:hover {
+    filter: brightness(1.05);
+  }
+  .hoverable-row {
+    transition: background-color 150ms ease;
+  }
+  .hoverable-row:hover {
+    background-color: hsl(var(--accent) / 0.5);
+  }
+}
+
+/* 25. Stronger active state on tabs/sidebar */
+[data-state="active"] {
+  font-weight: 600;
+}
+
+/* 28. Light-mode: force popovers/dropdowns/tooltips/menus white */
+.light [data-radix-popper-content-wrapper] > * {
+  background-color: hsl(0 0% 100%) !important;
+  color: hsl(220 26% 14%) !important;
+  border-color: hsl(214 32% 91%) !important;
+  box-shadow: 0 4px 12px hsl(220 26% 14% / 0.12) !important;
+}
+/* Tooltip-specific (smaller shadow) */
+.light [role="tooltip"] {
+  background-color: hsl(0 0% 100%) !important;
+  color: hsl(220 26% 14%) !important;
+  border: 1px solid hsl(214 32% 91%) !important;
+  box-shadow: 0 2px 8px hsl(220 26% 14% / 0.10) !important;
+}
+/* Toasts in light mode */
+.light [data-sonner-toast],
+.light [role="status"].toast {
+  background-color: hsl(0 0% 100%) !important;
+  color: hsl(220 26% 14%) !important;
+  border: 1px solid hsl(214 32% 91%) !important;
+  border-left-width: 4px !important;
+  box-shadow: 0 4px 12px hsl(220 26% 14% / 0.10) !important;
+}
+
+/* Light-mode: chart grid & track surfaces */
+.light .recharts-cartesian-grid line,
+.light .recharts-cartesian-axis-line {
+  stroke: hsl(214 22% 88%) !important;
+}
+.light .recharts-text { fill: hsl(218 17% 35%) !important; }
+
+/* 14/16. Bottom-nav safe area: ensure content never hidden behind it on mobile */
+@media (max-width: 767px) {
+  main, .scroll-area-content {
+    padding-bottom: max(80px, env(safe-area-inset-bottom)) !important;
+  }
+  /* FAB float above bottom nav (~64px) */
+  .floating-button {
+    bottom: 88px !important;
+  }
+}
+
+/* 13. Modal full-screen on mobile */
+@media (max-width: 640px) {
+  [role="dialog"][data-state="open"].sheet-mobile-full,
+  .modal-content.modal-mobile-full {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    inset: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* 21. Ensure icon+text vertical alignment in common patterns */
+.flex > svg, .inline-flex > svg {
+  vertical-align: middle;
+}
+
+/* 23. Normalize border thickness — ensure all borders use 1px unless explicit */
+/* (No global override — handled by border token; this guards stray styles) */
