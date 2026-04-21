@@ -1741,6 +1741,7 @@
     "sundayTeleconsultOnly": "Téléconsultations uniquement le dimanche",
     "allSpecialties": "Toutes",
     "anyDay": "N'importe quel jour",
+    "availableSlots": "Créneaux disponibles",
     "filterTitle": "Filtres",
     "acceptsNew": "Accepte de nouveaux patients",
     "maxPrice": "Prix maximum",

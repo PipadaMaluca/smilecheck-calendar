@@ -1741,6 +1741,7 @@
     "sundayTeleconsultOnly": "Apenas teleconsultas ao domingo",
     "allSpecialties": "Todas",
     "anyDay": "Qualquer Dia",
+    "availableSlots": "Horários Disponíveis",
     "filterTitle": "Filtros",
     "acceptsNew": "Aceita novos pacientes",
     "maxPrice": "Preço máximo",
