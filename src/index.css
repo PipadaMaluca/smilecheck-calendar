@@ -95,33 +95,93 @@
 
   /* Light mode for landing page - scoped via .light class */
   .light {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* === Surfaces === */
+    --background: 0 0% 100%;            /* #FFFFFF */
+    --foreground: 220 26% 14%;          /* #1A202C */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 220 26% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 220 26% 14%;
 
     --primary: 207 90% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 214 27% 97%;           /* #F5F7FA */
+    --secondary-foreground: 220 26% 14%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 214 22% 94%;               /* #EDF0F4 */
+    --muted-foreground: 218 17% 35%;    /* #4A5568 */
 
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 214 100% 96%;             /* #EBF4FF (sidebar active tint) */
+    --accent-foreground: 207 90% 54%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
+    --border: 214 32% 91%;              /* #E2E8F0 */
+    --input: 210 38% 97%;               /* #F7FAFC */
     --ring: 207 90% 54%;
+
+    /* === Sidebar === */
+    --sidebar-background: 210 38% 97%;  /* #F7FAFC */
+    --sidebar-foreground: 218 17% 35%;
+    --sidebar-primary: 207 90% 54%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 100% 96%;     /* #EBF4FF */
+    --sidebar-accent-foreground: 207 90% 54%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 207 90% 54%;
+
+    /* === Gradients & Shadows tuned for light bg === */
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 97%));
+    --gradient-modal: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 96%));
+    --shadow-card: 0 1px 3px hsl(220 26% 14% / 0.08);
+    --shadow-modal: 0 25px 50px -12px hsl(220 26% 14% / 0.18);
+    --shadow-glow: 0 0 30px hsl(207 90% 54% / 0.18);
+  }
+
+  /* === Light-mode component overrides === */
+  .light .bottom-nav {
+    background: hsl(0 0% 100%);
+    border-top: 1px solid hsl(214 32% 91%);
+    box-shadow: 0 -2px 8px hsl(220 26% 14% / 0.06);
+  }
+
+  /* Scrollbars */
+  .light ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .light ::-webkit-scrollbar-track {
+    background: hsl(214 22% 94%);
+  }
+  .light ::-webkit-scrollbar-thumb {
+    background: hsl(214 20% 84%);
+    border-radius: 6px;
+  }
+  .light ::-webkit-scrollbar-thumb:hover {
+    background: hsl(214 18% 69%);
+  }
+
+  /* Glass cards: in light mode, use white with subtle border instead of dark glass */
+  .light .glass-card,
+  .light .glass-card-strong {
+    background: hsl(0 0% 100% / 0.92);
+    border-color: hsl(214 32% 91%);
+    box-shadow: 0 1px 3px hsl(220 26% 14% / 0.08);
+  }
+
+  /* Light pills with light backgrounds need dark text for readability */
+  .light .badge-prioritario,
+  .light .badge-teleconsulta {
+    color: hsl(220 26% 14%);
+  }
+
+  /* Gaming pages distinct warm-gray surface */
+  .light .gaming-surface {
+    background-color: hsl(220 13% 95%); /* #F0F2F5 */
   }
 }
 

@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 import smileIcon from '@/assets/smilecheck-icon.png';
 import { UserRole } from '@/types/calendar';
 import { Separator } from '@/components/ui/separator';
-import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
+import { DemoControlsPanel } from '@/components/demo/DemoControlsPanel';
 
 interface DesktopNavSidebarProps {
   isExpanded: boolean;
@@ -175,8 +175,8 @@ export function DesktopNavSidebar({
 
       {/* Bottom: Configurações + Language */}
       <div className="border-t p-2 flex-shrink-0 px-[4px] py-[10px] rounded-none border border-secondary flex flex-col items-center gap-2">
+        {isExpanded && <DemoControlsPanel className="w-full" compact />}
         {renderNavButton({ id: 'configuracoes', icon: Settings, label: t('nav.settings') })}
-        {isExpanded && <LanguageSwitcher size="sm" />}
       </div>
     </aside>
   );
