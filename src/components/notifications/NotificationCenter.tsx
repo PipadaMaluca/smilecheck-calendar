@@ -172,9 +172,13 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationDropdownProps) {
-  const { t } = useTranslation();
+  const { t, i18n: i18nInstance } = useTranslation();
   const FILTERS = useFilterLabels();
   const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
+  // Rebuild notifications when language changes so titles/descriptions reflect the new locale
+  useEffect(() => {
+    setNotifications(getNotificationsForRole(userRole));
+  }, [i18nInstance.language, userRole]);
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
