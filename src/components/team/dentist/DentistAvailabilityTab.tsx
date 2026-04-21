@@ -466,6 +466,65 @@ export function DentistAvailabilityTab() {
       <Button className="gap-2 w-full sm:w-auto" onClick={handleSave}>
         <Save className="w-4 h-4" />{t('availability.saveChanges')}
       </Button>
+
+      {/* Add/Edit Exception Modal */}
+      <Dialog open={exceptionModalOpen} onOpenChange={setExceptionModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>
+              {editingExceptionId ? t('common.edit') : t('availability.addException')}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ex-start" className="text-xs">{t('common.from') !== 'common.from' ? t('common.from') : 'De'}</Label>
+                <Input
+                  id="ex-start"
+                  type="date"
+                  value={exForm.startDate}
+                  onChange={(e) => setExForm(f => ({ ...f, startDate: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ex-end" className="text-xs">{t('common.to') !== 'common.to' ? t('common.to') : 'Até'}</Label>
+                <Input
+                  id="ex-end"
+                  type="date"
+                  value={exForm.endDate}
+                  onChange={(e) => setExForm(f => ({ ...f, endDate: e.target.value }))}
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">{t('availability.reasonLabel') !== 'availability.reasonLabel' ? t('availability.reasonLabel') : 'Motivo'}</Label>
+              <Select value={exForm.reasonKey} onValueChange={(v) => setExForm(f => ({ ...f, reasonKey: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="availability.reasonHoliday">{t('availability.reasonHoliday')}</SelectItem>
+                  <SelectItem value="availability.reasonTraining">{t('availability.reasonTraining')}</SelectItem>
+                  <SelectItem value="availability.reasonPersonal">{t('availability.reasonPersonal')}</SelectItem>
+                  <SelectItem value="availability.reasonOther">{t('availability.reasonOther')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ex-note" className="text-xs">{t('common.optional')} - {t('common.message')}</Label>
+              <Textarea
+                id="ex-note"
+                rows={2}
+                value={exForm.note}
+                onChange={(e) => setExForm(f => ({ ...f, note: e.target.value }))}
+                placeholder=""
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setExceptionModalOpen(false)}>{t('common.cancel')}</Button>
+            <Button onClick={saveException} disabled={!exForm.startDate}>{t('common.save')}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
