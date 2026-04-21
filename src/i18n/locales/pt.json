@@ -3686,5 +3686,9 @@
     "time5h": "há 5h",
     "yesterday": "ontem",
     "days2": "2 dias"
+  },
+  "demoBanner": {
+    "label": "🔧 Modo Demonstração — Dados fictícios",
+    "dismiss": "Fechar banner"
   }
 }
