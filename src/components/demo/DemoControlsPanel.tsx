@@ -51,8 +51,7 @@ interface DemoControlsPanelProps {
 }
 
 export function DemoControlsPanel({ className, compact = false }: DemoControlsPanelProps) {
-  const { i18n } = useTranslation();
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [theme, setTheme] = useTheme();
   const [role, setRole] = useDemoRole();
 
