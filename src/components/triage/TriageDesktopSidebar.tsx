@@ -21,8 +21,8 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
   ];
 
   return (
-    <aside className="w-[200px] bg-[#0D2137] border-r border-[#1E3A5F] flex flex-col h-full">
-      <div className="p-4 border-b border-[#1E3A5F]">
+    <aside className="w-[200px] bg-sidebar border-r border-sidebar-border flex flex-col h-full">
+      <div className="p-4 border-b border-sidebar-border">
         <img alt="SmileCheck" className="h-8 object-contain" src="/lovable-uploads/43f646ce-8022-4a31-be0b-2471feb15914.png" />
       </div>
       <nav className="flex-1 p-3 space-y-1">
@@ -35,7 +35,7 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
               onClick={() => navigate(item.path)}
               className={cn(
                 'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left',
-                isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-[#1E3A5F] hover:text-foreground'
+                isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground'
               )}
             >
               <Icon className="w-5 h-5 flex-shrink-0" />
@@ -44,7 +44,7 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
           );
         })}
       </nav>
-      <div className="border-t border-[#1E3A5F] p-3 text-center">
+      <div className="border-t border-sidebar-border p-3 text-center">
         <p className="text-[10px] text-muted-foreground">SmileCheck © 2026</p>
       </div>
     </aside>
