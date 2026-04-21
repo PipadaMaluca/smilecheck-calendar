@@ -118,18 +118,23 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
 
       {/* Availability */}
       <div>
-        <h3 className="text-sm font-semibold text-foreground mb-2">Horários Disponíveis</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-2">{t('search.availableSlots')}</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {availability.map((day) => {
-            const isSunday = day.dayLabel === 'Dom';
+            const isSunday = day.dayKey === 'sun';
+            const dayLabel = day.dayKey === 'today'
+              ? t('common.today')
+              : day.dayKey === 'tomorrow'
+              ? t('common.tomorrow')
+              : t(`common.weekdays.${day.dayKey}`);
             return (
               <div key={day.date} className="bg-secondary rounded-lg p-2.5">
                 <p className="text-xs font-semibold text-foreground mb-1.5">
-                  {day.dayLabel}
+                  {dayLabel}
                   {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
                 </p>
                 {isSunday && (
-                  <p className="text-[9px] text-primary mb-1">📱 Apenas teleconsultas ao domingo</p>
+                  <p className="text-[9px] text-primary mb-1">📱 {t('search.sundayTeleconsultOnly')}</p>
                 )}
                 <div className="flex flex-wrap gap-1">
                   {day.slots.map((slot) => (

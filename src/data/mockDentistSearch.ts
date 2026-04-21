@@ -27,6 +27,9 @@ export interface DentistReview {
 
 export interface DentistAvailability {
   date: string;
+  /** Key used by render layer to translate the day label (e.g. 'today', 'tomorrow', 'wed', 'thu', 'fri', 'sat', 'sun'). */
+  dayKey: string;
+  /** Fallback / legacy label (Portuguese). Prefer translating from dayKey at render time. */
   dayLabel: string;
   slots: string[];
 }
@@ -182,19 +185,28 @@ const AVAILABILITY_MAP: Record<string, string[][]> = {
 };
 
 export function getAvailabilityForDentist(dentistId: string): DentistAvailability[] {
-  const days = ['Hoje', 'Amanhã', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  const days: Array<{ key: string; label: string }> = [
+    { key: 'today', label: 'Hoje' },
+    { key: 'tomorrow', label: 'Amanhã' },
+    { key: 'wed', label: 'Qua' },
+    { key: 'thu', label: 'Qui' },
+    { key: 'fri', label: 'Sex' },
+    { key: 'sat', label: 'Sáb' },
+    { key: 'sun', label: 'Dom' },
+  ];
   const dentistSlots = AVAILABILITY_MAP[dentistId] || AVAILABILITY_MAP['1'];
-  return days.map((dayLabel, i) => {
+  return days.map((day, i) => {
     const date = new Date();
     date.setDate(date.getDate() + i);
-    const isSunday = dayLabel === 'Dom';
+    const isSunday = day.key === 'sun';
     // Sunday: only teleconsulta slots (evening times)
     const slots = isSunday
       ? (dentistSlots[i] || []).filter(s => s >= '17:00')
       : (dentistSlots[i] || []);
     return {
       date: date.toISOString().split('T')[0],
-      dayLabel,
+      dayKey: day.key,
+      dayLabel: day.label,
       slots,
     };
   });
@@ -219,7 +231,19 @@ export const DISTANCE_FILTERS = [
   { label: 'Até 20km', value: 20 },
 ];
 
-export const AVAILABILITY_FILTERS = ['Qualquer Dia', 'Hoje', 'Amanhã', 'Esta Semana'];
+export interface AvailabilityFilter {
+  /** Stable identifier used for filter state and equality checks. */
+  key: string;
+  /** i18next key that resolves to the displayed label. */
+  labelKey: string;
+}
+
+export const AVAILABILITY_FILTERS: AvailabilityFilter[] = [
+  { key: 'any', labelKey: 'search.anyDay' },
+  { key: 'today', labelKey: 'common.today' },
+  { key: 'tomorrow', labelKey: 'common.tomorrow' },
+  { key: 'thisWeek', labelKey: 'export.thisWeek' },
+];
 
 export const SORT_OPTIONS = [
   { label: 'Recomendados', value: 'recommended' },

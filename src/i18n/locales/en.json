@@ -1741,6 +1741,7 @@
     "sundayTeleconsultOnly": "Teleconsultations only on Sundays",
     "allSpecialties": "All",
     "anyDay": "Any Day",
+    "availableSlots": "Available Slots",
     "filterTitle": "Filters",
     "acceptsNew": "Accepting new patients",
     "maxPrice": "Maximum price",
@@ -2115,7 +2116,8 @@
     "you": "You",
     "typing": "Typing...",
     "newConversation": "New Conversation",
-    "searchContact": "Search contact..."
+    "searchContact": "Search contact...",
+    "now": "Now"
   },
   "notifications": {
     "title": "Notifications",
