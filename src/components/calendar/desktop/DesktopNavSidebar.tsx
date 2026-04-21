@@ -151,13 +151,13 @@ export function DesktopNavSidebar({
       )}
     >
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-2">
+      <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-0">
         <img
           src={smileIcon}
           alt="SmileCheck"
           className={cn(
-            'transition-all duration-300',
-            isExpanded ? 'h-11 w-11' : 'h-8 w-8'
+            'transition-all duration-300 w-full h-auto',
+            isExpanded ? 'max-w-[100px]' : 'max-w-[64px]'
           )}
         />
         <span className={cn(
