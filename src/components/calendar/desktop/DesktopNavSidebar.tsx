@@ -157,7 +157,7 @@ export function DesktopNavSidebar({
           alt="SmileCheck"
           className={cn(
             'transition-all duration-300 w-full h-auto',
-            isExpanded ? 'max-w-[100px]' : 'max-w-[64px]'
+            isExpanded ? 'max-w-[76px]' : 'max-w-[48px]'
           )}
         />
         <span className={cn(
