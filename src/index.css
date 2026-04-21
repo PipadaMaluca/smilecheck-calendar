@@ -95,6 +95,26 @@
 
   /* Light mode for landing page - scoped via .light class */
   .light {
+    /* === Global light-mode tokens (per brand spec) === */
+    /* These are the canonical names referenced across the app. The
+       semantic shadcn tokens below mirror these so that any component —
+       whether it uses a shadcn class or reads var(--page-bg) directly —
+       stays visually consistent. */
+    --page-bg: #F5F9FF;
+    --card-bg: #FFFFFF;
+    --card-border: #D6E4F0;
+    --card-shadow: 0 2px 8px rgba(33, 150, 243, 0.06);
+    --section-bg: #F0F7FF;
+    --input-bg: #F5F9FF;
+    --input-border: #D6E4F0;
+    --hover-bg: #EBF4FF;
+    --sidebar-bg: #EBF4FF;
+    --sidebar-active: #D6E8FF;
+    --sidebar-text: #5B8DB8;
+    --sidebar-active-text: #1565C0;
+    --heading-color: #1565C0;
+    --brand-primary: #2196F3;
+
     /* === Surfaces === */
     --background: 213 100% 98%;         /* #F5F9FF subtle blue tint */
     --foreground: 220 26% 14%;          /* #1A202C */
@@ -137,7 +157,7 @@
     /* === Gradients & Shadows tuned for light bg === */
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 97%));
     --gradient-modal: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 96%));
-    --shadow-card: 0 1px 3px hsl(220 26% 14% / 0.08);
+    --shadow-card: 0 2px 8px rgba(33, 150, 243, 0.06);
     --shadow-modal: 0 25px 50px -12px hsl(220 26% 14% / 0.18);
     --shadow-glow: 0 0 30px hsl(207 90% 54% / 0.18);
   }
