@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { Plus, Trash2, Save, Copy, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -65,6 +67,13 @@ export function ClinicScheduleTab() {
   const [holidays, setHolidays] = useState<HolidayClosure[]>(defaultHolidays);
   const [customClosures, setCustomClosures] = useState<HolidayClosure[]>(defaultCustomClosures);
   const [nationalHolidaysEnabled, setNationalHolidaysEnabled] = useState(true);
+  const [closureModalOpen, setClosureModalOpen] = useState(false);
+  const [closureForm, setClosureForm] = useState<{ name: string; dateStart: string; dateEnd: string; reason: string }>({
+    name: '',
+    dateStart: '',
+    dateEnd: '',
+    reason: 'exceptional',
+  });
 
   const dayKeys = [
     'common.weekdays.mon', 'common.weekdays.tue', 'common.weekdays.wed',
@@ -96,6 +105,34 @@ export function ClinicScheduleTab() {
 
   const removeCustomClosure = (id: string) => {
     setCustomClosures(prev => prev.filter(c => c.id !== id));
+  };
+
+  const openAddClosure = () => {
+    setClosureForm({ name: '', dateStart: '', dateEnd: '', reason: 'exceptional' });
+    setClosureModalOpen(true);
+  };
+
+  const formatDateLabel = (iso: string) => {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  const saveClosure = () => {
+    if (!closureForm.dateStart || !closureForm.name.trim()) return;
+    const dateLabel = closureForm.dateEnd && closureForm.dateEnd !== closureForm.dateStart
+      ? `${formatDateLabel(closureForm.dateStart)} — ${formatDateLabel(closureForm.dateEnd)}`
+      : formatDateLabel(closureForm.dateStart);
+    setCustomClosures(prev => [...prev, {
+      id: `c-${Date.now()}`,
+      date: dateLabel,
+      endDate: closureForm.dateEnd || undefined,
+      name: closureForm.name.trim(),
+      type: 'custom',
+      reason: closureForm.reason,
+      openDespite: false,
+    }]);
+    setClosureModalOpen(false);
   };
 
   const handleSave = () => {
@@ -233,7 +270,7 @@ export function ClinicScheduleTab() {
                 </div>
               </div>
             ))}
-            <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
+            <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto" onClick={openAddClosure}>
               <Plus className="w-3 h-3" />{t('team.schedule.addHolidayClosure')}
             </Button>
           </div>
@@ -274,6 +311,64 @@ export function ClinicScheduleTab() {
       <Button className="gap-2 w-full sm:w-auto" onClick={handleSave}>
         <Save className="w-4 h-4" />{t('team.schedule.saveSchedules')}
       </Button>
+
+      {/* Add Closure Modal */}
+      <Dialog open={closureModalOpen} onOpenChange={setClosureModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t('team.schedule.modalTitleAdd')}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="cl-name" className="text-xs">{t('team.schedule.fieldName')}</Label>
+              <Input
+                id="cl-name"
+                value={closureForm.name}
+                onChange={e => setClosureForm(f => ({ ...f, name: e.target.value }))}
+                placeholder={t('team.schedule.fieldNamePlaceholder')}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="cl-start" className="text-xs">{t('team.schedule.fieldDateStart')}</Label>
+                <Input
+                  id="cl-start"
+                  type="date"
+                  value={closureForm.dateStart}
+                  onChange={e => setClosureForm(f => ({ ...f, dateStart: e.target.value }))}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="cl-end" className="text-xs">{t('team.schedule.fieldDateEnd')}</Label>
+                <Input
+                  id="cl-end"
+                  type="date"
+                  value={closureForm.dateEnd}
+                  onChange={e => setClosureForm(f => ({ ...f, dateEnd: e.target.value }))}
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">{t('team.schedule.fieldReason')}</Label>
+              <Select value={closureForm.reason} onValueChange={(v) => setClosureForm(f => ({ ...f, reason: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="national">{t('team.schedule.reasonNational')}</SelectItem>
+                  <SelectItem value="exceptional">{t('team.schedule.reasonExceptional')}</SelectItem>
+                  <SelectItem value="works">{t('team.schedule.reasonWorks')}</SelectItem>
+                  <SelectItem value="other">{t('team.schedule.reasonOtherClosure')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setClosureModalOpen(false)}>{t('common.cancel')}</Button>
+            <Button onClick={saveClosure} disabled={!closureForm.dateStart || !closureForm.name.trim()}>
+              {t('common.save')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
