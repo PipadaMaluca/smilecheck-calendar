@@ -54,7 +54,15 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         <h3 className="text-sm font-semibold text-foreground mb-2 text-center">{t('onboarding.monthlyPrizes')}</h3>
         <div className="flex items-end justify-center gap-2">
           {monthlyPrizes.map((item, index) => (
-            <div key={index} className={`flex flex-col items-center p-2 rounded-xl border ${item.position === 1 ? 'flex-1 max-w-[140px]' : 'flex-1 max-w-[100px]'}`}
+            <div
+              key={index}
+              className={`flex flex-col items-center justify-end p-2 rounded-xl border ${
+                item.position === 1
+                  ? 'flex-1 max-w-[140px] h-[110px]'
+                  : item.position === 2
+                  ? 'flex-1 max-w-[100px] h-[77px]'
+                  : 'flex-1 max-w-[100px] h-[55px]'
+              }`}
               style={{ backgroundColor: `${item.color}15`, borderColor: `${item.color}40` }}>
               <span className="text-lg font-bold" style={{ color: item.color }}>{item.position}º</span>
               <p className="text-[10px] text-center text-muted-foreground mt-1">{t(item.prizeKey)}</p>
