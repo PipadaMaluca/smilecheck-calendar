@@ -56,13 +56,13 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const [role, setRole] = useDemoRole();
 
   const baseBtn =
-    'flex-1 h-8 rounded-md text-[11px] font-medium transition-all flex items-center justify-center px-0.5';
+    'flex-1 h-8 rounded-md text-[11px] font-medium transition-all flex items-center justify-center gap-[10px] px-[3px]';
   const active = 'bg-primary text-primary-foreground';
   const inactive =
     'bg-transparent border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40';
 
   const Row = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-1">{children}</div>
+    <div className="flex items-center gap-[5px]">{children}</div>
   );
 
   const roles: { id: UserRole; label: string; Icon: typeof Building2 }[] = [
@@ -109,7 +109,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
                       aria-pressed={role === r.id}
                       aria-label={r.label}
                     >
-                      <Ico className="w-4 h-4" />
+                      <Ico className="h-[15px] w-[15px] px-[5px]" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="top">{r.label}</TooltipContent>
