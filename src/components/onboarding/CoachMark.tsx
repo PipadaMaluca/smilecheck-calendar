@@ -3,6 +3,22 @@ import { cn } from '@/lib/utils';
 
 const LS_PREFIX = 'smilecheck_coachmark_';
 
+/**
+ * Returns true if the onboarding tutorial (carousel + tooltips) is still in
+ * progress for any role, OR if the explicit completion flag has not been set.
+ * Coach marks must NEVER appear during the onboarding flow.
+ */
+function isOnboardingInProgress(): boolean {
+  // Explicit user-controlled flag
+  if (localStorage.getItem('sc:onboarding-completed') === 'true') return false;
+  // Fallback: at least one role must have completed the legacy onboarding flow
+  const roles = ['patient', 'dentist', 'clinic'];
+  const anyCompleted = roles.some(
+    (r) => localStorage.getItem(`smilecheck_onboarding_${r}`) === 'done'
+  );
+  return !anyCompleted;
+}
+
 interface CoachMarkProps {
   id: string;
   targetId: string;
@@ -75,6 +91,8 @@ export function CoachMark({ id, targetId, title, description, enabled = true }: 
     if (dismissed || !enabled) return;
     // Wait for DOM to settle
     const timer = setTimeout(() => {
+      // Suppress while the onboarding carousel/tooltips are still active
+      if (isOnboardingInProgress()) return;
       const el = document.getElementById(targetId);
       if (!el) return;
       if (claimSlot(id)) {

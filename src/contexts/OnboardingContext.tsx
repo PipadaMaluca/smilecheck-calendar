@@ -36,6 +36,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
 
   const markOnboardingComplete = useCallback((role: UserRole) => {
     localStorage.setItem(`smilecheck_onboarding_${role}`, 'done');
+    localStorage.setItem('sc:onboarding-completed', 'true');
   }, []);
 
   const startCarousel = useCallback((role: UserRole) => {
