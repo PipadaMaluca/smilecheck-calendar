@@ -160,18 +160,25 @@ export function CalendarSyncSection() {
         <div className="flex flex-wrap gap-2 justify-end">
           <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 text-destructive hover:text-destructive">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3] hover:text-white hover:border-[#2196F3]"
+                >
                   <RefreshCw className="w-3.5 h-3.5" /> {t('export.regenerateLink')}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>{t('export.regenerateTitle')}</AlertDialogTitle>
+                  <AlertDialogTitle className="text-[#F59E0B]">{t('export.regenerateTitle')}</AlertDialogTitle>
                   <AlertDialogDescription>{t('export.regenerateConfirm')}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleRegenerate} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  <AlertDialogAction
+                    onClick={handleRegenerate}
+                    className="bg-[#2196F3] text-white hover:bg-[#1E88E5]"
+                  >
                     {t('common.confirm')}
                   </AlertDialogAction>
                 </AlertDialogFooter>
