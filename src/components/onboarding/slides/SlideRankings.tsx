@@ -56,16 +56,16 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
           {monthlyPrizes.map((item, index) => (
             <div
               key={index}
-              className={`flex flex-col items-center justify-end p-2 rounded-xl border ${
+              className={`flex flex-col items-center justify-end rounded-xl border overflow-hidden ${
                 item.position === 1
-                  ? 'flex-1 max-w-[140px] h-[110px]'
+                  ? 'flex-[1.4] max-w-[160px] min-h-[120px] px-2 py-2'
                   : item.position === 2
-                  ? 'flex-1 max-w-[100px] h-[77px]'
-                  : 'flex-1 max-w-[100px] h-[55px]'
+                  ? 'flex-1 max-w-[110px] min-h-[95px] px-1.5 py-2'
+                  : 'flex-[0.8] max-w-[95px] min-h-[80px] px-1.5 py-2'
               }`}
               style={{ backgroundColor: `${item.color}15`, borderColor: `${item.color}40` }}>
-              <span className="text-lg font-bold" style={{ color: item.color }}>{item.position}º</span>
-              <p className="text-[10px] text-center text-muted-foreground mt-1">{t(item.prizeKey)}</p>
+              <span className="text-base font-bold leading-none mb-1" style={{ color: item.color }}>{item.position}º</span>
+              <p className="text-[11px] leading-tight text-center text-muted-foreground break-words px-1">{t(item.prizeKey)}</p>
             </div>
           ))}
         </div>
