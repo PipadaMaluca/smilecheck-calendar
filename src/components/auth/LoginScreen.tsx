@@ -36,11 +36,11 @@ export function LoginScreen() {
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1000));
     setLoading(false);
-    navigate('/');
+    navigate('/app');
   };
 
   const handleQRAuthorized = () => {
-    navigate('/');
+    navigate('/app');
   };
 
   const loginForm = (

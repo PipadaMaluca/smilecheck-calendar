@@ -128,7 +128,7 @@ export function SignUpScreen() {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
-    navigate('/');
+    navigate('/app');
   };
 
   const handleSocialLogin = (provider: string) => {
