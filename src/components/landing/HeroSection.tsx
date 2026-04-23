@@ -85,7 +85,7 @@ export function HeroSection() {
           <Button size="lg" className="text-base px-8 h-12 w-full sm:w-auto" onClick={() => navigate('/signup')}>
             {t('landing.hero.cta')}
           </Button>
-          <Button size="lg" variant="outline" className="text-base px-8 h-12 w-full sm:w-auto" onClick={() => navigate('/demo')}>
+          <Button size="lg" variant="outline" className="text-base px-8 h-12 w-full sm:w-auto" onClick={() => navigate('/app?demo=true&role=patient')}>
             {t('landing.hero.demo')}
           </Button>
         </div>
