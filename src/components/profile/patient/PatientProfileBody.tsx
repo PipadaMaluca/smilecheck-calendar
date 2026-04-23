@@ -77,8 +77,14 @@ const PATIENT_DATA = {
   nextAppointment: '15 Mar 2026, 10:00 — Destartarização — Dr. Gonçalo Pipo',
   lastConsultation: { date: '28 Jan 2026', procedure: 'Destartarização', dentist: 'Dr. Gonçalo Pipo' },
   reviews: [
-  { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente exemplar, pontual e colaborativo.', date: '28 Jan 2026' },
-  { dentistName: 'Dr. Alexandre Bernardo', rating: 4, comment: 'Boa higiene oral. Pode melhorar na regularidade.', date: '15 Jan 2026' }]
+  { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente exemplar, pontual e colaborativo. Higiene oral excelente.', date: '28 Jan 2026' },
+  { dentistName: 'Dr. Alexandre Bernardo', rating: 4, comment: 'Boa higiene oral. Pode melhorar na regularidade das visitas.', date: '15 Jan 2026' },
+  { dentistName: 'Dr. Gil Santos', rating: 5, comment: 'Sempre pontual e segue as recomendações sem falhar.', date: '20 Dez 2025' },
+  { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Cooperativo durante o tratamento, dispensa anestesia adicional.', date: '02 Dez 2025' },
+  { dentistName: 'Dra. Catarina Fernandes', rating: 4, comment: 'Boa adesão ao plano, apenas faltou uma consulta com aviso prévio.', date: '14 Nov 2025' },
+  { dentistName: 'Dr. Alexandre Bernardo', rating: 5, comment: 'Excelente comunicação. Explica os sintomas com clareza.', date: '28 Out 2025' },
+  { dentistName: 'Dr. Gonçalo Pipo', rating: 5, comment: 'Paciente regular, comparece sempre confirmado.', date: '10 Set 2025' },
+  { dentistName: 'Dr. Gil Santos', rating: 4, comment: 'Tudo bem, podia chegar 5 minutos mais cedo para o check-in.', date: '21 Jul 2025' }]
 
 };
 

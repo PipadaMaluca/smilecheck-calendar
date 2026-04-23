@@ -177,6 +177,13 @@ const CLINIC_REVIEWS: Record<string, { id: string; patientName: string; rating: 
     { id: 'cr1-3', patientName: 'Maria L.', rating: 4, date: '20 Jan 2026', comment: 'Bom atendimento, boas instalações. Voltarei certamente.' },
     { id: 'cr1-4', patientName: 'João P.', rating: 5, date: '15 Jan 2026', comment: 'Nunca tive uma experiência tão boa num dentista.' },
     { id: 'cr1-5', patientName: 'Sofia R.', rating: 5, date: '10 Jan 2026', comment: 'Profissionais de excelência. Muito confiável.' },
+    { id: 'cr1-6', patientName: 'Helena N.', rating: 5, date: '03 Jan 2026', comment: 'Marcação fácil pela app, sem tempos de espera. Perfeito.' },
+    { id: 'cr1-7', patientName: 'Bruno P.', rating: 4, date: '21 Dez 2025', comment: 'Boa relação qualidade-preço. Receção poderia ser mais rápida em horas de ponta.' },
+    { id: 'cr1-8', patientName: 'Inês C.', rating: 5, date: '08 Dez 2025', comment: 'Ambiente acolhedor e equipa muito profissional. Toda a família vai aqui.' },
+    { id: 'cr1-9', patientName: 'Tiago M.', rating: 5, date: '24 Nov 2025', comment: 'Atendimento de urgência impecável ao sábado. Salvaram-me um molar!' },
+    { id: 'cr1-10', patientName: 'Diana C.', rating: 4, date: '11 Nov 2025', comment: 'Instalações modernas e tecnologia de ponta. Recomendo.' },
+    { id: 'cr1-11', patientName: 'André G.', rating: 5, date: '27 Out 2025', comment: 'Convenção com a Médis aceite sem problemas. Processo muito rápido.' },
+    { id: 'cr1-12', patientName: 'Rita O.', rating: 3, date: '12 Out 2025', comment: 'Boa clínica mas houve um pequeno atraso no meu agendamento.' },
   ],
   '2': [
     { id: 'cr2-1', patientName: 'Pierre D.', rating: 5, date: '26 Jan 2026', comment: 'Très bon cabinet, personnel accueillant et professionnel.' },
