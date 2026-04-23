@@ -46,7 +46,7 @@ const patientDefs: CategoryDef[] = [
       { id: 'p2', emoji: '🎓', nameKey: 'achievements.patient.p2.name', descKey: 'achievements.patient.p2.desc', points: 2, unlocked: true },
       { id: 'p3', emoji: '📝', nameKey: 'achievements.patient.p3.name', descKey: 'achievements.patient.p3.desc', points: 3, unlocked: true },
       { id: 'p4', emoji: '🌟', nameKey: 'achievements.patient.p4.name', descKey: 'achievements.patient.p4.desc', points: 5, unlocked: true },
-      { id: 'p5', emoji: '👨‍👩‍👧', nameKey: 'achievements.patient.p5.name', descKey: 'achievements.patient.p5.desc', points: 5, unlocked: false },
+      { id: 'p5', emoji: '👨‍👩‍👧', nameKey: 'achievements.patient.p5.name', descKey: 'achievements.patient.p5.desc', points: 5, unlocked: true },
       { id: 'p6', emoji: '🦷', nameKey: 'achievements.patient.p6.name', descKey: 'achievements.patient.p6.desc', points: 10, unlocked: true },
     ],
   },
@@ -56,7 +56,7 @@ const patientDefs: CategoryDef[] = [
       { id: 'c1', emoji: '📹', nameKey: 'achievements.patient.c1.name', descKey: 'achievements.patient.c1.desc', points: 10, unlocked: true },
       { id: 'c2', emoji: '🌅', nameKey: 'achievements.patient.c2.name', descKey: 'achievements.patient.c2.desc', points: 10, unlocked: false, progress: { current: 1, target: 5 } },
       { id: 'c3', emoji: '📅', nameKey: 'achievements.patient.c3.name', descKey: 'achievements.patient.c3.desc', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
-      { id: 'c4', emoji: '🏥', nameKey: 'achievements.patient.c4.name', descKey: 'achievements.patient.c4.desc', points: 15, unlocked: false, progress: { current: 1, target: 3 } },
+      { id: 'c4', emoji: '🏥', nameKey: 'achievements.patient.c4.name', descKey: 'achievements.patient.c4.desc', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
       { id: 'c5', emoji: '🤝', nameKey: 'achievements.patient.c5.name', descKey: 'achievements.patient.c5.desc', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
       { id: 'c6', emoji: '📹', nameKey: 'achievements.patient.c6.name', descKey: 'achievements.patient.c6.desc', points: 20, unlocked: false, progress: { current: 4, target: 10 } },
       { id: 'c7', emoji: '🏃', nameKey: 'achievements.patient.c7.name', descKey: 'achievements.patient.c7.desc', points: 25, unlocked: false, progress: { current: 3, target: 6 } },
@@ -124,11 +124,11 @@ const dentistDefs: CategoryDef[] = [
   {
     titleKey: 'achievements.cat.workVolume',
     achievements: [
-      { id: 'd1', emoji: '🌙', nameKey: 'achievements.dentist.d1.name', descKey: 'achievements.dentist.d1.desc', points: 20, unlocked: false, progress: { current: 38, target: 50 } },
+      { id: 'd1', emoji: '🌙', nameKey: 'achievements.dentist.d1.name', descKey: 'achievements.dentist.d1.desc', points: 20, unlocked: true, progress: { current: 50, target: 50 } },
       { id: 'd2', emoji: '🏅', nameKey: 'achievements.dentist.d2.name', descKey: 'achievements.dentist.d2.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
       { id: 'd3', emoji: '🏋️', nameKey: 'achievements.dentist.d3.name', descKey: 'achievements.dentist.d3.desc', points: 30, unlocked: false, progress: { current: 280, target: 500 } },
       { id: 'd4', emoji: '👨‍⚕️', nameKey: 'achievements.dentist.d4.name', descKey: 'achievements.dentist.d4.desc', points: 30, unlocked: true },
-      { id: 'd5', emoji: '🏅', nameKey: 'achievements.dentist.d5.name', descKey: 'achievements.dentist.d5.desc', points: 50, unlocked: false, progress: { current: 127, target: 250 } },
+      { id: 'd5', emoji: '🏅', nameKey: 'achievements.dentist.d5.name', descKey: 'achievements.dentist.d5.desc', points: 50, unlocked: true, progress: { current: 250, target: 250 } },
       { id: 'd6', emoji: '🏅', nameKey: 'achievements.dentist.d6.name', descKey: 'achievements.dentist.d6.desc', points: 75, unlocked: false, progress: { current: 127, target: 500 } },
       { id: 'd7', emoji: '👑', nameKey: 'achievements.dentist.d7.name', descKey: 'achievements.dentist.d7.desc', points: 100, unlocked: false, progress: { current: 280, target: 1000 } },
     ],
@@ -136,11 +136,11 @@ const dentistDefs: CategoryDef[] = [
   {
     titleKey: 'achievements.cat.quality',
     achievements: [
-      { id: 'q1', emoji: '📄', nameKey: 'achievements.dentist.q1.name', descKey: 'achievements.dentist.q1.desc', points: 15, unlocked: false, progress: { current: 4, target: 10 } },
+      { id: 'q1', emoji: '📄', nameKey: 'achievements.dentist.q1.name', descKey: 'achievements.dentist.q1.desc', points: 15, unlocked: true, progress: { current: 10, target: 10 } },
       { id: 'q2', emoji: '📋', nameKey: 'achievements.dentist.q2.name', descKey: 'achievements.dentist.q2.desc', points: 15, unlocked: true, progress: { current: 50, target: 50 } },
       { id: 'q3', emoji: '💬', nameKey: 'achievements.dentist.q3.name', descKey: 'achievements.dentist.q3.desc', points: 20, unlocked: true, progress: { current: 100, target: 100 } },
-      { id: 'q4', emoji: '💊', nameKey: 'achievements.dentist.q4.name', descKey: 'achievements.dentist.q4.desc', points: 25, unlocked: false, progress: { current: 50, target: 100 } },
-      { id: 'q5', emoji: '🎯', nameKey: 'achievements.dentist.q5.name', descKey: 'achievements.dentist.q5.desc', points: 30, unlocked: false },
+      { id: 'q4', emoji: '💊', nameKey: 'achievements.dentist.q4.name', descKey: 'achievements.dentist.q4.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
+      { id: 'q5', emoji: '🎯', nameKey: 'achievements.dentist.q5.name', descKey: 'achievements.dentist.q5.desc', points: 30, unlocked: true },
       { id: 'q6', emoji: '⭐', nameKey: 'achievements.dentist.q6.name', descKey: 'achievements.dentist.q6.desc', points: 40, unlocked: true },
     ],
   },
@@ -214,18 +214,18 @@ const clinicDefs: CategoryDef[] = [
     titleKey: 'achievements.cat.team',
     achievements: [
       { id: 'eq1', emoji: '👥', nameKey: 'achievements.clinic.eq1.name', descKey: 'achievements.clinic.eq1.desc', points: 15, unlocked: true, progress: { current: 3, target: 3 } },
-      { id: 'eq2', emoji: '🔬', nameKey: 'achievements.clinic.eq2.name', descKey: 'achievements.clinic.eq2.desc', points: 20, unlocked: false, progress: { current: 3, target: 5 } },
+      { id: 'eq2', emoji: '🔬', nameKey: 'achievements.clinic.eq2.name', descKey: 'achievements.clinic.eq2.desc', points: 20, unlocked: true, progress: { current: 5, target: 5 } },
       { id: 'eq3', emoji: '👥', nameKey: 'achievements.clinic.eq3.name', descKey: 'achievements.clinic.eq3.desc', points: 30, unlocked: true, progress: { current: 7, target: 7 } },
-      { id: 'eq4', emoji: '⭐', nameKey: 'achievements.clinic.eq4.name', descKey: 'achievements.clinic.eq4.desc', points: 40, unlocked: false },
-      { id: 'eq5', emoji: '👥', nameKey: 'achievements.clinic.eq5.name', descKey: 'achievements.clinic.eq5.desc', points: 60, unlocked: false, progress: { current: 7, target: 15 } },
+      { id: 'eq4', emoji: '⭐', nameKey: 'achievements.clinic.eq4.name', descKey: 'achievements.clinic.eq4.desc', points: 40, unlocked: true },
+      { id: 'eq5', emoji: '👥', nameKey: 'achievements.clinic.eq5.name', descKey: 'achievements.clinic.eq5.desc', points: 60, unlocked: true, progress: { current: 15, target: 15 } },
     ],
   },
   {
     titleKey: 'achievements.cat.volume',
     achievements: [
       { id: 'v1', emoji: '📈', nameKey: 'achievements.clinic.v1.name', descKey: 'achievements.clinic.v1.desc', points: 25, unlocked: true, progress: { current: 1000, target: 1000 } },
-      { id: 'v2', emoji: '🚀', nameKey: 'achievements.clinic.v2.name', descKey: 'achievements.clinic.v2.desc', points: 40, unlocked: false, progress: { current: 320, target: 500 } },
-      { id: 'v3', emoji: '📈', nameKey: 'achievements.clinic.v3.name', descKey: 'achievements.clinic.v3.desc', points: 50, unlocked: false, progress: { current: 3200, target: 5000 } },
+      { id: 'v2', emoji: '🚀', nameKey: 'achievements.clinic.v2.name', descKey: 'achievements.clinic.v2.desc', points: 40, unlocked: true, progress: { current: 500, target: 500 } },
+      { id: 'v3', emoji: '📈', nameKey: 'achievements.clinic.v3.name', descKey: 'achievements.clinic.v3.desc', points: 50, unlocked: true, progress: { current: 5000, target: 5000 } },
       { id: 'v4', emoji: '📈', nameKey: 'achievements.clinic.v4.name', descKey: 'achievements.clinic.v4.desc', points: 75, unlocked: false, progress: { current: 3200, target: 10000 } },
       { id: 'v5', emoji: '📈', nameKey: 'achievements.clinic.v5.name', descKey: 'achievements.clinic.v5.desc', points: 120, unlocked: false, progress: { current: 3200, target: 25000 } },
     ],
@@ -235,9 +235,9 @@ const clinicDefs: CategoryDef[] = [
     achievements: [
       { id: 'cq1', emoji: '⭐', nameKey: 'achievements.clinic.cq1.name', descKey: 'achievements.clinic.cq1.desc', points: 20, unlocked: true },
       { id: 'cq2', emoji: '💬', nameKey: 'achievements.clinic.cq2.name', descKey: 'achievements.clinic.cq2.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
-      { id: 'cq3', emoji: '🛡️', nameKey: 'achievements.clinic.cq3.name', descKey: 'achievements.clinic.cq3.desc', points: 35, unlocked: false },
+      { id: 'cq3', emoji: '🛡️', nameKey: 'achievements.clinic.cq3.name', descKey: 'achievements.clinic.cq3.desc', points: 35, unlocked: true },
       { id: 'cq4', emoji: '⭐', nameKey: 'achievements.clinic.cq4.name', descKey: 'achievements.clinic.cq4.desc', points: 50, unlocked: true },
-      { id: 'cq5', emoji: '⭐', nameKey: 'achievements.clinic.cq5.name', descKey: 'achievements.clinic.cq5.desc', points: 75, unlocked: false },
+      { id: 'cq5', emoji: '⭐', nameKey: 'achievements.clinic.cq5.name', descKey: 'achievements.clinic.cq5.desc', points: 75, unlocked: true },
     ],
   },
   {
@@ -252,15 +252,15 @@ const clinicDefs: CategoryDef[] = [
   {
     titleKey: 'achievements.cat.consistency',
     achievements: [
-      { id: 'ccs1', emoji: '🔥', nameKey: 'achievements.clinic.ccs1.name', descKey: 'achievements.clinic.ccs1.desc', points: 15, unlocked: false, progress: { current: 12, target: 30 } },
-      { id: 'ccs2', emoji: '🔥', nameKey: 'achievements.clinic.ccs2.name', descKey: 'achievements.clinic.ccs2.desc', points: 35, unlocked: false, progress: { current: 12, target: 90 } },
+      { id: 'ccs1', emoji: '🔥', nameKey: 'achievements.clinic.ccs1.name', descKey: 'achievements.clinic.ccs1.desc', points: 15, unlocked: true, progress: { current: 30, target: 30 } },
+      { id: 'ccs2', emoji: '🔥', nameKey: 'achievements.clinic.ccs2.name', descKey: 'achievements.clinic.ccs2.desc', points: 35, unlocked: true, progress: { current: 90, target: 90 } },
       { id: 'ccs3', emoji: '🔥', nameKey: 'achievements.clinic.ccs3.name', descKey: 'achievements.clinic.ccs3.desc', points: 80, unlocked: false, progress: { current: 12, target: 365 } },
     ],
   },
   {
     titleKey: 'achievements.cat.loyalty',
     achievements: [
-      { id: 'cf1', emoji: '🎂', nameKey: 'achievements.clinic.cf1.name', descKey: 'achievements.clinic.cf1.desc', points: 20, unlocked: false, progress: { current: 6, target: 12 } },
+      { id: 'cf1', emoji: '🎂', nameKey: 'achievements.clinic.cf1.name', descKey: 'achievements.clinic.cf1.desc', points: 20, unlocked: true, progress: { current: 12, target: 12 } },
       { id: 'cf2', emoji: '🏛️', nameKey: 'achievements.clinic.cf2.name', descKey: 'achievements.clinic.cf2.desc', points: 50, unlocked: false, progress: { current: 6, target: 36 } },
       { id: 'cf3', emoji: '👑', nameKey: 'achievements.clinic.cf3.name', descKey: 'achievements.clinic.cf3.desc', points: 100, unlocked: false, progress: { current: 6, target: 60 } },
     ],
@@ -269,9 +269,9 @@ const clinicDefs: CategoryDef[] = [
     titleKey: 'achievements.cat.teleconsult',
     achievements: [
       { id: 'ct1', emoji: '📹', nameKey: 'achievements.clinic.ct1.name', descKey: 'achievements.clinic.ct1.desc', points: 10, unlocked: true },
-      { id: 'ct2', emoji: '📹', nameKey: 'achievements.clinic.ct2.name', descKey: 'achievements.clinic.ct2.desc', points: 25, unlocked: false, progress: { current: 45, target: 100 } },
-      { id: 'ct3', emoji: '📹', nameKey: 'achievements.clinic.ct3.name', descKey: 'achievements.clinic.ct3.desc', points: 50, unlocked: false, progress: { current: 45, target: 500 } },
-      { id: 'ct4', emoji: '📹', nameKey: 'achievements.clinic.ct4.name', descKey: 'achievements.clinic.ct4.desc', points: 100, unlocked: false, progress: { current: 45, target: 1000 } },
+      { id: 'ct2', emoji: '📹', nameKey: 'achievements.clinic.ct2.name', descKey: 'achievements.clinic.ct2.desc', points: 25, unlocked: true, progress: { current: 100, target: 100 } },
+      { id: 'ct3', emoji: '📹', nameKey: 'achievements.clinic.ct3.name', descKey: 'achievements.clinic.ct3.desc', points: 50, unlocked: true, progress: { current: 500, target: 500 } },
+      { id: 'ct4', emoji: '📹', nameKey: 'achievements.clinic.ct4.name', descKey: 'achievements.clinic.ct4.desc', points: 100, unlocked: false, progress: { current: 450, target: 1000 } },
     ],
   },
   {
