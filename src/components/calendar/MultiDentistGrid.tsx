@@ -259,6 +259,7 @@ export function MultiDentistGrid({
                     return (
                       <div
                         key={consultation.id}
+                        data-cat={category}
                         draggable
                         onDragStart={(e) => {
                           e.dataTransfer.effectAllowed = 'move';
@@ -267,7 +268,7 @@ export function MultiDentistGrid({
                         onDragEnd={() => setDraggedConsultation(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
-                          "rounded-md flex flex-col justify-center cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          "appt-block rounded-md flex flex-col justify-center cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
                           isSingleColumn ? "px-1.5" : "px-2",
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}

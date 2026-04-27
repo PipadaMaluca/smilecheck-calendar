@@ -206,6 +206,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   return (
                     <div
                       key={consultation.id}
+                      data-cat={category}
                       draggable
                       onDragStart={(e) => {
                         e.dataTransfer.effectAllowed = 'move';
@@ -214,7 +215,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                       onDragEnd={() => setDraggedConsultation(null)}
                       onClick={() => onSlotClick?.(slot)}
                       className={cn(
-                        "rounded cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden px-0.5",
+                        "appt-block rounded cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden px-0.5",
                         draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                       )}
                       style={{

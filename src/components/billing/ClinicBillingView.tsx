@@ -11,6 +11,8 @@ import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useTranslation } from 'react-i18next';
 
+import { ManagePlanView } from '@/components/plan/ManagePlanView';
+
 interface ClinicBillingViewProps {
   initialTab?: string;
   onNavigate?: (tab: string) => void;
@@ -43,8 +45,8 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
           <TabsList className="w-full justify-start overflow-x-auto">
             <TabsTrigger value="resumo">{t('billing.summary')}</TabsTrigger>
             <TabsTrigger value="dentistas">{t('billing.perDentist')}</TabsTrigger>
-            <TabsTrigger value="teleconsultas">{t('billing.teleconsultas')}</TabsTrigger>
             <TabsTrigger value="plano">{t('billing.plan')}</TabsTrigger>
+            <TabsTrigger value="teleconsultas">{t('billing.teleconsultas')}</TabsTrigger>
             <TabsTrigger value="dados">{t('billing.fiscalData')}</TabsTrigger>
           </TabsList>
 
@@ -153,10 +155,21 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                   <p>{t('billing.nextBillingDate')}: 1 Fev 2026</p>
                   <p>{t('billing.method')}: Visa ****4532</p>
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => onNavigate?.('plano')}>{t('billing.changePlan')}</Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                >
+                  {t('billing.changePlan')}
+                </Button>
                 <button className="text-xs text-destructive hover:underline w-full text-center mt-1">{t('plan.cancelSubscription')}</button>
               </CardContent>
             </Card>
+            <div id="plan-comparison" className="-mx-6">
+              <ManagePlanView userRole="clinic" />
+            </div>
           </TabsContent>
 
           <TabsContent value="dados" className="space-y-4 mt-4">

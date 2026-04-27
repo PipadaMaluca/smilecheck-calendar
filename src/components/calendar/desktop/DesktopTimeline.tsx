@@ -336,6 +336,7 @@ export function DesktopTimeline({
                       return (
                         <div
                           key={consultation.id}
+                          data-cat={consultation.category || 'restauracao'}
                           draggable
                           onDragStart={(e) => {
                             e.dataTransfer.effectAllowed = 'move';
@@ -349,7 +350,7 @@ export function DesktopTimeline({
                             setContextMenu({ consultation, x: e.clientX, y: e.clientY });
                           }}
                           className={cn(
-                            "mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
+                            "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
                             draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                           )}
                           style={{

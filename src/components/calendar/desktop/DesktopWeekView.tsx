@@ -195,6 +195,7 @@ export function DesktopWeekView({
                   return (
                     <div
                       key={c.id}
+                      data-cat={category}
                       draggable
                       onDragStart={(e) => {
                         e.dataTransfer.effectAllowed = 'move';
@@ -202,7 +203,7 @@ export function DesktopWeekView({
                       }}
                       onDragEnd={() => setDraggedConsultation(null)}
                       className={cn(
-                        'absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing overflow-hidden transition-opacity hover:opacity-90',
+                        'appt-block absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing overflow-hidden transition-opacity hover:opacity-90',
                         colors.bg, colors.text,
                         draggedConsultation?.consultation.id === c.id && 'opacity-40 border-2 border-dashed border-primary'
                       )}
