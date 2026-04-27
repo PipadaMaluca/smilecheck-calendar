@@ -498,6 +498,17 @@
       "contact": "Contact",
       "login": "Se connecter",
       "signup": "Créer un Compte"
+    },
+    "trustBar": {
+      "title": "Approuvé par les professionnels de santé",
+      "subtitle": "Plus de 500 professionnels utilisent déjà SmileCheck",
+      "badges": [
+        "Ordre des Chirurgiens-Dentistes",
+        "CNSE",
+        "HDS Certifié",
+        "RGPD Compliant",
+        "ISO 9001"
+      ]
     }
   },
   "onboarding": {

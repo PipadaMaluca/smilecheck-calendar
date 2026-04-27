@@ -498,6 +498,17 @@
       "contact": "Contact",
       "login": "Log In",
       "signup": "Sign Up"
+    },
+    "trustBar": {
+      "title": "Trusted by healthcare professionals",
+      "subtitle": "Over 500 professionals already use SmileCheck",
+      "badges": [
+        "Dental Association",
+        "CNSE",
+        "HDS Certified",
+        "GDPR Compliant",
+        "ISO 9001"
+      ]
     }
   },
   "onboarding": {
