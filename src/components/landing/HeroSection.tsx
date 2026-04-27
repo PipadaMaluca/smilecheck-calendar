@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Rocket } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 function useCountUp(end: number, duration = 2000) {
@@ -14,9 +13,7 @@ function useCountUp(end: number, duration = 2000) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setStarted(true);
-      },
+      ([e]) => { if (e.isIntersecting) setStarted(true); },
       { threshold: 0.5 }
     );
     obs.observe(el);
@@ -30,12 +27,8 @@ function useCountUp(end: number, duration = 2000) {
     const inc = end / (duration / step);
     const timer = setInterval(() => {
       t += inc;
-      if (t >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(t));
-      }
+      if (t >= end) { setCount(end); clearInterval(timer); }
+      else setCount(Math.floor(t));
     }, step);
     return () => clearInterval(timer);
   }, [started, end, duration]);
@@ -55,95 +48,72 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-16 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
+      {/* Subtle floating tooth shapes */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="absolute top-[15%] left-[8%] text-[140px] opacity-[0.04] dark:opacity-[0.06] select-none animate-pulse" style={{ animationDuration: '8s' }}>🦷</div>
+        <div className="absolute top-[60%] right-[10%] text-[180px] opacity-[0.04] dark:opacity-[0.05] select-none animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }}>🦷</div>
+        <div className="absolute bottom-[20%] left-[15%] text-[100px] opacity-[0.04] dark:opacity-[0.05] select-none animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }}>✨</div>
+        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#2196F3]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[#1E88E5]/5 rounded-full blur-3xl" />
+      </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center py-0 pt-[5px]">
+      <div className="relative z-10 max-w-5xl mx-auto text-center">
         <img
           alt="SmileCheck"
-          className="h-[280px] sm:h-[340px] mx-auto mb-6 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-xl" src="/lovable-uploads/1c9d7b03-a8ca-4808-a83e-ffa366ea351d.png" />
-        
-        <Badge
-          variant="secondary"
-          className="mb-6 px-4 py-2 text-sm animate-fade-in cursor-default">
-          <Rocket className="w-4 h-4 mr-2" />
-          {t('landing.hero.badge')}
-        </Badge>
+          src="/lovable-uploads/1c9d7b03-a8ca-4808-a83e-ffa366ea351d.png"
+          className="h-[180px] sm:h-[220px] mx-auto mb-8 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-2xl"
+        />
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 animate-fade-in">
+        {/* Subtle animated pill with gradient border */}
+        <div className="inline-flex mb-8 animate-fade-in">
+          <div className="relative rounded-full p-[1px] bg-gradient-to-r from-[#2196F3] via-[#64B5F6] to-[#2196F3] bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_1]">
+            <div className="rounded-full bg-white dark:bg-[#0A1929] px-4 py-1.5 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5 text-[#2196F3]" />
+              <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{t('landing.hero.badge')}</span>
+            </div>
+          </div>
+        </div>
+
+        <h1 className="text-[40px] leading-[1.05] sm:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight mb-8 animate-fade-in text-[#1A202C] dark:text-white">
           {t('landing.hero.title')}{' '}
-          <span className="text-primary">{t('landing.hero.titleHighlight')}</span>
+          <span className="bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
+            {t('landing.hero.titleHighlight')}
+          </span>
         </h1>
 
-        <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in">
+        <p className="text-lg sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-2xl mx-auto mb-10 animate-fade-in">
           {t('landing.hero.subtitle')}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4 animate-fade-in">
-          <Button size="lg" className="text-base px-8 h-12 w-full sm:w-auto" onClick={() => navigate('/signup')}>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 animate-fade-in">
+          <Button
+            size="lg"
+            onClick={() => navigate('/signup')}
+            className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-base font-semibold px-8 py-4 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
+          >
             {t('landing.hero.cta')}
           </Button>
-          <Button size="lg" variant="outline" className="text-base px-8 h-12 w-full sm:w-auto" onClick={() => navigate('/app?demo=true&role=patient')}>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => navigate('/app?demo=true&role=patient')}
+            className="rounded-full text-base font-semibold px-8 py-4 h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10 dark:border-white dark:text-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
+          >
             {t('landing.hero.demo')}
           </Button>
         </div>
 
-        <p className="text-sm text-muted-foreground mb-16 animate-fade-in">
+        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-16 animate-fade-in">
           {t('landing.hero.hasAccount')}{' '}
-          <a onClick={() => navigate('/login')} className="text-primary hover:underline cursor-pointer">
+          <a onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
             {t('auth.login')}
           </a>
         </p>
-
-        {/* Dashboard mockup */}
-        <div className="relative mx-auto max-w-3xl animate-fade-in">
-          <div className="rounded-xl border border-border bg-card/60 backdrop-blur-sm shadow-2xl p-4 sm:p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-3 h-3 rounded-full bg-destructive/60" />
-              <div className="w-3 h-3 rounded-full bg-[hsl(45,93%,47%)]/60" />
-              <div className="w-3 h-3 rounded-full bg-[hsl(142,71%,45%)]/60" />
-              <span className="ml-2 text-xs text-muted-foreground">SmileCheck Dashboard</span>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { label: t('landing.dashboard.consultationsToday'), value: '8' },
-                { label: `🥇 ${t('landing.dashboard.level')}`, value: `${t('onboarding.levels.gold')} (1.250 XP)` },
-                { label: `⭐ ${t('landing.dashboard.points')}`, value: '850 pts' },
-                { label: `🔥 ${t('landing.dashboard.streak')}`, value: `14 ${t('landing.dashboard.days')}` },
-              ].map((c) => (
-                <div key={c.label} className="rounded-lg bg-muted/50 p-3 text-center">
-                  <p className="text-xs text-muted-foreground">{c.label}</p>
-                  <p className="text-lg font-bold text-foreground">{c.value}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 rounded-lg bg-muted/30 p-3 sm:p-4 my-[15px]">
-              <p className="text-xs text-muted-foreground mb-2">📅 {t('landing.dashboard.weeklyAgenda')}</p>
-              <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
-                {[
-                  { day: 'Seg', blocks: [{ h: 'h-6', color: 'hsl(207,90%,54%)' }, { h: 'h-4', color: 'hsl(36,100%,50%)' }] },
-                  { day: 'Ter', blocks: [{ h: 'h-5', color: 'hsl(207,90%,54%)' }, { h: 'h-3', color: 'hsl(122,39%,49%)' }, { h: 'h-4', color: 'hsl(207,90%,54%)' }] },
-                  { day: 'Qua', blocks: [{ h: 'h-7', color: 'hsl(207,90%,54%)' }] },
-                  { day: 'Qui', blocks: [{ h: 'h-4', color: 'hsl(36,100%,50%)' }, { h: 'h-5', color: 'hsl(207,90%,54%)' }] },
-                  { day: 'Sex', blocks: [{ h: 'h-3', color: 'hsl(4,90%,58%)' }, { h: 'h-6', color: 'hsl(207,90%,54%)' }, { h: 'h-3', color: 'hsl(36,100%,50%)' }] },
-                ].map((col) => (
-                  <div key={col.day} className="flex flex-col gap-1">
-                    <span className="text-[10px] text-muted-foreground text-center font-medium">{col.day}</span>
-                    {col.blocks.map((b, i) => (
-                      <div key={i} className={`${b.h} rounded-sm`} style={{ backgroundColor: b.color, opacity: 0.8 }} />
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Stats bar */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+      <div className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
         {stats.map((s) => (
           <StatItem key={s.labelKey} end={s.end} prefix={s.prefix} label={t(s.labelKey)} isDecimal={s.isDecimal} />
         ))}
@@ -158,8 +128,8 @@ function StatItem({ end, prefix, label, isDecimal }: { end: number; prefix: stri
 
   return (
     <div ref={ref} className="text-center">
-      <p className="text-2xl sm:text-3xl font-bold text-foreground">{prefix}{display}</p>
-      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className="text-3xl sm:text-4xl font-bold text-[#1A202C] dark:text-white">{prefix}{display}</p>
+      <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mt-1">{label}</p>
     </div>
   );
 }

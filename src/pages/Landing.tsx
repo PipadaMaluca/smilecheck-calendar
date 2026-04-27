@@ -3,6 +3,7 @@ import { LanguageSelector } from '@/components/landing/LanguageSelector';
 import { ThemeSelector } from '@/components/landing/ThemeSelector';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { HeroSection } from '@/components/landing/HeroSection';
+import { TrustBar } from '@/components/landing/TrustBar';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
 import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
 import { PricingSection } from '@/components/landing/PricingSection';
@@ -56,6 +57,7 @@ export default function Landing() {
       <LandingNavbar isDark={isDark} onToggleTheme={() => applyTheme(!isDark)} />
       <main>
         <HeroSection />
+        <TrustBar />
         <FeaturesSection />
         <HowItWorksSection />
         <PricingSection />

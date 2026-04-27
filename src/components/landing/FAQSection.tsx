@@ -27,15 +27,25 @@ export function FAQSection() {
   }, []);
 
   return (
-    <section id="faq" className="py-20 px-4" ref={ref}>
+    <section id="faq" className="py-24 sm:py-32 px-4 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-3xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">{t('landing.faq.title')}</h2>
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-center text-[#1A202C] dark:text-white mb-16">
+          {t('landing.faq.title')}
+        </h2>
 
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full space-y-2">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`item-${i}`}>
-              <AccordionTrigger className="text-left text-foreground">{t(faq.qKey)}</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">{t(faq.aKey)}</AccordionContent>
+            <AccordionItem
+              key={i}
+              value={`item-${i}`}
+              className="rounded-xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] data-[state=open]:bg-[#F0F7FF] dark:data-[state=open]:bg-[#1E3A5F]/40 px-5 transition-colors"
+            >
+              <AccordionTrigger className="text-left text-[#1A202C] dark:text-white py-5 font-semibold hover:no-underline">
+                {t(faq.qKey)}
+              </AccordionTrigger>
+              <AccordionContent className="text-[#4A5568] dark:text-[#94A3B8] pb-5 leading-relaxed">
+                {t(faq.aKey)}
+              </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>

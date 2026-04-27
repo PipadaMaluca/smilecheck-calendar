@@ -34,38 +34,85 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   }, []);
 
   return (
-    <nav className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#121f30] text-white", scrolled && 'shadow-lg')}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#121f30] text-white">
-        <div className="flex items-center justify-between h-20 bg-[#121f30] text-white">
+    <nav
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl border-b',
+        isDark
+          ? 'bg-[#0A1929]/80 border-[#1E3A5F]'
+          : 'bg-white/80 border-[#E2E8F0]',
+        scrolled && 'shadow-sm'
+      )}
+      style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           <a href="#" className="flex-shrink-0 mr-8">
-            <img src={logoSrc} alt="SmileCheck" className="transition-all duration-300 h-14 sm:h-16 rounded-2xl" />
+            <img src={logoSrc} alt="SmileCheck" className="h-10 sm:h-12 rounded-xl" />
           </a>
 
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-8 flex-1 justify-center">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="text-sm transition-colors text-white whitespace-nowrap">{l.label}</a>
+              <a
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  'text-sm font-medium transition-colors whitespace-nowrap',
+                  isDark ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                )}
+              >
+                {l.label}
+              </a>
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-3 ml-8">
+          <div className="hidden lg:flex items-center gap-3">
             <LanguageSwitcher />
-            <button onClick={onToggleTheme} className="p-2 rounded-lg transition-colors bg-[#121f30] border-white border" aria-label="Toggle theme">
-              {isDark ? <Sun className="w-4 h-4 bg-[#121f30] border-0 border-white text-white rounded-none" /> : <Moon className="w-4 h-4" />}
+            <button
+              onClick={onToggleTheme}
+              className={cn(
+                'p-2 rounded-full transition-colors',
+                isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
+              )}
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            <Button variant="outline" size="sm" className="bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white" onClick={() => navigate('/login')}>
+            <button
+              onClick={() => navigate('/login')}
+              className={cn(
+                'text-sm font-medium px-3 py-2 transition-colors',
+                isDark ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+              )}
+            >
               {t('landing.navbar.login')}
-            </Button>
-            <Button size="sm" onClick={() => navigate('/signup')}>
+            </button>
+            <Button
+              size="sm"
+              onClick={() => navigate('/signup')}
+              className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-sm font-medium px-5 h-10 shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-all"
+            >
               {t('landing.navbar.signup')}
             </Button>
           </div>
 
           <div className="lg:hidden flex items-center gap-2">
             <LanguageSwitcher size="sm" />
-            <button onClick={onToggleTheme} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <button
+              onClick={onToggleTheme}
+              className={cn(
+                'p-2 rounded-full transition-colors',
+                isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
+              )}
+            >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className={cn(
+                'p-2 rounded-full transition-colors',
+                isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
+              )}
+            >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -73,19 +120,40 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-[#121f30] border-b border-[#1a2d45] animate-fade-in">
+        <div
+          className={cn(
+            'lg:hidden border-t animate-fade-in',
+            isDark ? 'bg-[#0A1929] border-[#1E3A5F]' : 'bg-white border-[#E2E8F0]'
+          )}
+        >
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-                className="block text-sm text-[hsl(215,20%,65%)] hover:text-white py-2.5 px-3 rounded-lg hover:bg-[#1a2d45] transition-colors">
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  'block text-sm font-medium py-2.5 px-3 rounded-lg transition-colors',
+                  isDark ? 'text-slate-300 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                )}
+              >
                 {l.label}
               </a>
             ))}
             <div className="flex gap-2 pt-3">
-              <Button variant="outline" size="sm" className="flex-1 bg-[#121f30] text-white border-white hover:bg-[#1a2d45] hover:text-white" onClick={() => navigate('/login')}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn('flex-1', isDark ? 'text-slate-200' : 'text-slate-700')}
+                onClick={() => navigate('/login')}
+              >
                 {t('landing.navbar.login')}
               </Button>
-              <Button size="sm" className="flex-1" onClick={() => navigate('/signup')}>
+              <Button
+                size="sm"
+                className="flex-1 rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white"
+                onClick={() => navigate('/signup')}
+              >
                 {t('landing.navbar.signup')}
               </Button>
             </div>

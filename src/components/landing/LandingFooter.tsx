@@ -12,15 +12,15 @@ export function LandingFooter() {
   return (
     <>
       {/* CTA Banner */}
-      <section className="py-20 px-4" id="contacto">
+      <section className="py-24 sm:py-32 px-4 bg-white dark:bg-background" id="contacto">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="rounded-2xl bg-primary/5 border border-primary/20 p-10 sm:p-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.ctaFinal.title')}</h2>
-            <p className="text-muted-foreground text-lg mb-8">{t('landing.ctaFinal.subtitle')}</p>
-            <Button size="lg" className="text-base px-10 h-12" onClick={() => navigate('/signup')}>
+          <div className="rounded-3xl bg-gradient-to-br from-[#2196F3] to-[#1565C0] p-12 sm:p-20 shadow-2xl shadow-[#2196F3]/20">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-5">{t('landing.ctaFinal.title')}</h2>
+            <p className="text-white/85 text-lg sm:text-xl font-light mb-10 max-w-xl mx-auto">{t('landing.ctaFinal.subtitle')}</p>
+            <Button size="lg" className="rounded-full bg-white text-[#2196F3] hover:bg-white/95 hover:-translate-y-0.5 text-base font-semibold px-10 h-12 shadow-xl transition-all" onClick={() => navigate('/signup')}>
               {t('landing.ctaFinal.cta')}
             </Button>
-            <p className="text-sm text-muted-foreground mt-4">{t('landing.ctaFinal.noCommitment')}</p>
+            <p className="text-sm text-white/75 mt-5">{t('landing.ctaFinal.noCommitment')}</p>
           </div>
         </div>
       </section>
