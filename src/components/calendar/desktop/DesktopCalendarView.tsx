@@ -736,17 +736,6 @@ export function DesktopCalendarView() {
                   {(activeRole === 'clinic' || activeRole === 'dentist') && (
                     <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
                   )}
-                  {isDemoMode && <div className="bg-secondary/50 rounded-lg p-1 flex items-center justify-center gap-1.5">
-                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('patient')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'patient' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                      <User className="w-4 h-4" /> Paciente
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('dentist')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'dentist' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                      <Stethoscope className="w-4 h-4" /> Dentista
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => setActiveRole('clinic')} className={cn('gap-2 px-3 py-1 text-xs transition-all', activeRole === 'clinic' ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
-                      <Building2 className="w-4 h-4" /> {t('common.clinic')}
-                    </Button>
-                  </div>}
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
