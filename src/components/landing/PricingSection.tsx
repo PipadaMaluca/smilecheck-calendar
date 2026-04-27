@@ -55,25 +55,25 @@ export function PricingSection() {
   }, []);
 
   return (
-    <section id="planos" className="py-20 px-4" ref={ref}>
+    <section id="planos" className="py-24 sm:py-32 px-4 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
-        <div className="text-center mb-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t('landing.pricing.title')}</h2>
-          <p className="text-muted-foreground text-lg mb-6">{t('landing.pricing.subtitle')}</p>
+        <div className="text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
+          <p className="text-lg sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
-          <div className="flex items-center justify-center gap-3">
-            <span className={cn('text-sm', !annual && 'font-semibold text-foreground')}>{t('landing.pricing.monthly')}</span>
+          <div className="inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full bg-[#F5F9FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F]">
+            <span className={cn('text-sm transition-colors', !annual ? 'font-semibold text-[#1A202C] dark:text-white' : 'text-[#4A5568] dark:text-[#94A3B8]')}>{t('landing.pricing.monthly')}</span>
             <Switch checked={annual} onCheckedChange={setAnnual} />
-            <span className={cn('text-sm', annual && 'font-semibold text-foreground')}>{t('landing.pricing.annual')}</span>
-            {annual && <Badge variant="secondary" className="ml-1 text-xs">{t('landing.pricing.discount')}</Badge>}
+            <span className={cn('text-sm transition-colors', annual ? 'font-semibold text-[#1A202C] dark:text-white' : 'text-[#4A5568] dark:text-[#94A3B8]')}>{t('landing.pricing.annual')}</span>
+            {annual && <Badge className="ml-1 text-xs bg-[#2196F3] text-white border-0">{t('landing.pricing.discount')}</Badge>}
           </div>
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
-          <TabsList className="grid w-full max-w-sm mx-auto grid-cols-3 mb-8 h-auto">
-            <TabsTrigger value="patient" className="text-xs sm:text-sm py-2">{t('landing.pricing.patient')}</TabsTrigger>
-            <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2">{t('landing.pricing.dentist')}</TabsTrigger>
-            <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2">{t('landing.pricing.clinic')}</TabsTrigger>
+          <TabsList className="grid w-full max-w-sm mx-auto grid-cols-3 mb-10 h-auto rounded-full p-1 bg-[#F5F9FF] dark:bg-[#0D2137]">
+            <TabsTrigger value="patient" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.patient')}</TabsTrigger>
+            <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.dentist')}</TabsTrigger>
+            <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.clinic')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="patient">
@@ -100,56 +100,81 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
       {plans.map((plan) => {
         const price = annual ? plan.annual : plan.monthly;
         const isPopular = plan.badge === popularLabel;
+        const isBest = plan.badge === t('landing.pricing.best');
+
+        if (isBest) {
+          return (
+            <div key={plan.name} className="relative rounded-2xl p-[2px] bg-gradient-to-br from-[#2196F3] to-[#1565C0] hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[#2196F3]/20">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white">
+                {plan.badge}
+              </Badge>
+              <div className="rounded-2xl bg-white dark:bg-[#0D2137] p-8 flex flex-col h-full">
+                <PlanContent plan={plan} price={price} onCta={onCta} accent />
+              </div>
+            </div>
+          );
+        }
 
         return (
           <div key={plan.name} className={cn(
-            'relative rounded-xl border p-6 flex flex-col transition-all duration-300',
-            isPopular ? 'border-primary bg-card shadow-lg shadow-primary/10 scale-[1.02]' : 'border-border bg-card hover:border-primary/30'
+            'relative rounded-2xl p-8 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
+            isPopular
+              ? 'border-2 border-[#2196F3] shadow-lg shadow-[#2196F3]/10'
+              : 'border border-[#D6E4F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
           )}>
             {plan.badge && (
-              <Badge className={cn(
-                'absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0',
-                plan.badge === t('landing.pricing.best') ? 'bg-amber-500 text-white' : 'bg-primary text-primary-foreground'
-              )}>
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white">
                 {plan.badge}
               </Badge>
             )}
-
-            <h3 className="text-xl font-bold text-foreground mb-1">{plan.name}</h3>
-
-            <div className="mb-4">
-              {price === 0 ? (
-                <span className="text-3xl font-bold text-foreground">{t('landing.pricing.free')}</span>
-              ) : (
-                <>
-                  <span className="text-3xl font-bold text-foreground">€{price.toFixed(2).replace('.', ',')}</span>
-                  <span className="text-sm text-muted-foreground">{t('landing.pricing.perMonth')}</span>
-                </>
-              )}
-            </div>
-
-            <ul className="space-y-2.5 mb-6 flex-1">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm">
-                  <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            {plan.warning && (
-              <div className="flex items-center gap-2 text-xs text-amber-500 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
-                <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
-                {plan.warning}
-              </div>
-            )}
-
-            <Button variant={isPopular ? 'default' : 'outline'} className="w-full" onClick={onCta}>
-              {t('landing.pricing.start')}
-            </Button>
+            <PlanContent plan={plan} price={price} onCta={onCta} accent={isPopular} />
           </div>
         );
       })}
     </div>
+  );
+}
+
+function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number; onCta: () => void; accent?: boolean }) {
+  const { t } = useTranslation();
+  return (
+    <>
+      <h3 className="text-xl font-bold text-[#1A202C] dark:text-white mb-2">{plan.name}</h3>
+      <div className="mb-6">
+        {price === 0 ? (
+          <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
+        ) : (
+          <>
+            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">€{price.toFixed(2).replace('.', ',')}</span>
+            <span className="text-sm text-[#4A5568] dark:text-[#94A3B8] ml-1">{t('landing.pricing.perMonth')}</span>
+          </>
+        )}
+      </div>
+      <ul className="space-y-3 mb-6 flex-1">
+        {plan.features.map((f) => (
+          <li key={f} className="flex items-start gap-2.5 text-sm">
+            <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+            <span className="text-[#4A5568] dark:text-[#94A3B8]">{f}</span>
+          </li>
+        ))}
+      </ul>
+      {plan.warning && (
+        <div className="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
+          <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+          {plan.warning}
+        </div>
+      )}
+      <Button
+        onClick={onCta}
+        className={cn(
+          'w-full rounded-full font-semibold transition-all',
+          accent
+            ? 'bg-[#2196F3] hover:bg-[#1E88E5] text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
+            : 'bg-white dark:bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'
+        )}
+      >
+        {t('landing.pricing.start')}
+      </Button>
+    </>
   );
 }
