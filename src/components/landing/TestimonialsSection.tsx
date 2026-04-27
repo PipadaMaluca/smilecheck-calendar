@@ -26,34 +26,49 @@ export function TestimonialsSection() {
     return () => obs.disconnect();
   }, []);
 
-  return (
-    <section id="testemunhos" className="py-20 px-4 bg-muted/30" ref={ref}>
-      <div className={cn('max-w-5xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">{t('landing.testimonials.title')}</h2>
+  const initials = (name: string) => name.split(' ').filter(p => !/^dr\.?$/i.test(p)).slice(0, 2).map(s => s[0]).join('').toUpperCase();
 
-        <Carousel opts={{ align: 'start', loop: true }} className="w-full max-w-4xl mx-auto">
+  return (
+    <section id="testemunhos" className="py-24 sm:py-32 px-4 bg-[#F5F9FF] dark:bg-[#0D2137]" ref={ref}>
+      <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
+            {t('landing.testimonials.title')}
+          </h2>
+        </div>
+
+        <Carousel opts={{ align: 'start', loop: true }} className="w-full max-w-5xl mx-auto">
           <CarouselContent>
-            {testimonials.map((item, i) => (
-              <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2">
-                <div className="p-6 rounded-xl border border-border bg-card h-full flex flex-col">
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: item.rating }).map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
+            {testimonials.map((item, i) => {
+              const name = t(item.nameKey);
+              return (
+                <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2">
+                  <div className="p-8 rounded-2xl bg-white dark:bg-background border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-sm hover:shadow-xl hover:shadow-[#2196F3]/5 transition-all duration-300 h-full flex flex-col">
+                    <div className="text-5xl text-[#2196F3]/20 leading-none font-serif mb-2">"</div>
+                    <div className="flex gap-0.5 mb-4">
+                      {Array.from({ length: item.rating }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+                    <p className="text-base text-[#1A202C] dark:text-white/90 mb-6 flex-1 italic leading-relaxed">{t(item.quoteKey)}</p>
+                    <div className="flex items-center gap-3 pt-4 border-t border-[#E2E8F0] dark:border-[#1E3A5F]">
+                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#2196F3] to-[#1565C0] flex items-center justify-center text-white text-sm font-bold">
+                        {initials(name)}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-[#1A202C] dark:text-white text-sm">{name}</p>
+                        <p className="text-xs text-[#4A5568] dark:text-[#94A3B8]">{t(item.roleKey)}</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-foreground mb-4 flex-1 italic">"{t(item.quoteKey)}"</p>
-                  <div>
-                    <p className="font-semibold text-foreground text-sm">{t(item.nameKey)}</p>
-                    <p className="text-xs text-muted-foreground">{t(item.roleKey)}</p>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
+                </CarouselItem>
+              );
+            })}
           </CarouselContent>
           <CarouselPrevious className="hidden sm:flex -left-4 sm:-left-12" />
           <CarouselNext className="hidden sm:flex -right-4 sm:-right-12" />
         </Carousel>
-        <p className="text-xs text-muted-foreground text-center mt-4 sm:hidden">{t('landing.testimonials.swipe')}</p>
+        <p className="text-xs text-[#4A5568] dark:text-[#94A3B8] text-center mt-4 sm:hidden">{t('landing.testimonials.swipe')}</p>
       </div>
     </section>
   );
