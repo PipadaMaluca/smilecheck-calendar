@@ -1084,3 +1084,96 @@ html, body, #root {
   box-shadow: none !important;
 }
 /* (No global override — handled by border token; this guards stray styles) */
+
+/* ============================================================
+   AGENDA — Doctolib-style colors (LIGHT MODE ONLY)
+   Solid 4px left border + light tinted background per category.
+   Overrides inline `backgroundColor` set on .appt-block via specificity + !important.
+   Dark mode is untouched.
+   ============================================================ */
+.light .appt-block {
+  border-left-width: 4px !important;
+  border-left-style: solid !important;
+  color: #1A202C !important;
+}
+.light .appt-block * { color: inherit; }
+.light .appt-block .text-white,
+.light .appt-block [class*="text-white"] { color: #1A202C !important; }
+.light .appt-block [class*="text-muted-foreground"] { color: #475569 !important; }
+
+.light .appt-block[data-cat="primeira_consulta"] {
+  background-color: #FFF8E1 !important;
+  border-left-color: #F9A825 !important;
+  color: #5D4037 !important;
+}
+.light .appt-block[data-cat="destartarizacao"] {
+  background-color: #F3E5F5 !important;
+  border-left-color: #7B1FA2 !important;
+  color: #4A148C !important;
+}
+.light .appt-block[data-cat="cirurgia"] {
+  background-color: #F5F5F5 !important;
+  border-left-color: #212121 !important;
+  color: #212121 !important;
+}
+.light .appt-block[data-cat="endodontia"] {
+  background-color: #FCE4EC !important;
+  border-left-color: #C2185B !important;
+  color: #880E4F !important;
+}
+.light .appt-block[data-cat="odontopediatria"] {
+  background-color: #FFF3E0 !important;
+  border-left-color: #E65100 !important;
+  color: #BF360C !important;
+}
+.light .appt-block[data-cat="ortodontia"] {
+  background-color: #F1F8E9 !important;
+  border-left-color: #689F38 !important;
+  color: #33691E !important;
+}
+.light .appt-block[data-cat="protese"] {
+  background-color: #E8F5E9 !important;
+  border-left-color: #2E7D32 !important;
+  color: #1B5E20 !important;
+}
+.light .appt-block[data-cat="restauracao"] {
+  background-color: #E3F2FD !important;
+  border-left-color: #1565C0 !important;
+  color: #0D47A1 !important;
+}
+.light .appt-block[data-cat="urgencia"] {
+  background-color: #FFEBEE !important;
+  border-left-color: #C62828 !important;
+  color: #B71C1C !important;
+}
+.light .appt-block[data-cat="teleconsulta"] {
+  background-color: #FFF3E0 !important;
+  border-left-color: #EF6C00 !important;
+  color: #E65100 !important;
+}
+
+/* Time display inside appointment blocks: bold blue */
+.light .appt-block .font-mono { color: #1565C0 !important; font-weight: 700; }
+
+/* Calendar grid surfaces in light mode */
+.light .calendar-grid-surface,
+.light [data-calendar-grid] { background-color: #FFFFFF !important; }
+.light [data-time-column] {
+  background-color: #F8FAFC !important;
+  border-right: 1px solid #E2E8F0 !important;
+  color: #475569 !important;
+}
+.light [data-day-header] {
+  background-color: #F0F7FF !important;
+  color: #1565C0 !important;
+}
+.light [data-lunch-block] {
+  background-color: #F5F7FA !important;
+  color: #94A3B8 !important;
+}
+
+/* Legend bar in light mode */
+.light [data-agenda-legend] {
+  background-color: #F8FAFC !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
