@@ -11,6 +11,8 @@ import { patientPayments, savedCards, generateReceipt } from './billingMockData'
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
+import { ManagePlanView } from '@/components/plan/ManagePlanView';
+
 interface PatientBillingViewProps {
   initialTab?: string;
   onNavigate?: (tab: string) => void;
@@ -64,10 +66,21 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                   <p>{t('billing.nextBillingDate')}: 1 Fev 2026</p>
                   <p>{t('billing.method')}: Visa ****4532</p>
                 </div>
-                <Button variant="outline" className="w-full" onClick={() => onNavigate?.('plano')}>{t('billing.changePlan')}</Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                >
+                  {t('billing.changePlan')}
+                </Button>
                 <button className="text-xs text-destructive hover:underline w-full text-center mt-1">{t('plan.cancelSubscription')}</button>
               </CardContent>
             </Card>
+            <div id="plan-comparison" className="-mx-6">
+              <ManagePlanView userRole="patient" />
+            </div>
           </TabsContent>
 
           <TabsContent value="resumo" className="space-y-4 mt-4">
