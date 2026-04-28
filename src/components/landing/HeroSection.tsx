@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Logo } from '@/components/branding/Logo';
 
 function useCountUp(end: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -59,11 +60,9 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <img
-          alt="SmileCheck"
-          src="/lovable-uploads/1c9d7b03-a8ca-4808-a83e-ffa366ea351d.png"
-          className="h-[180px] sm:h-[220px] mx-auto mb-8 animate-fade-in drop-shadow-[0_0_30px_hsla(207,90%,54%,0.4)] rounded-2xl"
-        />
+        <div className="flex justify-center mb-8 animate-fade-in">
+          <Logo size={140} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+        </div>
 
         {/* Subtle animated pill with gradient border */}
         <div className="inline-flex mb-8 animate-fade-in">
