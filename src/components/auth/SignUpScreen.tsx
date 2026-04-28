@@ -10,7 +10,7 @@ import { PhoneInput } from './PhoneInput';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
-const logoSrc = '/assets/smilecheck-logo-vertical.png';
+const logoSrc = '/assets/smilecheck-logo-blue.png';
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
 
