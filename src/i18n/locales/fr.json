@@ -327,7 +327,10 @@
       "clinic5Title": "Réputation",
       "clinic5Desc": "Avis et classement public du cabinet",
       "clinic6Title": "Téléconsultations",
-      "clinic6Desc": "Surveillez les téléconsultations de toute l'équipe"
+      "clinic6Desc": "Surveillez les téléconsultations de toute l'équipe",
+      "teleEyebrow": "TÉLÉCONSULTATIONS",
+      "teleTitle": "Consultations à distance pour seulement 20 €",
+      "teleDesc": "Parlez à votre dentiste par vidéo, sans sortir de chez vous. Paiement sécurisé, ordonnance numérique incluse."
     },
     "howItWorks": {
       "title": "Simple comme un sourire",
