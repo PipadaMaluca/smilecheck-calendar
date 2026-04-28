@@ -152,7 +152,7 @@ export function DesktopNavSidebar({
     >
       {/* Logo + Pro Badge */}
       <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-0">
-        <Logo size={isExpanded ? 56 : 40} forceInverse className="transition-all duration-300" />
+        <Logo size={isExpanded ? 56 : 40} className="transition-all duration-300" />
         <span className={cn(
           'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
           isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
