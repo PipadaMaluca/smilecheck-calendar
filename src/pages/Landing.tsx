@@ -10,36 +10,25 @@ import { PricingSection } from '@/components/landing/PricingSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { FAQSection } from '@/components/landing/FAQSection';
 import { LandingFooter } from '@/components/landing/LandingFooter';
+import { applyTheme, getInitialTheme, useTheme } from '@/hooks/useTheme';
 
 export default function Landing() {
   const [langSelected, setLangSelected] = useState(
     () => localStorage.getItem('smilecheck-language') !== null
   );
   const [themeSelected, setThemeSelected] = useState(
-    () => localStorage.getItem('sc-theme-set') === '1'
+    () => localStorage.getItem('sc-theme-set') === '1' || localStorage.getItem('sc:theme') !== null
   );
-  const [isDark, setIsDark] = useState(
-    () => document.documentElement.classList.contains('dark')
-  );
+  const [theme, setTheme] = useTheme();
+  const isDark = theme === 'dark';
 
+  // Ensure boot theme applied on mount
   useEffect(() => {
-    const saved = localStorage.getItem('sc-theme');
-    if (saved) {
-      const dark = saved === 'dark';
-      setIsDark(dark);
-      document.documentElement.classList.toggle('dark', dark);
-      document.documentElement.classList.toggle('light', !dark);
-    }
-    return () => {
-      document.documentElement.classList.remove('light');
-    };
+    applyTheme(getInitialTheme());
   }, []);
 
-  const applyTheme = (dark: boolean) => {
-    setIsDark(dark);
-    document.documentElement.classList.toggle('dark', dark);
-    document.documentElement.classList.toggle('light', !dark);
-    localStorage.setItem('sc-theme', dark ? 'dark' : 'light');
+  const handleApplyTheme = (dark: boolean) => {
+    setTheme(dark ? 'dark' : 'light');
     localStorage.setItem('sc-theme-set', '1');
     setThemeSelected(true);
   };
@@ -49,12 +38,12 @@ export default function Landing() {
   }
 
   if (!themeSelected) {
-    return <ThemeSelector onSelect={applyTheme} />;
+    return <ThemeSelector onSelect={handleApplyTheme} />;
   }
 
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
-      <LandingNavbar isDark={isDark} onToggleTheme={() => applyTheme(!isDark)} />
+      <LandingNavbar isDark={isDark} onToggleTheme={() => handleApplyTheme(!isDark)} />
       <main>
         <HeroSection />
         <TrustBar />
