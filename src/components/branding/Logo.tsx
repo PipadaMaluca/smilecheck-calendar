@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const BLUE = '/assets/smilecheck-logo-blue.png';
-const WHITE = '/assets/smilecheck-logo-white.png';
+const LOGO_SRC = '/assets/smilecheck-logo-blue.png';
 
 interface LogoProps {
   size?: number;
@@ -11,6 +10,8 @@ interface LogoProps {
   withWordmark?: boolean;
   className?: string;
   alt?: string;
+  /** Render without the rounded app-icon frame around the logo. */
+  unframed?: boolean;
 }
 
 function getDark() {
@@ -20,11 +21,10 @@ function getDark() {
 
 export function Logo({
   size = 40,
-  variant = 'auto',
-  forceInverse,
   withWordmark = false,
   className,
   alt = 'SmileCheck',
+  unframed = false,
 }: LogoProps) {
   const [dark, setDark] = useState<boolean>(getDark);
 
@@ -40,26 +40,49 @@ export function Logo({
     };
   }, []);
 
-  const src =
-    variant === 'blue'
-      ? BLUE
-      : variant === 'white'
-      ? WHITE
-      : forceInverse
-      ? dark ? BLUE : WHITE
-      : dark
-      ? WHITE
-      : BLUE;
+  // Framed app-icon style per brand spec.
+  const frameBg = dark ? '#0D2137' : '#FFFFFF';
+  const frameBorder = dark ? '#1E3A5F' : '#D6E4F0';
+  const framePadding = Math.max(2, Math.round(size * 0.08));
+  const innerSize = size - framePadding * 2;
+  const radius = Math.max(6, Math.round(size * 0.22));
 
   return (
     <span className={cn('inline-flex items-center gap-2 select-none', className)}>
-      <img
-        src={src}
-        alt={alt}
-        style={{ height: size, width: 'auto' }}
-        className="object-contain"
-        draggable={false}
-      />
+      {unframed ? (
+        <img
+          src={LOGO_SRC}
+          alt={alt}
+          style={{ height: size, width: 'auto' }}
+          className="object-contain"
+          draggable={false}
+        />
+      ) : (
+        <span
+          aria-label={alt}
+          style={{
+            width: size,
+            height: size,
+            background: frameBg,
+            border: `2px solid ${frameBorder}`,
+            borderRadius: radius,
+            padding: framePadding,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxSizing: 'border-box',
+            flexShrink: 0,
+          }}
+        >
+          <img
+            src={LOGO_SRC}
+            alt={alt}
+            style={{ width: innerSize, height: innerSize }}
+            className="object-contain"
+            draggable={false}
+          />
+        </span>
+      )}
       {withWordmark && (
         <span
           className="font-bold tracking-tight text-foreground"
