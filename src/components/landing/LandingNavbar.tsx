@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
-
-const logoSrc = '/assets/smilecheck-logo-horizontal.png';
+import { Logo } from '@/components/branding/Logo';
 
 interface LandingNavbarProps {
   isDark: boolean;
@@ -46,8 +45,9 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#" className="flex-shrink-0 mr-8">
-            <img src={logoSrc} alt="SmileCheck" className="h-10 sm:h-12 rounded-xl" />
+          <a href="#" className="flex-shrink-0 mr-8 flex items-center gap-2">
+            <Logo size={32} />
+            <span className={cn('font-bold text-lg tracking-tight', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
           </a>
 
           <div className="hidden lg:flex items-center gap-8 flex-1 justify-center">

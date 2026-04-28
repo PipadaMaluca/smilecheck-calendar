@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
-const logoSrc = '/assets/smilecheck-logo-vertical.png';
+const logoSrc = '/assets/smilecheck-logo-blue.png';
 
 interface LanguageSelectorProps {
   onSelect: (lang: string) => void;

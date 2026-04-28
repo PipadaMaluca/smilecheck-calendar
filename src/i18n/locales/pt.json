@@ -327,7 +327,10 @@
       "clinic5Title": "Reputação",
       "clinic5Desc": "Avaliações e classificação pública da clínica",
       "clinic6Title": "Teleconsultas",
-      "clinic6Desc": "Monitorize teleconsultas de toda a equipa"
+      "clinic6Desc": "Monitorize teleconsultas de toda a equipa",
+      "teleEyebrow": "TELECONSULTAS",
+      "teleTitle": "Consultas à distância por apenas €20",
+      "teleDesc": "Fale com o seu dentista por videochamada, sem sair de casa. Pagamento seguro, receita digital incluída."
     },
     "howItWorks": {
       "title": "Simples como sorrir",

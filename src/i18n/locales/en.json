@@ -327,7 +327,10 @@
       "clinic5Title": "Reputation",
       "clinic5Desc": "Reviews and public clinic rating",
       "clinic6Title": "Teleconsultations",
-      "clinic6Desc": "Monitor your entire team's teleconsultations"
+      "clinic6Desc": "Monitor your entire team's teleconsultations",
+      "teleEyebrow": "TELECONSULTATIONS",
+      "teleTitle": "Remote consultations for just €20",
+      "teleDesc": "Speak with your dentist via video call, from home. Secure payment, digital prescription included."
     },
     "howItWorks": {
       "title": "As simple as smiling",
