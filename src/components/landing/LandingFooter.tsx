@@ -1,13 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
+import { Instagram, Facebook, Linkedin, Twitter } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-
-const logoSrc = '/assets/smilecheck-logo-horizontal.png';
+import { Logo } from '@/components/branding/Logo';
 
 export function LandingFooter() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const socials = [
+    { name: 'Instagram', Icon: Instagram, href: '#' },
+    { name: 'Facebook', Icon: Facebook, href: '#' },
+    { name: 'LinkedIn', Icon: Linkedin, href: '#' },
+    { name: 'X', Icon: Twitter, href: '#' },
+  ];
 
   return (
     <>
@@ -25,51 +31,65 @@ export function LandingFooter() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-[#121f30] bg-[#121f30]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8 py-12 lg:py-16">
-          <div className="flex flex-col items-center text-center mb-10">
-            <img src={logoSrc} alt="SmileCheck" className="h-14 sm:h-16 md:h-20 mb-4 rounded-2xl" />
-            <p className="text-sm text-[hsl(215,20%,65%)] mb-5">{t('landing.footer.tagline')}</p>
-            <div className="flex gap-5 items-center">
-              {['Instagram', 'Facebook', 'LinkedIn', 'X'].map((s) => (
-                <span key={s} className="text-xs text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] cursor-pointer transition-colors">{s}</span>
+      {/* Footer — always dark for contrast */}
+      <footer className="bg-[#0D2137] text-white border-t border-[#1E3A5F]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-16 lg:py-20">
+
+          {/* Top: Brand block */}
+          <div className="flex flex-col items-center text-center mb-12">
+            <div className="flex items-center gap-3 mb-4">
+              <Logo size={48} variant="white" />
+              <span className="text-2xl sm:text-3xl font-bold tracking-tight text-white">SmileCheck</span>
+            </div>
+            <p className="text-base text-[#94A3B8] max-w-md mb-6">{t('landing.footer.tagline')}</p>
+            <div className="flex gap-3 items-center">
+              {socials.map(({ name, Icon, href }) => (
+                <a
+                  key={name}
+                  href={href}
+                  aria-label={name}
+                  className="w-10 h-10 rounded-full bg-[#1E3A5F] hover:bg-[#2196F3] text-white flex items-center justify-center transition-all hover:-translate-y-0.5"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
               ))}
             </div>
-            <LanguageSwitcher className="mt-4" size="md" />
           </div>
 
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto text-center">
+          <div className="border-t border-[#1E3A5F] mb-12" />
+
+          {/* Link columns */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 max-w-3xl mx-auto text-center md:text-left">
             <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">{t('landing.footer.product')}</h4>
-              <ul className="space-y-2.5">
+              <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide">{t('landing.footer.product')}</h4>
+              <ul className="space-y-3">
                 {[t('landing.footer.features'), t('landing.footer.plansAndPricing'), t('landing.footer.teleconsultations'), t('landing.footer.forDentists'), t('landing.footer.forClinics')].map((l) => (
-                  <li key={l}><a href="#" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{l}</a></li>
+                  <li key={l}><a href="#" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{l}</a></li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">{t('landing.footer.support')}</h4>
-              <ul className="space-y-2.5">
+              <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide">{t('landing.footer.support')}</h4>
+              <ul className="space-y-3">
                 {[t('landing.footer.faq'), t('landing.footer.contact'), t('landing.footer.helpCenter')].map((l) => (
-                  <li key={l}><a href="#" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{l}</a></li>
+                  <li key={l}><a href="#" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{l}</a></li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-[hsl(210,40%,98%)] text-sm mb-4">{t('landing.footer.legal')}</h4>
-              <ul className="space-y-2.5">
-                <li><a href="/termos" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{t('landing.footer.termsOfService')}</a></li>
-                <li><a href="/privacidade" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{t('landing.footer.privacyPolicy')}</a></li>
-                <li><a href="/privacidade#direitos" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{t('landing.footer.gdpr')}</a></li>
-                <li><a href="/privacidade#cookies" className="text-sm text-[hsl(215,20%,65%)] hover:text-[hsl(210,40%,98%)] transition-colors">{t('landing.footer.cookies')}</a></li>
+            <div className="col-span-2 md:col-span-1">
+              <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide">{t('landing.footer.legal')}</h4>
+              <ul className="space-y-3">
+                <li><a href="/termos" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{t('landing.footer.termsOfService')}</a></li>
+                <li><a href="/privacidade" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{t('landing.footer.privacyPolicy')}</a></li>
+                <li><a href="/privacidade#direitos" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{t('landing.footer.gdpr')}</a></li>
+                <li><a href="/privacidade#cookies" className="text-sm text-[#94A3B8] hover:text-[#64B5F6] transition-colors">{t('landing.footer.cookies')}</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-12 pt-6 border-t border-[hsl(214,30%,20%)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[hsl(215,20%,65%)]">
+          <div className="border-t border-[#1E3A5F] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#94A3B8]">
             <span>© 2026 SmileCheck. {t('landing.footer.copyright')}.</span>
             <span>{t('landing.footer.madeWith')}</span>
           </div>
