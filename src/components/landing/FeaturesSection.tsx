@@ -225,13 +225,13 @@ export function FeaturesSection() {
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 rounded-full bg-[#2196F3]/10 text-[#2196F3] text-xs font-semibold mb-4 uppercase tracking-wide">
-                {t('landing.features.forClinics')}
+                📹 {t('landing.features.teleEyebrow')}
               </div>
               <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
-                {t('landing.features.clinic2Title')}
+                {t('landing.features.teleTitle')}
               </h3>
-              <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-10 max-w-xl mx-auto">
-                {t('landing.features.clinic2Desc')}
+              <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-10 max-w-[560px] mx-auto">
+                {t('landing.features.teleDesc')}
               </p>
             </div>
           </ScrollReveal>
