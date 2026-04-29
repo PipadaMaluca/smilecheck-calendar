@@ -274,7 +274,7 @@ export function MultiDentistGrid({
                         )}
                         style={{
                           gridRow: `${startIdx + 1} / span ${spanCount}`,
-                          backgroundColor: `${colors.hex}20`,
+                          backgroundColor: `${colors.hex}73`,
                           borderLeft: `3px solid ${colors.hex}`,
                         }}
                       >
