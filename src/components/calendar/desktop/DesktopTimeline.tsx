@@ -378,20 +378,21 @@ export function DesktopTimeline({
                               )}
                               {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
                             </div>
-                            {/* Line 2: type (colored) + notes (gray) */}
-                            <div className="flex items-center gap-1.5 mt-0.5">
+                            {/* Line 2: type pill (own row) */}
+                            <div data-line="type-row" className="mt-0.5">
                               <span 
-                                className="text-[10px] font-bold truncate px-1 py-0 rounded-full inline-block" 
+                                className="text-[10px] font-bold px-1.5 py-0 rounded-full inline-block max-w-full truncate" 
                                 style={getCategoryBadgeStyle(styles.borderColor)}
                               >
                                 {getConsultationLabel(t, consultation)}
                               </span>
-                              {consultation.notes && (
-                                <span data-notes className="text-[9px] text-[#8B9CB6] truncate notes-multiline">
-                                  {consultation.notes}
-                                </span>
-                              )}
                             </div>
+                            {/* Line 3: notes (own row, multi-line) */}
+                            {consultation.notes && (
+                              <div data-notes className="text-[9px] text-[#8B9CB6] notes-multiline">
+                                {consultation.notes}
+                              </div>
+                            )}
                           </div>
                           
                           {/* Status indicator */}
