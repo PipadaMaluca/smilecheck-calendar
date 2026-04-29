@@ -220,7 +220,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                       )}
                       style={{
                         gridRow: `${startIdx + 1} / span ${spanCount}`,
-                        backgroundColor: `${colors.hex}20`,
+                        backgroundColor: `${colors.hex}73`,
                         borderLeft: `2px solid ${colors.hex}`,
                       }}
                     >

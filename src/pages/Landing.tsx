@@ -25,6 +25,10 @@ export default function Landing() {
   // Ensure boot theme applied on mount
   useEffect(() => {
     applyTheme(getInitialTheme());
+    document.body.classList.add('on-landing');
+    return () => {
+      document.body.classList.remove('on-landing');
+    };
   }, []);
 
   const handleApplyTheme = (dark: boolean) => {

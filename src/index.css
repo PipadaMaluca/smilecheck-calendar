@@ -1177,3 +1177,215 @@ html, body, #root {
   background-color: #F8FAFC !important;
   border-bottom: 1px solid #E2E8F0 !important;
 }
+
+/* ============================================================
+   APPLE-STYLE APP-WIDE POLISH — both light & dark mode
+   - Cards: 16px radius, soft border, soft shadow, hover lift
+   - Buttons: pill (full radius), clear primary/secondary contrast
+   - Inputs: themed bg, 12px radius, focus ring
+   - Section headers: branded blue
+   - 200ms transitions on interactive surfaces
+   Excludes the landing page (.landing-page scope) and gaming pages.
+   ============================================================ */
+
+/* --- Brand surface tokens (referenced below) --- */
+:root {
+  --brand-blue: #2196F3;
+  --brand-blue-soft: rgba(33, 150, 243, 0.06);
+  --brand-blue-glow: rgba(33, 150, 243, 0.18);
+  --brand-navy: #0D2137;
+  --brand-navy-2: #0A1929;
+  --brand-navy-border: #1E3A5F;
+  --brand-light-border: #D6E4F0;
+  --brand-light-bg: #F5F9FF;
+  --brand-light-hover: #EBF4FF;
+  --brand-heading-light: #1565C0;
+  --brand-heading-dark: #64B5F6;
+}
+
+/* Smooth interactive transitions everywhere (excluding landing) */
+body:not(.on-landing) button,
+body:not(.on-landing) [role="button"],
+body:not(.on-landing) a,
+body:not(.on-landing) input,
+body:not(.on-landing) textarea,
+body:not(.on-landing) select,
+body:not(.on-landing) [class*="bg-card"],
+body:not(.on-landing) .bg-card {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+/* === CARDS — both modes get 16px radius + hover lift on desktop === */
+/* Light mode card polish (extends earlier blue identity) */
+.light:not(.on-landing) .bg-card,
+.light:not(.on-landing) [data-card],
+.light:not(.on-landing) .stat-card,
+.light:not(.on-landing) .content-card {
+  border-radius: 16px !important;
+}
+
+/* Dark mode card polish — matches light parity per brand spec */
+:root:not(.light) .bg-card,
+:root:not(.light) [data-card],
+:root:not(.light) .stat-card,
+:root:not(.light) .content-card {
+  background-color: var(--brand-navy) !important;
+  border: 1px solid var(--brand-navy-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Hover lift (desktop only) — both modes */
+@media (hover: hover) and (pointer: fine) {
+  body:not(.on-landing) [data-card]:hover,
+  body:not(.on-landing) .stat-card:hover,
+  body:not(.on-landing) .content-card:hover {
+    transform: translateY(-2px);
+  }
+  .light:not(.on-landing) [data-card]:hover,
+  .light:not(.on-landing) .stat-card:hover,
+  .light:not(.on-landing) .content-card:hover {
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.12) !important;
+  }
+  :root:not(.light) [data-card]:hover,
+  :root:not(.light) .stat-card:hover,
+  :root:not(.light) .content-card:hover {
+    border-color: var(--brand-blue) !important;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(33, 150, 243, 0.25);
+  }
+}
+
+/* === SECTION HEADERS — branded blue per mode === */
+:root:not(.light):not(.on-landing) .section-header,
+:root:not(.light):not(.on-landing) [data-section-header] {
+  color: var(--brand-heading-dark) !important;
+}
+
+/* === INPUTS — dark-mode polish (light handled above) === */
+:root:not(.light) input[type="text"],
+:root:not(.light) input[type="search"],
+:root:not(.light) input[type="email"],
+:root:not(.light) input[type="tel"],
+:root:not(.light) input[type="password"],
+:root:not(.light) input[type="number"],
+:root:not(.light) textarea {
+  background-color: var(--brand-navy-2) !important;
+  border: 1px solid var(--brand-navy-border) !important;
+  border-radius: 12px !important;
+}
+:root:not(.light) input:focus-visible,
+:root:not(.light) textarea:focus-visible {
+  border-color: var(--brand-blue) !important;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.28) !important;
+}
+
+/* Light-mode inputs also pick up 12px radius */
+.light input[type="text"],
+.light input[type="search"],
+.light input[type="email"],
+.light input[type="tel"],
+.light input[type="password"],
+.light input[type="number"],
+.light textarea {
+  border-radius: 12px !important;
+}
+
+/* === BUTTONS — pill radius for primary/secondary actions === */
+/* Apply only to shadcn-styled buttons (those that already use rounded-md), not inline icon buttons. */
+body:not(.on-landing) button.rounded-md,
+body:not(.on-landing) [data-slot="button"].rounded-md {
+  border-radius: 9999px;
+}
+
+/* Outlined secondary buttons must stay clearly visible on dark bg */
+:root:not(.light) button[data-variant="outline"],
+:root:not(.light) .btn-outline {
+  border: 1px solid var(--brand-blue) !important;
+  color: var(--brand-blue) !important;
+  background-color: transparent !important;
+}
+:root:not(.light) button[data-variant="outline"]:hover,
+:root:not(.light) .btn-outline:hover {
+  background-color: rgba(33, 150, 243, 0.10) !important;
+}
+
+/* Light-mode outline buttons keep visible blue border */
+.light button[data-variant="outline"],
+.light .btn-outline {
+  border: 1px solid var(--brand-blue) !important;
+  color: var(--brand-heading-light) !important;
+  background-color: transparent !important;
+}
+.light button[data-variant="outline"]:hover,
+.light .btn-outline:hover {
+  background-color: var(--brand-light-hover) !important;
+}
+
+/* === DARK-MODE row hover (mirror of light) === */
+:root:not(.light) .hover\:bg-muted:hover,
+:root:not(.light) .hover\:bg-accent:hover,
+:root:not(.light) tbody tr:hover {
+  background-color: rgba(33, 150, 243, 0.08) !important;
+}
+
+/* ============================================================
+   AGENDA — DARK MODE consultation card opacity boost
+   Light mode handled above (solid colors). Dark mode previously
+   used inline `${color}30` (~19%); we override to ~45% so cards
+   read as solid colored blocks against the dark grid.
+   ============================================================ */
+:root:not(.light) .appt-block {
+  border-left-width: 4px !important;
+  border-left-style: solid !important;
+}
+/* Per-category dark-mode tinted backgrounds (~45% over navy) */
+:root:not(.light) .appt-block[data-cat="primeira_consulta"]   { background-color: rgba(249, 168, 37, 0.45) !important; border-left-color: #F9A825 !important; }
+:root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.45) !important; border-left-color: #BA68C8 !important; }
+:root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.55) !important; border-left-color: #BDBDBD !important; }
+:root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.45) !important; border-left-color: #EC407A !important; }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(230, 81, 0, 0.45) !important;  border-left-color: #FF7043 !important; }
+:root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.45) !important; border-left-color: #9CCC65 !important; }
+:root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.45) !important;  border-left-color: #66BB6A !important; }
+:root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.50) !important; border-left-color: #42A5F5 !important; }
+:root:not(.light) .appt-block[data-cat="urgencia"]            { background-color: rgba(198, 40, 40, 0.50) !important;  border-left-color: #EF5350 !important; }
+:root:not(.light) .appt-block[data-cat="teleconsulta"]        { background-color: rgba(239, 108, 0, 0.45) !important;  border-left-color: #FFA726 !important; }
+
+/* Text inside dark-mode appt-blocks stays light for contrast */
+:root:not(.light) .appt-block,
+:root:not(.light) .appt-block * {
+  color: #FFFFFF !important;
+}
+:root:not(.light) .appt-block .text-\[\#8B9CB6\] {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* === AGENDA CARDS — typography fit (both modes) ===
+   Restore the small-but-readable scale specified by brand:
+   patient name 13px bold, type 11px, observation 11px regular.
+   This overrides the global 12px-min rule (rule 20) inside .appt-block. */
+.appt-block .text-\[9px\],
+.appt-block .text-\[10px\] { font-size: 11px !important; line-height: 1.2 !important; }
+.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.2 !important; }
+.appt-block .text-\[8px\]  { font-size: 10px !important; line-height: 1.1 !important; }
+/* Patient name (line 1) — bumped to 13px bold */
+.appt-block .text-\[10px\].font-bold,
+.appt-block .text-\[11px\].font-bold {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* Allow notes to wrap to 2 lines when card is tall enough */
+.appt-block .truncate.notes-multiline,
+.appt-block [data-notes] {
+  white-space: normal !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

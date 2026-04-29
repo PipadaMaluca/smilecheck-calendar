@@ -355,9 +355,9 @@ export function DesktopTimeline({
                           )}
                           style={{
                             gridRow: `${startIdx + 1} / span ${spanCount}`,
-                            borderLeftWidth: '3px',
+                            borderLeftWidth: '4px',
                             borderLeftColor: styles.borderColor,
-                            backgroundColor: `${styles.borderColor}30`,
+                            backgroundColor: `${styles.borderColor}73`,
                           }}
                         >
                         <div className="flex items-start justify-between gap-0.5 p-1.5 h-full">
@@ -387,7 +387,7 @@ export function DesktopTimeline({
                                 {getConsultationLabel(t, consultation)}
                               </span>
                               {consultation.notes && (
-                                <span className="text-[9px] text-[#8B9CB6] truncate">
+                                <span data-notes className="text-[9px] text-[#8B9CB6] truncate notes-multiline">
                                   {consultation.notes}
                                 </span>
                               )}
