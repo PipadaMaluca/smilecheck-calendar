@@ -1416,8 +1416,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   line-height: 1.25 !important;
 }
 
-/* Tighten internal padding so content uses available height */
-.appt-block { padding: 4px 6px !important; }
+/* (Internal padding is managed per-view; no global padding override.) */
 
 /* Dark-mode appt-block opacity bumped to ~55% per brand spec */
 :root:not(.light) .appt-block[data-cat="primeira_consulta"]   { background-color: rgba(249, 168, 37, 0.55) !important; }
