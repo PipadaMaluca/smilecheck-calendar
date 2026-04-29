@@ -286,21 +286,22 @@ export function MultiDentistGrid({
                             <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
                           </span>
                         </div>
-                        {/* Line 2: Type (colored) + Notes (gray) */}
-                        <div className="flex items-center gap-1">
-                          <span className="font-bold text-[9px] px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>
+                        {/* Line 2: Type pill (own row) */}
+                        <div data-line="type-row" className="flex items-center gap-1">
+                          <span className="font-bold text-[9px] px-1.5 py-0 rounded-full inline-block max-w-full truncate" style={getCategoryBadgeStyle(colors.hex)}>
                             {getCategoryLabel(t, category)}
                           </span>
                           {isTeleconsulta && (
                             <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
                           )}
                           {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
-                          {consultation.notes && (
-                            <span className="text-[8px] text-[#8B9CB6] truncate ml-1">
-                              {consultation.notes}
-                            </span>
-                          )}
                         </div>
+                        {/* Line 3: Notes (own row, multi-line) */}
+                        {consultation.notes && (
+                          <div data-notes className="text-[8px] text-[#8B9CB6]">
+                            {consultation.notes}
+                          </div>
+                        )}
                       </div>
                     );
                   })}

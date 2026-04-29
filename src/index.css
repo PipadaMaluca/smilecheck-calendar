@@ -1102,54 +1102,54 @@ html, body, #root {
 .light .appt-block [class*="text-muted-foreground"] { color: #475569 !important; }
 
 .light .appt-block[data-cat="primeira_consulta"] {
-  background-color: #FFF8E1 !important;
+  background-color: #FFF3C4 !important;
   border-left-color: #F9A825 !important;
   color: #5D4037 !important;
 }
 .light .appt-block[data-cat="destartarizacao"] {
-  background-color: #F3E5F5 !important;
+  background-color: #E1BEE7 !important;
   border-left-color: #7B1FA2 !important;
   color: #4A148C !important;
 }
 .light .appt-block[data-cat="cirurgia"] {
-  background-color: #F5F5F5 !important;
-  border-left-color: #212121 !important;
+  background-color: #CFD8DC !important;
+  border-left-color: #37474F !important;
   color: #212121 !important;
 }
 .light .appt-block[data-cat="endodontia"] {
-  background-color: #FCE4EC !important;
+  background-color: #F8BBD0 !important;
   border-left-color: #C2185B !important;
   color: #880E4F !important;
 }
 .light .appt-block[data-cat="odontopediatria"] {
-  background-color: #FFF3E0 !important;
+  background-color: #FFCC80 !important;
   border-left-color: #E65100 !important;
   color: #BF360C !important;
 }
 .light .appt-block[data-cat="ortodontia"] {
-  background-color: #F1F8E9 !important;
-  border-left-color: #689F38 !important;
+  background-color: #C5E1A5 !important;
+  border-left-color: #558B2F !important;
   color: #33691E !important;
 }
 .light .appt-block[data-cat="protese"] {
-  background-color: #E8F5E9 !important;
+  background-color: #A5D6A7 !important;
   border-left-color: #2E7D32 !important;
   color: #1B5E20 !important;
 }
 .light .appt-block[data-cat="restauracao"] {
-  background-color: #E3F2FD !important;
+  background-color: #90CAF9 !important;
   border-left-color: #1565C0 !important;
   color: #0D47A1 !important;
 }
 .light .appt-block[data-cat="urgencia"] {
-  background-color: #FFEBEE !important;
+  background-color: #EF9A9A !important;
   border-left-color: #C62828 !important;
   color: #B71C1C !important;
 }
 .light .appt-block[data-cat="teleconsulta"] {
-  background-color: #FFF3E0 !important;
-  border-left-color: #EF6C00 !important;
-  color: #E65100 !important;
+  background-color: #FFAB91 !important;
+  border-left-color: #E64A19 !important;
+  color: #BF360C !important;
 }
 
 /* Time display inside appointment blocks: bold blue */
@@ -1388,4 +1388,140 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* ============================================================
+   AGENDA — 3-LINE LAYOUT (notes on its own line)
+   Force the type pill and the notes onto SEPARATE lines so the
+   consultation type name never shares a row with the description.
+   Light mode uses dark-tinted text matching each category;
+   Dark mode keeps white text. Applies to all calendar views.
+   ============================================================ */
+.appt-block [data-line="type-row"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+  margin-top: 2px !important;
+}
+.appt-block [data-notes] {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+  width: 100% !important;            /* force onto its own line */
+  flex-basis: 100% !important;
+  margin-top: 2px !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+}
+
+/* (Internal padding is managed per-view; no global padding override.) */
+
+/* Dark-mode appt-block opacity bumped to ~55% per brand spec */
+:root:not(.light) .appt-block[data-cat="primeira_consulta"]   { background-color: rgba(249, 168, 37, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.60) !important; }
+:root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(230, 81, 0, 0.55) !important;  }
+:root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.55) !important;  }
+:root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.60) !important; }
+:root:not(.light) .appt-block[data-cat="urgencia"]            { background-color: rgba(198, 40, 40, 0.60) !important;  }
+:root:not(.light) .appt-block[data-cat="teleconsulta"]        { background-color: rgba(239, 108, 0, 0.55) !important;  }
+
+/* ============================================================
+   LIGHT MODE — BLUE BRAND CONTRAST (extra polish pass)
+   Replace remaining gray surfaces with subtle blue tints, make
+   buttons/dividers/inputs/pills clearly visible on white.
+   Dark mode untouched.
+   ============================================================ */
+
+/* Outline & ghost buttons — blue border + blue text */
+.light button[data-variant="outline"],
+.light .btn-outline,
+.light button.border-input {
+  border-color: #2196F3 !important;
+  color: #2196F3 !important;
+}
+.light button[data-variant="outline"]:hover,
+.light .btn-outline:hover,
+.light button.border-input:hover {
+  background-color: #EBF4FF !important;
+}
+
+/* Ghost / hover-only buttons — blue tint hover */
+.light button[data-variant="ghost"]:hover,
+.light .hover\:bg-accent\/50:hover,
+.light .hover\:bg-gray-100:hover,
+.light .hover\:bg-slate-100:hover,
+.light .hover\:bg-slate-50:hover {
+  background-color: #EBF4FF !important;
+}
+
+/* Disabled buttons — blue-tinted instead of plain gray */
+.light button:disabled,
+.light [aria-disabled="true"] {
+  background-color: #EBF4FF !important;
+  color: #94B8D8 !important;
+  border-color: #D6E4F0 !important;
+}
+
+/* Input borders — visible blue-gray with blue focus */
+.light input,
+.light textarea,
+.light select {
+  border-color: #C0D8F0 !important;
+}
+.light input:focus-visible,
+.light textarea:focus-visible,
+.light select:focus-visible {
+  border-color: #2196F3 !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.18) !important;
+}
+
+/* Dividers / separators — visible blue-gray */
+.light hr,
+.light [role="separator"],
+.light [data-orientation="horizontal"][role="none"] {
+  background-color: #D6E4F0 !important;
+  border-color: #D6E4F0 !important;
+  color: #D6E4F0 !important;
+}
+
+/* Pills / chips / badges using muted gray → soft blue */
+.light .bg-muted,
+.light .bg-secondary,
+.light .bg-gray-100,
+.light .bg-slate-100,
+.light .bg-gray-200,
+.light .bg-slate-200 {
+  background-color: #EBF4FF !important;
+  color: #1565C0 !important;
+}
+
+/* Card hover — keep white bg, swap to blue border + soft shadow */
+@media (hover: hover) and (pointer: fine) {
+  .light:not(.on-landing) .bg-card:hover,
+  .light:not(.on-landing) [data-card]:hover,
+  .light:not(.on-landing) .stat-card:hover,
+  .light:not(.on-landing) .content-card:hover {
+    border-color: #2196F3 !important;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.12) !important;
+  }
+}
+
+/* Sidebar item hover — stronger blue tint */
+.light aside button:hover:not(.bg-sidebar-primary),
+.light aside a:hover {
+  background-color: #D6E8FF !important;
+}
+
+/* Navigation link hover (landing top nav) */
+.light .landing-page nav a:hover,
+.light a.nav-link:hover {
+  color: #1565C0 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
