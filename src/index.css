@@ -1372,18 +1372,22 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 
 /* Container: tight padding so text uses the slot height */
 .appt-block {
-  padding: 4px 4px 4px 6px !important;
+  padding: 2px 4px 2px 6px !important;
   overflow: hidden !important;
   max-height: none !important;
 }
 .appt-block > * { max-height: none !important; }
+/* Kill any inner wrapper padding so Line 1 is flush with top */
+.appt-block .p-1\.5 { padding: 0 !important; }
+.appt-block .p-1 { padding: 0 !important; }
+.appt-block .p-2 { padding: 0 !important; }
 
 /* Default text inside cards — small regular */
 .appt-block .text-\[7px\],
 .appt-block .text-\[8px\],
 .appt-block .text-\[9px\],
-.appt-block .text-\[10px\] { font-size: 10px !important; line-height: 1.3 !important; }
-.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.3 !important; }
+.appt-block .text-\[10px\] { font-size: 10px !important; line-height: 1.2 !important; }
+.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.2 !important; }
 
 /* Line 1 — patient name + time: 12px bold */
 .appt-block .text-\[8px\].font-bold,
@@ -1391,7 +1395,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block .text-\[11px\].font-bold {
   font-size: 12px !important;
   font-weight: 700 !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 
 /* Age — slightly lighter (70% opacity) */
@@ -1402,7 +1406,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   font-size: 11px !important;
   font-weight: 400 !important;
   opacity: 0.7 !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 
 /* Notes wrap freely; only ellipsis on overflow at the container level */
@@ -1423,8 +1427,9 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block [data-line="type-row"] {
   /* Inline flow: pill + notes share the same line, wrap naturally */
   display: block !important;
-  margin-top: 2px !important;
-  line-height: 1.3 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  line-height: 1.2 !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
@@ -1438,7 +1443,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block [data-line="type-row"] [class*="rounded-full"]:first-child {
   font-size: 11px !important;
   font-weight: 700 !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 .appt-block [data-line="type-row"] [data-notes] {
   display: inline !important;
