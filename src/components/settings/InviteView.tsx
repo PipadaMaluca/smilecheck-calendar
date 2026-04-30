@@ -8,6 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface InviteViewProps {
   onClose: () => void;
@@ -22,6 +23,7 @@ const MOCK_HISTORY = [
 ];
 
 export function InviteView({ onClose, inline }: InviteViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
