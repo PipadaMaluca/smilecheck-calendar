@@ -149,8 +149,8 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     <CoachMark
       id="invite"
       targetId="coachmark-referral-code"
-      title="Ganhe pontos extra!"
-      description="Partilhe o seu código. 50 pontos por cada amigo que se registar."
+      title={t('coachmarks.inviteTitle')}
+      description={t('coachmarks.inviteDesc')}
     />
   );
 
