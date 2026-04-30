@@ -240,13 +240,12 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                           <span className="text-[7px] font-bold px-1 py-0 rounded-full inline-block max-w-full truncate" style={getCategoryBadgeStyle(colors.hex)}>
                             {getCategoryLabel(t, category)}
                           </span>
+                          {consultation.notes && (
+                            <span data-notes className="text-[7px] text-[#8B9CB6]">
+                              {consultation.notes}
+                            </span>
+                          )}
                         </div>
-                        {/* Line 3: Notes (own row) */}
-                        {consultation.notes && (
-                          <div data-notes className="text-[7px] text-[#8B9CB6]">
-                            {consultation.notes}
-                          </div>
-                        )}
                       </div>
                     </div>
                   );
