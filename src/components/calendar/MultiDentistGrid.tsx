@@ -295,13 +295,12 @@ export function MultiDentistGrid({
                             <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
                           )}
                           {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
+                          {consultation.notes && (
+                            <span data-notes className="text-[8px] text-[#8B9CB6]">
+                              {consultation.notes}
+                            </span>
+                          )}
                         </div>
-                        {/* Line 3: Notes (own row, multi-line) */}
-                        {consultation.notes && (
-                          <div data-notes className="text-[8px] text-[#8B9CB6]">
-                            {consultation.notes}
-                          </div>
-                        )}
                       </div>
                     );
                   })}
