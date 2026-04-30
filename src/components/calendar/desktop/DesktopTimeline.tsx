@@ -386,13 +386,12 @@ export function DesktopTimeline({
                               >
                                 {getConsultationLabel(t, consultation)}
                               </span>
+                              {consultation.notes && (
+                                <span data-notes className="text-[9px] text-[#8B9CB6]">
+                                  {consultation.notes}
+                                </span>
+                              )}
                             </div>
-                            {/* Line 3: notes (own row, multi-line) */}
-                            {consultation.notes && (
-                              <div data-notes className="text-[9px] text-[#8B9CB6] notes-multiline">
-                                {consultation.notes}
-                              </div>
-                            )}
                           </div>
                           
                           {/* Status indicator */}
