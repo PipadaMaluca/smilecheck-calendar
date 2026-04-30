@@ -3498,7 +3498,8 @@
     "agendaDentistTitle": "Filtrer par dentiste",
     "agendaDentistDesc": "Utilisez les filtres pour voir les agendas individuels ou d'équipe.",
     "inviteTitle": "Gagnez des points bonus !",
-    "inviteDesc": "Partagez votre code. 50 points pour chaque ami qui s'inscrit."
+    "inviteDesc": "Partagez votre code. 50 points pour chaque ami qui s'inscrit.",
+    "gotIt": "Compris !"
   },
   "consultationMode": {
     "inConsultation": "En consultation",
