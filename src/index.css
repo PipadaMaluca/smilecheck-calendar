@@ -1365,29 +1365,52 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 }
 
 /* === AGENDA CARDS — typography fit (both modes) ===
-   Restore the small-but-readable scale specified by brand:
-   patient name 13px bold, type 11px, observation 11px regular.
-   This overrides the global 12px-min rule (rule 20) inside .appt-block. */
+   Strict typographic hierarchy:
+   Line 1: time 12px bold + name 12px bold + age 11px regular @70% opacity
+   Line 2: type pill 11px bold + description 10px regular
+   Line-height: 1.3, gap between lines: 2px, no max-height clipping. */
+
+/* Container: tight padding so text uses the slot height */
+.appt-block {
+  padding: 4px 4px 4px 6px !important;
+  overflow: hidden !important;
+  max-height: none !important;
+}
+.appt-block > * { max-height: none !important; }
+
+/* Default text inside cards — small regular */
+.appt-block .text-\[7px\],
+.appt-block .text-\[8px\],
 .appt-block .text-\[9px\],
-.appt-block .text-\[10px\] { font-size: 11px !important; line-height: 1.2 !important; }
-.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.2 !important; }
-.appt-block .text-\[8px\]  { font-size: 10px !important; line-height: 1.1 !important; }
-/* Patient name (line 1) — bumped to 13px bold */
+.appt-block .text-\[10px\] { font-size: 10px !important; line-height: 1.3 !important; }
+.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.3 !important; }
+
+/* Line 1 — patient name + time: 12px bold */
+.appt-block .text-\[8px\].font-bold,
 .appt-block .text-\[10px\].font-bold,
 .appt-block .text-\[11px\].font-bold {
-  font-size: 13px !important;
+  font-size: 12px !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
+  line-height: 1.3 !important;
 }
 
-/* Allow notes to wrap to 2 lines when card is tall enough */
+/* Age — slightly lighter (70% opacity) */
+.appt-block .text-\[7px\].text-muted-foreground,
+.appt-block .text-\[9px\].text-muted-foreground,
+.appt-block .text-\[10px\].text-muted-foreground,
+.appt-block .text-\[11px\].text-muted-foreground {
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  opacity: 0.7 !important;
+  line-height: 1.3 !important;
+}
+
+/* Notes wrap freely; only ellipsis on overflow at the container level */
 .appt-block .truncate.notes-multiline,
 .appt-block [data-notes] {
   white-space: normal !important;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  overflow: visible !important;
+  -webkit-line-clamp: unset !important;
 }
 
 /* ============================================================
@@ -1410,13 +1433,21 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   display: inline !important;
   vertical-align: baseline !important;
 }
+/* Type pill — 11px bold */
+.appt-block [data-line="type-row"] > span:first-child,
+.appt-block [data-line="type-row"] [class*="rounded-full"]:first-child {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
 .appt-block [data-line="type-row"] [data-notes] {
   display: inline !important;
   margin-left: 6px !important;
   margin-top: 0 !important;
   width: auto !important;
   white-space: normal !important;
-  font-size: 11px !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
   line-height: 1.3 !important;
   -webkit-line-clamp: unset !important;
   overflow: visible !important;
