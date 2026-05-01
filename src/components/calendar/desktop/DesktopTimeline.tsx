@@ -279,7 +279,7 @@ export function DesktopTimeline({
                       <div
                         key={`empty-${time}`}
                         className={cn(
-                          "transition-colors border rounded-sm mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30",
+                          "appt-slot-free transition-colors border rounded-sm mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30",
                           isPasteMode && "cursor-pointer",
                           dragOverSlot === slotId ? "bg-primary/20 border-primary/50" : "border-transparent"
                         )}
@@ -311,7 +311,8 @@ export function DesktopTimeline({
                       return (
                         <div
                           key={`blocked-${slot.time}`}
-                          className="mx-0.5 bg-[#9E9E9E]/30 rounded flex items-center justify-center border-l-2 border-l-[#9E9E9E]"
+                          data-slot-blocked="true"
+                          className="appt-block-blocked mx-0.5 bg-[#9E9E9E]/30 rounded flex items-center justify-center border-l-2 border-l-[#9E9E9E]"
                           style={{
                             gridRow: `${startIdx + 1} / span 1`,
                           }}
