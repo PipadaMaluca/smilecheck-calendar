@@ -18,25 +18,25 @@ export function LandingFooter() {
   return (
     <>
       {/* CTA Banner */}
-      <section className="py-12 sm:py-24 md:py-32 px-6 md:px-10 bg-white dark:bg-background" id="contacto">
+      <section className="py-8 sm:py-10 md:py-12 px-6 md:px-10 bg-white dark:bg-background" id="contacto">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="rounded-3xl bg-gradient-to-br from-[#2196F3] to-[#1565C0] p-8 sm:p-16 md:p-20 shadow-2xl shadow-[#2196F3]/20">
-            <h2 className="text-[28px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-5">{t('landing.ctaFinal.title')}</h2>
-            <p className="text-white/85 text-base sm:text-xl font-light mb-8 sm:mb-10 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.ctaFinal.subtitle')}</p>
+          <div className="rounded-3xl bg-gradient-to-br from-[#2196F3] to-[#1565C0] p-8 sm:p-10 md:p-12 shadow-2xl shadow-[#2196F3]/20">
+            <h2 className="text-[28px] sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">{t('landing.ctaFinal.title')}</h2>
+            <p className="text-white/85 text-base sm:text-lg font-light mb-6 sm:mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.ctaFinal.subtitle')}</p>
             <Button size="lg" className="rounded-full bg-white text-[#2196F3] hover:bg-white/95 hover:-translate-y-0.5 text-base font-semibold w-full sm:w-auto px-10 h-12 shadow-xl transition-all" onClick={() => navigate('/signup')}>
               {t('landing.ctaFinal.cta')}
             </Button>
-            <p className="text-sm text-white/75 mt-5">{t('landing.ctaFinal.noCommitment')}</p>
+            <p className="text-sm text-white/75 mt-4">{t('landing.ctaFinal.noCommitment')}</p>
           </div>
         </div>
       </section>
 
       {/* Footer — theme-aware: dark navy (dark mode) / light blue (light mode) */}
       <footer className="bg-[#0D2137] text-white border-t border-[#1E3A5F] dark:bg-[#0D2137] dark:text-white dark:border-[#1E3A5F] [.light_&]:bg-[#EBF4FF] [.light_&]:text-[#1A202C] [.light_&]:border-[#D6E4F0]">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-14 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-12">
 
           {/* Top: Brand block */}
-          <div className="flex flex-col items-center text-center mb-12">
+          <div className="flex flex-col items-center text-center mb-8">
             <div className="flex items-center gap-3 mb-4">
               <Logo size={48} variant="white" />
               <span className="text-2xl sm:text-3xl font-bold tracking-tight text-white [.light_&]:text-[#1565C0]">SmileCheck</span>
@@ -56,7 +56,7 @@ export function LandingFooter() {
             </div>
           </div>
 
-          <div className="border-t border-[#1E3A5F] mb-12 [.light_&]:border-[#D6E4F0]" />
+          <div className="border-t border-[#1E3A5F] mb-8 [.light_&]:border-[#D6E4F0]" />
 
           {/* Link columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-3xl mx-auto text-center md:text-left">
@@ -89,7 +89,7 @@ export function LandingFooter() {
             </div>
           </div>
 
-          <div className="border-t border-[#1E3A5F] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#94A3B8] [.light_&]:border-[#D6E4F0] [.light_&]:text-[#4A5568]">
+          <div className="border-t border-[#1E3A5F] mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#94A3B8] [.light_&]:border-[#D6E4F0] [.light_&]:text-[#4A5568]">
             <span>© 2026 SmileCheck. {t('landing.footer.copyright')}.</span>
             <span>{t('landing.footer.madeWith')}</span>
           </div>
