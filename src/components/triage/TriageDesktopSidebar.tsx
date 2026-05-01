@@ -23,7 +23,7 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
   return (
     <aside className="w-[200px] bg-sidebar border-r border-sidebar-border flex flex-col h-full">
       <div className="p-4 border-b border-sidebar-border">
-        <img alt="SmileCheck" className="h-8 object-contain" src="/assets/smilecheck-logo-blue.png" />
+        <img alt="SmileCheck" className="h-8 object-contain" src="/lovable-uploads/43f646ce-8022-4a31-be0b-2471feb15914.png" />
       </div>
       <nav className="flex-1 p-3 space-y-1">
         {navItems.map(item => {

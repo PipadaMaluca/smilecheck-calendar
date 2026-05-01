@@ -24,7 +24,7 @@ export function Logo({
   withWordmark = false,
   className,
   alt = 'SmileCheck',
-  unframed = true,
+  unframed = false,
 }: LogoProps) {
   const [dark, setDark] = useState<boolean>(getDark);
 
