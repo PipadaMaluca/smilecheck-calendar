@@ -20,6 +20,8 @@ import { PasteConfirmationModal } from '../PasteConfirmationModal';
 import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { PatientFeedbackModal } from '../PatientFeedbackModal';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from '../AgendaSettingsModal';
+import { AgendaSettingsStyle } from '../AgendaSettingsStyle';
+import { useAgendaSettings } from '@/stores/agendaSettingsStore';
 import { TimeBlockModal, TimeBlock, TimeBlockDeleteConfirm } from '../TimeBlockModal';
 import { MoveConsultationModal, OverlapWarningModal, DragMoveInfo } from '../MoveConsultationModal';
 import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
@@ -117,6 +119,7 @@ export function DesktopCalendarView() {
   const [patientFeedbackScore, setPatientFeedbackScore] = useState<ConsultationScore | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
+  const liveAgendaSettings = useAgendaSettings();
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockInitialDate, setBlockInitialDate] = useState<Date | undefined>();
   const [blockInitialTime, setBlockInitialTime] = useState<string | undefined>();
@@ -454,6 +457,7 @@ export function DesktopCalendarView() {
       slotsPerDentist={slotsPerDentist}
       onSlotClick={handleSlotClick}
       selectedDate={selectedDate}
+      workingHours={{ start: liveAgendaSettings.startHour, end: liveAgendaSettings.endHour }}
       onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
       onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
       isPasteMode={!!clipboardConsultation}
@@ -1053,6 +1057,8 @@ export function DesktopCalendarView() {
     <TeleconsultaManager userRole={activeRole}>
     {(startTeleconsulta) => (
     <div className="h-screen flex flex-col bg-background relative">
+      {/* Live preview style overrides driven by AgendaSettings */}
+      <AgendaSettingsStyle />
       {/* Consultation Mode Top Bar */}
       {activeRole === 'dentist' && consultationMode.activeConsultation && (
         <InConsultationBar
