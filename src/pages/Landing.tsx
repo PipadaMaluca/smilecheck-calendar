@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { LanguageSelector } from '@/components/landing/LanguageSelector';
 import { ThemeSelector } from '@/components/landing/ThemeSelector';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
+import { SectionNav } from '@/components/landing/SectionNav';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { TrustBar } from '@/components/landing/TrustBar';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
@@ -48,6 +49,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
       <LandingNavbar isDark={isDark} onToggleTheme={() => handleApplyTheme(!isDark)} />
+      <SectionNav isDark={isDark} />
       <main>
         <HeroSection />
         <TrustBar />
