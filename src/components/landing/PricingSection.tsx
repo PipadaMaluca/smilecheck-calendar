@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
 import { Check, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -61,19 +60,59 @@ export function PricingSection() {
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
           <p className="text-lg sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
-          <div className="inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full bg-[#F5F9FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F]">
-            <span className={cn('text-sm transition-colors', !annual ? 'font-semibold text-[#1A202C] dark:text-white' : 'text-[#4A5568] dark:text-[#94A3B8]')}>{t('landing.pricing.monthly')}</span>
-            <Switch checked={annual} onCheckedChange={setAnnual} />
-            <span className={cn('text-sm transition-colors', annual ? 'font-semibold text-[#1A202C] dark:text-white' : 'text-[#4A5568] dark:text-[#94A3B8]')}>{t('landing.pricing.annual')}</span>
-            {annual && <Badge className="ml-1 text-xs bg-[#2196F3] text-white border-0">{t('landing.pricing.discount')}</Badge>}
+          <div className="inline-flex items-center gap-2">
+            <div
+              role="tablist"
+              aria-label={t('landing.pricing.title')}
+              className="inline-flex items-center p-1 rounded-full bg-[#F5F9FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-[0_2px_8px_rgba(33,150,243,0.06)]"
+            >
+              <button
+                type="button"
+                role="tab"
+                aria-selected={!annual}
+                onClick={() => setAnnual(false)}
+                className={cn(
+                  'px-5 py-1.5 text-sm rounded-full transition-all',
+                  !annual
+                    ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
+                )}
+              >
+                {t('landing.pricing.monthly')}
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={annual}
+                onClick={() => setAnnual(true)}
+                className={cn(
+                  'px-5 py-1.5 text-sm rounded-full transition-all',
+                  annual
+                    ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
+                )}
+              >
+                {t('landing.pricing.annual')}
+              </button>
+            </div>
+            {annual && <Badge className="text-xs bg-[#2196F3] text-white border-0">{t('landing.pricing.discount')}</Badge>}
           </div>
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
-          <TabsList className="grid w-full max-w-sm mx-auto grid-cols-3 mb-10 h-auto rounded-full p-1 bg-[#F5F9FF] dark:bg-[#0D2137]">
-            <TabsTrigger value="patient" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.patient')}</TabsTrigger>
-            <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.dentist')}</TabsTrigger>
-            <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.pricing.clinic')}</TabsTrigger>
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-10 h-auto bg-transparent p-0 border-b border-[#E2E8F0] dark:border-[#1E3A5F] rounded-none gap-0">
+            <TabsTrigger
+              value="patient"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+            >{t('landing.pricing.patient')}</TabsTrigger>
+            <TabsTrigger
+              value="dentist"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+            >{t('landing.pricing.dentist')}</TabsTrigger>
+            <TabsTrigger
+              value="clinic"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+            >{t('landing.pricing.clinic')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="patient">
@@ -104,11 +143,14 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         if (isBest) {
           return (
-            <div key={plan.name} className="relative rounded-2xl p-[2px] bg-gradient-to-br from-[#2196F3] to-[#1565C0] hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[#2196F3]/20">
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white">
+            <div
+              key={plan.name}
+              className="relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_20px_rgba(21,101,192,0.18)] hover:shadow-[0_8px_32px_rgba(21,101,192,0.28)]"
+            >
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
                 {plan.badge}
               </Badge>
-              <div className="rounded-2xl bg-white dark:bg-[#0D2137] p-8 flex flex-col h-full">
+              <div className="rounded-2xl p-8 flex flex-col h-full">
                 <PlanContent plan={plan} price={price} onCta={onCta} accent />
               </div>
             </div>
@@ -119,11 +161,11 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
           <div key={plan.name} className={cn(
             'relative rounded-2xl p-8 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
             isPopular
-              ? 'border-2 border-[#2196F3] shadow-lg shadow-[#2196F3]/10'
-              : 'border border-[#D6E4F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
+              ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
+              : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white shadow-md">
                 {plan.badge}
               </Badge>
             )}
@@ -153,7 +195,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
       <ul className="space-y-3 mb-6 flex-1">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+            <Check className="w-4 h-4 text-[#4CAF50] mt-0.5 flex-shrink-0" strokeWidth={3} />
             <span className="text-[#4A5568] dark:text-[#94A3B8]">{f}</span>
           </li>
         ))}

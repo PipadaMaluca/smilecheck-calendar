@@ -43,11 +43,11 @@ export function TestimonialsSection() {
               const name = t(item.nameKey);
               return (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2">
-                  <div className="p-8 rounded-2xl bg-white dark:bg-background border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-sm hover:shadow-xl hover:shadow-[#2196F3]/5 transition-all duration-300 h-full flex flex-col">
-                    <div className="text-5xl text-[#2196F3]/20 leading-none font-serif mb-2">"</div>
+                  <div className="p-8 rounded-2xl bg-white dark:bg-background border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-[0_2px_8px_rgba(33,150,243,0.08)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.12)] transition-all duration-300 h-full flex flex-col">
+                    <div className="text-6xl text-[#2196F3]/30 leading-none font-serif mb-2">"</div>
                     <div className="flex gap-0.5 mb-4">
                       {Array.from({ length: item.rating }).map((_, j) => (
-                        <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        <Star key={j} className="w-4 h-4 fill-[#F9A825] text-[#F9A825]" />
                       ))}
                     </div>
                     <p className="text-base text-[#1A202C] dark:text-white/90 mb-6 flex-1 italic leading-relaxed">{t(item.quoteKey)}</p>

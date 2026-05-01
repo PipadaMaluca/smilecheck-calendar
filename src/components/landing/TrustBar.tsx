@@ -15,9 +15,9 @@ export function TrustBar() {
           {badges.map((b) => (
             <div
               key={b}
-              className="flex items-center gap-2 opacity-40 hover:opacity-70 transition-opacity grayscale"
+              className="flex items-center gap-2 opacity-50 hover:opacity-80 transition-opacity"
             >
-              <ShieldCheck className="w-5 h-5 text-[#1A202C] dark:text-white" />
+              <ShieldCheck className="w-5 h-5 text-[#1565C0] dark:text-[#60A5FA]" />
               <span className="text-sm font-semibold text-[#1A202C] dark:text-white tracking-tight">
                 {b}
               </span>
