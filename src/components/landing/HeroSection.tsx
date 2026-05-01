@@ -49,7 +49,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       {/* Subtle floating tooth shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-[15%] left-[8%] text-[140px] opacity-[0.04] dark:opacity-[0.06] select-none animate-pulse" style={{ animationDuration: '8s' }}>🦷</div>
@@ -72,22 +72,22 @@ export function HeroSection() {
           </div>
         </div>
 
-        <h1 className="text-[40px] leading-[1.05] sm:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight mb-8 animate-fade-in text-[#1A202C] dark:text-white">
+        <h1 className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight mb-8 animate-fade-in text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none">
           {t('landing.hero.title')}{' '}
           <span className="bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}
           </span>
         </h1>
 
-        <p className="text-lg sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-2xl mx-auto mb-10 animate-fade-in">
+        <p className="text-base sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-[85%] sm:max-w-2xl mx-auto mb-10 animate-fade-in text-center">
           {t('landing.hero.subtitle')}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 animate-fade-in">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-6 animate-fade-in w-full max-w-md sm:max-w-none mx-auto">
           <Button
             size="lg"
             onClick={() => navigate('/signup')}
-            className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-base font-semibold px-8 py-4 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
+            className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-base font-semibold px-8 py-4 h-12 sm:h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
           >
             {t('landing.hero.cta')}
           </Button>
@@ -95,13 +95,13 @@ export function HeroSection() {
             size="lg"
             variant="outline"
             onClick={() => navigate('/app?demo=true&role=patient')}
-            className="rounded-full text-base font-semibold px-8 py-4 h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#D6E4F0] text-[#1565C0] hover:border-[#2196F3] hover:bg-[#EBF4FF] dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
+            className="rounded-full text-base font-semibold px-8 py-4 h-12 sm:h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#D6E4F0] text-[#1565C0] hover:border-[#2196F3] hover:bg-[#EBF4FF] dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
           >
             {t('landing.hero.demo')}
           </Button>
         </div>
 
-        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-16 animate-fade-in">
+        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-16 animate-fade-in text-center">
           {t('landing.hero.hasAccount')}{' '}
           <a onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
             {t('auth.login')}
