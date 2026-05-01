@@ -327,6 +327,8 @@ export function DentistCalendar() {
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
+      {/* Live preview style overrides driven by AgendaSettings */}
+      <AgendaSettingsStyle />
       {/* Consultation Mode Top Bar */}
       {consultationMode.activeConsultation && (
         <InConsultationBar
