@@ -143,11 +143,14 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         if (isBest) {
           return (
-            <div key={plan.name} className="relative rounded-2xl p-[2px] bg-gradient-to-br from-[#2196F3] to-[#1565C0] hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[#2196F3]/20">
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white">
+            <div
+              key={plan.name}
+              className="relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_20px_rgba(21,101,192,0.18)] hover:shadow-[0_8px_32px_rgba(21,101,192,0.28)]"
+            >
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
                 {plan.badge}
               </Badge>
-              <div className="rounded-2xl bg-white dark:bg-[#0D2137] p-8 flex flex-col h-full">
+              <div className="rounded-2xl p-8 flex flex-col h-full">
                 <PlanContent plan={plan} price={price} onCta={onCta} accent />
               </div>
             </div>
@@ -158,11 +161,11 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
           <div key={plan.name} className={cn(
             'relative rounded-2xl p-8 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
             isPopular
-              ? 'border-2 border-[#2196F3] shadow-lg shadow-[#2196F3]/10'
-              : 'border border-[#D6E4F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
+              ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
+              : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white shadow-md">
                 {plan.badge}
               </Badge>
             )}
