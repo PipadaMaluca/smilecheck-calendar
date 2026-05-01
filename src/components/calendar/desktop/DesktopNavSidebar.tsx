@@ -75,6 +75,11 @@ export function DesktopNavSidebar({
 
   const TWO_LINE_LABELS: Record<string, [string, string]> = {
     'loja': [t('nav.rewardsStoreLine1'), t('nav.rewardsStoreLine2')],
+    'estatisticas': [t('nav.statistics'), ''],
+    'conquistas': [t('nav.achievements'), ''],
+    'pontuacoes': [t('nav.scores'), ''],
+    'faturacao': [t('nav.billing'), ''],
+    'conversas': [t('nav.conversations'), ''],
   };
 
   const items = NAV_ITEMS_BY_ROLE[userRole];
@@ -117,7 +122,7 @@ export function DesktopNavSidebar({
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-1 h-auto py-2 w-full transition-all duration-200 relative sidebar-slide-bg',
+          'flex flex-col gap-1 h-auto py-2 px-1 w-full transition-all duration-200 relative sidebar-slide-bg rounded-md',
           isActive
             ? 'bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90'
             : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent'
@@ -135,8 +140,10 @@ export function DesktopNavSidebar({
           )}
         </div>
         {isExpanded && (
-          <span className="text-[12px] font-medium text-center leading-tight">
-            {twoLine ? <>{twoLine[0]}<br />{twoLine[1]}</> : item.label}
+          <span className="text-[10px] font-medium text-center leading-[1.15] w-full px-0.5 break-words hyphens-auto">
+            {twoLine && twoLine[1]
+              ? <>{twoLine[0]}<br />{twoLine[1]}</>
+              : item.label}
           </span>
         )}
       </Button>
@@ -152,13 +159,18 @@ export function DesktopNavSidebar({
     >
       {/* Logo + Pro Badge */}
       <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-0">
-        <Logo size={isExpanded ? 56 : 40} className="transition-all duration-300" />
-        <span className={cn(
-          'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
-          isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
-        )}>
-          Pro
-        </span>
+        <Logo
+          size={isExpanded ? (userRole === 'patient' ? 64 : 56) : (userRole === 'patient' ? 48 : 40)}
+          className="transition-all duration-300"
+        />
+        {userRole !== 'patient' && (
+          <span className={cn(
+            'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
+            isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
+          )}>
+            Pro
+          </span>
+        )}
       </div>
 
       {/* Navigation */}
