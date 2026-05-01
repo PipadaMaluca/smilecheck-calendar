@@ -6,6 +6,20 @@ import { Video, AlertTriangle, Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
+// Short labels for tablet/mobile to prevent wrapping in narrow columns
+const SHORT_CATEGORY_OVERRIDES: Record<string, string> = {
+  destartarizacao: 'Destartariz.',
+  odontopediatria: 'Odontoped.',
+  teleconsulta: 'Telecons.',
+  primeira_consulta: '1ª Cons.',
+};
+function getShortCategoryLabel(t: (k: string) => string, category: string): string {
+  const full = (CATEGORY_LABELS as Record<string, string>)[category] ?? '';
+  // Use short override if defined, else translated full label
+  if (SHORT_CATEGORY_OVERRIDES[category]) return SHORT_CATEGORY_OVERRIDES[category];
+  return full;
+}
+
 export interface DentistColumn {
   dentist: Dentist;
   clinic: Clinic;
@@ -283,20 +297,22 @@ export function MultiDentistGrid({
                           <span className="text-[10px] text-muted-foreground font-mono">{slot.time}</span>
                           <span className="font-bold text-white truncate text-[10px]">
                             {displayName}
-                            <span className="text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
+                            {/* Hide age on small viewports, show on lg+ */}
+                            <span className="hidden lg:inline text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
                           </span>
                         </div>
                         {/* Line 2: Type pill (own row) */}
                         <div data-line="type-row" className="flex items-center gap-1">
-                          <span className="font-bold text-[9px] px-1.5 py-0 rounded-full inline-block max-w-full truncate" style={getCategoryBadgeStyle(colors.hex)}>
-                            {getCategoryLabel(t, category)}
+                          <span className="font-bold text-[9px] px-1 lg:px-1.5 py-0 rounded-full inline-block max-w-full truncate whitespace-nowrap" style={getCategoryBadgeStyle(colors.hex)}>
+                            <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
+                            <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
                           </span>
                           {isTeleconsulta && (
                             <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
                           )}
                           {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                           {consultation.notes && (
-                            <span data-notes className="text-[8px] text-[#8B9CB6]">
+                            <span data-notes className="text-[8px] text-[#8B9CB6] truncate">
                               {consultation.notes}
                             </span>
                           )}

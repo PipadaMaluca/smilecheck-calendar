@@ -202,12 +202,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
     return (
       <div className="flex flex-col gap-3 sm:gap-4">
-        {/* Row: 2×2 on mobile, hero full-width on tablet, 40%+20%×3 on desktop */}
-        <div id="coachmark-stat-cards" className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        {/* Mobile: 1 col stack. Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
+        <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] col-span-2 md:col-span-4 lg:col-span-1 card-hover-lift",
+              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] col-span-1 md:col-span-3 lg:col-span-1 card-hover-lift",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
             onClick={heroStat.clickTab ? () => {
@@ -218,12 +218,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               } else onNavigate(heroStat.clickTab!);
             } : undefined}
           >
-            <CardContent className="p-4 sm:p-5 flex flex-col gap-1.5 min-w-0">
+            <CardContent className="p-3 sm:p-4 md:p-5 flex flex-col gap-1.5 min-w-0">
               <div className="text-muted-foreground min-w-0 gap-2 flex items-center">
                 <HeroIcon className="w-5 h-5 flex-shrink-0 text-[#2196F3]" />
                 <span className="text-xs font-medium truncate sm:text-base">{heroStat.label}</span>
               </div>
-              <span className="text-3xl font-bold text-foreground truncate sm:text-4xl">{heroStat.value}</span>
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground truncate">{heroStat.value}</span>
               {'subtitle' in heroStat && heroStat.subtitle &&
                 <span className="text-xs text-muted-foreground truncate sm:text-sm">
                   {String(heroStat.subtitle).split('·').map((part, i) => {
@@ -247,7 +247,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             </CardContent>
           </Card>
 
-          {/* Cards 2-4 */}
+          {/* Cards 2-4 — compact horizontal on mobile, vertical on tablet+ */}
           {restStats.map((stat) => {
             const Icon = stat.icon;
             const isClickable = !!stat.clickTab;
@@ -265,18 +265,19 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   else onNavigate(stat.clickTab!);
                 } : undefined}
               >
-                <CardContent className="p-3 sm:p-4 flex flex-col gap-1 sm:gap-2 min-w-0">
-                  <div className="text-muted-foreground min-w-0 gap-2.5 flex items-center justify-center">
+                {/* Mobile: compact horizontal one-liner. Tablet/Desktop: vertical centered */}
+                <CardContent className="p-3 flex flex-row md:flex-col items-center md:justify-center gap-2 md:gap-1.5 min-w-0">
+                  <div className="text-muted-foreground min-w-0 gap-1.5 flex items-center md:justify-center flex-shrink-0">
                     <Icon className="w-4 h-4 flex-shrink-0" />
-                    <span className="text-[10px] font-medium truncate sm:text-xl">{stat.label}</span>
+                    <span className="text-[11px] md:text-xs lg:text-sm font-medium truncate">{stat.label}</span>
                   </div>
-                  <span className="text-xl font-bold text-foreground truncate sm:text-3xl text-center">
+                  <span className="text-base md:text-lg lg:text-2xl font-bold text-foreground truncate md:text-center md:w-full ml-auto md:ml-0">
                     {'isStreak' in stat && stat.isStreak ? (
                       <><span className="inline-block">🔥</span> {stat.value} {t('points.days')}</>
                     ) : stat.value}
                   </span>
                   {isXPCard &&
-                    <div className="space-y-1">
+                    <div className="hidden md:block space-y-1 w-full">
                       <Progress value={xpProgress.percent} className="h-2" />
                       <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
                     </div>
