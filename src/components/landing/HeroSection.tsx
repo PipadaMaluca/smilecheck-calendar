@@ -95,7 +95,7 @@ export function HeroSection() {
             size="lg"
             variant="outline"
             onClick={() => navigate('/app?demo=true&role=patient')}
-            className="rounded-full text-base font-semibold px-8 py-4 h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10 dark:border-white dark:text-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
+            className="rounded-full text-base font-semibold px-8 py-4 h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#D6E4F0] text-[#1565C0] hover:border-[#2196F3] hover:bg-[#EBF4FF] dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
           >
             {t('landing.hero.demo')}
           </Button>
