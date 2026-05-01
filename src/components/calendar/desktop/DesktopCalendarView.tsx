@@ -1055,6 +1055,8 @@ export function DesktopCalendarView() {
     <TeleconsultaManager userRole={activeRole}>
     {(startTeleconsulta) => (
     <div className="h-screen flex flex-col bg-background relative">
+      {/* Live preview style overrides driven by AgendaSettings */}
+      <AgendaSettingsStyle />
       {/* Consultation Mode Top Bar */}
       {activeRole === 'dentist' && consultationMode.activeConsultation && (
         <InConsultationBar
