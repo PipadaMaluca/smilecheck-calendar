@@ -109,8 +109,8 @@ export function SectionNav({ isDark }: SectionNavProps) {
           />
         </div>
       </div>
-      {/* Spacer so content starts below fixed navbar + section nav */}
-      <div aria-hidden="true" className="h-[124px] md:h-[104px] lg:h-[120px]" />
+      {/* Spacer so content starts immediately below fixed navbar + section nav (no extra gap) */}
+      <div aria-hidden="true" className="h-[124px] md:h-[104px] lg:h-[120px] mb-0" />
     </>
   );
 }
