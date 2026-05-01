@@ -96,22 +96,13 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           </div>
 
           <div className="lg:hidden flex items-center gap-2">
-            <LanguageSwitcher size="sm" />
-            <button
-              onClick={onToggleTheme}
-              className={cn(
-                'p-2 rounded-full transition-colors',
-                isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
-              )}
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className={cn(
-                'p-2 rounded-full transition-colors',
+                'p-3 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center',
                 isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
               )}
+              aria-label="Menu"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -126,32 +117,43 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             isDark ? 'bg-[#0A1929] border-[#1E3A5F]' : 'bg-white border-[#E2E8F0]'
           )}
         >
-          <div className="px-4 py-4 space-y-1">
+          <div className="px-6 py-4 space-y-1">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  'block text-sm font-medium py-2.5 px-3 rounded-lg transition-colors',
+                  'block text-base font-medium py-3 px-3 rounded-lg transition-colors min-h-[44px]',
                   isDark ? 'text-slate-300 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 )}
               >
                 {l.label}
               </a>
             ))}
-            <div className="flex gap-2 pt-3">
+            <div className={cn('flex items-center justify-between gap-3 pt-4 mt-2 border-t', isDark ? 'border-[#1E3A5F]' : 'border-[#E2E8F0]')}>
+              <LanguageSwitcher size="sm" />
+              <button
+                onClick={onToggleTheme}
+                className={cn(
+                  'p-3 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center',
+                  isDark ? 'text-slate-300 hover:bg-white/10 bg-white/5' : 'text-slate-600 hover:bg-slate-100 bg-slate-50'
+                )}
+                aria-label="Toggle theme"
+              >
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            </div>
+            <div className="flex flex-col gap-2 pt-3">
               <Button
                 variant="ghost"
-                size="sm"
-                className={cn('flex-1', isDark ? 'text-slate-200' : 'text-slate-700')}
+                className={cn('w-full h-11', isDark ? 'text-slate-200' : 'text-slate-700')}
                 onClick={() => navigate('/login')}
               >
                 {t('landing.navbar.login')}
               </Button>
               <Button
-                size="sm"
-                className="flex-1 rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white"
+                className="w-full h-11 rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white"
                 onClick={() => navigate('/signup')}
               >
                 {t('landing.navbar.signup')}
