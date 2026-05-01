@@ -457,6 +457,7 @@ export function DesktopCalendarView() {
       slotsPerDentist={slotsPerDentist}
       onSlotClick={handleSlotClick}
       selectedDate={selectedDate}
+      workingHours={{ start: liveAgendaSettings.startHour, end: liveAgendaSettings.endHour }}
       onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
       onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
       isPasteMode={!!clipboardConsultation}
