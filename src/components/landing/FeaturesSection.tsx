@@ -137,18 +137,18 @@ function FeatureRow({
   reverse?: boolean; eyebrow: string; title: string; desc: string; bullets: string[]; visual: React.ReactNode;
 }) {
   return (
-    <div className={cn('grid lg:grid-cols-2 gap-12 lg:gap-20 items-center', reverse && 'lg:[&>*:first-child]:order-2')}>
-      <ScrollReveal>
+    <div className={cn('grid lg:grid-cols-2 gap-10 lg:gap-20 items-center', reverse && 'lg:[&>*:first-child]:order-2')}>
+      <ScrollReveal className="text-center lg:text-left">
         <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
-        <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
+        <h3 className="text-[28px] sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
           {title}
         </h3>
-        <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-6 max-w-[480px]">
+        <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
           {desc}
         </p>
-        <ul className="space-y-2.5 max-w-[480px]">
+        <ul className="space-y-2.5 max-w-[85%] mx-auto lg:max-w-[480px] lg:mx-0 text-left">
           {bullets.map((b) => (
             <li key={b} className="flex items-start gap-2.5 text-sm text-[#1A202C] dark:text-white/90">
               <Check className="w-5 h-5 text-[#2196F3] flex-shrink-0 mt-0.5" />
@@ -157,7 +157,9 @@ function FeatureRow({
           ))}
         </ul>
       </ScrollReveal>
-      <ScrollReveal delay={150}>{visual}</ScrollReveal>
+      <ScrollReveal delay={150}>
+        <div className="max-w-[90%] sm:max-w-[480px] mx-auto mt-6 lg:mt-0">{visual}</div>
+      </ScrollReveal>
     </div>
   );
 }
@@ -191,20 +193,20 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section id="funcionalidades" className="px-4 py-24 sm:py-32 space-y-28 sm:space-y-40 bg-white dark:bg-background">
+    <section id="funcionalidades" className="px-6 md:px-10 py-24 sm:py-32 space-y-24 md:space-y-32 lg:space-y-40 bg-white dark:bg-background">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <div className="text-center mb-20 sm:mb-28">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
+          <div className="text-center mb-16 sm:mb-28">
+            <h2 className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
               {t('landing.features.title')}
             </h2>
-            <p className="text-lg sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] max-w-[90%] sm:max-w-2xl mx-auto">
               {t('landing.features.subtitle')}
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="space-y-28 sm:space-y-40">
+        <div className="space-y-20 md:space-y-32 lg:space-y-40">
           <FeatureRow
             eyebrow={t('landing.features.forPatients')}
             title={t('landing.features.patient1Title')}
