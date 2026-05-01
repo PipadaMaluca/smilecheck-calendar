@@ -54,9 +54,9 @@ export function PricingSection() {
   }, []);
 
   return (
-    <section id="planos" className="py-24 sm:py-32 px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
+    <section id="planos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
           <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
@@ -100,7 +100,7 @@ export function PricingSection() {
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-10 h-auto bg-transparent p-0 border-b border-[#E2E8F0] dark:border-[#1E3A5F] rounded-none gap-0">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6 h-auto bg-transparent p-0 border-b border-[#E2E8F0] dark:border-[#1E3A5F] rounded-none gap-0">
             <TabsTrigger
               value="patient"
               className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
@@ -150,7 +150,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
               <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
                 {plan.badge}
               </Badge>
-              <div className="rounded-2xl p-8 flex flex-col h-full">
+              <div className="rounded-2xl p-6 flex flex-col h-full">
                 <PlanContent plan={plan} price={price} onCta={onCta} accent />
               </div>
             </div>
@@ -159,7 +159,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         return (
           <div key={plan.name} className={cn(
-            'relative rounded-2xl p-8 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
+            'relative rounded-2xl p-6 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
             isPopular
               ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
               : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
