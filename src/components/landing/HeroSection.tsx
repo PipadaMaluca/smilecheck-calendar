@@ -49,7 +49,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 pt-32 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
+    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-8 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       {/* Subtle floating tooth shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-[15%] left-[8%] text-[140px] opacity-[0.04] dark:opacity-[0.06] select-none animate-pulse" style={{ animationDuration: '8s' }}>🦷</div>
@@ -60,30 +60,38 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center mb-8 animate-fade-in">
-          <Logo size={140} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+        <div className="flex justify-center animate-fade-in" style={{ marginBottom: 20 }}>
+          <span className="block sm:hidden">
+            <Logo size={120} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+          </span>
+          <span className="hidden sm:block lg:hidden">
+            <Logo size={150} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+          </span>
+          <span className="hidden lg:block">
+            <Logo size={200} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+          </span>
         </div>
 
         {/* Visible pill — clear blue tint per design spec */}
-        <div className="inline-flex mb-8 animate-fade-in">
+        <div className="inline-flex animate-fade-in" style={{ marginBottom: 16 }}>
           <div className="rounded-full bg-[#EBF4FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] px-4 py-1.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(33,150,243,0.08)]">
             <Sparkles className="w-3.5 h-3.5 text-[#2196F3]" />
             <span className="text-xs font-semibold text-[#1565C0] dark:text-[#60A5FA]">{t('landing.hero.badge')}</span>
           </div>
         </div>
 
-        <h1 className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight mb-8 animate-fade-in text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none">
+        <h1 className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight animate-fade-in text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
           {t('landing.hero.title')}{' '}
           <span className="bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}
           </span>
         </h1>
 
-        <p className="text-base sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-[85%] sm:max-w-2xl mx-auto mb-10 animate-fade-in text-center">
+        <p className="text-base sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-[85%] sm:max-w-2xl mx-auto animate-fade-in text-center" style={{ marginBottom: 24 }}>
           {t('landing.hero.subtitle')}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-6 animate-fade-in w-full max-w-md sm:max-w-none mx-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 animate-fade-in w-full max-w-md sm:max-w-none mx-auto" style={{ marginBottom: 12 }}>
           <Button
             size="lg"
             onClick={() => navigate('/signup')}
@@ -101,7 +109,7 @@ export function HeroSection() {
           </Button>
         </div>
 
-        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-10 animate-fade-in text-center">
+        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] animate-fade-in text-center" style={{ marginBottom: 32 }}>
           {t('landing.hero.hasAccount')}{' '}
           <a onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
             {t('auth.login')}
