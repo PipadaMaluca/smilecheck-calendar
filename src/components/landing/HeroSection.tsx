@@ -49,7 +49,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 md:px-10 pt-32 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       {/* Subtle floating tooth shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-[15%] left-[8%] text-[140px] opacity-[0.04] dark:opacity-[0.06] select-none animate-pulse" style={{ animationDuration: '8s' }}>🦷</div>
@@ -101,7 +101,7 @@ export function HeroSection() {
           </Button>
         </div>
 
-        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-16 animate-fade-in text-center">
+        <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] mb-10 animate-fade-in text-center">
           {t('landing.hero.hasAccount')}{' '}
           <a onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
             {t('auth.login')}
