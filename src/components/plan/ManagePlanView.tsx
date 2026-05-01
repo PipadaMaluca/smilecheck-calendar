@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -184,6 +185,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [currentPlan] = useState<PlanTier>('pro');
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
@@ -263,15 +265,12 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
       <div
         className="grid gap-4 md:gap-5 mx-auto w-full max-w-[900px] grid-cols-1 md:grid-cols-3 px-2 sm:px-0"
       >
-        {[...plans]
-          .sort((a, b) => {
-            // Mobile only: Pro -> Premium -> Free
-            if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        {(isMobile
+          ? [...plans].sort((a, b) => {
               const order: Record<PlanTier, number> = { pro: 0, premium: 1, free: 2 };
               return order[a.id] - order[b.id];
-            }
-            return 0;
-          })
+            })
+          : plans)
           .map((plan) => {
           const isCurrent = plan.id === currentPlan;
           const Icon = plan.icon;
