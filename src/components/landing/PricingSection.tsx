@@ -54,13 +54,13 @@ export function PricingSection() {
   }, []);
 
   return (
-    <section id="planos" className="py-24 sm:py-32 px-4 bg-white dark:bg-background" ref={ref}>
+    <section id="planos" className="py-24 sm:py-32 px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
-          <p className="text-lg sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
+          <h2 className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
+          <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
-          <div className="inline-flex items-center gap-2">
+          <div className="inline-flex flex-wrap items-center justify-center gap-2">
             <div
               role="tablist"
               aria-label={t('landing.pricing.title')}
