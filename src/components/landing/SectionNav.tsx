@@ -59,19 +59,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
 
   return (
     <>
-      {/* Fixed second header — always visible below main navbar */}
-      <div
-        className="fixed left-0 right-0 z-[39] border-b top-[84px] md:top-16 lg:top-20"
-        style={{
-          background: isDark ? 'rgba(10,25,41,0.92)' : 'rgba(245,249,255,0.92)',
-          WebkitBackdropFilter: 'blur(12px)',
-          backdropFilter: 'blur(12px)',
-          borderBottomColor: isDark ? '#1E3A5F' : '#D6E4F0',
-        }}
-      >
-        {/* placeholder removed below — actual style above */}
-      </div>
-      {/* Real fixed bar */}
+      {/* Fixed second header — directly below main navbar */}
       <div
         className="fixed left-0 right-0 z-[39] border-b top-11 md:top-16 lg:top-20"
         style={{
