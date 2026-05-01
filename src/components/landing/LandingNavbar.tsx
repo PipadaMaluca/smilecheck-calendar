@@ -91,24 +91,20 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#" className="flex-shrink-0 lg:mr-8 flex items-center gap-2">
+        <div className="relative flex items-center justify-between h-16 sm:h-20 gap-3">
+          {/* LEFT: Logo */}
+          <a href="#" className="flex-shrink-0 flex items-center gap-2 relative z-10">
             <Logo size={32} />
             <span className={cn('font-bold text-lg tracking-tight hidden sm:inline', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
           </a>
 
-          {/* Center toggles (mobile/tablet) */}
-          <div className="lg:hidden flex-1 flex justify-center px-2">
-            {ToggleGroup}
+          {/* CENTER: toggles, absolutely centered on the navbar */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="pointer-events-auto">{ToggleGroup}</div>
           </div>
 
-          {/* Desktop center toggles */}
-          <div className="hidden lg:flex items-center flex-1 justify-end mr-3">
-            {ToggleGroup}
-          </div>
-
-          {/* Right: Entrar + Criar Conta (always visible) */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          {/* RIGHT: Entrar + Criar Conta */}
+          <div className="flex items-center gap-3 flex-shrink-0 relative z-10 ml-auto">
             <button
               onClick={() => navigate('/login')}
               className={cn(

@@ -122,14 +122,14 @@ export function DesktopNavSidebar({
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-1 h-auto py-2 px-1 w-full transition-all duration-200 relative sidebar-slide-bg rounded-md',
+          'flex flex-col gap-0.5 h-auto py-1.5 px-1 w-full transition-all duration-200 relative rounded-none border-l-[3px]',
           isActive
-            ? 'bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90'
-            : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent'
+            ? 'border-l-[#2196F3] text-sidebar-foreground bg-transparent hover:bg-sidebar-accent/40'
+            : 'border-l-transparent text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/40'
         )}
       >
         <div className="relative">
-          <Icon className="w-6 h-6 flex-shrink-0" />
+          <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-[#2196F3]')} />
           {badge && (
             <span className={cn(
               'absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-sidebar',
@@ -140,7 +140,10 @@ export function DesktopNavSidebar({
           )}
         </div>
         {isExpanded && (
-          <span className="text-[10px] font-medium text-center leading-[1.15] w-full px-0.5 break-words hyphens-auto">
+          <span className={cn(
+            'text-[10px] font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
+            isActive && 'text-[#2196F3]'
+          )}>
             {twoLine && twoLine[1]
               ? <>{twoLine[0]}<br />{twoLine[1]}</>
               : item.label}
@@ -174,12 +177,12 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 items-center justify-start flex flex-col py-3 px-2 gap-2 overflow-y-auto">
+      <nav className="flex-1 items-stretch justify-start flex flex-col py-2 px-0 gap-1 overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
       {/* Bottom: Demo controls + Configurações */}
-      <div className="border-t border-sidebar-border flex-shrink-0 px-2 py-3 flex flex-col items-center gap-2">
+      <div className="border-t border-sidebar-border flex-shrink-0 px-1 py-2 flex flex-col items-stretch gap-1">
         {isExpanded && <DemoControlsPanel className="w-full" compact />}
         {renderNavButton({ id: 'configuracoes', icon: Settings, label: t('nav.settings') })}
       </div>
