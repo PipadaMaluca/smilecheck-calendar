@@ -62,13 +62,13 @@ export function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="flex justify-center animate-fade-in" style={{ marginBottom: 20 }}>
           <span className="block sm:hidden">
-            <Logo size={170} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo size={190} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
           <span className="hidden sm:block lg:hidden">
-            <Logo size={220} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo size={250} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
           <span className="hidden lg:block">
-            <Logo size={300} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo size={340} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
         </div>
 
