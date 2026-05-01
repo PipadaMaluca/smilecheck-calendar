@@ -20,6 +20,8 @@ import { PasteConfirmationModal } from '../PasteConfirmationModal';
 import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { PatientFeedbackModal } from '../PatientFeedbackModal';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from '../AgendaSettingsModal';
+import { AgendaSettingsStyle } from '../AgendaSettingsStyle';
+import { useAgendaSettings } from '@/stores/agendaSettingsStore';
 import { TimeBlockModal, TimeBlock, TimeBlockDeleteConfirm } from '../TimeBlockModal';
 import { MoveConsultationModal, OverlapWarningModal, DragMoveInfo } from '../MoveConsultationModal';
 import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
