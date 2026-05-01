@@ -48,11 +48,10 @@ export function SectionNav({ isDark }: SectionNavProps) {
   return (
     <div
       className={cn(
-        'sticky z-[39] border-b backdrop-blur-md',
+        'sticky top-16 sm:top-20 z-[39] border-b backdrop-blur-md',
         isDark ? 'border-[#1E3A5F]' : 'border-[#D6E4F0]'
       )}
       style={{
-        top: 'var(--landing-navbar-h, 64px)',
         background: isDark ? 'rgba(10,25,41,0.85)' : 'rgba(245,249,255,0.85)',
         WebkitBackdropFilter: 'blur(12px)',
         backdropFilter: 'blur(12px)',
