@@ -86,20 +86,23 @@ export function ConsultationFAB({
     { label: t('consultationMode.endConsultation'), icon: CheckCircle2, onClick: onEndConsultation, bg: '#4CAF50' },
   ];
 
+  // Sit above the bottom nav (~64-72px tall + safe area). Right edge with safe inset.
   return (
-    <div className={cn(
-      'fixed z-50',
-      isMobile ? 'bottom-20 left-1/2 -translate-x-1/2' : 'bottom-6 right-6'
-    )}>
+    <div
+      className="fixed z-40 right-4"
+      style={{
+        bottom: 'calc(72px + env(safe-area-inset-bottom, 0px) + 16px)',
+      }}
+    >
       {/* Action buttons */}
       {isOpen && (
-        <div className="absolute bottom-16 right-0 flex flex-col gap-2 animate-fade-in">
+        <div className="absolute bottom-[calc(100%+8px)] right-0 flex flex-col gap-2 animate-fade-in items-end">
           {actions.map((action) => {
             const Icon = action.icon;
             return (
               <button
                 key={action.label}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-all hover:scale-105 whitespace-nowrap"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-all hover:scale-105 whitespace-nowrap min-h-[44px]"
                 style={{ backgroundColor: action.bg }}
                 onClick={() => { setIsOpen(false); action.onClick(); }}
               >
@@ -111,18 +114,19 @@ export function ConsultationFAB({
         </div>
       )}
 
-      {/* Main FAB */}
+      {/* Main FAB — responsive sizing */}
       <button
         className={cn(
-          'w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-200',
-          isOpen 
-            ? 'bg-destructive text-white rotate-45' 
+          'rounded-full shadow-lg flex items-center justify-center transition-all duration-200',
+          'w-11 h-11 md:w-12 md:h-12 lg:w-14 lg:h-14',
+          isOpen
+            ? 'bg-destructive text-white rotate-45'
             : 'bg-emerald-600 text-white hover:bg-emerald-500'
         )}
         style={{ boxShadow: '0 4px 20px rgba(76,175,80,0.4)' }}
         onClick={() => setIsOpen(!isOpen)}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <ChevronUp className="w-6 h-6" />}
+        {isOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <ChevronUp className="w-5 h-5 md:w-6 md:h-6" />}
       </button>
     </div>
   );
