@@ -17,7 +17,6 @@ export function SectionNav({ isDark }: SectionNavProps) {
     { id: 'planos', label: t('landing.navbar.plans') },
     { id: 'testemunhos', label: t('landing.navbar.testimonials') },
     { id: 'faq', label: t('landing.navbar.faq') },
-    { id: 'contacto', label: t('landing.navbar.contact') },
   ];
 
   useEffect(() => {
@@ -60,9 +59,9 @@ export function SectionNav({ isDark }: SectionNavProps) {
 
   return (
     <>
-      {/* Fixed second header — always visible below main navbar */}
+      {/* Fixed second header — directly below main navbar */}
       <div
-        className="fixed left-0 right-0 z-[39] border-b top-[84px] md:top-16 lg:top-20"
+        className="fixed left-0 right-0 z-[39] border-b top-11 md:top-16 lg:top-20"
         style={{
           background: isDark ? 'rgba(10,25,41,0.92)' : 'rgba(245,249,255,0.92)',
           WebkitBackdropFilter: 'blur(12px)',
@@ -72,7 +71,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
       >
         <div className="relative max-w-7xl mx-auto h-10 px-4 sm:px-6 lg:px-8">
           <div ref={scrollerRef} className="h-full overflow-x-auto scrollbar-hide">
-            <ul className="flex items-center md:justify-center gap-4 sm:gap-5 lg:gap-8 h-full min-w-max px-1">
+            <ul className="flex items-center justify-center gap-4 md:gap-5 lg:gap-8 h-full min-w-max px-1">
               {links.map((l) => {
                 const isActive = active === l.id;
                 return (
@@ -82,7 +81,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
                       href={`#${l.id}`}
                       onClick={(e) => handleClick(e, l.id)}
                       className={cn(
-                        'inline-flex items-center text-[13px] whitespace-nowrap transition-all duration-200 border-b-2',
+                        'inline-flex items-center text-[11px] md:text-[12px] lg:text-[13px] whitespace-nowrap transition-all duration-200 border-b-2',
                         isActive
                           ? 'text-[#2196F3] font-semibold border-[#2196F3]'
                           : cn(
@@ -98,19 +97,10 @@ export function SectionNav({ isDark }: SectionNavProps) {
               })}
             </ul>
           </div>
-          {/* Right edge fade hint — mobile only */}
-          <div
-            className="md:hidden pointer-events-none absolute top-0 right-0 h-full w-8"
-            style={{
-              background: isDark
-                ? 'linear-gradient(90deg, rgba(10,25,41,0) 0%, rgba(10,25,41,0.92) 100%)'
-                : 'linear-gradient(90deg, rgba(245,249,255,0) 0%, rgba(245,249,255,0.92) 100%)',
-            }}
-          />
         </div>
       </div>
       {/* Spacer so content starts immediately below fixed navbar + section nav (no extra gap) */}
-      <div aria-hidden="true" className="h-[124px] md:h-[104px] lg:h-[120px] mb-0" />
+      <div aria-hidden="true" className="h-[80px] md:h-[104px] lg:h-[120px] mb-0" />
     </>
   );
 }

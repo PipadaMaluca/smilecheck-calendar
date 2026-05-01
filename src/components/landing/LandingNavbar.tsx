@@ -101,33 +101,27 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile (<768): 2-row layout */}
         <div className="md:hidden">
-          {/* Row 1: Logo + auth buttons (48px) */}
-          <div className="flex items-center justify-between h-12">
-            <a href="#" className="flex-shrink-0 flex items-center">
-              <Logo size={32} />
-            </a>
+          {/* Single row: toggles (left-center) + auth (right) — 44px */}
+          <div className="flex items-center justify-between h-11 gap-2">
+            <div className="flex-shrink-0">{renderToggleGroup('sm')}</div>
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => navigate('/login')}
                 className={cn(
-                  'text-[13px] font-medium transition-colors whitespace-nowrap',
+                  'text-[12px] font-medium transition-colors whitespace-nowrap',
                   isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
                 )}
               >
                 {t('landing.navbar.login')}
               </button>
-              <Button
-                size="sm"
+              <button
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[13px] font-semibold px-3 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-all whitespace-nowrap"
+                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[12px] font-semibold whitespace-nowrap shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-all"
+                style={{ padding: '5px 10px' }}
               >
                 {t('landing.navbar.signup')}
-              </Button>
+              </button>
             </div>
-          </div>
-          {/* Row 2: Toggles centered (36px) */}
-          <div className="h-9 flex items-center justify-center">
-            {renderToggleGroup('sm')}
           </div>
         </div>
 
@@ -135,8 +129,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         <div className="hidden md:block">
           <div className="relative flex items-center justify-between h-16 lg:h-20 gap-3">
             <a href="#" className="flex-shrink-0 flex items-center gap-2 relative z-10">
-              <Logo size={32} />
-              <span className={cn('font-bold text-lg tracking-tight', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
+              <Logo size={24} />
+              <span className={cn('hidden lg:inline font-bold text-lg tracking-tight', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
             </a>
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
