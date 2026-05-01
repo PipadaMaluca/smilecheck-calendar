@@ -64,13 +64,11 @@ export function HeroSection() {
           <Logo size={140} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
         </div>
 
-        {/* Subtle animated pill with gradient border */}
+        {/* Visible pill — clear blue tint per design spec */}
         <div className="inline-flex mb-8 animate-fade-in">
-          <div className="relative rounded-full p-[1px] bg-gradient-to-r from-[#2196F3] via-[#64B5F6] to-[#2196F3] bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_1]">
-            <div className="rounded-full bg-white dark:bg-[#0A1929] px-4 py-1.5 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-[#2196F3]" />
-              <span className="text-xs font-medium text-slate-700 dark:text-slate-200">{t('landing.hero.badge')}</span>
-            </div>
+          <div className="rounded-full bg-[#EBF4FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] px-4 py-1.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(33,150,243,0.08)]">
+            <Sparkles className="w-3.5 h-3.5 text-[#2196F3]" />
+            <span className="text-xs font-semibold text-[#1565C0] dark:text-[#60A5FA]">{t('landing.hero.badge')}</span>
           </div>
         </div>
 
