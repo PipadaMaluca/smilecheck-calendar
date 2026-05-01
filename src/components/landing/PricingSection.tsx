@@ -195,7 +195,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
       <ul className="space-y-3 mb-6 flex-1">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Check className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
+            <Check className="w-4 h-4 text-[#4CAF50] mt-0.5 flex-shrink-0" strokeWidth={3} />
             <span className="text-[#4A5568] dark:text-[#94A3B8]">{f}</span>
           </li>
         ))}
