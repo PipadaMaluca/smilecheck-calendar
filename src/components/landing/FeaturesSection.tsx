@@ -139,7 +139,7 @@ function FeatureRow({
   return (
     <div className={cn('grid lg:grid-cols-2 gap-12 lg:gap-20 items-center', reverse && 'lg:[&>*:first-child]:order-2')}>
       <ScrollReveal>
-        <div className="inline-block px-3 py-1 rounded-full bg-[#2196F3]/10 text-[#2196F3] text-xs font-semibold mb-4 uppercase tracking-wide">
+        <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
         <h3 className="text-3xl sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
@@ -224,7 +224,7 @@ export function FeaturesSection() {
 
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto">
-              <div className="inline-block px-3 py-1 rounded-full bg-[#2196F3]/10 text-[#2196F3] text-xs font-semibold mb-4 uppercase tracking-wide">
+              <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
                 📹 {t('landing.features.teleEyebrow')}
               </div>
               <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
@@ -245,10 +245,19 @@ export function FeaturesSection() {
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <Tabs defaultValue="patient" className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-10 h-auto rounded-full p-1 bg-[#F5F9FF] dark:bg-[#0D2137]">
-              <TabsTrigger value="patient" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.features.forPatients')}</TabsTrigger>
-              <TabsTrigger value="dentist" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.features.forDentists')}</TabsTrigger>
-              <TabsTrigger value="clinic" className="text-xs sm:text-sm py-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E3A5F] data-[state=active]:shadow-sm">{t('landing.features.forClinics')}</TabsTrigger>
+            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-10 h-auto bg-transparent p-0 border-b border-[#E2E8F0] dark:border-[#1E3A5F] rounded-none gap-0">
+              <TabsTrigger
+                value="patient"
+                className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              >{t('landing.features.forPatients')}</TabsTrigger>
+              <TabsTrigger
+                value="dentist"
+                className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              >{t('landing.features.forDentists')}</TabsTrigger>
+              <TabsTrigger
+                value="clinic"
+                className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              >{t('landing.features.forClinics')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="patient"><FeatureGrid features={patientFeatures} /></TabsContent>
