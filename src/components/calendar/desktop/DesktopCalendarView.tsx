@@ -119,6 +119,7 @@ export function DesktopCalendarView() {
   const [patientFeedbackScore, setPatientFeedbackScore] = useState<ConsultationScore | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
+  const liveAgendaSettings = useAgendaSettings();
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockInitialDate, setBlockInitialDate] = useState<Date | undefined>();
   const [blockInitialTime, setBlockInitialTime] = useState<string | undefined>();
