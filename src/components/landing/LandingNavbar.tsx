@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { LanguageSwitcher } from '@/components/landing/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 
@@ -14,7 +13,7 @@ interface LandingNavbarProps {
 
 export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -32,6 +31,48 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const langs = ['pt', 'fr', 'en'] as const;
+
+  const pillBase =
+    'h-7 px-2.5 rounded-full text-[11px] font-semibold transition-colors flex items-center justify-center min-w-[32px] border';
+  const pillActive = 'bg-[#2196F3] text-white border-[#2196F3]';
+  const pillInactive = isDark
+    ? 'bg-transparent text-[#94A3B8] border-[#1E3A5F] hover:text-white hover:border-[#2196F3]/60'
+    : 'bg-transparent text-[#4A5568] border-[#D6E4F0] hover:text-[#1A202C] hover:border-[#2196F3]/60';
+
+  const ToggleGroup = (
+    <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1">
+        {langs.map((lang) => (
+          <button
+            key={lang}
+            onClick={() => i18n.changeLanguage(lang)}
+            className={cn(pillBase, i18n.language === lang ? pillActive : pillInactive)}
+            aria-label={lang.toUpperCase()}
+          >
+            {lang.toUpperCase()}
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => { if (isDark) onToggleTheme(); }}
+          className={cn(pillBase, !isDark ? pillActive : pillInactive)}
+          aria-label="Light mode"
+        >
+          <Sun className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => { if (!isDark) onToggleTheme(); }}
+          className={cn(pillBase, isDark ? pillActive : pillInactive)}
+          aria-label="Dark mode"
+        >
+          <Moon className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <nav
       className={cn(
@@ -45,9 +86,9 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#" className="flex-shrink-0 mr-8 flex items-center gap-2">
+          <a href="#" className="flex-shrink-0 lg:mr-8 flex items-center gap-2">
             <Logo size={32} />
-            <span className={cn('font-bold text-lg tracking-tight', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
+            <span className={cn('font-bold text-lg tracking-tight hidden sm:inline', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
           </a>
 
           <div className="hidden lg:flex items-center gap-8 flex-1 justify-center">
@@ -65,18 +106,13 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
             ))}
           </div>
 
+          {/* Mobile/tablet centered toggles */}
+          <div className="lg:hidden flex-1 flex justify-center px-2">
+            {ToggleGroup}
+          </div>
+
           <div className="hidden lg:flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={onToggleTheme}
-              className={cn(
-                'p-2 rounded-full transition-colors',
-                isDark ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-100'
-              )}
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
+            {ToggleGroup}
             <button
               onClick={() => navigate('/login')}
               className={cn(
@@ -131,20 +167,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
                 {l.label}
               </a>
             ))}
-            <div className={cn('flex items-center justify-between gap-3 pt-4 mt-2 border-t', isDark ? 'border-[#1E3A5F]' : 'border-[#E2E8F0]')}>
-              <LanguageSwitcher size="sm" />
-              <button
-                onClick={onToggleTheme}
-                className={cn(
-                  'p-3 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center',
-                  isDark ? 'text-slate-300 hover:bg-white/10 bg-white/5' : 'text-slate-600 hover:bg-slate-100 bg-slate-50'
-                )}
-                aria-label="Toggle theme"
-              >
-                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
-            </div>
-            <div className="flex flex-col gap-2 pt-3">
+            <div className={cn('flex flex-col gap-2 pt-4 mt-2 border-t', isDark ? 'border-[#1E3A5F]' : 'border-[#E2E8F0]')}>
               <Button
                 variant="ghost"
                 className={cn('w-full h-11', isDark ? 'text-slate-200' : 'text-slate-700')}
