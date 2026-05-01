@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import smileIcon from '@/assets/smilecheck-icon.png';
 import { cn } from '@/lib/utils';
 import { useTheme, Theme } from '@/hooks/useTheme';
 import { UserRole } from '@/types/calendar';
-import { Building2, Stethoscope, User } from 'lucide-react';
+import { Building2, Stethoscope, User, Sun, Moon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const ROLE_EVENT = 'smilecheck:set-role';
@@ -54,15 +53,17 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const { i18n, t } = useTranslation();
   const [theme, setTheme] = useTheme();
   const [role, setRole] = useDemoRole();
+  const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-8 rounded-md text-[11px] font-medium transition-all flex items-center justify-center px-0.5';
-  const active = 'bg-primary text-primary-foreground';
-  const inactive =
-    'bg-transparent border border-border text-muted-foreground hover:text-foreground hover:bg-muted/40';
+    'flex-1 h-[26px] rounded-md text-[10px] font-semibold transition-all flex items-center justify-center px-0.5 uppercase';
+  const active = 'bg-[#2196F3] text-white';
+  const inactive = isDark
+    ? 'bg-transparent text-[#94A3B8] hover:bg-[#1E3A5F] hover:text-white'
+    : 'bg-transparent text-[#4A5568] hover:bg-[#EBF4FF] hover:text-[#1A202C]';
 
   const Row = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-1">{children}</div>
+    <div className="flex items-center gap-[2px]">{children}</div>
   );
 
   const roles: { id: UserRole; label: string; Icon: typeof Building2 }[] = [
@@ -71,30 +72,32 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
     { id: 'patient', label: t('demoTooltips.rolePatient'), Icon: User },
   ];
   const langs = ['pt', 'fr', 'en'] as const;
-  const themes: { id: Theme; label: string; tip: string }[] = [
-    { id: 'light', label: '☀️', tip: t('demoTooltips.themeLight') },
-    { id: 'dark', label: '🌙', tip: t('demoTooltips.themeDark') },
+  const themes: { id: Theme; Icon: typeof Sun; tip: string }[] = [
+    { id: 'light', Icon: Sun, tip: t('demoTooltips.themeLight') },
+    { id: 'dark', Icon: Moon, tip: t('demoTooltips.themeDark') },
   ];
-  const langTips: Record<string, string> = {
-    pt: t('demoTooltips.languagePt'),
-    fr: t('demoTooltips.languageFr'),
-    en: t('demoTooltips.languageEn'),
-  };
+
+  const Divider = () => (
+    <div
+      className="h-[1px] my-1 rounded-full"
+      style={{
+        background:
+          'linear-gradient(90deg, transparent 0%, #2196F3 30%, #1565C0 70%, transparent 100%)',
+      }}
+      aria-hidden="true"
+    />
+  );
 
   return (
     <div
       className={cn(
-        'rounded-lg border border-dashed border-border bg-background/30',
-        compact ? 'p-2.5' : 'p-3',
+        'rounded-[10px] border backdrop-blur-md mx-1',
+        isDark ? 'bg-[#0D2137]/80 border-[#1E3A5F]' : 'bg-[#EBF4FF]/80 border-[#D6E4F0]',
+        'p-1.5',
         className
       )}
     >
-      {/* Logo header */}
-      <div className="flex items-center justify-center mb-2">
-        <span className="text-[12px] font-semibold text-foreground text-center">SmileCheck</span>
-      </div>
-
-      <div className="space-y-1">
+      <div className="space-y-0">
         {/* Role (icons only with tooltip) */}
         <TooltipProvider delayDuration={200}>
           <Row>
@@ -109,7 +112,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
                       aria-pressed={role === r.id}
                       aria-label={r.label}
                     >
-                      <Ico className="w-4 h-4" />
+                      <Ico className="w-3.5 h-3.5" />
                     </button>
                   </TooltipTrigger>
                   <TooltipContent side="top">{r.label}</TooltipContent>
@@ -119,23 +122,23 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
           </Row>
         </TooltipProvider>
 
+        <Divider />
+
         {/* Language */}
         <Row>
           {langs.map((l) => (
             <button
               key={l}
               onClick={() => i18n.changeLanguage(l)}
-              className={cn(
-                baseBtn,
-                'uppercase',
-                i18n.language === l ? active : inactive
-              )}
+              className={cn(baseBtn, i18n.language === l ? active : inactive)}
               aria-pressed={i18n.language === l}
             >
               {l}
             </button>
           ))}
         </Row>
+
+        <Divider />
 
         {/* Theme */}
         <Row>
@@ -147,7 +150,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
               aria-label={tt.id}
               aria-pressed={theme === tt.id}
             >
-              <span className="text-[14px] leading-none">{tt.label}</span>
+              <tt.Icon className="w-3.5 h-3.5" />
             </button>
           ))}
         </Row>
