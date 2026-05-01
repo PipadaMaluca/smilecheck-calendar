@@ -34,15 +34,22 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const langs = ['pt', 'fr', 'en'] as const;
 
   const pillBase =
-    'h-7 px-2.5 rounded-full text-[11px] font-semibold transition-colors flex items-center justify-center min-w-[32px] border';
-  const pillActive = 'bg-[#2196F3] text-white border-[#2196F3]';
+    'h-7 min-w-[32px] px-2 rounded-lg text-[11px] font-semibold transition-colors flex items-center justify-center';
+  const pillActive = 'bg-[#2196F3] text-white';
   const pillInactive = isDark
-    ? 'bg-transparent text-[#94A3B8] border-[#1E3A5F] hover:text-white hover:border-[#2196F3]/60'
-    : 'bg-transparent text-[#4A5568] border-[#D6E4F0] hover:text-[#1A202C] hover:border-[#2196F3]/60';
+    ? 'bg-transparent text-[#94A3B8] hover:bg-[#1E3A5F] hover:text-white'
+    : 'bg-transparent text-[#4A5568] hover:bg-[#EBF4FF] hover:text-[#1A202C]';
 
   const ToggleGroup = (
-    <div className="flex items-center gap-3">
-      <div className="flex items-center gap-1">
+    <div
+      className={cn(
+        'flex items-center rounded-[12px] border px-2 py-1 backdrop-blur-md',
+        isDark
+          ? 'bg-[#0D2137]/80 border-[#1E3A5F]'
+          : 'bg-[#EBF4FF]/80 border-[#D6E4F0]'
+      )}
+    >
+      <div className="flex items-center gap-[2px]">
         {langs.map((lang) => (
           <button
             key={lang}
@@ -54,7 +61,15 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           </button>
         ))}
       </div>
-      <div className="flex items-center gap-1">
+      <div
+        className="w-[2px] h-5 mx-[10px] rounded-full"
+        style={{
+          background:
+            'linear-gradient(180deg, transparent 0%, #2196F3 30%, #1565C0 70%, transparent 100%)',
+        }}
+        aria-hidden="true"
+      />
+      <div className="flex items-center gap-[2px]">
         <button
           onClick={() => { if (isDark) onToggleTheme(); }}
           className={cn(pillBase, !isDark ? pillActive : pillInactive)}
