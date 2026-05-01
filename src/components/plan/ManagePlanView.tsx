@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -184,6 +185,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
 
 export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [currentPlan] = useState<PlanTier>('pro');
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
@@ -259,26 +261,17 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
         </button>
       </div>
 
-      {/* Current plan info */}
-      {currentPlan !== 'free' &&
-      <Card className="border-primary/30 bg-primary/5">
-          <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-            <div>
-              <p className="text-sm font-medium text-foreground">
-                {t('plan.currentPlan')}: <span className="font-bold">{currentPlan === 'pro' ? 'Pro' : 'Premium'}</span>
-              </p>
-              <p className="text-xs text-muted-foreground">{t('plan.nextRenewal')}: 28 Fev 2026</p>
-            </div>
-            <Button variant="outline" size="sm" className="text-destructive border-destructive/30 hover:bg-destructive/10" onClick={handleCancel}>
-              {t('plan.cancelSubscription')}
-            </Button>
-          </CardContent>
-        </Card>
-      }
-
       {/* Plan cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {plans.map((plan) => {
+      <div
+        className="grid gap-4 md:gap-5 mx-auto w-full max-w-[900px] grid-cols-1 md:grid-cols-3 px-2 sm:px-0"
+      >
+        {(isMobile
+          ? [...plans].sort((a, b) => {
+              const order: Record<PlanTier, number> = { pro: 0, premium: 1, free: 2 };
+              return order[a.id] - order[b.id];
+            })
+          : plans)
+          .map((plan) => {
           const isCurrent = plan.id === currentPlan;
           const Icon = plan.icon;
           const price = formatPrice(plan);
@@ -287,20 +280,31 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           const includedFeatures = plan.features.filter((f) => f.included);
           const warningFeatures = plan.features.filter((f) => !f.included && f.isWarning);
           const excludedFeatures = plan.features.filter((f) => !f.included && !f.isWarning);
+          const isPro = plan.id === 'pro';
+          const isPremium = plan.id === 'premium';
 
           return (
             <Card
               key={plan.id}
               className={cn(
-                'relative transition-all duration-200 flex flex-col',
-                isCurrent && 'border-primary ring-2 ring-primary/20',
-                badgeText && !isCurrent && 'border-amber-500/30'
+                'relative transition-all duration-200 flex flex-col min-h-[500px] p-2',
+                isPro && 'md:scale-[1.03] border-2 border-[#2196F3] shadow-[0_8px_24px_rgba(33,150,243,0.15)]',
+                isPremium && 'border-2 border-transparent bg-clip-padding [background-image:linear-gradient(hsl(var(--card)),hsl(var(--card))),linear-gradient(135deg,#2196F3,#1565C0)] [background-origin:border-box] [background-clip:padding-box,border-box]',
+                !isPro && !isPremium && 'border border-[#D6E4F0] dark:border-[#1E3A5F]',
+                isCurrent && 'ring-2 ring-primary/30'
               )}>
 
               {badgeText &&
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-amber-500 text-white border-0 text-[10px] px-3">
                     {badgeText}
+                  </Badge>
+                </div>
+              }
+              {isCurrent &&
+              <div className="absolute -top-3 right-3">
+                  <Badge className="bg-primary text-primary-foreground border-0 text-[10px] px-3">
+                    {t('plan.currentPlan')}
                   </Badge>
                 </div>
               }
@@ -318,32 +322,33 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                     'text-muted-foreground'
                   )} />
                 </div>
-                <CardTitle className="text-lg">{displayName}</CardTitle>
+                <CardTitle className="text-xl font-bold">{displayName}</CardTitle>
                 <div className="mt-1">
-                  <span className={cn("font-bold text-foreground text-center",
-                  isAnnual && plan.monthlyPrice > 0 ? "text-xl" : "text-2xl"
+                  <span className={cn(
+                    'font-bold text-foreground text-center',
+                    isAnnual && plan.monthlyPrice > 0 ? 'text-2xl' : 'text-[32px] leading-none'
                   )}>
                     {price.main}
                   </span>
                   {price.sub &&
                   <span className={cn(
-                    "text-muted-foreground",
-                    isAnnual && plan.monthlyPrice > 0 ? "block text-xs mt-0.5" : "text-sm ml-0.5"
+                    'text-muted-foreground',
+                    isAnnual && plan.monthlyPrice > 0 ? 'block text-xs mt-1' : 'text-sm ml-1'
                   )}>
                       {price.sub}
                     </span>
                   }
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-col flex-1 pt-2 px-4">
+              <CardContent className="flex flex-col flex-1 pt-2 px-5 pb-5">
                 <div className="space-y-1.5 flex-1">
                   {/* Included features */}
                   {includedFeatures.map((feat, i) =>
-                  <div key={i} className={cn("flex items-start gap-2 text-sm", feat.isInherited && "mb-1")}>
+                  <div key={i} className={cn('flex items-start gap-2 text-[13px]', feat.isInherited && 'mb-1')}>
                       {feat.isInherited ?
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey)}</span> :
                     <>
-                          <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-[#4CAF50] flex-shrink-0 mt-0.5" strokeWidth={3} />
                           <span className="text-foreground">{t(feat.textKey)}</span>
                         </>
                     }
@@ -368,8 +373,8 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   {excludedFeatures.length > 0 &&
                   <div className="mt-2 space-y-1.5">
                       {excludedFeatures.map((feat, i) =>
-                    <div key={i} className="flex items-start gap-2 text-sm">
-                          <X className="w-4 h-4 text-destructive flex-shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2 text-[13px]">
+                          <X className="w-4 h-4 text-[#EF5350] flex-shrink-0 mt-0.5" />
                           <span className="text-muted-foreground line-through">{t(feat.textKey)}</span>
                         </div>
                     )}
@@ -377,7 +382,12 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   }
                 </div>
                 <Button
-                  className="w-full mt-4"
+                  className={cn(
+                    'w-full mt-4 h-11 rounded-full font-semibold',
+                    isPremium && !isCurrent && 'bg-gradient-to-r from-[#2196F3] to-[#1565C0] hover:from-[#1E88E5] hover:to-[#0D47A1] text-white border-0',
+                    isPro && !isCurrent && 'bg-[#2196F3] hover:bg-[#1E88E5] text-white border-0',
+                    !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'
+                  )}
                   variant={isCurrent ? 'outline' : 'default'}
                   disabled={isCurrent}
                   onClick={() => !isCurrent && setCheckoutPlan(plan)}>
@@ -387,6 +397,18 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </Card>);
         })}
       </div>
+
+      {/* Cancel subscription link */}
+      {currentPlan !== 'free' && (
+        <div className="text-center">
+          <button
+            onClick={handleCancel}
+            className="text-xs text-muted-foreground hover:text-destructive underline underline-offset-4 transition-colors"
+          >
+            {t('plan.cancelSubscription')}
+          </button>
+        </div>
+      )}
 
       {/* Checkout Dialog */}
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
