@@ -3,7 +3,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet, AlertTriangle } from 'lucide-react';
+import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import {
@@ -190,6 +190,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [expandedFeatures, setExpandedFeatures] = useState<Record<string, boolean>>({});
 
   const plans = PLANS_BY_ROLE[userRole] || PLANS_BY_ROLE.patient;
 
@@ -219,7 +220,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
   };
 
   return (
-    <div className="p-4 sm:p-6 max-w-5xl mx-auto space-y-6 pb-28">
+    <div className="p-4 sm:p-6 w-full mx-auto space-y-6 pb-28">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex-1 min-w-0">
@@ -263,7 +264,12 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
 
       {/* Plan cards */}
       <div
-        className="grid gap-4 md:gap-5 mx-auto w-full max-w-[900px] grid-cols-1 md:grid-cols-3 px-2 sm:px-0"
+        className={cn(
+          'w-full',
+          isMobile
+            ? 'flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-hide'
+            : 'grid gap-4 grid-cols-1 md:grid-cols-3'
+        )}
       >
         {(isMobile
           ? [...plans].sort((a, b) => {
@@ -282,13 +288,18 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
           const excludedFeatures = plan.features.filter((f) => !f.included && !f.isWarning);
           const isPro = plan.id === 'pro';
           const isPremium = plan.id === 'premium';
+          const FEATURE_LIMIT = 6;
+          const isExpanded = expandedFeatures[plan.id];
+          const visibleIncluded = isExpanded ? includedFeatures : includedFeatures.slice(0, FEATURE_LIMIT);
+          const hiddenCount = includedFeatures.length - FEATURE_LIMIT;
 
           return (
             <Card
               key={plan.id}
               className={cn(
-                'relative transition-all duration-200 flex flex-col min-h-[500px] p-2',
-                isPro && 'md:scale-[1.03] border-2 border-[#2196F3] shadow-[0_8px_24px_rgba(33,150,243,0.15)]',
+                'relative transition-all duration-200 flex flex-col rounded-2xl',
+                isMobile && 'snap-center shrink-0 w-[85%]',
+                isPro && 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]',
                 isPremium && 'border-2 border-transparent bg-clip-padding [background-image:linear-gradient(hsl(var(--card)),hsl(var(--card))),linear-gradient(135deg,#2196F3,#1565C0)] [background-origin:border-box] [background-clip:padding-box,border-box]',
                 !isPro && !isPremium && 'border border-[#D6E4F0] dark:border-[#1E3A5F]',
                 isCurrent && 'ring-2 ring-primary/30'
@@ -308,60 +319,70 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                   </Badge>
                 </div>
               }
-              <CardHeader className="text-center pb-2 pt-6">
+              <CardHeader className="text-center pb-2 pt-5 px-6">
                 <div className={cn(
-                  'mx-auto w-12 h-12 rounded-full flex items-center justify-center mb-2',
+                  'mx-auto w-10 h-10 rounded-full flex items-center justify-center mb-1.5',
                   plan.id === 'premium' ? 'bg-amber-500/20' :
                   plan.id === 'pro' ? 'bg-primary/20' :
                   'bg-secondary'
                 )}>
                   <Icon className={cn(
-                    'w-6 h-6',
+                    'w-5 h-5',
                     plan.id === 'premium' ? 'text-amber-400' :
                     plan.id === 'pro' ? 'text-primary' :
                     'text-muted-foreground'
                   )} />
                 </div>
-                <CardTitle className="text-xl font-bold">{displayName}</CardTitle>
-                <div className="mt-1">
+                <CardTitle className="text-[18px] font-bold">{displayName}</CardTitle>
+                <div className="mt-0.5">
                   <span className={cn(
                     'font-bold text-foreground text-center',
-                    isAnnual && plan.monthlyPrice > 0 ? 'text-2xl' : 'text-[32px] leading-none'
+                    isAnnual && plan.monthlyPrice > 0 ? 'text-xl' : 'text-[28px] leading-none'
                   )}>
                     {price.main}
                   </span>
                   {price.sub &&
                   <span className={cn(
                     'text-muted-foreground',
-                    isAnnual && plan.monthlyPrice > 0 ? 'block text-xs mt-1' : 'text-sm ml-1'
+                    isAnnual && plan.monthlyPrice > 0 ? 'block text-xs mt-0.5' : 'text-[13px] ml-1'
                   )}>
                       {price.sub}
                     </span>
                   }
                 </div>
               </CardHeader>
-              <CardContent className="flex flex-col flex-1 pt-2 px-5 pb-5">
-                <div className="space-y-1.5 flex-1">
+              <CardContent className="flex flex-col flex-1 pt-2 px-6 pb-5">
+                <div className="space-y-1 flex-1">
                   {/* Included features */}
-                  {includedFeatures.map((feat, i) =>
-                  <div key={i} className={cn('flex items-start gap-2 text-[13px]', feat.isInherited && 'mb-1')}>
+                  {visibleIncluded.map((feat, i) =>
+                  <div key={i} className={cn('flex items-start gap-1.5 text-[12px] leading-[1.4]', feat.isInherited && 'mb-0.5')}>
                       {feat.isInherited ?
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey)}</span> :
                     <>
-                          <Check className="w-4 h-4 text-[#4CAF50] flex-shrink-0 mt-0.5" strokeWidth={3} />
+                          <Check className="w-3.5 h-3.5 text-[#4CAF50] flex-shrink-0 mt-0.5" strokeWidth={3} />
                           <span className="text-foreground">{t(feat.textKey)}</span>
                         </>
                     }
                     </div>
                   )}
+                  {hiddenCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setExpandedFeatures(prev => ({ ...prev, [plan.id]: !isExpanded }))}
+                      className="flex items-center gap-1 text-[12px] text-primary hover:underline pt-1"
+                    >
+                      {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      {isExpanded ? t('plan.showLess', { defaultValue: 'Ver menos' }) : t('plan.showAllFeatures', { defaultValue: `Ver todas (+${hiddenCount})`, count: hiddenCount })}
+                    </button>
+                  )}
 
                   {/* Warning features */}
                   {warningFeatures.length > 0 &&
-                  <div className="border-t border-amber-500/30 mt-3 pt-2 pb-2 border-b border-b-amber-500/30 space-y-1.5">
-                      <div className="rounded-md bg-amber-500/10 border border-amber-500/20 px-3 py-2">
+                  <div className="mt-2 space-y-1">
+                      <div className="rounded-md bg-amber-500/10 border border-amber-500/20 px-2 py-1.5">
                         {warningFeatures.map((feat, i) =>
-                        <div key={i} className="flex items-start gap-2 text-sm">
-                          <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                        <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
                           <span className="text-amber-400 font-medium">{t(feat.textKey)}</span>
                         </div>
                         )}
@@ -371,10 +392,10 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
 
                   {/* Excluded features */}
                   {excludedFeatures.length > 0 &&
-                  <div className="mt-2 space-y-1.5">
+                  <div className="mt-1.5 space-y-1">
                       {excludedFeatures.map((feat, i) =>
-                    <div key={i} className="flex items-start gap-2 text-[13px]">
-                          <X className="w-4 h-4 text-[#EF5350] flex-shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
+                          <X className="w-3.5 h-3.5 text-[#EF5350] flex-shrink-0 mt-0.5" />
                           <span className="text-muted-foreground line-through">{t(feat.textKey)}</span>
                         </div>
                     )}
@@ -383,7 +404,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
                 </div>
                 <Button
                   className={cn(
-                    'w-full mt-4 h-11 rounded-full font-semibold',
+                    'w-full mt-4 h-10 rounded-full font-semibold text-sm',
                     isPremium && !isCurrent && 'bg-gradient-to-r from-[#2196F3] to-[#1565C0] hover:from-[#1E88E5] hover:to-[#0D47A1] text-white border-0',
                     isPro && !isCurrent && 'bg-[#2196F3] hover:bg-[#1E88E5] text-white border-0',
                     !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'
