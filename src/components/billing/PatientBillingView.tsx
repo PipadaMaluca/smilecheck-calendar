@@ -12,7 +12,6 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
-import { CurrentPlanBar } from './CurrentPlanBar';
 
 interface PatientBillingViewProps {
   initialTab?: string;
@@ -55,15 +54,14 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="plano" className="space-y-4 mt-4">
             <div id="plan-comparison" className="-mx-6">
-              <ManagePlanView userRole="patient" />
+              <ManagePlanView
+                userRole="patient"
+                currentPlanName="Pro"
+                currentPriceLabel={`€4,99/${t('billing.monthly').toLowerCase()}`}
+                nextBilling="1 Fev 2026"
+                paymentMethodLabel="Visa ****4532"
+              />
             </div>
-            <CurrentPlanBar
-              planName="Pro"
-              price={`€4,99/${t('billing.monthly').toLowerCase()}`}
-              nextBilling="1 Fev 2026"
-              method="Visa ****4532"
-              onChangePlan={() => document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            />
           </TabsContent>
 
           <TabsContent value="resumo" className="space-y-4 mt-4">
