@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { CurrentPlanBar } from './CurrentPlanBar';
 
 interface PatientBillingViewProps {
   initialTab?: string;
@@ -37,7 +38,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
   return (
     <ScrollArea className="flex-1">
-      <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
+      <div className={`p-6 ${activeTab === 'plano' ? 'max-w-6xl' : 'max-w-2xl'} mx-auto space-y-6 pb-32`}>
         <div>
           <h1 className="text-xl font-bold text-foreground">{t('billing.patientTitle')}</h1>
           <p className="text-sm text-muted-foreground mt-1">{t('billing.patientSubtitle')}</p>
@@ -53,34 +54,16 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
           </TabsList>
 
           <TabsContent value="plano" className="space-y-4 mt-4">
-            <Card className="bg-card/80 backdrop-blur border-border">
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">Pro</p>
-                    <p className="text-xs text-muted-foreground">€4,99/{t('billing.monthly').toLowerCase()}</p>
-                  </div>
-                  <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[10px]">{t('billing.active')}</Badge>
-                </div>
-                <div className="text-xs text-muted-foreground space-y-1">
-                  <p>{t('billing.nextBillingDate')}: 1 Fev 2026</p>
-                  <p>{t('billing.method')}: Visa ****4532</p>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => {
-                    document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }}
-                >
-                  {t('billing.changePlan')}
-                </Button>
-                <button className="text-xs text-destructive hover:underline w-full text-center mt-1">{t('plan.cancelSubscription')}</button>
-              </CardContent>
-            </Card>
             <div id="plan-comparison" className="-mx-6">
               <ManagePlanView userRole="patient" />
             </div>
+            <CurrentPlanBar
+              planName="Pro"
+              price={`€4,99/${t('billing.monthly').toLowerCase()}`}
+              nextBilling="1 Fev 2026"
+              method="Visa ****4532"
+              onChangePlan={() => document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            />
           </TabsContent>
 
           <TabsContent value="resumo" className="space-y-4 mt-4">
