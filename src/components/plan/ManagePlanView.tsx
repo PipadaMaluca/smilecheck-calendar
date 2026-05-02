@@ -349,13 +349,6 @@ export function ManagePlanView({
                   </Badge>
                 </div>
               }
-              {isCurrent &&
-              <div className="absolute -top-3 right-3">
-                  <Badge className="bg-primary text-primary-foreground border-0 text-[10px] px-3">
-                    {t('plan.currentPlan')}
-                  </Badge>
-                </div>
-              }
               <CardHeader className="text-center pb-2 pt-5 px-6">
                 <div className={cn(
                   'mx-auto w-10 h-10 rounded-full flex items-center justify-center mb-1.5',
