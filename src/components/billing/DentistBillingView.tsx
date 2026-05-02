@@ -12,7 +12,6 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } fro
 import { useTranslation } from 'react-i18next';
 
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
-import { CurrentPlanBar } from './CurrentPlanBar';
 
 interface DentistBillingViewProps {
   initialTab?: string;
@@ -143,15 +142,14 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
 
           <TabsContent value="plano" className="space-y-4 mt-4">
             <div id="plan-comparison" className="-mx-6">
-              <ManagePlanView userRole="dentist" />
+              <ManagePlanView
+                userRole="dentist"
+                currentPlanName="Pro"
+                currentPriceLabel={`€19,99/${t('billing.monthly').toLowerCase()}`}
+                nextBilling="1 Fev 2026"
+                paymentMethodLabel="Visa ****4532"
+              />
             </div>
-            <CurrentPlanBar
-              planName="Pro"
-              price={`€19,99/${t('billing.monthly').toLowerCase()}`}
-              nextBilling="1 Fev 2026"
-              method="Visa ****4532"
-              onChangePlan={() => document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            />
           </TabsContent>
 
           <TabsContent value="dados" className="space-y-4 mt-4">
