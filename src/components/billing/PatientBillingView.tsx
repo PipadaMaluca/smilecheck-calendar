@@ -38,7 +38,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
   return (
     <ScrollArea className="flex-1">
-      <div className="p-6 max-w-2xl mx-auto space-y-6 pb-32">
+      <div className={`p-6 ${activeTab === 'plano' ? 'max-w-6xl' : 'max-w-2xl'} mx-auto space-y-6 pb-32`}>
         <div>
           <h1 className="text-xl font-bold text-foreground">{t('billing.patientTitle')}</h1>
           <p className="text-sm text-muted-foreground mt-1">{t('billing.patientSubtitle')}</p>
