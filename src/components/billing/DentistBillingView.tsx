@@ -12,6 +12,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } fro
 import { useTranslation } from 'react-i18next';
 
 import { ManagePlanView } from '@/components/plan/ManagePlanView';
+import { CurrentPlanBar } from './CurrentPlanBar';
 
 interface DentistBillingViewProps {
   initialTab?: string;
@@ -141,34 +142,16 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
           </TabsContent>
 
           <TabsContent value="plano" className="space-y-4 mt-4">
-            <Card className="bg-card/80 backdrop-blur border-border">
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">Pro</p>
-                    <p className="text-xs text-muted-foreground">€19,99/{t('billing.monthly').toLowerCase()}</p>
-                  </div>
-                  <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[10px]">{t('billing.active')}</Badge>
-                </div>
-                <div className="text-xs text-muted-foreground space-y-1">
-                  <p>{t('billing.nextBillingDate')}: 1 Fev 2026</p>
-                  <p>{t('billing.method')}: Visa ****4532</p>
-                </div>
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={() => {
-                    document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }}
-                >
-                  {t('billing.changePlan')}
-                </Button>
-                <button className="text-xs text-destructive hover:underline w-full text-center mt-1">{t('plan.cancelSubscription')}</button>
-              </CardContent>
-            </Card>
             <div id="plan-comparison" className="-mx-6">
               <ManagePlanView userRole="dentist" />
             </div>
+            <CurrentPlanBar
+              planName="Pro"
+              price={`€19,99/${t('billing.monthly').toLowerCase()}`}
+              nextBilling="1 Fev 2026"
+              method="Visa ****4532"
+              onChangePlan={() => document.getElementById('plan-comparison')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            />
           </TabsContent>
 
           <TabsContent value="dados" className="space-y-4 mt-4">
