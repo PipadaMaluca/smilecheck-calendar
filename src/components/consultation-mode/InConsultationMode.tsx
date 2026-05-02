@@ -86,12 +86,12 @@ export function ConsultationFAB({
     { label: t('consultationMode.endConsultation'), icon: CheckCircle2, onClick: onEndConsultation, bg: '#4CAF50' },
   ];
 
-  // Sit above the bottom nav (~64-72px tall + safe area). Right edge with safe inset.
+  // Flush bottom-right corner. On mobile/tablet sit above bottom nav (~64px + 8px); on desktop, 8px from edge.
   return (
     <div
-      className="fixed z-40 right-4"
+      className="fixed z-40 right-2 bottom-[72px] lg:bottom-2"
       style={{
-        bottom: 'calc(72px + env(safe-area-inset-bottom, 0px) + 16px)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
       {/* Action buttons */}
