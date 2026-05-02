@@ -17,6 +17,10 @@ import { useTranslation } from 'react-i18next';
 
 interface ManagePlanViewProps {
   userRole: UserRole;
+  currentPlanName?: string;
+  currentPriceLabel?: string;
+  nextBilling?: string;
+  paymentMethodLabel?: string;
 }
 
 type PlanTier = 'free' | 'pro' | 'premium';
@@ -183,7 +187,13 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
   }]
 };
 
-export function ManagePlanView({ userRole }: ManagePlanViewProps) {
+export function ManagePlanView({
+  userRole,
+  currentPlanName,
+  currentPriceLabel,
+  nextBilling,
+  paymentMethodLabel,
+}: ManagePlanViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [currentPlan] = useState<PlanTier>('pro');
@@ -221,20 +231,46 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
 
   return (
     <div className="p-4 sm:p-6 w-full mx-auto space-y-6 pb-28">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+      {/* Top summary bar: heading + current plan info inline */}
+      <div className="rounded-xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-[#EBF4FF] dark:bg-[#0A1929] px-4 py-3 sm:px-6 sm:py-4 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 flex-wrap">
         <div className="flex-1 min-w-0">
-          <h2 className="text-xl sm:text-2xl font-bold text-foreground">{t('plan.title')}</h2>
-          <p className="text-sm text-muted-foreground">{t('plan.subtitle')}</p>
+          <h2 className="text-lg sm:text-xl font-bold text-foreground leading-tight">{t('plan.title')}</h2>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
-        <Badge className={cn(
-          'text-xs font-bold px-3 py-1 self-start sm:self-auto',
-          currentPlan === 'premium' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
-          currentPlan === 'pro' ? 'bg-primary/20 text-primary border-primary/30' :
-          'bg-secondary text-secondary-foreground'
-        )}>
-          {currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : t('plan.tiers.free')}
-        </Badge>
+        <div className="flex items-center gap-3 flex-wrap">
+          <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[11px]">
+            {currentPlanName ?? (currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : t('plan.tiers.free'))}
+          </Badge>
+          {currentPriceLabel && (
+            <span className="text-sm font-semibold text-foreground">{currentPriceLabel}</span>
+          )}
+          {nextBilling && (
+            <span className="text-xs text-muted-foreground">
+              {t('billing.nextBillingDate')}: <span className="text-foreground">{nextBilling}</span>
+            </span>
+          )}
+          {paymentMethodLabel && (
+            <span className="text-xs text-muted-foreground">
+              {t('billing.method')}: <span className="text-foreground">{paymentMethodLabel}</span>
+            </span>
+          )}
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-8 text-xs"
+            onClick={() => document.getElementById('plan-cards-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          >
+            {t('billing.changePlan')}
+          </Button>
+          {currentPlan !== 'free' && (
+            <button
+              className="text-xs text-[#EF5350] hover:underline"
+              onClick={handleCancel}
+            >
+              {t('plan.cancelSubscription')}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Billing toggle */}
@@ -264,6 +300,7 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
 
       {/* Plan cards */}
       <div
+        id="plan-cards-grid"
         className={cn(
           'w-full',
           isMobile
@@ -309,13 +346,6 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-amber-500 text-white border-0 text-[10px] px-3">
                     {badgeText}
-                  </Badge>
-                </div>
-              }
-              {isCurrent &&
-              <div className="absolute -top-3 right-3">
-                  <Badge className="bg-primary text-primary-foreground border-0 text-[10px] px-3">
-                    {t('plan.currentPlan')}
                   </Badge>
                 </div>
               }
@@ -418,18 +448,6 @@ export function ManagePlanView({ userRole }: ManagePlanViewProps) {
             </Card>);
         })}
       </div>
-
-      {/* Cancel subscription link */}
-      {currentPlan !== 'free' && (
-        <div className="text-center">
-          <button
-            onClick={handleCancel}
-            className="text-xs text-muted-foreground hover:text-destructive underline underline-offset-4 transition-colors"
-          >
-            {t('plan.cancelSubscription')}
-          </button>
-        </div>
-      )}
 
       {/* Checkout Dialog */}
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
