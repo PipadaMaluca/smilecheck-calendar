@@ -860,5 +860,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           enabled={!isLoading}
         />
       </div>
+      {showLevelUp && <LevelUpCelebration levelKey={level.key} onDismiss={dismissLevelUp} />}
     </div>);
 }
