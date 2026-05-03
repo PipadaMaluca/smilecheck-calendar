@@ -282,6 +282,7 @@ export function PatientProfileBody({
           isOwnProfile={isOwnProfile}
           className="p-5 md:p-6" />
         
+        {isOwnProfile && <NextLevelBenefits userRole="patient" />}
 
         {/* Sobre */}
         <SectionCard title={t('profile.about')}>
