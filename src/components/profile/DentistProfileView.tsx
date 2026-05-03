@@ -232,6 +232,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       categories={getAchievementCategories('dentist', t)}
       isOwnProfile={isOwnProfile} />
     
+      {isOwnProfile && <NextLevelBenefits userRole="dentist" />}
 
       <Separator />
 
