@@ -3,6 +3,8 @@ import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Cam
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
