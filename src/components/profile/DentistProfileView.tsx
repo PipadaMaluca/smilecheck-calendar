@@ -165,6 +165,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[dentist.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
+            <LevelSeal role="dentist" levelKey={dentist.level} />
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
               📋 {planCfg.label}
             </span>
