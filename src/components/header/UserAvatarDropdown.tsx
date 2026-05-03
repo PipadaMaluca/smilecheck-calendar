@@ -25,9 +25,8 @@ interface UserAvatarDropdownProps {
 }
 
 const LEVEL_ICONS: Record<string, string> = {
-  ouro: '🥇',
-  prata: '🥈',
-  bronze: '🥉',
+  lata: '🥫', bronze: '🥉', prata: '🥈', ouro: '🥇',
+  platina: '💎', diamante: '💠', adamantino: '🏆',
 };
 
 function getUserInfo(userRole: UserRole, t: (key: string) => string) {
