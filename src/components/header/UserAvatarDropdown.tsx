@@ -4,6 +4,8 @@ import { User, Settings, LogOut, Pencil, Trophy } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockFamilyMembers, mockClinics } from '@/data/mockData';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
+import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
 import { cn } from '@/lib/utils';
 import {
   AlertDialog,
@@ -29,13 +31,14 @@ const LEVEL_ICONS: Record<string, string> = {
 };
 
 function getUserInfo(userRole: UserRole, t: (key: string) => string) {
+  const lvl = getLevelForXP(USER_POINTS[userRole].xp).key;
   switch (userRole) {
     case 'patient':
-      return { name: mockFamilyMembers[0].name, subtitle: t('common.patient'), level: 'ouro' as const };
+      return { name: mockFamilyMembers[0].name, subtitle: t('common.patient'), level: lvl };
     case 'dentist':
-      return { name: mockDentists[0].name, subtitle: t('common.dentist'), level: 'ouro' as const };
+      return { name: mockDentists[0].name, subtitle: t('common.dentist'), level: lvl };
     case 'clinic':
-      return { name: mockClinics[0].name, subtitle: t('common.clinic'), level: 'ouro' as const };
+      return { name: mockClinics[0].name, subtitle: t('common.clinic'), level: lvl };
   }
 }
 
@@ -76,9 +79,11 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
           <p className="text-sm font-bold text-foreground">{userInfo.name}</p>
           <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
         </div>
-        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center border-2 border-secondary">
-          <User className="w-5 h-5 text-primary" />
-        </div>
+        <AvatarFrame levelKey={userInfo.level} className="h-9 w-9">
+          <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
+            <User className="w-5 h-5 text-primary" />
+          </div>
+        </AvatarFrame>
       </button>
 
       {isOpen && (
