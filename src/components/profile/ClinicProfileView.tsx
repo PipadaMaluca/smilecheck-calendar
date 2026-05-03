@@ -335,6 +335,8 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         isOwnProfile={isOwnProfile}
       />
 
+      {isOwnProfile && <NextLevelBenefits userRole="clinic" />}
+
       <Separator />
 
       {/* Sobre */}
