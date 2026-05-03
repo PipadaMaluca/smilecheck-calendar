@@ -5,6 +5,7 @@ import { UserRole } from '@/types/calendar';
 import { PontosTab } from './PontosTab';
 import { ClassificacoesTab } from './ClassificacoesTab';
 import { StreakTab } from './StreakTab';
+import { MyLevelView } from '@/components/level/MyLevelView';
 import { useTranslation } from 'react-i18next';
 
 interface PontuacoesViewProps {
@@ -28,14 +29,19 @@ export function PontuacoesView({ userRole, initialTab = 'pontos', onNavigate }: 
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className={`w-full grid ${showClassificacoes ? 'grid-cols-3' : 'grid-cols-2'}`}>
+          <TabsList className={`w-full grid ${showClassificacoes ? 'grid-cols-4' : 'grid-cols-3'}`}>
             <TabsTrigger value="pontos">{t('scores.pointsTab')}</TabsTrigger>
+            <TabsTrigger value="nivel">{t('level.myLevelTab')}</TabsTrigger>
             {showClassificacoes && <TabsTrigger value="classificacoes">{t('scores.classificationsTab')}</TabsTrigger>}
             <TabsTrigger value="streak">{t('scores.dailyStreakTab')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="pontos" className="mt-4">
             <PontosTab userRole={userRole} onNavigate={onNavigate} />
+          </TabsContent>
+
+          <TabsContent value="nivel" className="mt-4">
+            <MyLevelView userRole={userRole} />
           </TabsContent>
 
           {showClassificacoes && (

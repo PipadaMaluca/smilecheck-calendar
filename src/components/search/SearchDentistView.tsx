@@ -10,6 +10,7 @@ import { DentistFilters } from './DentistFilters';
 import { DentistCard } from './DentistCard';
 import { DentistProfileModal } from './DentistProfileModal';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
+import { getVisibilityBoost } from '@/data/pointsData';
 import smileCheckIcon from '@/assets/smilecheck-icon.png';
 import { TriageData } from '@/types/triage';
 import { useTranslation } from 'react-i18next';
@@ -71,13 +72,15 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     if (maxPrice < 50) {
       results = results.filter(d => d.teleconsultaPrice <= maxPrice);
     }
-    const planOrder = { premium: 0, pro: 1, free: 2 };
+    // Recommended order = priority score (level + plan boost), then distance
     results.sort((a, b) => {
-      const pa = planOrder[a.plan];
-      const pb = planOrder[b.plan];
-      if (pa !== pb) return pa - pb;
-      if (a.distance !== b.distance) return a.distance - b.distance;
-      return 0;
+      const ba = 1 + getVisibilityBoost(a.level, a.plan) / 100;
+      const bb = 1 + getVisibilityBoost(b.level, b.plan) / 100;
+      // Higher boost first (use rating as base relevance proxy)
+      const sa = a.rating * ba;
+      const sb = b.rating * bb;
+      if (sb !== sa) return sb - sa;
+      return a.distance - b.distance;
     });
     if (sortBy === 'distance') results.sort((a, b) => a.distance - b.distance);
     else if (sortBy === 'rating') results.sort((a, b) => b.rating - a.rating);
