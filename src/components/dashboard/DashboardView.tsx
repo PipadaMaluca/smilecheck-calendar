@@ -23,6 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
+import { LevelUpCelebration } from '@/components/level/LevelUpCelebration';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 
@@ -114,6 +115,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const userName = getUserName(userRole);
   const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
+  // Demo: trigger one-time level-up celebration per session per role
+  const [showLevelUp, setShowLevelUp] = useState(() => {
+    if (typeof sessionStorage === 'undefined') return false;
+    return sessionStorage.getItem(`sc:levelup-shown:${userRole}`) !== '1';
+  });
+  const dismissLevelUp = () => {
+    setShowLevelUp(false);
+    try { sessionStorage.setItem(`sc:levelup-shown:${userRole}`, '1'); } catch { /* ignore */ }
+  };
 
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
