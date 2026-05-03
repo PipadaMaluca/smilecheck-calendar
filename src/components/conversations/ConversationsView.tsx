@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
