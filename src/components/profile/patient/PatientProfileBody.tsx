@@ -34,6 +34,10 @@ import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { LEVEL_CONFIG, PLAN_CONFIG } from '@/data/mockDentistSearch';
 import { getPatientInitials } from '@/lib/avatarUtils';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { LevelSeal } from '@/components/level/LevelSeal';
+import { NextLevelBenefits } from '@/components/level/NextLevelBenefits';
+import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { toast } from 'sonner';
@@ -132,7 +136,9 @@ export function PatientProfileBody({
   const { t } = useTranslation();
 
   const data = PATIENT_DATA;
-  const levelCfg = LEVEL_CONFIG[data.level];
+  const derivedLevelKey = getLevelForXP(USER_POINTS.patient.xp).key;
+  const effectiveLevel = derivedLevelKey;
+  const levelCfg = LEVEL_CONFIG[effectiveLevel] || LEVEL_CONFIG[data.level];
   const planCfg = PLAN_CONFIG[data.plan];
   const initials = getPatientInitials(data.name);
 
@@ -236,9 +242,11 @@ export function PatientProfileBody({
           )}
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-5">
-            <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary flex-shrink-0">
-              {initials}
-            </div>
+            <AvatarFrame levelKey={effectiveLevel} className="w-24 h-24">
+              <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary">
+                {initials}
+              </div>
+            </AvatarFrame>
 
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-xl font-bold text-foreground">{data.name}</h3>
@@ -253,9 +261,10 @@ export function PatientProfileBody({
               </div>
 
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-2">
-                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
+                <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[effectiveLevel] || '')}>
                   {t(levelCfg.labelKey)}
                 </span>
+                <LevelSeal role="patient" levelKey={effectiveLevel} />
                 <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
                   📋 {planCfg.label}
                 </span>
@@ -273,6 +282,7 @@ export function PatientProfileBody({
           isOwnProfile={isOwnProfile}
           className="p-5 md:p-6" />
         
+        {isOwnProfile && <NextLevelBenefits userRole="patient" />}
 
         {/* Sobre */}
         <SectionCard title={t('profile.about')}>

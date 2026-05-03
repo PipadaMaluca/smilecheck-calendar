@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
@@ -518,9 +520,11 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                       >
                         {/* Avatar with online dot */}
                         <div className="relative flex-shrink-0">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                            <User className="w-5 h-5 text-primary" />
-                          </div>
+                          <AvatarFrame levelKey={getMockLevelForName(conversation.name)} className="w-10 h-10">
+                            <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
+                              <User className="w-5 h-5 text-primary" />
+                            </div>
+                          </AvatarFrame>
                           <OnlineStatusDot online={conversation.online} />
                         </div>
 
@@ -587,9 +591,11 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                   </Button>
                 )}
                 <div className="relative flex-shrink-0">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="w-4 h-4 text-primary" />
-                  </div>
+                  <AvatarFrame levelKey={getMockLevelForName(selectedConversation.name)} className="w-8 h-8">
+                    <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
+                      <User className="w-4 h-4 text-primary" />
+                    </div>
+                  </AvatarFrame>
                   <OnlineStatusDot online={selectedConversation.online} />
                 </div>
                 <div className="flex-1 min-w-0">

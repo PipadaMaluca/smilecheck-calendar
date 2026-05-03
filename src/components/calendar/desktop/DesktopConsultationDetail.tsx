@@ -8,6 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Consultation, UserRole } from '@/types/calendar';
 import { ConsultationExportDropdown } from '@/components/export/ConsultationExportDropdown';
 import { format } from 'date-fns';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -185,9 +187,11 @@ export function DesktopConsultationDetail({
               {t('consultationDetail.patient')}
             </h3>
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <User className="w-6 h-6 text-muted-foreground" />
-              </div>
+              <AvatarFrame levelKey={consultation.patient.level || getMockLevelForName(consultation.patient.name)} className="w-12 h-12">
+                <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                  <User className="w-6 h-6 text-muted-foreground" />
+                </div>
+              </AvatarFrame>
               <div className="flex-1 space-y-1">
                 <p className="font-semibold uppercase">{consultation.patient.name}</p>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

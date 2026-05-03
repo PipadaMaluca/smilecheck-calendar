@@ -3802,6 +3802,25 @@
         "vipSupport": "VIP support channel",
         "consultancyBadge": "Optimization consultancy badge"
       }
-    }
+    },
+    "seal": {
+      "patient": {
+        "loyal": "Loyal Patient",
+        "exemplary": "Exemplary Patient",
+        "diamond": "Diamond Patient"
+      },
+      "dentist": {
+        "recommended": "Recommended Dentist",
+        "top": "Top Dentist",
+        "diamond": "Diamond Dentist"
+      },
+      "clinic": {
+        "recommended": "Recommended Clinic",
+        "top": "Top Clinic",
+        "diamond": "Diamond Clinic"
+      }
+    },
+    "unlockedAt": "Unlocked at {{level}}",
+    "unlocksAt": "Unlocks at {{level}}"
   }
 }

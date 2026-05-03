@@ -18,6 +18,9 @@ import { getAchievementCategories } from '@/components/achievements/Achievements
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { getViewerRole } from '@/lib/viewerRole';
 import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { LevelSeal } from '@/components/level/LevelSeal';
+import { NextLevelBenefits } from '@/components/level/NextLevelBenefits';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -136,12 +139,14 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-        <Avatar className="w-24 h-24 flex-shrink-0">
-          {photo && <AvatarImage src={photo} alt={dentist.name} />}
-          <AvatarFallback className="bg-secondary text-3xl font-bold text-primary">
-            {initials}
-          </AvatarFallback>
-        </Avatar>
+        <AvatarFrame levelKey={dentist.level} className="w-24 h-24">
+          <Avatar className="w-full h-full">
+            {photo && <AvatarImage src={photo} alt={dentist.name} />}
+            <AvatarFallback className="bg-secondary text-3xl font-bold text-primary">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+        </AvatarFrame>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold text-foreground">{dentist.name}</h3>
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mt-1">
@@ -160,6 +165,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[dentist.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
+            <LevelSeal role="dentist" levelKey={dentist.level} />
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
               📋 {planCfg.label}
             </span>
@@ -226,6 +232,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       categories={getAchievementCategories('dentist', t)}
       isOwnProfile={isOwnProfile} />
     
+      {isOwnProfile && <NextLevelBenefits userRole="dentist" />}
 
       <Separator />
 

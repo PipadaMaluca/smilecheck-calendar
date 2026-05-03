@@ -3,6 +3,8 @@ import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Cam
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
@@ -184,9 +186,11 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           {/* Header card with patient info */}
           <div className="bg-card rounded-xl border border-border p-4">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-full bg-secondary flex items-center justify-center shrink-0">
-                <User className="w-7 h-7 text-muted-foreground" />
-              </div>
+              <AvatarFrame levelKey={consultation.patient.level || getMockLevelForName(consultation.patient.name)} className="w-14 h-14">
+                <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                  <User className="w-7 h-7 text-muted-foreground" />
+                </div>
+              </AvatarFrame>
               <div className="flex-1 min-w-0">
                 <button
                   onClick={() => onViewDossier?.(consultation.patient.id)}
