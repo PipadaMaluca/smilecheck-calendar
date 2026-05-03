@@ -22,7 +22,7 @@ import { pt } from 'date-fns/locale';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 
@@ -130,6 +130,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const pointsData = USER_POINTS[userRole];
   const level = getLevelForXP(pointsData.xp);
   const xpProgress = getXPProgress(pointsData.xp);
+  const multiplier = LEVEL_MULTIPLIERS[level.key];
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
@@ -279,7 +280,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   {isXPCard &&
                     <div className="hidden md:block space-y-1 w-full">
                       <Progress value={xpProgress.percent} className="h-2" />
-                      <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP</p>
+                      <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
                     </div>
                   }
                 </CardContent>

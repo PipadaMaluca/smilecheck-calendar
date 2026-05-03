@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getVisibilityBoost } from '@/data/pointsData';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -31,6 +31,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const earnActions = getEarnActionsForRole(userRole);
   const penaltyActions = getPenaltyActionsForRole(userRole);
   const pointsHistory = getPointsHistoryForRole(userRole);
+  const multiplier = LEVEL_MULTIPLIERS[level.key];
+  const boost = getVisibilityBoost(level.key, data.plan);
 
   const planLabel = data.plan === 'free' ? t('scores.planFreeLabel') :
     data.plan === 'pro' ? t('scores.planProLabel') :
@@ -57,6 +59,11 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             <div className="flex-1">
               <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
               <p className="text-2xl font-bold text-primary">{data.xp.toLocaleString()} XP</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                <span className="font-semibold text-primary">×{multiplier.toFixed(1)} {t('level.multiplier')}</span>
+                {' · '}
+                <span>⚡ {t('level.visibility')}: +{boost}%</span>
+              </p>
             </div>
           </div>
 
