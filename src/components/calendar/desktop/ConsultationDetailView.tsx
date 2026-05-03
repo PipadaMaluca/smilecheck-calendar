@@ -8,6 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { getMockLevelForName } from '@/lib/levelMock';
 import { pt, enGB, fr } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
@@ -109,9 +111,11 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex items-start gap-4 flex-1">
-              <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center shrink-0">
-                <User className="w-8 h-8 text-muted-foreground" />
-              </div>
+              <AvatarFrame levelKey={consultation.patient.level || getMockLevelForName(consultation.patient.name)} className="w-16 h-16">
+                <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                  <User className="w-8 h-8 text-muted-foreground" />
+                </div>
+              </AvatarFrame>
               <div>
                 <button
                   onClick={() => onViewDossier(consultation.patient.id)}
