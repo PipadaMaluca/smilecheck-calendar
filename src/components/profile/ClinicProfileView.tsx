@@ -18,6 +18,9 @@ import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { getViewerRole } from '@/lib/viewerRole';
 import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalFeedbackModal';
+import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { LevelSeal } from '@/components/level/LevelSeal';
+import { NextLevelBenefits } from '@/components/level/NextLevelBenefits';
 
 interface ClinicProfileViewProps {
   clinicId: string;
@@ -255,11 +258,13 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-        <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-          <span className="text-3xl font-bold text-primary">
-            {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
-          </span>
-        </div>
+        <AvatarFrame levelKey={data.level} shape="square" className="w-24 h-24">
+          <div className="w-full h-full rounded-2xl bg-primary/10 flex items-center justify-center">
+            <span className="text-3xl font-bold text-primary">
+              {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
+            </span>
+          </div>
+        </AvatarFrame>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold">{clinic.name}</h3>
           <p className="text-sm text-muted-foreground">{t('profile.dentalClinic')}</p>
@@ -272,6 +277,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
+            <LevelSeal role="clinic" levelKey={data.level} />
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
               📋 {planCfg.label}
             </span>
