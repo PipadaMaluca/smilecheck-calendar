@@ -196,7 +196,12 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
             ) : (
               <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2 items-stretch')}>
                 {filteredDentists.map(dentist => (
-                  <DentistCard key={dentist.id} dentist={dentist} onViewProfile={setSelectedDentist} />
+                  <DentistCard
+                    key={dentist.id}
+                    dentist={dentist}
+                    onViewProfile={setSelectedDentist}
+                    onQuickBook={onQuickBook ? (d, day, slot) => onQuickBook(d, day, slot) : undefined}
+                  />
                 ))}
               </div>
             )}
