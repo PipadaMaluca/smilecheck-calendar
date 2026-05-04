@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
+import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface UnifiedSearchProps {
@@ -170,7 +171,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                       onClick={() => onViewDentistProfile?.(d)}
                     >
                       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 text-sm font-bold text-primary">
-                        {d.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase()}
+                        {getDentistInitials(d.name)}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">

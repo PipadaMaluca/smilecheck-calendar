@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
@@ -24,6 +24,7 @@ import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
 import { LevelUpCelebration } from '@/components/level/LevelUpCelebration';
+import { LevelIcon } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 
@@ -115,14 +116,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const userName = getUserName(userRole);
   const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
-  // Demo: trigger one-time level-up celebration per session per role
-  const [showLevelUp, setShowLevelUp] = useState(() => {
-    if (typeof sessionStorage === 'undefined') return false;
-    return sessionStorage.getItem(`sc:levelup-shown:${userRole}`) !== '1';
-  });
-  const dismissLevelUp = () => {
-    setShowLevelUp(false);
-    try { sessionStorage.setItem(`sc:levelup-shown:${userRole}`, '1'); } catch { /* ignore */ }
+  // Level-up celebration only fires when XP genuinely crosses a threshold.
+  // Hidden demo trigger: tap the level badge 3× rapidly (within 1s) to preview the modal.
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const dismissLevelUp = () => setShowLevelUp(false);
+  const levelTapsRef = useRef<number[]>([]);
+  const handleLevelBadgeTap = () => {
+    const now = Date.now();
+    levelTapsRef.current = [...levelTapsRef.current, now].filter(t => now - t < 1000);
+    if (levelTapsRef.current.length >= 3) {
+      levelTapsRef.current = [];
+      setShowLevelUp(true);
+    }
   };
 
   const greeting = useMemo(() => {
@@ -154,7 +159,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
@@ -164,14 +169,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'clinic') {
       return [
       { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true },
-      { label: t('dashboard.levelAndXp'), value: `${level.icon} ${t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}`, icon: Award, clickTab: 'pontuacoes' },
+      { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
@@ -282,9 +287,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <Icon className="w-4 h-4 flex-shrink-0" />
                     <span className="text-[11px] md:text-xs lg:text-sm font-medium truncate">{stat.label}</span>
                   </div>
-                  <span className="text-base md:text-lg lg:text-2xl font-bold text-foreground truncate md:text-center md:w-full ml-auto md:ml-0">
+                  <span
+                    className="text-base md:text-lg lg:text-2xl font-bold text-foreground truncate md:text-center md:w-full ml-auto md:ml-0 inline-flex items-center gap-1.5 justify-center"
+                    onClick={'isLevel' in stat && (stat as any).isLevel ? (e) => { e.stopPropagation(); handleLevelBadgeTap(); } : undefined}
+                  >
                     {'isStreak' in stat && stat.isStreak ? (
                       <><span className="inline-block">🔥</span> {stat.value} {t('points.days')}</>
+                    ) : 'isLevel' in stat && (stat as any).isLevel ? (
+                      <><LevelIcon levelKey={level.key} size={20} /> {stat.value}</>
                     ) : stat.value}
                   </span>
                   {isXPCard &&

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
-import { LEVELS } from '@/data/pointsData';
+import { LevelIcon } from '@/components/level/LevelIcon';
 
 /** Seal text per role per level (Ouro+). Adamantino has shimmer. */
 const SEAL_KEYS: Record<UserRole, Record<string, string>> = {
@@ -42,7 +42,6 @@ export function LevelSeal({ role, levelKey, className }: LevelSealProps) {
   const { t } = useTranslation();
   const key = SEAL_KEYS[role]?.[levelKey];
   if (!key) return null;
-  const lvl = LEVELS.find(l => l.key === levelKey);
   return (
     <span
       className={cn(
@@ -51,7 +50,7 @@ export function LevelSeal({ role, levelKey, className }: LevelSealProps) {
         className,
       )}
     >
-      <span aria-hidden>{lvl?.icon}</span> {t(key)}
+      <LevelIcon levelKey={levelKey} size={12} inheritColor className="shrink-0" /> {t(key)}
     </span>
   );
 }

@@ -9,6 +9,7 @@ import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { UserRole, getCategoryBadgeStyle } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
+import { getDentistInitials } from '@/lib/avatarUtils';
 
 interface WaitlistPatient {
   id: string;
@@ -63,7 +64,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     <div className="space-y-4">
       {dentistsToShow.map(dentist => {
         const patients = MOCK_WAITLIST[dentist.id] || [];
-        const initials = dentist.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase();
+        const initials = getDentistInitials(dentist.name);
 
         return (
           <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">

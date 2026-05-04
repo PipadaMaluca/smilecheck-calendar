@@ -4,6 +4,7 @@ import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, Consul
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
+import { getDentistInitials } from '@/lib/avatarUtils';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { toast } from 'sonner';
 
@@ -137,7 +138,7 @@ export function DesktopTimeline({
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
                   <span className="text-[10px] font-bold text-primary">
-                    {dentist.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase()}
+                    {getDentistInitials(dentist.name)}
                   </span>
                 </div>
                 <div>

@@ -10,6 +10,7 @@ import { isSameDay } from 'date-fns';
 import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
+import { getDentistInitials } from '@/lib/avatarUtils';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -88,7 +89,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
         const cancelled = dCons.filter(c => get24hStatus(c.status) === 'cancelled').length;
         const pending = dCons.filter(c => get24hStatus(c.status) === 'pending').length;
 
-        const initials = dentist.name.split(' ').filter(n => !['dr.','dr','dra.','dra'].includes(n.toLowerCase())).filter((_,i,a) => i===0||i===a.length-1).map(n => n[0]).join('').toUpperCase();
+        const initials = getDentistInitials(dentist.name);
 
         return (
           <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">

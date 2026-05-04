@@ -3713,6 +3713,8 @@
     "multiplier": "multiplicador",
     "visibility": "Visibilidade",
     "featured": "Destaque",
+    "featuredShort": "Em destaque",
+    "featuredTooltip": "Este profissional tem destaque baseado no seu nível e plano.",
     "frame": {
       "bronze": "Anel de bronze",
       "silver": "Anel de prata",

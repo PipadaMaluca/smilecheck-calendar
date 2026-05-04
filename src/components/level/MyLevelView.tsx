@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Lock, Check } from 'lucide-react';
+import { LevelIcon } from '@/components/level/LevelIcon';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import {
@@ -28,7 +29,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
       <Card>
         <CardContent className="p-5 space-y-3">
           <div className="flex items-center gap-4">
-            <span className="text-5xl" aria-hidden>{current.icon}</span>
+            <LevelIcon levelKey={current.key} size={48} />
             <div className="flex-1 min-w-0">
               <h2 className="text-lg font-bold text-foreground">
                 {t(LEVEL_TRANSLATION_KEYS[current.key])}
@@ -55,7 +56,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
             <Card key={lvl.key} className={cn(isCurrent && 'border-primary')}>
               <CardContent className="p-4 space-y-2">
                 <div className="flex items-center gap-3">
-                  <span className={cn('text-2xl', !unlocked && 'opacity-40 grayscale')} aria-hidden>{lvl.icon}</span>
+                  <LevelIcon levelKey={lvl.key} size={28} className={cn(!unlocked && 'opacity-40 grayscale')} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="text-sm font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[lvl.key])}</h4>
@@ -65,7 +66,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                     </div>
                     {reward && (
                       <p className="text-[11px] text-muted-foreground mt-0.5">
-                        {t('level.celebration.bonusPoints', { n: reward.bonusPoints })} · {reward.badgeIcon} {reward.badgeName}
+                        {t('level.celebration.bonusPoints', { n: reward.bonusPoints })} · {reward.badgeName}
                       </p>
                     )}
                   </div>

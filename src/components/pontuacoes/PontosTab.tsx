@@ -12,6 +12,7 @@ import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { LevelIcon } from '@/components/level/LevelIcon';
 
 interface PontosTabProps {
   userRole: UserRole;
@@ -55,7 +56,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-4">
           <div className="flex items-center gap-4">
-            <span className="text-5xl">{level.icon}</span>
+            <LevelIcon levelKey={level.key} size={48} />
             <div className="flex-1">
               <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
               <p className="text-2xl font-bold text-primary">{data.xp.toLocaleString()} XP</p>
@@ -91,7 +92,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     'flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg transition-all min-w-[50px]',
                     isCurrent ? `${l.bgColor} ${l.borderColor} border-2` : isPast ? 'opacity-60' : 'opacity-30'
                   )}>
-                    <span className="text-lg">{l.icon}</span>
+                    <LevelIcon levelKey={l.key} size={20} />
                     <span className={cn('text-[9px] font-bold', isCurrent ? l.color : 'text-muted-foreground')}>{t(LEVEL_TRANSLATION_KEYS[l.key] || l.name)}</span>
                   </div>
                   {i < LEVELS.length - 1 && <div className={cn('w-3 h-0.5 mx-0.5', isPast || isCurrent ? 'bg-primary' : 'bg-muted')} />}
