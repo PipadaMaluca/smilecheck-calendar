@@ -37,6 +37,18 @@
 
     --radius: 0.75rem;
 
+    /* === Unified radii tokens (1.5) === */
+    --radius-xs: 0.375rem;  /* 6px  - chips, slot pills */
+    --radius-sm: 0.5rem;    /* 8px  - inputs, small badges */
+    --radius-md: 0.75rem;   /* 12px - buttons, list rows */
+    --radius-lg: 1rem;      /* 16px - cards */
+    --radius-xl: 1.25rem;   /* 20px - sheets, hero cards */
+
+    /* === Dashboard spacing tokens (4.1) === */
+    --space-section: 1.5rem;     /* 24px between sections */
+    --space-stack: 1rem;         /* 16px between stacked blocks */
+    --space-row: 0.75rem;        /* 12px between row items */
+
     /* SmileCheck Consultation Type Colors */
     --restauracao: 207 70% 56%;       /* Blue (desaturated ~22%) */
     --primeira-consulta: 49 76% 62%;  /* Yellow (desaturated ~22%) */
