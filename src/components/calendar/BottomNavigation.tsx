@@ -1,4 +1,4 @@
-import { Home, Calendar, Gift, MessageCircle, Users, Settings } from 'lucide-react';
+import { Home, Calendar, Gift, MessageCircle, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
@@ -25,21 +25,18 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
       { id: 'consultas', icon: Calendar, label: t('nav.consultations') },
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
     dentist: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
     clinic: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
-      { id: 'configuracoes', icon: Settings, label: t('nav.settings') },
     ],
   };
 
