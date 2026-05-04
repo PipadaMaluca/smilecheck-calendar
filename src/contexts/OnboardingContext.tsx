@@ -31,12 +31,16 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
   const [tooltipRole, setTooltipRole] = useState<UserRole>('patient');
 
   const hasCompletedOnboarding = useCallback((role: UserRole) => {
+    // Single first-run gate covers ALL roles after first completion to avoid
+    // re-triggering the carousel/tooltip chain when users switch demo roles.
+    if (localStorage.getItem('sc:first-run-done') === '1') return true;
     return localStorage.getItem(`smilecheck_onboarding_${role}`) === 'done';
   }, []);
 
   const markOnboardingComplete = useCallback((role: UserRole) => {
     localStorage.setItem(`smilecheck_onboarding_${role}`, 'done');
     localStorage.setItem('sc:onboarding-completed', 'true');
+    localStorage.setItem('sc:first-run-done', '1');
   }, []);
 
   const startCarousel = useCallback((role: UserRole) => {
