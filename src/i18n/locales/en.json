@@ -3704,7 +3704,8 @@
   },
   "demoBanner": {
     "label": "🔧 Demo Mode — Fictional data",
-    "dismiss": "Dismiss banner"
+    "dismiss": "Dismiss banner",
+    "disclaimer": "⚠️ Demo mode — The data shown is fictional"
   },
   "level": {
     "myLevelTab": "My Level",

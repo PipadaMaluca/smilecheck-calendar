@@ -3704,7 +3704,8 @@
   },
   "demoBanner": {
     "label": "🔧 Mode Démonstration — Données fictives",
-    "dismiss": "Fermer la bannière"
+    "dismiss": "Fermer la bannière",
+    "disclaimer": "⚠️ Mode démonstration — Les données affichées sont fictives"
   },
   "level": {
     "myLevelTab": "Mon Niveau",
