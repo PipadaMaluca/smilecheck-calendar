@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { User, Settings, LogOut, Pencil, Trophy } from 'lucide-react';
+import { User, Settings, LogOut, Gem, Star, Flame } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockFamilyMembers, mockClinics } from '@/data/mockData';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
@@ -46,6 +46,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
 
   const userInfo = getUserInfo(userRole, t);
   const levelCfg = LEVEL_CONFIG[userInfo.level];
+  const stats = USER_POINTS[userRole];
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -109,21 +110,28 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
               <User className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#1565C0]" />
               {t('profile.viewProfile')}
             </button>
-            <button
-              onClick={() => handleItemClick('editar-perfil')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1A202C] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
-            >
-              <Pencil className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
-              {t('profile.editProfile')}
-            </button>
 
-            {/* Level display - not clickable */}
-            <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] [.light_&]:text-[#1A202C]">
-              <Trophy className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
-              <span>{t('profile.myLevel')}:</span>
+            {/* Display-only status: Level */}
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
+              <Gem className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
+              <span className="flex-1">{t('profile.myLevel')}</span>
               <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border inline-flex items-center gap-1', levelCfg.bg, levelCfg.color)}>
                 <LevelIcon levelKey={userInfo.level} size={12} inheritColor /> {t(levelCfg.labelKey)}
               </span>
+            </div>
+
+            {/* Display-only status: Points */}
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
+              <Star className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
+              <span className="flex-1">{t('scores.points', { defaultValue: 'Pontos' })}</span>
+              <span className="text-xs font-semibold text-white [.light_&]:text-[#1A202C]">{stats.rewardPoints} pts</span>
+            </div>
+
+            {/* Display-only status: Streak */}
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
+              <Flame className="w-4 h-4 text-orange-400" />
+              <span className="flex-1">{t('scores.streak', { defaultValue: 'Streak' })}</span>
+              <span className="text-xs font-semibold text-white [.light_&]:text-[#1A202C]">{stats.streak} {t('scores.days', { defaultValue: 'dias' })}</span>
             </div>
 
             {/* Separator */}
