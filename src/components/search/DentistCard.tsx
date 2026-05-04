@@ -12,9 +12,10 @@ import { LevelIcon } from '@/components/level/LevelIcon';
 interface DentistCardProps {
   dentist: DentistSearchResult;
   onViewProfile: (dentist: DentistSearchResult) => void;
+  onQuickBook?: (dentist: DentistSearchResult, dayLabel: string, slot: string) => void;
 }
 
-export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
+export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCardProps) {
   const { t } = useTranslation();
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const initials = getDentistInitials(dentist.name);
@@ -22,17 +23,16 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
   const boost = getVisibilityBoost(dentist.level, dentist.plan);
   const showBoost = boost >= 20;
 
-  // Pull next 2 available slots across today/tomorrow for the inline preview
-  const nextSlots = (() => {
+  // Pull next 3 available slot chips for one-tap booking
+  const nextSlotChips = (() => {
     const days = getAvailabilityForDentist(dentist.id);
-    const out: string[] = [];
+    const out: { dayKey: string; dayLabel: string; slot: string }[] = [];
     for (const d of days) {
       for (const s of d.slots) {
-        const dayLabel = t(`common.${d.dayKey}`, d.dayLabel);
-        out.push(`${dayLabel} ${s}`);
-        if (out.length >= 2) break;
+        out.push({ dayKey: d.dayKey, dayLabel: t(`common.${d.dayKey}`, d.dayLabel), slot: s });
+        if (out.length >= 3) break;
       }
-      if (out.length >= 2) break;
+      if (out.length >= 3) break;
     }
     return out;
   })();
@@ -40,8 +40,7 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
   return (
     <div
       className={cn(
-        'bg-card rounded-2xl border border-border p-4 space-y-3 flex flex-col h-full min-h-[200px]',
-        'hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 cursor-pointer'
+        'bg-card rounded-lg border border-border p-4 space-y-3 flex flex-col h-full min-h-[200px] interactive-lift cursor-pointer'
       )}
       onClick={() => onViewProfile(dentist)}
     >
@@ -113,10 +112,23 @@ export function DentistCard({ dentist, onViewProfile }: DentistCardProps) {
           <span>€{dentist.teleconsultaPrice}</span>
         </div>
       </div>
-      {nextSlots.length > 0 && (
-        <p className="text-[11px] text-muted-foreground">
-          {t('search.nextLabel', 'Próx')}: <span className="text-foreground font-medium">{nextSlots.join(' · ')}</span>
-        </p>
+      {nextSlotChips.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-muted-foreground mr-0.5">{t('search.nextLabel', 'Próx')}:</span>
+          {nextSlotChips.map((c, i) => (
+            <button
+              key={`${c.dayKey}-${c.slot}-${i}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onQuickBook) onQuickBook(dentist, c.dayLabel, c.slot);
+                else onViewProfile(dentist);
+              }}
+              className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/25 hover:bg-primary/20 transition-colors"
+            >
+              {c.dayLabel} {c.slot}
+            </button>
+          ))}
+        </div>
       )}
       <div className="text-[11px] text-muted-foreground">
         {dentist.clinics.map((c, i) => (
