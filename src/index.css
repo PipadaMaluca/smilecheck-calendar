@@ -1651,3 +1651,45 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   .animate-bounce-once,
   .animate-confetti-fall { animation: none !important; }
 }
+
+/* =====================================================
+   Doctolib-style consultation cards (global override)
+   Applies to .appt-block (agenda grids) and .consultation-card (lists)
+   Targets categories via data-cat attribute.
+   ===================================================== */
+
+/* --- DARK MODE (default) --- */
+.appt-block { background-color: rgba(33,150,243,0.12) !important; border-bottom: 1px solid rgba(255,255,255,0.10); }
+.appt-block[data-cat="primeira_consulta"] { background-color: rgba(249,168,37,0.12) !important; }
+.appt-block[data-cat="destartarizacao"]   { background-color: rgba(123,31,162,0.12) !important; }
+.appt-block[data-cat="cirurgia"]          { background-color: rgba(55,71,79,0.15) !important; }
+.appt-block[data-cat="endodontia"]        { background-color: rgba(194,24,91,0.12) !important; }
+.appt-block[data-cat="odontopediatria"]   { background-color: rgba(230,81,0,0.12) !important; }
+.appt-block[data-cat="ortodontia"]        { background-color: rgba(104,159,56,0.12) !important; }
+.appt-block[data-cat="protese"]           { background-color: rgba(46,125,50,0.12) !important; }
+.appt-block[data-cat="restauracao"]       { background-color: rgba(21,101,192,0.12) !important; }
+.appt-block[data-cat="urgencia"]          { background-color: rgba(198,40,40,0.12) !important; }
+.appt-block[data-cat="teleconsulta"]      { background-color: rgba(239,108,0,0.12) !important; }
+.appt-block .text-white { color: #E2E8F0 !important; }
+.appt-block [data-notes], .appt-block .text-\[\#8B9CB6\] { color: #94A3B8 !important; }
+
+/* Lunch / blocked blocks */
+.appt-block-blocked { background-color: rgba(255,255,255,0.03) !important; color: #64748B !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+/* Consultation cards (list/dashboard) — dark */
+.consultation-card { background: hsl(var(--card)) !important; box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important; border-bottom: 1px solid rgba(255,255,255,0.10); }
+
+/* --- LIGHT MODE OVERRIDES --- */
+.light .appt-block,
+.light .consultation-card {
+  background-color: #FFFFFF !important;
+  color: #1A202C !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+.light .appt-block:hover,
+.light .consultation-card:hover { background-color: #F8FAFC !important; }
+.light .appt-block .text-white { color: #1A202C !important; }
+.light .appt-block [data-notes],
+.light .appt-block .text-\[\#8B9CB6\] { color: #4A5568 !important; }
+.light .appt-block-blocked { background-color: #F5F7FA !important; color: #94A3B8 !important; border-bottom: 1px solid #E2E8F0 !important; }
