@@ -14,6 +14,8 @@ import { getVisibilityBoost } from '@/data/pointsData';
 import smileCheckIcon from '@/assets/smilecheck-icon.png';
 import { TriageData } from '@/types/triage';
 import { useTranslation } from 'react-i18next';
+import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { CardGridSkeleton } from '@/components/skeletons';
 
 interface SearchDentistViewProps {
   onBack: () => void;
@@ -32,6 +34,7 @@ const LANGUAGES = [
 export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }: SearchDentistViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const isLoading = useSimulatedLoading(800, 'search-dentists');
   const [searchQuery, setSearchQuery] = useState('');
   const [specialty, setSpecialty] = useState('Todas');
   const [distance, setDistance] = useState(0);
@@ -182,14 +185,16 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                 </Button>
               )}
             </div>
-            {filteredDentists.length === 0 ? (
+            {isLoading ? (
+              <CardGridSkeleton count={isMobile ? 3 : 6} />
+            ) : filteredDentists.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-4" />
                 <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.searchTitle')}</h3>
                 <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.searchDesc')}</p>
               </div>
             ) : (
-              <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2')}>
+              <div className={cn('gap-4', isMobile ? 'flex flex-col' : 'grid grid-cols-2 items-stretch')}>
                 {filteredDentists.map(dentist => (
                   <DentistCard key={dentist.id} dentist={dentist} onViewProfile={setSelectedDentist} />
                 ))}
