@@ -186,7 +186,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
               )}
             </div>
             {isLoading ? (
-              <CardGridSkeleton count={isMobile ? 3 : 6} />
+              <CardGridSkeleton cards={isMobile ? 3 : 6} columns={isMobile ? 'grid-cols-1' : 'grid-cols-2'} />
             ) : filteredDentists.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-4" />
