@@ -3704,7 +3704,8 @@
   },
   "demoBanner": {
     "label": "🔧 Modo Demonstração — Dados fictícios",
-    "dismiss": "Fechar banner"
+    "dismiss": "Fechar banner",
+    "disclaimer": "⚠️ Modo de demonstração — Os dados apresentados são fictícios"
   },
   "level": {
     "myLevelTab": "Meu Nível",
