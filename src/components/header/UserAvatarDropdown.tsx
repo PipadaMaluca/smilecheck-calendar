@@ -130,7 +130,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
             <div className="border-t border-[#1E3A5F] [.light_&]:border-[#E2E8F0] my-1" />
 
             <button
-              onClick={() => handleItemClick('config')}
+              onClick={() => handleItemClick('configuracoes')}
               className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1A202C] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
             >
               <Settings className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
