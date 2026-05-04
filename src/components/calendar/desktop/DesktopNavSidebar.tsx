@@ -181,10 +181,9 @@ export function DesktopNavSidebar({
         {items.map((item) => renderNavButton(item))}
       </nav>
 
-      {/* Bottom: Demo controls + Configurações */}
-      <div className="border-t border-sidebar-border flex-shrink-0 px-1 py-2 flex flex-col items-stretch gap-1">
+      {/* Bottom: Demo controls (Config moved to avatar dropdown) */}
+      <div className="border-t border-sidebar-border flex-shrink-0 px-1 pt-3 pb-2 mt-2 flex flex-col items-stretch gap-1">
         {isExpanded && <DemoControlsPanel className="w-full" compact />}
-        {renderNavButton({ id: 'configuracoes', icon: Settings, label: t('nav.settings') })}
       </div>
     </aside>
   );

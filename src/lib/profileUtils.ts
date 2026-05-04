@@ -44,12 +44,37 @@ export function getTrendDisplay(trend: TrendData) {
   return { arrow: '→', color: 'text-muted-foreground', text: '' };
 }
 
-// Relative date formatting
+// Relative date formatting — accepts ISO, DD/MM/YYYY, and "28 Jan 2026" inputs.
 export function formatRelativeDate(dateStr: string): string {
-  // Already relative (e.g. "28 Jan 2026", "Há 2 dias")
-  if (!dateStr.match(/^\d{4}-\d{2}-\d{2}/)) return dateStr;
+  if (!dateStr) return '';
+  // Skip already-relative strings
+  if (/^(Há|Hace|There|Ago|Il y a)/i.test(dateStr)) return dateStr;
 
-  const date = new Date(dateStr);
+  let date: Date | null = null;
+  // ISO
+  if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+    date = new Date(dateStr);
+  } else if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+    // DD/MM/YYYY
+    const [d, m, y] = dateStr.split('/').map(Number);
+    date = new Date(y, m - 1, d);
+  } else {
+    // Try "28 Jan 2026" style — Date constructor handles English month abbrev.
+    // For PT abbreviations we try a small map.
+    const PT = { Jan: 0, Fev: 1, Mar: 2, Abr: 3, Mai: 4, Jun: 5, Jul: 6, Ago: 7, Set: 8, Out: 9, Nov: 10, Dez: 11 } as Record<string, number>;
+    const m = dateStr.match(/^(\d{1,2})\s+([A-Za-zçÇãÃéÉ]{3,})\s+(\d{4})$/);
+    if (m) {
+      const monthIdx = PT[m[2].slice(0, 3).replace(/^./, c => c.toUpperCase())];
+      if (monthIdx !== undefined) date = new Date(Number(m[3]), monthIdx, Number(m[1]));
+    }
+    if (!date) {
+      const parsed = new Date(dateStr);
+      if (!isNaN(parsed.getTime())) date = parsed;
+    }
+  }
+
+  if (!date || isNaN(date.getTime())) return dateStr;
+
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -58,6 +83,10 @@ export function formatRelativeDate(dateStr: string): string {
   if (diffDays === 0) return i18n.t('common.today');
   if (diffDays === 1) return i18n.t('common.yesterday');
   if (diffDays < 7) return i18n.t('common.daysAgo', { n: diffDays });
+  if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return i18n.t('common.weeksAgo', { n: weeks, defaultValue: weeks === 1 ? 'Há 1 semana' : `Há ${weeks} semanas` });
+  }
   return formatReadableDate(date);
 }
 

@@ -129,16 +129,22 @@ export function getCategoryTextStyle(hex: string): import('react').CSSProperties
 // Helper: returns inline style for a category badge/pill (low-opacity background + full-color text)
 // Cirurgia uses white text on low-opacity black bg
 export function getCategoryBadgeStyle(hex: string): import('react').CSSProperties {
-  if (hex === '#212121') {
-    return {
-      backgroundColor: hex,
-      color: '#fff',
-    };
-  }
-  return {
-    backgroundColor: `${hex}30`,
-    color: hex,
+  // Doctolib-style: full vivid pill colors, no transparency.
+  // Map from CATEGORY_COLORS hex → vivid pill color/text.
+  const PILL_BY_HEX: Record<string, { bg: string; color: string }> = {
+    '#FDD835': { bg: '#F9A825', color: '#5D4037' }, // primeira_consulta
+    '#9C27B0': { bg: '#7B1FA2', color: '#FFFFFF' }, // destartarizacao
+    '#212121': { bg: '#37474F', color: '#FFFFFF' }, // cirurgia
+    '#E91E63': { bg: '#C2185B', color: '#FFFFFF' }, // endodontia
+    '#E65100': { bg: '#E65100', color: '#FFFFFF' }, // odontopediatria
+    '#8BC34A': { bg: '#558B2F', color: '#FFFFFF' }, // ortodontia
+    '#2E7D32': { bg: '#2E7D32', color: '#FFFFFF' }, // protese
+    '#2196F3': { bg: '#1565C0', color: '#FFFFFF' }, // restauracao
+    '#F44336': { bg: '#C62828', color: '#FFFFFF' }, // urgencia
+    '#FF9800': { bg: '#EF6C00', color: '#FFFFFF' }, // teleconsulta
   };
+  const pill = PILL_BY_HEX[hex] || { bg: hex, color: '#FFFFFF' };
+  return { backgroundColor: pill.bg, color: pill.color };
 }
 
 // Fallback labels (Portuguese) - prefer getCategoryLabel(t, category) for translated labels
