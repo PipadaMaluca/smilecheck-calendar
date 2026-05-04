@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
@@ -40,6 +40,8 @@ function useCountUp(end: number, duration = 2000) {
 export function HeroSection() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+  const isDemo = new URLSearchParams(location.search).get('demo') === 'true';
 
   const stats = [
     { end: 5000, prefix: '+', labelKey: 'landing.stats.patients' },
@@ -115,6 +117,12 @@ export function HeroSection() {
             {t('auth.login')}
           </a>
         </p>
+
+        {isDemo && (
+          <p className="italic text-center text-[#94A3B8] animate-fade-in" style={{ fontSize: 12, marginBottom: 24 }}>
+            {t('demoBanner.disclaimer')}
+          </p>
+        )}
       </div>
 
       {/* Stats bar */}
