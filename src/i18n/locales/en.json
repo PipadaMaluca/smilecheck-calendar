@@ -3713,6 +3713,8 @@
     "multiplier": "multiplier",
     "visibility": "Visibility",
     "featured": "Featured",
+    "featuredShort": "Featured",
+    "featuredTooltip": "This professional is featured based on their level and plan.",
     "frame": {
       "bronze": "Bronze ring",
       "silver": "Silver ring",

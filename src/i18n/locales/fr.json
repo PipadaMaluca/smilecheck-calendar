@@ -3713,6 +3713,8 @@
     "multiplier": "multiplicateur",
     "visibility": "Visibilité",
     "featured": "En vedette",
+    "featuredShort": "En vedette",
+    "featuredTooltip": "Ce professionnel est mis en avant selon son niveau et son plan.",
     "frame": {
       "bronze": "Anneau bronze",
       "silver": "Anneau argent",
