@@ -13,9 +13,12 @@ export function CalendarDemo() {
   const [activeView, setActiveView] = useState(initialRole);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  // Video splash — only on first login per role
+  // Video splash — only on first login ever (single first-run gate).
   const splashRole = initialRole;
-  const [showVideoSplash, setShowVideoSplash] = useState(() => !hasSeenVideoSplash(splashRole));
+  const [showVideoSplash, setShowVideoSplash] = useState(() => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('sc:first-run-done') === '1') return false;
+    return !hasSeenVideoSplash(splashRole);
+  });
 
   useEffect(() => {
     const checkDesktop = () => {

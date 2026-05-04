@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { UserRole } from '@/types/calendar';
 import { TeleconsultaCall } from './TeleconsultaCall';
 import { PreCallModal } from './PreCallModal';
@@ -24,6 +24,38 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
   const isDentist = userRole === 'dentist' || userRole === 'clinic';
   const dentistName = 'Dr. Gonçalo Pipo';
 
+  // Cross-tab teleconsulta sync via BroadcastChannel.
+  // Dentist starting a call ringtones a patient tab opened on /app?role=patient.
+  const channelRef = useRef<BroadcastChannel | null>(null);
+  useEffect(() => {
+    if (typeof BroadcastChannel === 'undefined') return;
+    const ch = new BroadcastChannel('smilecheck-teleconsulta');
+    channelRef.current = ch;
+    ch.onmessage = (ev) => {
+      const msg = ev.data as { type: string; from?: string; patientName?: string };
+      if (!msg) return;
+      // Dentist initiates → notify patient tab
+      if (msg.type === 'invite' && !isDentist) {
+        setCurrentPatient(msg.patientName || 'Ana Ferreira');
+        setState('incoming');
+      }
+      // Patient accepts → dentist auto-joins
+      if (msg.type === 'accept' && isDentist) {
+        setCallStartTime(Date.now());
+        setState('in-call');
+      }
+      // Either side ends
+      if (msg.type === 'end') {
+        setState((s) => (s === 'in-call' ? 'post-call' : 'idle'));
+      }
+    };
+    return () => { ch.close(); channelRef.current = null; };
+  }, [isDentist]);
+
+  const post = (type: string, extra: Record<string, unknown> = {}) => {
+    channelRef.current?.postMessage({ type, from: userRole, ...extra });
+  };
+
   const startTeleconsulta = useCallback((patientName?: string, hasTeleconsulta: boolean = true) => {
     const name = patientName || 'Ana Ferreira';
     setCurrentPatient(name);
@@ -35,21 +67,27 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
 
     if (isDentist) {
       setState('pre-call');
+      post('invite', { patientName: name });
     } else {
       // Patient: show incoming call
       setState('incoming');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDentist]);
 
   const handleStartCall = useCallback(() => {
     setCallStartTime(Date.now());
     setState('in-call');
     toast.success('Teleconsulta iniciada');
+    post('start');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAcceptCall = useCallback(() => {
     setCallStartTime(Date.now());
     setState('in-call');
+    post('accept');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEndCall = useCallback(() => {
@@ -58,6 +96,8 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
     const sec = elapsed % 60;
     setCallDuration(`${min} min ${sec.toString().padStart(2, '0')} seg`);
     setState('post-call');
+    post('end');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callStartTime]);
 
   const handleCreateQuick = useCallback(() => {

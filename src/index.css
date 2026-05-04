@@ -37,6 +37,18 @@
 
     --radius: 0.75rem;
 
+    /* === Unified radii tokens (1.5) === */
+    --radius-xs: 0.375rem;  /* 6px  - chips, slot pills */
+    --radius-sm: 0.5rem;    /* 8px  - inputs, small badges */
+    --radius-md: 0.75rem;   /* 12px - buttons, list rows */
+    --radius-lg: 1rem;      /* 16px - cards */
+    --radius-xl: 1.25rem;   /* 20px - sheets, hero cards */
+
+    /* === Dashboard spacing tokens (4.1) === */
+    --space-section: 1.5rem;     /* 24px between sections */
+    --space-stack: 1rem;         /* 16px between stacked blocks */
+    --space-row: 0.75rem;        /* 12px between row items */
+
     /* SmileCheck Consultation Type Colors */
     --restauracao: 207 70% 56%;       /* Blue (desaturated ~22%) */
     --primeira-consulta: 49 76% 62%;  /* Yellow (desaturated ~22%) */
@@ -612,6 +624,32 @@
   .card-hover-lift {
     transition: transform 200ms ease, box-shadow 200ms ease;
   }
+
+  /* === Hover sweep (3.3) — premium feedback === */
+  .interactive-lift {
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+  @media (hover: hover) {
+    .interactive-lift:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px -8px hsl(var(--primary) / 0.25);
+      border-color: hsl(var(--primary) / 0.45);
+    }
+  }
+  .interactive-lift:active { transform: translateY(0); }
+
+  /* Number tween helper (3.1) */
+  .num-tween {
+    transition: color 220ms ease, transform 220ms ease;
+    will-change: transform;
+  }
+  .num-tween.flash-up { color: hsl(var(--primary)); transform: translateY(-1px); }
+  .num-tween.flash-down { color: hsl(var(--destructive)); transform: translateY(1px); }
+
+  /* Dashboard spacing (4.1) */
+  .stack-section > * + * { margin-top: var(--space-section); }
+  .stack-block > * + * { margin-top: var(--space-stack); }
+  .stack-row > * + * { margin-top: var(--space-row); }
 }
 
 @media (hover: hover) {
@@ -620,6 +658,24 @@
     box-shadow: 0 8px 25px -5px hsl(214 50% 5% / 0.6);
   }
 }
+
+/* === Dark-mode pill contrast pairs (4.2) ===
+   Default (dark) tokens already include `.badge-*` mixes at 15% bg / full color.
+   Boost them to 22% bg + 92% lightness text-on-darker-fill for readability. */
+.badge-teleconsulta,
+.badge-presencial,
+.badge-urgente,
+.badge-prioritario,
+.badge-rotina {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+:root .badge-teleconsulta { background-color: hsl(var(--teleconsulta) / 0.22); color: hsl(36 90% 78%); border-color: hsl(var(--teleconsulta) / 0.45); }
+:root .badge-presencial   { background-color: hsl(var(--presencial)   / 0.22); color: hsl(207 90% 80%); border-color: hsl(var(--presencial)   / 0.45); }
+:root .badge-urgente      { background-color: hsl(var(--urgencia)     / 0.22); color: hsl(4 90% 78%);   border-color: hsl(var(--urgencia)     / 0.45); }
+:root .badge-prioritario  { background-color: hsl(var(--primeira-consulta) / 0.22); color: hsl(49 92% 78%); border-color: hsl(var(--primeira-consulta) / 0.45); }
+:root .badge-rotina       { background-color: hsl(var(--restauracao)  / 0.22); color: hsl(207 90% 82%); border-color: hsl(var(--restauracao) / 0.45); }
+/* In light mode keep dark text for legibility — already handled higher up. */
 
 /* Reduced motion: disable all custom animations */
 @media (prefers-reduced-motion: reduce) {
