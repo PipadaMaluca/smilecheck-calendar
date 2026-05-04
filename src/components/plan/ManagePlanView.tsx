@@ -517,5 +517,40 @@ export function ManagePlanView({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Quick confirm dialog — shown when user clicks a plan card */}
+      <Dialog open={!!confirmPlan} onOpenChange={(o) => !o && setConfirmPlan(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>{t('plan.confirmChangeTitle', 'Confirmar alteração')}</DialogTitle>
+            <DialogDescription>
+              {t('plan.changeEffectImmediate', 'A alteração será efectiva imediatamente.')}
+            </DialogDescription>
+          </DialogHeader>
+          {confirmPlan && (
+            <div className="space-y-3 py-2 text-sm">
+              <div className="rounded-lg border border-border p-3 space-y-1">
+                <p className="text-xs text-muted-foreground">{t('plan.currentPlanLabel', 'Plano actual')}</p>
+                <p className="font-semibold text-foreground">
+                  {(() => {
+                    const cur = plans.find(p => p.id === currentPlan);
+                    return cur ? `${getPlanDisplayName(cur)} — ${formatPrice(cur).main}` : '—';
+                  })()}
+                </p>
+              </div>
+              <div className="rounded-lg border border-primary/40 bg-primary/5 p-3 space-y-1">
+                <p className="text-xs text-primary">{t('plan.newPlanLabel', 'Novo plano')}</p>
+                <p className="font-semibold text-foreground">
+                  {getPlanDisplayName(confirmPlan)} — {formatPrice(confirmPlan).main}
+                </p>
+              </div>
+            </div>
+          )}
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setConfirmPlan(null)}>{t('common.cancel')}</Button>
+            <Button onClick={handleConfirmChange}>{t('plan.confirmChange', 'Confirmar Alteração')}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>);
 }
