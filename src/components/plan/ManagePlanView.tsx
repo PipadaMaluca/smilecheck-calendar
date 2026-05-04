@@ -196,9 +196,10 @@ export function ManagePlanView({
 }: ManagePlanViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const [currentPlan] = useState<PlanTier>('pro');
+  const [currentPlan, setCurrentPlan] = useState<PlanTier>('pro');
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
+  const [confirmPlan, setConfirmPlan] = useState<Plan | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [expandedFeatures, setExpandedFeatures] = useState<Record<string, boolean>>({});
 
@@ -222,7 +223,15 @@ export function ManagePlanView({
 
   const handleSubscribe = () => {
     toast.success(t('plan.planActivated', { plan: getPlanDisplayName(checkoutPlan!) }));
+    if (checkoutPlan) setCurrentPlan(checkoutPlan.id);
     setCheckoutPlan(null);
+  };
+
+  const handleConfirmChange = () => {
+    if (!confirmPlan) return;
+    setCurrentPlan(confirmPlan.id);
+    toast.success(t('plan.planActivated', { plan: getPlanDisplayName(confirmPlan) }));
+    setConfirmPlan(null);
   };
 
   const handleCancel = () => {
