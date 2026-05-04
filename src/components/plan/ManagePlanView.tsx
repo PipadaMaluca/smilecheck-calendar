@@ -450,7 +450,7 @@ export function ManagePlanView({
                   )}
                   variant={isCurrent ? 'outline' : 'default'}
                   disabled={isCurrent}
-                  onClick={() => !isCurrent && setCheckoutPlan(plan)}>
+                  onClick={() => !isCurrent && setConfirmPlan(plan)}>
                   {isCurrent ? t('plan.currentPlanBtn') : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? t('plan.subscribe') : t('plan.choose')}
                 </Button>
               </CardContent>
