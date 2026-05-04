@@ -4,6 +4,7 @@ import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, Consul
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
+import { getDentistInitials } from '@/lib/avatarUtils';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { toast } from 'sonner';
 
