@@ -6,6 +6,7 @@ import { mockDentists, mockFamilyMembers, mockClinics } from '@/data/mockData';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
 import { AvatarFrame } from '@/components/level/AvatarFrame';
+import { LevelIcon } from '@/components/level/LevelIcon';
 import { cn } from '@/lib/utils';
 import {
   AlertDialog,
@@ -23,11 +24,6 @@ interface UserAvatarDropdownProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
 }
-
-const LEVEL_ICONS: Record<string, string> = {
-  lata: '🥫', bronze: '🥉', prata: '🥈', ouro: '🥇',
-  platina: '💎', diamante: '💠', adamantino: '🏆',
-};
 
 function getUserInfo(userRole: UserRole, t: (key: string) => string) {
   const lvl = getLevelForXP(USER_POINTS[userRole].xp).key;
@@ -78,7 +74,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
           <p className="text-sm font-bold text-foreground">{userInfo.name}</p>
           <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
         </div>
-        <AvatarFrame levelKey={userInfo.level} className="h-9 w-9">
+        <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9">
           <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
             <User className="w-5 h-5 text-primary" />
           </div>
@@ -121,8 +117,8 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
             <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground">
               <Trophy className="w-4 h-4" />
               <span>{t('profile.myLevel')}:</span>
-              <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-                {LEVEL_ICONS[userInfo.level]} {t(levelCfg.labelKey)}
+              <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border inline-flex items-center gap-1', levelCfg.bg, levelCfg.color)}>
+                <LevelIcon levelKey={userInfo.level} size={12} inheritColor /> {t(levelCfg.labelKey)}
               </span>
             </div>
 
