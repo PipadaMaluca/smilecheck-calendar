@@ -65,16 +65,16 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
   };
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={dropdownRef} className="relative" style={{ overflow: 'visible' }}>
       <button
-        className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        className="flex items-center gap-3 p-1 hover:opacity-80 transition-opacity"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="text-right">
           <p className="text-sm font-bold text-foreground">{userInfo.name}</p>
           <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
         </div>
-        <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9">
+        <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9 overflow-visible">
           <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
             <User className="w-5 h-5 text-primary" />
           </div>
@@ -84,38 +84,42 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
       {isOpen && (
         <div
           className={cn(
-            'absolute z-[100] bg-[hsl(210,50%,24%)] border border-[hsl(210,40%,28%)] rounded-lg shadow-xl overflow-hidden',
+            'absolute z-[200] rounded-lg overflow-hidden',
+            // Dark theme defaults
+            'bg-[#0D2137] border border-[#1E3A5F] shadow-[0_8px_24px_rgba(0,0,0,0.3)]',
+            // Light theme overrides
+            '[.light_&]:bg-white [.light_&]:border-[#D6E4F0] [.light_&]:shadow-[0_8px_24px_rgba(0,0,0,0.12)]',
             isMobile
               ? 'fixed left-0 right-0 top-14 rounded-none border-x-0 border-t-0'
               : 'right-0 top-full mt-2 w-64'
           )}
         >
           {/* User info header */}
-          <div className="px-4 py-3 border-b border-[hsl(210,40%,28%)]">
-            <p className="text-sm font-bold text-foreground">{userInfo.name}</p>
-            <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
+          <div className="px-4 py-3 border-b border-[#1E3A5F] [.light_&]:border-[#E2E8F0]">
+            <p className="text-sm font-bold text-white [.light_&]:text-[#1A202C]">{userInfo.name}</p>
+            <p className="text-xs text-[#94A3B8] [.light_&]:text-[#4A5568]">{userInfo.subtitle}</p>
           </div>
 
           {/* Menu items */}
           <div className="py-1">
             <button
               onClick={() => handleItemClick('perfil')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/40 transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1565C0] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
             >
-              <User className="w-4 h-4 text-muted-foreground" />
+              <User className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#1565C0]" />
               {t('profile.viewProfile')}
             </button>
             <button
               onClick={() => handleItemClick('editar-perfil')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/40 transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1A202C] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
             >
-              <Pencil className="w-4 h-4 text-muted-foreground" />
+              <Pencil className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
               {t('profile.editProfile')}
             </button>
 
             {/* Level display - not clickable */}
-            <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground">
-              <Trophy className="w-4 h-4" />
+            <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#94A3B8] [.light_&]:text-[#1A202C]">
+              <Trophy className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
               <span>{t('profile.myLevel')}:</span>
               <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border inline-flex items-center gap-1', levelCfg.bg, levelCfg.color)}>
                 <LevelIcon levelKey={userInfo.level} size={12} inheritColor /> {t(levelCfg.labelKey)}
@@ -123,18 +127,18 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
             </div>
 
             {/* Separator */}
-            <div className="border-t border-[hsl(210,40%,28%)] my-1" />
+            <div className="border-t border-[#1E3A5F] [.light_&]:border-[#E2E8F0] my-1" />
 
             <button
               onClick={() => handleItemClick('config')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-secondary/40 transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1A202C] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
             >
-              <Settings className="w-4 h-4 text-muted-foreground" />
+              <Settings className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
               {t('nav.settings')}
             </button>
             <button
               onClick={() => { setIsOpen(false); setShowLogoutConfirm(true); }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/10 transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/10 [.light_&]:hover:bg-red-50 transition-colors"
             >
               <LogOut className="w-4 h-4" />
               {t('settings.logout')}
