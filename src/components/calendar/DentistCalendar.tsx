@@ -320,6 +320,10 @@ export function DentistCalendar() {
     setShowFullHistory(false);
     setShowSettings(false);
     setShowBlockModal(false);
+    if (tab === 'perfil') {
+      setShowProfile(true);
+      return;
+    }
     setActiveTab(tab);
   };
 
