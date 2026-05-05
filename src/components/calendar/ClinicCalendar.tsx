@@ -32,6 +32,7 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -49,6 +50,7 @@ const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).m
 
 export function ClinicCalendar() {
   const { t } = useTranslation();
+  useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
@@ -84,7 +86,7 @@ export function ClinicCalendar() {
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
         const dentistConsultations = mockConsultations.filter(
-          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id
+          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
         result.push({ dentist, clinic, worksToday, slots });
