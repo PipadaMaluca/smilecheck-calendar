@@ -861,6 +861,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         </div>
 
         {/* Role-specific content */}
+        <MobileDashboardHero userRole={userRole} onNavigate={onNavigate} />
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
 
         <CoachMark
