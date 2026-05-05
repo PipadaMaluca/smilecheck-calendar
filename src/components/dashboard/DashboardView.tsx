@@ -27,6 +27,7 @@ import { LevelUpCelebration } from '@/components/level/LevelUpCelebration';
 import { LevelIcon } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
+import { MobileDashboardHero } from './MobileDashboardHero';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -217,7 +218,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const HeroIcon = heroStat.icon;
 
     return (
-      <div className="flex flex-col gap-3 sm:gap-4">
+      <div className="hidden md:flex flex-col gap-3 sm:gap-4">
         {/* Mobile: 1 col stack. Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
         <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
