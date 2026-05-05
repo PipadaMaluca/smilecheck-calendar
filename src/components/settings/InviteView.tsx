@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, UserPlus, Gift, Users, Clock } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,14 @@ const MOCK_HISTORY = [
 export function InviteView({ onClose, inline }: InviteViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const [isTabletOrBelow, setIsTabletOrBelow] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 1023px)');
+    const onChange = () => setIsTabletOrBelow(mql.matches);
+    onChange();
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -161,7 +169,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     return <>{inviteContent}{coachMark}</>;
   }
 
-  if (isMobile) {
+  if (isMobile || isTabletOrBelow) {
     return (
       <div className="fixed inset-0 bg-background z-[70] flex flex-col pb-[60px]">
         <div className="flex items-center gap-3 p-4 border-b border-border flex-shrink-0">
