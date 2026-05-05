@@ -1,4 +1,4 @@
-import { Home, Calendar, Gift, MessageCircle, Users } from 'lucide-react';
+import { Home, Calendar, MessageCircle, Bell, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
@@ -23,20 +23,23 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
     patient: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'consultas', icon: Calendar, label: t('nav.consultations') },
-      { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
-      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'notificacoes', icon: Bell, label: t('nav.alerts') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+      { id: 'perfil', icon: User, label: t('nav.profile') },
     ],
     dentist: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
-      { id: 'equipa', icon: Users, label: t('nav.team') },
-      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'notificacoes', icon: Bell, label: t('nav.alerts') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+      { id: 'perfil', icon: User, label: t('nav.profile') },
     ],
     clinic: [
       { id: 'home', icon: Home, label: t('nav.home') },
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
-      { id: 'equipa', icon: Users, label: t('nav.team') },
-      { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'notificacoes', icon: Bell, label: t('nav.alerts') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+      { id: 'perfil', icon: User, label: t('nav.profile') },
     ],
   };
 
@@ -55,7 +58,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
         paddingBottom: 'env(safe-area-inset-bottom, 0px)'
       }}
     >
-      <div className="flex items-center justify-around py-2">
+      <div className="flex items-center justify-around h-14">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -66,8 +69,8 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => handleTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center gap-1 py-2 px-4 text-muted-foreground transition-all duration-200 relative',
-                isActive && 'text-primary'
+                'flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] min-h-[44px] transition-all duration-200 relative',
+                isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
               )}
             >
               <div className="relative">
@@ -78,9 +81,9 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-[10px] font-medium leading-none">{item.label}</span>
               {isActive && (
-                <span className="absolute top-0 w-8 h-0.5 bg-primary rounded-full" />
+                <span className="absolute top-0 w-8 h-0.5 bg-[#2196F3] rounded-full" />
               )}
             </button>
           );
