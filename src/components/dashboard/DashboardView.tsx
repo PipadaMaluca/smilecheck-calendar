@@ -570,8 +570,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </CollapsibleSection>
           </div>
 
-          {/* RIGHT column: Quick Actions + Pending Points */}
-          {renderRightColumn('dentist')}
+          {/* RIGHT column: Quick Actions + Pending Points (hidden on mobile — replaced by hero pills) */}
+          <div className="hidden md:block">{renderRightColumn('dentist')}</div>
         </div>
 
         {/* Full width: Score history */}
@@ -733,8 +733,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           </CollapsibleSection>
           </div>
 
-          {/* RIGHT column: Quick Actions + Pending Points */}
-          {renderRightColumn('clinic')}
+          {/* RIGHT column: Quick Actions + Pending Points (hidden on mobile — replaced by hero pills) */}
+          <div className="hidden md:block">{renderRightColumn('clinic')}</div>
         </div>
 
         {/* Full width: Histórico de Pacientes do Dia — card style */}
@@ -795,8 +795,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
           {/* RIGHT: Ações Rápidas + Feedback Pendente */}
           <div className="space-y-6">
-            {/* Ações Rápidas */}
-            <Card className="bg-card/80 backdrop-blur border-border">
+            {/* Ações Rápidas (hidden on mobile — replaced by hero pills) */}
+            <Card className="hidden md:block bg-card/80 backdrop-blur border-border">
               <CardContent className="p-4 space-y-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
                 <div className="flex flex-col gap-2">
