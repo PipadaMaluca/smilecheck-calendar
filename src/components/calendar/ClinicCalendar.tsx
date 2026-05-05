@@ -178,11 +178,11 @@ export function ClinicCalendar() {
       const parts = selectedDentistIds[0].split('-');
       const clinicId = parts[0];
       const dentistId = parts.slice(1).join('-') || parts[0];
-      const consultations = mockConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId);
+      const consultations = mockConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId && passesAgendaFilters(c));
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1');
+    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1' && passesAgendaFilters(c));
     return generateTimeSlots(date, consultations);
   };
 
