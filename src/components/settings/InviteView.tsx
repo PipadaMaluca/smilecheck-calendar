@@ -52,36 +52,36 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   const shareSMS = () => window.open(`sms:?body=${encodeURIComponent(shareMessage)}`, '_blank');
 
   const inviteContent = (
-    <div className="p-5 md:p-6 max-w-lg mx-auto space-y-6 pb-32">
+    <div className="px-4 py-5 md:p-6 max-w-lg mx-auto space-y-5 md:space-y-6 pb-32 w-full overflow-x-hidden">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-          <Gift className="w-8 h-8 text-primary" />
+        <div className="w-9 h-9 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+          <Gift className="w-5 h-5 md:w-8 md:h-8 text-primary" />
         </div>
-        <h2 className="text-xl font-bold text-foreground">Convide amigos e ganhe pontos!</h2>
-        <p className="text-sm text-muted-foreground">Ganhe 50 pontos por cada pessoa que se registar</p>
+        <h2 className="text-base md:text-xl font-bold text-foreground px-2">Convide amigos e ganhe pontos!</h2>
+        <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">Ganhe 50 pontos por cada pessoa que se registar</p>
       </div>
 
       {/* Code & Link */}
       <Card className="bg-card/80 backdrop-blur border-border">
-        <CardContent className="pt-4 space-y-4">
+        <CardContent className="pt-4 px-3 md:px-6 space-y-4">
           <div>
             <label className="text-xs text-muted-foreground block mb-1.5">Código de convite pessoal</label>
             <div className="flex items-center gap-2">
-              <div id="coachmark-referral-code" className="flex-1 bg-secondary rounded-lg px-4 py-2.5 text-base font-mono font-bold text-foreground tracking-widest text-center">{code}</div>
-              <Button variant="outline" size="sm" onClick={() => copyToClipboard(code, 'code')} className="gap-1.5">
+              <div id="coachmark-referral-code" className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-[13px] md:text-base font-mono font-bold text-foreground tracking-widest text-center truncate">{code}</div>
+              <Button variant="outline" size="sm" onClick={() => copyToClipboard(code, 'code')} className="gap-1.5 flex-shrink-0 h-9 w-9 md:w-auto p-0 md:px-3" aria-label="Copiar">
                 {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copiedCode ? 'Copiado' : 'Copiar'}
+                <span className="hidden md:inline">{copiedCode ? 'Copiado' : 'Copiar'}</span>
               </Button>
             </div>
           </div>
           <div>
             <label className="text-xs text-muted-foreground block mb-1.5">Link de convite</label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-secondary rounded-lg px-4 py-2.5 text-sm text-muted-foreground truncate">{link}</div>
-              <Button variant="outline" size="sm" onClick={() => copyToClipboard(link, 'link')} className="gap-1.5">
+              <div className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-[13px] md:text-sm text-muted-foreground truncate">{link}</div>
+              <Button variant="outline" size="sm" onClick={() => copyToClipboard(link, 'link')} className="gap-1.5 flex-shrink-0 h-9 w-9 md:w-auto p-0 md:px-3" aria-label="Copiar">
                 {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copiedLink ? 'Copiado' : 'Copiar'}
+                <span className="hidden md:inline">{copiedLink ? 'Copiado' : 'Copiar'}</span>
               </Button>
             </div>
           </div>
@@ -92,39 +92,39 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       <div className="space-y-2">
         <p className="text-xs font-semibold text-muted-foreground uppercase">Partilhar via</p>
         <div className="grid grid-cols-3 gap-2">
-          <Button variant="outline" className="flex-col h-auto py-3 gap-1.5" onClick={shareWhatsApp}>
+          <Button variant="outline" className="flex-col h-12 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareWhatsApp}>
             <MessageCircle className="w-5 h-5 text-emerald-500" />
-            <span className="text-xs">WhatsApp</span>
+            <span className="text-[11px] md:text-xs">WhatsApp</span>
           </Button>
-          <Button variant="outline" className="flex-col h-auto py-3 gap-1.5" onClick={shareEmail}>
+          <Button variant="outline" className="flex-col h-12 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareEmail}>
             <Mail className="w-5 h-5 text-primary" />
-            <span className="text-xs">Email</span>
+            <span className="text-[11px] md:text-xs">Email</span>
           </Button>
-          <Button variant="outline" className="flex-col h-auto py-3 gap-1.5" onClick={shareSMS}>
+          <Button variant="outline" className="flex-col h-12 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareSMS}>
             <Smartphone className="w-5 h-5 text-primary" />
-            <span className="text-xs">SMS</span>
+            <span className="text-[11px] md:text-xs">SMS</span>
           </Button>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-2 md:gap-3">
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardContent className="pt-4 pb-3 text-center">
-            <p className="text-2xl font-bold text-foreground">7</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Convidadas</p>
+          <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
+            <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">7</p>
+            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap">Convidadas</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardContent className="pt-4 pb-3 text-center">
-            <p className="text-2xl font-bold text-emerald-500">3</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Confirmadas</p>
+          <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
+            <p className="text-xl md:text-2xl font-bold text-emerald-500 leading-tight">3</p>
+            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap">Confirmadas</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardContent className="pt-4 pb-3 text-center">
-            <p className="text-2xl font-bold text-amber-400">150</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Pontos ganhos</p>
+          <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
+            <p className="text-xl md:text-2xl font-bold text-amber-400 leading-tight">150</p>
+            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">Pts ganhos</span><span className="hidden md:inline">Pontos ganhos</span></p>
           </CardContent>
         </Card>
       </div>
@@ -132,21 +132,21 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       {/* History */}
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2"><CardTitle className="text-sm">Histórico de Convites</CardTitle></CardHeader>
-        <CardContent className="space-y-0 divide-y divide-border">
+        <CardContent className="space-y-0 divide-y divide-border px-3 md:px-6">
           {MOCK_HISTORY.map((h, i) => (
-            <div key={i} className="flex items-center justify-between py-3">
-              <div className="flex items-center gap-3">
-                <Users className="w-4 h-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm text-foreground">{h.name}</p>
-                  <p className="text-xs text-muted-foreground">{h.date}</p>
+            <div key={i} className="flex items-center justify-between py-2.5 md:py-3 gap-2">
+              <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
+                <Users className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-[13px] md:text-sm text-foreground truncate">{h.name}</p>
+                  <p className="text-[11px] md:text-xs text-muted-foreground truncate">{h.date}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-[10px]">
+              <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
+                <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-[11px]">
                   {h.status === 'confirmed' ? 'Confirmado' : 'Pendente'}
                 </Badge>
-                {h.points > 0 && <span className="text-xs font-medium text-amber-400">+{h.points} pts</span>}
+                {h.points > 0 && <span className="text-[11px] md:text-xs font-medium text-amber-400 whitespace-nowrap">+{h.points} pts</span>}
               </div>
             </div>
           ))}
