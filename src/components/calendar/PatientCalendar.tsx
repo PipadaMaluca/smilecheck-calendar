@@ -139,6 +139,10 @@ export function PatientCalendar() {
     setViewDentistProfile(null);
     setViewClinicProfile(null);
     setShowFullHistory(false);
+    if (tab === 'perfil') {
+      setShowProfile(true);
+      return;
+    }
     setActiveTab(tab);
   };
 
