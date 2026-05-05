@@ -128,7 +128,10 @@
     "inviteFriends": "Convidar Amigos",
     "invite": "Convidar",
     "exportReports": "Exportar Relatórios",
-    "fullHistory": "Histórico Completo"
+    "fullHistory": "Histórico Completo",
+    "alerts": "Alertas",
+    "profile": "Perfil",
+    "chat": "Chat"
   },
   "auth": {
     "login": "Entrar",
