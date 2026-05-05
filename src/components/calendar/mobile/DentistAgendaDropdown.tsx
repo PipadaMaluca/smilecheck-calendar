@@ -189,6 +189,10 @@ export function DentistAgendaDropdown({
             </div>
           );
         })}
+
+        <div className="-mx-4 mt-2 border-t border-border">
+          <AgendaFilterGroups compact />
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );
