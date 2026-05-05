@@ -260,6 +260,10 @@ export function ClinicCalendar() {
     setSlotCreation(null);
     setViewPatientDossier(null);
     setShowFullHistory(false);
+    if (tab === 'perfil') {
+      setShowProfile(true);
+      return;
+    }
     setActiveTab(tab);
   };
 
