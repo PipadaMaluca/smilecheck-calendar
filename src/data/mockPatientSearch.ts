@@ -1,5 +1,3 @@
-import { LevelKey } from '@/types/scoring';
-
 export interface PatientSearchResult {
   id: string;
   name: string;
