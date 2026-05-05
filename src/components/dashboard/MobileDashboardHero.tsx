@@ -177,21 +177,24 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
       </div>
 
       {/* === Action pills row === */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
-        {pills.map((p) => {
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
+        {pills.map((p, i) => {
           const Icon = p.icon;
+          const isLast = i === pills.length - 1;
           return (
             <button
               key={p.id}
               onClick={() => onPillClick(p.id)}
+              style={{ paddingLeft: 14, paddingRight: 14 }}
               className={cn(
-                'flex items-center gap-1.5 h-9 px-3 rounded-full whitespace-nowrap flex-shrink-0',
-                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground text-[11px] font-medium',
+                'flex items-center gap-1.5 h-8 rounded-full whitespace-nowrap flex-shrink-0',
+                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground text-[11px] font-medium leading-none',
                 'hover:bg-[#D6E4F5] dark:hover:bg-[#2A4A6F] transition-colors',
+                isLast && 'mr-4',
               )}
             >
-              <Icon className="w-3.5 h-3.5 text-[#2196F3]" />
-              {p.label}
+              <Icon className="w-3.5 h-3.5 text-[#2196F3] flex-shrink-0" />
+              <span className="whitespace-nowrap">{p.label}</span>
             </button>
           );
         })}
