@@ -782,6 +782,22 @@
     "aesthetics": "Cosmetic Dentistry",
     "other": "Other"
   },
+  "patientStatuses": {
+    "all": "All",
+    "upcoming": "Upcoming",
+    "inWaitingRoom": "In waiting room",
+    "inConsultation": "In consultation",
+    "seen": "Seen",
+    "noShowUnexcused": "No-show (unexcused)",
+    "noShowExcused": "No-show (excused)",
+    "toReschedule": "To reschedule"
+  },
+  "agendaFilters": {
+    "schedules": "Schedules",
+    "patientStatus": "Patient Status",
+    "consultationTypesGroup": "Consultation Types",
+    "filterPresent": "Filter Present"
+  },
   "consultationDetail": {
     "title": "Appointment Details",
     "information": "Information",
