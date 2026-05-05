@@ -10,6 +10,7 @@ import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mo
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
 
 interface DesktopCalendarSidebarProps {
   selectedDate: Date;
@@ -338,6 +339,11 @@ export function DesktopCalendarSidebar({
           <Plus className="w-3 h-3" />
           Adicionar
         </Button>
+      </div>
+
+      {/* New filter groups: Patient Status + Consultation Types */}
+      <div className="flex-shrink-0">
+        <AgendaFilterGroups compact />
       </div>
 
       {/* Footer */}
