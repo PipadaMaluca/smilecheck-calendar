@@ -782,6 +782,22 @@
     "aesthetics": "Estética Dentária",
     "other": "Outro"
   },
+  "patientStatuses": {
+    "all": "Todos",
+    "upcoming": "A chegar",
+    "inWaitingRoom": "Em sala de espera",
+    "inConsultation": "Em consulta",
+    "seen": "Visto",
+    "noShowUnexcused": "Falta (não justificada)",
+    "noShowExcused": "Falta (justificada)",
+    "toReschedule": "A remarcar"
+  },
+  "agendaFilters": {
+    "schedules": "Agendas",
+    "patientStatus": "Estados do Paciente",
+    "consultationTypesGroup": "Tipos de Consulta",
+    "filterPresent": "Filtrar Presentes"
+  },
   "consultationDetail": {
     "title": "Detalhes da Consulta",
     "information": "Informações",

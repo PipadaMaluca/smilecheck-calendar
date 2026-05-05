@@ -5,6 +5,7 @@ import { mockClinics, mockDentists, getDentistsForClinic, clinicDentists } from 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ViewMode } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
+import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
 
 interface DentistAgendaDropdownProps {
   currentDentistId: string;
@@ -189,6 +190,10 @@ export function DentistAgendaDropdown({
             </div>
           );
         })}
+
+        <div className="-mx-4 mt-2 border-t border-border">
+          <AgendaFilterGroups compact />
+        </div>
       </CollapsibleContent>
     </Collapsible>
   );

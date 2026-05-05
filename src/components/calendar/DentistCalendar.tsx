@@ -39,6 +39,7 @@ import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode, Dentist, Clinic } from '@/types/calendar';
 import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -57,6 +58,8 @@ const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOn
 
 export function DentistCalendar() {
   const { t } = useTranslation();
+  // Subscribe so changes re-render columns/list
+  useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
@@ -105,7 +108,7 @@ export function DentistCalendar() {
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
         const dentistConsultations = mockConsultations.filter(
-          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id
+          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
         result.push({ dentist, clinic, worksToday, slots });
@@ -118,11 +121,11 @@ export function DentistCalendar() {
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) {
-      return mockConsultations.filter(c => c.dentist.id === mockDentists[0].id);
+      return mockConsultations.filter(c => c.dentist.id === mockDentists[0].id && passesAgendaFilters(c));
     }
     return mockConsultations.filter(c => {
       const key = `${c.clinic.id}-${c.dentist.id}`;
-      return selectedDentistIds.includes(key);
+      return selectedDentistIds.includes(key) && passesAgendaFilters(c);
     });
   }, [selectedDentistIds]);
 
