@@ -1817,6 +1817,30 @@
     "writeMessage": "Escreva uma mensagem...",
     "copied": "Copiado!",
     "selectDentistFromClinic": "Selecione um dentista desta clínica para marcar consulta."
+    ,"patientsTab": "Pacientes",
+    "patientSearchPlaceholder": "Pesquisar paciente por nome, email ou telefone...",
+    "patientFilter": {
+      "all": "Todos",
+      "active": "Ativos",
+      "new": "Novos (último mês)",
+      "inactive": "Inativos (>6 meses)"
+    },
+    "patientSort": {
+      "lastConsultation": "Última consulta",
+      "name": "Nome A-Z",
+      "mostConsultations": "Mais consultas",
+      "bestRating": "Melhor avaliação"
+    },
+    "patientsFromDentist": "Pacientes de:",
+    "allDentists": "Todos os dentistas",
+    "primaryDentist": "Principal",
+    "yearsShort": "anos",
+    "reviewsCount": "{{count}} avaliações",
+    "noReviews": "Sem avaliações",
+    "totalConsultations": "Total: {{count}} consultas",
+    "viewDossier": "Ver Dossier",
+    "noPatientsFound": "Nenhum paciente encontrado",
+    "tryOtherTerms": "Tente pesquisar com outros termos."
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",

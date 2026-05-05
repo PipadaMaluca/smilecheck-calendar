@@ -16,6 +16,8 @@ import { UserRole } from '@/types/calendar';
 import { JobMarketView } from '@/components/jobs/JobMarketView';
 import { MiniBadges, getShowcasedAchievements } from '@/components/achievements/MiniBadges';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';
+import { PatientsTab } from '@/components/search/PatientsTab';
+import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -46,7 +48,8 @@ export function FavoritesView({
   const isMobile = useIsMobile();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
-  const [typeFilter, setTypeFilter] = useState<'dentists' | 'clinics'>('dentists');
+  const [typeFilter, setTypeFilter] = useState<'dentists' | 'clinics' | 'patients'>('clinics');
+  const profileNav = useProfileNavigation();
   const [callClinic, setCallClinic] = useState<{ id: string; name: string; address: string; phone: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
@@ -87,6 +90,8 @@ export function FavoritesView({
   if (showJobs) {
     return <JobMarketView userRole={userRole} onBack={() => setShowJobs(false)} onSendMessage={onSendMessage} />;
   }
+
+  const showPatientsTab = userRole === 'dentist' || userRole === 'clinic';
 
   const renderDentistActions = (d: DentistSearchResult) => {
     if (userRole === 'patient') {
@@ -180,12 +185,17 @@ export function FavoritesView({
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex gap-1 bg-muted rounded-lg p-1 flex-shrink-0">
-          <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
-            {t('search.dentistsTab')}
-          </button>
           <button onClick={() => setTypeFilter('clinics')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'clinics' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
             {t('search.clinicsTab')}
           </button>
+          <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+            {t('search.dentistsTab')}
+          </button>
+          {showPatientsTab && (
+            <button onClick={() => setTypeFilter('patients')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'patients' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+              {t('search.patientsTab')}
+            </button>
+          )}
         </div>
         <div className="flex gap-2 flex-wrap flex-1 justify-start sm:justify-end">
           {userRole !== 'patient' && (
@@ -193,12 +203,22 @@ export function FavoritesView({
               <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t('search.jobOffers')}</span><span className="sm:hidden">{t('search.jobOffersShort')}</span>
             </Button>
           )}
-          <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
-            <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
-          </button>
+          {typeFilter !== 'patients' && (
+            <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
+              <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
+            </button>
+          )}
         </div>
       </div>
 
+      {typeFilter === 'patients' ? (
+        <PatientsTab
+          userRole={userRole}
+          onSendMessage={onSendMessage}
+          onViewDossier={(id) => profileNav?.openPatientProfile(id)}
+        />
+      ) : (
+        <>
       <p className="text-xs text-muted-foreground">
         {t('search.resultsFound', { count: totalResults })}
       </p>
@@ -304,6 +324,8 @@ export function FavoritesView({
             );
           })}
         </div>
+      )}
+        </>
       )}
 
       {/* Call Clinic Modal */}

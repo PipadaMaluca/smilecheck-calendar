@@ -1816,7 +1816,31 @@
     "inviteConfirm": "Inviter {{name}} à {{clinic}} ?",
     "writeMessage": "Écrivez un message...",
     "copied": "Copié !",
-    "selectDentistFromClinic": "Sélectionnez un dentiste de cette clinique pour réserver."
+    "selectDentistFromClinic": "Sélectionnez un dentiste de cette clinique pour réserver.",
+    "patientsTab": "Patients",
+    "patientSearchPlaceholder": "Rechercher un patient par nom, e-mail ou téléphone...",
+    "patientFilter": {
+      "all": "Tous",
+      "active": "Actifs",
+      "new": "Nouveaux (dernier mois)",
+      "inactive": "Inactifs (>6 mois)"
+    },
+    "patientSort": {
+      "lastConsultation": "Dernière consultation",
+      "name": "Nom A-Z",
+      "mostConsultations": "Plus de consultations",
+      "bestRating": "Meilleure note"
+    },
+    "patientsFromDentist": "Patients de:",
+    "allDentists": "Tous les dentistes",
+    "primaryDentist": "Principal",
+    "yearsShort": "ans",
+    "reviewsCount": "{{count}} avis",
+    "noReviews": "Sans avis",
+    "totalConsultations": "Total: {{count}} consultations",
+    "viewDossier": "Voir Dossier",
+    "noPatientsFound": "Aucun patient trouvé",
+    "tryOtherTerms": "Essayez d'autres termes de recherche."
   },
   "history": {
     "consultationHistory": "Historique des Consultations",

@@ -1816,7 +1816,31 @@
     "inviteConfirm": "Invite {{name}} to {{clinic}}?",
     "writeMessage": "Write a message...",
     "copied": "Copied!",
-    "selectDentistFromClinic": "Select a dentist from this clinic to book."
+    "selectDentistFromClinic": "Select a dentist from this clinic to book.",
+    "patientsTab": "Patients",
+    "patientSearchPlaceholder": "Search patient by name, email or phone...",
+    "patientFilter": {
+      "all": "All",
+      "active": "Active",
+      "new": "New (last month)",
+      "inactive": "Inactive (>6 months)"
+    },
+    "patientSort": {
+      "lastConsultation": "Last consultation",
+      "name": "Name A-Z",
+      "mostConsultations": "Most consultations",
+      "bestRating": "Best rating"
+    },
+    "patientsFromDentist": "Patients of:",
+    "allDentists": "All dentists",
+    "primaryDentist": "Primary",
+    "yearsShort": "y/o",
+    "reviewsCount": "{{count}} reviews",
+    "noReviews": "No reviews",
+    "totalConsultations": "Total: {{count}} consultations",
+    "viewDossier": "View Dossier",
+    "noPatientsFound": "No patient found",
+    "tryOtherTerms": "Try searching with other terms."
   },
   "history": {
     "consultationHistory": "Consultation History",
