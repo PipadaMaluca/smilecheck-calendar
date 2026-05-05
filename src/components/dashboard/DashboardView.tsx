@@ -476,20 +476,22 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
-                      {/* Mobile: 2-row layout */}
-                      <div className="sm:hidden py-1.5 space-y-0.5">
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-xs font-bold text-primary flex-shrink-0">{c.time}</span>
-                            <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
-                              <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
-                            </span>
-                          </div>
-                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
+                      {/* Mobile: 3-column row */}
+                      <div className="sm:hidden flex items-center h-12 px-1 gap-2">
+                        <div className="w-[50px] flex-shrink-0">
+                          <span className="text-[12px] font-bold tabular-nums" style={{ color: catColor?.hex || '#2196F3' }}>{c.time}</span>
                         </div>
-                        <div className="flex items-center gap-1.5 pl-12">
-                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
-                          <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center" style={{ lineHeight: 1.3 }}>
+                          <span className="text-[13px] font-medium text-foreground truncate" onClick={(e) => e.stopPropagation()}>
+                            <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-[13px] font-medium text-foreground hover:underline cursor-pointer" />
+                          </span>
+                          <div className="flex items-center gap-1 min-w-0">
+                            <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
+                            <span className="text-[10px] text-muted-foreground hidden min-[375px]:inline">{c.duration}{t('agenda.minutes')}</span>
+                          </div>
+                        </div>
+                        <div className="w-[100px] flex-shrink-0 flex justify-end">
+                          {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
                     </div>
