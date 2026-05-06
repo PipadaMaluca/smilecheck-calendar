@@ -118,21 +118,20 @@ export function MultiDentistGrid({
             {/* Time Column - sticky when multi-column for scroll with SOLID background */}
             <div 
               className={cn(
-                "flex-shrink-0 time-column-mobile",
+                "flex-shrink-0 time-column-mobile bg-[#F8FAFC] dark:bg-[#0D2137] border-r border-[#E2E8F0] dark:border-[#1E3A5F]",
                 isSingleColumn ? "w-10" : "w-16",
                 isMultiColumn && "sticky left-0 z-10"
               )}
               style={{
                 display: 'grid',
                 gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
-                backgroundColor: 'hsl(214 50% 10%)', // Solid background, no transparency
               }}
             >
               {timeSlots.map((time) => (
                 <div 
                   key={time} 
                   className={cn(
-                    "flex items-center justify-end pr-1 text-muted-foreground font-mono",
+                    "flex items-center justify-end pr-1 text-[#4A5568] dark:text-[#94A3B8] font-mono",
                     isSingleColumn ? "text-[10px]" : "text-xs pr-2"
                   )}
                 >
