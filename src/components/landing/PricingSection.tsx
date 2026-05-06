@@ -135,7 +135,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
   const popularLabel = t('landing.pricing.popular');
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto">
+    <div data-reveal="cards" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto sc-perspective">
       {plans.map((plan) => {
         const price = annual ? plan.annual : plan.monthly;
         const isPopular = plan.badge === popularLabel;
@@ -145,7 +145,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
           return (
             <div
               key={plan.name}
-              className="relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_20px_rgba(21,101,192,0.18)] hover:shadow-[0_8px_32px_rgba(21,101,192,0.28)]"
+              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:-translate-y-2 hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-all duration-200 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
             >
               <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
                 {plan.badge}
@@ -159,7 +159,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         return (
           <div key={plan.name} className={cn(
-            'relative rounded-2xl p-6 flex flex-col transition-all duration-300 bg-white dark:bg-[#0D2137] hover:-translate-y-1',
+            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-all duration-200 bg-white dark:bg-[#0D2137] hover:-translate-y-2',
             isPopular
               ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
               : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
