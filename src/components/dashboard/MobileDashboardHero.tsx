@@ -72,45 +72,25 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
   // Action pills per role
   const { pillsMobile, pillsTablet } = useMemo(() => {
     if (userRole === 'patient') {
-      const mobile = [
-        { id: 'agenda', icon: Calendar, label: t('nav.consultations') },
+      const items = [
         { id: 'saude', icon: Heart, label: t('nav.health') },
-        { id: 'pesquisa', icon: Search, label: t('nav.search') },
-        { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
         { id: 'conquistas', icon: Award, label: t('nav.achievements') },
         { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
         { id: 'convidar', icon: Gift, label: t('nav.invite') },
-        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
+        { id: 'pesquisa', icon: Search, label: t('nav.search') },
       ];
-      const tablet = [
-        { id: 'agenda', icon: Calendar, label: t('nav.consultations') },
-        { id: 'saude', icon: Heart, label: t('nav.health') },
-        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
-        { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
-        { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
-      ];
-      return { pillsMobile: mobile, pillsTablet: tablet };
+      return { pillsMobile: items, pillsTablet: items };
     }
-    const mobile = [
-      { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
+    const items = [
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
-      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
       { id: 'conquistas', icon: Award, label: t('nav.achievements') },
       { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
       { id: 'convidar', icon: Gift, label: t('nav.invite') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
     ];
-    const tablet = [
-      { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
-      { id: 'equipa', icon: Users, label: t('nav.team') },
-      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
-      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
-      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-      { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
-    ];
-    return { pillsMobile: mobile, pillsTablet: tablet };
+    return { pillsMobile: items, pillsTablet: items };
   }, [userRole, t]);
 
   const onPillClick = (id: string) => onNavigate(id);
@@ -198,8 +178,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </button>
       </div>
 
-      {/* === Action pills grid (mobile: 4x2) === */}
-      <div className="grid grid-cols-4 gap-1.5 md:hidden">
+      {/* === Action pills grid (mobile: 3x2) === */}
+      <div className="grid grid-cols-3 gap-1.5 md:hidden">
         {pillsMobile.map((p) => {
           const Icon = p.icon;
           return (
@@ -207,13 +187,13 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               key={p.id}
               onClick={() => onPillClick(p.id)}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 h-9 rounded-[10px] px-1',
+                'flex flex-col items-center justify-center gap-0.5 h-10 rounded-[10px] px-1',
                 'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground',
                 'active:bg-[#2196F3] active:text-white transition-colors group',
               )}
             >
-              <Icon className="w-3.5 h-3.5 text-[#2196F3] group-active:text-white flex-shrink-0" />
-              <span className="text-[9px] font-medium leading-none whitespace-nowrap">{p.label}</span>
+              <Icon className="w-4 h-4 text-[#2196F3] group-active:text-white flex-shrink-0" />
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">{p.label}</span>
             </button>
           );
         })}
