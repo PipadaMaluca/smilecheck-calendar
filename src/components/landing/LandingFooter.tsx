@@ -72,7 +72,7 @@ export function LandingFooter() {
           <div className="border-t border-[#1E3A5F] mb-8 [.light_&]:border-[#D6E4F0]" />
 
           {/* Link columns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-3xl mx-auto text-center md:text-left">
+          <div data-reveal="stagger" className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-3xl mx-auto text-center md:text-left">
             <div>
               <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide [.light_&]:text-[#1565C0]">{t('landing.footer.product')}</h4>
               <ul className="space-y-3">
