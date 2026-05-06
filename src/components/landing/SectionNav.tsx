@@ -8,7 +8,7 @@ interface SectionNavProps {
 
 export function SectionNav({ isDark }: SectionNavProps) {
   const { t } = useTranslation();
-  const [active, setActive] = useState<string>('');
+  const [active, setActive] = useState<string>('funcionalidades');
   const scrollerRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
@@ -20,22 +20,49 @@ export function SectionNav({ isDark }: SectionNavProps) {
   ];
 
   useEffect(() => {
-    const sections = links
-      .map((l) => document.getElementById(l.id))
-      .filter((el): el is HTMLElement => !!el);
-    if (sections.length === 0) return;
+    const ids = links.map((l) => l.id);
+    const getSections = () =>
+      ids
+        .map((id) => document.getElementById(id))
+        .filter((el): el is HTMLElement => !!el);
 
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(visible[0].target.id);
-      },
-      { rootMargin: '-140px 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-    sections.forEach((s) => obs.observe(s));
-    return () => obs.disconnect();
+    const computeActive = () => {
+      const sections = getSections();
+      if (sections.length === 0) return;
+      const offset = 160; // navbar + section nav height + a bit
+      const scrollY = window.scrollY;
+
+      // At very top → first section
+      if (scrollY < (sections[0].offsetTop - offset - 50)) {
+        setActive(ids[0]);
+        return;
+      }
+
+      // At/near bottom → last section
+      if (window.innerHeight + scrollY >= document.documentElement.scrollHeight - 4) {
+        setActive(ids[ids.length - 1]);
+        return;
+      }
+
+      // Otherwise, the section whose top is just above the offset line
+      let current = ids[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top - offset <= 0) {
+          current = s.id;
+        } else {
+          break;
+        }
+      }
+      setActive(current);
+    };
+
+    computeActive();
+    window.addEventListener('scroll', computeActive, { passive: true });
+    window.addEventListener('resize', computeActive);
+    return () => {
+      window.removeEventListener('scroll', computeActive);
+      window.removeEventListener('resize', computeActive);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
