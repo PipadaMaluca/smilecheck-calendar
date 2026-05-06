@@ -62,7 +62,7 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center animate-fade-in" style={{ marginBottom: 20 }}>
+        <div className="flex justify-center sc-logo-spring" style={{ marginBottom: 20 }}>
           <span className="block sm:hidden">
             <Logo size={240} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
@@ -84,7 +84,7 @@ export function HeroSection() {
 
         <h1 data-reveal="words" className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
           {t('landing.hero.title')}{' '}
-          <span className="bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
+          <span className="sc-grad-wipe bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}
           </span>
         </h1>
