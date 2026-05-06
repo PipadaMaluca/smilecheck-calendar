@@ -33,7 +33,7 @@ export function FAQSection() {
           {t('landing.faq.title')}
         </h2>
 
-        <Accordion type="single" collapsible className="w-full space-y-1">
+        <Accordion type="single" collapsible className="w-full space-y-1" data-reveal="cards">
           {faqs.map((faq, i) => (
             <AccordionItem
               key={i}
