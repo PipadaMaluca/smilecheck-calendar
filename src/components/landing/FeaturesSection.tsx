@@ -137,18 +137,18 @@ function FeatureRow({
   reverse?: boolean; eyebrow: string; title: string; desc: string; bullets: string[]; visual: React.ReactNode;
 }) {
   return (
-    <div className={cn('grid lg:grid-cols-2 gap-10 lg:gap-20 items-center', reverse && 'lg:[&>*:first-child]:order-2')}>
+    <div className={cn('grid lg:grid-cols-2 gap-10 lg:gap-20 items-center sc-perspective', reverse && 'lg:[&>*:first-child]:order-2')}>
       <ScrollReveal className="text-center lg:text-left">
-        <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
+        <div data-reveal="left" className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
-        <h3 className="text-[28px] sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
+        <h3 data-reveal="words" className="text-[28px] sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
           {title}
         </h3>
-        <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
+        <p data-reveal="up" className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
           {desc}
         </p>
-        <ul className="space-y-2.5 max-w-[85%] mx-auto lg:max-w-[480px] lg:mx-0 text-left">
+        <ul data-reveal="stagger" className="space-y-2.5 max-w-[85%] mx-auto lg:max-w-[480px] lg:mx-0 text-left">
           {bullets.map((b) => (
             <li key={b} className="flex items-start gap-2.5 text-sm text-[#1A202C] dark:text-white/90">
               <Check className="w-5 h-5 text-[#2196F3] flex-shrink-0 mt-0.5" />
@@ -158,7 +158,7 @@ function FeatureRow({
         </ul>
       </ScrollReveal>
       <ScrollReveal delay={150}>
-        <div className="max-w-[90%] sm:max-w-[420px] lg:max-h-[300px] mx-auto mt-6 lg:mt-0 [&>*]:lg:max-h-[300px] [&>*]:lg:overflow-hidden">{visual}</div>
+        <div data-reveal="image" data-parallax className="max-w-[90%] sm:max-w-[420px] lg:max-h-[300px] mx-auto mt-6 lg:mt-0 [&>*]:lg:max-h-[300px] [&>*]:lg:overflow-hidden">{visual}</div>
       </ScrollReveal>
     </div>
   );
