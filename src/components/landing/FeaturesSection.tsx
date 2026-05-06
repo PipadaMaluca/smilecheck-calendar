@@ -193,11 +193,11 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section id="funcionalidades" style={{ scrollMarginTop: '120px' }} className="px-6 md:px-10 py-8 sm:py-12 md:py-[60px] space-y-12 md:space-y-12 lg:space-y-[60px] bg-white dark:bg-background">
+    <section id="funcionalidades" className="px-6 md:px-10 py-8 sm:py-12 md:py-[60px] space-y-12 md:space-y-12 lg:space-y-[60px] bg-white dark:bg-background">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
+            <h2 id="funcionalidades-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
               {t('landing.features.title')}
             </h2>
             <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] max-w-[90%] sm:max-w-2xl mx-auto">

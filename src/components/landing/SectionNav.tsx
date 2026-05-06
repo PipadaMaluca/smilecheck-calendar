@@ -53,8 +53,8 @@ export function SectionNav({ isDark }: SectionNavProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     setActive(id);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const heading = document.getElementById(`${id}-title`) || document.getElementById(id);
+    if (heading) heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (

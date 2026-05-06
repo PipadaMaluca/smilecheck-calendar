@@ -29,10 +29,10 @@ export function TestimonialsSection() {
   const initials = (name: string) => name.split(' ').filter(p => !/^dr\.?$/i.test(p)).slice(0, 2).map(s => s[0]).join('').toUpperCase();
 
   return (
-    <section id="testemunhos" style={{ scrollMarginTop: '120px' }} className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-[#F5F9FF] dark:bg-[#0D2137]" ref={ref}>
+    <section id="testemunhos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-[#F5F9FF] dark:bg-[#0D2137]" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
-          <h2 className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
+          <h2 id="testemunhos-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
             {t('landing.testimonials.title')}
           </h2>
         </div>
