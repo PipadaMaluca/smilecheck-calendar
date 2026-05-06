@@ -13,6 +13,7 @@ import {
   Settings,
   Star,
   Flame,
+  Gift,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LevelIcon } from '@/components/level/LevelIcon';
@@ -69,32 +70,53 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
   }, [userRole, t]);
 
   // Action pills per role
-  const pills = useMemo(() => {
+  const { pillsMobile, pillsTablet } = useMemo(() => {
     if (userRole === 'patient') {
-      return [
+      const mobile = [
         { id: 'agenda', icon: Calendar, label: t('nav.consultations') },
         { id: 'saude', icon: Heart, label: t('nav.health') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
-        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+        { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
         { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+        { id: 'convidar', icon: Gift, label: t('nav.invite') },
         { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
       ];
+      const tablet = [
+        { id: 'agenda', icon: Calendar, label: t('nav.consultations') },
+        { id: 'saude', icon: Heart, label: t('nav.health') },
+        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
+        { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+        { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+      ];
+      return { pillsMobile: mobile, pillsTablet: tablet };
     }
-    return [
+    const mobile = [
       { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
       { id: 'equipa', icon: Users, label: t('nav.team') },
       { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
       { id: 'conquistas', icon: Award, label: t('nav.achievements') },
       { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
-      { id: 'configuracoes', icon: Settings, label: t('nav.settingsFull') },
+      { id: 'convidar', icon: Gift, label: t('nav.invite') },
+      { id: 'pesquisa', icon: Search, label: t('nav.search') },
     ];
+    const tablet = [
+      { id: 'agenda', icon: Calendar, label: t('nav.agenda') },
+      { id: 'equipa', icon: Users, label: t('nav.team') },
+      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
+      { id: 'conversas', icon: MessageCircle, label: t('nav.chat') },
+      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+      { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+    ];
+    return { pillsMobile: mobile, pillsTablet: tablet };
   }, [userRole, t]);
 
   const onPillClick = (id: string) => onNavigate(id);
 
   return (
-    <div className="md:hidden -mx-4 px-4 space-y-3">
+    <div className="lg:hidden -mx-4 px-4 md:px-6 space-y-3">
       {/* === Hero: Next appointment === */}
       {next ? (
         <button
@@ -143,10 +165,10 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
       )}
 
       {/* === Stat strip === */}
-      <div className="flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 px-3 text-[11px] font-medium">
+      <div className="flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 md:h-10 px-2 md:px-3 text-[10px] md:text-[11px] font-medium">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 min-w-0 flex-1 justify-center"
+          className="flex items-center gap-1 min-w-0 flex-1 justify-center px-1 md:px-2"
         >
           <LevelIcon levelKey={level.key} size={14} />
           <span className="truncate">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</span>
@@ -154,7 +176,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('loja')}
-          className="flex items-center gap-1 flex-1 justify-center text-amber-500"
+          className="flex items-center gap-1 flex-1 justify-center text-amber-500 px-1 md:px-2"
         >
           <Star className="w-3.5 h-3.5 fill-current" />
           <span className="tabular-nums">{points.rewardPoints}</span>
@@ -162,7 +184,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-orange-500"
+          className="flex items-center gap-1 flex-1 justify-center text-orange-500 px-1 md:px-2"
         >
           <Flame className="w-3.5 h-3.5" />
           <span className="tabular-nums">{points.streak}</span>
@@ -170,31 +192,49 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-foreground"
+          className="flex items-center gap-1 flex-1 justify-center text-foreground px-1 md:px-2"
         >
           <span className="tabular-nums">×{multiplier.toFixed(1)}</span>
         </button>
       </div>
 
-      {/* === Action pills row === */}
-      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1">
-        {pills.map((p, i) => {
+      {/* === Action pills grid (mobile: 4x2) === */}
+      <div className="grid grid-cols-4 gap-1.5 md:hidden">
+        {pillsMobile.map((p) => {
           const Icon = p.icon;
-          const isLast = i === pills.length - 1;
           return (
             <button
               key={p.id}
               onClick={() => onPillClick(p.id)}
-              style={{ paddingLeft: 14, paddingRight: 14 }}
               className={cn(
-                'flex items-center gap-1.5 h-8 rounded-full whitespace-nowrap flex-shrink-0',
-                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground text-[11px] font-medium leading-none',
-                'hover:bg-[#D6E4F5] dark:hover:bg-[#2A4A6F] transition-colors',
-                isLast && 'mr-4',
+                'flex flex-col items-center justify-center gap-0.5 h-9 rounded-[10px] px-1',
+                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground',
+                'active:bg-[#2196F3] active:text-white transition-colors group',
               )}
             >
-              <Icon className="w-3.5 h-3.5 text-[#2196F3] flex-shrink-0" />
-              <span className="whitespace-nowrap">{p.label}</span>
+              <Icon className="w-3.5 h-3.5 text-[#2196F3] group-active:text-white flex-shrink-0" />
+              <span className="text-[9px] font-medium leading-none whitespace-nowrap">{p.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* === Action pills grid (tablet: 3x2) === */}
+      <div className="hidden md:grid lg:hidden grid-cols-3 gap-2">
+        {pillsTablet.map((p) => {
+          const Icon = p.icon;
+          return (
+            <button
+              key={p.id}
+              onClick={() => onPillClick(p.id)}
+              className={cn(
+                'flex flex-col items-center justify-center gap-1 h-10 rounded-[10px] px-2',
+                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground',
+                'active:bg-[#2196F3] active:text-white transition-colors group',
+              )}
+            >
+              <Icon className="w-4 h-4 text-[#2196F3] group-active:text-white flex-shrink-0" />
+              <span className="text-[10px] font-medium leading-none whitespace-nowrap">{p.label}</span>
             </button>
           );
         })}
