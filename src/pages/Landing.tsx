@@ -11,6 +11,8 @@ import { PricingSection } from '@/components/landing/PricingSection';
 import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { FAQSection } from '@/components/landing/FAQSection';
 import { LandingFooter } from '@/components/landing/LandingFooter';
+import { ScrollProgressBar } from '@/components/landing/ScrollProgressBar';
+import { useGsapReveals } from '@/hooks/useGsapReveal';
 import { applyTheme, getInitialTheme, useTheme } from '@/hooks/useTheme';
 
 export default function Landing() {
@@ -22,6 +24,8 @@ export default function Landing() {
   );
   const [theme, setTheme] = useTheme();
   const isDark = theme === 'dark';
+
+  useGsapReveals();
 
   // Ensure boot theme applied on mount
   useEffect(() => {
@@ -48,6 +52,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground scroll-smooth">
+      <ScrollProgressBar />
       <LandingNavbar isDark={isDark} onToggleTheme={() => handleApplyTheme(!isDark)} />
       <SectionNav isDark={isDark} />
       <main>
