@@ -82,18 +82,18 @@ export function HeroSection() {
           </div>
         </div>
 
-        <h1 className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight animate-fade-in text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
+        <h1 data-reveal="words" className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
           {t('landing.hero.title')}{' '}
           <span className="bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}
           </span>
         </h1>
 
-        <p className="text-base sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-[85%] sm:max-w-2xl mx-auto animate-fade-in text-center" style={{ marginBottom: 24 }}>
+        <p data-reveal="up" data-reveal-delay="200" className="text-base sm:text-xl font-light leading-relaxed text-[#4A5568] dark:text-[#94A3B8] max-w-[85%] sm:max-w-2xl mx-auto text-center" style={{ marginBottom: 24 }}>
           {t('landing.hero.subtitle')}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 animate-fade-in w-full max-w-md sm:max-w-none mx-auto" style={{ marginBottom: 12 }}>
+        <div data-reveal="up" data-reveal-delay="350" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none mx-auto" style={{ marginBottom: 12 }}>
           <Button
             size="lg"
             onClick={() => navigate('/signup')}
