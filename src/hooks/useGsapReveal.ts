@@ -111,6 +111,29 @@ export function useGsapReveals() {
           scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true },
         });
       });
+
+      // 3D card tilt on hover (desktop only — pointer: fine + hover: hover)
+      const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (supportsHover) {
+        const tiltCards = document.querySelectorAll<HTMLElement>("[data-anim='tilt-card']");
+        tiltCards.forEach((card) => {
+          card.style.transformStyle = 'preserve-3d';
+          card.style.willChange = 'transform';
+          const onMove = (e: MouseEvent) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transition = 'transform 0.1s ease';
+            card.style.transform = `perspective(1000px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateZ(10px)`;
+          };
+          const onLeave = () => {
+            card.style.transition = 'transform 0.4s ease';
+            card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)';
+          };
+          card.addEventListener('mousemove', onMove);
+          card.addEventListener('mouseleave', onLeave);
+        });
+      }
     });
 
     // Refresh after fonts/layout settle
