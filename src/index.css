@@ -1693,3 +1693,61 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .light .appt-block [data-notes],
 .light .appt-block .text-\[\#8B9CB6\] { color: #4A5568 !important; }
 .light .appt-block-blocked { background-color: #F5F7FA !important; color: #94A3B8 !important; border-bottom: 1px solid #E2E8F0 !important; }
+
+/* ───────── Landing cinematic animations ───────── */
+@keyframes sc-float-card {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes sc-pulse-cta {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+@keyframes sc-hue-shift {
+  0%, 100% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(10deg); }
+}
+@keyframes sc-particle-rise {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-120px) scale(1); opacity: 0; }
+}
+@keyframes sc-logo-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(33,150,243,0); }
+  50% { box-shadow: 0 0 40px 4px rgba(33,150,243,0.18); }
+}
+@keyframes sc-grad-wipe {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+.sc-float-card { animation: sc-float-card 3s ease-in-out infinite; will-change: transform; }
+.sc-pulse-cta { animation: sc-pulse-cta 2s ease-in-out infinite; will-change: transform; }
+.sc-hue-shift { animation: sc-hue-shift 8s ease-in-out infinite; }
+.sc-logo-glow { animation: sc-logo-glow 3s ease-in-out infinite; border-radius: 9999px; }
+
+.sc-card-tilt { transition: transform 200ms ease-out; transform-style: preserve-3d; will-change: transform; }
+.sc-perspective { perspective: 1200px; }
+
+.sc-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.sc-particles span {
+  position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 9999px;
+  background: rgba(255,255,255,0.5); animation: sc-particle-rise linear infinite;
+}
+
+.sc-grad-wipe {
+  background-image: linear-gradient(90deg, hsl(var(--foreground)) 0%, hsl(var(--foreground)) 50%, #2196F3 50%, #1565C0 100%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sc-grad-wipe 800ms ease-out 1.4s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-float-card, .sc-pulse-cta, .sc-hue-shift, .sc-logo-glow, .sc-particles span,
+  .sc-grad-wipe { animation: none !important; }
+  .sc-grad-wipe { background: none; -webkit-background-clip: initial; background-clip: initial; color: inherit; }
+}
