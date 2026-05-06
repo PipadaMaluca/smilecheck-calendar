@@ -51,7 +51,7 @@ export function LandingFooter() {
           {/* Top: Brand block */}
           <div className="flex flex-col items-center text-center mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <Logo size={48} variant="white" />
+              <span className="sc-footer-glow inline-flex"><Logo size={48} variant="white" /></span>
               <span className="text-2xl sm:text-3xl font-bold tracking-tight text-white [.light_&]:text-[#1565C0]">SmileCheck</span>
             </div>
             <p className="text-base text-[#94A3B8] max-w-md mb-6 [.light_&]:text-[#4A5568]">{t('landing.footer.tagline')}</p>
@@ -72,7 +72,7 @@ export function LandingFooter() {
           <div className="border-t border-[#1E3A5F] mb-8 [.light_&]:border-[#D6E4F0]" />
 
           {/* Link columns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-3xl mx-auto text-center md:text-left">
+          <div data-reveal="stagger" className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 max-w-3xl mx-auto text-center md:text-left">
             <div>
               <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide [.light_&]:text-[#1565C0]">{t('landing.footer.product')}</h4>
               <ul className="space-y-3">

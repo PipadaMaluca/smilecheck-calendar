@@ -158,7 +158,7 @@ function FeatureRow({
         </ul>
       </ScrollReveal>
       <ScrollReveal delay={150}>
-        <div data-reveal="image" data-parallax className="max-w-[90%] sm:max-w-[420px] lg:max-h-[300px] mx-auto mt-6 lg:mt-0 [&>*]:lg:max-h-[300px] [&>*]:lg:overflow-hidden">{visual}</div>
+        <div data-reveal="image" data-parallax data-anim="tilt-card" className="max-w-[90%] sm:max-w-[420px] lg:max-h-[300px] mx-auto mt-6 lg:mt-0 [&>*]:lg:max-h-[300px] [&>*]:lg:overflow-hidden">{visual}</div>
       </ScrollReveal>
     </div>
   );

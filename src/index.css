@@ -1751,3 +1751,21 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   .sc-grad-wipe { animation: none !important; }
   .sc-grad-wipe { background: none; -webkit-background-clip: initial; background-clip: initial; color: inherit; }
 }
+
+@keyframes sc-logo-spring {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  80% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+.sc-logo-spring { animation: sc-logo-spring 800ms cubic-bezier(0.34, 1.56, 0.64, 1) both; will-change: transform; }
+
+@keyframes sc-footer-glow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(33,150,243,0)); }
+  50% { filter: drop-shadow(0 0 18px rgba(33,150,243,0.55)); }
+}
+.sc-footer-glow { animation: sc-footer-glow 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-logo-spring, .sc-footer-glow { animation: none !important; }
+}
