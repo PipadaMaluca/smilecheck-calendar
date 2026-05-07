@@ -108,7 +108,7 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
   destartarizacao: { bg: 'bg-[#9C27B0]', text: 'text-white', hex: '#9C27B0' },
   cirurgia: { bg: 'bg-[#212121]', text: 'text-white', hex: '#212121' },
   endodontia: { bg: 'bg-[#E91E63]', text: 'text-white', hex: '#E91E63' },
-  odontopediatria: { bg: 'bg-[#E65100]', text: 'text-white', hex: '#E65100' },
+  odontopediatria: { bg: 'bg-[#039BE5]', text: 'text-white', hex: '#039BE5' },
   ortodontia: { bg: 'bg-[#8BC34A]', text: 'text-white', hex: '#8BC34A' },
   protese: { bg: 'bg-[#2E7D32]', text: 'text-white', hex: '#2E7D32' },
   restauracao: { bg: 'bg-[#2196F3]', text: 'text-white', hex: '#2196F3' },
@@ -136,7 +136,7 @@ export function getCategoryBadgeStyle(hex: string): import('react').CSSPropertie
     '#9C27B0': { bg: '#7B1FA2', color: '#FFFFFF' }, // destartarizacao
     '#212121': { bg: '#37474F', color: '#FFFFFF' }, // cirurgia
     '#E91E63': { bg: '#C2185B', color: '#FFFFFF' }, // endodontia
-    '#E65100': { bg: '#E65100', color: '#FFFFFF' }, // odontopediatria
+    '#039BE5': { bg: '#039BE5', color: '#FFFFFF' }, // odontopediatria
     '#8BC34A': { bg: '#558B2F', color: '#FFFFFF' }, // ortodontia
     '#2E7D32': { bg: '#2E7D32', color: '#FFFFFF' }, // protese
     '#2196F3': { bg: '#1565C0', color: '#FFFFFF' }, // restauracao
