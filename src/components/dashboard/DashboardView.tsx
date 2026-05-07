@@ -273,10 +273,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="font-medium text-foreground truncate min-w-0 text-lg">
                     {heroStat.primaryName || heroStat.subtitle || ''}
                   </span>
-                  {heroPillLabel && (
+                  {heroPillLabel && heroPillStyle && (
                     <span
-                      className="ml-auto text-[11px] font-semibold px-2 py-0.5 rounded-md flex-shrink-0 truncate max-w-[40%]"
-                      style={heroPillStyle}
+                      className="ml-auto text-[11px] font-bold rounded-full flex-shrink-0 truncate max-w-[40%] inline-block"
+                      style={{ ...heroPillStyle, padding: '2px 10px' }}
                     >
                       {heroPillLabel}
                     </span>
