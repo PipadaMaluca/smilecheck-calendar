@@ -1431,6 +1431,8 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   padding: 2px 4px 2px 6px !important;
   overflow: hidden !important;
   max-height: none !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
 }
 .appt-block > * { max-height: none !important; }
 /* Kill any inner wrapper padding so Line 1 is flush with top */
@@ -1438,32 +1440,11 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block .p-1 { padding: 0 !important; }
 .appt-block .p-2 { padding: 0 !important; }
 
-/* Default text inside cards — small regular */
-.appt-block .text-\[7px\],
-.appt-block .text-\[8px\],
-.appt-block .text-\[9px\],
-.appt-block .text-\[10px\] { font-size: 10px !important; line-height: 1.2 !important; }
-.appt-block .text-\[11px\] { font-size: 11px !important; line-height: 1.2 !important; }
-
-/* Line 1 — patient name + time: 12px bold */
-.appt-block .text-\[8px\].font-bold,
-.appt-block .text-\[10px\].font-bold,
-.appt-block .text-\[11px\].font-bold {
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-}
-
-/* Age — slightly lighter (70% opacity) */
-.appt-block .text-\[7px\].text-muted-foreground,
-.appt-block .text-\[9px\].text-muted-foreground,
-.appt-block .text-\[10px\].text-muted-foreground,
-.appt-block .text-\[11px\].text-muted-foreground {
-  font-size: 11px !important;
-  font-weight: 400 !important;
-  opacity: 0.7 !important;
-  line-height: 1.2 !important;
-}
+/* Text inside cards — respect inline density classes (no forced overrides).
+   Density tiers (set in MultiDentistGrid.tsx):
+     8+ cols → 9px / pill 8px;  5-7 cols → 10px / 9px;  1-4 cols → 11px / 10px.
+   Mobile single column uses 12px. Line-height kept tight via inline style. */
+.appt-block { line-height: 1.25 !important; }
 
 /* Notes wrap freely; only ellipsis on overflow at the container level */
 .appt-block .truncate.notes-multiline,
@@ -1483,9 +1464,9 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block [data-line="type-row"] {
   /* Inline flow: pill + notes share the same line, wrap naturally */
   display: block !important;
-  margin-top: 0 !important;
+  margin-top: 1px !important;
   padding-top: 0 !important;
-  line-height: 1.2 !important;
+  line-height: 1.25 !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
@@ -1494,22 +1475,20 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   display: inline !important;
   vertical-align: baseline !important;
 }
-/* Type pill — 11px bold */
+/* Type pill — let inline density class own font-size; just enforce bold + tight leading. */
 .appt-block [data-line="type-row"] > span:first-child,
 .appt-block [data-line="type-row"] [class*="rounded-full"]:first-child {
-  font-size: 11px !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
+  line-height: 1.25 !important;
 }
 .appt-block [data-line="type-row"] [data-notes] {
   display: inline !important;
-  margin-left: 6px !important;
+  margin-left: 4px !important;
   margin-top: 0 !important;
   width: auto !important;
   white-space: normal !important;
-  font-size: 10px !important;
   font-weight: 400 !important;
-  line-height: 1.3 !important;
+  line-height: 1.25 !important;
   -webkit-line-clamp: unset !important;
   overflow: visible !important;
 }
