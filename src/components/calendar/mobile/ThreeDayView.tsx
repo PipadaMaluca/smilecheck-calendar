@@ -237,7 +237,10 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         </div>
                         {/* Line 2: TYPE pill (own row) */}
                         <div data-line="type-row">
-                          <span className="text-[7px] font-bold px-1 py-0 rounded-full inline-block max-w-full truncate" style={getCategoryBadgeStyle(colors.hex)}>
+                          <span
+                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
+                          >
                             {getCategoryLabel(t, category)}
                           </span>
                           {consultation.notes && (

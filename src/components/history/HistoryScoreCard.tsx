@@ -54,9 +54,12 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   const renderSecondLine = () => (
     <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
       {catLabel && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>
+        <span
+          className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+          style={{ ...getCategoryBadgeStyle(catColor?.hex || ''), padding: '2px 10px' }}
+        >
           {catLabel}
-        </Badge>
+        </span>
       )}
       {userRole === 'clinic' && (
         <ClickableDentistName name={score.dentistName} className="text-[11px] text-muted-foreground" />

@@ -132,7 +132,10 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                               <ClickablePatientName name={isMobile ? abbreviateName(c.patient.name) : c.patient.name} patientId={c.patient.id} className="text-sm" />
                             </TableCell>
                             <TableCell>
-                              <span className="text-xs font-medium whitespace-nowrap px-1.5 py-0.5 rounded-full inline-block" style={getCategoryBadgeStyle(catColor?.hex || '')}>
+                              <span
+                                className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                                style={{ ...getCategoryBadgeStyle(catColor?.hex || ''), padding: '2px 10px' }}
+                              >
                                 {catLabel}
                               </span>
                             </TableCell>

@@ -142,10 +142,10 @@ export function PatientAppointmentsList({
                       {/* Category */}
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium"
-                        style={getCategoryBadgeStyle(colors.hex)}>
-
-                          {isTeleconsulta && <Video className="w-3.5 h-3.5" />}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                          style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+                        >
+                          {isTeleconsulta && <Video className="w-3 h-3" />}
                           {getCategoryLabel(t, category)}
                         </span>
                         {getPaymentStatus(consultation)}

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -96,21 +97,16 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
                 {typeLabel}
               </p>
             ) : (
-              <p
-                className="text-sm font-bold px-1.5 py-0 rounded-full inline-block"
-                style={getCategoryBadgeStyle(colors.hex)}
-              >
-                {categoryLabel}
-              </p>
+              <ConsultationTypePill category={consultation.category} label={categoryLabel} />
             )}
           </div>
         </div>
-        <div
-          className="px-2 py-1 rounded-full text-xs font-medium"
-          style={getCategoryBadgeStyle(colors.hex)}
+        <span
+          className="text-[11px] font-bold rounded-full inline-flex items-center"
+          style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
         >
           {consultation.duration} min
-        </div>
+        </span>
       </div>
 
       <div className="space-y-1 mb-4">
@@ -120,12 +116,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             <p className="text-sm font-medium">
               <ClickableDentistName name={consultation.dentist.name} className="text-sm font-medium" />
             </p>
-            <p 
-              className="text-xs font-bold px-1.5 py-0 rounded-full inline-block"
-              style={getCategoryBadgeStyle(colors.hex)}
-            >
-              {categoryLabel}
-            </p>
+            <ConsultationTypePill category={consultation.category} label={categoryLabel} />
             {showFamilyMember && (
               <p className="text-xs font-medium text-primary">
                 Para: {consultation.patient.name}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}

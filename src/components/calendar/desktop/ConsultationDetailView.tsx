@@ -125,7 +125,10 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 </button>
                 <div className="flex items-center gap-3 mt-1">
                   {categoryColor && (
-                    <span className={cn('text-xs font-semibold px-2.5 py-1 rounded-full')} style={getCategoryBadgeStyle(categoryColor.hex)}>
+                    <span
+                      className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                      style={{ ...getCategoryBadgeStyle(categoryColor.hex), padding: '2px 10px' }}
+                    >
                       {categoryLabel}
                     </span>
                   )}
