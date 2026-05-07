@@ -748,8 +748,17 @@ export function DesktopCalendarView() {
                       <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
                       <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
                     </ToggleGroup>
-                    <Button variant="ghost" size="sm" className="text-xs gap-2 text-muted-foreground" onClick={() => setShowSettings(true)}>
-                      <CalendarClock className="w-4 h-4" /> {t('agenda.modifyAgenda')}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-xs gap-2 text-muted-foreground flex-shrink-0"
+                      onClick={() => setShowSettings(true)}
+                      title={t('agenda.modifyAgenda')}
+                      aria-label={t('agenda.modifyAgenda')}
+                    >
+                      <CalendarClock className="w-4 h-4 flex-shrink-0" />
+                      <span className="hidden xl:inline">{t('agenda.modifyAgenda')}</span>
+                      <span className="hidden lg:inline xl:hidden">{t('agenda.modifyAgenda').split(' ')[0]}</span>
                     </Button>
                   </>}
                 </div>
