@@ -68,6 +68,15 @@ export function MultiDentistGrid({
   // Mobile detection - single vs multi dentist
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length > 1;
+
+  // Density tier based on number of visible columns (desktop only — mobile is single-column).
+  // Drives font sizes for time/name/pill inside consultation blocks.
+  const density: 'lg' | 'md' | 'sm' = columns.length >= 7 ? 'sm' : columns.length >= 4 ? 'md' : 'lg';
+  const D = {
+    sm: { time: 'text-[10px]', name: 'text-[10px]', age: 'text-[9px]', pill: 'text-[8px]', pillPad: '1px 4px', notes: 'text-[9px]', pad: 'px-[3px] py-[3px]' },
+    md: { time: 'text-[11px]', name: 'text-[11px]', age: 'text-[10px]', pill: 'text-[9px]', pillPad: '1px 6px', notes: 'text-[10px]', pad: 'px-1.5 py-0.5' },
+    lg: { time: 'text-[12px]', name: 'text-[12px]', age: 'text-[11px]', pill: 'text-[10px]', pillPad: '2px 8px', notes: 'text-[11px]', pad: 'px-2 py-1' },
+  }[density];
   
   return (
     <div className={cn(
@@ -106,9 +115,13 @@ export function MultiDentistGrid({
                     : "flex-1 min-w-[180px]"
                 )}
               >
-                <p className="text-xs font-semibold truncate"><ClickableDentistName name={col.dentist.name} className="text-xs font-semibold" /></p>
-                <p className="text-[9px] text-muted-foreground truncate"><ClickableClinicName name={col.clinic.name} clinicId={col.clinic.id} className="text-[9px] text-muted-foreground" /></p>
-                <p className="text-[9px] text-muted-foreground">{col.dentist.workingHours || '9h-21h'}</p>
+                <p className="text-[11px] font-bold leading-tight truncate" title={col.dentist.name}>
+                  <ClickableDentistName name={col.dentist.name} className="text-[11px] font-bold" />
+                </p>
+                <p className="text-[9px] text-muted-foreground leading-tight truncate" title={`${col.clinic.name} · ${col.dentist.workingHours || '9h-21h'}`}>
+                  <ClickableClinicName name={col.clinic.name} clinicId={col.clinic.id} className="text-[9px] text-muted-foreground" />
+                  <span className="ml-1">· {col.dentist.workingHours || '9h-21h'}</span>
+                </p>
               </div>
             ))}
           </div>
@@ -282,7 +295,7 @@ export function MultiDentistGrid({
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col justify-center cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
-                          isSingleColumn ? "px-1.5" : "px-2",
+                          isSingleColumn ? "px-1.5 py-0.5" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{
@@ -293,18 +306,19 @@ export function MultiDentistGrid({
                       >
                         {/* Line 1: Time + Name (Age) */}
                         <div className="flex items-center gap-1">
-                          <span className="text-[10px] text-muted-foreground font-mono">{slot.time}</span>
-                          <span className="font-bold text-white truncate text-[10px]">
+                          <span className={cn("text-muted-foreground font-mono font-bold flex-shrink-0", isSingleColumn ? "text-[10px]" : D.time)}>{slot.time}</span>
+                          <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[10px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {displayName}
-                            {/* Hide age on small viewports, show on lg+ */}
-                            <span className="hidden lg:inline text-[9px] ml-0.5 font-normal">({patientAge} anos)</span>
                           </span>
+                          {patientAge != null && density !== 'sm' && (
+                            <span className={cn("text-white/80 font-normal flex-shrink-0 hidden lg:inline", D.age)}>({patientAge} anos)</span>
+                          )}
                         </div>
                         {/* Line 2: Type pill (own row) */}
                         <div data-line="type-row" className="flex items-center gap-1">
                           <span
-                            className="inline-flex items-center font-bold text-[9px] leading-none rounded-full max-w-full truncate whitespace-nowrap"
-                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
+                            className={cn("inline-flex items-center font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[9px]" : D.pill)}
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '2px 6px' : D.pillPad }}
                           >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
@@ -314,7 +328,7 @@ export function MultiDentistGrid({
                           )}
                           {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                           {consultation.notes && (
-                            <span data-notes className="text-[8px] text-[#8B9CB6] truncate">
+                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", D.notes)}>
                               {consultation.notes}
                             </span>
                           )}
