@@ -302,7 +302,10 @@ export function MultiDentistGrid({
                         </div>
                         {/* Line 2: Type pill (own row) */}
                         <div data-line="type-row" className="flex items-center gap-1">
-                          <span className="font-bold text-[9px] px-1 lg:px-1.5 py-0 rounded-full inline-block max-w-full truncate whitespace-nowrap" style={getCategoryBadgeStyle(colors.hex)}>
+                          <span
+                            className="inline-flex items-center font-bold text-[9px] leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
+                          >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
                           </span>
