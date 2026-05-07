@@ -159,7 +159,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       t('dashboard.bookConsultation');
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [
-      { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
+      { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: (nextPatientCon as any)?.category as ConsultationCategory | undefined, primaryName: nextDentistName },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
@@ -169,14 +169,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const next = dentistCons[0];
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
-      { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true },
+      { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: next?.category, primaryName: next?.patient.name || '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'clinic') {
       return [
-      { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true },
+      { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
@@ -213,20 +213,25 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // Shared stats cards renderer
   const renderStatsCards = () => {
     if (!stats) return null;
-    const heroStat = stats[0];
+    const heroStat = stats[0] as any;
     const restStats = stats.slice(1);
     const HeroIcon = heroStat.icon;
+    const heroCategory: ConsultationCategory | undefined = heroStat.category;
+    const heroBorderHex = heroCategory ? CATEGORY_COLORS[heroCategory].hex : '#2196F3';
+    const heroPillStyle = heroCategory ? getCategoryBadgeStyle(CATEGORY_COLORS[heroCategory].hex) : undefined;
+    const heroPillLabel = heroCategory ? getCategoryLabel(t, heroCategory) : (heroStat.extraLine || '');
 
     return (
       <div className="hidden md:flex flex-col gap-3 sm:gap-4">
-        {/* Mobile: 1 col stack. Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
-        <div id="coachmark-stat-cards" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        {/* Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
+        <div id="coachmark-stat-cards" className="grid grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 border-l-[#2196F3] col-span-1 md:col-span-3 lg:col-span-1 card-hover-lift",
+              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
+            style={{ borderLeftColor: heroBorderHex }}
             onClick={heroStat.clickTab ? () => {
               if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
               else if (heroStat.clickTab === 'agenda') {
@@ -235,32 +240,49 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               } else onNavigate(heroStat.clickTab!);
             } : undefined}
           >
-            <CardContent className="p-3 sm:p-4 md:p-5 flex flex-col gap-1.5 min-w-0">
-              <div className="text-muted-foreground min-w-0 gap-2 flex items-center">
-                <HeroIcon className="w-5 h-5 flex-shrink-0 text-[#2196F3]" />
-                <span className="text-xs font-medium truncate sm:text-base">{heroStat.label}</span>
+            <CardContent className="px-3 py-2.5 flex flex-col gap-0.5 min-w-0 min-h-[64px] justify-center">
+              <div className="flex items-center gap-1.5 text-muted-foreground min-w-0">
+                <HeroIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: heroBorderHex }} />
+                <span className="text-[11px] font-medium truncate">{heroStat.label}</span>
               </div>
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground truncate">{heroStat.value}</span>
-              {'subtitle' in heroStat && heroStat.subtitle &&
-                <span className="text-xs text-muted-foreground truncate sm:text-sm">
-                  {String(heroStat.subtitle).split('·').map((part, i) => {
-                    const trimmed = part.trim();
-                    const isPresencial = trimmed.includes(t('dashboard.presential'));
-                    const isTeleconsulta = trimmed.includes(t('dashboard.teleconsultations'));
-                    return (
-                      <span key={i}>
-                        {i > 0 && <span className="text-muted-foreground"> · </span>}
-                        <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
-                          {trimmed}
-                        </span>
-                      </span>
-                    );
-                  })}
-                </span>
-              }
-              {'extraLine' in heroStat && heroStat.extraLine &&
-                <span className="text-xs text-muted-foreground/70 truncate">{heroStat.extraLine}</span>
-              }
+              {userRole === 'clinic' ? (
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-[15px] font-bold text-foreground">{heroStat.value}</span>
+                  {heroStat.subtitle && (
+                    <span className="text-[12px] text-muted-foreground truncate">
+                      {String(heroStat.subtitle).split('·').map((part, i) => {
+                        const trimmed = part.trim();
+                        const isPresencial = trimmed.includes(t('dashboard.presential'));
+                        const isTeleconsulta = trimmed.includes(t('dashboard.teleconsultations'));
+                        return (
+                          <span key={i}>
+                            {i > 0 && <span className="text-muted-foreground"> · </span>}
+                            <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
+                              {trimmed}
+                            </span>
+                          </span>
+                        );
+                      })}
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-[15px] font-bold text-foreground flex-shrink-0">{heroStat.value}</span>
+                  <span className="text-muted-foreground text-[15px] flex-shrink-0">·</span>
+                  <span className="text-[15px] font-medium text-foreground truncate min-w-0">
+                    {heroStat.primaryName || heroStat.subtitle || ''}
+                  </span>
+                  {heroPillLabel && (
+                    <span
+                      className="ml-auto text-[11px] font-semibold px-2 py-0.5 rounded-md flex-shrink-0 truncate max-w-[40%]"
+                      style={heroPillStyle}
+                    >
+                      {heroPillLabel}
+                    </span>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -274,7 +296,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 key={stat.label}
                 id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
                 className={cn(
-                  "bg-card/80 backdrop-blur border-border min-w-0 card-hover-lift",
+                  "bg-card/80 backdrop-blur border-border min-w-0 card-hover-lift rounded-2xl",
                   isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
                 )}
                 onClick={isClickable ? () => {
@@ -282,28 +304,30 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   else onNavigate(stat.clickTab!);
                 } : undefined}
               >
-                {/* Mobile: compact horizontal one-liner. Tablet/Desktop: vertical centered */}
-                <CardContent className="p-3 flex flex-row md:flex-col items-center md:justify-center gap-2 md:gap-1.5 min-w-0">
-                  <div className="text-muted-foreground min-w-0 gap-1.5 flex items-center md:justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 flex-shrink-0" />
-                    <span className="text-[11px] md:text-xs lg:text-sm font-medium truncate">{stat.label}</span>
-                  </div>
-                  <span
-                    className="text-base md:text-lg lg:text-2xl font-bold text-foreground truncate md:text-center md:w-full ml-auto md:ml-0 inline-flex items-center gap-1.5 justify-center"
-                    onClick={'isLevel' in stat && (stat as any).isLevel ? (e) => { e.stopPropagation(); handleLevelBadgeTap(); } : undefined}
-                  >
-                    {'isStreak' in stat && stat.isStreak ? (
-                      <><span className="inline-block">🔥</span> {stat.value} {t('points.days')}</>
-                    ) : 'isLevel' in stat && (stat as any).isLevel ? (
-                      <><LevelIcon levelKey={level.key} size={20} /> {stat.value}</>
-                    ) : stat.value}
+                <CardContent className="px-3 py-2.5 flex flex-col gap-0.5 min-w-0 min-h-[64px] justify-center">
+                  <span className="text-[11px] font-medium text-muted-foreground truncate flex items-center gap-1.5">
+                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                    {stat.label}
                   </span>
-                  {isXPCard &&
-                    <div className="hidden md:block space-y-1 w-full">
-                      <Progress value={xpProgress.percent} className="h-2" />
-                      <p className="text-[9px] text-muted-foreground text-center">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
+                  {isXPCard ? (
+                    <div
+                      className="flex items-center gap-2 min-w-0"
+                      onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}
+                    >
+                      <LevelIcon levelKey={level.key} size={18} />
+                      <span className="text-[15px] font-bold text-foreground truncate">{stat.value}</span>
+                      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+                        <Progress value={xpProgress.percent} className="h-1" />
+                        <p className="text-[10px] text-muted-foreground truncate">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
+                      </div>
                     </div>
-                  }
+                  ) : 'isStreak' in stat && (stat as any).isStreak ? (
+                    <span className="text-[15px] font-bold text-foreground inline-flex items-center gap-1.5">
+                      <span>🔥</span> {stat.value} {t('points.days')}
+                    </span>
+                  ) : (
+                    <span className="text-[15px] font-bold text-foreground truncate">{stat.value}</span>
+                  )}
                 </CardContent>
               </Card>
             );
