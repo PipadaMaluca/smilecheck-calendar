@@ -233,15 +233,15 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                           <span className="text-[7px] text-muted-foreground whitespace-nowrap">
                             ({consultation.patient.age} anos)
                           </span>
-                          {isUrgent && <AlertTriangle className="w-2 h-2 text-[#F44336] flex-shrink-0" />}
                         </div>
                         {/* Line 2: TYPE pill (own row) */}
                         <div data-line="type-row">
                           <span
-                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                            className="inline-flex items-center gap-[2px] text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
                             {getCategoryLabel(t, category)}
+                            {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                           </span>
                           {consultation.notes && (
                             <span data-notes className="text-[7px] text-[#8B9CB6]">

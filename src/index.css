@@ -1178,9 +1178,9 @@ html, body, #root {
   color: #880E4F !important;
 }
 .light .appt-block[data-cat="odontopediatria"] {
-  background-color: #FFCC80 !important;
-  border-left-color: #E65100 !important;
-  color: #BF360C !important;
+  background-color: #B3E5FC !important;
+  border-left-color: #039BE5 !important;
+  color: #01579B !important;
 }
 .light .appt-block[data-cat="ortodontia"] {
   background-color: #C5E1A5 !important;
@@ -1404,7 +1404,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 :root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.45) !important; border-left-color: #BA68C8 !important; }
 :root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.55) !important; border-left-color: #BDBDBD !important; }
 :root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.45) !important; border-left-color: #EC407A !important; }
-:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(230, 81, 0, 0.45) !important;  border-left-color: #FF7043 !important; }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(3, 155, 229, 0.45) !important;  border-left-color: #4FC3F7 !important; }
 :root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.45) !important; border-left-color: #9CCC65 !important; }
 :root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.45) !important;  border-left-color: #66BB6A !important; }
 :root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.50) !important; border-left-color: #42A5F5 !important; }
@@ -1500,7 +1500,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 :root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.55) !important; }
 :root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.60) !important; }
 :root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.55) !important; }
-:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(230, 81, 0, 0.55) !important;  }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(3, 155, 229, 0.55) !important;  }
 :root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.55) !important; }
 :root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.55) !important;  }
 :root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.60) !important; }
@@ -1643,7 +1643,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block[data-cat="destartarizacao"]   { background-color: rgba(123,31,162,0.12) !important; }
 .appt-block[data-cat="cirurgia"]          { background-color: rgba(55,71,79,0.15) !important; }
 .appt-block[data-cat="endodontia"]        { background-color: rgba(194,24,91,0.12) !important; }
-.appt-block[data-cat="odontopediatria"]   { background-color: rgba(230,81,0,0.12) !important; }
+.appt-block[data-cat="odontopediatria"]   { background-color: rgba(3,155,229,0.12) !important; }
 .appt-block[data-cat="ortodontia"]        { background-color: rgba(104,159,56,0.12) !important; }
 .appt-block[data-cat="protese"]           { background-color: rgba(46,125,50,0.12) !important; }
 .appt-block[data-cat="restauracao"]       { background-color: rgba(21,101,192,0.12) !important; }

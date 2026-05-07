@@ -141,13 +141,13 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                         className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
+                        {getCategoryLabel(t, category)}
                         {isTeleconsulta && (
-                          <Video className="w-3 h-3" />
+                          <Video className="w-[1em] h-[1em]" />
                         )}
                         {isUrgentTeleconsulta && (
-                          <AlertTriangle className="w-3 h-3" />
+                          <AlertTriangle className="w-[1em] h-[1em]" />
                         )}
-                        {getCategoryLabel(t, category)}
                       </span>
                     </div>
                   </TableCell>
