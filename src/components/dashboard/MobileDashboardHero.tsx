@@ -17,7 +17,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LevelIcon } from '@/components/level/LevelIcon';
-import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, ConsultationCategory } from '@/types/calendar';
+import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
 import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
@@ -117,13 +118,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
                 · {next.name}
               </span>
             </div>
-            {next.catLabel && (
-              <span
-                className="self-start text-[10px] font-medium px-1.5 py-0.5 rounded-full"
-                style={getCategoryBadgeStyle(next.catColor)}
-              >
-                {next.catLabel}
-              </span>
+            {next.category && (
+              <ConsultationTypePill category={next.category as ConsultationCategory} className="self-start" />
             )}
           </div>
           <div className="flex items-center pr-3 flex-shrink-0">
