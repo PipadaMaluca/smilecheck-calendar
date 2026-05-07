@@ -103,7 +103,10 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || t('agenda.generalDentist')}</p>
                   <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                     {colors && (
-                      <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full" style={getCategoryBadgeStyle(colors.hex)}>
+                      <span
+                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                        style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+                      >
                         {categoryLabel}
                       </span>
                     )}
