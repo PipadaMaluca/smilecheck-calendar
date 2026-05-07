@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -273,13 +274,11 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <span className="font-medium text-foreground truncate min-w-0 text-lg">
                     {heroStat.primaryName || heroStat.subtitle || ''}
                   </span>
-                  {heroPillLabel && heroPillStyle && (
-                    <span
-                      className="ml-auto text-[11px] font-bold rounded-full flex-shrink-0 truncate max-w-[40%] inline-block"
-                      style={{ ...heroPillStyle, padding: '2px 10px' }}
-                    >
-                      {heroPillLabel}
-                    </span>
+                  {heroCategory && (
+                    <ConsultationTypePill
+                      category={heroCategory}
+                      className="ml-auto flex-shrink-0 max-w-[40%]"
+                    />
                   )}
                 </div>
               )}
@@ -490,7 +489,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           </span>
                         </div>
                         <div className="flex items-center justify-center gap-1.5 truncate">
-                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
+                          <ConsultationTypePill category={c.category as ConsultationCategory} />
                           <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
                         </div>
                         <div className="flex justify-end">
@@ -507,7 +506,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-[13px] font-medium text-foreground hover:underline cursor-pointer" />
                           </span>
                           <div className="flex items-center gap-1 min-w-0">
-                            <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
+                            <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />
                             <span className="text-[10px] text-muted-foreground hidden min-[375px]:inline">{c.duration}{t('agenda.minutes')}</span>
                           </div>
                         </div>
@@ -554,9 +553,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                        {catLabel &&
-                        <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
-                        }
+                        {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
                       </div>
                       {confirmIndicator(c.status24h)}
                       {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -710,9 +707,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       >
                           <div className="flex-1 min-w-0 flex items-center gap-1">
                             <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                            {catLabel &&
-                          <span className="text-[10px] font-medium px-1.5 py-0 rounded-full flex-shrink-0" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>
-                          }
+                            {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
                           </div>
                           {confirmIndicator(c.status24h)}
                           {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -804,7 +799,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <p className="text-sm font-medium text-foreground truncate">
                           <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
-                        {catLabel && <span className="text-[10px] font-medium px-1.5 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(catColor?.hex || '')}>{catLabel}</span>}
+                        {item.category && <ConsultationTypePill category={item.category} />}
                       </div>
                       <Badge variant="outline" className="text-[10px] flex-shrink-0">
                         {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}
