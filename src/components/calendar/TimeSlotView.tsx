@@ -129,9 +129,9 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 </div>
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
                 <div className="flex items-center gap-1.5 ml-4">
-                  <span 
-                    className="text-xs font-bold px-1.5 py-0 rounded-full inline-block"
-                    style={getCategoryBadgeStyle(colors.hex)}
+                  <span
+                    className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                    style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
                     {getCategoryLabel(t, category)}
                   </span>
