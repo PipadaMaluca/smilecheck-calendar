@@ -135,7 +135,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
   const popularLabel = t('landing.pricing.popular');
 
   return (
-    <div data-reveal="cards" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto sc-perspective">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto sc-perspective">
       {plans.map((plan) => {
         const price = annual ? plan.annual : plan.monthly;
         const isPopular = plan.badge === popularLabel;
