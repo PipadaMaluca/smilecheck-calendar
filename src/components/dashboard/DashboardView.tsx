@@ -240,7 +240,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               } else onNavigate(heroStat.clickTab!);
             } : undefined}
           >
-            <CardContent className="px-3 py-2.5 flex flex-col gap-0.5 min-w-0 min-h-[64px] justify-center">
+            <CardContent className="px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center">
               <div className="flex items-center gap-1.5 text-muted-foreground min-w-0">
                 <HeroIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: heroBorderHex }} />
                 <span className="text-[11px] font-medium truncate">{heroStat.label}</span>
@@ -304,7 +304,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   else onNavigate(stat.clickTab!);
                 } : undefined}
               >
-                <CardContent className="px-3 py-2.5 flex flex-col gap-0.5 min-w-0 min-h-[64px] justify-center">
+                <CardContent className="px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center">
                   <span className="text-[11px] font-medium text-muted-foreground truncate flex items-center gap-1.5">
                     <Icon className="w-3.5 h-3.5 flex-shrink-0" />
                     {stat.label}
