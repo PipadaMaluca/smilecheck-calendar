@@ -217,7 +217,10 @@ export function DesktopWeekView({
                       <div className="px-1.5 py-0.5 text-[10px] leading-tight truncate">
                         <div className="font-semibold truncate">{c.time} {c.patient.name.split(' ')[0]}</div>
                         {spanCount > 1 && (
-                          <div className="truncate opacity-80 px-1 py-0 rounded-full inline-block" style={getCategoryBadgeStyle(colors.hex)}>{getCategoryLabel(t, category)}</div>
+                          <div
+                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap opacity-95"
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
+                          >{getCategoryLabel(t, category)}</div>
                         )}
                       </div>
                     </div>
