@@ -125,15 +125,16 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                   <span className="text-xs font-bold text-white truncate">
                     {patientNameWithAge}
                   </span>
-                  {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                 </div>
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
                 <div className="flex items-center gap-1.5 ml-4">
                   <span
-                    className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                    className="inline-flex items-center gap-[2px] text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
                     style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
                     {getCategoryLabel(t, category)}
+                    {isTeleconsulta && <Video className="w-[1em] h-[1em] flex-shrink-0" />}
+                    {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                   </span>
                   {showNotes && consultation.notes && (
                     <span className="text-[9px] text-[#8B9CB6] truncate">
