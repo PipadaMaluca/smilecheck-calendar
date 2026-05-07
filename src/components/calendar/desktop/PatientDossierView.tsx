@@ -381,7 +381,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">
-                            <span className="px-1.5 py-0 rounded-full text-[10px] font-medium" style={getCategoryBadgeStyle(catColor?.hex || '#9E9E9E')}>{c.type}</span>
+                            <span
+                              className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                              style={{ ...getCategoryBadgeStyle(catColor?.hex || '#9E9E9E'), padding: '2px 10px' }}
+                            >{c.type}</span>
                             {userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>}
                             • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" />
                           </p>
