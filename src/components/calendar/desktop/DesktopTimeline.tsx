@@ -375,18 +375,18 @@ export function DesktopTimeline({
                                   <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
                                 )}
                               </span>
-                              {(isTeleconsulta || isUrgentTeleconsulta) && (
-                                <Video className="w-3 h-3 flex-shrink-0" style={{ color: styles.borderColor }} />
-                              )}
-                              {isUrgent && <AlertTriangle className="w-3 h-3 text-[#F44336] flex-shrink-0" />}
                             </div>
                             {/* Line 2: type pill (own row) */}
                             <div data-line="type-row" className="mt-0.5">
                               <span
-                                className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                                className="inline-flex items-center gap-[2px] text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
                                 {getConsultationLabel(t, consultation)}
+                                {(isTeleconsulta || isUrgentTeleconsulta) && (
+                                  <Video className="w-[1em] h-[1em] flex-shrink-0" />
+                                )}
+                                {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                               </span>
                               {consultation.notes && (
                                 <span data-notes className="text-[9px] text-[#8B9CB6]">
