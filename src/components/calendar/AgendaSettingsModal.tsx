@@ -24,7 +24,7 @@ export type { AgendaSettings };
 // 12-color preset palette (4x3 grid) — 10 category colors + white + black
 const COLOR_PRESETS = [
   '#FDD835', '#9C27B0', '#212121', '#E91E63',
-  '#E65100', '#8BC34A', '#2E7D32', '#2196F3',
+  '#039BE5', '#8BC34A', '#2E7D32', '#2196F3',
   '#F44336', '#FF9800', '#FFFFFF', '#000000',
 ];
 
