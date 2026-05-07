@@ -240,16 +240,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               } else onNavigate(heroStat.clickTab!);
             } : undefined}
           >
-            <CardContent className="px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center">
-              <div className="flex items-center gap-1.5 text-muted-foreground min-w-0">
+            <CardContent className="p-6 border-0 px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center text-left">
+              <div className="flex items-center gap-1.5 text-muted-foreground min-w-0 text-center text-base">
                 <HeroIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: heroBorderHex }} />
-                <span className="text-[11px] font-medium truncate">{heroStat.label}</span>
+                <span className="font-medium truncate text-base">{heroStat.label}</span>
               </div>
               {userRole === 'clinic' ? (
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-[15px] font-bold text-foreground">{heroStat.value}</span>
+                <div className="flex items-center gap-2 min-w-0 text-center">
+                  <span className="font-bold text-foreground text-lg">{heroStat.value}</span>
                   {heroStat.subtitle && (
-                    <span className="text-[12px] text-muted-foreground truncate">
+                    <span className="text-muted-foreground truncate text-sm">
                       {String(heroStat.subtitle).split('·').map((part, i) => {
                         const trimmed = part.trim();
                         const isPresencial = trimmed.includes(t('dashboard.presential'));
@@ -267,10 +267,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-[15px] font-bold text-foreground flex-shrink-0">{heroStat.value}</span>
-                  <span className="text-muted-foreground text-[15px] flex-shrink-0">·</span>
-                  <span className="text-[15px] font-medium text-foreground truncate min-w-0">
+                <div className="flex items-center gap-2 min-w-0 text-center">
+                  <span className="font-bold text-foreground flex-shrink-0 text-lg">{heroStat.value}</span>
+                  <span className="text-muted-foreground flex-shrink-0 text-lg">·</span>
+                  <span className="font-medium text-foreground truncate min-w-0 text-lg">
                     {heroStat.primaryName || heroStat.subtitle || ''}
                   </span>
                   {heroPillLabel && (
@@ -304,29 +304,26 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   else onNavigate(stat.clickTab!);
                 } : undefined}
               >
-                <CardContent className="px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center">
-                  <span className="text-[11px] font-medium text-muted-foreground truncate flex items-center gap-1.5">
+                <CardContent className="p-6 border-0 px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center text-left">
+                  <span className="font-medium text-muted-foreground truncate flex items-center gap-1.5 text-center text-base">
                     <Icon className="w-3.5 h-3.5 flex-shrink-0" />
                     {stat.label}
                   </span>
                   {isXPCard ? (
-                    <div
-                      className="flex items-center gap-2 min-w-0"
-                      onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}
-                    >
+                    <div className="flex items-center gap-2 min-w-0 text-center" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
                       <LevelIcon levelKey={level.key} size={18} />
-                      <span className="text-[15px] font-bold text-foreground truncate">{stat.value}</span>
+                      <span className="font-bold text-foreground truncate text-lg">{stat.value}</span>
                       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
                         <Progress value={xpProgress.percent} className="h-1" />
-                        <p className="text-[10px] text-muted-foreground truncate">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
+                        <p className="text-muted-foreground truncate text-sm">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
                       </div>
                     </div>
                   ) : 'isStreak' in stat && (stat as any).isStreak ? (
-                    <span className="text-[15px] font-bold text-foreground inline-flex items-center gap-1.5">
+                    <span className="font-bold text-foreground inline-flex items-center gap-1.5 text-lg">
                       <span>🔥</span> {stat.value} {t('points.days')}
                     </span>
                   ) : (
-                    <span className="text-[15px] font-bold text-foreground truncate">{stat.value}</span>
+                    <span className="font-bold text-foreground truncate text-lg">{stat.value}</span>
                   )}
                 </CardContent>
               </Card>
