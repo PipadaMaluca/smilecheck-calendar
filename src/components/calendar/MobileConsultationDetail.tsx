@@ -205,7 +205,10 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                 </div>
                 <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                   {categoryColor && (
-                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full" style={getCategoryBadgeStyle(categoryColor.hex)}>
+                    <span
+                      className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                      style={{ ...getCategoryBadgeStyle(categoryColor.hex), padding: '2px 10px' }}
+                    >
                       {categoryLabel}
                     </span>
                   )}
