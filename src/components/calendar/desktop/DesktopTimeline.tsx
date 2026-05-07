@@ -382,9 +382,9 @@ export function DesktopTimeline({
                             </div>
                             {/* Line 2: type pill (own row) */}
                             <div data-line="type-row" className="mt-0.5">
-                              <span 
-                                className="text-[10px] font-bold px-1.5 py-0 rounded-full inline-block max-w-full truncate" 
-                                style={getCategoryBadgeStyle(styles.borderColor)}
+                              <span
+                                className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                                style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
                                 {getConsultationLabel(t, consultation)}
                               </span>
