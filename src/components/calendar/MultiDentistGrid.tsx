@@ -296,7 +296,7 @@ export function MultiDentistGrid({
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col items-start justify-start cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
-                          isSingleColumn ? "px-1.5 py-0.5" : D.pad,
+                          isSingleColumn ? "px-1.5 py-1" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{
@@ -306,20 +306,20 @@ export function MultiDentistGrid({
                         }}
                       >
                         {/* Line 1: Time + Name (Age) — bold, top-aligned */}
-                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1.25 }}>
-                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[10px]" : D.time)}>{slot.time}</span>
-                          <span className={cn("font-bold text-white truncate min-w-0", isSingleColumn ? "text-[10px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
+                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: isSingleColumn ? 1.3 : 1.25 }}>
+                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[12px]" : D.time)}>{slot.time}</span>
+                          <span className={cn("font-bold text-white truncate min-w-0", isSingleColumn ? "text-[12px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {displayName}
                           </span>
                           {patientAge != null && (
-                            <span className={cn("text-white/85 font-bold flex-shrink-0", isSingleColumn ? "text-[10px]" : D.age)}>({patientAge} anos)</span>
+                            <span className={cn("text-white/85 font-bold flex-shrink-0", isSingleColumn ? "text-[12px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
                         {/* Line 2: Type pill (own row) */}
-                        <div data-line="type-row" className="flex items-center gap-1">
+                        <div data-line="type-row" className="flex items-center gap-1" style={{ lineHeight: isSingleColumn ? 1.3 : 1.25 }}>
                           <span
-                            className={cn("inline-flex items-center font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[9px]" : D.pill)}
-                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '2px 6px' : D.pillPad }}
+                            className={cn("inline-flex items-center font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[10px]" : D.pill)}
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 6px' : D.pillPad }}
                           >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
