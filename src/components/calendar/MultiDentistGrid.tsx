@@ -328,7 +328,7 @@ export function MultiDentistGrid({
                           )}
                           {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                           {consultation.notes && (
-                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", D.notes)}>
+                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", isSingleColumn ? "text-[9px]" : D.notes)}>
                               {consultation.notes}
                             </span>
                           )}
