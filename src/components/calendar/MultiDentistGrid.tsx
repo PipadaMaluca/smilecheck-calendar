@@ -70,12 +70,13 @@ export function MultiDentistGrid({
   const isMultiColumn = columns.length > 1;
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
-  // Drives font sizes for time/name/pill inside consultation blocks.
-  // Spec: 7+ cols → 8px text / 7px pill;  1-6 cols → 9px text / 8px pill.
-  const density: 'lg' | 'sm' = columns.length >= 7 ? 'sm' : 'lg';
+  // Spec: 7+ cols → 8/7px;  4-6 cols → 9/8px;  1-3 cols → 10/9px.
+  const density: 'sm' | 'md' | 'lg' =
+    columns.length >= 7 ? 'sm' : columns.length >= 4 ? 'md' : 'lg';
   const D = {
-    sm: { time: 'text-[8px]', name: 'text-[8px]', age: 'text-[8px]', pill: 'text-[7px]', pillPad: '1px 3px', notes: 'text-[7px]', pad: 'px-[3px] py-[2px]' },
-    lg: { time: 'text-[9px]', name: 'text-[9px]', age: 'text-[9px]', pill: 'text-[8px]', pillPad: '1px 4px', notes: 'text-[8px]', pad: 'px-[3px] py-[2px]' },
+    sm: { time: 'text-[8px]', name: 'text-[8px]', age: 'text-[8px]', pill: 'text-[7px]', pillPad: '1px 3px', notes: 'text-[7px]', pad: 'px-[2px] py-[2px]' },
+    md: { time: 'text-[9px]', name: 'text-[9px]', age: 'text-[9px]', pill: 'text-[8px]', pillPad: '1px 4px', notes: 'text-[8px]', pad: 'px-[3px] py-[2px]' },
+    lg: { time: 'text-[10px]', name: 'text-[10px]', age: 'text-[10px]', pill: 'text-[9px]', pillPad: '1px 5px', notes: 'text-[9px]', pad: 'px-[3px] py-[2px]' },
   }[density];
   
   return (
@@ -295,7 +296,7 @@ export function MultiDentistGrid({
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col items-start justify-start cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
-                          isSingleColumn ? "px-1 py-[3px]" : D.pad,
+                          isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{
@@ -305,30 +306,28 @@ export function MultiDentistGrid({
                         }}
                       >
                         {/* Line 1: Time + Name (Age) — bold, top-aligned */}
-                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1.2 }}>
-                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[10px]" : D.time)}>{slot.time}</span>
-                          <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[10px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
+                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1.15 }}>
+                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[9px]" : D.time)}>{slot.time}</span>
+                          <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[9px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {displayName}
                           </span>
                           {patientAge != null && (
-                            <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[10px]" : D.age)}>({patientAge} anos)</span>
+                            <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[9px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
-                        {/* Line 2: Type pill (own row) */}
-                        <div data-line="type-row" className="flex items-center gap-1" style={{ lineHeight: 1.2 }}>
+                        {/* Line 2: Type pill (with icon inside, after text) + description */}
+                        <div data-line="type-row" className="flex items-center gap-1" style={{ lineHeight: 1.15 }}>
                           <span
-                            className={cn("inline-flex items-center font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[9px]" : D.pill)}
-                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 5px' : D.pillPad }}
+                            className={cn("inline-flex items-center gap-[2px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[8px]" : D.pill)}
+                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
                           >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
+                            {isTeleconsulta && <Video className="w-[1em] h-[1em] flex-shrink-0" />}
+                            {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                           </span>
-                          {isTeleconsulta && (
-                            <Video className="w-2.5 h-2.5 flex-shrink-0" style={{ color: colors.hex }} />
-                          )}
-                          {isUrgent && <AlertTriangle className="w-2.5 h-2.5 text-[#F44336] flex-shrink-0" />}
                           {consultation.notes && (
-                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", isSingleColumn ? "text-[9px]" : D.notes)}>
+                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", isSingleColumn ? "text-[8px]" : D.notes)}>
                               {consultation.notes}
                             </span>
                           )}
