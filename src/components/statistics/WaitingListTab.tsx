@@ -97,7 +97,10 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                         <TableRow key={p.id}>
                           <TableCell className="text-sm font-medium"><ClickablePatientName name={p.name} className="text-sm font-medium" /></TableCell>
                           <TableCell className="text-sm">
-                            <span className="text-xs font-medium px-1.5 py-0.5 rounded-full inline-block" style={getCategoryBadgeStyle(p.colorHex)}>
+                            <span
+                              className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                              style={{ ...getCategoryBadgeStyle(p.colorHex), padding: '2px 10px' }}
+                            >
                               {t(`consultationTypes.${p.consultationTypeKey}`)}
                             </span>
                           </TableCell>
