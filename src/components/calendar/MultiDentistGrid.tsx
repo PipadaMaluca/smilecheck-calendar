@@ -71,11 +71,12 @@ export function MultiDentistGrid({
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
   // Drives font sizes for time/name/pill inside consultation blocks.
-  const density: 'lg' | 'md' | 'sm' = columns.length >= 7 ? 'sm' : columns.length >= 4 ? 'md' : 'lg';
+  // Spec: 8+ cols → 9px text / 8px pill, 5-7 cols → 10px / 9px, 1-4 cols → 11px / 10px
+  const density: 'lg' | 'md' | 'sm' = columns.length >= 8 ? 'sm' : columns.length >= 5 ? 'md' : 'lg';
   const D = {
-    sm: { time: 'text-[10px]', name: 'text-[10px]', age: 'text-[9px]', pill: 'text-[8px]', pillPad: '1px 4px', notes: 'text-[9px]', pad: 'px-[3px] py-[3px]' },
-    md: { time: 'text-[11px]', name: 'text-[11px]', age: 'text-[10px]', pill: 'text-[9px]', pillPad: '1px 6px', notes: 'text-[10px]', pad: 'px-1.5 py-0.5' },
-    lg: { time: 'text-[12px]', name: 'text-[12px]', age: 'text-[11px]', pill: 'text-[10px]', pillPad: '2px 8px', notes: 'text-[11px]', pad: 'px-2 py-1' },
+    sm: { time: 'text-[9px]',  name: 'text-[9px]',  age: 'text-[9px]',  pill: 'text-[8px]',  pillPad: '1px 4px', notes: 'text-[9px]',  pad: 'px-1 py-0.5' },
+    md: { time: 'text-[10px]', name: 'text-[10px]', age: 'text-[10px]', pill: 'text-[9px]',  pillPad: '1px 5px', notes: 'text-[10px]', pad: 'px-1 py-0.5' },
+    lg: { time: 'text-[11px]', name: 'text-[11px]', age: 'text-[11px]', pill: 'text-[10px]', pillPad: '1px 5px', notes: 'text-[11px]', pad: 'px-1 py-0.5' },
   }[density];
   
   return (
@@ -294,7 +295,7 @@ export function MultiDentistGrid({
                         onDragEnd={() => setDraggedConsultation(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
-                          "appt-block rounded-md flex flex-col justify-center cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          "appt-block rounded-md flex flex-col items-start justify-start cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
                           isSingleColumn ? "px-1.5 py-0.5" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
@@ -304,14 +305,14 @@ export function MultiDentistGrid({
                           borderLeft: `3px solid ${colors.hex}`,
                         }}
                       >
-                        {/* Line 1: Time + Name (Age) */}
-                        <div className="flex items-center gap-1">
-                          <span className={cn("text-muted-foreground font-mono font-bold flex-shrink-0", isSingleColumn ? "text-[10px]" : D.time)}>{slot.time}</span>
-                          <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[10px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
+                        {/* Line 1: Time + Name (Age) — bold, top-aligned */}
+                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1.25 }}>
+                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[10px]" : D.time)}>{slot.time}</span>
+                          <span className={cn("font-bold text-white truncate min-w-0", isSingleColumn ? "text-[10px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {displayName}
                           </span>
-                          {patientAge != null && density !== 'sm' && (
-                            <span className={cn("text-white/80 font-normal flex-shrink-0 hidden lg:inline", D.age)}>({patientAge} anos)</span>
+                          {patientAge != null && (
+                            <span className={cn("text-white/85 font-bold flex-shrink-0", isSingleColumn ? "text-[10px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
                         {/* Line 2: Type pill (own row) */}
