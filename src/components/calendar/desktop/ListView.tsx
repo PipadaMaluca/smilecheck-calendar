@@ -138,8 +138,8 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2">
                       <span
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
-                        style={getCategoryBadgeStyle(colors.hex)}
+                        className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                        style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
                         {isTeleconsulta && (
                           <Video className="w-3 h-3" />
