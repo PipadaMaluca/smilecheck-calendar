@@ -22,7 +22,6 @@ import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
 import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
-import { Progress } from '@/components/ui/progress';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
