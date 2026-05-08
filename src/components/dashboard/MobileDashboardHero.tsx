@@ -110,8 +110,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
-          style={{ borderLeft: `4px solid ${next.catColor}` }}
+          className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          style={{ '--consultation-type-color': next.catColor } as React.CSSProperties}
         >
           <div className="flex-1 min-w-0 px-3 py-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
@@ -153,8 +153,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           </p>
           <button
             onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-            className="w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
-            style={{ borderLeft: `4px solid ${next.catColor}` }}
+            className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
+            style={{ '--consultation-type-color': next.catColor } as React.CSSProperties}
           >
             <div className="flex-1 min-w-0 px-4 flex items-center gap-3">
               <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -314,7 +314,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               )}
             >
               <Icon className="w-5 h-5 text-[#2196F3] flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-none whitespace-nowrap text-foreground">{p.label}</span>
+              <span className="text-[11px] font-medium leading-none text-foreground text-center max-w-full truncate">{p.label}</span>
             </button>
           );
         })}
