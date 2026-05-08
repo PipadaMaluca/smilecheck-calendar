@@ -720,14 +720,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {t('dashboard.viewAll')} →
               </button>
           </CollapsibleSection>
+          </div>
 
-          {/* Lista de Espera grouped by dentist */}
-          <CollapsibleSection
-            cardId="onboarding-lista-espera"
-            title={t('dashboard.waitingList')}
-            persistKey="clinic:lista-espera"
-            badge={<Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
-          >
+          {/* RIGHT column: Quick Actions + Pending Points (hidden on mobile — replaced by hero pills) */}
+          <div className="hidden md:block">{renderRightColumn('clinic', (
+            <CollapsibleSection
+              cardId="onboarding-lista-espera"
+              title={t('dashboard.waitingList')}
+              persistKey="clinic:lista-espera"
+              badge={<Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+            >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
                 <div key={dentistName}>
@@ -746,11 +748,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
                 {t('dashboard.viewAll')} →
               </button>
-          </CollapsibleSection>
-          </div>
-
-          {/* RIGHT column: Quick Actions + Pending Points (hidden on mobile — replaced by hero pills) */}
-          <div className="hidden md:block">{renderRightColumn('clinic')}</div>
+            </CollapsibleSection>
+          ))}</div>
         </div>
 
         {/* Full width: Histórico de Pacientes do Dia — card style */}
