@@ -652,7 +652,9 @@
   .stack-row > * + * { margin-top: var(--space-row); }
 
   .proxima-consulta-card {
-    border: 1px solid hsl(var(--border));
+    border-top: 1px solid hsl(var(--border)) !important;
+    border-right: 1px solid hsl(var(--border)) !important;
+    border-bottom: 1px solid hsl(var(--border)) !important;
     border-left-width: 4px !important;
     border-left-style: solid !important;
     border-left-color: var(--consultation-type-color, hsl(var(--primary))) !important;
