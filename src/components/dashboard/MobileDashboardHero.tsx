@@ -109,12 +109,10 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
-          style={{
-            '--consultation-type-color': next.catColor,
-            borderLeft: `4px solid ${next.catColor}`,
-          } as CSSProperties}
+          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          style={{ '--consultation-type-color': next.catColor } as CSSProperties}
         >
+          <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
           <div className="flex-1 min-w-0 px-3 py-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-[13px] font-bold text-foreground tabular-nums flex-shrink-0">
@@ -155,12 +153,10 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           </p>
           <button
             onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-            className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
-            style={{
-              '--consultation-type-color': next.catColor,
-              borderLeft: `4px solid ${next.catColor}`,
-            } as CSSProperties}
+            className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
+            style={{ '--consultation-type-color': next.catColor } as CSSProperties}
           >
+            <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
             <div className="flex-1 min-w-0 px-4 flex items-center gap-3">
               <div className="flex items-center gap-2 min-w-0 flex-1">
                 <span className="text-[15px] font-bold text-foreground tabular-nums flex-shrink-0">
