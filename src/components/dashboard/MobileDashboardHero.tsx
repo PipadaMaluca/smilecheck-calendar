@@ -20,6 +20,7 @@ import { LevelIcon } from '@/components/level/LevelIcon';
 import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, ConsultationCategory } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
+import { Card } from '@/components/ui/card';
 import { isSameDay } from 'date-fns';
 import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
 
@@ -100,11 +101,11 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
 
   return (
     <div className="lg:hidden -mx-4 px-4 md:px-6 space-y-3">
-      {/* === Hero: Next appointment === */}
+      {/* === Hero: Next appointment (mobile only) === */}
       {next ? (
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          className="md:hidden w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
         >
           <span
             className="w-1 flex-shrink-0"
@@ -137,10 +138,52 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           </div>
         </button>
       ) : (
-        <div className="w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-[13px] text-muted-foreground">
+        <div className="md:hidden w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-[13px] text-muted-foreground">
           {t('dashboard.noConsultations')}
         </div>
       )}
+
+      {/* === Hero: Next appointment (TABLET only — merged single-row card) === */}
+      {next ? (
+        <div className="hidden md:block lg:hidden">
+          <p className="text-[11px] text-muted-foreground mb-1.5 px-0.5">
+            {t('dashboard.nextConsultation')}
+          </p>
+          <button
+            onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
+            className="w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
+            style={{ borderLeft: `4px solid ${next.catColor}` }}
+          >
+            <div className="flex-1 min-w-0 px-4 flex items-center gap-3">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span className="text-[15px] font-bold text-foreground tabular-nums flex-shrink-0">
+                  {next.time}
+                </span>
+                <span className="text-[15px] font-bold text-foreground truncate min-w-0">
+                  · {next.name}
+                </span>
+              </div>
+              {next.category && (
+                <ConsultationTypePill
+                  category={next.category as ConsultationCategory}
+                  className="flex-shrink-0"
+                />
+              )}
+              <div className="flex-shrink-0">
+                {next.countdownMin === 0 ? (
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-500 text-[11px] font-bold animate-pulse">
+                    AGORA
+                  </span>
+                ) : (
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold whitespace-nowrap">
+                    em {next.countdownMin} min
+                  </span>
+                )}
+              </div>
+            </div>
+          </button>
+        </div>
+      ) : null}
 
       {/* === Stat strip === */}
       <div className="flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 md:h-10 px-2 md:px-3 text-[10px] md:text-[11px] font-medium">
@@ -197,8 +240,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         })}
       </div>
 
-      {/* === Action pills grid (tablet: 3x2) === */}
-      <div className="hidden md:grid lg:hidden grid-cols-3 gap-2">
+      {/* === Action pills grid (tablet: 3x2) — card-styled === */}
+      <div className="hidden md:grid lg:hidden grid-cols-3 gap-3">
         {pillsTablet.map((p) => {
           const Icon = p.icon;
           return (
@@ -206,13 +249,13 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               key={p.id}
               onClick={() => onPillClick(p.id)}
               className={cn(
-                'flex flex-col items-center justify-center gap-1 h-10 rounded-[10px] px-2',
-                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground',
-                'active:bg-[#2196F3] active:text-white transition-colors group',
+                'flex flex-col items-center justify-center gap-1.5 h-14 rounded-2xl px-2',
+                'bg-card border border-border text-foreground shadow-sm',
+                'card-hover-lift hover:border-primary/40 transition-all group',
               )}
             >
-              <Icon className="w-4 h-4 text-[#2196F3] group-active:text-white flex-shrink-0" />
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">{p.label}</span>
+              <Icon className="w-5 h-5 text-[#2196F3] flex-shrink-0" />
+              <span className="text-[11px] font-medium leading-none whitespace-nowrap text-foreground">{p.label}</span>
             </button>
           );
         })}
