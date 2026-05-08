@@ -76,7 +76,15 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
   // Action pills per role
   const { pillsMobile, pillsTablet } = useMemo(() => {
     if (userRole === 'patient') {
-      const items = [
+      const mobileItems = [
+        { id: 'conquistas', icon: Award, label: t('nav.achievements') },
+        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+        { id: 'convidar', icon: Gift, label: t('nav.invite') },
+        { id: 'pesquisa', icon: Search, label: t('nav.search') },
+        { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
+        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
+      ];
+      const tabletItems = [
         { id: 'saude', icon: Heart, label: t('nav.health') },
         { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
         { id: 'conquistas', icon: Award, label: t('nav.achievements') },
@@ -84,7 +92,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         { id: 'convidar', icon: Gift, label: t('nav.invite') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
       ];
-      return { pillsMobile: items, pillsTablet: items };
+      return { pillsMobile: mobileItems, pillsTablet: tabletItems };
     }
     const items = [
       { id: 'equipa', icon: Users, label: t('nav.team') },
@@ -188,37 +196,56 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </div>
       ) : null}
 
-      {/* === Stat strip (MOBILE only) === */}
-      <div className="md:hidden flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 px-2 text-[10px] font-medium">
+      {/* === Stat cards (MOBILE only) — 3 compact cards === */}
+      <div className="md:hidden grid grid-cols-3 gap-1.5">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 min-w-0 flex-1 justify-center px-1"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <LevelIcon levelKey={level.key} size={14} />
-          <span className="truncate">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</span>
+          <span className="text-[9px] text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
+          <div className="flex items-center gap-1 min-w-0">
+            <LevelIcon levelKey={level.key} size={14} />
+            <span className="text-[12px] font-bold text-foreground truncate">
+              {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
+            </span>
+          </div>
+          <div className="w-full h-1 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+            <div
+              className={cn(
+                'h-full rounded-full transition-all duration-1000 ease-out',
+                LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
+              )}
+              style={{ width: `${xpProgress.percent}%` }}
+            />
+          </div>
+          <div className="flex items-center justify-between text-[9px] text-muted-foreground tabular-nums leading-none">
+            <span>{points.xp} XP</span>
+            <span>×{multiplier.toFixed(1)}</span>
+          </div>
         </button>
-        <span className="w-px h-4 bg-border mx-1" />
-        <button
-          onClick={() => onNavigate('loja')}
-          className="flex items-center gap-1 flex-1 justify-center text-amber-500 px-1"
-        >
-          <Star className="w-3.5 h-3.5 fill-current" />
-          <span className="tabular-nums">{points.rewardPoints}</span>
-        </button>
-        <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-orange-500 px-1"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <Flame className="w-3.5 h-3.5" />
-          <span className="tabular-nums">{points.streak}</span>
+          <span className="text-[9px] text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
+          <div className="flex items-center gap-1 flex-1">
+            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 flex-shrink-0" />
+            <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
+              {points.rewardPoints} pts
+            </span>
+          </div>
         </button>
-        <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-foreground px-1"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <span className="tabular-nums">×{multiplier.toFixed(1)}</span>
+          <span className="text-[9px] text-muted-foreground leading-none">Streak</span>
+          <div className="flex items-center gap-1 flex-1">
+            <Flame className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
+            <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
+              {points.streak} {t('scores.days')}
+            </span>
+          </div>
         </button>
       </div>
 
@@ -279,23 +306,22 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </button>
       </div>
 
-      {/* === Action pills grid (mobile: 3x2) === */}
+      {/* === Action pills grid (mobile: 3x2) — card-styled to match stat cards === */}
       <div className="grid grid-cols-3 gap-1.5 md:hidden">
         {pillsMobile.map((p) => {
           const Icon = p.icon;
-          // Shorten labels that don't fit a 1/3 mobile column.
           const shortLabel = p.id === 'loja' ? t('nav.rewards', 'Recompensas') : p.label;
           return (
             <button
               key={p.id}
               onClick={() => onPillClick(p.id)}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 h-10 rounded-[10px] px-1',
-                'bg-[#EBF4FF] dark:bg-[#1E3A5F] text-foreground',
-                'active:bg-[#2196F3] active:text-white transition-colors group',
+                'flex flex-col items-center justify-center gap-1 h-12 rounded-xl px-1',
+                'bg-card border border-border text-foreground',
+                'active:bg-muted/40 transition-colors',
               )}
             >
-              <Icon className="w-4 h-4 text-[#2196F3] group-active:text-white flex-shrink-0" />
+              <Icon className="w-4 h-4 text-[#2196F3] flex-shrink-0" />
               <span className="text-[10px] font-medium leading-none truncate max-w-full px-1">{shortLabel}</span>
             </button>
           );
