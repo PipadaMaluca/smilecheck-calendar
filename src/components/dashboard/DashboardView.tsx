@@ -400,11 +400,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     </Card>
   );
 
-  const renderRightColumn = (role: 'dentist' | 'clinic') => {
+  const renderRightColumn = (role: 'dentist' | 'clinic', waitingListNode?: React.ReactNode) => {
     const actions = role === 'clinic' ? clinicQuickActionCards : dentistQuickActionCards;
     return (
       <div className="space-y-6">
         {renderQuickActionsCard(actions)}
+        {waitingListNode}
         <PendingFeedbackCard userRole={role} />
       </div>
     );
