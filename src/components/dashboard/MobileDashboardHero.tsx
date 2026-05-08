@@ -21,7 +21,8 @@ import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, Con
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
-import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
+import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
+import { Progress } from '@/components/ui/progress';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -39,6 +40,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
   const points = USER_POINTS[userRole];
   const level = getLevelForXP(points.xp);
   const multiplier = LEVEL_MULTIPLIERS[level.key];
+  const xpProgress = getXPProgress(points.xp);
 
   const next = useMemo(() => {
     if (userRole === 'patient') {
@@ -184,11 +186,11 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </div>
       ) : null}
 
-      {/* === Stat strip === */}
-      <div className="flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 md:h-10 px-2 md:px-3 text-[10px] md:text-[11px] font-medium">
+      {/* === Stat strip (MOBILE only) === */}
+      <div className="md:hidden flex items-center justify-between bg-[#F0F7FF] dark:bg-[#0D2137] rounded-lg h-9 px-2 text-[10px] font-medium">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 min-w-0 flex-1 justify-center px-1 md:px-2"
+          className="flex items-center gap-1 min-w-0 flex-1 justify-center px-1"
         >
           <LevelIcon levelKey={level.key} size={14} />
           <span className="truncate">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</span>
@@ -196,7 +198,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('loja')}
-          className="flex items-center gap-1 flex-1 justify-center text-amber-500 px-1 md:px-2"
+          className="flex items-center gap-1 flex-1 justify-center text-amber-500 px-1"
         >
           <Star className="w-3.5 h-3.5 fill-current" />
           <span className="tabular-nums">{points.rewardPoints}</span>
@@ -204,7 +206,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-orange-500 px-1 md:px-2"
+          className="flex items-center gap-1 flex-1 justify-center text-orange-500 px-1"
         >
           <Flame className="w-3.5 h-3.5" />
           <span className="tabular-nums">{points.streak}</span>
@@ -212,9 +214,55 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <span className="w-px h-4 bg-border mx-1" />
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="flex items-center gap-1 flex-1 justify-center text-foreground px-1 md:px-2"
+          className="flex items-center gap-1 flex-1 justify-center text-foreground px-1"
         >
           <span className="tabular-nums">×{multiplier.toFixed(1)}</span>
+        </button>
+      </div>
+
+      {/* === Stat cards (TABLET only) — 3 cards === */}
+      <div className="hidden md:grid lg:hidden grid-cols-3 gap-3">
+        <button
+          onClick={() => onNavigate('pontuacoes')}
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+        >
+          <span className="text-[11px] text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
+          <div className="flex items-center gap-1.5">
+            <LevelIcon levelKey={level.key} size={18} />
+            <span className="text-[16px] font-bold text-foreground truncate">
+              {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
+            </span>
+          </div>
+          <span className="text-[11px] text-muted-foreground tabular-nums">
+            {points.xp} XP · ×{multiplier.toFixed(1)}
+          </span>
+          <Progress value={xpProgress.percent} className="h-1 mt-1" />
+        </button>
+        <button
+          onClick={() => onNavigate('pontuacoes')}
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+        >
+          <span className="text-[11px] text-muted-foreground">{t('scores.points', 'Pontos')}</span>
+          <div className="flex items-center gap-1.5">
+            <Star className="w-[18px] h-[18px] text-amber-500 fill-amber-500" />
+            <span className="text-[16px] font-bold text-foreground tabular-nums">
+              {points.rewardPoints} pts
+            </span>
+          </div>
+          <span className="text-[11px] text-muted-foreground">{t('nav.scores')}</span>
+        </button>
+        <button
+          onClick={() => onNavigate('pontuacoes')}
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+        >
+          <span className="text-[11px] text-muted-foreground">Streak</span>
+          <div className="flex items-center gap-1.5">
+            <Flame className="w-[18px] h-[18px] text-orange-500" />
+            <span className="text-[16px] font-bold text-foreground tabular-nums">
+              {points.streak} {t('scores.days')}
+            </span>
+          </div>
+          <span className="text-[11px] text-muted-foreground">{t('scores.bestStreak')}: {points.bestStreak}</span>
         </button>
       </div>
 
