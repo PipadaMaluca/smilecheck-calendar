@@ -20,7 +20,6 @@ import { LevelIcon } from '@/components/level/LevelIcon';
 import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, ConsultationCategory } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
-import { Card } from '@/components/ui/card';
 import { isSameDay } from 'date-fns';
 import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
 
