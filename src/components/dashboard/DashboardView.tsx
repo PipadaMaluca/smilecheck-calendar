@@ -310,13 +310,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   </span>
                   {isXPCard ? (
                     <div className="flex flex-col gap-2 min-w-0 w-full" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
-                      <div className="flex items-center gap-2 min-w-0">
-                        <LevelIcon levelKey={level.key} size={20} />
-                        <span className="font-bold text-foreground truncate text-base">{stat.value}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums">
-                        <span>{pointsData.xp.toLocaleString()} XP</span>
-                        <span>×{multiplier.toFixed(1)}</span>
+                      <div className="flex items-center min-w-0">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <LevelIcon levelKey={level.key} size={25} />
+                          <span className="font-bold text-foreground truncate text-[20px]">{stat.value}</span>
+                        </div>
+                        <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{pointsData.xp.toLocaleString()} XP</span>
+                        <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{multiplier.toFixed(1)}</span>
                       </div>
                       <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
                         <div

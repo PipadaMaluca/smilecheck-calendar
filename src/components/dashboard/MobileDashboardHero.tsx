@@ -229,15 +229,15 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         >
           <span className="text-[11px] text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex flex-col gap-1.5 min-w-0 flex-1 justify-center">
-            <div className="flex items-center gap-1.5">
-              <LevelIcon levelKey={level.key} size={20} />
-              <span className="text-[16px] font-bold text-foreground truncate">
-                {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums">
-              <span>{points.xp} XP</span>
-              <span>×{multiplier.toFixed(1)}</span>
+            <div className="flex items-center min-w-0">
+              <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                <LevelIcon levelKey={level.key} size={25} />
+                <span className="text-[20px] font-bold text-foreground truncate">
+                  {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
+                </span>
+              </div>
+              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{points.xp} XP</span>
+              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{multiplier.toFixed(1)}</span>
             </div>
             <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
               <div
