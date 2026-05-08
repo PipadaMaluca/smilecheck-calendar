@@ -229,10 +229,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
+              "proxima-consulta-card bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
-            style={{ borderLeft: `4px solid ${heroBorderHex}` }}
+            style={{ '--consultation-type-color': heroBorderHex } as React.CSSProperties}
             onClick={heroStat.clickTab ? () => {
               if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
               else if (heroStat.clickTab === 'agenda') {
@@ -486,9 +486,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           }
                         }
                       ]}
+                      className="consultation-row"
                     >
                     <div
-                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0 md:border-border md:last:border-b lg:border-border/50 lg:last:border-0"
+                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
                       <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
