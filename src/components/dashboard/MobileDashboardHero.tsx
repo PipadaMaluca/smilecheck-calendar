@@ -110,7 +110,10 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
           className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
-          style={{ '--consultation-type-color': next.catColor } as CSSProperties}
+          style={{
+            '--consultation-type-color': next.catColor,
+            borderLeft: `4px solid ${next.catColor}`,
+          } as CSSProperties}
         >
           <div className="flex-1 min-w-0 px-3 py-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
@@ -153,7 +156,10 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           <button
             onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
             className="proxima-consulta-card w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
-            style={{ '--consultation-type-color': next.catColor } as CSSProperties}
+            style={{
+              '--consultation-type-color': next.catColor,
+              borderLeft: `4px solid ${next.catColor}`,
+            } as CSSProperties}
           >
             <div className="flex-1 min-w-0 px-4 flex items-center gap-3">
               <div className="flex items-center gap-2 min-w-0 flex-1">
