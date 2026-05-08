@@ -231,7 +231,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               "proxima-consulta-card bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
-            style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
+            style={{
+              '--consultation-type-color': heroBorderHex,
+              borderLeft: `4px solid ${heroBorderHex}`,
+              borderTop: '1px solid hsl(var(--border))',
+              borderRight: '1px solid hsl(var(--border))',
+              borderBottom: '1px solid hsl(var(--border))',
+            } as CSSProperties}
             onClick={heroStat.clickTab ? () => {
               if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
               else if (heroStat.clickTab === 'agenda') {
