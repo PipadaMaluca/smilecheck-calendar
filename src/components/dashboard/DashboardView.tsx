@@ -379,7 +379,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   ];
 
   const renderQuickActionsCard = (actions: typeof dentistQuickActionCards) => (
-    <Card className="bg-card/80 backdrop-blur border-border">
+    <Card className="bg-card/80 backdrop-blur border-border rounded-2xl">
       <CardContent className="p-4 space-y-3">
         <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
         <div className="flex flex-col gap-2">
@@ -389,10 +389,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <button
                 key={action.label}
                 onClick={action.action}
-                className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.color}`}>
-                  <ActionIcon className="w-4.5 h-4.5" />
-                </div>
+                className="flex items-center gap-3 px-4 h-12 w-full rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-all text-left">
+                <ActionIcon className="w-5 h-5 flex-shrink-0" style={{ color: '#2196F3' }} />
                 <span className="text-sm font-medium text-foreground">{action.label}</span>
               </button>
             );
@@ -403,8 +401,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   );
 
   const renderRightColumn = (role: 'dentist' | 'clinic') => {
+    const actions = role === 'clinic' ? clinicQuickActionCards : dentistQuickActionCards;
     return (
       <div className="space-y-6">
+        {renderQuickActionsCard(actions)}
         <PendingFeedbackCard userRole={role} />
       </div>
     );
