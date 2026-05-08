@@ -16,7 +16,7 @@ import {
   Gift,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LevelIcon } from '@/components/level/LevelIcon';
+import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
 import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, ConsultationCategory } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
@@ -228,16 +228,27 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
         >
           <span className="text-[11px] text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
-          <div className="flex items-center gap-1.5">
-            <LevelIcon levelKey={level.key} size={18} />
-            <span className="text-[16px] font-bold text-foreground truncate">
-              {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
-            </span>
+          <div className="flex flex-col gap-1.5 min-w-0 flex-1 justify-center">
+            <div className="flex items-center gap-1.5">
+              <LevelIcon levelKey={level.key} size={20} />
+              <span className="text-[16px] font-bold text-foreground truncate">
+                {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums">
+              <span>{points.xp} XP</span>
+              <span>×{multiplier.toFixed(1)}</span>
+            </div>
+            <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+              <div
+                className={cn(
+                  "h-full rounded-full transition-all duration-1000 ease-out",
+                  LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
+                )}
+                style={{ width: `${xpProgress.percent}%` }}
+              />
+            </div>
           </div>
-          <span className="text-[11px] text-muted-foreground tabular-nums">
-            {points.xp} XP · ×{multiplier.toFixed(1)}
-          </span>
-          <Progress value={xpProgress.percent} className="h-1 mt-1" />
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
