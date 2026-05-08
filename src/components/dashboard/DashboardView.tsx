@@ -25,7 +25,7 @@ import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
 import { LevelUpCelebration } from '@/components/level/LevelUpCelebration';
-import { LevelIcon } from '@/components/level/LevelIcon';
+import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 import { MobileDashboardHero } from './MobileDashboardHero';
@@ -309,15 +309,23 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     {stat.label}
                   </span>
                   {isXPCard ? (
-                    <div className="flex flex-col gap-1.5 min-w-0 w-full" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
-                      <div className="flex items-center gap-1.5 min-w-0">
+                    <div className="flex flex-col gap-2 min-w-0 w-full" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
+                      <div className="flex items-center gap-2 min-w-0">
                         <LevelIcon levelKey={level.key} size={20} />
                         <span className="font-bold text-foreground truncate text-base">{stat.value}</span>
                       </div>
-                      <Progress value={xpProgress.percent} className="h-1.5 w-full" />
                       <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums">
                         <span>{pointsData.xp.toLocaleString()} XP</span>
                         <span>×{multiplier.toFixed(1)}</span>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+                        <div
+                          className={cn(
+                            "h-full rounded-full transition-all duration-1000 ease-out",
+                            LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
+                          )}
+                          style={{ width: `${xpProgress.percent}%` }}
+                        />
                       </div>
                     </div>
                   ) : 'isStreak' in stat && (stat as any).isStreak ? (
