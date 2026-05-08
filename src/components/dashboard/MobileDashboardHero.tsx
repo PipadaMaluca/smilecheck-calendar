@@ -283,6 +283,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
       <div className="grid grid-cols-3 gap-1.5 md:hidden">
         {pillsMobile.map((p) => {
           const Icon = p.icon;
+          // Shorten labels that don't fit a 1/3 mobile column.
+          const shortLabel = p.id === 'loja' ? t('nav.rewards', 'Recompensas') : p.label;
           return (
             <button
               key={p.id}
@@ -294,7 +296,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               )}
             >
               <Icon className="w-4 h-4 text-[#2196F3] group-active:text-white flex-shrink-0" />
-              <span className="text-[10px] font-medium leading-none whitespace-nowrap">{p.label}</span>
+              <span className="text-[10px] font-medium leading-none truncate max-w-full px-1">{shortLabel}</span>
             </button>
           );
         })}
