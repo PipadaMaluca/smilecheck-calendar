@@ -225,14 +225,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="hidden lg:flex flex-col gap-3 sm:gap-4">
         {/* Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
-        <div id="coachmark-stat-cards" className="grid grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
+        <div id="coachmark-stat-cards" className="grid grid-cols-3 lg:grid-cols-[45fr_25fr_15fr_15fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 border-l-4 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl",
+              "bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
-            style={{ borderLeftColor: heroBorderHex }}
+            style={{ borderLeft: `4px solid ${heroBorderHex}` }}
             onClick={heroStat.clickTab ? () => {
               if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
               else if (heroStat.clickTab === 'agenda') {
@@ -309,12 +309,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     {stat.label}
                   </span>
                   {isXPCard ? (
-                    <div className="flex items-center gap-2 min-w-0 text-center" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
-                      <LevelIcon levelKey={level.key} size={18} />
-                      <span className="font-bold text-foreground truncate text-lg">{stat.value}</span>
-                      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-                        <Progress value={xpProgress.percent} className="h-1" />
-                        <p className="text-muted-foreground truncate text-sm">{pointsData.xp.toLocaleString()} XP · ×{multiplier.toFixed(1)}</p>
+                    <div className="flex flex-col gap-1.5 min-w-0 w-full" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <LevelIcon levelKey={level.key} size={20} />
+                        <span className="font-bold text-foreground truncate text-base">{stat.value}</span>
+                      </div>
+                      <Progress value={xpProgress.percent} className="h-1.5 w-full" />
+                      <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums">
+                        <span>{pointsData.xp.toLocaleString()} XP</span>
+                        <span>×{multiplier.toFixed(1)}</span>
                       </div>
                     </div>
                   ) : 'isStreak' in stat && (stat as any).isStreak ? (
