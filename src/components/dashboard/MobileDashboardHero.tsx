@@ -104,15 +104,15 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
     <div className="lg:hidden -mx-4 px-4 md:px-6 space-y-3">
       {/* === Hero: Next appointment (mobile only) === */}
       {next ? (
+        <div className="md:hidden">
+        <p className="text-[11px] text-muted-foreground mb-1 px-0.5">
+          {t('dashboard.nextConsultation')}
+        </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="md:hidden w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          className="w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          style={{ borderLeft: `4px solid ${next.catColor}` }}
         >
-          <span
-            className="w-1 flex-shrink-0"
-            style={{ backgroundColor: next.catColor }}
-            aria-hidden
-          />
           <div className="flex-1 min-w-0 px-3 py-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-[13px] font-bold text-foreground tabular-nums flex-shrink-0">
@@ -138,6 +138,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
             )}
           </div>
         </button>
+        </div>
       ) : (
         <div className="md:hidden w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-[13px] text-muted-foreground">
           {t('dashboard.noConsultations')}
