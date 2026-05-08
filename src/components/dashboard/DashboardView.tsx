@@ -223,7 +223,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const heroPillLabel = heroCategory ? getCategoryLabel(t, heroCategory) : (heroStat.extraLine || '');
 
     return (
-      <div className="hidden md:flex flex-col gap-3 sm:gap-4">
+      <div className="hidden lg:flex flex-col gap-3 sm:gap-4">
         {/* Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
         <div id="coachmark-stat-cards" className="grid grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-3 sm:gap-4">
           {/* Hero Card 1 */}
@@ -478,7 +478,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       ]}
                     >
                     <div
-                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0"
+                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0 md:border-border md:last:border-b lg:border-border/50 lg:last:border-0"
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
                       <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
