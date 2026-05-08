@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
@@ -11,7 +11,6 @@ import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
@@ -229,10 +228,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
+              "proxima-consulta-card bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
-            style={{ borderLeft: `4px solid ${heroBorderHex}` }}
+            style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
             onClick={heroStat.clickTab ? () => {
               if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
               else if (heroStat.clickTab === 'agenda') {
@@ -448,9 +447,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
-              {morningCons.map((c) => {
+              {morningCons.map((c, index) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
+                  const isLast = index === morningCons.length - 1;
                   return (
                     <SwipeableRow
                       key={c.id}
@@ -488,7 +488,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       ]}
                     >
                     <div
-                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all border-b border-border/50 last:border-0 md:border-border md:last:border-b lg:border-border/50 lg:last:border-0"
+                      className={cn("consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all", isLast && "consultation-row-last")}
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
                       <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
@@ -670,7 +670,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
+                    className="consultation-row border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
                       onNavigate('agenda');
@@ -800,7 +800,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
                   const catLabel = item.category ? getCategoryLabel(t, item.category) : '';
                   return (
-                    <div key={item.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
+                    <div key={item.id} className="consultation-row flex items-center gap-3 py-2">
                       <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
