@@ -403,10 +403,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   );
 
   const renderRightColumn = (role: 'dentist' | 'clinic') => {
-    const actions = role === 'dentist' ? dentistQuickActionCards : clinicQuickActionCards;
     return (
       <div className="space-y-6">
-        {renderQuickActionsCard(actions)}
         <PendingFeedbackCard userRole={role} />
       </div>
     );
