@@ -671,7 +671,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return dentistData.map((d) =>
                   <div
                     key={d.id}
-                    className="border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
+                    className="consultation-row border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
                       onNavigate('agenda');
@@ -801,7 +801,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
                   const catLabel = item.category ? getCategoryLabel(t, item.category) : '';
                   return (
-                    <div key={item.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
+                    <div key={item.id} className="consultation-row flex items-center gap-3 py-2">
                       <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
