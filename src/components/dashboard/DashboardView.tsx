@@ -228,7 +228,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           {/* Hero Card 1 */}
           <Card
             className={cn(
-              "proxima-consulta-card bg-card/80 backdrop-blur border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
+              "proxima-consulta-card relative bg-card/80 backdrop-blur border border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
               heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
             )}
             style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
@@ -240,6 +240,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               } else onNavigate(heroStat.clickTab!);
             } : undefined}
           >
+            {/* Dynamic colored left stripe (4px) — overlay to bypass any border overrides */}
+            <span
+              aria-hidden
+              className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none"
+              style={{ backgroundColor: heroBorderHex }}
+            />
             <CardContent className="p-6 border-0 px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center text-left">
               <div className="flex items-center gap-1.5 text-muted-foreground min-w-0 text-center text-base">
                 <HeroIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: heroBorderHex }} />
