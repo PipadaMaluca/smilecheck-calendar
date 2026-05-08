@@ -447,9 +447,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
-              {morningCons.map((c) => {
+              {morningCons.map((c, index) => {
                   const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
+                  const isLast = index === morningCons.length - 1;
                   return (
                     <SwipeableRow
                       key={c.id}
@@ -485,10 +486,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           }
                         }
                       ]}
-                      className="consultation-row"
                     >
                     <div
-                      className="cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all"
+                      className={cn("consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all", isLast && "consultation-row-last")}
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
                       <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
