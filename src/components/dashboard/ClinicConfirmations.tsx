@@ -38,37 +38,41 @@ export function ClinicConfirmations() {
       </div>
 
       {/* List */}
-      <div className="space-y-2">
-        {mockConfirmations.map((conf) => (
-          <ConfirmationRow key={conf.consultationId} confirmation={conf} />
-        ))}
-      </div>
+      <Card className="bg-card/80 border-border">
+        <CardContent className="p-0 divide-y divide-[#E2E8F0] dark:divide-white/[0.08]">
+          {mockConfirmations.map((conf) => (
+            <div
+              key={conf.consultationId}
+              className="px-4 py-1.5 flex items-center gap-3 hover:bg-muted/30 transition-colors cursor-pointer"
+            >
+              <span className="text-sm font-mono text-muted-foreground w-12 flex-shrink-0">{conf.time}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">{conf.patientName}</p>
+                <p className="text-xs text-muted-foreground truncate">{conf.dentistName}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <ConfirmBadge label="24h" status={conf.status24h} />
+                <ConfirmBadge label="1h" status={conf.status1h} />
+                <StatusIcon className={cn('w-5 h-5', statusColor)} />
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
-function ConfirmationRow({ confirmation }: { confirmation: typeof mockConfirmations[0] }) {
-  const isFullyConfirmed = confirmation.status24h === 'confirmed' && confirmation.status1h === 'confirmed';
-  const isDeclined = confirmation.status24h === 'declined' || confirmation.status1h === 'declined';
-
-  const StatusIcon = isFullyConfirmed ? CheckCircle2 : isDeclined ? XCircle : Clock;
-  const statusColor = isFullyConfirmed ? 'text-primary' : isDeclined ? 'text-destructive' : 'text-amber-400';
-
+function ConfirmBadge({ label, status }: { label: string; status: ConfirmationStatus }) {
   return (
-    <Card className="bg-card/80 border-border hover:border-primary/20 transition-colors cursor-pointer">
-      <CardContent className="p-3 flex items-center gap-3">
-        <span className="text-sm font-mono text-muted-foreground w-12 flex-shrink-0">{confirmation.time}</span>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground truncate">{confirmation.patientName}</p>
-          <p className="text-xs text-muted-foreground truncate">{confirmation.dentistName}</p>
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <ConfirmBadge label="24h" status={confirmation.status24h} />
-          <ConfirmBadge label="1h" status={confirmation.status1h} />
-          <StatusIcon className={cn('w-5 h-5', statusColor)} />
-        </div>
-      </CardContent>
-    </Card>
+    <span className={cn(
+      'text-[10px] font-medium px-1.5 py-0.5 rounded',
+      status === 'confirmed' ? 'bg-primary/10 text-primary' :
+      status === 'declined' ? 'bg-destructive/10 text-destructive' :
+      'bg-amber-500/10 text-amber-400'
+    )}>
+      {label} {status === 'confirmed' ? '✓' : status === 'declined' ? '✗' : '⏳'}
+    </span>
   );
 }
 
