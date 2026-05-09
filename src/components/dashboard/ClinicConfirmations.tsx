@@ -40,23 +40,29 @@ export function ClinicConfirmations() {
       {/* List */}
       <Card className="bg-card/80 border-border">
         <CardContent className="p-0 divide-y divide-[#E2E8F0] dark:divide-white/[0.08]">
-          {mockConfirmations.map((conf) => (
-            <div
-              key={conf.consultationId}
-              className="px-4 py-1.5 flex items-center gap-3 hover:bg-muted/30 transition-colors cursor-pointer"
-            >
-              <span className="text-sm font-mono text-muted-foreground w-12 flex-shrink-0">{conf.time}</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">{conf.patientName}</p>
-                <p className="text-xs text-muted-foreground truncate">{conf.dentistName}</p>
+          {mockConfirmations.map((conf) => {
+            const isFullyConfirmed = conf.status24h === 'confirmed' && conf.status1h === 'confirmed';
+            const isDeclined = conf.status24h === 'declined' || conf.status1h === 'declined';
+            const StatusIcon = isFullyConfirmed ? CheckCircle2 : isDeclined ? XCircle : Clock;
+            const statusColor = isFullyConfirmed ? 'text-primary' : isDeclined ? 'text-destructive' : 'text-amber-400';
+            return (
+              <div
+                key={conf.consultationId}
+                className="px-4 py-1.5 flex items-center gap-3 hover:bg-muted/30 transition-colors cursor-pointer"
+              >
+                <span className="text-sm font-mono text-muted-foreground w-12 flex-shrink-0">{conf.time}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{conf.patientName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{conf.dentistName}</p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <ConfirmBadge label="24h" status={conf.status24h} />
+                  <ConfirmBadge label="1h" status={conf.status1h} />
+                  <StatusIcon className={cn('w-5 h-5', statusColor)} />
+                </div>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <ConfirmBadge label="24h" status={conf.status24h} />
-                <ConfirmBadge label="1h" status={conf.status1h} />
-                <StatusIcon className={cn('w-5 h-5', statusColor)} />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </CardContent>
       </Card>
     </div>
@@ -76,15 +82,3 @@ function ConfirmBadge({ label, status }: { label: string; status: ConfirmationSt
   );
 }
 
-function ConfirmBadge({ label, status }: { label: string; status: ConfirmationStatus }) {
-  return (
-    <span className={cn(
-      'text-[10px] font-medium px-1.5 py-0.5 rounded',
-      status === 'confirmed' ? 'bg-primary/10 text-primary' :
-      status === 'declined' ? 'bg-destructive/10 text-destructive' :
-      'bg-amber-500/10 text-amber-400'
-    )}>
-      {label} {status === 'confirmed' ? '✓' : status === 'declined' ? '✗' : '⏳'}
-    </span>
-  );
-}
