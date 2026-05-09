@@ -494,10 +494,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       ]}
                     >
                     <div
-                      className={cn("consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all", isLast && "consultation-row-last")}
+                      className={cn(
+                        "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all py-1.5",
+                        !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]",
+                        isLast && "consultation-row-last"
+                      )}
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
                       {/* Desktop/Tablet: 3-column grid */}
-                      <div className="hidden sm:grid items-center py-2" style={{ gridTemplateColumns: '30% 40% 30%' }}>
+                      <div className="hidden sm:grid items-center" style={{ gridTemplateColumns: '30% 40% 30%' }}>
                         <div className="flex items-center gap-2 text-left min-w-0">
                           <span className="text-xs font-bold text-primary flex-shrink-0">{c.time}</span>
                           <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
@@ -513,7 +517,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </div>
                       </div>
                       {/* Mobile: 3-column row */}
-                      <div className="sm:hidden flex items-center h-12 px-1 gap-2">
+                      <div className="sm:hidden flex items-center px-1 gap-2">
                         <div className="w-[50px] flex-shrink-0">
                           <span className="text-[12px] font-bold tabular-nums" style={{ color: catColor?.hex || '#2196F3' }}>{c.time}</span>
                         </div>
@@ -557,14 +561,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
                 <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
               </div>
-              <div className="space-y-1.5 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {dentistConfirmations.map((c) => {
+              <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
+                {dentistConfirmations.map((c, idx) => {
+                  const isLastConf = idx === dentistConfirmations.length - 1;
                   const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                   const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
                   return (
                     <div
                       key={c.consultationId}
-                      className="flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5"
+                      className={cn(
+                        "flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5",
+                        !isLastConf && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                      )}
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
@@ -673,21 +681,27 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
                   { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
                   { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }];
-                  return dentistData.map((d) =>
-                  <div
-                    key={d.id}
-                    className="consultation-row border border-border/50 hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer p-2 my-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden"
-                    onClick={() => {
-                      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                      onNavigate('agenda');
-                    }}>
+                  return dentistData.map((d, index) => {
+                    const isLast = index === dentistData.length - 1;
+                    return (
+                    <div
+                      key={d.id}
+                      className={cn(
+                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden",
+                        !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                      )}
+                      onClick={() => {
+                        window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
+                        onNavigate('agenda');
+                      }}>
                        <ClickableDentistName name={d.name} className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
                        <span className="text-muted-foreground text-[11px]">:</span>
                        <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
                        <span className="text-[10px] text-muted-foreground">·</span>
                        <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} {t('dashboard.tele')}</span>
                      </div>
-                  );
+                    );
+                  });
                 })()}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
@@ -707,30 +721,42 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </Badge>
             }
           >
-              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
-                {confirmationsByDentist.map(({ dentist, confirmations }) =>
-                <div key={dentist.id}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
-                    {confirmations.slice(0, 2).map((c) => {
-                    const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                    const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
-                    return (
-                      <div
-                        key={c.consultationId}
-                        className="flex items-center gap-1.5 py-0.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors"
-                        onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
-                      >
-                          <div className="flex-1 min-w-0 flex items-center gap-1">
-                            <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                            {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
-                          </div>
-                          {confirmIndicator(c.status24h)}
-                          {confirmIndicator(c.status1h, c.isNoShow === true)}
-                        </div>);
-                  })}
+              {(() => {
+                let rowIndex = 0;
+                const totalRows = confirmationsByDentist.reduce((sum, g) => sum + Math.min(2, g.confirmations.length), 0);
+                return (
+                  <div className="flex-1 overflow-y-auto md:overflow-y-hidden">
+                    {confirmationsByDentist.map(({ dentist, confirmations }) => (
+                      <div key={dentist.id}>
+                        <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
+                        {confirmations.slice(0, 2).map((c) => {
+                          const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
+                          const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
+                          rowIndex++;
+                          const isLast = rowIndex === totalRows;
+                          return (
+                            <div
+                              key={c.consultationId}
+                              className={cn(
+                                "flex items-center gap-1.5 py-1.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors",
+                                !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                              )}
+                              onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
+                            >
+                              <div className="flex-1 min-w-0 flex items-center gap-1">
+                                <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
+                                {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
+                              </div>
+                              {confirmIndicator(c.status24h)}
+                              {confirmIndicator(c.status1h, c.isNoShow === true)}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
-                )}
-              </div>
+                );
+              })()}
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="confirmacoes"]')?.click(), 100);}}>
@@ -801,12 +827,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
                 <Badge variant="outline" className="text-[10px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
               </div>
-              <div className="space-y-2">
-                {upcomingItems.map((item) => {
+              <div className="">
+                {upcomingItems.map((item, index) => {
                   const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
                   const catLabel = item.category ? getCategoryLabel(t, item.category) : '';
+                  const isLast = index === upcomingItems.length - 1;
                   return (
-                    <div key={item.id} className="consultation-row flex items-center gap-3 py-2">
+                    <div key={item.id} className={cn(
+                      "consultation-row flex items-center gap-3 py-1.5",
+                      !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                    )}>
                       <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
