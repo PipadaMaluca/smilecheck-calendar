@@ -255,7 +255,7 @@ export const mockConsultations: Consultation[] = [
     clinic: mockClinics[0],
     price: 35,
     isPaid: true,
-    notes: 'Dor pós-extração',
+    notes: 'Dor pós-extração dente 38',
     isUrgentTeleconsulta: true,
   },
   {
