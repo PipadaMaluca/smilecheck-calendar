@@ -1,7 +1,6 @@
 import { ConsultationCategory, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Video, AlertTriangle } from 'lucide-react';
 import type { CSSProperties, ReactNode } from 'react';
 
 interface ConsultationTypePillProps {
@@ -40,12 +39,6 @@ export function ConsultationTypePill({
       : 'text-[11px] font-bold leading-none';
   const padStyle: CSSProperties =
     size === 'sm' ? { padding: '2px 6px' } : { padding: '2px 10px' };
-  const trailingIcon =
-    category === 'teleconsulta' ? (
-      <Video className="w-[1em] h-[1em] flex-shrink-0" />
-    ) : category === 'urgencia' ? (
-      <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />
-    ) : null;
   return (
     <span
       className={cn(
@@ -57,7 +50,6 @@ export function ConsultationTypePill({
     >
       {children}
       {text}
-      {trailingIcon}
     </span>
   );
 }
