@@ -1447,11 +1447,12 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 
 /* Container: tight padding so text uses the slot height */
 .appt-block {
-  padding: 2px 4px 2px 6px !important;
-  overflow: hidden !important;
+  padding: 1px 4px 1px 6px !important;
+  overflow: visible !important;
   max-height: none !important;
   align-items: flex-start !important;
   justify-content: flex-start !important;
+  z-index: 1;
 }
 .appt-block > * { max-height: none !important; }
 /* Kill any inner wrapper padding so Line 1 is flush with top */
@@ -1463,7 +1464,10 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
    Density tiers (set in MultiDentistGrid.tsx):
      8+ cols → 9px / pill 8px;  5-7 cols → 10px / 9px;  1-4 cols → 11px / 10px.
    Mobile single column uses 12px. Line-height kept tight via inline style. */
-.appt-block { line-height: 1.25 !important; }
+.appt-block { line-height: 1 !important; }
+
+/* Long-content blocks rise above when hovered so notes are readable */
+.appt-block:hover { z-index: 5; }
 
 /* Notes wrap freely; only ellipsis on overflow at the container level */
 .appt-block .truncate.notes-multiline,
@@ -1483,9 +1487,9 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block [data-line="type-row"] {
   /* Inline flow: pill + notes share the same line, wrap naturally */
   display: block !important;
-  margin-top: 1px !important;
+  margin-top: 0 !important;
   padding-top: 0 !important;
-  line-height: 1.25 !important;
+  line-height: 1.1 !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
@@ -1498,7 +1502,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .appt-block [data-line="type-row"] > span:first-child,
 .appt-block [data-line="type-row"] [class*="rounded-full"]:first-child {
   font-weight: 700 !important;
-  line-height: 1.25 !important;
+  line-height: 1.1 !important;
 }
 .appt-block [data-line="type-row"] [data-notes] {
   display: inline !important;
@@ -1507,7 +1511,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   width: auto !important;
   white-space: normal !important;
   font-weight: 400 !important;
-  line-height: 1.25 !important;
+  line-height: 1.1 !important;
   -webkit-line-clamp: unset !important;
   overflow: visible !important;
 }
