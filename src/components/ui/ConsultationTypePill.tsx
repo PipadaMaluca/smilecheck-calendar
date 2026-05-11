@@ -49,7 +49,7 @@ export function ConsultationTypePill({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-[2px] rounded-full whitespace-nowrap truncate max-w-full',
+        'inline-flex items-center gap-[2px] rounded-full whitespace-nowrap flex-shrink-0',
         sizeClass,
         className,
       )}
