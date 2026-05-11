@@ -1,5 +1,5 @@
 import { Video, MapPin, Lock } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
