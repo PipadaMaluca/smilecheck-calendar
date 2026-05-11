@@ -295,7 +295,7 @@ export function MultiDentistGrid({
                         onDragEnd={() => setDraggedConsultation(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
-                          "appt-block rounded-md flex flex-col items-start justify-start cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
                           isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
@@ -306,7 +306,7 @@ export function MultiDentistGrid({
                         }}
                       >
                         {/* Line 1: Time + Name (Age) — bold, top-aligned */}
-                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1.15 }}>
+                        <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1 }}>
                           <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[9px]" : D.time)}>{slot.time}</span>
                           <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[9px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {displayName}
@@ -316,9 +316,9 @@ export function MultiDentistGrid({
                           )}
                         </div>
                         {/* Line 2: Type pill (with icon inside, after text) + description */}
-                        <div data-line="type-row" className="flex items-center gap-1" style={{ lineHeight: 1.15 }}>
+                        <div data-line="type-row" className="flex items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
                           <span
-                            className={cn("inline-flex items-center gap-[2px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap", isSingleColumn ? "text-[8px]" : D.pill)}
+                            className={cn("inline-flex items-center gap-[2px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
                           >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
@@ -327,7 +327,7 @@ export function MultiDentistGrid({
                             {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                           </span>
                           {consultation.notes && (
-                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0", isSingleColumn ? "text-[8px]" : D.notes)}>
+                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0 flex-1", isSingleColumn ? "text-[8px]" : D.notes)}>
                               {consultation.notes}
                             </span>
                           )}
