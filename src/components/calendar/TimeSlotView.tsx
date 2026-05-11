@@ -137,7 +137,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                     {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span className="text-[9px] text-[#8B9CB6] truncate">
+                    <span className="text-[9px] text-[#8B9CB6] truncate min-w-0 flex-1">
                       {consultation.notes}
                     </span>
                   )}
