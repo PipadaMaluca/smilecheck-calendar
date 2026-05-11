@@ -1,5 +1,5 @@
-import { Video, MapPin, Lock, AlertTriangle } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Video, MapPin, Lock } from 'lucide-react';
+import { TimeSlot, CATEGORY_COLORS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -73,9 +73,6 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
         const category = consultation?.category || 'restauracao';
         const colors = CATEGORY_COLORS[category];
         const isTeleconsulta = consultation?.type === 'teleconsulta';
-        const isUrgentTeleconsulta = consultation?.isUrgentTeleconsulta;
-        const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
-
         // Patient info with age
         const patientAge = consultation?.patient.age;
         const patientNameWithAge = patientAge 
@@ -127,17 +124,15 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                   </span>
                 </div>
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
-                <div className="flex items-center gap-1.5 ml-4">
+                <div className="flex flex-wrap items-center gap-1 ml-4 min-w-0">
                   <span
-                    className="inline-flex items-center gap-[2px] text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                    className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                     style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
                     {getCategoryLabel(t, category)}
-                    {isTeleconsulta && <Video className="w-[1em] h-[1em] flex-shrink-0" />}
-                    {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span className="text-[9px] text-[#8B9CB6] truncate min-w-0 flex-1">
+                    <span className="text-[9px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                       {consultation.notes}
                     </span>
                   )}

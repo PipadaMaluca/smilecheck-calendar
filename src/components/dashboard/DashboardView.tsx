@@ -508,9 +508,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
                           </span>
                         </div>
-                        <div className="flex items-center justify-center gap-1.5 truncate">
+                        <div className="flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
                           <ConsultationTypePill category={c.category as ConsultationCategory} />
-                          <span className="text-[10px] text-muted-foreground">— {c.duration}{t('agenda.minutes')}</span>
+                          {c.notes && (
+                            <span className="text-[10px] text-muted-foreground truncate min-w-0 flex-shrink">
+                              {c.notes}
+                            </span>
+                          )}
                         </div>
                         <div className="flex justify-end">
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
@@ -525,9 +529,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <span className="text-[13px] font-medium text-foreground truncate" onClick={(e) => e.stopPropagation()}>
                             <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-[13px] font-medium text-foreground hover:underline cursor-pointer" />
                           </span>
-                          <div className="flex items-center gap-1 min-w-0">
+                          <div className="flex items-center gap-1 min-w-0 overflow-hidden">
                             <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />
-                            <span className="text-[10px] text-muted-foreground hidden min-[375px]:inline">{c.duration}{t('agenda.minutes')}</span>
+                            {c.notes && (
+                              <span className="text-[10px] text-muted-foreground truncate min-w-0 flex-shrink hidden min-[375px]:inline">
+                                {c.notes}
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="w-[100px] flex-shrink-0 flex justify-end">

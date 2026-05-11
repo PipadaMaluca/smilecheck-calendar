@@ -1,10 +1,9 @@
-import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { TimeSlot, Consultation, CATEGORY_COLORS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
-import { AlertTriangle } from 'lucide-react';
 
 interface ThreeDayViewProps {
   selectedDate: Date;
@@ -194,9 +193,6 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   
                   const category = consultation.category || 'restauracao';
                   const colors = CATEGORY_COLORS[category];
-                  const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
-                  const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
-                  
                   // First name + last name
                   const nameParts = consultation.patient.name.split(' ');
                   const firstName = nameParts[0];
@@ -234,17 +230,16 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                             ({consultation.patient.age} anos)
                           </span>
                         </div>
-                        {/* Line 2: TYPE pill (own row) */}
-                        <div data-line="type-row">
+                        {/* Line 2: TYPE pill + notes */}
+                        <div data-line="type-row" className="flex flex-wrap items-center gap-1 min-w-0">
                           <span
-                            className="inline-flex items-center gap-[2px] text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
                             {getCategoryLabel(t, category)}
-                            {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                           </span>
                           {consultation.notes && (
-                            <span data-notes className="text-[7px] text-[#8B9CB6]">
+                            <span data-notes className="text-[7px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                               {consultation.notes}
                             </span>
                           )}

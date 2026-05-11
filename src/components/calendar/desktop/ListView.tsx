@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Video, AlertTriangle, MoreHorizontal, Check, Clock, User } from 'lucide-react';
+import { MoreHorizontal, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -70,9 +70,6 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
             {sortedConsultations.map((consultation) => {
               const category = consultation.category || 'restauracao';
               const colors = CATEGORY_COLORS[category];
-              const isTeleconsulta = consultation.type === 'teleconsulta';
-              const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
-
               return (
                 <TableRow
                   key={consultation.id}
@@ -136,19 +133,18 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
 
                   {/* Reason / Category */}
                   <TableCell className="py-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
                         {getCategoryLabel(t, category)}
-                        {isTeleconsulta && (
-                          <Video className="w-[1em] h-[1em]" />
-                        )}
-                        {isUrgentTeleconsulta && (
-                          <AlertTriangle className="w-[1em] h-[1em]" />
-                        )}
                       </span>
+                      {consultation.notes && (
+                        <span className="text-xs text-muted-foreground truncate min-w-0 flex-1">
+                          {consultation.notes}
+                        </span>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>

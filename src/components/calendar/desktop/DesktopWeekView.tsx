@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { Consultation, TimeSlot, CATEGORY_COLORS, CATEGORY_LABELS, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, TimeSlot, CATEGORY_COLORS, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { mockConsultations, generateTimeSlots } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -214,14 +214,21 @@ export function DesktopWeekView({
                       onClick={() => onSlotClick(slot)}
                       onContextMenu={(e) => handleContextMenu(e, c)}
                     >
-                      <div className="px-1.5 py-0.5 text-[10px] leading-tight truncate">
+                      <div className="px-1.5 py-0.5 text-[10px] leading-tight min-w-0">
                         <div className="font-semibold truncate">{c.time} {c.patient.name.split(' ')[0]}</div>
-                        {spanCount > 1 && (
-                          <div
-                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap opacity-95"
+                        <div data-line="type-row" className="flex flex-wrap items-center gap-1 min-w-0">
+                          <span
+                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap opacity-95 flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
-                          >{getCategoryLabel(t, category)}</div>
-                        )}
+                          >
+                            {getCategoryLabel(t, category)}
+                          </span>
+                          {c.notes && (
+                            <span data-notes className="text-[7px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                              {c.notes}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );

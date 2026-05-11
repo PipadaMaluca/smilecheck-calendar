@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Video, AlertTriangle, Ban } from 'lucide-react';
+import { Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 
@@ -273,10 +273,6 @@ export function MultiDentistGrid({
                     
                     const category = consultation.category || 'restauracao';
                     const colors = CATEGORY_COLORS[category];
-                    const isTeleconsulta = consultation.type === 'teleconsulta';
-                    const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
-                    const isUrgent = category === 'urgencia' || isUrgentTeleconsulta;
-                    
                     const patientName = consultation.patient.name || '';
                     const patientAge = consultation.patient.age;
                     const displayName = showFullName 
@@ -315,16 +311,14 @@ export function MultiDentistGrid({
                             <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[9px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
-                        {/* Line 2: Type pill (with icon inside, after text) + description */}
-                        <div data-line="type-row" className="flex items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
+                        {/* Line 2: Type pill + description */}
+                        <div data-line="type-row" className="flex flex-wrap items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
                           <span
-                            className={cn("inline-flex items-center gap-[2px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
+                            className={cn("inline-flex items-center font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
                           >
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
-                            {isTeleconsulta && <Video className="w-[1em] h-[1em] flex-shrink-0" />}
-                            {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                           </span>
                           {consultation.notes && (
                             <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0 flex-1", isSingleColumn ? "text-[8px]" : D.notes)}>

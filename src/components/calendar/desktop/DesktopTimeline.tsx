@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { Video, Flag, AlertTriangle, Check, Ban } from 'lucide-react';
+import { Ban } from 'lucide-react';
 import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -328,10 +328,6 @@ export function DesktopTimeline({
                     if (!consultation) return null;
                     
                     const styles = getConsultationStyles(consultation);
-                    const isTeleconsulta = consultation.type === 'teleconsulta';
-                    const isUrgentTeleconsulta = consultation.isUrgentTeleconsulta;
-                    const isUrgent = consultation.category === 'urgencia' || isUrgentTeleconsulta;
-                    
                     const consultStatus = consultation.status || 'agendada';
                     const statusCfg = STATUS_CONFIG[consultStatus];
                     
@@ -376,17 +372,13 @@ export function DesktopTimeline({
                                 )}
                               </span>
                             </div>
-                            {/* Line 2: type pill (own row) */}
-                            <div data-line="type-row" className="mt-0.5">
+                            {/* Line 2: type pill + notes */}
+                            <div data-line="type-row" className="mt-0.5 flex flex-wrap items-center gap-1 min-w-0">
                               <span
-                                className="inline-flex items-center gap-[2px] text-[9px] font-bold leading-none rounded-full max-w-full truncate whitespace-nowrap"
+                                className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
                                 {getConsultationLabel(t, consultation)}
-                                {(isTeleconsulta || isUrgentTeleconsulta) && (
-                                  <Video className="w-[1em] h-[1em] flex-shrink-0" />
-                                )}
-                                {isUrgent && <AlertTriangle className="w-[1em] h-[1em] flex-shrink-0" />}
                               </span>
                               {consultation.notes && (
                                 <span data-notes className="text-[9px] text-[#8B9CB6]">

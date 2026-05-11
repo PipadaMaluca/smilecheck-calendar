@@ -1478,42 +1478,42 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 }
 
 /* ============================================================
-   AGENDA — 3-LINE LAYOUT (notes on its own line)
-   Force the type pill and the notes onto SEPARATE lines so the
-   consultation type name never shares a row with the description.
-   Light mode uses dark-tinted text matching each category;
-   Dark mode keeps white text. Applies to all calendar views.
+   AGENDA — type pill + description layout
+   Keep every consultation type on the same rendering path: compact
+   pill first, then notes with min-width: 0 so text can shrink/wrap.
    ============================================================ */
 .appt-block [data-line="type-row"] {
-  /* Inline flow: pill + notes share the same line, wrap naturally */
-  display: block !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-width: 0 !important;
   margin-top: 0 !important;
   padding-top: 0 !important;
   line-height: 1.1 !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
 }
 .appt-block [data-line="type-row"] > * {
-  /* Pill and notes flow inline within the same paragraph */
-  display: inline !important;
-  vertical-align: baseline !important;
+  min-width: 0 !important;
 }
-/* Type pill — let inline density class own font-size; just enforce bold + tight leading. */
 .appt-block [data-line="type-row"] > span:first-child,
 .appt-block [data-line="type-row"] [class*="rounded-full"]:first-child {
+  display: inline-flex !important;
+  flex-shrink: 0 !important;
   font-weight: 700 !important;
   line-height: 1.1 !important;
 }
 .appt-block [data-line="type-row"] [data-notes] {
-  display: inline !important;
-  margin-left: 4px !important;
+  display: block !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
   margin-top: 0 !important;
-  width: auto !important;
-  white-space: normal !important;
+  white-space: nowrap !important;
   font-weight: 400 !important;
   line-height: 1.1 !important;
   -webkit-line-clamp: unset !important;
-  overflow: visible !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* (Internal padding is managed per-view; no global padding override.) */
