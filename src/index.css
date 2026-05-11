@@ -1448,10 +1448,11 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 /* Container: tight padding so text uses the slot height */
 .appt-block {
   padding: 1px 4px 1px 6px !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   max-height: none !important;
   align-items: flex-start !important;
   justify-content: flex-start !important;
+  z-index: 1;
 }
 .appt-block > * { max-height: none !important; }
 /* Kill any inner wrapper padding so Line 1 is flush with top */
@@ -1463,7 +1464,10 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
    Density tiers (set in MultiDentistGrid.tsx):
      8+ cols → 9px / pill 8px;  5-7 cols → 10px / 9px;  1-4 cols → 11px / 10px.
    Mobile single column uses 12px. Line-height kept tight via inline style. */
-.appt-block { line-height: 1.1 !important; }
+.appt-block { line-height: 1 !important; }
+
+/* Long-content blocks rise above when hovered so notes are readable */
+.appt-block:hover { z-index: 5; }
 
 /* Notes wrap freely; only ellipsis on overflow at the container level */
 .appt-block .truncate.notes-multiline,
