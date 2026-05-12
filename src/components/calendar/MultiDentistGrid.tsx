@@ -118,7 +118,7 @@ export function MultiDentistGrid({
                   "text-center px-2 min-w-0 overflow-hidden",
                   isSingleColumn 
                     ? "flex-1 min-w-0 dentist-column-mobile dentist-header-mobile" 
-                    : "dentist-column-mobile border-l border-[hsl(214_32%_91%)] dark:border-[hsl(0_0%_100%/0.08)]"
+                    : "dentist-column-mobile agenda-dentist-column-separator"
                 )}
               >
                 <p className="text-[11px] font-bold leading-tight truncate" title={col.dentist.name}>
@@ -165,7 +165,7 @@ export function MultiDentistGrid({
                 return (
                   <div
                     key={`${col.clinic.id}-${col.dentist.id}-${idx}`}
-                    className="relative min-w-0 overflow-hidden border-l border-[hsl(214_32%_91%)] dark:border-[hsl(0_0%_100%/0.08)] bg-[#2A3A4A] rounded-lg flex items-center justify-center dentist-column-mobile"
+                    className="relative min-w-0 overflow-hidden agenda-dentist-column-separator bg-[#2A3A4A] rounded-lg flex items-center justify-center dentist-column-mobile"
                     style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}
                   >
                     <div className="text-center px-2">
@@ -207,7 +207,7 @@ export function MultiDentistGrid({
                   key={`${col.clinic.id}-${col.dentist.id}-${idx}`}
                   className={cn(
                     "relative min-w-0 overflow-hidden dentist-column-mobile",
-                    isSingleColumn ? "flex-1 min-w-0" : "border-l border-[hsl(214_32%_91%)] dark:border-[hsl(0_0%_100%/0.08)]"
+                    isSingleColumn ? "flex-1 min-w-0" : "agenda-dentist-column-separator"
                   )}
                   style={{
                     display: 'grid',
