@@ -54,7 +54,7 @@ export function Logo({
       <img
         src={LOGO_HORIZONTAL_SRC}
         alt={alt}
-        style={{ height: size, width: 'auto', ...lightModeImgStyle }}
+        style={{ width: size, height: 'auto', ...lightModeImgStyle }}
         className={cn('object-contain select-none', className)}
         draggable={false}
       />
