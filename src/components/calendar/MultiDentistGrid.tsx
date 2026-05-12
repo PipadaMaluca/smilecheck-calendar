@@ -281,6 +281,7 @@ export function MultiDentistGrid({
                     const colors = CATEGORY_COLORS[category];
                     const patientName = consultation.patient.name || '';
                     const patientAge = consultation.patient.age;
+                    const pillEmoji = CATEGORY_PILL_EMOJIS[category];
                     const displayName = showFullName 
                       ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
                       : patientName.split(' ')[0];
@@ -295,6 +296,8 @@ export function MultiDentistGrid({
                           setDraggedConsultation({ consultation, fromDentistId: col.dentist.id, fromClinicId: col.clinic.id, fromTime: slot.time });
                         }}
                         onDragEnd={() => setDraggedConsultation(null)}
+                        onMouseEnter={() => onConsultationHover?.(consultation)}
+                        onMouseLeave={() => onConsultationHover?.(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
@@ -323,6 +326,7 @@ export function MultiDentistGrid({
                             className={cn("inline-flex items-center font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
                           >
+                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
                           </span>
