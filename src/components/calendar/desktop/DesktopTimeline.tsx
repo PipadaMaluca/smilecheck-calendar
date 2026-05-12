@@ -222,6 +222,7 @@ export function DesktopTimeline({
                 return (
                   <div 
                     key={key} 
+                    data-agenda-column
                     className={cn(
                       "flex-[1_1_0] min-w-0 overflow-hidden box-border bg-[#2A3A4A] flex items-center justify-center",
                       colIdx > 0 && 'border-l border-border'
@@ -264,6 +265,7 @@ export function DesktopTimeline({
               return (
                 <div 
                   key={key} 
+                  data-agenda-column
                   className={cn(
                     "flex-[1_1_0] min-w-0 overflow-hidden box-border relative",
                     colIdx > 0 && 'border-l border-border'
@@ -353,7 +355,7 @@ export function DesktopTimeline({
                             setContextMenu({ consultation, x: e.clientX, y: e.clientY });
                           }}
                           className={cn(
-                            "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
+                             "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:shadow-lg overflow-hidden",
                             draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                           )}
                           style={{
