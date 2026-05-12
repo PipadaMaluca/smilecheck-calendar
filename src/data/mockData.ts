@@ -1678,7 +1678,7 @@ export const mockConsultations: Consultation[] = ([
     notes: 'Dor aparelho novo',
     isUrgentTeleconsulta: true,
   },
-];
+] as Consultation[]).map(withRequiredConsultationFields);
 
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {
