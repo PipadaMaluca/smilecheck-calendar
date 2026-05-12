@@ -1516,6 +1516,29 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   text-overflow: ellipsis !important;
 }
 
+/* Multi-dentist agenda: grid tracks scroll horizontally instead of overlapping at browser zoom. */
+.calendar-grid-multi {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  overscroll-behavior-x: contain;
+}
+.calendar-grid-multi .dentist-column-mobile {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+.calendar-grid-multi .appt-block {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
 /* (Internal padding is managed per-view; no global padding override.) */
 
 /* Dark-mode appt-block opacity bumped to ~55% per brand spec */
