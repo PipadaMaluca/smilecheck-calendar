@@ -1530,6 +1530,12 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   position: relative !important;
   box-sizing: border-box !important;
 }
+.calendar-grid-multi .agenda-dentist-column-separator {
+  border-left: 1px solid #E2E8F0 !important;
+}
+:root:not(.light) .calendar-grid-multi .agenda-dentist-column-separator {
+  border-left-color: rgba(255, 255, 255, 0.08) !important;
+}
 .calendar-grid-multi .appt-block {
   width: 100% !important;
   max-width: 100% !important;
