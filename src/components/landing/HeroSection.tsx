@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Logo } from '@/components/branding/Logo';
+// Logo intentionally omitted from hero — it lives in the navbar.
 
 function useCountUp(end: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -62,18 +62,6 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center sc-logo-spring" style={{ marginBottom: 20 }}>
-          <span className="block sm:hidden">
-            <Logo size={240} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
-          <span className="hidden sm:block lg:hidden">
-            <Logo size={320} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
-          <span className="hidden lg:block">
-            <Logo size={300} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
-        </div>
-
         {/* Visible pill — clear blue tint per design spec */}
         <div className="inline-flex animate-fade-in" style={{ marginBottom: 16 }}>
           <div className="rounded-full bg-[#EBF4FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] px-4 py-1.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(33,150,243,0.08)]">
