@@ -128,8 +128,9 @@ export function DesktopTimeline({
     <>
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden relative z-0">
       {/* Dentist Headers */}
-      <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1]">
+      <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1] overflow-hidden">
           <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
+        <div className="flex flex-1 min-w-[640px]">
         {dentistColumns.map(({ dentist, clinicId, key }) => {
           const clinic = mockClinics.find(c => c.id === clinicId);
           return (
@@ -153,6 +154,7 @@ export function DesktopTimeline({
             </div>
           );
         })}
+        </div>
       </div>
 
       {/* Timeline Grid - CSS Grid with fixed slot heights */}
