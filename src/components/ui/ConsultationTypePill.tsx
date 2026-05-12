@@ -1,4 +1,4 @@
-import { ConsultationCategory, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { CATEGORY_PILL_EMOJIS, ConsultationCategory, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { CSSProperties, ReactNode } from 'react';
@@ -33,6 +33,7 @@ export function ConsultationTypePill({
   const hex = CATEGORY_COLORS[category].hex;
   const pillStyle = getCategoryBadgeStyle(hex);
   const text = label ?? getCategoryLabel(t, category);
+  const emoji = CATEGORY_PILL_EMOJIS[category];
   const sizeClass =
     size === 'sm'
       ? 'text-[9px] font-bold leading-none'
@@ -49,6 +50,7 @@ export function ConsultationTypePill({
       style={{ ...pillStyle, ...padStyle, ...style }}
     >
       {children}
+      {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
       {text}
     </span>
   );
