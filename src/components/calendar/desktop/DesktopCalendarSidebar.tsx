@@ -6,11 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dentist, UserRole } from '@/types/calendar';
+import type { Consultation } from '@/types/calendar';
 import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
+import { ConsultationHoverPreview } from './ConsultationHoverPreview';
 
 interface DesktopCalendarSidebarProps {
   selectedDate: Date;
@@ -27,6 +29,7 @@ interface DesktopCalendarSidebarProps {
   onSelectPresentDentists?: () => void;
   isTodosSelected?: boolean;
   onToggleTodos?: () => void;
+  hoveredConsultation?: Consultation | null;
 }
 
 export function DesktopCalendarSidebar({
@@ -43,6 +46,7 @@ export function DesktopCalendarSidebar({
   onSelectPresentDentists,
   isTodosSelected = false,
   onToggleTodos,
+  hoveredConsultation,
 }: DesktopCalendarSidebarProps) {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -112,8 +116,19 @@ export function DesktopCalendarSidebar({
     });
   };
 
+  if (hoveredConsultation) {
+    return (
+      <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
+        <div className="flex-1 overflow-y-auto transition-opacity duration-150 ease-in-out opacity-100">
+          <ConsultationHoverPreview consultation={hoveredConsultation} />
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
+      <div className="contents transition-opacity duration-150 ease-in-out opacity-100">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
@@ -349,6 +364,7 @@ export function DesktopCalendarSidebar({
       {/* Footer */}
       <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
         <p className="text-[9px] text-muted-foreground">SmileCheck © 2026</p>
+      </div>
       </div>
     </aside>
   );
