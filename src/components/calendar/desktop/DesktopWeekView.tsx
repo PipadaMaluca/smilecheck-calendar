@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { Consultation, TimeSlot, CATEGORY_COLORS, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { mockConsultations, generateTimeSlots } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -16,6 +16,7 @@ interface DesktopWeekViewProps {
   onStatusChange?: (consultation: Consultation, status: ConsultationStatus) => void;
   onCopy?: (consultation: Consultation) => void;
   onDragMove?: (consultation: Consultation, fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void;
+  onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
 const SLOT_HEIGHT = 40;
@@ -37,6 +38,7 @@ export function DesktopWeekView({
   onStatusChange,
   onCopy,
   onDragMove,
+  onConsultationHover,
 }: DesktopWeekViewProps) {
   const { t } = useTranslation();
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
@@ -146,7 +148,7 @@ export function DesktopWeekView({
               <div
                 key={dayKey}
                 className={cn(
-                  'flex-1 relative border-l border-border',
+                  'flex-1 min-w-0 overflow-hidden box-border relative border-l border-border',
                   isToday && 'bg-primary/5'
                 )}
                 style={{ height: TOTAL_SLOTS * SLOT_HEIGHT }}
@@ -191,6 +193,7 @@ export function DesktopWeekView({
                   const c = slot.consultation!;
                   const category = c.category || 'restauracao';
                   const colors = CATEGORY_COLORS[category] || CATEGORY_COLORS.restauracao;
+                  const pillEmoji = CATEGORY_PILL_EMOJIS[category];
 
                   return (
                     <div
@@ -212,6 +215,8 @@ export function DesktopWeekView({
                         height: spanCount * SLOT_HEIGHT - 2,
                       }}
                       onClick={() => onSlotClick(slot)}
+                      onMouseEnter={() => onConsultationHover?.(c)}
+                      onMouseLeave={() => onConsultationHover?.(null)}
                       onContextMenu={(e) => handleContextMenu(e, c)}
                     >
                       <div className="px-1.5 py-0.5 text-[10px] leading-tight min-w-0">
@@ -221,6 +226,7 @@ export function DesktopWeekView({
                             className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap opacity-95 flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
+                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                             {getCategoryLabel(t, category)}
                           </span>
                           {c.notes && (
