@@ -383,6 +383,7 @@ export function DesktopTimeline({
                                 className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
+                                {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                                 {getConsultationLabel(t, consultation)}
                               </span>
                               {consultation.notes && (
