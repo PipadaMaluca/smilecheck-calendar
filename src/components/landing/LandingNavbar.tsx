@@ -129,8 +129,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         <div className="hidden md:block">
           <div className="relative flex items-center justify-between h-16 lg:h-20 gap-3">
             <a href="#" className="flex-shrink-0 flex items-center gap-2 relative z-10 h-full py-1">
-              <span className="lg:hidden"><Logo variant="horizontal" size={36} /></span>
-              <span className="hidden lg:inline-flex"><Logo variant="horizontal" size={44} /></span>
+              <span className="lg:hidden"><Logo variant="horizontal" size={160} /></span>
+              <span className="hidden lg:inline-flex"><Logo variant="horizontal" size={200} /></span>
             </a>
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
