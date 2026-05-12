@@ -470,7 +470,8 @@ export function DesktopCalendarView() {
           setSlotCreation({ date: selectedDate, time, dentistKey: dKey, dentistName: dName });
         }
       }}
-      onDragMove={handleTimelineDragMove} />;
+      onDragMove={handleTimelineDragMove}
+      onConsultationHover={setHoveredConsultation} />;
 
   };
 
