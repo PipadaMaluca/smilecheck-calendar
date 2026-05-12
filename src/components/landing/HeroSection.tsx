@@ -111,6 +111,11 @@ export function HeroSection() {
             {t('demoBanner.disclaimer')}
           </p>
         )}
+
+        {/* Dashboard preview placeholder */}
+        <div className="relative mx-auto w-full max-w-5xl mt-8 mb-12 rounded-2xl overflow-hidden border border-[#D6E4F0] dark:border-[#1E3A5F] bg-gradient-to-br from-[#EBF4FF] to-white dark:from-[#0D2137] dark:to-[#0A1929] shadow-2xl shadow-[#2196F3]/10 aspect-[16/9] flex items-center justify-center">
+          <span className="text-sm sm:text-base font-medium text-[#4A5568] dark:text-[#94A3B8]">Dashboard Preview</span>
+        </div>
       </div>
 
       {/* Stats bar */}
