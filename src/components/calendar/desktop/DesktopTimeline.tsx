@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Ban } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
+import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
@@ -29,6 +29,7 @@ interface DesktopTimelineProps {
   isPasteMode?: boolean;
   onEmptySlotClick?: (time: string, dentistKey: string, dentistName: string) => void;
   onDragMove?: (consultation: Consultation, fromTime: string, fromDentistKey: string, fromDentistName: string, toTime: string, toDentistKey: string, toDentistName: string) => void;
+  onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
 // FIXED: Slot heights - fixed and immutable (40px desktop)
@@ -72,6 +73,7 @@ export function DesktopTimeline({
   isPasteMode,
   onEmptySlotClick,
   onDragMove,
+  onConsultationHover,
 }: DesktopTimelineProps) {
   const { t } = useTranslation();
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -127,13 +129,13 @@ export function DesktopTimeline({
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden relative z-0">
       {/* Dentist Headers */}
       <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1]">
-        <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
+          <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
         {dentistColumns.map(({ dentist, clinicId, key }) => {
           const clinic = mockClinics.find(c => c.id === clinicId);
           return (
             <div 
               key={key} 
-              className="flex-1 px-3 py-2 border-l border-border first:border-l-0 min-w-[180px]"
+              className="flex-[1_1_0] min-w-0 overflow-hidden box-border px-3 py-2 border-l border-border first:border-l-0"
             >
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
@@ -180,7 +182,7 @@ export function DesktopTimeline({
           </div>
 
           {/* Dentist Columns */}
-          <div className="flex-1 flex relative">
+          <div className="flex-1 min-w-[640px] flex relative">
             {/* Grid lines */}
             <div 
               className="absolute inset-0 pointer-events-none"
