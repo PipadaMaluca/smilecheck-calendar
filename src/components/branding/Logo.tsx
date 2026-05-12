@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const LOGO_SRC = '/assets/smilecheck-logo-blue.png';
+const LOGO_SQUARE_SRC = '/logos/smilecheck-square.png';
+const LOGO_HORIZONTAL_SRC = '/logos/smilecheck-horizontal.png';
 
 interface LogoProps {
   size?: number;
-  variant?: 'auto' | 'blue' | 'white';
+  variant?: 'square' | 'horizontal' | 'auto' | 'blue' | 'white';
   forceInverse?: boolean;
   withWordmark?: boolean;
   className?: string;
@@ -21,6 +22,7 @@ function getDark() {
 
 export function Logo({
   size = 40,
+  variant = 'square',
   withWordmark = false,
   className,
   alt = 'SmileCheck',
@@ -40,7 +42,22 @@ export function Logo({
     };
   }, []);
 
+  if (variant === 'horizontal') {
+    return (
+      <img
+        src={LOGO_HORIZONTAL_SRC}
+        alt={alt}
+        style={{ height: size, width: 'auto' }}
+        className={cn('object-contain select-none', className)}
+        draggable={false}
+      />
+    );
+  }
+
   // Framed app-icon style per brand spec.
+  // The new logo artwork already ships with its own dark rounded square,
+  // so we render it unframed on top of any background and it looks intentional.
+  const LOGO_SRC = LOGO_SQUARE_SRC;
   const frameBg = dark ? '#0D2137' : '#FFFFFF';
   const frameBorder = dark ? '#1E3A5F' : '#D6E4F0';
   const framePadding = Math.max(2, Math.round(size * 0.08));
@@ -49,7 +66,7 @@ export function Logo({
 
   return (
     <span className={cn('inline-flex items-center gap-2 select-none', className)}>
-      {unframed ? (
+      {(unframed || true) ? (
         <img
           src={LOGO_SRC}
           alt={alt}
