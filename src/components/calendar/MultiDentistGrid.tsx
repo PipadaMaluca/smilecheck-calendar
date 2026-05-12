@@ -68,6 +68,10 @@ export function MultiDentistGrid({
   // Mobile detection - single vs multi dentist
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length > 1;
+  const timeColumnWidth = isSingleColumn ? '40px' : '64px';
+  const agendaGridTemplate = isSingleColumn
+    ? `${timeColumnWidth} minmax(0, 1fr)`
+    : `${timeColumnWidth} repeat(${columns.length}, minmax(200px, 1fr))`;
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
   // Spec: 7+ cols → 8/7px;  4-6 cols → 9/8px;  1-3 cols → 10/9px.
@@ -85,9 +89,9 @@ export function MultiDentistGrid({
       // Single dentist: no horizontal scroll, full width
       isSingleColumn && "calendar-grid-single w-full max-w-[100vw] overflow-x-hidden",
       // Multi dentist: allow horizontal scroll - NO padding left for sticky time column
-      isMultiColumn && "calendar-grid-multi overflow-x-auto"
+      isMultiColumn && "calendar-grid-multi w-full max-w-full overflow-x-auto"
     )}
-    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0 } : undefined}
+    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0, width: '100%', maxWidth: '100%' } : undefined}
     >
       <div className="relative">
         {/* Scroll indicator - only for multiple columns */}
@@ -95,25 +99,26 @@ export function MultiDentistGrid({
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
-        <div style={isSingleColumn ? { width: '100%' } : { minWidth: `${Math.max(600, columns.length * 200)}px` }}>
+        <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn ? '100%' : undefined }}>
           {/* Dentist Headers */}
           <div className={cn(
-            "flex border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
+            "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
             isSingleColumn && "calendar-grid-mobile"
-          )}>
+          )} style={{ gridTemplateColumns: agendaGridTemplate }}>
             <div className={cn(
-              "flex-shrink-0",
-              isSingleColumn ? "w-10 time-column-mobile" : "w-16",
+              "min-w-0",
+              isSingleColumn ? "time-column-mobile" : "time-column-mobile",
               isMultiColumn && "sticky left-0 bg-background z-10"
             )} />
             {columns.map((col, idx) => (
               <div 
                 key={`${col.clinic.id}-${col.dentist.id}-${idx}`} 
+                data-dentist-header
                 className={cn(
-                  "text-center px-2",
+                  "text-center px-2 min-w-0 overflow-hidden",
                   isSingleColumn 
                     ? "flex-1 min-w-0 dentist-column-mobile dentist-header-mobile" 
-                    : "flex-1 min-w-[180px]"
+                    : "dentist-column-mobile border-l border-[hsl(0_0%_100%/0.08)]"
                 )}
               >
                 <p className="text-[11px] font-bold leading-tight truncate" title={col.dentist.name}>
@@ -128,12 +133,11 @@ export function MultiDentistGrid({
           </div>
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
-          <div className={cn("flex calendar-grid-mobile", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px` }}>
+          <div data-agenda-grid-row className={cn("grid", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px`, gridTemplateColumns: agendaGridTemplate }}>
             {/* Time Column - sticky when multi-column for scroll with SOLID background */}
             <div 
               className={cn(
-                "flex-shrink-0 time-column-mobile bg-[#F8FAFC] dark:bg-[#0D2137] border-r border-[#E2E8F0] dark:border-[#1E3A5F]",
-                isSingleColumn ? "w-10" : "w-16",
+                "time-column-mobile bg-[#F8FAFC] dark:bg-[#0D2137] border-r border-[#E2E8F0] dark:border-[#1E3A5F]",
                 isMultiColumn && "sticky left-0 z-10"
               )}
               style={{
