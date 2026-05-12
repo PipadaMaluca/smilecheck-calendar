@@ -55,6 +55,14 @@ export const dentistWorksOnDemo = (clinicId: string, dentistId: string): boolean
   return record?.worksOnDemo ?? false;
 };
 
+const createDateOfBirth = (age?: number) => {
+  if (!age) return undefined;
+  const referenceYear = 2026;
+  const month = Math.max(1, ((age * 7) % 12) + 1);
+  const day = Math.max(1, ((age * 11) % 28) + 1);
+  return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${referenceYear - age}`;
+};
+
 const createPatient = (id: string, name: string, phone: string, rating: number, level: string, age?: number) => ({
   id,
   name,
@@ -62,6 +70,7 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   rating,
   level,
   age,
+  dateOfBirth: createDateOfBirth(age),
 });
 
 // Family members for patient view - with ages
