@@ -131,6 +131,7 @@ export function DesktopCalendarView() {
   const [pendingOverlapMove, setPendingOverlapMove] = useState<DragMoveInfo | null>(null);
   const [slotCreation, setSlotCreation] = useState<{date: Date;time: string;dentistKey?: string;dentistName?: string;} | null>(null);
   const [detailConsultation, setDetailConsultation] = useState<Consultation | null>(null);
+  const [hoveredConsultation, setHoveredConsultation] = useState<Consultation | null>(null);
   const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
   const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
   const appointmentDates = mockConsultations.map((c) => c.date);
@@ -410,7 +411,7 @@ export function DesktopCalendarView() {
     if (activeRole === 'patient') {
       return <PatientSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} familyMembers={mockFamilyMembers} selectedMemberIds={selectedFamilyMemberIds} onMemberToggle={handleFamilyMemberToggle} onSelectAllMembers={handleSelectAllFamilyMembers} appointmentDates={appointmentDates} onNewConsultation={() => {setShowTriage(true);setActiveNavTab('agenda');}} />;
     }
-    return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} onSelectPresentDentists={handleSelectPresentDentists} onClinicToggle={handleClinicToggle} appointmentDates={appointmentDates} userRole={activeRole} isTodosSelected={isTodosSelected} onToggleTodos={handleToggleTodos} />;
+    return <DesktopCalendarSidebar selectedDate={selectedDate} onDateSelect={setSelectedDate} dentists={mockDentists} selectedDentistIds={selectedDentistIds} onDentistToggle={handleDentistToggle} onSelectAllDentists={handleSelectAllDentists} onSelectPresentDentists={handleSelectPresentDentists} onClinicToggle={handleClinicToggle} appointmentDates={appointmentDates} userRole={activeRole} isTodosSelected={isTodosSelected} onToggleTodos={handleToggleTodos} hoveredConsultation={activeNavTab === 'agenda' ? hoveredConsultation : null} />;
   };
 
   const renderContent = () => {
@@ -430,7 +431,7 @@ export function DesktopCalendarView() {
       );
     }
     if (viewMode === 'list') {
-      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => {if (activeRole === 'dentist' || activeRole === 'clinic') {setDetailConsultation(c);} else {setSelectedConsultation(c);}}} />;
+      return <ListView consultations={dayConsultations} dentists={dentistsForTimeline.map((d) => d.dentist)} onConsultationClick={(c) => {setHoveredConsultation(null);if (activeRole === 'dentist' || activeRole === 'clinic') {setDetailConsultation(c);} else {setSelectedConsultation(c);}}} onConsultationHover={setHoveredConsultation} />;
     }
     if (viewMode === 'week') {
       return <DesktopWeekView
@@ -441,7 +442,8 @@ export function DesktopCalendarView() {
         onViewModeChange={(m) => setViewMode(m)}
         onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
         onCopy={(c) => {setClipboardConsultation(c);toast.info('Clique num slot vazio para colar a consulta');}}
-        onDragMove={handleWeekDragMove} />;
+        onDragMove={handleWeekDragMove}
+        onConsultationHover={setHoveredConsultation} />;
 
     }
     if (viewMode === 'month') {
