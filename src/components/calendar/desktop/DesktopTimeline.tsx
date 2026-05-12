@@ -223,7 +223,7 @@ export function DesktopTimeline({
                   <div 
                     key={key} 
                     className={cn(
-                      "flex-1 min-w-[180px] bg-[#2A3A4A] flex items-center justify-center",
+                      "flex-[1_1_0] min-w-0 overflow-hidden box-border bg-[#2A3A4A] flex items-center justify-center",
                       colIdx > 0 && 'border-l border-border'
                     )}
                     style={{ minHeight: `${TOTAL_SLOTS * SLOT_HEIGHT}px` }}
@@ -265,7 +265,7 @@ export function DesktopTimeline({
                 <div 
                   key={key} 
                   className={cn(
-                    "flex-1 min-w-[180px] relative",
+                    "flex-[1_1_0] min-w-0 overflow-hidden box-border relative",
                     colIdx > 0 && 'border-l border-border'
                   )}
                   style={{
@@ -332,6 +332,7 @@ export function DesktopTimeline({
                     const styles = getConsultationStyles(consultation);
                     const consultStatus = consultation.status || 'agendada';
                     const statusCfg = STATUS_CONFIG[consultStatus];
+                    const pillEmoji = CATEGORY_PILL_EMOJIS[consultation.category || 'restauracao'];
                     
                       return (
                         <div
@@ -343,6 +344,8 @@ export function DesktopTimeline({
                             setDraggedConsultation({ consultation, fromTime: slot.time, fromKey: key, fromName: dentist.name });
                           }}
                           onDragEnd={() => setDraggedConsultation(null)}
+                           onMouseEnter={() => onConsultationHover?.(consultation)}
+                           onMouseLeave={() => onConsultationHover?.(null)}
                           onClick={() => onSlotClick(slot)}
                           onContextMenu={(e) => {
                             e.preventDefault();
