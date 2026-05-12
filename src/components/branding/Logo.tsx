@@ -42,12 +42,19 @@ export function Logo({
     };
   }, []);
 
+  // Light-mode adaptation: the logo PNGs ship with a #0A1929 background.
+  // mix-blend-mode: multiply makes that dark background disappear on light pages
+  // while preserving the colored logo elements.
+  const lightModeImgStyle = !dark
+    ? { mixBlendMode: 'screen' as const, filter: 'brightness(1.05)' }
+    : undefined;
+
   if (variant === 'horizontal') {
     return (
       <img
         src={LOGO_HORIZONTAL_SRC}
         alt={alt}
-        style={{ height: size, width: 'auto' }}
+        style={{ width: size, height: 'auto', ...lightModeImgStyle }}
         className={cn('object-contain select-none', className)}
         draggable={false}
       />
@@ -64,13 +71,21 @@ export function Logo({
   const innerSize = size - framePadding * 2;
   const radius = Math.max(6, Math.round(size * 0.22));
 
+  const squareRadius = Math.max(12, Math.round(size * 0.22));
+
   return (
     <span className={cn('inline-flex items-center gap-2 select-none', className)}>
       {(unframed || true) ? (
         <img
           src={LOGO_SRC}
           alt={alt}
-          style={{ height: size, width: 'auto' }}
+          style={{
+            height: size,
+            width: size,
+            borderRadius: squareRadius,
+            overflow: 'hidden',
+            ...lightModeImgStyle,
+          }}
           className="object-contain"
           draggable={false}
         />
