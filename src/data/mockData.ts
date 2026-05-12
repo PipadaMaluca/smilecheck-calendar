@@ -73,6 +73,16 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   dateOfBirth: createDateOfBirth(age),
 });
 
+const withRequiredConsultationFields = (consultation: Consultation): Consultation => ({
+  ...consultation,
+  status: consultation.status || ('agendada' as ConsultationStatus),
+  notes: consultation.notes || 'Observação clínica',
+  patient: {
+    ...consultation.patient,
+    dateOfBirth: consultation.patient.dateOfBirth || createDateOfBirth(consultation.patient.age),
+  },
+});
+
 // Family members for patient view - with ages
 export const mockFamilyMembers = [
   { id: 'fm1', name: 'João Silva', age: 45, relation: 'Eu' },
@@ -85,7 +95,7 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 // Patient consultations - 6 upcoming for João Silva, spread across next 2 weeks
 // Anchored on Jan 31, 2026 (demo truth source); upcoming = Feb 2..Feb 14, 2026
-export const mockPatientConsultations: Consultation[] = [
+export const mockPatientConsultations: Consultation[] = ([
   {
     id: 'pat-1',
     type: 'presencial',
@@ -170,10 +180,10 @@ export const mockPatientConsultations: Consultation[] = [
     isPaid: false,
     notes: 'Manutenção periodontal',
   },
-];
+ ] as Consultation[]).map(withRequiredConsultationFields);
 
 // ===== JANUARY 31 - Full Day Demo for ALL Dentists =====
-export const mockConsultations: Consultation[] = [
+export const mockConsultations: Consultation[] = ([
   // ==========================================
   // DR. GONÇALO PIPO - CLÍNICA SMILECHECK (Generalista)
   // ==========================================
