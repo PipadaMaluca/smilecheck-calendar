@@ -129,9 +129,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         <div className="hidden md:block">
           <div className="relative flex items-center justify-between h-16 lg:h-20 gap-3">
             <a href="#" className="flex-shrink-0 flex items-center gap-2 relative z-10 h-full py-1">
-              <span className="lg:hidden"><Logo size={50} /></span>
-              <span className="hidden lg:inline-flex"><Logo size={65} /></span>
-              <span className={cn('hidden lg:inline font-bold text-xl tracking-tight', isDark ? 'text-white' : 'text-[#1A202C]')}>SmileCheck</span>
+              <span className="lg:hidden"><Logo variant="horizontal" size={36} /></span>
+              <span className="hidden lg:inline-flex"><Logo variant="horizontal" size={44} /></span>
             </a>
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
