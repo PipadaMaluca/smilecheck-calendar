@@ -47,11 +47,8 @@ export function Logo({
       <img
         src={LOGO_HORIZONTAL_SRC}
         alt={alt}
-        style={{ width: size, height: 'auto', borderRadius: 12 }}
-        className={cn(
-          'object-contain select-none logo-horizontal shadow-[0_2px_8px_rgba(0,0,0,0.12)] dark:shadow-none',
-          className
-        )}
+        style={{ height: size, width: 'auto' }}
+        className={cn('object-contain select-none', className)}
         draggable={false}
       />
     );
@@ -73,8 +70,8 @@ export function Logo({
         <img
           src={LOGO_SRC}
           alt={alt}
-          style={{ height: size, width: 'auto', borderRadius: 20 }}
-          className="object-contain logo-square shadow-[0_2px_8px_rgba(0,0,0,0.12)] dark:shadow-none"
+          style={{ height: size, width: 'auto' }}
+          className="object-contain"
           draggable={false}
         />
       ) : (
