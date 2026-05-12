@@ -1,5 +1,5 @@
 import { Video, MapPin, Lock } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -72,6 +72,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
         const consultation = slot.consultation;
         const category = consultation?.category || 'restauracao';
         const colors = CATEGORY_COLORS[category];
+        const pillEmoji = CATEGORY_PILL_EMOJIS[category];
         const isTeleconsulta = consultation?.type === 'teleconsulta';
         // Patient info with age
         const patientAge = consultation?.patient.age;
@@ -129,6 +130,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                     className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                     style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
+                    {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                     {getCategoryLabel(t, category)}
                   </span>
                   {showNotes && consultation.notes && (

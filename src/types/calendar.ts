@@ -32,6 +32,7 @@ export interface Patient {
   level: string;
   avatar?: string;
   age?: number;
+  dateOfBirth?: string;
 }
 
 export interface Dentist {
@@ -160,6 +161,11 @@ export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   urgencia: 'Urgência',
   teleconsulta: 'Teleconsulta',
   outro: 'Outro',
+};
+
+export const CATEGORY_PILL_EMOJIS: Partial<Record<ConsultationCategory, string>> = {
+  urgencia: '⚠️',
+  teleconsulta: '📹',
 };
 
 // i18n key mapping for each category

@@ -1,4 +1,4 @@
-import { TimeSlot, Consultation, CATEGORY_COLORS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
@@ -193,6 +193,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   
                   const category = consultation.category || 'restauracao';
                   const colors = CATEGORY_COLORS[category];
+                  const pillEmoji = CATEGORY_PILL_EMOJIS[category];
                   // First name + last name
                   const nameParts = consultation.patient.name.split(' ');
                   const firstName = nameParts[0];
@@ -236,6 +237,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                             className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
+                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                             {getCategoryLabel(t, category)}
                           </span>
                           {consultation.notes && (

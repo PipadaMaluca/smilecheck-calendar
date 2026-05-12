@@ -1448,11 +1448,15 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 /* Container: tight padding so text uses the slot height */
 .appt-block {
   padding: 1px 4px 1px 6px !important;
-  overflow: visible !important;
+  overflow: hidden !important;
   max-height: none !important;
   align-items: flex-start !important;
   justify-content: flex-start !important;
   z-index: 1;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 .appt-block > * { max-height: none !important; }
 /* Kill any inner wrapper padding so Line 1 is flush with top */
@@ -1501,6 +1505,8 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   flex-shrink: 0 !important;
   font-weight: 700 !important;
   line-height: 1.1 !important;
+  white-space: nowrap !important;
+  gap: 4px !important;
 }
 .appt-block [data-line="type-row"] [data-notes] {
   display: block !important;

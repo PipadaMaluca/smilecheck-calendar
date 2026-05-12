@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MoreHorizontal, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -18,9 +18,10 @@ interface ListViewProps {
   consultations: Consultation[];
   dentists: Dentist[];
   onConsultationClick: (consultation: Consultation) => void;
+  onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-export function ListView({ consultations, dentists, onConsultationClick }: ListViewProps) {
+export function ListView({ consultations, dentists, onConsultationClick, onConsultationHover }: ListViewProps) {
   const { t } = useTranslation();
   // Sort consultations by time
   const sortedConsultations = [...consultations].sort((a, b) => {
@@ -70,11 +71,14 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
             {sortedConsultations.map((consultation) => {
               const category = consultation.category || 'restauracao';
               const colors = CATEGORY_COLORS[category];
+              const pillEmoji = CATEGORY_PILL_EMOJIS[category];
               return (
                 <TableRow
                   key={consultation.id}
                   className="border-b border-[#1E3A5F]/50 cursor-pointer hover:bg-[#152238] transition-colors"
                   onClick={() => onConsultationClick(consultation)}
+                  onMouseEnter={() => onConsultationHover?.(consultation)}
+                  onMouseLeave={() => onConsultationHover?.(null)}
                 >
                   {/* Color indicator + Dentist */}
                   <TableCell className="py-2">
@@ -138,6 +142,7 @@ export function ListView({ consultations, dentists, onConsultationClick }: ListV
                         className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
+                        {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                         {getCategoryLabel(t, category)}
                       </span>
                       {consultation.notes && (

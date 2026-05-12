@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Ban } from 'lucide-react';
@@ -33,6 +33,7 @@ interface MultiDentistGridProps {
   onEmptySlotClick?: (dentistId: string, clinicId: string, time: string) => void;
   showFullName?: boolean;
   onDragMove?: (consultation: Consultation, fromDentistId: string, fromClinicId: string, fromTime: string, toDentistId: string, toClinicId: string, toTime: string) => void;
+  onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
 // FIXED: Slot height is constant and immutable (38px tablet)
@@ -52,6 +53,7 @@ export function MultiDentistGrid({
   onEmptySlotClick,
   showFullName = false,
   onDragMove,
+  onConsultationHover,
 }: MultiDentistGridProps) {
   const { t } = useTranslation();
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
@@ -71,7 +73,7 @@ export function MultiDentistGrid({
   const timeColumnWidth = isSingleColumn ? '40px' : '64px';
   const agendaGridTemplate = isSingleColumn
     ? `${timeColumnWidth} minmax(0, 1fr)`
-    : `${timeColumnWidth} repeat(${columns.length}, minmax(200px, 1fr))`;
+    : `${timeColumnWidth} repeat(${columns.length}, minmax(0, 1fr))`;
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
   // Spec: 7+ cols → 8/7px;  4-6 cols → 9/8px;  1-3 cols → 10/9px.
@@ -93,13 +95,13 @@ export function MultiDentistGrid({
     )}
     style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0, width: '100%', maxWidth: '100%' } : undefined}
     >
-      <div className="relative">
+        <div className="relative min-w-0" style={{ width: '100%' }}>
         {/* Scroll indicator - only for multiple columns */}
         {columns.length > 3 && isMultiColumn && (
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
-        <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn ? '100%' : undefined }}>
+          <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn ? '640px' : undefined }}>
           {/* Dentist Headers */}
           <div className={cn(
             "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
@@ -279,6 +281,7 @@ export function MultiDentistGrid({
                     const colors = CATEGORY_COLORS[category];
                     const patientName = consultation.patient.name || '';
                     const patientAge = consultation.patient.age;
+                    const pillEmoji = CATEGORY_PILL_EMOJIS[category];
                     const displayName = showFullName 
                       ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
                       : patientName.split(' ')[0];
@@ -293,6 +296,8 @@ export function MultiDentistGrid({
                           setDraggedConsultation({ consultation, fromDentistId: col.dentist.id, fromClinicId: col.clinic.id, fromTime: slot.time });
                         }}
                         onDragEnd={() => setDraggedConsultation(null)}
+                        onMouseEnter={() => onConsultationHover?.(consultation)}
+                        onMouseLeave={() => onConsultationHover?.(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
@@ -321,6 +326,7 @@ export function MultiDentistGrid({
                             className={cn("inline-flex items-center font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
                           >
+                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                             <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
                             <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
                           </span>

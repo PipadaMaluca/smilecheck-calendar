@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Ban } from 'lucide-react';
-import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
+import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
@@ -29,6 +29,7 @@ interface DesktopTimelineProps {
   isPasteMode?: boolean;
   onEmptySlotClick?: (time: string, dentistKey: string, dentistName: string) => void;
   onDragMove?: (consultation: Consultation, fromTime: string, fromDentistKey: string, fromDentistName: string, toTime: string, toDentistKey: string, toDentistName: string) => void;
+  onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
 // FIXED: Slot heights - fixed and immutable (40px desktop)
@@ -72,6 +73,7 @@ export function DesktopTimeline({
   isPasteMode,
   onEmptySlotClick,
   onDragMove,
+  onConsultationHover,
 }: DesktopTimelineProps) {
   const { t } = useTranslation();
   const timelineRef = useRef<HTMLDivElement>(null);
@@ -126,14 +128,15 @@ export function DesktopTimeline({
     <>
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden relative z-0">
       {/* Dentist Headers */}
-      <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1]">
-        <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
+      <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1] overflow-hidden">
+          <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
+        <div className="flex flex-1 min-w-[640px]">
         {dentistColumns.map(({ dentist, clinicId, key }) => {
           const clinic = mockClinics.find(c => c.id === clinicId);
           return (
             <div 
               key={key} 
-              className="flex-1 px-3 py-2 border-l border-border first:border-l-0 min-w-[180px]"
+              className="flex-[1_1_0] min-w-0 overflow-hidden box-border px-3 py-2 border-l border-border first:border-l-0"
             >
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
@@ -151,6 +154,7 @@ export function DesktopTimeline({
             </div>
           );
         })}
+        </div>
       </div>
 
       {/* Timeline Grid - CSS Grid with fixed slot heights */}
@@ -180,7 +184,7 @@ export function DesktopTimeline({
           </div>
 
           {/* Dentist Columns */}
-          <div className="flex-1 flex relative">
+          <div className="flex-1 min-w-[640px] flex relative">
             {/* Grid lines */}
             <div 
               className="absolute inset-0 pointer-events-none"
@@ -220,8 +224,9 @@ export function DesktopTimeline({
                 return (
                   <div 
                     key={key} 
+                    data-agenda-column
                     className={cn(
-                      "flex-1 min-w-[180px] bg-[#2A3A4A] flex items-center justify-center",
+                      "flex-[1_1_0] min-w-0 overflow-hidden box-border bg-[#2A3A4A] flex items-center justify-center",
                       colIdx > 0 && 'border-l border-border'
                     )}
                     style={{ minHeight: `${TOTAL_SLOTS * SLOT_HEIGHT}px` }}
@@ -262,8 +267,9 @@ export function DesktopTimeline({
               return (
                 <div 
                   key={key} 
+                  data-agenda-column
                   className={cn(
-                    "flex-1 min-w-[180px] relative",
+                    "flex-[1_1_0] min-w-0 overflow-hidden box-border relative",
                     colIdx > 0 && 'border-l border-border'
                   )}
                   style={{
@@ -330,6 +336,7 @@ export function DesktopTimeline({
                     const styles = getConsultationStyles(consultation);
                     const consultStatus = consultation.status || 'agendada';
                     const statusCfg = STATUS_CONFIG[consultStatus];
+                    const pillEmoji = CATEGORY_PILL_EMOJIS[consultation.category || 'restauracao'];
                     
                       return (
                         <div
@@ -341,6 +348,8 @@ export function DesktopTimeline({
                             setDraggedConsultation({ consultation, fromTime: slot.time, fromKey: key, fromName: dentist.name });
                           }}
                           onDragEnd={() => setDraggedConsultation(null)}
+                           onMouseEnter={() => onConsultationHover?.(consultation)}
+                           onMouseLeave={() => onConsultationHover?.(null)}
                           onClick={() => onSlotClick(slot)}
                           onContextMenu={(e) => {
                             e.preventDefault();
@@ -348,7 +357,7 @@ export function DesktopTimeline({
                             setContextMenu({ consultation, x: e.clientX, y: e.clientY });
                           }}
                           className={cn(
-                            "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
+                             "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:shadow-lg overflow-hidden",
                             draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                           )}
                           style={{
@@ -378,6 +387,7 @@ export function DesktopTimeline({
                                 className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
+                                {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                                 {getConsultationLabel(t, consultation)}
                               </span>
                               {consultation.notes && (

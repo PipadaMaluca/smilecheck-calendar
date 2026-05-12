@@ -55,6 +55,14 @@ export const dentistWorksOnDemo = (clinicId: string, dentistId: string): boolean
   return record?.worksOnDemo ?? false;
 };
 
+const createDateOfBirth = (age?: number) => {
+  if (!age) return undefined;
+  const referenceYear = 2026;
+  const month = Math.max(1, ((age * 7) % 12) + 1);
+  const day = Math.max(1, ((age * 11) % 28) + 1);
+  return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${referenceYear - age}`;
+};
+
 const createPatient = (id: string, name: string, phone: string, rating: number, level: string, age?: number) => ({
   id,
   name,
@@ -62,6 +70,17 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   rating,
   level,
   age,
+  dateOfBirth: createDateOfBirth(age),
+});
+
+const withRequiredConsultationFields = (consultation: Consultation): Consultation => ({
+  ...consultation,
+  status: consultation.status || ('agendada' as ConsultationStatus),
+  notes: consultation.notes || 'Observação clínica',
+  patient: {
+    ...consultation.patient,
+    dateOfBirth: consultation.patient.dateOfBirth || createDateOfBirth(consultation.patient.age),
+  },
 });
 
 // Family members for patient view - with ages
@@ -76,7 +95,7 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 // Patient consultations - 6 upcoming for João Silva, spread across next 2 weeks
 // Anchored on Jan 31, 2026 (demo truth source); upcoming = Feb 2..Feb 14, 2026
-export const mockPatientConsultations: Consultation[] = [
+export const mockPatientConsultations: Consultation[] = ([
   {
     id: 'pat-1',
     type: 'presencial',
@@ -161,10 +180,10 @@ export const mockPatientConsultations: Consultation[] = [
     isPaid: false,
     notes: 'Manutenção periodontal',
   },
-];
+ ] as Consultation[]).map(withRequiredConsultationFields);
 
 // ===== JANUARY 31 - Full Day Demo for ALL Dentists =====
-export const mockConsultations: Consultation[] = [
+export const mockConsultations: Consultation[] = ([
   // ==========================================
   // DR. GONÇALO PIPO - CLÍNICA SMILECHECK (Generalista)
   // ==========================================
@@ -1659,7 +1678,7 @@ export const mockConsultations: Consultation[] = [
     notes: 'Dor aparelho novo',
     isUrgentTeleconsulta: true,
   },
-];
+] as Consultation[]).map(withRequiredConsultationFields);
 
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {
