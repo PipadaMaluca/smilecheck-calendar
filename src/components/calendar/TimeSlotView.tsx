@@ -130,8 +130,8 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                     className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                     style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
-                    {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                     {getCategoryLabel(t, category)}
+                    {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                   </span>
                   {showNotes && consultation.notes && (
                     <span className="text-[9px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
