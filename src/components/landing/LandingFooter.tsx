@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Instagram, Facebook, Linkedin, Twitter } from 'lucide-react';
+import { Instagram, Facebook, Linkedin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 
@@ -13,7 +12,7 @@ export function LandingFooter() {
     { name: 'Instagram', Icon: Instagram, href: '#' },
     { name: 'Facebook', Icon: Facebook, href: '#' },
     { name: 'LinkedIn', Icon: Linkedin, href: '#' },
-    { name: 'X', Icon: Twitter, href: '#' },
+    { name: 'X', Icon: null, href: '#' },
   ];
 
   return (
@@ -54,16 +53,16 @@ export function LandingFooter() {
             <div className="flex items-center gap-3 mb-4">
               <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} /></span>
             </div>
-            <p className="text-base text-[#94A3B8] max-w-md mb-6 [.light_&]:text-[#4A5568]">{t('landing.footer.tagline')}</p>
-            <div className="flex gap-3 items-center" data-reveal="stagger">
+            <p className="text-base text-[#94A3B8] max-w-md [.light_&]:text-[#94A3B8]">{t('landing.footer.tagline')}</p>
+            <div className="mt-4 flex gap-3 items-center" data-reveal="stagger">
               {socials.map(({ name, Icon, href }) => (
                 <a
                   key={name}
                   href={href}
                   aria-label={name}
-                  className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
+                  className="w-10 h-10 rounded-full bg-white/15 text-white hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#2196F3] [.light_&]:text-white [.light_&]:hover:bg-[#1565C0] [.light_&]:hover:text-white"
                 >
-                  <Icon className={cn("w-5 h-5", name === 'LinkedIn' && "text-slate-50")} />
+                  {Icon ? <Icon className="w-5 h-5" /> : <span className="text-[18px] font-bold leading-none">𝕏</span>}
                 </a>
               ))}
             </div>

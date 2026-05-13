@@ -226,8 +226,8 @@ export function DesktopWeekView({
                             className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap opacity-95 flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
-                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                             {getCategoryLabel(t, category)}
+                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                           </span>
                           {c.notes && (
                             <span data-notes className="text-[7px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">

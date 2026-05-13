@@ -142,8 +142,8 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                         className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
-                        {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                         {getCategoryLabel(t, category)}
+                        {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                       </span>
                       {consultation.notes && (
                         <span className="text-xs text-muted-foreground truncate min-w-0 flex-1">
