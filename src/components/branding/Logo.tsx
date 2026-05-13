@@ -42,22 +42,31 @@ export function Logo({
     };
   }, []);
 
-  // Light-mode adaptation: the logo PNGs ship with a #0A1929 background.
-  // mix-blend-mode: multiply makes that dark background disappear on light pages
-  // while preserving the colored logo elements.
-  const lightModeImgStyle = !dark
-    ? { mixBlendMode: 'screen' as const, filter: 'brightness(1.05)' }
-    : undefined;
-
+  // Light-mode adaptation: the logo PNGs ship with a dark #0A1929 background.
+  // We wrap them in an intentional dark "badge" container in light mode so the
+  // dark rectangle reads as a deliberate design choice instead of a rendering
+  // artifact. In dark mode the badge bg simply blends with the page bg.
   if (variant === 'horizontal') {
     return (
-      <img
-        src={LOGO_HORIZONTAL_SRC}
-        alt={alt}
-        style={{ width: size, height: 'auto', ...lightModeImgStyle }}
-        className={cn('object-contain select-none', className)}
-        draggable={false}
-      />
+      <span
+        className={cn(
+          'inline-flex items-center justify-center select-none',
+          !dark && 'bg-[#0A1929]',
+          className,
+        )}
+        style={{
+          padding: !dark ? '8px 14px' : 0,
+          borderRadius: !dark ? 16 : 0,
+        }}
+      >
+        <img
+          src={LOGO_HORIZONTAL_SRC}
+          alt={alt}
+          style={{ width: size, height: 'auto', display: 'block' }}
+          className="object-contain"
+          draggable={false}
+        />
+      </span>
     );
   }
 
@@ -84,7 +93,6 @@ export function Logo({
             width: size,
             borderRadius: squareRadius,
             overflow: 'hidden',
-            ...lightModeImgStyle,
           }}
           className="object-contain"
           draggable={false}
