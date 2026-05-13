@@ -50,8 +50,8 @@ export function ConsultationTypePill({
       style={{ ...pillStyle, ...padStyle, ...style }}
     >
       {children}
-      {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
       {text}
+      {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
     </span>
   );
 }
