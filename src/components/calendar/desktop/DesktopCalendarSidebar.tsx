@@ -13,6 +13,7 @@ import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
 import { ConsultationHoverPreview } from './ConsultationHoverPreview';
+import { CATEGORY_COLORS } from '@/types/calendar';
 
 interface DesktopCalendarSidebarProps {
   selectedDate: Date;
@@ -116,15 +117,9 @@ export function DesktopCalendarSidebar({
     });
   };
 
-  if (hoveredConsultation) {
-    return (
-      <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
-        <div className="flex-1 overflow-y-auto transition-opacity duration-150 ease-in-out opacity-100">
-          <ConsultationHoverPreview consultation={hoveredConsultation} />
-        </div>
-      </aside>
-    );
-  }
+  const hoverColor = hoveredConsultation
+    ? CATEGORY_COLORS[hoveredConsultation.category || 'restauracao'].hex
+    : undefined;
 
   return (
     <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
@@ -204,6 +199,16 @@ export function DesktopCalendarSidebar({
         </div>
       </div>
 
+      {hoveredConsultation ? (
+        <div
+          key="hover-preview"
+          className="flex-1 overflow-y-auto animate-fade-in"
+          style={{ borderLeft: `4px solid ${hoverColor}` }}
+        >
+          <ConsultationHoverPreview consultation={hoveredConsultation} />
+        </div>
+      ) : (
+      <>
       {/* Agendas Section Header */}
       <div className="p-3 border-b border-[#1E3A5F] flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
@@ -360,6 +365,8 @@ export function DesktopCalendarSidebar({
       <div className="flex-shrink-0">
         <AgendaFilterGroups compact />
       </div>
+      </>
+      )}
 
       {/* Footer */}
       <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
