@@ -45,7 +45,7 @@ export function LandingFooter() {
       </section>
 
       {/* Footer — theme-aware: dark navy (dark mode) / light blue (light mode) */}
-      <footer className="bg-[#0D2137] text-white border-t border-[#1E3A5F] dark:bg-[#0D2137] dark:text-white dark:border-[#1E3A5F] [.light_&]:bg-[#EBF4FF] [.light_&]:text-[#1A202C] [.light_&]:border-[#D6E4F0]">
+      <footer className="text-white border-t border-[#1E3A5F] dark:text-white dark:border-[#1E3A5F] [.light_&]:text-[#1A202C] [.light_&]:border-[#D6E4F0] bg-[#0a1929]">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-10 sm:py-12">
 
           {/* Top: Brand block */}
@@ -56,14 +56,25 @@ export function LandingFooter() {
             <p className="text-base text-[#94A3B8] max-w-md mb-6 [.light_&]:text-[#4A5568]">{t('landing.footer.tagline')}</p>
             <div className="flex gap-3 items-center" data-reveal="stagger">
               {socials.map(({ name, Icon, href }) => (
-                <a
-                  key={name}
-                  href={href}
-                  aria-label={name}
-                  className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
+                {name === 'LinkedIn' ? (
+                  <a
+                    key={name}
+                    href={href}
+                    aria-label={name}
+                    className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
+                  >
+                    <Icon className="w-5 h-5 text-slate-50" />
+                  </a>
+                ) : (
+                  <a
+                    key={name}
+                    href={href}
+                    aria-label={name}
+                    className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                )}
               ))}
             </div>
           </div>
