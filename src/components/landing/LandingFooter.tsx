@@ -56,25 +56,14 @@ export function LandingFooter() {
             <p className="text-base text-[#94A3B8] max-w-md mb-6 [.light_&]:text-[#4A5568]">{t('landing.footer.tagline')}</p>
             <div className="flex gap-3 items-center" data-reveal="stagger">
               {socials.map(({ name, Icon, href }) => (
-                {name === 'LinkedIn' ? (
-                  <a
-                    key={name}
-                    href={href}
-                    aria-label={name}
-                    className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
-                  >
-                    <Icon className="w-5 h-5 text-slate-50" />
-                  </a>
-                ) : (
-                  <a
-                    key={name}
-                    href={href}
-                    aria-label={name}
-                    className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                )}
+                <a
+                  key={name}
+                  href={href}
+                  aria-label={name}
+                  className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
+                >
+                  <Icon className={cn("w-5 h-5", name === 'LinkedIn' && "text-slate-50")} />
+                </a>
               ))}
             </div>
           </div>
