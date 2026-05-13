@@ -55,7 +55,7 @@ export function Logo({
           className,
         )}
         style={{
-          padding: !dark ? '8px 14px' : 0,
+          padding: !dark ? '6px 14px' : 0,
           borderRadius: !dark ? 16 : 0,
         }}
       >
@@ -85,18 +85,27 @@ export function Logo({
   return (
     <span className={cn('inline-flex items-center gap-2 select-none', className)}>
       {(unframed || true) ? (
-        <img
-          src={LOGO_SRC}
-          alt={alt}
+        <span
+          className="inline-flex items-center justify-center"
           style={{
-            height: size,
-            width: size,
-            borderRadius: squareRadius,
-            overflow: 'hidden',
+            background: !dark ? '#0A1929' : 'transparent',
+            borderRadius: !dark ? 20 : 0,
+            padding: !dark ? 8 : 0,
           }}
-          className="object-contain"
-          draggable={false}
-        />
+        >
+          <img
+            src={LOGO_SRC}
+            alt={alt}
+            style={{
+              height: size,
+              width: size,
+              borderRadius: !dark ? 12 : squareRadius,
+              overflow: 'hidden',
+            }}
+            className="object-contain"
+            draggable={false}
+          />
+        </span>
       ) : (
         <span
           aria-label={alt}
