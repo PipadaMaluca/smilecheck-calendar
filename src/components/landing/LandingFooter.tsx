@@ -60,9 +60,9 @@ export function LandingFooter() {
                   key={name}
                   href={href}
                   aria-label={name}
-                  className="w-10 h-10 rounded-full bg-[#1E3A5F] hover:bg-[#2196F3] text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
+                  className="w-10 h-10 rounded-full bg-white/10 text-[#94A3B8] hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#D6E8FF] [.light_&]:text-[#1565C0] [.light_&]:hover:bg-[#2196F3] [.light_&]:hover:text-white"
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-5 h-5" />
                 </a>
               ))}
             </div>

@@ -40,8 +40,8 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
             className="inline-flex items-center gap-1 rounded-full text-sm font-bold leading-none whitespace-nowrap"
             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '3px 10px' }}
           >
-            {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
             {getCategoryLabel(t, category)}
+            {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
           </span>
           <div className="text-[13px] capitalize text-[#64748B] dark:text-[#94A3B8]">
             {format(consultation.date, 'EEE d MMM', { locale })}
