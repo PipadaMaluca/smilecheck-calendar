@@ -42,11 +42,9 @@ const NotFound = () => {
 
       <div className="relative z-10 text-center max-w-md mx-auto space-y-6">
         {/* Logo */}
-        <img
-          src="/assets/smilecheck-logo.png"
-          alt="SmileCheck"
-          className="h-8 mx-auto opacity-60"
-        />
+        <div className="flex justify-center">
+          <Logo variant="full" size={120} />
+        </div>
 
         {/* Illustration */}
         <ToothSearchSVG />
