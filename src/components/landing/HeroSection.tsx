@@ -64,13 +64,13 @@ export function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="flex justify-center sc-logo-spring" style={{ marginBottom: 20 }}>
           <span className="block sm:hidden">
-            <Logo variant="full" size={180} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo variant="full" size={240} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
           <span className="hidden sm:block lg:hidden">
-            <Logo variant="full" size={220} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo variant="full" size={300} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
           <span className="hidden lg:block">
-            <Logo variant="full" size={200} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+            <Logo variant="full" size={280} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
           </span>
         </div>
 
