@@ -8,8 +8,7 @@ import { QRCodeDisplay } from './QRCodeDisplay';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-
-const logoSrc = '/assets/smilecheck-logo-blue.png';
+import { Logo } from '@/components/branding/Logo';
 
 export function LoginScreen() {
   const navigate = useNavigate();
@@ -45,7 +44,7 @@ export function LoginScreen() {
 
   const loginForm = (
     <div className="flex flex-col items-center animate-fade-in">
-      <img src={logoSrc} alt="SmileCheck" className={cn("mb-2", isMobile ? "h-[280px]" : "h-[320px]")} />
+      <Logo variant="full" size={isMobile ? 200 : 240} className="mb-2" />
       <p className="text-muted-foreground mb-6 text-lg">{t('auth.tagline')}</p>
 
       <div className="w-full space-y-4">
