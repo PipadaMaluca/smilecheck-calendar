@@ -9,10 +9,10 @@ export function LandingFooter() {
   const { t } = useTranslation();
 
   const socials = [
-    { name: 'Instagram', Icon: Instagram, href: '#' },
-    { name: 'Facebook', Icon: Facebook, href: '#' },
-    { name: 'LinkedIn', Icon: Linkedin, href: '#' },
-    { name: 'X', Icon: null, href: '#' },
+    { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/smilecheck' },
+    { name: 'Facebook', Icon: Facebook, href: 'https://facebook.com/smilecheck' },
+    { name: 'LinkedIn', Icon: Linkedin, href: 'https://linkedin.com/company/smilecheck' },
+    { name: 'X', Icon: null, href: 'https://x.com/smilecheck' },
   ];
 
   return (
@@ -54,15 +54,28 @@ export function LandingFooter() {
               <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} theme="dark" /></span>
             </div>
             <p className="text-base text-[#94A3B8] max-w-md [.light_&]:text-[#94A3B8]">{t('landing.footer.tagline')}</p>
-            <div className="mt-4 flex gap-3 items-center" data-reveal="stagger">
+            <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
               {socials.map(({ name, Icon, href }) => (
                 <a
                   key={name}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={name}
-                  className="w-10 h-10 rounded-full bg-white/15 text-white hover:bg-[#2196F3] hover:text-white flex items-center justify-center transition-all hover:-translate-y-0.5 [.light_&]:bg-[#2196F3] [.light_&]:text-white [.light_&]:hover:bg-[#1565C0] [.light_&]:hover:text-white"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    background: '#2196F3',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#1565C0'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = '#2196F3'; }}
                 >
-                  {Icon ? <Icon className="w-5 h-5" /> : <span className="text-[18px] font-bold leading-none">𝕏</span>}
+                  {Icon ? <Icon size={20} color="#FFFFFF" /> : <span style={{ color: '#FFFFFF', fontSize: '16px', fontWeight: 'bold' }}>𝕏</span>}
                 </a>
               ))}
             </div>
