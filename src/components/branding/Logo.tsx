@@ -29,6 +29,8 @@ interface LogoProps {
   size?: number;
   className?: string;
   alt?: string;
+  /** Force a specific theme variant (useful when container theme is fixed). */
+  theme?: 'dark' | 'light';
   /** Deprecated, kept for backward-compat. No-op. */
   withWordmark?: boolean;
   /** Deprecated, kept for backward-compat. No-op. */
@@ -53,6 +55,7 @@ export function Logo({
   size = 40,
   className,
   alt = 'SmileCheck',
+  theme,
 }: LogoProps) {
   const [dark, setDark] = useState<boolean>(getDark);
 
@@ -69,7 +72,8 @@ export function Logo({
   }, []);
 
   const v = normalizeVariant(variant);
-  const src = dark ? SOURCES[v].dark : SOURCES[v].light;
+  const isDark = theme ? theme === 'dark' : dark;
+  const src = isDark ? SOURCES[v].dark : SOURCES[v].light;
   const borderRadius = RADIUS[v];
 
   return (
