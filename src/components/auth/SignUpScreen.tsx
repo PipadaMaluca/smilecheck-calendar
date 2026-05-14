@@ -9,8 +9,7 @@ import { AuthBackground } from './AuthBackground';
 import { PhoneInput } from './PhoneInput';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-
-const logoSrc = '/assets/smilecheck-logo-blue.png';
+import { Logo } from '@/components/branding/Logo';
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
 
@@ -177,7 +176,7 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col items-center animate-fade-in">
-          <img src={logoSrc} alt="SmileCheck" className="h-[360px] sm:h-[420px] mb-6" />
+          <Logo variant="full" size={260} className="mb-6" />
           <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.createAccount')}</h1>
           <p className="text-sm text-muted-foreground mb-6">{t('auth.chooseAccountType')}</p>
 
@@ -288,7 +287,7 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col animate-fade-in">
-          <img src={logoSrc} alt="SmileCheck" className="h-[200px] sm:h-[240px] mb-4 self-center" />
+          <Logo variant="full" size={180} className="mb-4 self-center" />
           <h1 className="text-xl font-bold text-foreground mb-1 text-center">{t('auth.completeRegistration')}</h1>
           <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.completeRegistrationDesc')}</p>
 
