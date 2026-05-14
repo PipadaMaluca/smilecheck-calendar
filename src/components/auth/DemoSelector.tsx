@@ -18,7 +18,7 @@ export function DemoSelector() {
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
         <div className="mb-8">
-          <Logo size={300} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
+          <Logo variant="full" size={200} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
         </div>
         <h1 className="text-xl font-bold text-foreground mb-1">{t('demo.title')}</h1>
         <p className="text-sm text-muted-foreground mb-6">{t('demo.subtitle')}</p>

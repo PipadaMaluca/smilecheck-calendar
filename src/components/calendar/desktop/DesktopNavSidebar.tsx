@@ -163,7 +163,8 @@ export function DesktopNavSidebar({
       {/* Logo + Pro Badge */}
       <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-0">
         <Logo
-          size={isExpanded ? (userRole === 'patient' ? 64 : 56) : (userRole === 'patient' ? 48 : 40)}
+          variant="icon"
+          size={isExpanded ? 48 : 40}
           className="transition-all duration-300"
         />
         {userRole !== 'patient' && (
