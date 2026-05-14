@@ -176,7 +176,9 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col items-center animate-fade-in">
-          <Logo variant="full" size={260} className="mb-6" />
+          <span className="block sm:hidden"><Logo variant="full" size={260} className="mb-6" /></span>
+          <span className="hidden sm:block lg:hidden"><Logo variant="full" size={280} className="mb-6" /></span>
+          <span className="hidden lg:block"><Logo variant="full" size={300} className="mb-6" /></span>
           <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.createAccount')}</h1>
           <p className="text-sm text-muted-foreground mb-6">{t('auth.chooseAccountType')}</p>
 
@@ -287,7 +289,9 @@ export function SignUpScreen() {
     return (
       <AuthBackground>
         <div className="flex flex-col animate-fade-in">
-          <Logo variant="full" size={180} className="mb-4 self-center" />
+          <span className="block sm:hidden"><Logo variant="full" size={260} className="mb-4 self-center" /></span>
+          <span className="hidden sm:block lg:hidden"><Logo variant="full" size={280} className="mb-4 self-center" /></span>
+          <span className="hidden lg:block"><Logo variant="full" size={300} className="mb-4 self-center" /></span>
           <h1 className="text-xl font-bold text-foreground mb-1 text-center">{t('auth.completeRegistration')}</h1>
           <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.completeRegistrationDesc')}</p>
 

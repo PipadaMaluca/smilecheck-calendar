@@ -44,7 +44,9 @@ const NotFound = () => {
       <div className="relative z-10 text-center max-w-md mx-auto space-y-6">
         {/* Logo */}
         <div className="flex justify-center">
-          <Logo variant="full" size={120} />
+          <span className="block sm:hidden"><Logo variant="full" size={260} /></span>
+          <span className="hidden sm:block lg:hidden"><Logo variant="full" size={280} /></span>
+          <span className="hidden lg:block"><Logo variant="full" size={300} /></span>
         </div>
 
         {/* Illustration */}
