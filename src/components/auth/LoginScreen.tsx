@@ -44,7 +44,9 @@ export function LoginScreen() {
 
   const loginForm = (
     <div className="flex flex-col items-center animate-fade-in">
-      <Logo variant="full" size={isMobile ? 200 : 240} className="mb-2" />
+      <span className="block sm:hidden"><Logo variant="full" size={260} className="mb-2" /></span>
+      <span className="hidden sm:block lg:hidden"><Logo variant="full" size={280} className="mb-2" /></span>
+      <span className="hidden lg:block"><Logo variant="full" size={300} className="mb-2" /></span>
       <p className="text-muted-foreground mb-6 text-lg">{t('auth.tagline')}</p>
 
       <div className="w-full space-y-4">

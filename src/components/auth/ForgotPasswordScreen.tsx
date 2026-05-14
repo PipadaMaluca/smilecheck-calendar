@@ -47,7 +47,9 @@ export function ForgotPasswordScreen() {
   return (
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
-        <Logo variant="full" size={220} className="mb-4" />
+        <span className="block sm:hidden"><Logo variant="full" size={260} className="mb-4" /></span>
+        <span className="hidden sm:block lg:hidden"><Logo variant="full" size={280} className="mb-4" /></span>
+        <span className="hidden lg:block"><Logo variant="full" size={300} className="mb-4" /></span>
         <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.forgotPasswordTitle')}</h1>
         <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.forgotPasswordDesc')}</p>
 
