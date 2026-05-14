@@ -1678,7 +1678,7 @@ export const mockConsultations: Consultation[] = ([
     notes: 'Dor aparelho novo',
     isUrgentTeleconsulta: true,
   },
-,
+
   // ==========================================
   // WEEK SPREAD — Mon Jan 26 → Fri Jan 30, 2026
   // Demo data so Week View shows appointments across all days
