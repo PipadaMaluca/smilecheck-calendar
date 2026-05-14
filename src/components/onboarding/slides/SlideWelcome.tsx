@@ -1,7 +1,7 @@
 import { Sparkles } from 'lucide-react';
-import smileCheckLogo from '@/assets/smilecheck-logo.png';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
+import { Logo } from '@/components/branding/Logo';
 
 interface SlideWelcomeProps { isActive: boolean; userRole: UserRole; }
 
@@ -15,8 +15,8 @@ export const SlideWelcome = ({ isActive, userRole }: SlideWelcomeProps) => {
   return (
     <div className="h-full flex flex-col items-center justify-center px-6 text-center">
       <div className={`relative mb-8 ${isActive ? 'animate-float' : ''}`}>
-        <div className="w-32 h-32 rounded-3xl flex items-center justify-center">
-          <img src={smileCheckLogo} alt="SmileCheck Logo" className="w-28 h-28 object-contain drop-shadow-[0_0_20px_rgba(100,180,255,0.4)]" />
+        <div className="flex items-center justify-center">
+          <Logo variant="full" size={140} className="drop-shadow-[0_0_20px_rgba(100,180,255,0.4)]" />
         </div>
         <Sparkles className={`absolute -top-2 -right-2 w-8 h-8 text-gaming-gold ${isActive ? 'animate-sparkle' : ''}`} />
         <Sparkles className={`absolute bottom-2 -left-4 w-6 h-6 text-gaming-diamond ${isActive ? 'animate-sparkle' : ''}`} style={{ animationDelay: '0.5s' }} />
