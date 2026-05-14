@@ -1697,8 +1697,10 @@ export const generateTimeSlots = (date: Date, consultations: Consultation[]): Ti
         c.date.toDateString() === date.toDateString()
       );
       
-      // Lunch break
-      if (isDemo && (time === '13:00' || time === '13:30')) {
+      // Lunch break — every weekday (Sunday no work)
+      const dow = date.getDay();
+      const isWeekday = dow !== 0;
+      if (isWeekday && (time === '13:00' || time === '13:30')) {
         slots.push({
           time,
           status: 'bloqueado',
