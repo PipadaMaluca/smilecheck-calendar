@@ -313,24 +313,28 @@ export function DesktopCalendarView() {
 
   // Drag-and-drop for week view
   const handleWeekDragMove = useCallback((
-  consultation: Consultation, fromDate: Date, fromTime: string, toDate: Date, toTime: string) =>
+  consultation: Consultation,
+  fromDate: Date, fromTime: string, fromKey: string,
+  toDate: Date, toTime: string, toKey: string) =>
   {
-    const dentistKey = singleDentistKey;
-    const [clinicId, dentistId] = dentistKey.split('-');
-    const dentist = mockDentists.find((d) => d.id === dentistId);
-    const dentistName = dentist?.name || t('common.dentist');
+    const [toClinicId, toDentistId] = toKey.split('-');
+    const toDentist = mockDentists.find((d) => d.id === toDentistId);
+    const toDentistName = toDentist?.name || t('common.dentist');
+    const [fromClinicIdRaw, fromDentistIdRaw] = fromKey.split('-');
+    const fromDentist = mockDentists.find((d) => d.id === fromDentistIdRaw);
+    const fromDentistName = fromDentist?.name || t('common.dentist');
 
     const existing = mockConsultations.find((c) =>
     isSameDay(c.date, toDate) && c.time === toTime &&
-    c.dentist.id === dentistId && c.clinic.id === clinicId &&
+    c.dentist.id === toDentistId && c.clinic.id === toClinicId &&
     c.id !== consultation.id
     );
 
     const moveInfo: DragMoveInfo = {
       consultation,
-      fromDate, fromTime, fromDentistName: dentistName,
-      toDate, toTime, toDentistName: dentistName,
-      toDentistKey: dentistKey
+      fromDate, fromTime, fromDentistName,
+      toDate, toTime, toDentistName,
+      toDentistKey: toKey
     };
 
     if (existing) {
@@ -339,7 +343,7 @@ export function DesktopCalendarView() {
     } else {
       setPendingMove(moveInfo);
     }
-  }, [singleDentistKey]);
+  }, [t]);
 
   const confirmMove = useCallback((moveInfo: DragMoveInfo) => {
     toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
@@ -398,7 +402,7 @@ export function DesktopCalendarView() {
 
   // Enforce single dentist for week/month
   useEffect(() => {
-    if ((viewMode === 'week' || viewMode === 'month') && selectedDentistIds.length > 1) {
+    if (viewMode === 'month' && selectedDentistIds.length > 1) {
       setSelectedDentistIds([selectedDentistIds[0]]);
     }
     if ((viewMode === 'week' || viewMode === 'month') && selectedDentistIds.length === 0) {
@@ -436,7 +440,8 @@ export function DesktopCalendarView() {
     if (viewMode === 'week') {
       return <DesktopWeekView
         selectedDate={selectedDate}
-        selectedDentistKey={singleDentistKey}
+        dentistColumns={filteredDentists}
+        includeSunday={false}
         onSlotClick={handleSlotClick}
         onDateChange={setSelectedDate}
         onViewModeChange={(m) => setViewMode(m)}
