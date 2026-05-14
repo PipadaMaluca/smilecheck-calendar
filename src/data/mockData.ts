@@ -1678,6 +1678,62 @@ export const mockConsultations: Consultation[] = ([
     notes: 'Dor aparelho novo',
     isUrgentTeleconsulta: true,
   },
+,
+  // ==========================================
+  // WEEK SPREAD — Mon Jan 26 → Fri Jan 30, 2026
+  // Demo data so Week View shows appointments across all days
+  // ==========================================
+  ...((): Consultation[] => {
+    const out: Consultation[] = [];
+    const days = [
+      new Date(2026, 0, 26), // Mon
+      new Date(2026, 0, 27), // Tue
+      new Date(2026, 0, 28), // Wed
+      new Date(2026, 0, 29), // Thu
+      new Date(2026, 0, 30), // Fri
+    ];
+    const slate: Array<{
+      time: string; duration: number; cat: string; type: 'presencial' | 'teleconsulta';
+      name: string; age: number;
+    }> = [
+      { time: '09:00', duration: 30, cat: 'primeira_consulta', type: 'presencial', name: 'Joana Pinto', age: 28 },
+      { time: '10:00', duration: 30, cat: 'restauracao', type: 'presencial', name: 'Hugo Alves', age: 34 },
+      { time: '11:30', duration: 60, cat: 'endodontia', type: 'presencial', name: 'Marta Reis', age: 41 },
+      { time: '14:30', duration: 30, cat: 'destartarizacao', type: 'presencial', name: 'Vasco Lima', age: 47 },
+      { time: '15:30', duration: 30, cat: 'urgencia', type: 'presencial', name: 'Sara Matos', age: 22 },
+      { time: '17:00', duration: 30, cat: 'teleconsulta', type: 'teleconsulta', name: 'Daniel Sousa', age: 38 },
+    ];
+    const setups: Array<{ d: number; c: number; prefix: string }> = [
+      { d: 0, c: 0, prefix: 'wk-gp' }, // Gonçalo Pipo @ SmileCheck
+      { d: 1, c: 0, prefix: 'wk-ab' }, // Alexandre Bernardo @ SmileCheck
+      { d: 4, c: 1, prefix: 'wk-dp' }, // Duarte Pereira @ Mitry-Mory
+      { d: 5, c: 2, prefix: 'wk-fl' }, // Fábio Lobo @ Montfermeil
+    ];
+    days.forEach((day, di) => {
+      setups.forEach(({ d, c, prefix }) => {
+        // Vary number of appointments per day for realism (3–5)
+        const count = 3 + (di + d) % 3;
+        slate.slice(0, count).forEach((s, si) => {
+          out.push({
+            id: `${prefix}-${di}-${si}`,
+            type: s.type,
+            category: s.cat as any,
+            date: day,
+            time: s.time,
+            duration: s.duration,
+            patient: createPatient(`${prefix}-p-${di}-${si}`, s.name, '+351 900 000 000', 4.5, 'Silver', s.age),
+            dentist: mockDentists[d],
+            clinic: mockClinics[c],
+            price: 50,
+            isPaid: true,
+            notes: '',
+            status: 'agendada' as ConsultationStatus,
+          });
+        });
+      });
+    });
+    return out;
+  })(),
 ] as Consultation[]).map(withRequiredConsultationFields);
 
 // Generate time slots for a given date and dentist consultations
