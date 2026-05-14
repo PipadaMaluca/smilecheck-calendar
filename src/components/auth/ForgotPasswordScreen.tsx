@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { AuthBackground } from './AuthBackground';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { Logo } from '@/components/branding/Logo';
 
 export function ForgotPasswordScreen() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export function ForgotPasswordScreen() {
   return (
     <AuthBackground>
       <div className="flex flex-col items-center animate-fade-in">
-        <img src="/assets/smilecheck-logo-blue.png" alt="SmileCheck" className="h-[300px] sm:h-[360px] mb-4" />
+        <Logo variant="full" size={220} className="mb-4" />
         <h1 className="text-xl font-bold text-foreground mb-1">{t('auth.forgotPasswordTitle')}</h1>
         <p className="text-sm text-muted-foreground text-center mb-6">{t('auth.forgotPasswordDesc')}</p>
 
