@@ -93,6 +93,11 @@ export const agendaSettingsStore = {
     persist();
     emit();
   },
+  setDefaultDuration: (cat: string, minutes: number) => {
+    state = { ...state, defaultDurations: { ...state.defaultDurations, [cat]: minutes } };
+    persist();
+    emit();
+  },
   reset: () => {
     state = { ...DEFAULT_SETTINGS };
     persist();
