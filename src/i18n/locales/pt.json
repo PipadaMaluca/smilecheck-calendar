@@ -766,6 +766,7 @@
   },
   "consultationTypes": {
     "firstConsultation": "1ª Consulta",
+    "evaluation": "Avaliação",
     "scaling": "Destartarização",
     "surgery": "Cirurgia",
     "endodontics": "Endodontia",
