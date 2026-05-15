@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CATEGORY_COLORS, ConsultationCategory, LEGEND_ORDER, UserRole, getCategoryLabel } from '@/types/calendar';
+import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import {
