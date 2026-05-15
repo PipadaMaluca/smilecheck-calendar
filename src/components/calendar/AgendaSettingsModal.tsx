@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { X, RotateCcw } from 'lucide-react';
+import { X, RotateCcw, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CATEGORY_COLORS, ConsultationCategory, LEGEND_ORDER, UserRole, getCategoryLabel } from '@/types/calendar';
+import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import {
@@ -21,12 +21,45 @@ import {
 export { DEFAULT_SETTINGS };
 export type { AgendaSettings };
 
-// 12-color preset palette (4x3 grid) — 10 category colors + white + black
+// 12-color preset palette (2 rows × 6) per spec
 const COLOR_PRESETS = [
-  '#FDD835', '#9C27B0', '#212121', '#E91E63',
-  '#039BE5', '#8BC34A', '#2E7D32', '#2196F3',
-  '#F44336', '#FF9800', '#FFFFFF', '#000000',
+  '#F59E0B', '#A855F7', '#374151', '#EC4899', '#3B82F6', '#84CC16',
+  '#10B981', '#6366F1', '#EF4444', '#F97316', '#14B8A6', '#8B5CF6',
 ];
+
+// Extended category list for the modal — adds Avaliação and Bloqueio/Pausa entries
+// (Avaliação is a UI-only category here; Bloqueio is mapped to blockColor.)
+type ModalCategoryRow = {
+  id: string;
+  labelKey?: string;
+  fallback: string;
+  defaultColor: string;
+  isBlock?: boolean;
+};
+const MODAL_CATEGORIES: ModalCategoryRow[] = [
+  { id: 'primeira_consulta', labelKey: 'consultationTypes.firstConsultation', fallback: '1ª Consulta', defaultColor: '#FDD835' },
+  { id: 'avaliacao', labelKey: 'consultationTypes.evaluation', fallback: 'Avaliação', defaultColor: '#A855F7' },
+  { id: 'destartarizacao', labelKey: 'consultationTypes.scaling', fallback: 'Destartarização', defaultColor: '#9C27B0' },
+  { id: 'cirurgia', labelKey: 'consultationTypes.surgery', fallback: 'Cirurgia', defaultColor: '#212121' },
+  { id: 'endodontia', labelKey: 'consultationTypes.endodontics', fallback: 'Endodontia', defaultColor: '#E91E63' },
+  { id: 'odontopediatria', labelKey: 'consultationTypes.pediatric', fallback: 'Odontopediatria', defaultColor: '#039BE5' },
+  { id: 'ortodontia', labelKey: 'consultationTypes.orthodontics', fallback: 'Ortodontia', defaultColor: '#8BC34A' },
+  { id: 'protese', labelKey: 'consultationTypes.prosthetics', fallback: 'Prótese', defaultColor: '#2E7D32' },
+  { id: 'restauracao', labelKey: 'consultationTypes.restoration', fallback: 'Restauração', defaultColor: '#2196F3' },
+  { id: 'urgencia', labelKey: 'consultationTypes.emergency', fallback: 'Urgência', defaultColor: '#F44336' },
+  { id: 'teleconsulta', labelKey: 'consultationTypes.teleconsultation', fallback: 'Teleconsulta', defaultColor: '#FF9800' },
+  { id: 'bloqueio', fallback: 'Bloqueio/Pausa', defaultColor: '#6B7280', isBlock: true },
+];
+
+const tr = (t: (k: string) => string, key: string | undefined, fallback: string) => {
+  if (!key) return fallback;
+  const v = t(key);
+  return v === key ? fallback : v;
+};
+
+const DURATION_OPTIONS = [15, 20, 30, 45, 60, 90, 120];
+const LUNCH_START_OPTIONS = ['12:00', '12:30', '13:00', '13:30'];
+const LUNCH_END_OPTIONS = ['13:00', '13:30', '14:00', '14:30'];
 
 interface AgendaSettingsModalProps {
   isOpen: boolean;
@@ -87,10 +120,12 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
   return (
     <>
       <div className="fixed inset-0 bg-black/40 z-[60]" onClick={handleCancel} />
-      <div className="fixed right-0 top-0 bottom-0 w-full md:w-[380px] bg-card border-l border-border z-[61] flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+      <div className="fixed right-0 top-0 bottom-0 w-full md:w-[420px] bg-card border-l border-border z-[61] flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-lg font-bold text-foreground">{t('agendaSettings.title')}</h2>
+          <h2 className="text-lg font-bold text-foreground">
+            {tr(t, 'agendaSettings.titleV2', 'Configurações da Agenda')}
+          </h2>
           <Button variant="ghost" size="icon" onClick={handleCancel} aria-label={t('common.cancel')}>
             <X className="w-5 h-5" />
           </Button>
@@ -102,10 +137,6 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
           <section>
             <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.visualization')}</h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>{t('agendaSettings.showSundays')}</Label>
-                <Switch checked={live.showSundays} onCheckedChange={v => update('showSundays', v)} />
-              </div>
               <div className="flex items-center justify-between">
                 <Label>{t('agendaSettings.dayStartHour')}</Label>
                 <Select value={String(live.startHour)} onValueChange={v => update('startHour', Number(v))}>
@@ -147,6 +178,49 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{t('agendaSettings.showBlocks')}</Label>
                 <Switch checked={live.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
               </div>
+
+              {/* Lunch hours */}
+              <div className="flex items-center justify-between">
+                <Label>{tr(t, 'agendaSettings.lunchStart', 'Início do almoço')}</Label>
+                <Select value={live.lunchStart} onValueChange={v => update('lunchStart', v)}>
+                  <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {LUNCH_START_OPTIONS.map(h => (
+                      <SelectItem key={h} value={h}>{h}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-center justify-between">
+                <Label>{tr(t, 'agendaSettings.lunchEnd', 'Fim do almoço')}</Label>
+                <Select value={live.lunchEnd} onValueChange={v => update('lunchEnd', v)}>
+                  <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {LUNCH_END_OPTIONS.map(h => (
+                      <SelectItem key={h} value={h}>{h}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Visible days of week */}
+              <div>
+                <Label className="block mb-2">{tr(t, 'agendaSettings.weekDaysVisible', 'Dias visíveis na semana')}</Label>
+                <RadioGroup
+                  value={live.weekDaysVisible}
+                  onValueChange={v => {
+                    const val = v as AgendaSettings['weekDaysVisible'];
+                    update('weekDaysVisible', val);
+                    // Keep showSundays in sync for legacy consumers
+                    update('showSundays', val === 'mon-sun');
+                  }}
+                  className="flex gap-3"
+                >
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-fri" id="wd-mf" /><Label htmlFor="wd-mf" className="text-xs">Seg - Sex</Label></div>
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sat" id="wd-ms" /><Label htmlFor="wd-ms" className="text-xs">Seg - Sáb</Label></div>
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sun" id="wd-md" /><Label htmlFor="wd-md" className="text-xs">Seg - Dom</Label></div>
+                </RadioGroup>
+              </div>
             </div>
           </section>
 
@@ -154,19 +228,56 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
           <section>
             <h3 className="text-sm font-semibold text-foreground mb-3 uppercase tracking-wide">{t('agendaSettings.density')}</h3>
             <RadioGroup value={live.density} onValueChange={v => update('density', v as AgendaSettings['density'])} className="space-y-2">
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="compact" id="density-compact" />
-                <Label htmlFor="density-compact">{t('agendaSettings.compact')}</Label>
+              <div className="flex items-start gap-2">
+                <RadioGroupItem value="compact" id="density-compact" className="mt-0.5" />
+                <Label htmlFor="density-compact" className="leading-snug">
+                  <span className="font-medium">Compacto</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">Dia completo visível sem scroll</span>
+                </Label>
               </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="normal" id="density-normal" />
-                <Label htmlFor="density-normal">{t('agendaSettings.normal')}</Label>
+              <div className="flex items-start gap-2">
+                <RadioGroupItem value="normal" id="density-normal" className="mt-0.5" />
+                <Label htmlFor="density-normal" className="leading-snug">
+                  <span className="font-medium">Normal</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">Padrão — scroll para ver o dia inteiro</span>
+                </Label>
               </div>
-              <div className="flex items-center gap-2">
-                <RadioGroupItem value="expanded" id="density-expanded" />
-                <Label htmlFor="density-expanded">{t('agendaSettings.expanded')}</Label>
+              <div className="flex items-start gap-2">
+                <RadioGroupItem value="expanded" id="density-expanded" className="mt-0.5" />
+                <Label htmlFor="density-expanded" className="leading-snug">
+                  <span className="font-medium">Expandido</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">Manhã ou tarde — mais detalhe por consulta</span>
+                </Label>
               </div>
             </RadioGroup>
+          </section>
+
+          {/* DURAÇÃO PADRÃO POR TIPO */}
+          <section>
+            <h3 className="text-sm font-semibold text-foreground mb-1 uppercase tracking-wide">
+              {tr(t, 'agendaSettings.defaultDurationByType', 'Duração padrão por tipo')}
+            </h3>
+            <p className="text-[11px] text-muted-foreground mb-3">
+              {tr(t, 'agendaSettings.defaultDurationByTypeHint', 'Duração predefinida ao criar uma nova consulta deste tipo')}
+            </p>
+            <div className="space-y-2">
+              {MODAL_CATEGORIES.filter(c => !c.isBlock).map(cat => {
+                const value = live.defaultDurations[cat.id] ?? DEFAULT_SETTINGS.defaultDurations[cat.id] ?? 30;
+                return (
+                  <div key={cat.id} className="flex items-center justify-between">
+                    <span className="text-xs text-foreground">{tr(t, cat.labelKey, cat.fallback)}</span>
+                    <Select value={String(value)} onValueChange={v => agendaSettingsStore.setDefaultDuration(cat.id, Number(v))}>
+                      <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        {DURATION_OPTIONS.map(m => (
+                          <SelectItem key={m} value={String(m)}>{m >= 60 && m % 60 === 0 ? `${m / 60}h` : `${m}min`}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                );
+              })}
+            </div>
           </section>
 
           {/* CORES POR TIPO DE CONSULTA */}
@@ -175,37 +286,45 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wide">{t('agendaSettings.colorsByType')}</h3>
             </div>
             <div className="space-y-2 mb-4">
-              {LEGEND_ORDER.map(cat => {
-                const defaultColor = CATEGORY_COLORS[cat].hex;
-                const color = live.categoryColors[cat] || defaultColor;
+              {MODAL_CATEGORIES.map(cat => {
+                const isBlock = !!cat.isBlock;
+                const color = isBlock
+                  ? live.blockColor
+                  : (live.categoryColors[cat.id] || cat.defaultColor);
+                const setColor = (c: string) =>
+                  isBlock ? update('blockColor', c) : setCategoryColor(cat.id, c);
                 return (
-                  <div key={cat} className="flex items-center justify-between">
-                    <span className="text-xs text-foreground">{getCategoryLabel(t, cat)}</span>
+                  <div key={cat.id} className="flex items-center justify-between">
+                    <span className="text-xs text-foreground">{tr(t, cat.labelKey, cat.fallback)}</span>
                     <Popover>
                       <PopoverTrigger asChild>
                         <button
                           type="button"
                           className="w-7 h-7 rounded-md border border-border shadow-sm cursor-pointer hover:scale-110 transition-transform"
                           style={{ backgroundColor: color }}
-                          aria-label={`Edit color for ${getCategoryLabel(t, cat)}`}
+                          aria-label={`Edit color for ${tr(t, cat.labelKey, cat.fallback)}`}
                         />
                       </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-3" align="end">
-                        <div className="grid grid-cols-4 gap-2">
+                      <PopoverContent className="w-[240px] p-3" align="end">
+                        <div className="grid grid-cols-6 gap-2">
                           {COLOR_PRESETS.map(preset => (
                             <button
                               key={preset}
                               type="button"
-                              onClick={() => setCategoryColor(cat, preset)}
+                              onClick={() => setColor(preset)}
                               className={cn(
-                                'w-8 h-8 rounded-full border-2 transition-all hover:scale-110',
+                                'relative w-7 h-7 rounded-full border-2 transition-all hover:scale-110 flex items-center justify-center',
                                 color.toLowerCase() === preset.toLowerCase()
                                   ? 'border-primary ring-2 ring-primary/40'
                                   : 'border-border'
                               )}
                               style={{ backgroundColor: preset }}
                               aria-label={preset}
-                            />
+                            >
+                              {color.toLowerCase() === preset.toLowerCase() && (
+                                <Check className="w-3.5 h-3.5 text-white drop-shadow" strokeWidth={3} />
+                              )}
+                            </button>
                           ))}
                         </div>
                         <div className="mt-3 pt-3 border-t border-border flex items-center gap-2">
@@ -213,7 +332,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                           <input
                             type="color"
                             value={color}
-                            onChange={(e) => setCategoryColor(cat, e.target.value)}
+                            onChange={(e) => setColor(e.target.value)}
                             className="w-8 h-8 rounded cursor-pointer bg-transparent border border-border"
                           />
                         </div>
@@ -222,39 +341,6 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                   </div>
                 );
               })}
-            </div>
-
-            {/* Block color */}
-            <p className="text-xs font-medium text-muted-foreground mb-2">{t('agendaSettings.blockColor')}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-foreground">{t('agendaSettings.blocks')}</span>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    className="w-7 h-7 rounded-md border border-border shadow-sm cursor-pointer hover:scale-110 transition-transform"
-                    style={{ backgroundColor: live.blockColor }}
-                  />
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-3" align="end">
-                  <div className="grid grid-cols-4 gap-2">
-                    {COLOR_PRESETS.map(preset => (
-                      <button
-                        key={preset}
-                        type="button"
-                        onClick={() => update('blockColor', preset)}
-                        className={cn(
-                          'w-8 h-8 rounded-full border-2 transition-all hover:scale-110',
-                          live.blockColor.toLowerCase() === preset.toLowerCase()
-                            ? 'border-primary ring-2 ring-primary/40'
-                            : 'border-border'
-                        )}
-                        style={{ backgroundColor: preset }}
-                      />
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
             </div>
           </section>
         </div>

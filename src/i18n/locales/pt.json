@@ -766,6 +766,7 @@
   },
   "consultationTypes": {
     "firstConsultation": "1ª Consulta",
+    "evaluation": "Avaliação",
     "scaling": "Destartarização",
     "surgery": "Cirurgia",
     "endodontics": "Endodontia",
@@ -2627,8 +2628,12 @@
   },
   "agendaSettings": {
     "title": "Modificar Horários",
+    "titleV2": "Configurações da Agenda",
     "visualization": "Visualização",
     "showSundays": "Mostrar Domingos",
+    "weekDaysVisible": "Dias visíveis na semana",
+    "lunchStart": "Início do almoço",
+    "lunchEnd": "Fim do almoço",
     "dayStartHour": "Hora de início do dia",
     "dayEndHour": "Hora de fim do dia",
     "defaultSlotDuration": "Duração padrão dos slots",
@@ -2644,6 +2649,8 @@
     "blockColor": "Cor dos bloqueios",
     "blocks": "Bloqueios",
     "rgbColor": "Cor RGB",
+    "defaultDurationByType": "Duração padrão por tipo",
+    "defaultDurationByTypeHint": "Duração predefinida ao criar uma nova consulta deste tipo",
     "resetDefault": "Repor Padrão",
     "settingsSaved": "Configurações da agenda guardadas",
     "settingsReset": "Configurações repostas ao padrão"
