@@ -721,9 +721,15 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         )}
         {step === 'confirm' ? (
           <Button className="flex-1" onClick={handleConfirm}>
-            {data.consultationType === 'teleconsulta' ? t('common.next') : t('common.confirm')}
-            {data.consultationType !== 'teleconsulta' && <Check className="w-4 h-4 ml-1" />}
-            {data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
+            {bookingCase === 'D' && data.consultationType === 'teleconsulta'
+              ? t('common.next')
+              : bookingCase === 'B'
+                ? 'Entrar na Lista de Espera'
+                : bookingCase === 'D'
+                  ? t('common.confirm')
+                  : 'Confirmar Marcação'}
+            {!(bookingCase === 'D' && data.consultationType === 'teleconsulta') && <Check className="w-4 h-4 ml-1" />}
+            {bookingCase === 'D' && data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
           </Button>
         ) : step === 'payment' ? (
           <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
@@ -776,9 +782,15 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             )}
             {step === 'confirm' ? (
               <Button className="flex-1" onClick={handleConfirm}>
-                {data.consultationType === 'teleconsulta' ? t('common.next') : t('common.confirm')}
-                {data.consultationType !== 'teleconsulta' && <Check className="w-4 h-4 ml-1" />}
-                {data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
+                {bookingCase === 'D' && data.consultationType === 'teleconsulta'
+                  ? t('common.next')
+                  : bookingCase === 'B'
+                    ? 'Entrar na Lista de Espera'
+                    : bookingCase === 'D'
+                      ? t('common.confirm')
+                      : 'Confirmar Marcação'}
+                {!(bookingCase === 'D' && data.consultationType === 'teleconsulta') && <Check className="w-4 h-4 ml-1" />}
+                {bookingCase === 'D' && data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
               </Button>
             ) : step === 'payment' ? (
               <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
