@@ -105,9 +105,9 @@ function CollapsibleSection({
 
 // Mock waiting list data - detail values are i18n keys
 const MOCK_WAITING_LIST = [
-{ id: 'wl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true },
-{ id: 'wl-2', patientName: 'Bruno Pereira', detailKey: 'availableMonWed', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false },
-{ id: 'wl-3', patientName: 'Sofia Lopes', detailKey: 'anyMorning', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false }];
+{ id: 'wl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true, observation: 'Dor intensa no dente 26, prefiro início da manhã' },
+{ id: 'wl-2', patientName: 'Bruno Pereira', detailKey: 'availableMonWed', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false, observation: 'Disponível segundas e quartas após 15h' },
+{ id: 'wl-3', patientName: 'Sofia Lopes', detailKey: 'anyMorning', currentDate: '7 Fev', currentTime: '16:30', priority: 'normal' as const, isUrgent: false, observation: 'Qualquer manhã está bem' }];
 
 
 export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullHistory }: DashboardViewProps) {
