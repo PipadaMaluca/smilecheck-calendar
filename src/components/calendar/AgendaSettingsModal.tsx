@@ -143,7 +143,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{t('agendaSettings.dayStartHour')}</Label>
                 <Select value={String(live.startHour)} onValueChange={v => update('startHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[120]">
                     {startHourOptions.map(h => (
                       <SelectItem key={h} value={String(h)}>{`${h.toString().padStart(2, '0')}:00`}</SelectItem>
                     ))}
@@ -154,7 +154,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{t('agendaSettings.dayEndHour')}</Label>
                 <Select value={String(live.endHour)} onValueChange={v => update('endHour', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[120]">
                     {endHourOptions.map(h => (
                       <SelectItem key={h} value={String(h)}>{`${h.toString().padStart(2, '0')}:00`}</SelectItem>
                     ))}
@@ -165,7 +165,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{t('agendaSettings.defaultSlotDuration')}</Label>
                 <Select value={String(live.slotDuration)} onValueChange={v => update('slotDuration', Number(v))}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[120]">
                     {slotOptions.map(m => (
                       <SelectItem key={m} value={String(m)}>{m === 60 ? '1h' : `${m}min`}</SelectItem>
                     ))}
@@ -186,7 +186,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{tr(t, 'agendaSettings.lunchStart', 'Início do almoço')}</Label>
                 <Select value={live.lunchStart} onValueChange={v => update('lunchStart', v)}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[120]">
                     {LUNCH_START_OPTIONS.map(h => (
                       <SelectItem key={h} value={h}>{h}</SelectItem>
                     ))}
@@ -197,7 +197,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <Label>{tr(t, 'agendaSettings.lunchEnd', 'Fim do almoço')}</Label>
                 <Select value={live.lunchEnd} onValueChange={v => update('lunchEnd', v)}>
                   <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[120]">
                     {LUNCH_END_OPTIONS.map(h => (
                       <SelectItem key={h} value={h}>{h}</SelectItem>
                     ))}
@@ -270,7 +270,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                     <span className="text-xs text-foreground">{tr(t, cat.labelKey, cat.fallback)}</span>
                     <Select value={String(value)} onValueChange={v => agendaSettingsStore.setDefaultDuration(cat.id, Number(v))}>
                       <SelectTrigger className="w-24 h-8 text-xs"><SelectValue /></SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="z-[120]">
                         {DURATION_OPTIONS.map(m => (
                           <SelectItem key={m} value={String(m)}>{m >= 60 && m % 60 === 0 ? `${m / 60}h` : `${m}min`}</SelectItem>
                         ))}
@@ -307,7 +307,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                           aria-label={`Edit color for ${tr(t, cat.labelKey, cat.fallback)}`}
                         />
                       </PopoverTrigger>
-                      <PopoverContent className="w-[240px] p-3" align="end">
+                      <PopoverContent className="w-[240px] p-3 z-[120]" align="end">
                         <div className="grid grid-cols-6 gap-2">
                           {COLOR_PRESETS.map(preset => (
                             <button
