@@ -15,6 +15,7 @@ import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDenti
 import { useIsMobile } from '@/hooks/use-mobile';
 import { generateReceipt } from '@/components/billing/billingMockData';
 import { toast } from 'sonner';
+import { AvailabilityGridStep, type SelectedSlot, type WaitingPreferences } from './AvailabilityGridStep';
 
 interface BookingFlowProps {
   dentist: DentistSearchResult;
@@ -33,6 +34,8 @@ interface BookingData {
   isUrgent: boolean;
   date: Date | undefined;
   time: string | null;
+  selectedSlots: SelectedSlot[];
+  preferences: WaitingPreferences;
 }
 
 const ALL_SLOTS = [
@@ -77,6 +80,16 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     isUrgent: false,
     date: quickDate,
     time: initialTime || null,
+    selectedSlots: hasQuickBook && quickDate && initialTime
+      ? [{ date: quickDate, time: initialTime, key: `${quickDate.toISOString().slice(0,10)}_${initialTime}` }]
+      : [],
+    preferences: {
+      enabled: false,
+      periods: [],
+      days: [],
+      urgency: 'normal',
+      observation: '',
+    },
   });
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -128,7 +141,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     switch (step) {
       case 'clinic': return data.clinic !== null;
       case 'type': return data.consultationType !== null;
-      case 'datetime': return data.date !== undefined && data.time !== null;
+      case 'datetime': {
+        if (data.selectedSlots.length > 0) return true;
+        const p = data.preferences;
+        return p.enabled && (p.periods.length > 0 || p.days.length > 0 || p.observation.trim().length > 0);
+      }
       case 'confirm': return true;
       case 'payment': {
         if (!acceptTerms || !paymentMethod) return false;
@@ -143,6 +160,18 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     }
   };
 
+  // Booking case based on selection state
+  const bookingCase: 'A' | 'B' | 'C' | 'D' = (() => {
+    const slots = data.selectedSlots.length;
+    const p = data.preferences;
+    const hasPrefs = p.enabled && (p.periods.length > 0 || p.days.length > 0 || p.observation.trim().length > 0);
+    if (slots === 1 && !hasPrefs) return 'D';
+    if (slots > 1 && !hasPrefs) return 'A';
+    if (slots === 0 && hasPrefs) return 'B';
+    return 'C';
+  })();
+  const isDirectBooking = bookingCase === 'D';
+
   const handleApplyPromo = () => {
     if (promoCode.toLowerCase() === 'smile20') {
       setPromoApplied(true);
@@ -154,10 +183,10 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   };
 
   const handleConfirm = () => {
-    if (data.consultationType === 'teleconsulta') {
+    if (data.consultationType === 'teleconsulta' && isDirectBooking) {
       goNext(); // go to payment
     } else {
-      // presencial - skip payment, go to success
+      // presencial direct OR any waiting-list case -> skip payment, go to success
       const successIdx = steps.indexOf('success');
       if (successIdx >= 0) setStep('success');
       else setStep('success');
