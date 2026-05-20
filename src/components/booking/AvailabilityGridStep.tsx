@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Check, ChevronDown, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -256,8 +256,8 @@ export function AvailabilityGridStep({
               </div>
             ))}
             {times.map(time => (
-              <>
-                <div key={`t-${time}`} className="text-[10px] text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
+              <Fragment key={time}>
+                <div className="text-[10px] text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
                   {time.endsWith(':00') ? time : ''}
                 </div>
                 {days.map((date, dIdx) => (
@@ -265,7 +265,7 @@ export function AvailabilityGridStep({
                     {renderSlotCell(dIdx, date, time)}
                   </div>
                 ))}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
