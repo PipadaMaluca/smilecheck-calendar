@@ -35,7 +35,7 @@ interface DesktopWeekViewProps {
   onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-const SLOT_HEIGHT = 32;
+const BASE_SLOT_HEIGHT = 32;
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
 const TOTAL_SLOTS = 28;
 
