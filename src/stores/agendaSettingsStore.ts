@@ -106,3 +106,22 @@ export function useAgendaSettings(): AgendaSettings {
 export function getCategoryColor(cat: ConsultationCategory | string): string {
   return state.categoryColors[cat] || CATEGORY_COLORS[cat as ConsultationCategory]?.hex || '#3B82F6';
 }
+
+/**
+ * Return the per-slot row height (px) based on the active density setting.
+ * `baseNormal` is the component's intrinsic normal height (e.g. 38 or 40).
+ * - compact   → ~60% of normal, but recomputed to fit the visible viewport.
+ * - normal    → baseNormal
+ * - expanded  → 2.4x baseNormal
+ */
+export function useSlotHeight(baseNormal: number): number {
+  const { density, startHour, endHour, slotDuration } = useAgendaSettings();
+  if (density === 'expanded') return Math.round(baseNormal * 2.4);
+  if (density === 'compact') {
+    if (typeof window === 'undefined') return Math.round(baseNormal * 0.6);
+    const available = Math.max(360, window.innerHeight - 280);
+    const totalSlots = Math.max(1, ((endHour - startHour) * 60) / slotDuration);
+    return Math.max(14, Math.floor(available / totalSlots));
+  }
+  return baseNormal;
+}

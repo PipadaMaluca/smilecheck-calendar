@@ -10,6 +10,7 @@ import { mockConsultations, mockDentists, generateTimeSlots, mockClinics } from 
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { cn } from '@/lib/utils';
+import { useSlotHeight } from '@/stores/agendaSettingsStore';
 
 interface DentistColumn {
   dentist: typeof mockDentists[number];
@@ -35,7 +36,7 @@ interface DesktopWeekViewProps {
   onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-const SLOT_HEIGHT = 32;
+const BASE_SLOT_HEIGHT = 32;
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
 const TOTAL_SLOTS = 28;
 
@@ -78,6 +79,7 @@ export function DesktopWeekView({
   onConsultationHover,
 }: DesktopWeekViewProps) {
   const { t } = useTranslation();
+  const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const numDays = includeSunday ? 7 : 6;
   const weekDays = Array.from({ length: numDays }, (_, i) => addDays(weekStart, i));

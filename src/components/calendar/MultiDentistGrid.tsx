@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { useSlotHeight } from '@/stores/agendaSettingsStore';
 
 // Short labels for tablet/mobile to prevent wrapping in narrow columns
 const SHORT_CATEGORY_OVERRIDES: Record<string, string> = {
@@ -36,8 +37,8 @@ interface MultiDentistGridProps {
   onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-// FIXED: Slot height is constant and immutable (38px tablet)
-const SLOT_HEIGHT = 38; // Fixed height per 30-min slot
+// Base slot height (px) — overridden per-density via useSlotHeight.
+const BASE_SLOT_HEIGHT = 38;
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
 function timeToSlotIndex(time: string): number {
@@ -56,6 +57,7 @@ export function MultiDentistGrid({
   onConsultationHover,
 }: MultiDentistGridProps) {
   const { t } = useTranslation();
+  const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)

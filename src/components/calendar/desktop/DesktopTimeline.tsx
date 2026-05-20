@@ -7,6 +7,7 @@ import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { toast } from 'sonner';
+import { useSlotHeight } from '@/stores/agendaSettingsStore';
 
 interface DentistColumn {
   dentist: Dentist;
@@ -32,8 +33,7 @@ interface DesktopTimelineProps {
   onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-// FIXED: Slot heights - fixed and immutable (40px desktop)
-const SLOT_HEIGHT = 40; // Fixed height per 30-min slot
+const BASE_SLOT_HEIGHT = 40;
 const TOTAL_SLOTS = 28; // 08:00 to 22:00 = 14 hours = 28 slots
 
 function getConsultationStyles(consultation: Consultation) {
@@ -76,6 +76,7 @@ export function DesktopTimeline({
   onConsultationHover,
 }: DesktopTimelineProps) {
   const { t } = useTranslation();
+  const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const timelineRef = useRef<HTMLDivElement>(null);
   const [currentTimePosition, setCurrentTimePosition] = useState<number | null>(null);
   const [contextMenu, setContextMenu] = useState<{ consultation: Consultation; x: number; y: number } | null>(null);

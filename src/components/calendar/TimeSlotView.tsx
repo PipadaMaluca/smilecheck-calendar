@@ -2,6 +2,7 @@ import { Video, MapPin, Lock } from 'lucide-react';
 import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
+import { useSlotHeight } from '@/stores/agendaSettingsStore';
 
 interface TimeSlotViewProps {
   slots: TimeSlot[];
@@ -9,8 +10,7 @@ interface TimeSlotViewProps {
   showNotes?: boolean;
 }
 
-// FIXED: Slot height is constant and immutable (38px tablet)
-const SLOT_HEIGHT = 38; // Fixed height per 30-min slot
+const BASE_SLOT_HEIGHT = 38;
 
 // Convert time string to slot index (0-based, where 08:00 = 0)
 function timeToSlotIndex(time: string): number {
@@ -22,6 +22,7 @@ function timeToSlotIndex(time: string): number {
 
 export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotViewProps) {
   const { t } = useTranslation();
+  const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   // Build slot occupancy map for proper spanning
   const primarySlots: { slot: TimeSlot; startIdx: number; spanCount: number }[] = [];
   const occupiedIndices = new Set<number>();
