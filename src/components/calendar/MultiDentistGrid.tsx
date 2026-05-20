@@ -57,6 +57,7 @@ export function MultiDentistGrid({
   onConsultationHover,
 }: MultiDentistGridProps) {
   const { t } = useTranslation();
+  const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
