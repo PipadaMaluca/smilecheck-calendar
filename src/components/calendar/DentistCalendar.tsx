@@ -12,7 +12,7 @@ import { EditConsultationModal } from './EditConsultationModal';
 import { MobileConsultationDetail } from './MobileConsultationDetail';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from './AgendaSettingsModal';
 import { AgendaSettingsStyle } from './AgendaSettingsStyle';
-import { useAgendaSettings } from '@/stores/agendaSettingsStore';
+import { useAgendaSettings, agendaSettingsStore } from '@/stores/agendaSettingsStore';
 import { TimeBlockModal, TimeBlock } from './TimeBlockModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
@@ -86,6 +86,13 @@ export function DentistCalendar() {
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
+  // Reset agenda settings to defaults whenever the user leaves the Agenda tab.
+  useEffect(() => {
+    if (activeTab !== 'agenda') {
+      agendaSettingsStore.reset();
+    }
+  }, [activeTab]);
+  useEffect(() => () => { agendaSettingsStore.reset(); }, []);
   const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === mockDentists[0].id) || MOCK_DENTIST_RESULTS[0];
 
   // Consultation mode

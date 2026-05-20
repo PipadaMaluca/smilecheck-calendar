@@ -699,7 +699,7 @@
     "week": "Semana",
     "month": "Mês",
     "list": "Lista",
-    "modifyAgenda": "Modificar Agenda",
+    "modifyAgenda": "Configurações da Agenda",
     "searchPlaceholder": "Pesquisar pacientes, dentistas ou clínicas",
     "allAgendas": "Todas as Agendas",
     "filterPresent": "Filtrar Presentes",
@@ -2627,7 +2627,7 @@
     "sendMessage": "Enviar mensagem"
   },
   "agendaSettings": {
-    "title": "Modificar Horários",
+    "title": "Configurações da Agenda",
     "titleV2": "Configurações da Agenda",
     "visualization": "Visualização",
     "showSundays": "Mostrar Domingos",
@@ -2640,7 +2640,7 @@
     "showFreeSlots": "Mostrar slots livres",
     "showBlocks": "Mostrar pausas/bloqueios",
     "density": "Densidade",
-    "compact": "Compacto (mais consultas visíveis)",
+    "compact": "Compacto (dia completo visível)",
     "normal": "Normal (padrão)",
     "expanded": "Expandido (mais detalhes)",
     "colorsByType": "Cores por Tipo de Consulta",

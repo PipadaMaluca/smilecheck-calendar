@@ -48,33 +48,16 @@ export const DEFAULT_SETTINGS: AgendaSettings = {
   },
 };
 
-const SESSION_KEY = 'sc:agenda-settings';
-
-function loadInitial(): AgendaSettings {
-  if (typeof window === 'undefined') return { ...DEFAULT_SETTINGS };
-  try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
-    if (!raw) return { ...DEFAULT_SETTINGS };
-    const parsed = JSON.parse(raw);
-    return { ...DEFAULT_SETTINGS, ...parsed, categoryColors: { ...DEFAULT_SETTINGS.categoryColors, ...(parsed.categoryColors || {}) } };
-  } catch {
-    return { ...DEFAULT_SETTINGS };
-  }
-}
-
-let state: AgendaSettings = loadInitial();
+// In-memory only: agenda settings are intentionally NOT persisted.
+// They reset to defaults whenever the user navigates away from the agenda.
+let state: AgendaSettings = { ...DEFAULT_SETTINGS, categoryColors: { ...DEFAULT_SETTINGS.categoryColors }, defaultDurations: { ...DEFAULT_SETTINGS.defaultDurations } };
 const listeners = new Set<() => void>();
 
 function emit() {
   listeners.forEach((l) => l());
 }
 
-function persist() {
-  if (typeof window === 'undefined') return;
-  try {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
-  } catch {}
-}
+function persist() { /* no-op: in-memory only */ }
 
 export const agendaSettingsStore = {
   get: () => state,

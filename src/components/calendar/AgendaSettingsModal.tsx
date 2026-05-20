@@ -113,9 +113,11 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
     toast.info(t('agendaSettings.settingsReset'));
   };
 
-  const startHourOptions = Array.from({ length: 5 }, (_, i) => 6 + i);
-  const endHourOptions = Array.from({ length: 6 }, (_, i) => 17 + i);
-  const slotOptions = [15, 30, 45, 60];
+  // Integer-hour options matching the requested ranges (half-hour starts/ends
+  // are not supported by the underlying grid which iterates per whole hour).
+  const startHourOptions = [7, 8, 9, 10];
+  const endHourOptions = [18, 19, 20, 21, 22];
+  const slotOptions = [15, 20, 30, 45, 60];
 
   return (
     <>

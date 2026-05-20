@@ -21,7 +21,7 @@ import { DentistFeedbackModal } from '../DentistFeedbackModal';
 import { PatientFeedbackModal } from '../PatientFeedbackModal';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from '../AgendaSettingsModal';
 import { AgendaSettingsStyle } from '../AgendaSettingsStyle';
-import { useAgendaSettings } from '@/stores/agendaSettingsStore';
+import { useAgendaSettings, agendaSettingsStore } from '@/stores/agendaSettingsStore';
 import { TimeBlockModal, TimeBlock, TimeBlockDeleteConfirm } from '../TimeBlockModal';
 import { MoveConsultationModal, OverlapWarningModal, DragMoveInfo } from '../MoveConsultationModal';
 import { mockScoreHistory, ConsultationScore } from '@/types/scoring';
@@ -120,6 +120,16 @@ export function DesktopCalendarView() {
   const [showSettings, setShowSettings] = useState(false);
   const [agendaSettings, setAgendaSettings] = useState<AgendaSettings>({ ...DEFAULT_SETTINGS });
   const liveAgendaSettings = useAgendaSettings();
+  // Agenda settings are session-only and reset to defaults whenever the user
+  // navigates away from the Agenda tab (or unmounts the app shell).
+  useEffect(() => {
+    if (activeNavTab !== 'agenda') {
+      agendaSettingsStore.reset();
+    }
+  }, [activeNavTab]);
+  useEffect(() => {
+    return () => { agendaSettingsStore.reset(); };
+  }, []);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockInitialDate, setBlockInitialDate] = useState<Date | undefined>();
   const [blockInitialTime, setBlockInitialTime] = useState<string | undefined>();
