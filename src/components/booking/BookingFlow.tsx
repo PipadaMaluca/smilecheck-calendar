@@ -317,6 +317,21 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const renderConfirmStep = () => (
     <div className="space-y-4 animate-fade-in">
       <h3 className="text-lg font-semibold text-foreground">{t('booking.confirmBooking')}</h3>
+
+      {/* Case banner */}
+      {bookingCase !== 'D' && (
+        <div className={cn(
+          'p-3 rounded-xl border text-xs',
+          bookingCase === 'A' && 'bg-blue-500/10 border-blue-500/30 text-foreground',
+          bookingCase === 'B' && 'bg-amber-500/10 border-amber-500/30 text-foreground',
+          bookingCase === 'C' && 'bg-emerald-500/10 border-emerald-500/30 text-foreground',
+        )}>
+          {bookingCase === 'A' && `Seleccionou ${data.selectedSlots.length} horários possíveis. O dentista/clínica irá confirmar um deles.`}
+          {bookingCase === 'B' && 'Será adicionado à lista de espera. Será notificado quando houver disponibilidade.'}
+          {bookingCase === 'C' && 'Os horários selecionados serão prioritários. As preferências genéricas servem como alternativa.'}
+        </div>
+      )}
+
       <div className="space-y-3">
         {/* Dentist */}
         <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
@@ -342,23 +357,54 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             {data.isUrgent && <p className="text-xs text-destructive">⚠️ Urgente (+€5)</p>}
           </div>
         </div>
-        {/* Date & Time */}
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
-          <CalendarIcon className="w-5 h-5 text-primary shrink-0" />
-          <div>
-            <p className="text-sm font-semibold text-foreground">
-              {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
-            </p>
-            <p className="text-xs text-muted-foreground">{data.time}</p>
+        {/* Selected slots */}
+        {data.selectedSlots.length > 0 && (
+          <div className="p-3 rounded-xl bg-secondary border border-border">
+            <div className="flex items-center gap-2 mb-2">
+              <CalendarIcon className="w-4 h-4 text-primary" />
+              <p className="text-xs font-semibold text-foreground">
+                {data.selectedSlots.length === 1 ? 'Horário selecionado' : `${data.selectedSlots.length} horários possíveis`}
+              </p>
+            </div>
+            <div className="space-y-1">
+              {data.selectedSlots
+                .slice()
+                .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))
+                .map(s => (
+                  <p key={s.key} className="text-xs text-foreground pl-6">
+                    • {s.date.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
+                  </p>
+                ))}
+            </div>
           </div>
-        </div>
+        )}
+        {/* Preferences */}
+        {data.preferences.enabled && (data.preferences.periods.length > 0 || data.preferences.days.length > 0 || data.preferences.observation.trim()) && (
+          <div className="p-3 rounded-xl bg-secondary border border-border space-y-1.5">
+            <p className="text-xs font-semibold text-foreground">Preferências (Lista de Espera)</p>
+            {data.preferences.periods.length > 0 && (
+              <p className="text-xs text-muted-foreground">Período: {data.preferences.periods.map(p => p === 'morning' ? 'Manhã' : 'Tarde').join(', ')}</p>
+            )}
+            {data.preferences.days.length > 0 && (
+              <p className="text-xs text-muted-foreground">
+                Dias: {data.preferences.days.sort().map(d => ['Seg','Ter','Qua','Qui','Sex','Sáb'][d-1]).join(', ')}
+              </p>
+            )}
+            <p className="text-xs text-muted-foreground">Urgência: {data.preferences.urgency === 'urgent' ? 'Urgente' : 'Normal'}</p>
+            {data.preferences.observation.trim() && (
+              <p className="text-xs text-foreground italic">"{data.preferences.observation}"</p>
+            )}
+          </div>
+        )}
         {/* Price */}
-        <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
-          <span className="text-sm font-semibold text-foreground">{t('booking.price')}</span>
-          <span className="text-sm font-bold text-primary">
-            {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : t('booking.payAtClinicLabel')}
-          </span>
-        </div>
+        {isDirectBooking && (
+          <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
+            <span className="text-sm font-semibold text-foreground">{t('booking.price')}</span>
+            <span className="text-sm font-bold text-primary">
+              {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : t('booking.payAtClinicLabel')}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
