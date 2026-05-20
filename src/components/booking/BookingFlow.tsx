@@ -295,45 +295,22 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const renderDateTimeStep = () => (
     <div className="space-y-4 animate-fade-in">
       <h3 className="text-lg font-semibold text-foreground">{t('booking.chooseDatetime')}</h3>
-      <div className="flex justify-center">
-        <Calendar
-          mode="single"
-          selected={data.date}
-          onSelect={(d) => setData(prev => ({ ...prev, date: d, time: null }))}
-          disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
-          className="p-3 pointer-events-auto rounded-xl border border-border bg-secondary"
-        />
-      </div>
-      {data.date && (
-        <div>
-          <p className="text-sm font-medium text-foreground mb-2">
-            {t('booking.availableSlots')} — {data.date.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })}
-          </p>
-          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-            {ALL_SLOTS
-              .filter(s => data.consultationType === 'presencial' ? s < '19:00' : true)
-              .map(slot => {
-                const occupied = OCCUPIED_SLOTS.includes(slot);
-                const selected = data.time === slot;
-                return (
-                  <button
-                    key={slot}
-                    disabled={occupied}
-                    onClick={() => setData(d => ({ ...d, time: slot }))}
-                    className={cn(
-                      'text-sm py-2 px-1 rounded-lg border transition-all',
-                      occupied && 'opacity-40 cursor-not-allowed bg-muted border-border text-muted-foreground line-through',
-                      !occupied && !selected && 'border-border bg-secondary text-foreground hover:border-primary/50',
-                      selected && 'border-primary bg-primary text-primary-foreground font-semibold'
-                    )}
-                  >
-                    {slot}
-                  </button>
-                );
-              })}
-          </div>
-        </div>
-      )}
+      <p className="text-xs text-muted-foreground">
+        Clique nos horários disponíveis (verdes) para os selecionar. Pode escolher vários.
+      </p>
+      <AvailabilityGridStep
+        consultationType={data.consultationType}
+        selectedSlots={data.selectedSlots}
+        onSelectedSlotsChange={(slots) => setData(d => {
+          // Sync legacy date/time when exactly 1 slot
+          if (slots.length === 1) {
+            return { ...d, selectedSlots: slots, date: slots[0].date, time: slots[0].time };
+          }
+          return { ...d, selectedSlots: slots };
+        })}
+        preferences={data.preferences}
+        onPreferencesChange={(p) => setData(d => ({ ...d, preferences: p }))}
+      />
     </div>
   );
 
