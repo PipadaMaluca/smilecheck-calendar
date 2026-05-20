@@ -12,7 +12,7 @@ import { EditConsultationModal } from './EditConsultationModal';
 import { MobileConsultationDetail } from './MobileConsultationDetail';
 import { AgendaSettingsModal, DEFAULT_SETTINGS, AgendaSettings } from './AgendaSettingsModal';
 import { AgendaSettingsStyle } from './AgendaSettingsStyle';
-import { useAgendaSettings } from '@/stores/agendaSettingsStore';
+import { useAgendaSettings, agendaSettingsStore } from '@/stores/agendaSettingsStore';
 import { TimeBlockModal, TimeBlock } from './TimeBlockModal';
 import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
