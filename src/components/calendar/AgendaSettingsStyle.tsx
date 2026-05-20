@@ -26,14 +26,14 @@ export function AgendaSettingsStyle() {
       `;
     }).join('\n');
 
-    // Density rules
+    // Density rules — row heights themselves are handled by useSlotHeight().
+    // Here we only tweak inner padding / font-size to match the new row height.
     const densityRules =
       settings.density === 'compact'
         ? `
-          /* Shrink slot rows so the entire day fits without scrolling */
           [data-agenda-grid-row] { min-height: 0 !important; }
           [data-agenda-grid-row] > div { min-height: 0 !important; }
-          .appt-block { padding: 1px 3px !important; }
+          .appt-block { padding: 1px 3px !important; overflow: hidden !important; }
           .appt-block .text-\\[12px\\], .appt-block .text-\\[11px\\], .appt-block .font-bold {
             font-size: 10px !important; line-height: 1.15 !important;
           }
@@ -46,10 +46,8 @@ export function AgendaSettingsStyle() {
           .appt-block .font-bold { font-size: 13px !important; line-height: 1.3 !important; }
           .appt-block [data-line="type-row"] { font-size: 12px !important; }
           .appt-block [data-notes] { font-size: 11px !important; display: inline !important; }
-          /* Roomier rows for expanded mode */
-          [data-agenda-grid-row] > div { min-height: 56px !important; }
         `
-        : ''; // normal = leave defaults
+        : '';
 
     // Toggle rules
     const hideFree = !settings.showFreeSlots
