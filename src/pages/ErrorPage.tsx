@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useWatermarkSrc } from "@/hooks/useWatermarkSrc";
 
 interface ErrorPageProps {
   errorCode?: number | string;
@@ -11,6 +12,7 @@ interface ErrorPageProps {
 export default function ErrorPage({ errorCode = 500, onRetry }: ErrorPageProps) {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const watermarkSrc = useWatermarkSrc();
 
   const handleRetry = () => {
     if (onRetry) {
@@ -24,7 +26,7 @@ export default function ErrorPage({ errorCode = 500, onRetry }: ErrorPageProps) 
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
       {/* Watermark */}
       <img
-        src="/assets/smilecheck-icon-watermark.png"
+        src={watermarkSrc}
         alt=""
         aria-hidden="true"
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.05] pointer-events-none z-0 object-contain"

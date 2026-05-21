@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.png';
-const watermarkSrc = '/assets/smilecheck-icon-watermark.png';
 
 const sections = [
   { id: 'responsavel', title: '1. Responsável pelo Tratamento', content: 'SmileCheck, Lda. — NIF: 509 123 456' },
@@ -49,6 +49,7 @@ Contacto DPO: dpo@smilecheck.pt` },
 
 export default function Privacidade() {
   const navigate = useNavigate();
+  const watermarkSrc = useWatermarkSrc();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
