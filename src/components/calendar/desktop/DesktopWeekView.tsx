@@ -36,7 +36,7 @@ interface DesktopWeekViewProps {
   onConsultationHover?: (consultation: Consultation | null) => void;
 }
 
-const BASE_SLOT_HEIGHT = 32;
+const BASE_SLOT_HEIGHT = 48;
 const HOURS = Array.from({ length: 14 }, (_, i) => i + 8);
 const TOTAL_SLOTS = 28;
 
@@ -59,11 +59,11 @@ const SCALE_STYLES: Record<ScaleLevel, {
   cardPad: string; timeFs: string; nameFs: string; pillFs: string; pillPad: string;
   notes: boolean; pillTextHidden: boolean; firstNameOnly: boolean; minColW: number;
 }> = {
-  normal:  { cardPad: 'p-1.5', timeFs: 'text-[11px]', nameFs: 'text-[12px]', pillFs: 'text-[10px]', pillPad: '2px 6px', notes: true,  pillTextHidden: false, firstNameOnly: false, minColW: 0 },
-  compact: { cardPad: 'p-1',   timeFs: 'text-[10px]', nameFs: 'text-[11px]', pillFs: 'text-[10px]', pillPad: '2px 5px', notes: true,  pillTextHidden: false, firstNameOnly: false, minColW: 0 },
-  dense:   { cardPad: 'p-0.5', timeFs: 'text-[10px]', nameFs: 'text-[10px]', pillFs: 'text-[9px]',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: false, minColW: 120 },
-  ultra:   { cardPad: 'p-0.5', timeFs: 'text-[9px]',  nameFs: 'text-[9px]',  pillFs: 'text-[8px]',  pillPad: '1px 3px', notes: false, pillTextHidden: true,  firstNameOnly: true,  minColW: 100 },
-  scroll:  { cardPad: 'p-0.5', timeFs: 'text-[9px]',  nameFs: 'text-[9px]',  pillFs: 'text-[8px]',  pillPad: '1px 3px', notes: false, pillTextHidden: true,  firstNameOnly: true,  minColW: 100 },
+  normal:  { cardPad: 'px-1.5 py-1', timeFs: 'text-[11px]', nameFs: 'text-[11px]', pillFs: 'text-[10px]', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
+  compact: { cardPad: 'px-1.5 py-1', timeFs: 'text-[11px]', nameFs: 'text-[11px]', pillFs: 'text-[10px]', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
+  dense:   { cardPad: 'px-1 py-0.5', timeFs: 'text-[10px]', nameFs: 'text-[10px]', pillFs: 'text-[10px]', pillPad: '1px 5px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 120 },
+  ultra:   { cardPad: 'px-1 py-0.5', timeFs: 'text-[9px]',  nameFs: 'text-[9px]',  pillFs: 'text-[9px]',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
+  scroll:  { cardPad: 'px-1 py-0.5', timeFs: 'text-[9px]',  nameFs: 'text-[9px]',  pillFs: 'text-[9px]',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
 };
 
 export function DesktopWeekView({
@@ -318,13 +318,14 @@ export function DesktopWeekView({
                             }}
                             onDragEnd={() => setDragged(null)}
                             className={cn(
-                              'appt-block absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing overflow-hidden transition-all hover:shadow-lg',
+                              'appt-block absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:shadow-lg flex flex-col',
                               scaleCfg.cardPad,
                               dragged?.consultation.id === c.id && 'opacity-40 border-2 border-dashed border-primary'
                             )}
                             style={{
                               top: startIdx * SLOT_HEIGHT + 1,
                               height: spanCount * SLOT_HEIGHT - 2,
+                              minHeight: 44,
                               borderLeftWidth: '3px',
                               borderLeftColor: colors.hex,
                               backgroundColor: `${colors.hex}73`,
@@ -334,7 +335,7 @@ export function DesktopWeekView({
                             onMouseLeave={() => onConsultationHover?.(null)}
                             onContextMenu={(e) => handleContextMenu(e, c)}
                           >
-                            <div className="leading-tight min-w-0">
+                            <div className="leading-tight min-w-0 w-full">
                               <div className="flex items-center gap-1 min-w-0">
                                 <span className={cn('font-mono text-muted-foreground flex-shrink-0', scaleCfg.timeFs)}>
                                   {slot.time}
@@ -343,13 +344,13 @@ export function DesktopWeekView({
                                   {displayName}
                                 </span>
                               </div>
-                              <div className="mt-0.5 flex flex-wrap items-center gap-1 min-w-0">
+                              <div className="mt-0.5 flex items-center gap-1 min-w-0">
                                 <span
                                   className={cn(
-                                    'inline-flex items-center gap-0.5 font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0',
+                                    'inline-flex items-center gap-0.5 font-bold leading-none rounded-full flex-shrink-0',
                                     scaleCfg.pillFs
                                   )}
-                                  style={{ ...getCategoryBadgeStyle(colors.hex), padding: scaleCfg.pillPad }}
+                                  style={{ ...getCategoryBadgeStyle(colors.hex), padding: scaleCfg.pillPad, whiteSpace: 'nowrap', overflow: 'visible' }}
                                   title={getCategoryLabel(t, category)}
                                 >
                                   {scaleCfg.pillTextHidden ? (
@@ -361,11 +362,6 @@ export function DesktopWeekView({
                                     </>
                                   )}
                                 </span>
-                                {scaleCfg.notes && c.notes && (
-                                  <span className="text-[9px] text-[#8B9CB6] min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                                    {c.notes}
-                                  </span>
-                                )}
                               </div>
                             </div>
                           </div>
