@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.png';
-const watermarkSrc = '/assets/smilecheck-icon-watermark.png';
 
 const sections = [
   { id: 'introducao', title: '1. Introdução', content: 'O SmileCheck é uma plataforma de gestão de saúde oral que conecta pacientes, dentistas e clínicas. Ao utilizar os nossos serviços, concorda com os presentes termos.' },
@@ -50,6 +50,7 @@ Morada: Av. da Liberdade 123, Lisboa, Portugal` },
 
 export default function Termos() {
   const navigate = useNavigate();
+  const watermarkSrc = useWatermarkSrc();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);

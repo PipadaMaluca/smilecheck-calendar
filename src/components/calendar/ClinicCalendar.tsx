@@ -37,7 +37,7 @@ import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSea
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
-import smileIcon from '@/assets/smilecheck-icon.png';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
@@ -49,6 +49,7 @@ const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.i
 const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
