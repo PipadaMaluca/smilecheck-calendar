@@ -74,7 +74,7 @@ export function PatientAppointmentsList({
 
   return (
     <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D] animate-fade-in", compact && "p-3")}>
-      <div className={cn("space-y-4", compact ? "max-w-full" : "max-w-2xl mx-auto")}>
+      <div className="space-y-4 w-full">
         <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>Minhas Consultas</h2>
 
         {sortedConsultations.length === 0 ?
@@ -84,7 +84,10 @@ export function PatientAppointmentsList({
             <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.agendaDesc')}</p>
           </div> :
 
-        <div className="space-y-3">
+        <div
+          className="grid gap-4"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}
+        >
             {sortedConsultations.map((consultation) => {
             const category = consultation.category || 'restauracao';
             const colors = CATEGORY_COLORS[category];
