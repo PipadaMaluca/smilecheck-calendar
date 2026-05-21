@@ -112,7 +112,7 @@ export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
 
   return (
     <ScrollArea className="flex-1">
-      <div className="max-w-2xl mx-auto p-4 md:p-6 pb-28">
+      <div className="mx-auto p-4 md:p-6 pb-28" style={{ width: 'min(95vw, 1100px)' }}>
         {isCompleted ? (
           <TriageCompletion triageData={triageData} onFindDentists={handleFindDentists} />
         ) : (

@@ -46,7 +46,10 @@ export function TriageSymptomsStep({
         <p className="text-sm text-muted-foreground mt-1">{t('triage.symptoms.subtitle')}</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div
+        className="grid gap-3"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}
+      >
         {SYMPTOM_ITEMS.map((symptom) => {
           const isSelected = selectedSymptoms.includes(symptom.id);
           return (
@@ -54,7 +57,7 @@ export function TriageSymptomsStep({
               key={symptom.id}
               onClick={() => toggleSymptom(symptom.id)}
               className={cn(
-                'flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all min-h-[100px]',
+                'flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all min-h-[80px]',
                 isSelected
                   ? 'bg-primary/20 border-primary text-foreground'
                   : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'
