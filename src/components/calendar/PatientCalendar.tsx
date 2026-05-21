@@ -34,7 +34,7 @@ import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { useIsMobile } from '@/hooks/use-mobile';
-import smileIcon from '@/assets/smilecheck-icon.png';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
