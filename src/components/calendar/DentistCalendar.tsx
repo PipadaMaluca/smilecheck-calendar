@@ -57,6 +57,7 @@ const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForCli
 const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function DentistCalendar() {
+  const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   // Subscribe so changes re-render columns/list
   useAgendaFilters();

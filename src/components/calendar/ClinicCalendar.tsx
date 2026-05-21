@@ -49,6 +49,7 @@ const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.i
 const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));

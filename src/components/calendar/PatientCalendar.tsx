@@ -39,6 +39,7 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
   const { t } = useTranslation();
+  const smileIcon = useWatermarkSrc();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');

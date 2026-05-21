@@ -94,6 +94,7 @@ const getPresentDentistKeys = () => {
 };
 
 export function DesktopCalendarView() {
+  const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
