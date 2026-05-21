@@ -131,7 +131,7 @@ export function TriageFlow() {
         {/* Main content */}
         <main className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
-            <div className="max-w-2xl mx-auto p-6">
+            <div className="mx-auto p-4 md:p-6" style={{ width: 'min(95vw, 1100px)' }}>
               {isCompleted ? (
                 <TriageCompletion
                   triageData={triageData}
