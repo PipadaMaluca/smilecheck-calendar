@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
-import smileIcon from '@/assets/smilecheck-icon.png';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { useTranslation } from 'react-i18next';
 
 interface ChatMessage {

@@ -12,13 +12,14 @@ import { TriageData, initialTriageData } from '@/types/triage';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BottomNavigation } from '@/components/calendar/BottomNavigation';
 import { TriageDesktopSidebar } from './TriageDesktopSidebar';
-import smileIcon from '@/assets/smilecheck-icon.png';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 
 const TOTAL_STEPS = 5;
 
 export function TriageFlow() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const smileIcon = useWatermarkSrc();
   const [currentStep, setCurrentStep] = useState(1);
   const [isCompleted, setIsCompleted] = useState(false);
   const [triageData, setTriageData] = useState<TriageData>(initialTriageData);

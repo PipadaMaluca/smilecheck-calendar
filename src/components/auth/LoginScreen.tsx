@@ -9,11 +9,13 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 
 export function LoginScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isMobile = useIsMobile();
+  const watermarkSrc = useWatermarkSrc();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -145,7 +147,7 @@ export function LoginScreen() {
 
   return (
     <div className="min-h-screen bg-background flex relative overflow-hidden">
-      <img src="/assets/smilecheck-icon-watermark.png" alt="" aria-hidden="true"
+      <img src={watermarkSrc} alt="" aria-hidden="true"
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.05] pointer-events-none z-0 object-contain" />
       <div className="w-1/2 md:w-[55%] lg:w-1/2 flex items-center justify-center p-8 z-10 relative">
         <div className="w-full max-w-md">{loginForm}</div>
