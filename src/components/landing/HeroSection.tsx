@@ -51,27 +51,10 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-8 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
-      {/* Subtle floating tooth shapes */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div className="absolute top-[15%] left-[8%] text-[140px] opacity-[0.04] dark:opacity-[0.06] select-none animate-pulse" style={{ animationDuration: '8s' }}>🦷</div>
-        <div className="absolute top-[60%] right-[10%] text-[180px] opacity-[0.04] dark:opacity-[0.05] select-none animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }}>🦷</div>
-        <div className="absolute bottom-[20%] left-[15%] text-[100px] opacity-[0.04] dark:opacity-[0.05] select-none animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }}>✨</div>
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#2196F3]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] bg-[#1E88E5]/5 rounded-full blur-3xl" />
-      </div>
-
+    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center sc-logo-spring" style={{ marginBottom: 20 }}>
-          <span className="block sm:hidden">
-            <Logo variant="full" size={260} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
-          <span className="hidden sm:block lg:hidden">
-            <Logo variant="full" size={280} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
-          <span className="hidden lg:block">
-            <Logo variant="full" size={300} className="drop-shadow-[0_0_30px_hsla(207,90%,54%,0.35)]" />
-          </span>
+        <div className="flex justify-center" style={{ marginBottom: 16 }}>
+          <Logo variant="full" size={160} />
         </div>
 
         {/* Visible pill — clear blue tint per design spec */}
