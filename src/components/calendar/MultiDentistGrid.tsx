@@ -125,7 +125,7 @@ export function MultiDentistGrid({
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
-          <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn ? '640px' : undefined }}>
+          <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn && !smallMobileMulti ? '640px' : undefined }}>
           {/* Dentist Headers */}
           <div className={cn(
             "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
