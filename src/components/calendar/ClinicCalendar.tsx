@@ -43,6 +43,7 @@ import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
+import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
 
 // Helper functions for filter state
 const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
@@ -306,13 +307,22 @@ export function ClinicCalendar() {
         <DashboardView userRole="clinic" onNavigate={handleTabChange} onViewFullHistory={() => setShowFullHistory(true)} />
       ) : activeTab === 'agenda' ? (
         <>
-          {/* Clinic Agenda Dropdown Filter */}
-          <ClinicAgendaDropdown
-            selectedDentistIds={selectedDentistIds}
-            onDentistToggle={handleDentistToggle}
-            onClinicToggle={handleMobileClinicToggle}
-            viewMode={viewMode}
-          />
+          {/* Mobile: filter button + selected-dentist pills. Otherwise: dropdown. */}
+          {isMobile ? (
+            <MobileAgendaFilter
+              selectedDentistIds={selectedDentistIds}
+              onDentistToggle={handleDentistToggle}
+              onClinicToggle={handleMobileClinicToggle}
+              viewMode={viewMode}
+            />
+          ) : (
+            <ClinicAgendaDropdown
+              selectedDentistIds={selectedDentistIds}
+              onDentistToggle={handleDentistToggle}
+              onClinicToggle={handleMobileClinicToggle}
+              viewMode={viewMode}
+            />
+          )}
 
           <DateNavigator
             date={selectedDate}
