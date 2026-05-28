@@ -44,14 +44,11 @@ export function MobileSingleDentistAgenda({
 
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
-  const [slideClass, setSlideClass] = useState<string>('');
 
   const go = (dir: 1 | -1) => {
     const next = activeIdx + dir;
     if (next < 0 || next >= keys.length) return;
-    setSlideClass(dir === 1 ? 'animate-slide-in-right' : 'animate-slide-in-left');
     onActiveKeyChange?.(keys[next]);
-    window.setTimeout(() => setSlideClass(''), 220);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -112,7 +109,7 @@ export function MobileSingleDentistAgenda({
         </div>
       )}
 
-      <div className={cn('w-full', slideClass)} key={keys[activeIdx]}>
+      <div className="w-full animate-slide-up" key={keys[activeIdx]}>
         <MultiDentistGrid
           columns={single}
           onSlotClick={onSlotClick}
