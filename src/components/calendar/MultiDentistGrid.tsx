@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -60,6 +60,16 @@ export function MultiDentistGrid({
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
+  // Detect small mobile (<500px) for per-column min-width + scroll-snap behavior.
+  const [isSmallMobile, setIsSmallMobile] = useState<boolean>(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 499px)').matches : false
+  );
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 499px)');
+    const onChange = (e: MediaQueryListEvent) => setIsSmallMobile(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
   const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
@@ -72,10 +82,15 @@ export function MultiDentistGrid({
   // Mobile detection - single vs multi dentist
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length > 1;
-  const timeColumnWidth = isSingleColumn ? '40px' : '64px';
+  const smallMobileMulti = isSmallMobile && isMultiColumn;
+  const timeColumnWidth = isSingleColumn ? '40px' : smallMobileMulti ? '45px' : '64px';
+  // On small mobile multi-column: each column gets min-width of ~1/3 viewport so 3 fit, rest scroll.
+  const mobileColMin = 'calc((100vw - 45px) / 3)';
   const agendaGridTemplate = isSingleColumn
     ? `${timeColumnWidth} minmax(0, 1fr)`
-    : `${timeColumnWidth} repeat(${columns.length}, minmax(0, 1fr))`;
+    : smallMobileMulti
+      ? `${timeColumnWidth} repeat(${columns.length}, minmax(${mobileColMin}, 1fr))`
+      : `${timeColumnWidth} repeat(${columns.length}, minmax(0, 1fr))`;
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
   // Spec: 7+ cols → 8/7px;  4-6 cols → 9/8px;  1-3 cols → 10/9px.
