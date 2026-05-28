@@ -54,7 +54,7 @@ export function HeroSection() {
     <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="flex justify-center" style={{ marginBottom: 16 }}>
-          <Logo variant="full" size={160} />
+          <Logo variant="full" size={260} className="sm:!w-[320px] md:!w-[400px]" />
         </div>
 
         {/* Visible pill — clear blue tint per design spec */}
