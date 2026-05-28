@@ -146,6 +146,7 @@ export function MultiDentistGrid({
                     ? "flex-1 min-w-0 dentist-column-mobile dentist-header-mobile" 
                     : "dentist-column-mobile agenda-dentist-column-separator"
                 )}
+                style={smallMobileMulti ? { scrollSnapAlign: 'start' } : undefined}
               >
                 <p className="text-[11px] font-bold leading-tight truncate" title={col.dentist.name}>
                   <ClickableDentistName name={col.dentist.name} className="text-[11px] font-bold" />
