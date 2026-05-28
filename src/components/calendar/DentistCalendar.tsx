@@ -419,14 +419,21 @@ export function DentistCalendar() {
           }} onViewFullHistory={() => setShowFullHistory(true)} />
         ) : activeTab === 'agenda' ? (
           <>
-            {/* Dentist Agenda Dropdown Filter */}
-            <DentistAgendaDropdown
-              currentDentistId={mockDentists[0].id}
-              selectedDentistIds={selectedDentistIds}
-              onDentistToggle={handleDentistToggle}
-              onClinicToggle={handleMobileClinicToggle}
-              viewMode={viewMode}
-            />
+            {/* Dentist switcher — pills on mobile (day view), dropdown otherwise */}
+            {isMobile && viewMode === 'day' ? (
+              <MobileDentistTabs
+                activeKey={mobileDentistKey}
+                onSelect={setMobileDentistKey}
+              />
+            ) : (
+              <DentistAgendaDropdown
+                currentDentistId={mockDentists[0].id}
+                selectedDentistIds={selectedDentistIds}
+                onDentistToggle={handleDentistToggle}
+                onClinicToggle={handleMobileClinicToggle}
+                viewMode={viewMode}
+              />
+            )}
 
             <DateNavigator
               date={selectedDate}
