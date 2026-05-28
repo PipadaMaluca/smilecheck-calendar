@@ -49,6 +49,7 @@ import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
+import { MobileDentistTabs } from './mobile/MobileDentistTabs';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
@@ -67,6 +68,7 @@ export function DentistCalendar() {
   const [activeTab, setActiveTab] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys());
+  const [mobileDentistKey, setMobileDentistKey] = useState<string>('1-1');
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
