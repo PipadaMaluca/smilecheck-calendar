@@ -128,7 +128,6 @@ export function MobileAgendaFilter({
           )}
         </button>
 
-        {pills.map(p => (
         {pills.map(p => {
           const isActive = activeKey === p.key;
           return (
