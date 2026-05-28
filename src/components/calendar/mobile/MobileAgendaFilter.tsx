@@ -16,6 +16,10 @@ interface MobileAgendaFilterProps {
   viewMode: ViewMode;
   /** When set, the matching dentist gets an "(Eu)" suffix in the panel. */
   currentDentistId?: string;
+  /** Mobile single-dentist active key (clinicId-dentistId). Highlights the matching pill. */
+  activeKey?: string;
+  /** Called when user taps a pill to switch the active dentist. */
+  onActivePillClick?: (key: string) => void;
 }
 
 /**
@@ -30,6 +34,8 @@ export function MobileAgendaFilter({
   onClinicToggle,
   viewMode,
   currentDentistId,
+  activeKey,
+  onActivePillClick,
 }: MobileAgendaFilterProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -122,27 +128,48 @@ export function MobileAgendaFilter({
           )}
         </button>
 
-        {pills.map(p => (
-          <span
-            key={p.key}
-            className="flex items-center gap-1.5 flex-shrink-0 pl-1 pr-1 min-h-[36px] rounded-full text-xs font-medium bg-primary/10 text-foreground border border-primary/30"
-          >
-            <span className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold bg-primary/20 text-foreground">
-              {p.initials}
-            </span>
-            <span className="truncate max-w-[90px]">
-              {p.firstName}
-              {p.isMe ? ` (${t('agenda.me')})` : ''}
-            </span>
-            <button
-              onClick={() => onDentistToggle(p.dentistId, true, p.clinicId)}
-              className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-primary/20 transition-colors"
-              aria-label={`Remover ${p.firstName}`}
+        {pills.map(p => {
+          const isActive = activeKey === p.key;
+          return (
+            <span
+              key={p.key}
+              className={cn(
+                'flex items-center gap-1.5 flex-shrink-0 pl-1 pr-1 min-h-[36px] rounded-full text-xs font-medium border transition-colors',
+                isActive
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-primary/10 text-foreground border-primary/30'
+              )}
             >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </span>
-        ))}
+              <button
+                onClick={() => onActivePillClick?.(p.key)}
+                className="flex items-center gap-1.5 min-h-[32px]"
+              >
+                <span
+                  className={cn(
+                    'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold',
+                    isActive ? 'bg-primary-foreground/20' : 'bg-primary/20 text-foreground'
+                  )}
+                >
+                  {p.initials}
+                </span>
+                <span className="truncate max-w-[90px]">
+                  {p.firstName}
+                  {p.isMe ? ` (${t('agenda.me')})` : ''}
+                </span>
+              </button>
+              <button
+                onClick={() => onDentistToggle(p.dentistId, true, p.clinicId)}
+                className={cn(
+                  'w-6 h-6 rounded-full flex items-center justify-center transition-colors',
+                  isActive ? 'hover:bg-primary-foreground/20' : 'hover:bg-primary/20'
+                )}
+                aria-label={`Remover ${p.firstName}`}
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </span>
+          );
+        })}
 
         <button
           onClick={() => setOpen(true)}

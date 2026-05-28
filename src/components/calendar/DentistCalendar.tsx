@@ -50,6 +50,7 @@ import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
+import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
@@ -88,6 +89,7 @@ export function DentistCalendar() {
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
+  const [mobileActiveDentistKey, setMobileActiveDentistKey] = useState<string | undefined>(undefined);
   // Reset agenda settings to defaults whenever the user leaves the Agenda tab.
   useEffect(() => {
     if (activeTab !== 'agenda') {
@@ -253,6 +255,17 @@ export function DentistCalendar() {
     }
     
     // Day view shows MultiDentistGrid (like Clinic)
+    if (isMobile) {
+      return (
+        <MobileSingleDentistAgenda
+          columns={columns}
+          activeKey={mobileActiveDentistKey}
+          onActiveKeyChange={setMobileActiveDentistKey}
+          onSlotClick={handleGridSlotClick}
+          onEmptySlotClick={handleEmptySlotClick}
+        />
+      );
+    }
     return (
       <MultiDentistGrid
         columns={columns}
@@ -401,6 +414,8 @@ export function DentistCalendar() {
                 onClinicToggle={handleMobileClinicToggle}
                 viewMode={viewMode}
                 currentDentistId={mockDentists[0].id}
+                activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
+                onActivePillClick={(k) => setMobileActiveDentistKey(k)}
               />
             ) : (
               <DentistAgendaDropdown

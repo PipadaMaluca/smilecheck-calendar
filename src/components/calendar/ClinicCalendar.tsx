@@ -44,6 +44,7 @@ import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
+import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
 
 // Helper functions for filter state
 const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
@@ -72,6 +73,7 @@ export function ClinicCalendar() {
   const [viewPatientDossier, setViewPatientDossier] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
   const isMobile = useIsMobile();
+  const [mobileActiveDentistKey, setMobileActiveDentistKey] = useState<string | undefined>(undefined);
   const ownClinicId = mockClinics[0]?.id || '1';
 
   // Build columns based on selected clinics and dentists
@@ -314,6 +316,8 @@ export function ClinicCalendar() {
               onDentistToggle={handleDentistToggle}
               onClinicToggle={handleMobileClinicToggle}
               viewMode={viewMode}
+              activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
+              onActivePillClick={(k) => setMobileActiveDentistKey(k)}
             />
           ) : (
             <ClinicAgendaDropdown
@@ -344,6 +348,14 @@ export function ClinicCalendar() {
               <TimeSlotView 
                 slots={listSlots} 
                 onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)} 
+              />
+            ) : isMobile ? (
+              <MobileSingleDentistAgenda
+                columns={columns}
+                activeKey={mobileActiveDentistKey}
+                onActiveKeyChange={setMobileActiveDentistKey}
+                onSlotClick={handleSlotClick}
+                onEmptySlotClick={handleEmptySlotClick}
               />
             ) : (
               <MultiDentistGrid
