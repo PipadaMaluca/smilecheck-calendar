@@ -239,6 +239,7 @@ export function MultiDentistGrid({
                   style={{
                     display: 'grid',
                     gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+                    ...(smallMobileMulti ? { scrollSnapAlign: 'start' as const } : {}),
                   }}
                 >
                   {/* Empty slot backgrounds */}
