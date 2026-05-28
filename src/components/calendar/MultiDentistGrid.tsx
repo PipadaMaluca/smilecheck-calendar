@@ -110,7 +110,14 @@ export function MultiDentistGrid({
       // Multi dentist: allow horizontal scroll - NO padding left for sticky time column
       isMultiColumn && "calendar-grid-multi w-full max-w-full overflow-x-auto"
     )}
-    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0, width: '100%', maxWidth: '100%' } : undefined}
+    style={isMultiColumn ? {
+      WebkitOverflowScrolling: 'touch',
+      paddingLeft: 0,
+      marginLeft: 0,
+      width: '100%',
+      maxWidth: '100%',
+      ...(smallMobileMulti ? { scrollSnapType: 'x mandatory' as const } : {}),
+    } : undefined}
     >
         <div className="relative min-w-0" style={{ width: '100%' }}>
         {/* Scroll indicator - only for multiple columns */}
