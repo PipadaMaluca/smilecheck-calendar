@@ -520,25 +520,41 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
-                      {/* Mobile: 3-column row */}
-                      <div className="sm:hidden flex items-center px-1 gap-2">
-                        <div className="w-[50px] flex-shrink-0">
-                          <span className="text-[12px] font-bold tabular-nums" style={{ color: catColor?.hex || '#2196F3' }}>{c.time}</span>
+                      {/* Mobile: 2x3 grid — time | name + pill / observation + status */}
+                      <div
+                        className="sm:hidden grid items-center px-2 py-1 gap-x-2 gap-y-0.5"
+                        style={{
+                          gridTemplateColumns: '46px minmax(0, 1fr) auto',
+                          gridTemplateRows: 'auto auto',
+                        }}
+                      >
+                        <span
+                          className="text-[14px] font-semibold tabular-nums text-foreground self-center"
+                          style={{ gridColumn: 1, gridRow: '1 / 3' }}
+                        >
+                          {c.time}
+                        </span>
+                        <span
+                          className="text-[14px] font-semibold text-foreground truncate min-w-0"
+                          style={{ gridColumn: 2, gridRow: 1 }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ClickablePatientName
+                            name={c.patient.name}
+                            patientId={c.patient.id}
+                            className="text-[14px] font-semibold text-foreground hover:underline cursor-pointer"
+                          />
+                        </span>
+                        <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 1 }}>
+                          <ConsultationTypePill category={c.category as ConsultationCategory} size="sm" />
                         </div>
-                        <div className="flex-1 min-w-0 flex flex-col justify-center" style={{ lineHeight: 1.3 }}>
-                          <span className="text-[13px] font-medium text-foreground truncate" onClick={(e) => e.stopPropagation()}>
-                            <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-[13px] font-medium text-foreground hover:underline cursor-pointer" />
-                          </span>
-                          <div className="flex items-center gap-1 min-w-0 overflow-hidden">
-                            <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />
-                            {c.notes && (
-                              <span className="text-[10px] text-muted-foreground truncate min-w-0 flex-shrink hidden min-[375px]:inline">
-                                {c.notes}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <div className="w-[100px] flex-shrink-0 flex justify-end">
+                        <span
+                          className="text-[12px] text-muted-foreground truncate min-w-0"
+                          style={{ gridColumn: 2, gridRow: 2 }}
+                        >
+                          {c.notes || '\u00A0'}
+                        </span>
+                        <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 2 }}>
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
                         </div>
                       </div>
