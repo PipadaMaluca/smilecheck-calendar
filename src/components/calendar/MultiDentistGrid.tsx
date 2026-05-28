@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -60,6 +60,16 @@ export function MultiDentistGrid({
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
+  // Detect small mobile (<500px) for per-column min-width + scroll-snap behavior.
+  const [isSmallMobile, setIsSmallMobile] = useState<boolean>(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 499px)').matches : false
+  );
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 499px)');
+    const onChange = (e: MediaQueryListEvent) => setIsSmallMobile(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
   const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
@@ -72,10 +82,15 @@ export function MultiDentistGrid({
   // Mobile detection - single vs multi dentist
   const isSingleColumn = columns.length === 1;
   const isMultiColumn = columns.length > 1;
-  const timeColumnWidth = isSingleColumn ? '40px' : '64px';
+  const smallMobileMulti = isSmallMobile && isMultiColumn;
+  const timeColumnWidth = isSingleColumn ? '40px' : smallMobileMulti ? '45px' : '64px';
+  // On small mobile multi-column: each column gets min-width of ~1/3 viewport so 3 fit, rest scroll.
+  const mobileColMin = 'calc((100vw - 45px) / 3)';
   const agendaGridTemplate = isSingleColumn
     ? `${timeColumnWidth} minmax(0, 1fr)`
-    : `${timeColumnWidth} repeat(${columns.length}, minmax(0, 1fr))`;
+    : smallMobileMulti
+      ? `${timeColumnWidth} repeat(${columns.length}, minmax(${mobileColMin}, 1fr))`
+      : `${timeColumnWidth} repeat(${columns.length}, minmax(0, 1fr))`;
 
   // Density tier based on number of visible columns (desktop only — mobile is single-column).
   // Spec: 7+ cols → 8/7px;  4-6 cols → 9/8px;  1-3 cols → 10/9px.
@@ -95,7 +110,14 @@ export function MultiDentistGrid({
       // Multi dentist: allow horizontal scroll - NO padding left for sticky time column
       isMultiColumn && "calendar-grid-multi w-full max-w-full overflow-x-auto"
     )}
-    style={isMultiColumn ? { WebkitOverflowScrolling: 'touch', paddingLeft: 0, marginLeft: 0, width: '100%', maxWidth: '100%' } : undefined}
+    style={isMultiColumn ? {
+      WebkitOverflowScrolling: 'touch',
+      paddingLeft: 0,
+      marginLeft: 0,
+      width: '100%',
+      maxWidth: '100%',
+      ...(smallMobileMulti ? { scrollSnapType: 'x mandatory' as const } : {}),
+    } : undefined}
     >
         <div className="relative min-w-0" style={{ width: '100%' }}>
         {/* Scroll indicator - only for multiple columns */}
@@ -103,7 +125,7 @@ export function MultiDentistGrid({
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
         )}
         
-          <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn ? '640px' : undefined }}>
+          <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn && !smallMobileMulti ? '640px' : undefined }}>
           {/* Dentist Headers */}
           <div className={cn(
             "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
@@ -124,6 +146,7 @@ export function MultiDentistGrid({
                     ? "flex-1 min-w-0 dentist-column-mobile dentist-header-mobile" 
                     : "dentist-column-mobile agenda-dentist-column-separator"
                 )}
+                style={smallMobileMulti ? { scrollSnapAlign: 'start' } : undefined}
               >
                 <p className="text-[11px] font-bold leading-tight truncate" title={col.dentist.name}>
                   <ClickableDentistName name={col.dentist.name} className="text-[11px] font-bold" />
@@ -216,6 +239,7 @@ export function MultiDentistGrid({
                   style={{
                     display: 'grid',
                     gridTemplateRows: `repeat(${totalSlots}, ${SLOT_HEIGHT}px)`,
+                    ...(smallMobileMulti ? { scrollSnapAlign: 'start' as const } : {}),
                   }}
                 >
                   {/* Empty slot backgrounds */}
@@ -303,7 +327,7 @@ export function MultiDentistGrid({
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
                           "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
-                          isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
+                          smallMobileMulti ? "!px-[4px] !py-[3px]" : isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{
@@ -314,25 +338,34 @@ export function MultiDentistGrid({
                       >
                         {/* Line 1: Time + Name (Age) — bold, top-aligned */}
                         <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1 }}>
-                          <span className={cn("text-white font-bold font-mono flex-shrink-0", isSingleColumn ? "text-[9px]" : D.time)}>{slot.time}</span>
-                          <span className={cn("font-medium text-white truncate min-w-0", isSingleColumn ? "text-[9px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
-                            {displayName}
+                          <span className={cn("text-white font-bold font-mono flex-shrink-0", smallMobileMulti ? "text-[10px]" : isSingleColumn ? "text-[9px]" : D.time)}>{slot.time}</span>
+                          <span className={cn("font-medium text-white truncate min-w-0", smallMobileMulti ? "text-[10px]" : isSingleColumn ? "text-[9px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
+                            {smallMobileMulti ? patientName.split(' ')[0] : displayName}
                           </span>
-                          {patientAge != null && (
+                          {!smallMobileMulti && patientAge != null && (
                             <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[9px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
                         {/* Line 2: Type pill + description */}
                         <div data-line="type-row" className="flex flex-wrap items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
-                          <span
-                            className={cn("inline-flex items-center font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
-                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
-                          >
-                            <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
-                            <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
-                            {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
-                          </span>
-                          {consultation.notes && (
+                          {smallMobileMulti ? (
+                            <span
+                              aria-label={getCategoryLabel(t, category)}
+                              title={getCategoryLabel(t, category)}
+                              className="rounded-full flex-shrink-0 inline-block"
+                              style={{ width: 8, height: 8, backgroundColor: colors.hex }}
+                            />
+                          ) : (
+                            <span
+                              className={cn("inline-flex items-center font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0", isSingleColumn ? "text-[8px]" : D.pill)}
+                              style={{ ...getCategoryBadgeStyle(colors.hex), padding: isSingleColumn ? '1px 4px' : D.pillPad }}
+                            >
+                              <span className="lg:hidden">{getShortCategoryLabel(t, category)}</span>
+                              <span className="hidden lg:inline">{getCategoryLabel(t, category)}</span>
+                              {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
+                            </span>
+                          )}
+                          {!smallMobileMulti && consultation.notes && (
                             <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0 flex-1", isSingleColumn ? "text-[8px]" : D.notes)}>
                               {consultation.notes}
                             </span>
