@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { MultiDentistGrid, DentistColumn } from '../MultiDentistGrid';
 import { Consultation, TimeSlot } from '@/types/calendar';
 import { cn } from '@/lib/utils';
