@@ -254,9 +254,34 @@ export function DentistCalendar() {
     }
     
     // Day view shows MultiDentistGrid (like Clinic)
+    // On mobile, force a single dentist column to avoid overlapping columns.
+    const gridColumns = isMobile
+      ? (() => {
+          const single = columns.find(
+            (col) => `${col.clinic.id}-${col.dentist.id}` === mobileDentistKey
+          );
+          if (single) return [single];
+          // Fallback: build from mockData for the active key
+          const [clinicId, ...rest] = mobileDentistKey.split('-');
+          const dentistId = rest.join('-');
+          const clinic = mockClinics.find((c) => c.id === clinicId);
+          const dentist = mockDentists.find((d) => d.id === dentistId);
+          if (!clinic || !dentist) return columns.slice(0, 1);
+          const cons = mockConsultations.filter(
+            (c) => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
+          );
+          return [{
+            dentist,
+            clinic,
+            worksToday: dentistWorksOnDemo(clinic.id, dentist.id),
+            slots: generateTimeSlots(selectedDate, cons),
+          }];
+        })()
+      : columns;
+
     return (
       <MultiDentistGrid
-        columns={columns}
+        columns={gridColumns}
         onSlotClick={handleGridSlotClick}
         onEmptySlotClick={handleEmptySlotClick}
         showFullName
