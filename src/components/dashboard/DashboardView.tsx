@@ -930,12 +930,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
       <div className="p-4 sm:p-6 max-w-7xl mx-auto space-y-6 sm:space-y-8 w-full min-w-0 animate-fade-in">
         {/* Greeting */}
-        <div className="items-center justify-between flex flex-col gap-1.5 min-w-0">
+        <div className="items-center justify-between flex flex-col gap-1.5 min-w-0 max-[499px]:gap-0">
           <div>
-            <h1 className="t-h1 text-foreground text-center truncate max-w-full">
+            <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-[18px] max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5">
+            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
               {DEMO_DATE.toLocaleDateString('pt-PT', {
                 weekday: 'long',
                 day: 'numeric',
