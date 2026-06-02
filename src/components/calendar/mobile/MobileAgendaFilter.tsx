@@ -186,6 +186,7 @@ export function MobileAgendaFilter({
           {columns.map(c => {
             const k = `${c.clinic.id}-${c.dentist.id}`;
             const isActive = k === (activeKey ?? `${columns[0].clinic.id}-${columns[0].dentist.id}`);
+            const hasAppointments = c.slots.some(s => s.consultation);
             return (
               <button
                 key={k}
@@ -195,7 +196,9 @@ export function MobileAgendaFilter({
                   'flex-shrink-0 flex items-center justify-center transition-colors text-[11px] font-bold',
                   isActive
                     ? 'bg-[#2196F3] text-white'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                    : hasAppointments
+                      ? 'bg-white/10 text-[#94A3B8] hover:bg-white/20'
+                      : 'bg-white/10 text-[#4A5568] opacity-50 hover:opacity-75'
                 )}
                 style={{ width: 34, height: 28, borderRadius: 14 }}
               >
