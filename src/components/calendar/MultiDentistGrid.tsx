@@ -130,7 +130,7 @@ export function MultiDentistGrid({
         
           <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn && !smallMobileMulti ? '640px' : undefined }}>
           {/* Dentist Headers */}
-          <div className={cn(
+          {!hideColumnHeader && <div className={cn(
             "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
             isSingleColumn && "calendar-grid-mobile"
           )} style={{ gridTemplateColumns: agendaGridTemplate }}>
@@ -160,7 +160,7 @@ export function MultiDentistGrid({
                 </p>
               </div>
             ))}
-          </div>
+          </div>}
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
           <div data-agenda-grid-row className={cn("grid", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px`, gridTemplateColumns: agendaGridTemplate }}>
