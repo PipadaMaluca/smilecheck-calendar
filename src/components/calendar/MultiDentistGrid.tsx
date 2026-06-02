@@ -35,6 +35,8 @@ interface MultiDentistGridProps {
   showFullName?: boolean;
   onDragMove?: (consultation: Consultation, fromDentistId: string, fromClinicId: string, fromTime: string, toDentistId: string, toClinicId: string, toTime: string) => void;
   onConsultationHover?: (consultation: Consultation | null) => void;
+  /** When true, hides the per-column dentist/clinic header row (used by mobile single-dentist view where the header is shown above by the page chrome). */
+  hideColumnHeader?: boolean;
 }
 
 // Base slot height (px) — overridden per-density via useSlotHeight.
@@ -55,6 +57,7 @@ export function MultiDentistGrid({
   showFullName = false,
   onDragMove,
   onConsultationHover,
+  hideColumnHeader = false,
 }: MultiDentistGridProps) {
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
@@ -127,7 +130,7 @@ export function MultiDentistGrid({
         
           <div className="min-w-0" style={{ width: '100%', minWidth: isMultiColumn && !smallMobileMulti ? '640px' : undefined }}>
           {/* Dentist Headers */}
-          <div className={cn(
+          {!hideColumnHeader && <div className={cn(
             "grid border-b border-border pb-2 mb-2 sticky top-0 bg-background z-20",
             isSingleColumn && "calendar-grid-mobile"
           )} style={{ gridTemplateColumns: agendaGridTemplate }}>
@@ -157,7 +160,7 @@ export function MultiDentistGrid({
                 </p>
               </div>
             ))}
-          </div>
+          </div>}
 
           {/* Time Grid with CSS Grid for fixed slot heights */}
           <div data-agenda-grid-row className={cn("grid", isSingleColumn && "w-full")} style={{ minHeight: `${totalSlots * SLOT_HEIGHT}px`, gridTemplateColumns: agendaGridTemplate }}>

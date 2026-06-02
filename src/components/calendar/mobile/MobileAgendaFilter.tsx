@@ -1,13 +1,24 @@
 import { useState } from 'react';
-import { Filter, X, Plus, ChevronDown, ChevronUp, Building2, Users } from 'lucide-react';
+import { Filter, ChevronDown, ChevronUp, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { mockClinics, getDentistsForClinic, clinicDentists, mockDentists } from '@/data/mockData';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { ViewMode } from '@/types/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ViewMode, CATEGORY_COLORS } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
 import { getDentistInitials } from '@/lib/avatarUtils';
+import { ClickableDentistName } from '@/components/search/ClickableDentistName';
+import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { DentistColumn } from '@/components/calendar/MultiDentistGrid';
+import {
+  agendaFiltersStore,
+  useAgendaFilters,
+  ALL_PATIENT_STATUSES,
+  ALL_CONSULTATION_CATEGORIES,
+  PatientStatusKey,
+  ConsultationCategoryKey,
+} from '@/stores/agendaFiltersStore';
 
 interface MobileAgendaFilterProps {
   selectedDentistIds: string[];
@@ -16,17 +27,45 @@ interface MobileAgendaFilterProps {
   viewMode: ViewMode;
   /** When set, the matching dentist gets an "(Eu)" suffix in the panel. */
   currentDentistId?: string;
-  /** Mobile single-dentist active key (clinicId-dentistId). Highlights the matching pill. */
+  /** Currently-visible dentist columns (used for Row 3 name + Row 4 initial pills). */
+  columns: DentistColumn[];
+  /** Mobile single-dentist active key (clinicId-dentistId). */
   activeKey?: string;
-  /** Called when user taps a pill to switch the active dentist. */
-  onActivePillClick?: (key: string) => void;
+  /** Called when user taps an initial pill to switch the active dentist. */
+  onActiveKeyChange?: (key: string) => void;
 }
 
+const STATUS_I18N: Record<PatientStatusKey, string> = {
+  a_chegar: 'patientStatuses.upcoming',
+  em_sala_espera: 'patientStatuses.inWaitingRoom',
+  em_consulta: 'patientStatuses.inConsultation',
+  visto: 'patientStatuses.seen',
+  falta_nao_justificada: 'patientStatuses.noShowUnexcused',
+  falta_justificada: 'patientStatuses.noShowExcused',
+  a_remarcar: 'patientStatuses.toReschedule',
+};
+
+const CATEGORY_I18N: Record<ConsultationCategoryKey, string> = {
+  primeira_consulta: 'consultationTypes.firstConsultation',
+  destartarizacao: 'consultationTypes.scaling',
+  cirurgia: 'consultationTypes.surgery',
+  endodontia: 'consultationTypes.endodontics',
+  odontopediatria: 'consultationTypes.pediatric',
+  ortodontia: 'consultationTypes.orthodontics',
+  protese: 'consultationTypes.prosthetics',
+  restauracao: 'consultationTypes.restoration',
+  urgencia: 'consultationTypes.emergency',
+  teleconsulta: 'consultationTypes.teleconsultation',
+};
+
 /**
- * Mobile-only agenda filter: a chip row at the top with a Filter button +
- * pills of currently-selected dentists (with ✕ to remove), plus a "+ Adicionar"
- * button that opens a bottom sheet with the same clinic / dentist checkbox tree
- * used on desktop.
+ * Mobile-only agenda header (rows 3-5 of the spec):
+ *  - Row 3: active dentist name + clinic (centered, single line, blue).
+ *  - Row 4: horizontally-scrollable initial pills (one per selected dentist),
+ *    tap to switch the active dentist.
+ *  - Row 5: a single centered outline "Filtrar" button that opens a bottom
+ *    sheet containing three sections (Patient States, Consultation Types,
+ *    Dentists grouped by clinic) plus Reset / Apply buttons.
  */
 export function MobileAgendaFilter({
   selectedDentistIds,
@@ -34,12 +73,17 @@ export function MobileAgendaFilter({
   onClinicToggle,
   viewMode,
   currentDentistId,
+  columns,
   activeKey,
-  onActivePillClick,
+  onActiveKeyChange,
 }: MobileAgendaFilterProps) {
   const { t } = useTranslation();
+  const filters = useAgendaFilters();
   const [open, setOpen] = useState(false);
   const [expandedClinics, setExpandedClinics] = useState<string[]>(mockClinics.map(c => c.id));
+  const [statusOpen, setStatusOpen] = useState(true);
+  const [typesOpen, setTypesOpen] = useState(false);
+  const [dentistsOpen, setDentistsOpen] = useState(false);
   const isSingleMode = viewMode === 'three-day' || viewMode === 'list';
 
   const allClinicDentistKeys = mockClinics.flatMap(c =>
@@ -54,27 +98,15 @@ export function MobileAgendaFilter({
       prev.includes(clinicId) ? prev.filter(id => id !== clinicId) : [...prev, clinicId]
     );
 
-  // Build pill list from selected ids
-  const pills = selectedDentistIds
-    .map(key => {
-      const [clinicId, ...rest] = key.split('-');
-      const dentistId = rest.join('-');
-      const clinic = mockClinics.find(c => c.id === clinicId);
-      const dentist = mockDentists.find(d => d.id === dentistId);
-      if (!clinic || !dentist) return null;
-      const cleaned = dentist.name.replace(/^Dr\.?\s*/i, '').replace(/^Dra\.?\s*/i, '');
-      const firstName = cleaned.split(' ')[0] ?? dentist.name;
-      return {
-        key,
-        firstName,
-        initials: getDentistInitials(dentist.name),
-        clinicShort: clinic.name.replace('Clínica ', ''),
-        dentistId: dentist.id,
-        clinicId: clinic.id,
-        isMe: !!currentDentistId && dentist.id === currentDentistId,
-      };
-    })
-    .filter((x): x is NonNullable<typeof x> => !!x);
+  // Resolve active dentist column for Row 3.
+  const active =
+    columns.find(c => `${c.clinic.id}-${c.dentist.id}` === activeKey) || columns[0];
+
+  const resetFilters = () => {
+    agendaFiltersStore.setPatientStatuses([...ALL_PATIENT_STATUSES]);
+    agendaFiltersStore.setConsultationCategories([...ALL_CONSULTATION_CATEGORIES]);
+    onDentistToggle('all', true);
+  };
 
   const CustomCheck = ({
     checked,
@@ -109,15 +141,76 @@ export function MobileAgendaFilter({
     </button>
   );
 
+  const SectionHeader = ({
+    label,
+    open: o,
+    onClick,
+    count,
+  }: { label: string; open: boolean; onClick: () => void; count?: string }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/40"
+    >
+      <span>{label}</span>
+      <span className="flex items-center gap-2 text-xs text-muted-foreground">
+        {count && <span className="tabular-nums">{count}</span>}
+        {o ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+      </span>
+    </button>
+  );
+
   return (
     <>
-      <div
-        className="flex items-center gap-2 px-3 py-2 border-b border-border bg-card/40 overflow-x-auto"
-        style={{ scrollbarWidth: 'none' }}
-      >
+      {/* ROW 3: Active dentist name + clinic */}
+      {active && (
+        <div className="px-4 pt-1.5 pb-0 text-center">
+          <p className="text-[13px] leading-tight truncate text-[#2196F3] font-medium">
+            <ClickableDentistName name={active.dentist.name} className="text-[13px] font-medium text-[#2196F3]" />
+            <span className="mx-1 text-[#2196F3]/70 font-normal">—</span>
+            <ClickableClinicName
+              name={active.clinic.name.replace('Clínica ', '')}
+              clinicId={active.clinic.id}
+              className="text-[13px] font-medium text-[#2196F3]"
+            />
+          </p>
+        </div>
+      )}
+
+      {/* ROW 4: Initial pills (switcher) */}
+      {columns.length > 0 && (
+        <div
+          className="flex items-center justify-center gap-1.5 px-3 pt-1 pb-0 overflow-x-auto"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {columns.map(c => {
+            const k = `${c.clinic.id}-${c.dentist.id}`;
+            const isActive = k === (activeKey ?? `${columns[0].clinic.id}-${columns[0].dentist.id}`);
+            return (
+              <button
+                key={k}
+                onClick={() => onActiveKeyChange?.(k)}
+                aria-label={c.dentist.name}
+                className={cn(
+                  'flex-shrink-0 flex items-center justify-center transition-colors text-[11px] font-bold',
+                  isActive
+                    ? 'bg-[#2196F3] text-white'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                )}
+                style={{ width: 34, height: 28, borderRadius: 14 }}
+              >
+                {getDentistInitials(c.dentist.name)}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* ROW 5: Centered "Filtrar" button */}
+      <div className="flex items-center justify-center pt-2 pb-2">
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 flex-shrink-0 px-3 min-h-[36px] rounded-full text-xs font-semibold border border-border bg-background text-foreground hover:bg-muted transition-colors"
+          className="flex items-center gap-1.5 px-4 py-1.5 rounded-[20px] text-xs font-medium border border-border bg-background text-foreground hover:bg-muted transition-colors"
         >
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>
@@ -126,57 +219,6 @@ export function MobileAgendaFilter({
               {selectedDentistIds.length}
             </span>
           )}
-        </button>
-
-        {pills.map(p => {
-          const isActive = activeKey === p.key;
-          return (
-            <span
-              key={p.key}
-              className={cn(
-                'flex items-center gap-1.5 flex-shrink-0 pl-1 pr-1 min-h-[36px] rounded-full text-xs font-medium border transition-colors',
-                isActive
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-primary/10 text-foreground border-primary/30'
-              )}
-            >
-              <button
-                onClick={() => onActivePillClick?.(p.key)}
-                className="flex items-center gap-1.5 min-h-[32px]"
-              >
-                <span
-                  className={cn(
-                    'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold',
-                    isActive ? 'bg-primary-foreground/20' : 'bg-primary/20 text-foreground'
-                  )}
-                >
-                  {p.initials}
-                </span>
-                <span className="truncate max-w-[90px]">
-                  {p.firstName}
-                  {p.isMe ? ` (${t('agenda.me')})` : ''}
-                </span>
-              </button>
-              <button
-                onClick={() => onDentistToggle(p.dentistId, true, p.clinicId)}
-                className={cn(
-                  'w-6 h-6 rounded-full flex items-center justify-center transition-colors',
-                  isActive ? 'hover:bg-primary-foreground/20' : 'hover:bg-primary/20'
-                )}
-                aria-label={`Remover ${p.firstName}`}
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </span>
-          );
-        })}
-
-        <button
-          onClick={() => setOpen(true)}
-          className="flex items-center gap-1 flex-shrink-0 px-3 min-h-[36px] rounded-full text-xs font-medium border border-dashed border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span>{t('common.add')}</span>
         </button>
       </div>
 
@@ -189,114 +231,207 @@ export function MobileAgendaFilter({
             </SheetTitle>
           </SheetHeader>
 
-          <div className="px-4 py-3 space-y-2">
-            <div className="flex items-center gap-2 py-1">
-              <CustomCheck
-                checked={allSelected}
-                onChange={() => onDentistToggle('all', true)}
-              />
-              <button
-                className="text-sm font-medium hover:text-primary"
-                onClick={() => onDentistToggle('all', false)}
-              >
-                {t('agenda.allAgendas')}
-              </button>
-            </div>
-
-            <div className="flex items-center gap-2 py-1">
-              <button
-                onClick={() => onDentistToggle(null, true)}
-                className="flex items-center gap-1.5 text-xs px-2 py-1 rounded-md text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Users className="w-3.5 h-3.5" />
-                {t('agenda.filterPresent')}
-              </button>
-            </div>
-
-            {mockClinics.map(clinic => {
-              const isExpanded = expandedClinics.includes(clinic.id);
-              const dentistsInClinic = getDentistsForClinic(clinic.id);
-              const allClinicSelected = dentistsInClinic.every(d =>
-                selectedDentistIds.includes(`${clinic.id}-${d.id}`)
-              );
-
-              return (
-                <div key={clinic.id}>
-                  <div className="w-full flex items-center justify-between py-1.5 text-sm">
-                    <div className="flex items-center gap-2">
-                      <CustomCheck
-                        checked={allClinicSelected}
-                        onChange={() => onClinicToggle?.(clinic.id, true)}
-                      />
-                      <button
-                        className="flex items-center gap-1.5 hover:text-primary"
-                        onClick={() => onClinicToggle?.(clinic.id, false)}
-                      >
-                        <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span className="text-sm font-semibold">
-                          {clinic.name.replace('Clínica ', '')}
-                        </span>
-                      </button>
-                    </div>
-                    <button
-                      onClick={() => toggleClinicExpanded(clinic.id)}
-                      className="p-1"
-                    >
-                      {isExpanded ? (
-                        <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                      )}
-                    </button>
-                  </div>
-
-                  {isExpanded &&
-                    dentistsInClinic.map(d => {
-                      const dKey = `${clinic.id}-${d.id}`;
-                      const dSelected = selectedDentistIds.includes(dKey);
-                      const dWorks =
-                        clinicDentists.find(
-                          cd => cd.clinicId === clinic.id && cd.dentistId === d.id
-                        )?.worksOnDemo ?? false;
-                      const isMe = !!currentDentistId && d.id === currentDentistId;
-                      return (
-                        <div key={dKey} className="flex items-center gap-2 ml-6 py-1.5">
-                          <CustomCheck
-                            checked={dSelected}
-                            radio={isSingleMode}
-                            onChange={() =>
-                              onDentistToggle(d.id, !isSingleMode, clinic.id)
-                            }
-                          />
-                          <button
-                            className={cn(
-                              'text-sm hover:text-primary text-left',
-                              !dWorks && 'text-muted-foreground/60'
-                            )}
-                            onClick={() => onDentistToggle(d.id, false, clinic.id)}
-                          >
-                            {d.name}
-                            {isMe ? ` (${t('agenda.me')})` : ''}
-                            {!dWorks && (
-                              <span className="ml-1 text-[10px] text-muted-foreground">
-                                · {t('agenda.notWorkingToday')}
-                              </span>
-                            )}
-                          </button>
-                        </div>
-                      );
-                    })}
-                </div>
-              );
-            })}
-
-            <div className="-mx-4 mt-2 border-t border-border">
-              <AgendaFilterGroups compact />
-            </div>
+          {/* ---- Section 1: Patient States ---- */}
+          <div className="border-b border-border">
+            <SectionHeader
+              label={t('agendaFilters.patientStatus')}
+              open={statusOpen}
+              onClick={() => setStatusOpen(o => !o)}
+              count={`${filters.patientStatuses.length}/${ALL_PATIENT_STATUSES.length}`}
+            />
+            {statusOpen && (
+              <div className="pb-2">
+                <button
+                  type="button"
+                  onClick={() => agendaFiltersStore.toggleAllPatientStatuses()}
+                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left"
+                >
+                  <Checkbox
+                    checked={
+                      filters.patientStatuses.length === ALL_PATIENT_STATUSES.length
+                        ? true
+                        : filters.patientStatuses.length === 0
+                          ? false
+                          : 'indeterminate'
+                    }
+                    onCheckedChange={() => agendaFiltersStore.toggleAllPatientStatuses()}
+                    onClick={e => e.stopPropagation()}
+                  />
+                  <span className="text-sm font-semibold">{t('patientStatuses.all')}</span>
+                </button>
+                {ALL_PATIENT_STATUSES.map(s => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => agendaFiltersStore.togglePatientStatus(s)}
+                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left"
+                  >
+                    <Checkbox
+                      checked={filters.patientStatuses.includes(s)}
+                      onCheckedChange={() => agendaFiltersStore.togglePatientStatus(s)}
+                      onClick={e => e.stopPropagation()}
+                    />
+                    <span className="text-[13px]">{t(STATUS_I18N[s])}</span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="sticky bottom-0 bg-card border-t border-border px-4 py-3">
-            <Button className="w-full" onClick={() => setOpen(false)}>
+          {/* ---- Section 2: Consultation Types ---- */}
+          <div className="border-b border-border">
+            <SectionHeader
+              label={t('agendaFilters.consultationTypesGroup')}
+              open={typesOpen}
+              onClick={() => setTypesOpen(o => !o)}
+              count={`${filters.consultationCategories.length}/${ALL_CONSULTATION_CATEGORIES.length}`}
+            />
+            {typesOpen && (
+              <div className="pb-2">
+                <button
+                  type="button"
+                  onClick={() => agendaFiltersStore.toggleAllConsultationCategories()}
+                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left"
+                >
+                  <Checkbox
+                    checked={
+                      filters.consultationCategories.length === ALL_CONSULTATION_CATEGORIES.length
+                        ? true
+                        : filters.consultationCategories.length === 0
+                          ? false
+                          : 'indeterminate'
+                    }
+                    onCheckedChange={() => agendaFiltersStore.toggleAllConsultationCategories()}
+                    onClick={e => e.stopPropagation()}
+                  />
+                  <span className="text-sm font-semibold">{t('patientStatuses.all')}</span>
+                </button>
+                {ALL_CONSULTATION_CATEGORIES.map(c => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => agendaFiltersStore.toggleConsultationCategory(c)}
+                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left"
+                  >
+                    <Checkbox
+                      checked={filters.consultationCategories.includes(c)}
+                      onCheckedChange={() => agendaFiltersStore.toggleConsultationCategory(c)}
+                      onClick={e => e.stopPropagation()}
+                    />
+                    <span
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{ backgroundColor: CATEGORY_COLORS[c]?.hex }}
+                    />
+                    <span className="text-[13px]">{t(CATEGORY_I18N[c])}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ---- Section 3: Dentists (grouped by clinic) ---- */}
+          <div>
+            <SectionHeader
+              label={t('agenda.dentists', { defaultValue: 'Dentistas' })}
+              open={dentistsOpen}
+              onClick={() => setDentistsOpen(o => !o)}
+              count={`${selectedDentistIds.length}/${allClinicDentistKeys.length}`}
+            />
+            {dentistsOpen && (
+              <div className="px-4 pb-3 space-y-1">
+                <div className="flex items-center gap-2 py-1">
+                  <CustomCheck
+                    checked={allSelected}
+                    onChange={() => onDentistToggle('all', true)}
+                  />
+                  <button
+                    className="text-sm font-medium hover:text-primary"
+                    onClick={() => onDentistToggle('all', false)}
+                  >
+                    {t('agenda.allAgendas')}
+                  </button>
+                </div>
+
+                {mockClinics.map(clinic => {
+                  const isExpanded = expandedClinics.includes(clinic.id);
+                  const dentistsInClinic = getDentistsForClinic(clinic.id);
+                  const allClinicSelected = dentistsInClinic.every(d =>
+                    selectedDentistIds.includes(`${clinic.id}-${d.id}`)
+                  );
+                  return (
+                    <div key={clinic.id}>
+                      <div className="w-full flex items-center justify-between py-1.5 text-sm">
+                        <div className="flex items-center gap-2">
+                          <CustomCheck
+                            checked={allClinicSelected}
+                            onChange={() => onClinicToggle?.(clinic.id, true)}
+                          />
+                          <button
+                            className="flex items-center gap-1.5 hover:text-primary"
+                            onClick={() => onClinicToggle?.(clinic.id, false)}
+                          >
+                            <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
+                            <span className="text-sm font-semibold">
+                              {clinic.name.replace('Clínica ', '')}
+                            </span>
+                          </button>
+                        </div>
+                        <button onClick={() => toggleClinicExpanded(clinic.id)} className="p-1">
+                          {isExpanded ? (
+                            <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </button>
+                      </div>
+                      {isExpanded &&
+                        dentistsInClinic.map(d => {
+                          const dKey = `${clinic.id}-${d.id}`;
+                          const dSelected = selectedDentistIds.includes(dKey);
+                          const dWorks =
+                            clinicDentists.find(
+                              cd => cd.clinicId === clinic.id && cd.dentistId === d.id
+                            )?.worksOnDemo ?? false;
+                          const isMe = !!currentDentistId && d.id === currentDentistId;
+                          return (
+                            <div key={dKey} className="flex items-center gap-2 ml-6 py-1.5">
+                              <CustomCheck
+                                checked={dSelected}
+                                radio={isSingleMode}
+                                onChange={() =>
+                                  onDentistToggle(d.id, !isSingleMode, clinic.id)
+                                }
+                              />
+                              <button
+                                className={cn(
+                                  'text-sm hover:text-primary text-left',
+                                  !dWorks && 'text-muted-foreground/60'
+                                )}
+                                onClick={() => onDentistToggle(d.id, false, clinic.id)}
+                              >
+                                {d.name}
+                                {isMe ? ` (${t('agenda.me')})` : ''}
+                                {!dWorks && (
+                                  <span className="ml-1 text-[10px] text-muted-foreground">
+                                    · {t('agenda.notWorkingToday')}
+                                  </span>
+                                )}
+                              </button>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="sticky bottom-0 bg-card border-t border-border px-4 py-3 flex items-center gap-2">
+            <Button variant="outline" className="flex-1" onClick={resetFilters}>
+              {t('common.reset')}
+            </Button>
+            <Button className="flex-1" onClick={() => setOpen(false)}>
               {t('common.apply')}
             </Button>
           </div>

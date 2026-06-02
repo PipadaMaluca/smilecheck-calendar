@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { MultiDentistGrid, DentistColumn } from '../MultiDentistGrid';
-import { Consultation, TimeSlot } from '@/types/calendar';
-import { cn } from '@/lib/utils';
-import { ClickableDentistName } from '@/components/search/ClickableDentistName';
-import { ClickableClinicName } from '@/components/search/ClickableClinicName';
-import { getDentistInitials } from '@/lib/avatarUtils';
+import { TimeSlot } from '@/types/calendar';
 
 interface Props {
   columns: DentistColumn[];
@@ -78,55 +74,13 @@ export function MobileSingleDentistAgenda({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Active dentist name + dots */}
-      {active && (
-        <div className="px-4 pt-1 pb-2 flex flex-col items-center gap-1.5">
-          <p className="text-sm font-bold text-foreground text-center truncate max-w-full">
-            <ClickableDentistName name={active.dentist.name} className="text-sm font-bold" />
-            <span className="mx-1 text-muted-foreground font-normal">—</span>
-            <ClickableClinicName
-              name={active.clinic.name.replace('Clínica ', '')}
-              clinicId={active.clinic.id}
-              className="text-sm font-semibold text-muted-foreground"
-            />
-          </p>
-          {columns.length > 1 && (
-            <div
-              className="flex items-center gap-1.5 max-w-full overflow-x-auto px-2"
-              style={{ scrollbarWidth: 'none' }}
-            >
-              {columns.map((c, i) => {
-                const k = keys[i];
-                const isActive = i === activeIdx;
-                return (
-                  <button
-                    key={k}
-                    onClick={() => onActiveKeyChange?.(k)}
-                    aria-label={`Ver ${c.dentist.name}`}
-                    className={cn(
-                      'flex-shrink-0 flex items-center justify-center transition-colors',
-                      'text-[11px] font-bold',
-                      isActive
-                        ? 'bg-[#2196F3] text-white'
-                        : 'bg-white/10 text-[#94A3B8] hover:bg-white/20'
-                    )}
-                    style={{ width: 32, height: 28, borderRadius: 14 }}
-                  >
-                    {getDentistInitials(c.dentist.name)}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-
       <div className="w-full animate-slide-up" key={keys[activeIdx]}>
         <MultiDentistGrid
           columns={single}
           onSlotClick={onSlotClick}
           onEmptySlotClick={onEmptySlotClick}
           showFullName
+          hideColumnHeader
         />
       </div>
     </div>

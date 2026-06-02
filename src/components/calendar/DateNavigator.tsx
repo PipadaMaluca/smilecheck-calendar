@@ -25,7 +25,7 @@ export function DateNavigator({
   const locale = dateLocales[i18n.language] || pt;
 
   return (
-    <div className="px-4 py-3 space-y-3 w-full max-w-full">
+    <div className="px-4 py-3 max-[499px]:py-1.5 space-y-3 max-[499px]:space-y-1 w-full max-w-full">
       <div className="flex items-center justify-between w-full">
         <Button
           variant="ghost"
@@ -35,7 +35,7 @@ export function DateNavigator({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base font-semibold capitalize text-center flex-1 px-2">
+        <h2 className="text-base max-[499px]:text-[15px] font-semibold capitalize text-center flex-1 px-2">
           {format(date, "EEEE, d MMMM", { locale })}
         </h2>
         <Button

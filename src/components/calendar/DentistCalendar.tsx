@@ -408,29 +408,39 @@ export function DentistCalendar() {
           <>
             {/* Mobile: filter button + selected-dentist pills. Otherwise: dropdown. */}
             {isMobile ? (
-              <MobileAgendaFilter
-                selectedDentistIds={selectedDentistIds}
-                onDentistToggle={handleDentistToggle}
-                onClinicToggle={handleMobileClinicToggle}
-                viewMode={viewMode}
-                currentDentistId={mockDentists[0].id}
-                activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
-                onActivePillClick={(k) => setMobileActiveDentistKey(k)}
-              />
+              <>
+                {/* Row 2: Date navigation */}
+                <DateNavigator
+                  date={selectedDate}
+                  onDateChange={setSelectedDate}
+                />
+                {/* Rows 3-5: active dentist name + pills + centered Filtrar */}
+                <MobileAgendaFilter
+                  selectedDentistIds={selectedDentistIds}
+                  onDentistToggle={handleDentistToggle}
+                  onClinicToggle={handleMobileClinicToggle}
+                  viewMode={viewMode}
+                  currentDentistId={mockDentists[0].id}
+                  columns={columns}
+                  activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
+                  onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
+                />
+              </>
             ) : (
-              <DentistAgendaDropdown
-                currentDentistId={mockDentists[0].id}
-                selectedDentistIds={selectedDentistIds}
-                onDentistToggle={handleDentistToggle}
-                onClinicToggle={handleMobileClinicToggle}
-                viewMode={viewMode}
-              />
+              <>
+                <DentistAgendaDropdown
+                  currentDentistId={mockDentists[0].id}
+                  selectedDentistIds={selectedDentistIds}
+                  onDentistToggle={handleDentistToggle}
+                  onClinicToggle={handleMobileClinicToggle}
+                  viewMode={viewMode}
+                />
+                <DateNavigator
+                  date={selectedDate}
+                  onDateChange={setSelectedDate}
+                />
+              </>
             )}
-
-            <DateNavigator
-              date={selectedDate}
-              onDateChange={setSelectedDate}
-            />
 
             {/* Category Legend - Centered (hidden on small mobile <500px) */}
             <CategoryLegend compact className="mx-4 mb-4 rounded-lg max-[499px]:hidden" />
