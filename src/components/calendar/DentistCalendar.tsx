@@ -442,7 +442,7 @@ export function DentistCalendar() {
                   onClinicToggle={handleMobileClinicToggle}
                   viewMode={viewMode}
                   currentDentistId={mockDentists[0].id}
-                  columns={columns}
+                  columns={mobileColumns}
                   activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
                   onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
                 />
