@@ -273,7 +273,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                   {dentistStats.map((d, i) => {
                     const parts = d.name.split(' ');
                     let shortName = d.name;
-                    if (d.name.length > 22 && parts.length > 2) {
+                    if (parts.length > 2) {
                       // "Dr. Alexandre Bernardo" -> "Dr. Alexandre B."
                       shortName = `${parts[0]} ${parts[1]} ${parts[parts.length - 1][0]}.`;
                     }
@@ -286,22 +286,22 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         )}
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-[12px] font-bold text-foreground truncate leading-tight">
-                            <ClickableDentistName name={shortName} className="text-[12px] font-bold" />
+                          <p className="text-[11px] font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                            <ClickableDentistName name={shortName} className="text-[11px] font-bold" />
                             {d.clinicName && (
-                              <span className="ml-1 text-[10px] font-normal text-muted-foreground">
+                              <span className="ml-1 text-[9px] font-normal text-muted-foreground">
                                 ({d.clinicName})
                               </span>
                             )}
                           </p>
                         </div>
-                        <div className="flex-shrink-0 text-center" style={{ width: 45 }}>
-                          <div className="text-[12px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[10px] text-muted-foreground leading-none">tele</div>
+                        <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
+                          <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
+                          <div className="text-[9px] text-muted-foreground leading-none">tele</div>
                         </div>
-                        <div className="flex-shrink-0 text-center" style={{ width: 45 }}>
-                          <div className="text-[12px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[10px] text-muted-foreground leading-none">pres</div>
+                        <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
+                          <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
+                          <div className="text-[9px] text-muted-foreground leading-none">pres</div>
                         </div>
                       </li>
                     );
