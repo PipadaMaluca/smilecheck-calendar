@@ -67,6 +67,7 @@ export function MobileSingleDentistAgenda({
 
   const active = columns[activeIdx];
   const single: DentistColumn[] = active ? [active] : [];
+  const hasAppointments = !!active && active.slots.some(s => s.consultation);
 
   return (
     <div
@@ -74,7 +75,7 @@ export function MobileSingleDentistAgenda({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="w-full animate-slide-up" key={keys[activeIdx]}>
+      <div className="w-full animate-slide-up relative" key={keys[activeIdx]}>
         <MultiDentistGrid
           columns={single}
           onSlotClick={onSlotClick}
@@ -82,6 +83,13 @@ export function MobileSingleDentistAgenda({
           showFullName
           hideColumnHeader
         />
+        {!hasAppointments && (
+          <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-center py-16">
+            <span className="px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm text-xs text-muted-foreground border border-border">
+              Sem consultas agendadas
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
