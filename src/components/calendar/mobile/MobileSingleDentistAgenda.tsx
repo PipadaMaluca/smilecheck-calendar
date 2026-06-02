@@ -4,6 +4,7 @@ import { Consultation, TimeSlot } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
+import { getDentistInitials } from '@/lib/avatarUtils';
 
 interface Props {
   columns: DentistColumn[];
@@ -90,20 +91,31 @@ export function MobileSingleDentistAgenda({
             />
           </p>
           {columns.length > 1 && (
-            <div className="flex items-center gap-1.5">
-              {keys.map((k, i) => (
-                <button
-                  key={k}
-                  onClick={() => onActiveKeyChange?.(k)}
-                  aria-label={`Ver dentista ${i + 1}`}
-                  className={cn(
-                    'rounded-full transition-all',
-                    i === activeIdx
-                      ? 'w-2 h-2 bg-primary'
-                      : 'w-1.5 h-1.5 bg-muted-foreground/40 hover:bg-muted-foreground/70'
-                  )}
-                />
-              ))}
+            <div
+              className="flex items-center gap-1.5 max-w-full overflow-x-auto px-2"
+              style={{ scrollbarWidth: 'none' }}
+            >
+              {columns.map((c, i) => {
+                const k = keys[i];
+                const isActive = i === activeIdx;
+                return (
+                  <button
+                    key={k}
+                    onClick={() => onActiveKeyChange?.(k)}
+                    aria-label={`Ver ${c.dentist.name}`}
+                    className={cn(
+                      'flex-shrink-0 flex items-center justify-center transition-colors',
+                      'text-[11px] font-bold',
+                      isActive
+                        ? 'bg-[#2196F3] text-white'
+                        : 'bg-white/10 text-[#94A3B8] hover:bg-white/20'
+                    )}
+                    style={{ width: 32, height: 28, borderRadius: 14 }}
+                  >
+                    {getDentistInitials(c.dentist.name)}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
