@@ -180,7 +180,7 @@ export function MobileAgendaFilter({
       {/* ROW 4: Initial pills (switcher) */}
       {columns.length > 0 && (
         <div
-          className="flex items-center justify-center gap-1.5 px-3 pt-1 pb-0 overflow-x-auto"
+          className="flex items-center justify-center gap-1.5 px-3 pt-1 pb-0 overflow-x-auto py-[10px]"
           style={{ scrollbarWidth: 'none' }}
         >
           {columns.map(c => {
