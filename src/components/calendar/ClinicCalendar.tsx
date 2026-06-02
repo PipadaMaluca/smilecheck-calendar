@@ -343,7 +343,7 @@ export function ClinicCalendar() {
                 onDentistToggle={handleDentistToggle}
                 onClinicToggle={handleMobileClinicToggle}
                 viewMode={viewMode}
-                columns={columns}
+                columns={mobileColumns}
                 activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
                 onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
               />
@@ -381,7 +381,7 @@ export function ClinicCalendar() {
               />
             ) : isMobile ? (
               <MobileSingleDentistAgenda
-                columns={columns}
+                columns={mobileColumns}
                 activeKey={mobileActiveDentistKey}
                 onActiveKeyChange={setMobileActiveDentistKey}
                 onSlotClick={handleSlotClick}
