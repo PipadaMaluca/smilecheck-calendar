@@ -25,7 +25,7 @@ export function DateNavigator({
   const locale = dateLocales[i18n.language] || pt;
 
   return (
-    <div className="px-4 py-3 max-[499px]:py-1.5 space-y-3 max-[499px]:space-y-1 w-full max-w-full">
+    <div className="px-4 py-3 max-[499px]:py-1.5 space-y-3 max-[499px]:space-y-1 w-full max-w-full border border-slate-700 pt-px pb-px">
       <div className="flex items-center justify-between w-full">
         <Button
           variant="ghost"
