@@ -279,7 +279,7 @@ export function DentistCalendar() {
     if (isMobile) {
       return (
         <MobileSingleDentistAgenda
-          columns={columns}
+          columns={mobileColumns}
           activeKey={mobileActiveDentistKey}
           onActiveKeyChange={setMobileActiveDentistKey}
           onSlotClick={handleGridSlotClick}
