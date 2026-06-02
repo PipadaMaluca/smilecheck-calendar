@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MultiDentistGrid, DentistColumn } from '../MultiDentistGrid';
 import { TimeSlot } from '@/types/calendar';
 
@@ -22,6 +23,7 @@ export function MobileSingleDentistAgenda({
   onSlotClick,
   onEmptySlotClick,
 }: Props) {
+  const { t } = useTranslation();
   const keys = useMemo(
     () => columns.map(c => `${c.clinic.id}-${c.dentist.id}`),
     [columns]
@@ -86,7 +88,7 @@ export function MobileSingleDentistAgenda({
         {!hasAppointments && (
           <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-center py-16">
             <span className="px-3 py-1.5 rounded-full bg-background/80 backdrop-blur-sm text-xs text-muted-foreground border border-border">
-              Sem consultas agendadas
+              {t('empty.noAppointments')}
             </span>
           </div>
         )}
