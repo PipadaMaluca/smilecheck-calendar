@@ -311,27 +311,35 @@ export function ClinicCalendar() {
         <>
           {/* Mobile: filter button + selected-dentist pills. Otherwise: dropdown. */}
           {isMobile ? (
-            <MobileAgendaFilter
-              selectedDentistIds={selectedDentistIds}
-              onDentistToggle={handleDentistToggle}
-              onClinicToggle={handleMobileClinicToggle}
-              viewMode={viewMode}
-              activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
-              onActivePillClick={(k) => setMobileActiveDentistKey(k)}
-            />
+            <>
+              <DateNavigator
+                date={selectedDate}
+                onDateChange={setSelectedDate}
+              />
+              <MobileAgendaFilter
+                selectedDentistIds={selectedDentistIds}
+                onDentistToggle={handleDentistToggle}
+                onClinicToggle={handleMobileClinicToggle}
+                viewMode={viewMode}
+                columns={columns}
+                activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
+                onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
+              />
+            </>
           ) : (
-            <ClinicAgendaDropdown
-              selectedDentistIds={selectedDentistIds}
-              onDentistToggle={handleDentistToggle}
-              onClinicToggle={handleMobileClinicToggle}
-              viewMode={viewMode}
-            />
+            <>
+              <ClinicAgendaDropdown
+                selectedDentistIds={selectedDentistIds}
+                onDentistToggle={handleDentistToggle}
+                onClinicToggle={handleMobileClinicToggle}
+                viewMode={viewMode}
+              />
+              <DateNavigator
+                date={selectedDate}
+                onDateChange={setSelectedDate}
+              />
+            </>
           )}
-
-          <DateNavigator
-            date={selectedDate}
-            onDateChange={setSelectedDate}
-          />
 
           {/* Category Legend - Centered (hidden on small mobile <500px) */}
           <CategoryLegend compact className="mx-4 mb-4 rounded-lg max-[499px]:hidden" />
