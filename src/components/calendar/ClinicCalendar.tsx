@@ -100,6 +100,28 @@ export function ClinicCalendar() {
     return result;
   }, [selectedDate, selectedDentistIds]);
 
+  /**
+   * Mobile-only column list for the dentist pills row:
+   * includes ALL dentists from any clinic that has at least one selected
+   * dentist — even those with zero appointments today (they get dimmed).
+   */
+  const mobileColumns = useMemo<DentistColumn[]>(() => {
+    const result: DentistColumn[] = [];
+    const selectedClinicIds = new Set(selectedDentistIds.map(k => k.split('-')[0]));
+    mockClinics.forEach(clinic => {
+      if (!selectedClinicIds.has(clinic.id)) return;
+      getDentistsForClinic(clinic.id).forEach(dentist => {
+        const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
+        const dentistConsultations = mockConsultations.filter(
+          c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
+        );
+        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        result.push({ dentist, clinic, worksToday, slots });
+      });
+    });
+    return result;
+  }, [selectedDate, selectedDentistIds]);
+
   // Day consultations for summary
   const allDayConsultations = mockConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
@@ -321,7 +343,7 @@ export function ClinicCalendar() {
                 onDentistToggle={handleDentistToggle}
                 onClinicToggle={handleMobileClinicToggle}
                 viewMode={viewMode}
-                columns={columns}
+                columns={mobileColumns}
                 activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
                 onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
               />
@@ -359,7 +381,7 @@ export function ClinicCalendar() {
               />
             ) : isMobile ? (
               <MobileSingleDentistAgenda
-                columns={columns}
+                columns={mobileColumns}
                 activeKey={mobileActiveDentistKey}
                 onActiveKeyChange={setMobileActiveDentistKey}
                 onSlotClick={handleSlotClick}
