@@ -45,7 +45,7 @@ export function MobileHeader({
   return <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border w-full border-slate-700 border-0">
       <div className="relative w-full max-w-full px-[20px] pl-0 pr-0 gap-0 flex-row flex items-center justify-center my-[3px] mx-[7px] py-[10px]">
         {/* Menu button - absolute left */}
-        <Button variant="ghost" size="icon" onClick={onMenuClick} className="absolute left-4 text-muted-foreground hover:text-foreground flex-shrink-0 border-slate-700">
+        <Button variant="ghost" size="icon" onClick={onMenuClick} className="absolute left-2 text-muted-foreground hover:text-foreground hover:bg-transparent flex-shrink-0 border-0 shadow-none h-11 w-11 max-[499px]:[&_svg]:size-6">
           <Menu className="w-5 h-5" />
         </Button>
         
