@@ -68,7 +68,10 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
     return dentistsToUse.map((d) => {
       const dCons = filteredConsultations.filter((c) => c.dentist.id === d.id);
       const dFaltas = dCons.filter((c) => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
-      return { ...d, consultations: dCons.length, faltas: dFaltas, rating: (4 + Math.random() * 0.9).toFixed(1) };
+      const dTele = dCons.filter((c) => c.type === 'teleconsulta').length;
+      const dPres = dCons.filter((c) => c.type === 'presencial').length;
+      const clinicName = dCons[0]?.clinic?.name?.replace('Clínica ', '') ?? '';
+      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: (4 + Math.random() * 0.9).toFixed(1) };
     }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
   }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
@@ -229,7 +232,8 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-3">{t('statistics.byDentist')}</h2>
-              <Card className="bg-card/80 border-border overflow-hidden">
+              {/* Desktop / tablet table (>= 500px) */}
+              <Card className="bg-card/80 border-border overflow-hidden max-[499px]:hidden">
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
@@ -261,6 +265,48 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     </TableBody>
                   </Table>
                 </div>
+              </Card>
+
+              {/* Mobile list (< 500px) */}
+              <Card className="bg-card/80 border-border overflow-hidden hidden max-[499px]:block">
+                <ul>
+                  {dentistStats.map((d, i) => {
+                    const parts = d.name.split(' ');
+                    let shortName = d.name;
+                    if (d.name.length > 22 && parts.length > 2) {
+                      // "Dr. Alexandre Bernardo" -> "Dr. Alexandre B."
+                      shortName = `${parts[0]} ${parts[1]} ${parts[parts.length - 1][0]}.`;
+                    }
+                    return (
+                      <li
+                        key={d.id}
+                        className={cn(
+                          'flex items-center gap-2 px-2 py-2.5',
+                          i > 0 && 'border-t border-white/[0.06]'
+                        )}
+                      >
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[12px] font-bold text-foreground truncate leading-tight">
+                            <ClickableDentistName name={shortName} className="text-[12px] font-bold" />
+                            {d.clinicName && (
+                              <span className="ml-1 text-[10px] font-normal text-muted-foreground">
+                                ({d.clinicName})
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 text-center" style={{ width: 45 }}>
+                          <div className="text-[12px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
+                          <div className="text-[10px] text-muted-foreground leading-none">tele</div>
+                        </div>
+                        <div className="flex-shrink-0 text-center" style={{ width: 45 }}>
+                          <div className="text-[12px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
+                          <div className="text-[10px] text-muted-foreground leading-none">pres</div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </Card>
             </div>
 
