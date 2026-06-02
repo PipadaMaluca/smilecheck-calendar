@@ -333,8 +333,8 @@ export function ClinicCalendar() {
             onDateChange={setSelectedDate}
           />
 
-          {/* Category Legend - Centered */}
-          <CategoryLegend compact className="mx-4 mb-4 rounded-lg" />
+          {/* Category Legend - Centered (hidden on small mobile <500px) */}
+          <CategoryLegend compact className="mx-4 mb-4 rounded-lg max-[499px]:hidden" />
 
           {/* Content based on view mode */}
           <div className="mt-4 w-full">
