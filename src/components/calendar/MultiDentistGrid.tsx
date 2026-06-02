@@ -35,6 +35,8 @@ interface MultiDentistGridProps {
   showFullName?: boolean;
   onDragMove?: (consultation: Consultation, fromDentistId: string, fromClinicId: string, fromTime: string, toDentistId: string, toClinicId: string, toTime: string) => void;
   onConsultationHover?: (consultation: Consultation | null) => void;
+  /** When true, hides the per-column dentist/clinic header row (used by mobile single-dentist view where the header is shown above by the page chrome). */
+  hideColumnHeader?: boolean;
 }
 
 // Base slot height (px) — overridden per-density via useSlotHeight.
@@ -55,6 +57,7 @@ export function MultiDentistGrid({
   showFullName = false,
   onDragMove,
   onConsultationHover,
+  hideColumnHeader = false,
 }: MultiDentistGridProps) {
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
