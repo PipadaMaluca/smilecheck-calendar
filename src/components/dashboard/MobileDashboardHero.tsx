@@ -112,16 +112,16 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
       {/* === Hero: Next appointment (mobile only) === */}
       {next ? (
         <div className="md:hidden">
-        <p className="text-[11px] text-muted-foreground mb-1 px-0.5">
+        <p className="text-[11px] text-muted-foreground mb-1.5 mt-4 px-0.5 uppercase tracking-[0.5px]">
           {t('dashboard.nextConsultation')}
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-xl overflow-hidden text-left h-[80px] hover:bg-muted/40 transition-colors"
+          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-[10px] overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors"
           style={{ '--consultation-type-color': next.catColor } as CSSProperties}
         >
           <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
-          <div className="flex-1 min-w-0 px-3 py-2 flex flex-col justify-center gap-1">
+          <div className="flex-1 min-w-0 pl-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-[13px] font-bold text-foreground tabular-nums flex-shrink-0">
                 {next.time}
