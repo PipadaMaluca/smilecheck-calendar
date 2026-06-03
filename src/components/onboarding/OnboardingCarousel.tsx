@@ -64,9 +64,9 @@ export function OnboardingCarousel() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.05)' }} />
       </div>
 
-      <div className="relative h-full max-w-lg mx-auto flex flex-col px-4">
+      <div className="relative h-full max-w-lg mx-auto flex flex-col">
         {!isLast && (
-          <button onClick={handleComplete} className="absolute top-4 right-4 z-20 text-gaming-diamond hover:text-foreground text-sm transition-colors">
+          <button onClick={handleComplete} className="absolute top-2 right-4 z-20 text-muted-foreground hover:text-foreground text-[11px] transition-colors">
             <span className="hidden sm:inline">{t('onboarding.skip')}</span>
             <span className="sm:hidden">{t('onboarding.skipShort')}</span>
           </button>
@@ -80,26 +80,26 @@ export function OnboardingCarousel() {
           </div>
         </div>
 
-        <div className="flex justify-center gap-2 py-4">
+        <div className="flex justify-center items-center gap-2 py-3">
           {slides.map((_, index) => (
             <button key={index} onClick={() => scrollTo(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-gaming-diamond w-8' : 'w-2.5 bg-muted hover:bg-muted-foreground/50'}`}
-              style={index === currentSlide ? { boxShadow: '0 0 15px hsla(195, 100%, 70%, 0.5)' } : {}} />
+              className={`h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'w-6' : 'w-2 bg-muted hover:bg-muted-foreground/50'}`}
+              style={index === currentSlide ? { backgroundColor: '#2196F3', boxShadow: '0 0 12px rgba(33, 150, 243, 0.5)' } : {}} />
           ))}
         </div>
 
         {!isLast && (
-          <div className="flex flex-col items-center gap-2 px-4 sm:px-6 pb-6 safe-area-pb">
+          <div className="flex flex-col items-center gap-2 px-4 pb-4 safe-area-pb">
             <button onClick={scrollNext}
-              className="flex items-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 bg-gaming-diamond text-background hover:scale-105 active:scale-95 min-h-[48px]"
-              style={{ boxShadow: '0 0 30px hsla(195, 100%, 70%, 0.3)' }}>
+              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-[48px]"
+              style={{ backgroundColor: '#2196F3', boxShadow: '0 0 20px rgba(33, 150, 243, 0.3)' }}>
               {t('onboarding.next')}
               <ChevronRight className="w-4 h-4" />
             </button>
             {currentSlide > 0 && (
               <button onClick={scrollPrev}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-300">
-                <ChevronLeft className="w-4 h-4" />
+                className="flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors">
+                <ChevronLeft className="w-3 h-3" />
                 {t('onboarding.previous')}
               </button>
             )}
