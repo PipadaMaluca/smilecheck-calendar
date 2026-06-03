@@ -235,6 +235,13 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
   };
 
   return (
+    <>
+      {/* Backdrop overlay — closes panel when clicked */}
+      <div
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="fixed inset-0 bg-black/30 animate-fade-in"
+        style={{ zIndex: 9998 }}
+      />
     <div
       ref={dropdownRef}
       className="fixed right-2 sm:right-4 top-14 w-[calc(100vw-16px)] sm:w-[400px] max-w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
@@ -321,7 +328,8 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
           {t('notifications.viewAll')}
         </div>
       </div>
-    </div>);
+    </div>
+    </>);
 
 }
 
