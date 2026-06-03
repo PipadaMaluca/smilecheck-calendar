@@ -251,13 +251,13 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/50 overflow-x-auto">
+      <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border/50 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
         {FILTERS.map((f) =>
         <button
           key={f.id}
           onClick={(e) => {e.stopPropagation();setActiveFilter(f.id);}}
           className={cn(
-            'px-2.5 py-1 text-[11px] font-medium rounded-full whitespace-nowrap transition-colors',
+            'flex-shrink-0 px-3 py-1.5 text-[11px] font-medium rounded-full whitespace-nowrap transition-colors max-[499px]:px-3 max-[499px]:py-1.5 max-[499px]:text-[11px]',
             activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
           )}>
 
@@ -373,13 +373,13 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         </div>
       }
 
-      <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1 whitespace-nowrap max-[499px]:[&::-webkit-scrollbar]:hidden max-[499px]:[scrollbar-width:none]">
         {FILTERS.map((f) =>
         <button
           key={f.id}
           onClick={() => setActiveFilter(f.id)}
           className={cn(
-            'px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors',
+            'flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors max-[499px]:px-3 max-[499px]:py-1.5 max-[499px]:text-[11px]',
             activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
           )}>
 
@@ -387,8 +387,8 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
             {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-1">({unreadCount})</span>}
           </button>
         )}
-        <div className="flex-1" />
-        <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0" onClick={markAllRead}>
+        <div className="flex-1 max-[499px]:hidden" />
+        <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0 max-[499px]:hidden" onClick={markAllRead}>
           <CheckCheck className="w-3.5 h-3.5 mr-1" />
           {t('notifications.markAllRead')}
         </Button>
