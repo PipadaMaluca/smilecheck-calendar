@@ -827,9 +827,15 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   // ─── Patient: new layout ───
   const renderPatientDashboard = () => {
-    const upcomingItems = mockPatientConsultations.
-    sort((a, b) => a.time.localeCompare(b.time)).
-    slice(0, 6);
+    // Use the SAME source + ordering on every viewport (mobile / tablet / desktop).
+    // Non-mutating copy, future-only, sorted by full date+time.
+    const upcomingItems = [...mockPatientConsultations]
+      .filter((c) => c.date >= DEMO_DATE)
+      .sort((a, b) => {
+        const d = a.date.getTime() - b.date.getTime();
+        return d !== 0 ? d : a.time.localeCompare(b.time);
+      })
+      .slice(0, 6);
 
     const patientActions = [
     { label: t('dashboard.bookAppointment'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
