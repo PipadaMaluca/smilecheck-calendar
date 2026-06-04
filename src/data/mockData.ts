@@ -93,29 +93,57 @@ export const mockFamilyMembers = [
 // Demo date - January 31, 2026
 const DEMO_DATE = new Date(2026, 0, 31);
 
-// Patient consultations - 6 upcoming for João Silva, spread across next 2 weeks
-// Anchored on Jan 31, 2026 (demo truth source); upcoming = Feb 2..Feb 14, 2026
+// Patient consultations - one Jan 31, 2026 demo-day source for every viewport.
+// Dashboard, Agenda, desktop, tablet, and mobile must all render this same data.
 export const mockPatientConsultations: Consultation[] = ([
   {
     id: 'pat-1',
     type: 'presencial',
     category: 'destartarizacao',
-    date: new Date(2026, 1, 2), // Mon, Feb 2
+    date: DEMO_DATE,
     time: '10:00',
     duration: 30,
     patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
-    dentist: mockDentists[0],
+    dentist: { id: 'patient-demo-pa', name: 'Pedro Almeida', specialty: 'Higienista', workingHours: '9h-21h' },
     clinic: mockClinics[0],
     price: 50,
     isPaid: false,
-    notes: 'Limpeza semestral',
+    notes: 'Limpeza semestral — demo Jan 31',
   },
   {
     id: 'pat-2',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: DEMO_DATE,
+    time: '10:30',
+    duration: 30,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
+    dentist: mockDentists[2],
+    clinic: mockClinics[0],
+    price: 50,
+    isPaid: false,
+    notes: 'Destartarização de controlo',
+  },
+  {
+    id: 'pat-3',
+    type: 'presencial',
+    category: 'primeira_consulta',
+    date: DEMO_DATE,
+    time: '11:30',
+    duration: 30,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
+    dentist: mockDentists[1],
+    clinic: mockClinics[0],
+    price: 40,
+    isPaid: false,
+    notes: 'Avaliação inicial',
+  },
+  {
+    id: 'pat-4',
     type: 'teleconsulta',
     category: 'teleconsulta',
-    date: new Date(2026, 1, 4), // Wed, Feb 4
-    time: '18:30',
+    date: DEMO_DATE,
+    time: '14:00',
     duration: 30,
     patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
     dentist: mockDentists[0],
@@ -125,39 +153,11 @@ export const mockPatientConsultations: Consultation[] = ([
     notes: 'Follow-up branqueamento',
   },
   {
-    id: 'pat-3',
-    type: 'presencial',
-    category: 'restauracao',
-    date: new Date(2026, 1, 6), // Fri, Feb 6
-    time: '15:00',
-    duration: 30,
-    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
-    dentist: mockDentists[0],
-    clinic: mockClinics[0],
-    price: 60,
-    isPaid: false,
-    notes: 'Dente 15, face oclusal',
-  },
-  {
-    id: 'pat-4',
-    type: 'presencial',
-    category: 'primeira_consulta',
-    date: new Date(2026, 1, 9), // Mon, Feb 9
-    time: '11:30',
-    duration: 30,
-    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
-    dentist: mockDentists[1],
-    clinic: mockClinics[0],
-    price: 40,
-    isPaid: false,
-    notes: 'Avaliação ortodôntica',
-  },
-  {
     id: 'pat-5',
     type: 'presencial',
     category: 'endodontia',
-    date: new Date(2026, 1, 11), // Wed, Feb 11
-    time: '14:00',
+    date: DEMO_DATE,
+    time: '15:00',
     duration: 60,
     patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
     dentist: mockDentists[0],
@@ -169,16 +169,16 @@ export const mockPatientConsultations: Consultation[] = ([
   {
     id: 'pat-6',
     type: 'presencial',
-    category: 'destartarizacao',
-    date: new Date(2026, 1, 14), // Sat, Feb 14
-    time: '10:30',
+    category: 'restauracao',
+    date: DEMO_DATE,
+    time: '18:30',
     duration: 30,
     patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
-    dentist: mockDentists[2],
+    dentist: mockDentists[0],
     clinic: mockClinics[0],
-    price: 50,
+    price: 60,
     isPaid: false,
-    notes: 'Manutenção periodontal',
+    notes: 'Dente 15, face oclusal',
   },
  ] as Consultation[]).map(withRequiredConsultationFields);
 

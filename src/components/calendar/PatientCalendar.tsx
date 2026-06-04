@@ -67,8 +67,8 @@ export function PatientCalendar() {
 
   // All upcoming consultations sorted by date
   const upcomingConsultations = [...filteredConsultations]
-    .filter(c => c.date >= new Date())
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
+    .filter(c => c.date >= DEMO_DATE)
+    .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time));
 
   const handleMemberToggle = (memberId: string, isCheckbox: boolean) => {
     if (memberId === 'all') {
