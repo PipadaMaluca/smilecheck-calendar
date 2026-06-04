@@ -1817,6 +1817,34 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   /* Prevent horizontal page overflow */
   html, body, #root { overflow-x: hidden; max-width: 100vw; }
 
+  .notification-tabs-container {
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 8px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+  }
+
+  .notification-tabs-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .notification-tab {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    border-radius: 16px !important;
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
   /* Default: never let text be smaller than 10px on mobile */
   body, body * {
     /* Allow line wrapping by default */
