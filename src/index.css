@@ -1806,3 +1806,67 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 @media (prefers-reduced-motion: reduce) {
   .sc-logo-spring, .sc-footer-glow { animation: none !important; }
 }
+
+/* ============================================================
+   GLOBAL MOBILE READABILITY GUARDRAILS (< 500px)
+   Prevents text truncation on critical content (names, times,
+   pills, values) and enforces minimum font sizes & tap targets.
+   Desktop / tablet (>= 500px) is intentionally untouched.
+   ============================================================ */
+@media (max-width: 499px) {
+  /* Prevent horizontal page overflow */
+  html, body, #root { overflow-x: hidden; max-width: 100vw; }
+
+  /* Default: never let text be smaller than 10px on mobile */
+  body, body * {
+    /* Allow line wrapping by default */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Disable ellipsis truncation by default — opt back in only
+     on description/secondary text via .sc-allow-truncate */
+  .truncate:not(.sc-allow-truncate),
+  [class*="text-ellipsis"]:not(.sc-allow-truncate),
+  [class*="overflow-ellipsis"]:not(.sc-allow-truncate) {
+    text-overflow: clip;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  /* Protect critical content classes from truncation */
+  .sc-no-truncate,
+  .sc-name,
+  .sc-time,
+  .sc-pill,
+  .sc-value,
+  [data-no-truncate="true"] {
+    text-overflow: clip !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    min-width: 0;
+  }
+
+  /* Consultation type pills & badges: never truncate */
+  .badge, [class*="rounded-full"][class*="px-"] span,
+  [data-pill="true"] {
+    white-space: nowrap;
+    text-overflow: clip;
+    overflow: visible;
+  }
+
+  /* Tap targets: ensure interactive elements are >= 40px */
+  button:not(.sc-tight), a[role="button"]:not(.sc-tight) {
+    min-height: 36px;
+  }
+
+  /* Tables that would overflow should scroll horizontally */
+  table { min-width: max-content; }
+  .sc-table-wrap, [data-table-wrap="true"] {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Flex rows containing names/times should wrap rather than squeeze */
+  .sc-row-wrap { flex-wrap: wrap; row-gap: 4px; }
+}
