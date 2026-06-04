@@ -264,12 +264,13 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
           key={f.id}
           onClick={(e) => {e.stopPropagation();setActiveFilter(f.id);}}
           className={cn(
-            'notification-tab flex-shrink-0 px-3 py-1.5 text-[11px] font-medium rounded-full whitespace-nowrap transition-colors max-[499px]:px-3 max-[499px]:py-1.5 max-[499px]:text-[11px]',
+            'notification-tab flex-shrink-0 px-3 py-1.5 text-[11px] font-medium rounded-full whitespace-nowrap transition-colors',
             activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
           )}>
 
-            {f.label}
-            {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-0.5">({unreadCount})</span>}
+            <span className={cn(f.shortLabel && 'max-[499px]:hidden')}>{f.label}</span>
+            {f.shortLabel && <span className="hidden max-[499px]:inline">{f.shortLabel}</span>}
+            {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-0.5 max-[499px]:hidden">({unreadCount})</span>}
           </button>
         )}
       </div>
@@ -387,12 +388,13 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
           key={f.id}
           onClick={() => setActiveFilter(f.id)}
           className={cn(
-            'notification-tab flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors max-[499px]:px-3 max-[499px]:py-1.5 max-[499px]:text-[11px]',
+            'notification-tab flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-full whitespace-nowrap transition-colors',
             activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
           )}>
 
-            {f.label}
-            {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-1">({unreadCount})</span>}
+            <span className={cn(f.shortLabel && 'max-[499px]:hidden')}>{f.label}</span>
+            {f.shortLabel && <span className="hidden max-[499px]:inline">{f.shortLabel}</span>}
+            {f.id === 'nao_lidas' && unreadCount > 0 && <span className="ml-1 max-[499px]:hidden">({unreadCount})</span>}
           </button>
         )}
         <div className="flex-1 max-[499px]:hidden" />
