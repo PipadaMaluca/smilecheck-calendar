@@ -118,9 +118,9 @@ function useFilterLabels() {
     { id: 'todas' as FilterType, label: t('notifications.all') },
     { id: 'nao_lidas' as FilterType, label: t('notifications.unread') },
     { id: 'consultas' as FilterType, label: t('notifications.appointments') },
-    { id: 'mensagens' as FilterType, label: t('notifications.messages') },
+    { id: 'mensagens' as FilterType, label: t('notifications.messages'), shortLabel: 'Msgs' },
     { id: 'pontos' as FilterType, label: t('notifications.points') },
-  ];
+  ] as { id: FilterType; label: string; shortLabel?: string }[];
 }
 
 
