@@ -53,7 +53,14 @@ function releaseSlot(id: string) {
   }
 }
 
-export function CoachMark({ id, targetId, title, description, enabled = true }: CoachMarkProps) {
+export function CoachMark(_props: CoachMarkProps) {
+  // Disabled: tutorial tooltips only live inside the Onboarding slideshow.
+  // Kept as a no-op so existing call sites continue to compile.
+  return null;
+}
+
+// Legacy implementation preserved below but unreachable.
+function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: CoachMarkProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(`${LS_PREFIX}${id}`) === '1');

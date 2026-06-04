@@ -13,6 +13,13 @@ interface TooltipPosition {
 }
 
 export function OnboardingTooltips() {
+  // Disabled: tutorial spotlights/tooltips only live inside the
+  // OnboardingCarousel slideshow. They must never appear on live
+  // app screens (Dashboard, Agenda, etc.) for any role.
+  return null;
+}
+
+function _UnusedOnboardingTooltips() {
   const { t } = useTranslation();
   const { showTooltips, tooltipRole, finishTooltips } = useOnboarding();
   const [currentStep, setCurrentStep] = useState(0);
