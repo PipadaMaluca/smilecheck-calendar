@@ -166,8 +166,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         </div>
 
         {/* Family Member Tabs */}
-        <div className="relative flex items-stretch gap-2">
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1 flex-1 min-w-0">
+        <div className="space-y-2">
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1 min-w-0">
             {members.map(member => (
               <button
                 key={member.id}
@@ -191,14 +191,15 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               </button>
             ))}
           </div>
-          <button
-            onClick={() => setShowAddModal(true)}
-            aria-label={t('health.add')}
-            className="flex-shrink-0 self-center flex items-center gap-1 px-3 h-10 rounded-full border-2 border-dashed border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10 transition-colors"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span className="text-xs font-semibold whitespace-nowrap">{t('health.add')}</span>
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={() => setShowAddModal(true)}
+              aria-label={t('account.addMember')}
+              className="bg-transparent border border-dashed border-[#2196F3] rounded-[20px] px-4 py-1.5 text-xs font-semibold text-[#2196F3] hover:bg-[#2196F3]/10 transition-colors"
+            >
+              + {t('account.addMember')}
+            </button>
+          </div>
         </div>
 
         {/* Grid: 2 cols on desktop/tablet, 1 col on mobile */}

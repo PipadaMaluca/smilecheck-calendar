@@ -105,7 +105,7 @@ function DentistJobToggles() {
                 <Input type="number" placeholder={t('editProfile.salaryExample')} value={salary} onChange={(e) => setSalary(e.target.value)} />
               </div>
               <div className="flex items-center gap-2 self-end">
-                <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded" />
+                <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded-full" />
                 <span className="text-xs">{t('editProfile.negotiable')}</span>
               </div>
             </div>
@@ -196,7 +196,7 @@ function ClinicJobToggles() {
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
             <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded" />
+                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded-full" />
                   {b}
                 </label>
             )}
@@ -745,7 +745,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
             <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
                 setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
-              }} className="rounded" />
+              }} className="rounded-full" />
                     {xray}
                   </label>
             )}
@@ -757,7 +757,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
             <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
                     <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
                 setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
-              }} className="rounded" />
+              }} className="rounded-full" />
                     {acc}
                   </label>
             )}

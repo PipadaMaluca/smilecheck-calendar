@@ -104,7 +104,7 @@ export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
           return (
             <div key={key} className="flex items-center gap-1.5">
               <div
-                className="w-3 h-3 rounded-sm border"
+                className="w-3 h-3 rounded-full border"
                 style={{
                   backgroundColor: c.fill === 'transparent' ? 'transparent' : c.fill,
                   borderColor: c.stroke || c.fill,

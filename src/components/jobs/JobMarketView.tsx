@@ -227,7 +227,7 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
             <div className="grid grid-cols-2 gap-2">
               {BENEFITS_KEYS.map(k => (
                 <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(k)} onChange={() => toggle(benefits, setBenefits, k)} className="rounded" />
+                  <input type="checkbox" checked={benefits.includes(k)} onChange={() => toggle(benefits, setBenefits, k)} className="rounded-full" />
                   {t(`jobs.benefit_${k}`)}
                 </label>
               ))}
@@ -664,7 +664,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                         setProposalData(p => ({
                           ...p, benefits: p.benefits.includes(k) ? p.benefits.filter(x => x !== k) : [...p.benefits, k]
                         }));
-                      }} className="rounded" />
+                      }} className="rounded-full" />
                       {t(`jobs.benefit_${k}`)}
                     </label>
                   ))}

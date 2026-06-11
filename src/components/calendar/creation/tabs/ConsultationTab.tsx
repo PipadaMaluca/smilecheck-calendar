@@ -203,7 +203,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
               ))}
             </div>
             <label className="flex items-center gap-2 text-xs">
-              <input type="checkbox" checked={isNewPatient} onChange={e => setIsNewPatient(e.target.checked)} className="rounded" />
+              <input type="checkbox" checked={isNewPatient} onChange={e => setIsNewPatient(e.target.checked)} className="rounded-full" />
               {t('creationTabs.newPatient')}
             </label>
 
