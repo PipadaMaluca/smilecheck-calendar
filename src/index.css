@@ -1922,3 +1922,35 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   /* Flex rows containing names/times should wrap rather than squeeze */
   .sc-row-wrap { flex-wrap: wrap; row-gap: 4px; }
 }
+
+/* Global circular native checkboxes */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #94A3B8;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+input[type="checkbox"]:checked {
+  background: #2196F3;
+  border-color: #2196F3;
+}
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
