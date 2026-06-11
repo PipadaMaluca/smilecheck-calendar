@@ -263,7 +263,7 @@ export function DesktopWeekView({
                           <div
                             key={`drop-${time}`}
                             className={cn(
-                              'absolute left-0.5 right-0.5 transition-colors rounded-sm',
+                              'absolute left-0.5 right-0.5 transition-colors rounded-full',
                               dragOver === slotId && 'bg-primary/20 border border-primary/50'
                             )}
                             style={{ top: i * SLOT_HEIGHT, height: SLOT_HEIGHT }}
