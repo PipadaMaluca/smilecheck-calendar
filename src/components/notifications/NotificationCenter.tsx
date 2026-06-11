@@ -405,18 +405,19 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
         </div>
       }
 
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4">
         <NotificationFilterTabs
           filters={FILTERS}
           activeFilter={activeFilter}
           unreadCount={unreadCount}
           onChange={setActiveFilter}
         />
-        <div className="flex-1 max-[499px]:hidden" />
-        <Button variant="ghost" size="sm" className="text-xs text-primary flex-shrink-0 max-[499px]:hidden" onClick={markAllRead}>
-          <CheckCheck className="w-3.5 h-3.5 mr-1" />
-          {t('notifications.markAllRead')}
-        </Button>
+        <div className="mt-2 flex justify-end max-[499px]:hidden">
+          <Button variant="ghost" size="sm" className="text-xs text-primary" onClick={markAllRead}>
+            <CheckCheck className="w-3.5 h-3.5 mr-1" />
+            {t('notifications.markAllRead')}
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-1">
