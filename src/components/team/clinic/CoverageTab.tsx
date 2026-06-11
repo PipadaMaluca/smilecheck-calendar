@@ -56,7 +56,7 @@ export function CoverageTab() {
       <div className="flex flex-wrap gap-3 px-1">
         {dentistColors.map((d) => (
           <div key={d.name} className="flex items-center gap-2">
-            <div className={cn('w-3 h-3 rounded-sm', d.color)} />
+            <div className={cn('w-3 h-3 rounded-full', d.color)} />
             <span className="text-xs">{d.name}</span>
           </div>
         ))}
@@ -89,9 +89,9 @@ export function CoverageTab() {
                   return (
                     <div key={day.dayIdx} className="flex gap-px h-5">
                       {isOpen ? day.dentists.map((dIdx) => (
-                        <div key={dIdx} className={cn('flex-1 rounded-sm', dentistColors[dIdx].color)} />
+                        <div key={dIdx} className={cn('flex-1 rounded-full', dentistColors[dIdx].color)} />
                       )) : (
-                        <div className="flex-1 rounded-sm bg-muted/30" />
+                        <div className="flex-1 rounded-full bg-muted/30" />
                       )}
                     </div>
                   );
