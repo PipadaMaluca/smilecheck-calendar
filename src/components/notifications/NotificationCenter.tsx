@@ -299,7 +299,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
       />
 
       {/* Notification List */}
-      <div className="max-h-[420px] overflow-y-auto">
+      <div className="max-h-[75vh] overflow-y-auto">
         {filteredRecent.length === 0 ?
         <div className="text-center py-8 text-muted-foreground">
             <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
