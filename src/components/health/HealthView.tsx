@@ -224,10 +224,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                           }));
                         }}
                         className={cn(
-                          'h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors',
+                          'h-5 w-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors',
                           isChecked
-                            ? 'bg-primary border-primary text-primary-foreground'
-                            : 'border-muted-foreground/40'
+                            ? 'bg-[#2196F3] border-[#2196F3] text-white'
+                            : 'border-[#94A3B8]'
                         )}
                       >
                         {isChecked && <Check className="h-3 w-3" />}
