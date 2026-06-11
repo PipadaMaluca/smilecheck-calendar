@@ -112,15 +112,47 @@ const getNotificationsForRole = (role: UserRole): Notification[] => {
 
 type FilterType = 'todas' | 'nao_lidas' | 'consultas' | 'mensagens' | 'pontos';
 
+type FilterLabel = { id: FilterType; label: string };
+
 function useFilterLabels() {
   const { t } = useTranslation();
   return [
     { id: 'todas' as FilterType, label: t('notifications.all') },
     { id: 'nao_lidas' as FilterType, label: t('notifications.unread') },
     { id: 'consultas' as FilterType, label: t('notifications.appointments') },
-    { id: 'mensagens' as FilterType, label: t('notifications.messages'), shortLabel: 'Msgs' },
+    { id: 'mensagens' as FilterType, label: t('notifications.messages') },
     { id: 'pontos' as FilterType, label: t('notifications.points') },
-  ] as { id: FilterType; label: string; shortLabel?: string }[];
+  ] as FilterLabel[];
+}
+
+interface NotificationFilterTabsProps {
+  filters: FilterLabel[];
+  activeFilter: FilterType;
+  unreadCount: number;
+  onChange: (filter: FilterType) => void;
+  className?: string;
+}
+
+function NotificationFilterTabs({ filters, activeFilter, unreadCount, onChange, className }: NotificationFilterTabsProps) {
+  return (
+    <div className={cn('notification-tabs-container', className)}>
+      {filters.map((f) =>
+        <button
+          key={f.id}
+          onClick={(e) => {e.stopPropagation();onChange(f.id);}}
+          className={cn(
+            'notification-tab relative font-medium transition-colors',
+            activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
+          )}>
+
+          <span>{f.label}</span>
+          {f.id === 'nao_lidas' && unreadCount > 0 &&
+            <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-destructive" aria-label={`${unreadCount} notificações não lidas`} />
+          }
+        </button>
+      )}
+    </div>
+  );
 }
 
 
