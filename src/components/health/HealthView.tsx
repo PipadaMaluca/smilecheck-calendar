@@ -166,8 +166,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         </div>
 
         {/* Family Member Tabs */}
-        <div className="relative">
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1">
+        <div className="relative flex items-stretch gap-2">
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pb-1 flex-1 min-w-0">
             {members.map(member => (
               <button
                 key={member.id}
@@ -190,14 +190,15 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 </div>
               </button>
             ))}
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="flex-shrink-0 flex items-center gap-1 px-3 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
-            >
-              <UserPlus className="w-4 h-4" />
-              <span className="text-xs font-medium whitespace-nowrap">{t('health.add')}</span>
-            </button>
           </div>
+          <button
+            onClick={() => setShowAddModal(true)}
+            aria-label={t('health.add')}
+            className="flex-shrink-0 self-center flex items-center gap-1 px-3 h-10 rounded-full border-2 border-dashed border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10 transition-colors"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span className="text-xs font-semibold whitespace-nowrap">{t('health.add')}</span>
+          </button>
         </div>
 
         {/* Grid: 2 cols on desktop/tablet, 1 col on mobile */}
@@ -224,10 +225,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                           }));
                         }}
                         className={cn(
-                          'h-4 w-4 shrink-0 rounded-sm border flex items-center justify-center transition-colors',
+                          'h-5 w-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors',
                           isChecked
-                            ? 'bg-primary border-primary text-primary-foreground'
-                            : 'border-muted-foreground/40'
+                            ? 'bg-[#2196F3] border-[#2196F3] text-white'
+                            : 'border-[#94A3B8]'
                         )}
                       >
                         {isChecked && <Check className="h-3 w-3" />}

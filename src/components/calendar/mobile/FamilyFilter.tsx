@@ -17,7 +17,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
         onChange();
       }}
       className={cn(
-        'w-6 h-6 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0',
+        'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0',
         checked 
           ? 'bg-primary border-primary text-primary-foreground' 
           : 'border-muted-foreground/50 hover:border-primary'
