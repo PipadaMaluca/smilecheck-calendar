@@ -1970,4 +1970,11 @@ input[type="checkbox"]::after,
 
 [role="checkbox"] {
   overflow: hidden;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  aspect-ratio: 1 / 1;
 }
