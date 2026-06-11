@@ -368,7 +368,7 @@ export function PatientProfileBody({
 
         {/* Estatísticas */}
         <SectionCard title={t('profile.stats')}>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 max-[360px]:grid-cols-1 gap-2">
             {[
             { label: t('profile.totalConsultations'), value: data.stats.totalConsultations, icon: Stethoscope, trendKey: 'totalConsultations' },
             { label: t('profile.teleconsultations'), value: data.stats.teleconsultations, icon: Video, trendKey: 'teleconsultations' },
@@ -379,14 +379,11 @@ export function PatientProfileBody({
             return (
             <div
               key={stat.label}
-              className="bg-secondary/40 border border-border/60 rounded-lg p-3 md:p-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <stat.icon className="w-4 h-4 text-primary" />
-                  <span className="text-[11px] text-muted-foreground">{stat.label}</span>
-                </div>
-                <span className="text-lg font-bold text-foreground">{stat.value}</span>
-                {display && (
-                  <p className={cn('text-[11px] mt-0.5', display.color)}>
+              className="bg-secondary/40 border border-border/60 rounded-xl px-1.5 py-2.5 sm:px-2 sm:py-3 flex flex-col items-center justify-center text-center min-h-[88px]">
+                <span className="text-[11px] text-muted-foreground mb-1 leading-tight">{stat.label}</span>
+                <span className="text-[18px] sm:text-[20px] font-bold text-foreground leading-none">{stat.value}</span>
+                {display && display.text && (
+                  <p className={cn('text-[11px] mt-1 leading-none', display.color)}>
                     {display.arrow} {display.text}
                   </p>
                 )}
