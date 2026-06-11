@@ -102,20 +102,20 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
       <CardContent className="p-4">
         <div className="flex items-center gap-3">
           <div className={cn(
-            'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
+            'w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0',
             isPositive ? 'bg-primary/10' : isNegative ? 'bg-destructive/10' : 'bg-muted'
           )}>
             <Icon className={cn('w-5 h-5', isPositive ? 'text-primary' : isNegative ? 'text-destructive' : 'text-muted-foreground')} />
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">
+            <p className="font-medium text-foreground whitespace-nowrap overflow-hidden text-ellipsis text-[12px] sm:text-[13px]">
               {dateStr} — {renderPrimaryName()}
             </p>
             {renderSecondLine()}
           </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0" style={{ minWidth: 55 }}>
             <div className="flex flex-col items-end gap-0.5">
               {score.totalPoints > 0 && (
                 <span className="text-[9px] font-bold text-primary">+{score.totalPoints} XP</span>
