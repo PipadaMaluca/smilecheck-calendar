@@ -1955,7 +1955,16 @@ input[type="checkbox"]:checked::after {
   transform: translate(-50%, -60%) rotate(45deg);
 }
 
-/* Force circular shape on all Radix/shadcn checkbox roots */
-[role="checkbox"] {
+/* Force circular shape on all checkbox implementations */
+input[type="checkbox"],
+input[type="checkbox"]::before,
+input[type="checkbox"]::after,
+[role="checkbox"],
+[role="checkbox"]::before,
+[role="checkbox"]::after {
   border-radius: 9999px !important;
+}
+
+[role="checkbox"] {
+  overflow: hidden;
 }
