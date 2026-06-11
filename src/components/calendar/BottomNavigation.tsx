@@ -58,7 +58,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
         paddingBottom: 'env(safe-area-inset-bottom, 0px)'
       }}
     >
-      <div className="flex items-center justify-around h-14">
+      <div className="flex items-center justify-around h-[64px] pt-2 overflow-visible">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
