@@ -226,7 +226,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                           }));
                         }}
                         className={cn(
-                          'h-5 w-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors',
+                          'sc-tight h-5 w-5 min-h-5 min-w-5 max-h-5 max-w-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors',
                           isChecked
                             ? 'bg-[#2196F3] border-[#2196F3] text-white'
                             : 'border-[#94A3B8]'

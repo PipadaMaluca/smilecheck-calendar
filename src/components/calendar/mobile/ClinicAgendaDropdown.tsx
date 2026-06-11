@@ -54,8 +54,7 @@ export function ClinicAgendaDropdown({
     <button
       onClick={(e) => { e.stopPropagation(); onChange(); }}
       className={cn(
-        'w-5 h-5 flex items-center justify-center transition-colors flex-shrink-0 border-2',
-        radio ? 'rounded-full' : 'rounded',
+        'w-5 h-5 flex items-center justify-center transition-colors flex-shrink-0 border-2 rounded-full',
         checked
           ? 'bg-primary border-primary text-primary-foreground'
           : 'border-muted-foreground/50 hover:border-primary'

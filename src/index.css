@@ -1956,10 +1956,13 @@ input[type="checkbox"]:checked::after {
 }
 
 /* Force circular shape on all checkbox implementations */
+[data-state="checked"],
+[data-state="unchecked"],
+[role="checkbox"],
+button[role="checkbox"],
 input[type="checkbox"],
 input[type="checkbox"]::before,
 input[type="checkbox"]::after,
-[role="checkbox"],
 [role="checkbox"]::before,
 [role="checkbox"]::after {
   border-radius: 9999px !important;
@@ -1967,4 +1970,11 @@ input[type="checkbox"]::after,
 
 [role="checkbox"] {
   overflow: hidden;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  aspect-ratio: 1 / 1;
 }
