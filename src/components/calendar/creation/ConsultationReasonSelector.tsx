@@ -143,7 +143,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
                           type="checkbox"
                           checked={selectedItems?.includes(label) || false}
                           onChange={() => onToggleItem?.(label)}
-                          className="rounded border-border"
+                          className="rounded-full border-border"
                         />
                         <span>{label}</span>
                         {item.online && <Globe className="w-3 h-3 text-primary" />}
