@@ -58,7 +58,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
         paddingBottom: 'env(safe-area-inset-bottom, 0px)'
       }}
     >
-      <div className="flex items-center justify-around h-[64px] pt-2 overflow-visible">
+      <div className="flex items-center justify-around h-[64px] pt-2.5 overflow-visible">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -69,14 +69,14 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => handleTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] min-h-[44px] transition-all duration-200 relative',
+                'flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] min-h-[44px] transition-all duration-200 relative overflow-visible',
                 isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
               )}
             >
-              <div className="relative">
+              <div className="relative overflow-visible">
                 <Icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} />
                 {showBadge && (
-                  <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-[16px] rounded-full flex items-center justify-center text-[9px] font-bold text-white bg-blue-500 border-2 border-[hsl(214_50%_10%)]">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white bg-blue-500 border-2 border-[hsl(214_50%_10%)] z-10">
                     {badges.conversas}
                   </span>
                 )}
