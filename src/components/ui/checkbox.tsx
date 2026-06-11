@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
+>(({ className, style, ...props }, ref) => (
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
@@ -15,6 +15,7 @@ const Checkbox = React.forwardRef<
       className,
       "rounded-full",
     )}
+    style={{ ...style, borderRadius: "9999px" }}
     {...props}
   >
     <CheckboxPrimitive.Indicator className={cn("flex items-center justify-center text-current")}>
