@@ -58,7 +58,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
         paddingBottom: 'env(safe-area-inset-bottom, 0px)'
       }}
     >
-      <div className="flex items-center justify-around h-[64px] pt-2.5 overflow-visible">
+      <div className="flex items-center justify-around h-[68px] pt-3 overflow-visible">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -69,7 +69,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => handleTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] min-h-[44px] transition-all duration-200 relative overflow-visible',
+                'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-[44px] min-h-[44px] transition-all duration-200 relative overflow-visible',
                 isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
               )}
             >
@@ -83,7 +83,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               </div>
               <span className="text-[10px] font-medium leading-none">{item.label}</span>
               {isActive && (
-                <span className="absolute top-0 w-8 h-0.5 bg-[#2196F3] rounded-full" />
+                <span className="absolute top-0 w-8 h-[3px] bg-[#2196F3] rounded-[2px]" />
               )}
             </button>
           );

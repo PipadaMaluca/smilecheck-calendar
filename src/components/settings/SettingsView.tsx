@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen, Globe, Mail, HelpCircle as FAQ
+  Lock, Trash2, BookOpen, Globe, Mail, HelpCircle as FAQ, Bell, ChevronDown
 } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
@@ -55,6 +55,7 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
   const { replayFull, replayTooltips } = useOnboarding();
   const { t } = useTranslation();
+  const [notifOpen, setNotifOpen] = useState(false);
 
   return (
     <ScrollArea className="flex-1">
@@ -70,8 +71,27 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
         {/* 2. Regional (includes language — unified, no separate language section) */}
         <RegionalSection />
 
-        {/* 3. Notificações */}
-        <NotificationSettingsSection userRole={userRole} />
+        {/* 3. Notificações (collapsible) */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <button
+            onClick={() => setNotifOpen(o => !o)}
+            className="w-full flex items-center justify-between px-6 py-4 text-left hover:opacity-80 transition-opacity"
+            aria-expanded={notifOpen}
+          >
+            <div className="flex items-center gap-3">
+              <Bell className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm font-semibold">{t('settings.notifications')}</span>
+            </div>
+            <ChevronDown
+              className={`w-4 h-4 text-muted-foreground transition-transform ${notifOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+          {notifOpen && (
+            <div className="px-2 pb-2">
+              <NotificationSettingsSection userRole={userRole} />
+            </div>
+          )}
+        </Card>
 
         {/* 4. Sincronização */}
         {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
