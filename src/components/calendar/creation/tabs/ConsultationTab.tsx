@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
@@ -203,7 +204,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
               ))}
             </div>
             <label className="flex items-center gap-2 text-xs">
-              <input type="checkbox" checked={isNewPatient} onChange={e => setIsNewPatient(e.target.checked)} className="rounded-full" />
+              <Checkbox checked={isNewPatient} onCheckedChange={v => setIsNewPatient(!!v)} />
               {t('creationTabs.newPatient')}
             </label>
 

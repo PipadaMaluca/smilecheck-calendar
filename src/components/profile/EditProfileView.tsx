@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -105,7 +106,7 @@ function DentistJobToggles() {
                 <Input type="number" placeholder={t('editProfile.salaryExample')} value={salary} onChange={(e) => setSalary(e.target.value)} />
               </div>
               <div className="flex items-center gap-2 self-end">
-                <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded-full" />
+                <Checkbox checked={negotiable} onCheckedChange={() => setNegotiable(!negotiable)} />
                 <span className="text-xs">{t('editProfile.negotiable')}</span>
               </div>
             </div>
@@ -196,7 +197,7 @@ function ClinicJobToggles() {
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
             <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded-full" />
+                  <Checkbox checked={benefits.includes(b)} onCheckedChange={() => toggle(benefits, setBenefits, b)} />
                   {b}
                 </label>
             )}
@@ -743,9 +744,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-2">
                 {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
             <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
+                    <Checkbox checked={clinicXrayServices.includes(xray)} onCheckedChange={() => {
                 setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
-              }} className="rounded-full" />
+              }} />
                     {xray}
                   </label>
             )}
@@ -755,9 +756,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-2">
                 {ACCESSIBILITY_OPTIONS.map((acc) =>
             <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
+                    <Checkbox checked={clinicAccessibility.includes(acc)} onCheckedChange={() => {
                 setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
-              }} className="rounded-full" />
+              }} />
                     {acc}
                   </label>
             )}

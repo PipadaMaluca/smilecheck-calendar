@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, ChevronLeft, ChevronRight, Check, Send } from 'lucide-react';
+import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { mockFamilyMembers } from '@/data/mockData';
@@ -215,9 +216,10 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 {PREDEFINED_ALLERGIES.map(allergy => {
                   const isChecked = data.allergies.includes(allergy);
                   return (
-                    <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
-                      <button
-                        onClick={() => {
+                      <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
+                       <Checkbox
+                         checked={isChecked}
+                         onCheckedChange={() => {
                           updateData(d => ({
                             ...d,
                             allergies: isChecked
@@ -225,15 +227,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                               : [...d.allergies, allergy],
                           }));
                         }}
-                        className={cn(
-                          'sc-tight h-5 w-5 min-h-5 min-w-5 max-h-5 max-w-5 shrink-0 rounded-full border-2 flex items-center justify-center transition-colors',
-                          isChecked
-                            ? 'bg-[#2196F3] border-[#2196F3] text-white'
-                            : 'border-[#94A3B8]'
-                        )}
-                      >
-                        {isChecked && <Check className="h-3 w-3" />}
-                      </button>
+                       />
                       <span className="text-sm">{allergy}</span>
                     </label>
                   );
