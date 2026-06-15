@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -227,7 +228,7 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
             <div className="grid grid-cols-2 gap-2">
               {BENEFITS_KEYS.map(k => (
                 <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(k)} onChange={() => toggle(benefits, setBenefits, k)} className="rounded-full" />
+                  <Checkbox checked={benefits.includes(k)} onCheckedChange={() => toggle(benefits, setBenefits, k)} />
                   {t(`jobs.benefit_${k}`)}
                 </label>
               ))}
