@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown, ChevronRight, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ConsultationSubType {
   labelKey: string;
@@ -139,11 +140,9 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
                     const label = t(item.labelKey);
                     return (
                       <label key={item.labelKey} className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-muted/20 rounded cursor-pointer">
-                        <input
-                          type="checkbox"
+                        <Checkbox
                           checked={selectedItems?.includes(label) || false}
-                          onChange={() => onToggleItem?.(label)}
-                          className="rounded-full border-border"
+                          onCheckedChange={() => onToggleItem?.(label)}
                         />
                         <span>{label}</span>
                         {item.online && <Globe className="w-3 h-3 text-primary" />}
