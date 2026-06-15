@@ -661,11 +661,11 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <div className="grid grid-cols-2 gap-2">
                   {BENEFITS_KEYS.map(k => (
                     <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
-                      <input type="checkbox" checked={proposalData.benefits.includes(k)} onChange={() => {
+                      <Checkbox checked={proposalData.benefits.includes(k)} onCheckedChange={() => {
                         setProposalData(p => ({
                           ...p, benefits: p.benefits.includes(k) ? p.benefits.filter(x => x !== k) : [...p.benefits, k]
                         }));
-                      }} className="rounded-full" />
+                      }} />
                       {t(`jobs.benefit_${k}`)}
                     </label>
                   ))}
