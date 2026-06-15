@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -105,7 +106,7 @@ function DentistJobToggles() {
                 <Input type="number" placeholder={t('editProfile.salaryExample')} value={salary} onChange={(e) => setSalary(e.target.value)} />
               </div>
               <div className="flex items-center gap-2 self-end">
-                <input type="checkbox" checked={negotiable} onChange={() => setNegotiable(!negotiable)} className="rounded-full" />
+                <Checkbox checked={negotiable} onCheckedChange={() => setNegotiable(!negotiable)} />
                 <span className="text-xs">{t('editProfile.negotiable')}</span>
               </div>
             </div>
@@ -196,7 +197,7 @@ function ClinicJobToggles() {
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
             <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
-                  <input type="checkbox" checked={benefits.includes(b)} onChange={() => toggle(benefits, setBenefits, b)} className="rounded-full" />
+                  <Checkbox checked={benefits.includes(b)} onCheckedChange={() => toggle(benefits, setBenefits, b)} />
                   {b}
                 </label>
             )}
