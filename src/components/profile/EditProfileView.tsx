@@ -744,9 +744,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-2">
                 {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
             <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="checkbox" checked={clinicXrayServices.includes(xray)} onChange={() => {
+                    <Checkbox checked={clinicXrayServices.includes(xray)} onCheckedChange={() => {
                 setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
-              }} className="rounded-full" />
+              }} />
                     {xray}
                   </label>
             )}
@@ -756,9 +756,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-2">
                 {ACCESSIBILITY_OPTIONS.map((acc) =>
             <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="checkbox" checked={clinicAccessibility.includes(acc)} onChange={() => {
+                    <Checkbox checked={clinicAccessibility.includes(acc)} onCheckedChange={() => {
                 setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
-              }} className="rounded-full" />
+              }} />
                     {acc}
                   </label>
             )}
