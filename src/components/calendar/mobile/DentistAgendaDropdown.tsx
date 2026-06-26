@@ -149,7 +149,7 @@ export function DentistAgendaDropdown({
                   <Building2 className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                   <span className="text-xs font-semibold text-foreground">{clinic.name.replace('Clínica ', '')}</span>
                 </button>
-                {!worksOnDemo && <span className="text-[10px] text-muted-foreground">({t('agenda.notWorkingToday')})</span>}
+                {!worksOnDemo && <span className="text-[11px] text-muted-foreground">({t('agenda.notWorkingToday')})</span>}
               </div>
               {currentVisible && (
                 <div className="flex items-center gap-2 ml-5 py-1">

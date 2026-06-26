@@ -217,7 +217,7 @@ export function MobileAgendaFilter({
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>
           {selectedDentistIds.length > 0 && (
-            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center">
               {selectedDentistIds.length}
             </span>
           )}
@@ -414,7 +414,7 @@ export function MobileAgendaFilter({
                                 {d.name}
                                 {isMe ? ` (${t('agenda.me')})` : ''}
                                 {!dWorks && (
-                                  <span className="ml-1 text-[10px] text-muted-foreground">
+                                  <span className="ml-1 text-[11px] text-muted-foreground">
                                     · {t('agenda.notWorkingToday')}
                                   </span>
                                 )}

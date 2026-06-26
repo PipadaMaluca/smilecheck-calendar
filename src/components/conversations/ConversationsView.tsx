@@ -240,7 +240,7 @@ function DateSeparator({ date }: { date: string }) {
   return (
     <div className="flex items-center gap-3 my-4">
       <div className="flex-1 h-px bg-border" />
-      <span className="text-[10px] text-muted-foreground font-medium px-2">{date}</span>
+      <span className="text-[11px] text-muted-foreground font-medium px-2">{date}</span>
       <div className="flex-1 h-px bg-border" />
     </div>
   );
@@ -461,7 +461,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate">{contact.name}</p>
                         </div>
-                        <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0', badge.className)}>
+                        <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-medium flex-shrink-0', badge.className)}>
                           <BadgeIcon className="w-2.5 h-2.5" />
                             {typeLabel(contact.type)}
                         </span>
@@ -539,7 +539,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                             </span>
                             <span
                               className={cn(
-                                'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium flex-shrink-0',
+                                'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-medium flex-shrink-0',
                                 badge.className
                               )}
                             >
@@ -562,9 +562,9 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         </div>
 
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                          <span className="text-[10px] text-muted-foreground">{resolveDateLabel(conversation.lastMessageTime)}</span>
+                          <span className="text-[11px] text-muted-foreground">{resolveDateLabel(conversation.lastMessageTime)}</span>
                           {isUnread && (
-                            <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                            <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center">
                               {conversation.unread}
                             </span>
                           )}
@@ -607,7 +607,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                   ) : (
                     <span
                       className={cn(
-                        'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-medium',
+                        'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-medium',
                         typeBadgeConfig[selectedConversation.type].className
                       )}
                     >
@@ -638,7 +638,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                           <p className="text-sm">{msg.text}</p>
                           <p
                             className={cn(
-                              'text-[10px] mt-1',
+                              'text-[11px] mt-1',
                               msg.fromMe ? 'text-primary-foreground/60' : 'text-muted-foreground'
                             )}
                           >

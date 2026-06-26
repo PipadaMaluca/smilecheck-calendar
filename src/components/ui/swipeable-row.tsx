@@ -135,7 +135,7 @@ export function SwipeableRow({
           {leftActions.map((action, i) => (
             <button
               key={i}
-              className="flex flex-col items-center justify-center text-white font-medium text-[10px] gap-1"
+              className="flex flex-col items-center justify-center text-white font-medium text-[11px] gap-1"
               style={{ width: ACTION_WIDTH, backgroundColor: action.color }}
               onClick={() => triggerAction(action, 'rgba(76,175,80,0.3)')}
             >
@@ -152,7 +152,7 @@ export function SwipeableRow({
           {rightActions.map((action, i) => (
             <button
               key={i}
-              className="flex flex-col items-center justify-center text-white font-medium text-[10px] gap-1"
+              className="flex flex-col items-center justify-center text-white font-medium text-[11px] gap-1"
               style={{ width: ACTION_WIDTH, backgroundColor: action.color }}
               onClick={() => triggerAction(action, 'rgba(244,67,54,0.3)')}
             >

@@ -132,7 +132,7 @@ export function DesktopNavSidebar({
           <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-[#2196F3]')} />
           {badge && (
             <span className={cn(
-              'absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-sidebar',
+              'absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[11px] font-bold text-white border-2 border-sidebar',
               badge.color
             )}>
               {badge.type === 'count' ? badge.value : '!'}
@@ -141,7 +141,7 @@ export function DesktopNavSidebar({
         </div>
         {isExpanded && (
           <span className={cn(
-            'text-[10px] font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
+            'text-[11px] font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
             isActive && 'text-[#2196F3]'
           )}>
             {twoLine && twoLine[1]
@@ -170,7 +170,7 @@ export function DesktopNavSidebar({
         {userRole !== 'patient' && (
           <span className={cn(
             'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
-            isExpanded ? 'text-[10px] px-2.5 py-0.5' : 'text-[8px] px-1.5 py-0'
+            isExpanded ? 'text-[11px] px-2.5 py-0.5' : 'text-[11px] px-1.5 py-0'
           )}>
             Pro
           </span>

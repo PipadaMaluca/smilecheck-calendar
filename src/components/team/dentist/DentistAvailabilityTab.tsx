@@ -263,10 +263,10 @@ export function DentistAvailabilityTab() {
             />
           </div>
           <div className="flex gap-1">
-            <Button size="sm" variant="ghost" className="h-6 text-[10px] flex-1" onClick={() => setEditingCell(null)}>
+            <Button size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
               ✓
             </Button>
-            <Button size="sm" variant="ghost" className="h-6 text-[10px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
+            <Button size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
               ✕
             </Button>
           </div>
@@ -354,7 +354,7 @@ export function DentistAvailabilityTab() {
                       {t(day.dayKey)}
                     </span>
                     {off && (
-                      <Badge variant="outline" className="text-[9px] bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
+                      <Badge variant="outline" className="text-[11px] bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
                         {t('team.closed')}
                       </Badge>
                     )}
@@ -364,7 +364,7 @@ export function DentistAvailabilityTab() {
                   <div className="sm:hidden space-y-2">
                     {(['morning', 'afternoon', 'evening'] as const).map(period => (
                       <div key={period} className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground w-16 flex-shrink-0">
+                        <span className="text-[11px] text-muted-foreground w-16 flex-shrink-0">
                           {period === 'morning' ? `☀️ ${t('availability.morning')}` :
                            period === 'afternoon' ? `🌤️ ${t('availability.afternoon')}` :
                            `🌙 ${t('availability.eveningShort')}`}

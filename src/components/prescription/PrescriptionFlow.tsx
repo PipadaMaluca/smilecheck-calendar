@@ -251,9 +251,9 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <span className={cn(isBlocked && 'line-through text-muted-foreground')}>{med.name} {med.dosage}</span>
         </div>
         {isBlocked ?
-      <span className="text-[10px] font-medium text-destructive">{t('prescription.blocked')}</span> :
+      <span className="text-[11px] font-medium text-destructive">{t('prescription.blocked')}</span> :
       hasInteraction ?
-      <span className="text-[10px] font-medium text-amber-500">{t('prescription.interaction')}</span> :
+      <span className="text-[11px] font-medium text-amber-500">{t('prescription.interaction')}</span> :
       alreadyAdded ?
       <Check className="w-4 h-4 text-primary" /> :
       <Plus className="w-4 h-4 text-muted-foreground" />
@@ -321,7 +321,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           {patientHealth.allergies.length > 0 &&
       <div className="flex flex-wrap gap-1">
               {patientHealth.allergies.map((a) =>
-        <span key={a} className="text-[10px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
+        <span key={a} className="text-[11px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
                   ⚠️ {a}
                 </span>
         )}
@@ -335,7 +335,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <p className="text-xs font-medium text-amber-600 mb-1">{t('prescription.currentPatientMeds')}:</p>
           <div className="flex flex-wrap gap-1">
             {patientHealth.medications.map((m) =>
-        <span key={m.name} className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
+        <span key={m.name} className="text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
                 {m.name} {m.dosage}
               </span>
         )}
@@ -401,7 +401,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
                       </Button>
                     </div>
                     {interactions.length > 0 &&
-                <p className="text-[10px] text-amber-500 font-medium">
+                <p className="text-[11px] text-amber-500 font-medium">
                         ⚠️ {t('prescription.interactionWith')} {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
                       </p>
                 }
@@ -460,7 +460,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           </div>
           <div className="flex flex-col items-center gap-1">
             <QrCode className="w-12 h-12 text-gray-400" />
-            <p className="text-[9px] text-gray-400">smilecheck.app/rx/{rxCode}</p>
+            <p className="text-[11px] text-gray-400">smilecheck.app/rx/{rxCode}</p>
           </div>
         </div>
       </div>

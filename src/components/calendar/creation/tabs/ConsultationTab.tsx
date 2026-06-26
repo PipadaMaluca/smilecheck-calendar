@@ -283,7 +283,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
           <section className="bg-card rounded-xl p-4 border border-border">
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.referrer')}</h3>
             <Input value={referrer} onChange={e => setReferrer(e.target.value)} placeholder={t('creationTabs.referrerPlaceholder')} className="text-sm" />
-            <p className="text-[10px] text-muted-foreground mt-1">{t('creationTabs.referrerNote')}</p>
+            <p className="text-[11px] text-muted-foreground mt-1">{t('creationTabs.referrerNote')}</p>
           </section>
 
           {/* Notes */}

@@ -200,15 +200,15 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 {/* Mini cards */}
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">{t('dossier.bloodType')}</p>
+                    <p className="text-[11px] text-muted-foreground">{t('dossier.bloodType')}</p>
                     <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">{t('dossier.height')}</p>
+                    <p className="text-[11px] text-muted-foreground">{t('dossier.height')}</p>
                     <p className="font-bold text-base mt-0.5">{data.height}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[10px] text-muted-foreground">{t('dossier.weight')}</p>
+                    <p className="text-[11px] text-muted-foreground">{t('dossier.weight')}</p>
                     <p className="font-bold text-base mt-0.5">{data.weight}</p>
                   </div>
                 </div>
@@ -270,10 +270,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                               </p>
                               <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
                             </div>
-                            <span className={cn('text-[10px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
+                            <span className={cn('text-[11px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
                           </div>
                           {isAck ? (
-                            <p className="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
+                            <p className="text-[11px] text-emerald-400 mt-1.5 flex items-center gap-1">
                               <Check className="w-3 h-3" /> {t('dossier.verifiedBy')} Dr. Gonçalo Pipo — 31 Jan 2026
                             </p>
                           ) : (isDentist || isClinic) && (
@@ -376,7 +376,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             <span className="text-sm font-medium">{c.date} — {c.time}</span>
                             <div className="flex items-center gap-1.5">
                               {c.hasPrescription && <FileText className="w-3 h-3 text-primary" />}
-                              <span className="text-[10px] text-muted-foreground">{c.status}</span>
+                              <span className="text-[11px] text-muted-foreground">{c.status}</span>
                               {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </div>
                           </div>
@@ -467,7 +467,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           <Camera className="w-6 h-6 text-muted-foreground/30" />
                         </div>
                         <p className="text-xs font-medium truncate">{img.category}</p>
-                        <p className="text-[10px] text-muted-foreground">{img.date}</p>
+                        <p className="text-[11px] text-muted-foreground">{img.date}</p>
                       </button>
                     ))}
                   </div>
@@ -480,7 +480,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           <Camera className="w-6 h-6 text-muted-foreground/30" />
                         </div>
                         <p className="text-xs font-medium truncate">{img.category}</p>
-                        <p className="text-[10px] text-muted-foreground">{img.date}</p>
+                        <p className="text-[11px] text-muted-foreground">{img.date}</p>
                       </button>
                     ))}
                   </div>

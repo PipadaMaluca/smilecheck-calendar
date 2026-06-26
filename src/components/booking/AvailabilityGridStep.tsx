@@ -116,7 +116,7 @@ export function AvailabilityGridStep({
   const renderSlotCell = (dayIdx: number, date: Date, time: string) => {
     if (isLunch(time)) {
       return (
-        <div className="h-9 rounded-md bg-muted/40 border border-border/30 flex items-center justify-center text-[9px] font-semibold text-muted-foreground uppercase tracking-wide">
+        <div className="h-9 rounded-md bg-muted/40 border border-border/30 flex items-center justify-center text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
           {time === LUNCH_START ? 'Almoço' : ''}
         </div>
       );
@@ -251,13 +251,13 @@ export function AvailabilityGridStep({
             <div className="bg-secondary/50 border-b border-border" />
             {days.map((d, i) => (
               <div key={i} className="bg-secondary/50 border-b border-l border-border px-2 py-2 text-center">
-                <div className="text-[10px] font-semibold text-muted-foreground uppercase">{DAY_LABELS[i]}</div>
+                <div className="text-[11px] font-semibold text-muted-foreground uppercase">{DAY_LABELS[i]}</div>
                 <div className="text-sm font-bold text-foreground">{d.getDate()}</div>
               </div>
             ))}
             {times.map(time => (
               <Fragment key={time}>
-                <div className="text-[10px] text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
+                <div className="text-[11px] text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
                   {time.endsWith(':00') ? time : ''}
                 </div>
                 {days.map((date, dIdx) => (
@@ -375,7 +375,7 @@ export function AvailabilityGridStep({
                 rows={3}
                 className="resize-none text-xs"
               />
-              <p className="text-[10px] text-muted-foreground mt-1 text-right">
+              <p className="text-[11px] text-muted-foreground mt-1 text-right">
                 {preferences.observation.length}/500
               </p>
             </div>

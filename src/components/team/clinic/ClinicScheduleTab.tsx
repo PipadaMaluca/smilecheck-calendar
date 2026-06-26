@@ -231,18 +231,18 @@ export function ClinicScheduleTab() {
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       {h.openDespite ? (
-                        <Badge variant="outline" className="text-[10px] bg-green-500/10 text-green-500 border-green-500/30">
+                        <Badge variant="outline" className="text-[11px] bg-green-500/10 text-green-500 border-green-500/30">
                           {t('team.schedule.openDespite')}
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="text-[10px] bg-destructive/10 text-destructive border-destructive/30">
+                        <Badge variant="outline" className="text-[11px] bg-destructive/10 text-destructive border-destructive/30">
                           {t('team.encerrada')}
                         </Badge>
                       )}
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="h-6 text-[10px] px-2"
+                        className="h-6 text-[11px] px-2"
                         onClick={() => toggleOpenDespiteHoliday(h.id)}
                       >
                         {h.openDespite ? t('team.schedule.markClosed') : t('team.schedule.markOpen')}
@@ -261,7 +261,7 @@ export function ClinicScheduleTab() {
               <div key={c.id} className="flex items-center justify-between text-sm gap-2">
                 <span>{c.date} — {c.name}</span>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-[10px] bg-amber-500/10 text-amber-500 border-amber-500/30">
+                  <Badge variant="outline" className="text-[11px] bg-amber-500/10 text-amber-500 border-amber-500/30">
                     {t('team.encerrada')}
                   </Badge>
                   <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeCustomClosure(c.id)}>

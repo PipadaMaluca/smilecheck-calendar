@@ -45,7 +45,7 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
         })}
       </nav>
       <div className="border-t border-sidebar-border p-3 text-center">
-        <p className="text-[10px] text-muted-foreground">SmileCheck © 2026</p>
+        <p className="text-[11px] text-muted-foreground">SmileCheck © 2026</p>
       </div>
     </aside>
   );

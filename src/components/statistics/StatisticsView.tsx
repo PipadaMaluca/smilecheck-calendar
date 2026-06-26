@@ -289,7 +289,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <p className="text-[11px] font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
                             <ClickableDentistName name={shortName} className="text-[11px] font-bold" />
                             {d.clinicName && (
-                              <span className="ml-1 text-[9px] font-normal text-muted-foreground">
+                              <span className="ml-1 text-[11px] font-normal text-muted-foreground">
                                 ({d.clinicName})
                               </span>
                             )}
@@ -297,11 +297,11 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[9px] text-muted-foreground leading-none">tele</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">tele</div>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[9px] text-muted-foreground leading-none">pres</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">pres</div>
                         </div>
                       </li>
                     );

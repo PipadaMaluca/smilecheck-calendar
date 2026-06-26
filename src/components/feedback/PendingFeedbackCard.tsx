@@ -38,7 +38,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
             <h3 className="text-sm font-bold text-foreground">
               {t('bidirectionalFeedback.pendingTitle')}
             </h3>
-            <Badge variant="outline" className="text-[10px] border-amber-500/30 text-amber-600 bg-amber-500/10">
+            <Badge variant="outline" className="text-[11px] border-amber-500/30 text-amber-600 bg-amber-500/10">
               {items.length}
             </Badge>
           </div>

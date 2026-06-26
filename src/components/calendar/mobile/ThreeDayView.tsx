@@ -59,7 +59,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                 )}
               >
                 <p className={cn(
-                  'text-[10px]',
+                  'text-[11px]',
                   isToday ? 'text-primary font-semibold' : 'text-muted-foreground'
                 )}>
                   {format(day, 'EEE', { locale: pt })}
@@ -71,7 +71,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   {format(day, 'd')}
                 </p>
                 <p className={cn(
-                  'text-[9px]',
+                  'text-[11px]',
                   isToday ? 'text-primary' : 'text-muted-foreground'
                 )}>
                   {format(day, 'MMM', { locale: pt })}
@@ -94,7 +94,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
             {timeSlots.map((time) => (
               <div 
                 key={time} 
-                className="flex items-center justify-end pr-1 text-[10px] text-muted-foreground font-mono"
+                className="flex items-center justify-end pr-1 text-[11px] text-muted-foreground font-mono"
               >
                 {time}
               </div>
@@ -184,7 +184,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         className="bg-[#607D8B]/30 rounded flex items-center justify-center"
                         style={{ gridRow: `${startIdx + 1} / span 1` }}
                       >
-                        <span className="text-muted-foreground/60 text-[8px]">Pausa</span>
+                        <span className="text-muted-foreground/60 text-[11px]">Pausa</span>
                       </div>
                     );
                   }
@@ -224,24 +224,24 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                       <div className="flex flex-col leading-tight py-0.5">
                         {/* Line 1: First + Last Name (age anos) */}
                         <div className="flex items-center gap-0.5 truncate">
-                          <span className="truncate font-bold text-[8px] text-white">
+                          <span className="truncate font-bold text-[11px] text-white">
                             {displayName}
                           </span>
-                          <span className="text-[7px] text-muted-foreground whitespace-nowrap">
+                          <span className="text-[11px] text-muted-foreground whitespace-nowrap">
                             ({consultation.patient.age} anos)
                           </span>
                         </div>
                         {/* Line 2: TYPE pill + notes */}
                         <div data-line="type-row" className="flex flex-wrap items-center gap-1 min-w-0">
                           <span
-                            className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                            className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
                             {getCategoryLabel(t, category)}
                             {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                           </span>
                           {consultation.notes && (
-                            <span data-notes className="text-[7px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                            <span data-notes className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                               {consultation.notes}
                             </span>
                           )}

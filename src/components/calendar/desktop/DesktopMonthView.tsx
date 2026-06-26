@@ -101,7 +101,7 @@ export function DesktopMonthView({
               
               {count > 0 && isCurrentMonth && (
                 <div className="space-y-0.5">
-                  <div className="text-[10px] text-muted-foreground font-medium">
+                  <div className="text-[11px] text-muted-foreground font-medium">
                     {count} consulta{count !== 1 ? 's' : ''}
                   </div>
                   {/* Mini category dots */}
@@ -117,11 +117,11 @@ export function DesktopMonthView({
                       );
                     })}
                     {count > 5 && (
-                      <span className="text-[8px] text-muted-foreground">+{count - 5}</span>
+                      <span className="text-[11px] text-muted-foreground">+{count - 5}</span>
                     )}
                   </div>
                   {hasUrgent && (
-                    <div className="text-[9px] text-destructive font-medium">⚠ {t('agenda.urgency')}</div>
+                    <div className="text-[11px] text-destructive font-medium">⚠ {t('agenda.urgency')}</div>
                   )}
                 </div>
               )}

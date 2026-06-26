@@ -103,7 +103,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
           </div>
           <div className="grid grid-cols-7 gap-1 text-center">
             {(t('scores.weekDays', { returnObjects: true }) as string[]).map((d: string) => (
-              <span key={d} className="text-[10px] font-semibold text-muted-foreground py-1">{d}</span>
+              <span key={d} className="text-[11px] font-semibold text-muted-foreground py-1">{d}</span>
             ))}
             {calendarCells.map((day, i) => {
               if (day === null) return <span key={`empty-${i}`} />;
@@ -140,9 +140,9 @@ export function StreakTab({ userRole }: StreakTabProps) {
                   <p className="text-sm font-medium text-foreground">
                     {s.isCurrent && '🔥 '}{s.label}: {s.days} {t('scores.days')}
                   </p>
-                  <p className="text-[10px] text-muted-foreground">{s.startDate} — {s.endDate}</p>
+                  <p className="text-[11px] text-muted-foreground">{s.startDate} — {s.endDate}</p>
                 </div>
-                {s.isCurrent && <Badge className="bg-primary/20 text-primary border-primary/30 text-[10px]">{t('scores.active')}</Badge>}
+                {s.isCurrent && <Badge className="bg-primary/20 text-primary border-primary/30 text-[11px]">{t('scores.active')}</Badge>}
               </div>
             ))}
           </div>

@@ -243,7 +243,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Patients */}
               {results.patients.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <User className="w-3 h-3" /> Pacientes
                   </div>
                   {results.patients.map((p) => (
@@ -274,7 +274,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                         </div>
                       </div>
                       <div className="flex-shrink-0 text-right flex items-center gap-2">
-                        <div className="text-[10px] text-muted-foreground leading-tight">
+                        <div className="text-[11px] text-muted-foreground leading-tight">
                           <div className="text-primary font-medium">{p.scheduledCount} agendada{p.scheduledCount !== 1 ? 's' : ''}</div>
                           <div>{p.totalCount} total</div>
                         </div>
@@ -297,7 +297,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Dentists */}
               {results.dentists.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <Stethoscope className="w-3 h-3" /> Dentistas
                   </div>
                   {results.dentists.map((d) => (
@@ -337,7 +337,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Clinics */}
               {results.clinics.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <Building2 className="w-3 h-3" /> Clínicas
                   </div>
                   {results.clinics.map((c) => (

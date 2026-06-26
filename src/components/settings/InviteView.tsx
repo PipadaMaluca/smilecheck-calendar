@@ -113,19 +113,19 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">7</p>
-            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap">Convidadas</p>
+            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap">Convidadas</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-emerald-500 leading-tight">3</p>
-            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap">Confirmadas</p>
+            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap">Confirmadas</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-amber-400 leading-tight">150</p>
-            <p className="text-[10px] md:text-[10px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">Pts ganhos</span><span className="hidden md:inline">Pontos ganhos</span></p>
+            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">Pts ganhos</span><span className="hidden md:inline">Pontos ganhos</span></p>
           </CardContent>
         </Card>
       </div>

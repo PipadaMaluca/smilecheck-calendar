@@ -40,7 +40,7 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
         ))}
       </div>
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">{t(`onboarding.${roleKey}.pointsBottom`)}</p>
-      <p className="text-[10px] text-muted-foreground text-center max-w-xs mt-2">{t('onboarding.xpNote')}</p>
+      <p className="text-[11px] text-muted-foreground text-center max-w-xs mt-2">{t('onboarding.xpNote')}</p>
     </div>
   );
 };

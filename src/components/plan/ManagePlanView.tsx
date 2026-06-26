@@ -353,7 +353,7 @@ export function ManagePlanView({
 
               {badgeText &&
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-amber-500 text-white border-0 text-[10px] px-3">
+                  <Badge className="bg-amber-500 text-white border-0 text-[11px] px-3">
                     {badgeText}
                   </Badge>
                 </div>

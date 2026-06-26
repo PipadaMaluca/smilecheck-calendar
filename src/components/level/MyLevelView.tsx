@@ -61,8 +61,8 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="text-sm font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[lvl.key])}</h4>
                       <span className="text-xs text-muted-foreground">{lvl.minXP.toLocaleString()} XP</span>
-                      <Badge variant="outline" className="text-[10px]">×{LEVEL_MULTIPLIERS[lvl.key].toFixed(1)}</Badge>
-                      {isCurrent && <Badge className="text-[10px]">{t('level.current')}</Badge>}
+                      <Badge variant="outline" className="text-[11px]">×{LEVEL_MULTIPLIERS[lvl.key].toFixed(1)}</Badge>
+                      {isCurrent && <Badge className="text-[11px]">{t('level.current')}</Badge>}
                     </div>
                     {reward && (
                       <p className="text-[11px] text-muted-foreground mt-0.5">

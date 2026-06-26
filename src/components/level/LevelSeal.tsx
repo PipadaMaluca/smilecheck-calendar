@@ -45,7 +45,7 @@ export function LevelSeal({ role, levelKey, className }: LevelSealProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border',
+        'inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border',
         SEAL_STYLES[levelKey],
         className,
       )}

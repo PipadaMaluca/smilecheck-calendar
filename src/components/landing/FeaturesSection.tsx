@@ -43,7 +43,7 @@ function AgendaMockup() {
       <div className="p-5 grid grid-cols-5 gap-2">
         {['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].map((d, i) => (
           <div key={d} className="text-center">
-            <div className="text-[10px] font-medium text-[#4A5568] dark:text-[#94A3B8] mb-2">{d}</div>
+            <div className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8] mb-2">{d}</div>
             <div className="space-y-1.5">
               {[
                 ['#2196F3', 28], ['#FB923C', 16], ['#2196F3', 22],
@@ -61,9 +61,9 @@ function AgendaMockup() {
           </div>
           <div className="flex-1">
             <div className="text-xs font-semibold text-[#1A202C] dark:text-white">10:30 — Limpeza</div>
-            <div className="text-[10px] text-[#4A5568] dark:text-[#94A3B8]">Dr. Gonçalo Pipo</div>
+            <div className="text-[11px] text-[#4A5568] dark:text-[#94A3B8]">Dr. Gonçalo Pipo</div>
           </div>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">Confirmada</span>
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">Confirmada</span>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@ function BadgesMockup() {
         {items.map((it) => (
           <div key={it.l} className="aspect-square rounded-xl bg-gradient-to-br from-[#F5F9FF] to-[#E8F2FF] dark:from-[#1E3A5F]/40 dark:to-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] flex flex-col items-center justify-center gap-1">
             <span className="text-2xl">{it.e}</span>
-            <span className="text-[9px] font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
+            <span className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
           </div>
         ))}
       </div>
@@ -111,15 +111,15 @@ function TeleconsultaMockup() {
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#2196F3] to-[#1565C0] flex items-center justify-center text-white text-3xl font-bold shadow-2xl">
           GP
         </div>
-        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-[10px] font-bold flex items-center gap-1">
+        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-[11px] font-bold flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> AO VIVO
         </div>
-        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-[10px] text-white/50">Você</div>
+        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-[11px] text-white/50">Você</div>
       </div>
       <div className="px-5 py-4 flex items-center justify-between bg-[#0A1929]">
         <div>
           <div className="text-sm font-semibold text-white">Dr. Gonçalo Pipo</div>
-          <div className="text-[10px] text-[#94A3B8]">12:34 • €20 fixo</div>
+          <div className="text-[11px] text-[#94A3B8]">12:34 • €20 fixo</div>
         </div>
         <div className="flex gap-2">
           <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center"><Video className="w-4 h-4 text-white" /></div>

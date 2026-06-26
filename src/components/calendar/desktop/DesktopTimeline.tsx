@@ -141,13 +141,13 @@ export function DesktopTimeline({
             >
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                  <span className="text-[10px] font-bold text-primary">
+                  <span className="text-[11px] font-bold text-primary">
                     {getDentistInitials(dentist.name)}
                   </span>
                 </div>
                 <div>
                   <p className="text-xs font-medium truncate">{dentist.name}</p>
-                  <p className="text-[9px] text-muted-foreground truncate">
+                  <p className="text-[11px] text-muted-foreground truncate">
                     {clinic?.name || ''} • {dentist.workingHours || '9h-21h'}
                   </p>
                 </div>
@@ -325,7 +325,7 @@ export function DesktopTimeline({
                             gridRow: `${startIdx + 1} / span 1`,
                           }}
                         >
-                          <span className="text-[10px] font-medium text-muted-foreground">
+                          <span className="text-[11px] font-medium text-muted-foreground">
                             {slot.blockReason}
                           </span>
                         </div>
@@ -372,10 +372,10 @@ export function DesktopTimeline({
                           <div className="flex-1 min-w-0 overflow-hidden">
                             {/* Line 1: time + name (age) */}
                             <div className="flex items-center gap-1 flex-wrap">
-                              <span className="text-[9px] font-mono text-muted-foreground">
+                              <span className="text-[11px] font-mono text-muted-foreground">
                                 {slot.time}
                               </span>
-                              <span className="text-[10px] font-bold truncate text-white leading-tight">
+                              <span className="text-[11px] font-bold truncate text-white leading-tight">
                                 {consultation.patient.name}
                                 {consultation.patient.age && (
                                   <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
@@ -385,14 +385,14 @@ export function DesktopTimeline({
                             {/* Line 2: type pill + notes */}
                             <div data-line="type-row" className="mt-0.5 flex flex-wrap items-center gap-1 min-w-0">
                               <span
-                                className="inline-flex items-center text-[9px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                                className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
                                 {getConsultationLabel(t, consultation)}
                                 {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                               </span>
                               {consultation.notes && (
-                                <span data-notes className="text-[9px] text-[#8B9CB6]">
+                                <span data-notes className="text-[11px] text-[#8B9CB6]">
                                   {consultation.notes}
                                 </span>
                               )}
@@ -401,7 +401,7 @@ export function DesktopTimeline({
                           
                           {/* Status indicator */}
                           <div className="flex-shrink-0">
-                            <span className={cn('text-[8px] font-medium', statusCfg.color)}>
+                            <span className={cn('text-[11px] font-medium', statusCfg.color)}>
                               {statusCfg.icon}
                             </span>
                           </div>

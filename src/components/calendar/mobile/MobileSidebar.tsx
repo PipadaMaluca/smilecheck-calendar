@@ -104,7 +104,7 @@ export function MobileSidebar({
           <Icon className="w-4 h-4" />
           {badge && (
             <span className={cn(
-              'absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[8px] font-bold text-white border-2 border-card',
+              'absolute -top-1.5 -right-2 min-w-[14px] h-[14px] rounded-full flex items-center justify-center text-[11px] font-bold text-white border-2 border-card',
               badge.color
             )}>
               {badge.type === 'count' ? badge.value : '!'}
@@ -114,7 +114,7 @@ export function MobileSidebar({
         <span className="flex-1 text-left">{label}</span>
         {badge && (
           <span className={cn(
-            'min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px] font-bold text-white',
+            'min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[11px] font-bold text-white',
             badge.color
           )}>
             {badge.type === 'count' ? badge.value : '!'}

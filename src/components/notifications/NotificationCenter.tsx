@@ -186,7 +186,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
       {unreadCount > 0 &&
-      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center px-1 mb-0 mt-[5px] ml-0 mr-[5px]">
+      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold flex items-center justify-center px-1 mb-0 mt-[5px] ml-0 mr-[5px]">
           {unreadCount}
         </span>
       }
@@ -330,9 +330,9 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
                     {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">{notification.description}</p>
-                  <p className="text-[10px] text-muted-foreground/60 mt-0.5">{notification.time}</p>
+                  <p className="text-[11px] text-muted-foreground/60 mt-0.5">{notification.time}</p>
                   {notification.actionLabel && !notification.read &&
-                <Badge className="mt-1.5 text-[10px] h-5">{notification.actionLabel}</Badge>
+                <Badge className="mt-1.5 text-[11px] h-5">{notification.actionLabel}</Badge>
                 }
                 </div>
               </div>);
@@ -450,9 +450,9 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
                     {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">{notification.description}</p>
-                  <p className="text-[10px] text-muted-foreground/60 mt-1">{notification.time}</p>
+                  <p className="text-[11px] text-muted-foreground/60 mt-1">{notification.time}</p>
                   {notification.actionLabel && !notification.read &&
-                <Badge className="mt-1.5 text-[10px] h-5 cursor-pointer">{notification.actionLabel}</Badge>
+                <Badge className="mt-1.5 text-[11px] h-5 cursor-pointer">{notification.actionLabel}</Badge>
                 }
                 </div>
               </div>);

@@ -68,22 +68,22 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
         <p className="text-xs text-muted-foreground truncate">{score.clinicName}</p>
       )}
       {isPending && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-amber-500/30 text-amber-600 bg-amber-500/10">
+        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-amber-500/30 text-amber-600 bg-amber-500/10">
           <Clock className="w-2.5 h-2.5 mr-0.5" /> Pendente
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints < 0 && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
+        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> Falta
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints >= 0 && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
+        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
           <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> Concluído
         </Badge>
       )}
       {isExpired && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
+        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> Expirado
         </Badge>
       )}
@@ -118,7 +118,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
           <div className="flex items-center gap-2 flex-shrink-0" style={{ minWidth: 55 }}>
             <div className="flex flex-col items-end gap-0.5">
               {score.totalPoints > 0 && (
-                <span className="text-[9px] font-bold text-primary">+{score.totalPoints} XP</span>
+                <span className="text-[11px] font-bold text-primary">+{score.totalPoints} XP</span>
               )}
               <Badge
                 variant="outline"

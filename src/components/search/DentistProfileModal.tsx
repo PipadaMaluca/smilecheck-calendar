@@ -134,13 +134,13 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                   {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
                 </p>
                 {isSunday && (
-                  <p className="text-[9px] text-primary mb-1">📱 {t('search.sundayTeleconsultOnly')}</p>
+                  <p className="text-[11px] text-primary mb-1">📱 {t('search.sundayTeleconsultOnly')}</p>
                 )}
                 <div className="flex flex-wrap gap-1">
                   {day.slots.map((slot) => (
                     <button
                       key={slot}
-                      className="text-[10px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
+                      className="text-[11px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
                       onClick={(e) => {
                         e.stopPropagation();
                         if (onQuickBook) {
@@ -154,7 +154,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                     </button>
                   ))}
                   {day.slots.length === 0 && (
-                    <span className="text-[10px] text-muted-foreground">Sem horários</span>
+                    <span className="text-[11px] text-muted-foreground">Sem horários</span>
                   )}
                 </div>
               </div>
@@ -185,7 +185,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{review.comment}</p>
-              <p className="text-[10px] text-muted-foreground/60 mt-1">{review.date}</p>
+              <p className="text-[11px] text-muted-foreground/60 mt-1">{review.date}</p>
             </div>
           ))}
         </div>

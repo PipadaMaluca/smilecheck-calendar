@@ -243,7 +243,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                         <span className="text-xs text-muted-foreground">· {d.clinics[0]?.name}</span>
                         <span className="text-xs text-muted-foreground">· {d.distance} km</span>
                       </div>
-                      <Badge variant="outline" className="text-[10px] mt-1 h-4">{t('profile.acceptsNewPatients')}</Badge>
+                      <Badge variant="outline" className="text-[11px] mt-1 h-4">{t('profile.acceptsNewPatients')}</Badge>
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
@@ -362,7 +362,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <div className="flex justify-between items-end">
                 <p className="text-xs text-muted-foreground">{t('referral.signature')}: _______________</p>
                 <div className="w-16 h-16 border border-dashed border-muted-foreground rounded flex items-center justify-center">
-                  <span className="text-[8px] text-muted-foreground">QR Code</span>
+                  <span className="text-[11px] text-muted-foreground">QR Code</span>
                 </div>
               </div>
             </div>
