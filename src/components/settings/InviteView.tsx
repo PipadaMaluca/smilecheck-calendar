@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface InviteViewProps {
   onClose: () => void;
@@ -171,14 +172,14 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
 
   if (isMobile || isTabletOrBelow) {
     return (
-      <div className="fixed inset-0 bg-background z-[70] flex flex-col pb-[60px]">
+      <FullScreenMobileOverlay className="z-[70]">
         <div className="flex items-center gap-3 p-4 border-b border-border flex-shrink-0">
           <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
           <h2 className="text-base font-semibold">Convidar Amigos</h2>
         </div>
         <ScrollArea className="flex-1">{inviteContent}</ScrollArea>
         {coachMark}
-      </div>
+      </FullScreenMobileOverlay>
     );
   }
 
