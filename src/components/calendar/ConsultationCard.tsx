@@ -126,7 +126,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground" />
             </p>
             {consultation.notes && (
-              <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
+              <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>
             )}
           </>
         ) : (
@@ -138,7 +138,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               </ClickablePatientName>
             </p>
             {consultation.notes && (
-              <p className="text-xs text-[#8B9CB6]">{consultation.notes}</p>
+              <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>
             )}
             <p className="text-xs text-muted-foreground">
               ⭐ {consultation.patient.rating} | 🥈 {consultation.patient.level}
