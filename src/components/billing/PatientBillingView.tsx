@@ -129,7 +129,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     <div className="flex items-center gap-3">
                       <CreditCard className="w-4 h-4 text-muted-foreground" />
                       <span className="text-sm text-foreground">{c.type} ****{c.last4}</span>
-                      {c.isDefault && <Badge variant="secondary" className="text-[10px]"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
+                      {c.isDefault && <Badge variant="secondary" className="text-[11px]"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
                     </div>
                     <div className="flex gap-1">
                       <Button size="icon" variant="ghost" className="h-7 w-7"><Edit2 className="w-3 h-3" /></Button>

@@ -221,12 +221,12 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                     {t('consultation.reschedule')}
                   </Button>
                   {rescheduleCount > 0 && (
-                    <span className="absolute -top-1 -right-1 text-[9px] bg-muted px-1 rounded text-muted-foreground">
+                    <span className="absolute -top-1 -right-1 text-[11px] bg-muted px-1 rounded text-muted-foreground">
                       {rescheduleCount}/{maxReschedules}
                     </span>
                   )}
                   {!canReschedule && (
-                    <p className="text-[9px] text-destructive mt-0.5 text-center">{t('consultationDetail.limitReached')}</p>
+                    <p className="text-[11px] text-destructive mt-0.5 text-center">{t('consultationDetail.limitReached')}</p>
                   )}
                 </div>
                 <Button

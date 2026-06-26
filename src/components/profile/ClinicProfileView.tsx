@@ -391,7 +391,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               </div>
               <div className="flex flex-wrap gap-1">
                 {loc.accessibility.map(a => (
-                  <Badge key={a} variant="outline" className="text-[10px]">♿ {a}</Badge>
+                  <Badge key={a} variant="outline" className="text-[11px]">♿ {a}</Badge>
                 ))}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs">
@@ -469,7 +469,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
                 <stat.icon className="w-3.5 h-3.5 text-primary" />
-                <span className="text-[10px] text-muted-foreground">{stat.label}</span>
+                <span className="text-[11px] text-muted-foreground">{stat.label}</span>
               </div>
               <span className="text-lg font-bold">{stat.value}</span>
               {display && (
@@ -501,7 +501,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {data.paymentMethods.map(m => (
-                <Badge key={m} variant="outline" className="text-[10px]">{m}</Badge>
+                <Badge key={m} variant="outline" className="text-[11px]">{m}</Badge>
               ))}
             </div>
           </div>
@@ -510,7 +510,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               <span className="text-muted-foreground">{t('profile.conventions')}</span>
               <div className="flex flex-wrap gap-1 justify-end">
                 {data.insurances.map(s => (
-                  <Badge key={s} variant="outline" className="text-[10px]">{s}</Badge>
+                  <Badge key={s} variant="outline" className="text-[11px]">{s}</Badge>
                 ))}
               </div>
             </div>
@@ -556,7 +556,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[11px] font-bold text-primary">
                     {r.patientName[0]}
                   </div>
                   <span className="text-xs font-semibold">{r.patientName}</span>
@@ -568,7 +568,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{r.comment}</p>
-              <p className="text-[10px] text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
+              <p className="text-[11px] text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
             </div>
           ))}
         </div>

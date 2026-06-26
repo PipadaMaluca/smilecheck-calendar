@@ -32,7 +32,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const renderToggleGroup = (size: 'sm' | 'md') => {
     const btn =
       size === 'sm'
-        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-[10px] font-semibold transition-colors flex items-center justify-center'
+        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center'
         : 'h-7 min-w-[32px] px-2 rounded-lg text-[11px] font-semibold transition-colors flex items-center justify-center';
     const containerPad = size === 'sm' ? 'px-1.5 py-[3px]' : 'px-2 py-1';
     const dividerH = size === 'sm' ? 'h-[14px] mx-2' : 'h-5 mx-[10px]';

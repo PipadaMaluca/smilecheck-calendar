@@ -93,7 +93,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     isCurrent ? `${l.bgColor} ${l.borderColor} border-2` : isPast ? 'opacity-60' : 'opacity-30'
                   )}>
                     <LevelIcon levelKey={l.key} size={20} />
-                    <span className={cn('text-[9px] font-bold', isCurrent ? l.color : 'text-muted-foreground')}>{t(LEVEL_TRANSLATION_KEYS[l.key] || l.name)}</span>
+                    <span className={cn('text-[11px] font-bold', isCurrent ? l.color : 'text-muted-foreground')}>{t(LEVEL_TRANSLATION_KEYS[l.key] || l.name)}</span>
                   </div>
                   {i < LEVELS.length - 1 && <div className={cn('w-3 h-0.5 mx-0.5', isPast || isCurrent ? 'bg-primary' : 'bg-muted')} />}
                 </div>
@@ -151,7 +151,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <div>
                 <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.howToEarn')} — {roleLabel}</h4>
                 <div className="border border-border rounded-lg overflow-x-auto">
-                  <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
+                  <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[11px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
                     <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
                     <span className="text-center">Pts</span>
@@ -169,7 +169,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <div>
                 <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.penalties')}</h4>
                 <div className="border border-border rounded-lg overflow-hidden">
-                  <div className="grid grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-3 py-2 text-[10px] font-semibold text-muted-foreground border-b border-border">
+                  <div className="grid grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-3 py-2 text-[11px] font-semibold text-muted-foreground border-b border-border">
                     <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
                     <span className="text-center">{t('scores.pointsTab')}</span>
@@ -182,7 +182,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                     </div>
                   ))}
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-2 italic">
+                <p className="text-[11px] text-muted-foreground mt-2 italic">
                   {t('scores.penaltyNote')}
                 </p>
               </div>
@@ -212,7 +212,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                 key={f}
                 variant={historyFilter === f ? 'default' : 'outline'}
                 size="sm"
-                className="text-[10px] h-7 px-2.5"
+                className="text-[11px] h-7 px-2.5"
                 onClick={() => setHistoryFilter(f)}
               >
                 {f === 'todos' ? t('scores.all') : f === 'ganhos' ? t('scores.earned') : t('scores.lost')}
@@ -220,7 +220,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             ))}
           </div>
           <Select value={periodFilter} onValueChange={(v) => setPeriodFilter(v as any)}>
-            <SelectTrigger className="w-[130px] h-7 text-[10px]"><SelectValue /></SelectTrigger>
+            <SelectTrigger className="w-[130px] h-7 text-[11px]"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="hoje">{t('scores.today')}</SelectItem>
               <SelectItem value="semana">{t('scores.thisWeek')}</SelectItem>
@@ -246,10 +246,10 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {entry.xp > 0 && (
-                    <span className="text-[10px] font-bold text-primary">+{entry.xp} XP</span>
+                    <span className="text-[11px] font-bold text-primary">+{entry.xp} XP</span>
                   )}
                   <span className={cn(
-                    'text-[10px] font-bold',
+                    'text-[11px] font-bold',
                     entry.points > 0 ? 'text-emerald-400' : entry.points < 0 ? 'text-destructive' : 'text-muted-foreground'
                   )}>
                     {entry.points > 0 ? '+' : ''}{entry.points} pts

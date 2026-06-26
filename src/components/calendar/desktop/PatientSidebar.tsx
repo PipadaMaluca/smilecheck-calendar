@@ -218,7 +218,7 @@ export function PatientSidebar({
 
       {/* Footer */}
       <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
-        <p className="text-[9px] text-muted-foreground">SmileCheck © 2026</p>
+        <p className="text-[11px] text-muted-foreground">SmileCheck © 2026</p>
       </div>
     </aside>);
 

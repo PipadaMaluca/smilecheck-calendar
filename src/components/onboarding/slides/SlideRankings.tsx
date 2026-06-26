@@ -52,7 +52,7 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
             <div key={index} className="bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-center" style={{ padding: '12px 4px' }}>
               <span className="text-xl leading-none">{type.icon}</span>
               <p className="text-[12px] font-bold text-foreground mt-1">{t(type.titleKey)}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">{t(type.descKey)}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{t(type.descKey)}</p>
             </div>
           ))}
         </div>
@@ -84,14 +84,14 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
             <span className="text-xl flex-shrink-0">🌍</span>
             <div className="flex-1 min-w-0 text-left">
               <p className="font-semibold text-foreground text-[13px]">{t('onboarding.rankings.annualGlobal')}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">{t('onboarding.rankings.annualGlobalPrize')}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{t('onboarding.rankings.annualGlobalPrize')}</p>
             </div>
           </div>
           <div className="rounded-xl border border-white/20 flex items-center gap-3" style={{ padding: '14px 16px', background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)' }}>
             <span className="text-xl flex-shrink-0">🏆</span>
             <div className="flex-1 min-w-0 text-left">
               <p className="font-semibold text-foreground text-[13px]">{t('onboarding.rankings.annualNational')}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">{t('onboarding.rankings.annualNationalPrize')}</p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">{t('onboarding.rankings.annualNationalPrize')}</p>
             </div>
           </div>
         </div>

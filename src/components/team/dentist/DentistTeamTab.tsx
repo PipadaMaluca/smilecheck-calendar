@@ -96,14 +96,14 @@ export function DentistTeamTab() {
                                 {[1, 2, 3, 4, 5].map((i) => (
                                   <Star key={i} className={cn('w-3 h-3', i <= Math.round(extras.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground/30')} />
                                 ))}
-                                <span className="text-[10px] text-muted-foreground ml-0.5">{extras.rating.toFixed(1)}</span>
+                                <span className="text-[11px] text-muted-foreground ml-0.5">{extras.rating.toFixed(1)}</span>
                               </div>
-                              <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0', levelColors[extras.level])}>
+                              <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', levelColors[extras.level])}>
                                 <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[extras.level] || extras.level)}
                               </Badge>
                             </div>
                             {extras.scheduleSummary && (
-                              <p className="text-[10px] text-muted-foreground mt-1">🕐 {extras.scheduleSummary}</p>
+                              <p className="text-[11px] text-muted-foreground mt-1">🕐 {extras.scheduleSummary}</p>
                             )}
                           </div>
                         </CardContent>

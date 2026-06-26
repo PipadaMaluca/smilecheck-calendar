@@ -361,7 +361,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
     const cfg = status ? configs[status] : null;
     return (
-      <Badge variant="outline" className={`text-[10px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
+      <Badge variant="outline" className={`text-[11px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
         {cfg?.label || t('consultation.scheduled')}
       </Badge>);
 
@@ -376,10 +376,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   // Confirmation indicator
   const confirmIndicator = (status: ConfirmationStatus, isIrrelevant = false) => {
-    if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[10px] text-muted-foreground font-bold">—</span>;
-    if (status === 'confirmed') return <span className="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[10px] text-emerald-400 font-bold">✓</span>;
-    if (status === 'declined') return <span className="w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[10px] text-red-400 font-bold">✗</span>;
-    return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[10px] text-orange-400 font-bold">●</span>;
+    if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[11px] text-muted-foreground font-bold">—</span>;
+    if (status === 'confirmed') return <span className="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[11px] text-emerald-400 font-bold">✓</span>;
+    if (status === 'declined') return <span className="w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[11px] text-red-400 font-bold">✗</span>;
+    return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[11px] text-orange-400 font-bold">●</span>;
   };
 
   const dentistQuickActionCards = [
@@ -450,7 +450,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
-                <Badge variant="outline" className="text-[10px]">{dentistCons.length} {t('dashboard.total')}</Badge>
+                <Badge variant="outline" className="text-[11px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
               {morningCons.map((c, index) => {
@@ -511,7 +511,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <div className="flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
                           <ConsultationTypePill category={c.category as ConsultationCategory} />
                           {c.notes && (
-                            <span className="text-[10px] text-muted-foreground truncate min-w-0 flex-shrink">
+                            <span className="text-[11px] text-muted-foreground truncate min-w-0 flex-shrink">
                               {c.notes}
                             </span>
                           )}
@@ -576,14 +576,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             title={t('dashboard.confirmations')}
             persistKey="dentist:confirmacoes"
             liveBadge={
-              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+              <Badge variant="outline" className="text-[11px] gap-1 border-primary/30 text-primary">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
               </Badge>
             }
           >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
-                <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">24h</span>
-                <span className="text-[10px] font-semibold text-muted-foreground w-5 text-center">1h</span>
+                <span className="text-[11px] font-semibold text-muted-foreground w-5 text-center">24h</span>
+                <span className="text-[11px] font-semibold text-muted-foreground w-5 text-center">1h</span>
               </div>
               <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c, idx) => {
@@ -622,13 +622,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="dentist:lista-espera"
-              badge={<Badge variant="outline" className="text-[10px]">{MOCK_WAITING_LIST.length}</Badge>}
+              badge={<Badge variant="outline" className="text-[11px]">{MOCK_WAITING_LIST.length}</Badge>}
             >
               <div className="space-y-0 flex-1">
                 {MOCK_WAITING_LIST.map((wl) =>
                 <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                    <span className="text-[10px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                    <span className="text-[11px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
                   </div>
                 )}
               </div>
@@ -697,7 +697,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
-                <Badge variant="outline" className="text-[10px]">54 {t('dashboard.total')}</Badge>
+                <Badge variant="outline" className="text-[11px]">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {(() => {
@@ -721,7 +721,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                        <ClickableDentistName name={d.name} className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
                        <span className="text-muted-foreground text-[11px]">:</span>
                        <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
-                       <span className="text-[10px] text-muted-foreground">·</span>
+                       <span className="text-[11px] text-muted-foreground">·</span>
                        <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} {t('dashboard.tele')}</span>
                      </div>
                     );
@@ -740,7 +740,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             title={t('dashboard.confirmations')}
             persistKey="clinic:confirmacoes"
             liveBadge={
-              <Badge variant="outline" className="text-[10px] gap-1 border-primary/30 text-primary">
+              <Badge variant="outline" className="text-[11px] gap-1 border-primary/30 text-primary">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
               </Badge>
             }
@@ -752,7 +752,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <div className="flex-1 overflow-y-auto md:overflow-y-hidden">
                     {confirmationsByDentist.map(({ dentist, confirmations }) => (
                       <div key={dentist.id}>
-                        <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
+                        <p className="text-[11px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[11px] font-semibold text-muted-foreground uppercase" /></p>
                         {confirmations.slice(0, 2).map((c) => {
                           const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
                           const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
@@ -795,16 +795,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="clinic:lista-espera"
-              badge={<Badge variant="outline" className="text-[10px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+              badge={<Badge variant="outline" className="text-[11px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
             >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
                 <div key={dentistName}>
-                    <p className="text-[10px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[10px] font-semibold text-muted-foreground uppercase" /></p>
+                    <p className="text-[11px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[11px] font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
                   <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                        <span className="text-[10px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                        <span className="text-[11px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
                       </div>
                   )}
                   </div>
@@ -855,7 +855,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
-                <Badge variant="outline" className="text-[10px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
+                <Badge variant="outline" className="text-[11px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
               </div>
               <div className="">
                 {upcomingItems.map((item, index) => {
@@ -875,7 +875,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </p>
                         {item.category && <ConsultationTypePill category={item.category} />}
                       </div>
-                      <Badge variant="outline" className="text-[10px] flex-shrink-0">
+                      <Badge variant="outline" className="text-[11px] flex-shrink-0">
                         {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}
                       </Badge>
                     </div>);

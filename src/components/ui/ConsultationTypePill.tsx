@@ -36,7 +36,7 @@ export function ConsultationTypePill({
   const emoji = CATEGORY_PILL_EMOJIS[category];
   const sizeClass =
     size === 'sm'
-      ? 'text-[9px] font-bold leading-none'
+      ? 'text-[11px] font-bold leading-none'
       : 'text-[11px] font-bold leading-none';
   const padStyle: CSSProperties =
     size === 'sm' ? { padding: '2px 6px' } : { padding: '2px 10px' };

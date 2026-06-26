@@ -62,7 +62,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
                 <TooltipProvider delayDuration={150}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-400/20 text-amber-500 border border-amber-400/30 cursor-help">
+                      <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-400/20 text-amber-500 border border-amber-400/30 cursor-help">
                         <Star className="w-2.5 h-2.5 fill-amber-500" /> {t('level.featuredShort', t('level.featured'))}
                       </span>
                     </TooltipTrigger>
@@ -73,7 +73,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
                 </TooltipProvider>
               )}
               {dentist.previousPatient && (
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
                   {t('search.previousPatient')}
                 </span>
               )}
@@ -83,15 +83,15 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
             <div className="flex items-center gap-1">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               <span className="text-xs font-semibold text-foreground">{dentist.rating}</span>
-              <span className="text-[10px] text-muted-foreground">({dentist.reviewCount})</span>
+              <span className="text-[11px] text-muted-foreground">({dentist.reviewCount})</span>
             </div>
-            <span className={cn('inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-full border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('inline-flex items-center gap-1 text-[11px] font-semibold px-1.5 py-0.5 rounded-full border', levelCfg.bg, levelCfg.color)}>
               <LevelIcon levelKey={dentist.level} size={10} inheritColor /> {t(levelCfg.labelKey)}
             </span>
           </div>
           <div className="flex flex-wrap gap-1 mt-1.5">
             {dentist.specialties.map((s) => (
-              <span key={s} className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent text-muted-foreground">
+              <span key={s} className="text-[11px] px-1.5 py-0.5 rounded-full bg-accent text-muted-foreground">
                 {s}
               </span>
             ))}

@@ -369,7 +369,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-medium">{offer.rating}</span>
-                      <span className={cn('text-[10px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
+                      <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                     </div>
                     <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <MapPin className="w-3 h-3" /><span className="truncate">{offer.location}</span>
@@ -385,14 +385,14 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   </div>
                   <p className="text-sm font-semibold text-primary">{offer.salary}</p>
                   <div className="flex flex-wrap gap-1">
-                    {offer.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
+                    {offer.specialties.map(s => <span key={s} className="text-[11px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                   </div>
                   {offer.benefits.length > 0 && (
                     <div className="flex flex-wrap gap-1">
-                      {offer.benefits.map(b => <span key={b} className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{t(`jobs.benefit_${b}`)}</span>)}
+                      {offer.benefits.map(b => <span key={b} className="text-[11px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{t(`jobs.benefit_${b}`)}</span>)}
                     </div>
                   )}
-                  <p className="text-[10px] text-muted-foreground">{t(`jobs.published_${offer.publishedAgo}`)}</p>
+                  <p className="text-[11px] text-muted-foreground">{t(`jobs.published_${offer.publishedAgo}`)}</p>
                 </div>
 
                 <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
@@ -485,14 +485,14 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   <div className="flex items-center gap-1 mt-0.5">
                     <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                     <span className="text-xs font-medium">{d.rating}</span>
-                    <span className={cn('text-[10px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
+                    <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex flex-wrap gap-1">
-                  {d.specialties.map(s => <span key={s} className="text-[10px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
+                  {d.specialties.map(s => <span key={s} className="text-[11px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                 </div>
                 <Badge variant="secondary" className="text-xs">{t(`jobs.${d.availability}`)} — {t(`jobs.avail_${d.availabilityDetail}`)}</Badge>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -500,13 +500,13 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </div>
                 <p className="text-xs text-muted-foreground">{t('jobs.yearsExperience', { count: d.experience })}</p>
                 {d.teleconsultas ? (
-                  <p className="text-[10px] text-primary font-medium">📱 {t('jobs.availableForTeleconsultas')} ✅</p>
+                  <p className="text-[11px] text-primary font-medium">📱 {t('jobs.availableForTeleconsultas')} ✅</p>
                 ) : (
-                  <p className="text-[10px] text-muted-foreground">📱 {t('agenda.teleconsultation')} ❌</p>
+                  <p className="text-[11px] text-muted-foreground">📱 {t('agenda.teleconsultation')} ❌</p>
                 )}
                 {d.salary && <p className="text-sm font-semibold text-primary">{d.salary}</p>}
-                <p className="text-[10px] text-muted-foreground">📅 {t('jobs.availableSince')}: {d.availableDate}</p>
-                <p className="text-[10px] text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
+                <p className="text-[11px] text-muted-foreground">📅 {t('jobs.availableSince')}: {d.availableDate}</p>
+                <p className="text-[11px] text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
               </div>
 
               <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
@@ -695,7 +695,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <Label className="text-xs">{t('jobs.personalMessage')}</Label>
                 <Textarea value={proposalData.message} onChange={e => setProposalData(p => ({ ...p, message: e.target.value }))} rows={3} />
               </div>
-              <p className="text-[10px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+              <p className="text-[11px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
                 ⚠️ {t('jobs.proposalWarning')}
               </p>
             </div>

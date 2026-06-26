@@ -29,7 +29,7 @@ export function CategoryLegend({
             />
             <span className={cn(
               'text-muted-foreground whitespace-nowrap',
-              compact ? 'text-[9px]' : 'text-[10px]'
+              compact ? 'text-[11px]' : 'text-[11px]'
             )}>
               {label}
             </span>

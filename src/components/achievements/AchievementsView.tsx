@@ -345,12 +345,12 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
                 {isSecret ? '???' : achievement.name}
               </p>
               {achievement.unlocked && (
-                <span className="text-[10px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-medium flex-shrink-0">
+                <span className="text-[11px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-medium flex-shrink-0">
                   ✓
                 </span>
               )}
               <span className={cn(
-                'text-[10px] font-bold ml-auto flex-shrink-0',
+                'text-[11px] font-bold ml-auto flex-shrink-0',
                 achievement.unlocked ? 'text-amber-400' : 'text-muted-foreground'
               )}>
                 +{achievement.points} pts
@@ -371,7 +371,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
                   value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
                   className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
                 />
-                <p className="text-[10px] text-muted-foreground mt-0.5">
+                <p className="text-[11px] text-muted-foreground mt-0.5">
                   {achievement.progress.current}/{achievement.progress.target}
                 </p>
               </div>

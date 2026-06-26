@@ -321,7 +321,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.allergies')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.allergies.map((a) =>
-                    <Badge key={a} variant="destructive" className="text-[10px]">
+                    <Badge key={a} variant="destructive" className="text-[11px]">
                         {a}
                       </Badge>
                     )}
@@ -337,7 +337,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.conditions')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.conditions.map((c) =>
-                    <Badge key={c} variant="secondary" className="text-[10px]">
+                    <Badge key={c} variant="secondary" className="text-[11px]">
                         {c}
                       </Badge>
                     )}
@@ -351,7 +351,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.medication')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.medications.map((m) =>
-                    <Badge key={m} variant="outline" className="text-[10px]">
+                    <Badge key={m} variant="outline" className="text-[11px]">
                         {m}
                       </Badge>
                     )}
@@ -361,7 +361,7 @@ export function PatientProfileBody({
             </div>
           </div>
 
-          <p className="mt-4 text-[10px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
+          <p className="mt-4 text-[11px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
             ℹ️ {t('profile.healthInfoNote')}
           </p>
         </SectionCard>
@@ -415,11 +415,11 @@ export function PatientProfileBody({
                   <div className="flex items-center gap-1.5 mt-1">
                     <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                     <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
-                    <span className="text-[10px] text-muted-foreground">· {data.mainDentist.consultations} {t('profile.consultations')}</span>
+                    <span className="text-[11px] text-muted-foreground">· {data.mainDentist.consultations} {t('profile.consultations')}</span>
                   </div>
                 </div>
               </div>
-              <Badge variant="secondary" className="text-[10px]">{t('profile.main')}</Badge>
+              <Badge variant="secondary" className="text-[11px]">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
@@ -427,7 +427,7 @@ export function PatientProfileBody({
                 <Building2 className="w-4 h-4 text-primary" />
                 <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
               </div>
-              <Badge variant="secondary" className="text-[10px]">{t('profile.main')}</Badge>
+              <Badge variant="secondary" className="text-[11px]">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-start gap-3 bg-secondary/30 border border-border/60 rounded-lg p-4">
@@ -482,7 +482,7 @@ export function PatientProfileBody({
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground">{r.comment}</p>
-                <p className="text-[10px] text-muted-foreground/70 mt-2">{formatRelativeDate(r.date)}</p>
+                <p className="text-[11px] text-muted-foreground/70 mt-2">{formatRelativeDate(r.date)}</p>
               </div>
             )}
           </div>

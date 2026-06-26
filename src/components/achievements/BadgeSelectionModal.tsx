@@ -103,7 +103,7 @@ export function BadgeSelectionModal({ open, onOpenChange, categories, selectedId
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium truncate">{ach.secret && !ach.unlocked ? '???' : ach.name}</p>
-                            <p className="text-[10px] text-amber-400">+{ach.points} pts</p>
+                            <p className="text-[11px] text-amber-400">+{ach.points} pts</p>
                           </div>
                         </button>
                       );

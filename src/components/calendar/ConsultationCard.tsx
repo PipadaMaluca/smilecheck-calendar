@@ -63,7 +63,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
     >
       {/* Status Badge */}
       <div className="flex items-center justify-between mb-2">
-        <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium', statusConfig.bg, statusConfig.color)}>
+        <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium', statusConfig.bg, statusConfig.color)}>
           {statusConfig.icon} {statusConfig.label}
         </span>
       </div>

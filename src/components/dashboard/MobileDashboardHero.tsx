@@ -136,11 +136,11 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           </div>
           <div className="flex items-center pr-3 flex-shrink-0">
             {next.countdownMin === 0 ? (
-              <span className="px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-500 text-[10px] font-bold animate-pulse">
+              <span className="px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-500 text-[11px] font-bold animate-pulse">
                 AGORA
               </span>
             ) : (
-              <span className="px-2 py-1 rounded-full bg-blue-500/15 text-blue-400 text-[10px] font-semibold whitespace-nowrap">
+              <span className="px-2 py-1 rounded-full bg-blue-500/15 text-blue-400 text-[11px] font-semibold whitespace-nowrap">
                 em {next.countdownMin} min
               </span>
             )}
@@ -202,7 +202,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <span className="text-[9px] text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
+          <span className="text-[11px] text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex items-center gap-1 min-w-0">
             <LevelIcon levelKey={level.key} size={14} />
             <span className="text-[12px] font-bold text-foreground truncate">
@@ -218,7 +218,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               style={{ width: `${xpProgress.percent}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-[9px] text-muted-foreground tabular-nums leading-none">
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums leading-none">
             <span>{points.xp} XP</span>
             <span>×{multiplier.toFixed(1)}</span>
           </div>
@@ -227,7 +227,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <span className="text-[9px] text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
+          <span className="text-[11px] text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1 flex-1">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 flex-shrink-0" />
             <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
@@ -239,7 +239,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
         >
-          <span className="text-[9px] text-muted-foreground leading-none">Streak</span>
+          <span className="text-[11px] text-muted-foreground leading-none">Streak</span>
           <div className="flex items-center gap-1 flex-1">
             <Flame className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
             <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
@@ -322,7 +322,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
               )}
             >
               <Icon className="w-4 h-4 text-[#2196F3] flex-shrink-0" />
-              <span className="text-[10px] font-medium leading-none truncate max-w-full px-1">{shortLabel}</span>
+              <span className="text-[11px] font-medium leading-none truncate max-w-full px-1">{shortLabel}</span>
             </button>
           );
         })}

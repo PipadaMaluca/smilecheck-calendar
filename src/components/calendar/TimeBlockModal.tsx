@@ -173,7 +173,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
               <div className="flex items-center justify-between bg-secondary/30 rounded-lg p-3">
                 <div>
                   <Label className="text-xs font-medium">{t('timeBlock.clinicWide')}</Label>
-                  <p className="text-[10px] text-muted-foreground">{t('timeBlock.appliesToAll')}</p>
+                  <p className="text-[11px] text-muted-foreground">{t('timeBlock.appliesToAll')}</p>
                 </div>
                 <Switch checked={isClinicWide} onCheckedChange={setIsClinicWide} />
               </div>

@@ -155,7 +155,7 @@ function PatientCard({
             <span className="text-xs text-muted-foreground">({p.age} {t('search.yearsShort')})</span>
           </div>
           <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-            <span className={cn('text-[10px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('text-[11px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
               {t(levelCfg.labelKey)}
             </span>
             {p.rating !== null ? (
@@ -193,7 +193,7 @@ function PatientCard({
       {p.alerts && p.alerts.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {p.alerts.map(a => (
-            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-destructive/15 text-destructive border border-destructive/30">
+            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-destructive/15 text-destructive border border-destructive/30">
               <AlertTriangle className="w-2.5 h-2.5" /> {a}
             </span>
           ))}

@@ -86,7 +86,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           </div>
           <div>
             <p className="text-sm font-semibold text-white">{remoteName}</p>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-400">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/20 text-amber-400">
               <Video className="w-3 h-3" /> {t('teleconsult.title')}
             </span>
           </div>
@@ -99,7 +99,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           </div>
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] text-green-400">{t('teleconsult.stable')}</span>
+            <span className="text-[11px] text-green-400">{t('teleconsult.stable')}</span>
           </div>
           <Button
             variant="destructive"
@@ -129,7 +129,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             {/* Live indicator */}
             <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-600/20 border border-red-500/30">
               <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="text-[10px] font-medium text-red-400">LIVE</span>
+              <span className="text-[11px] font-medium text-red-400">LIVE</span>
             </div>
           </div>
 
@@ -138,7 +138,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             <div className="w-full h-full flex items-center justify-center">
               <div className="flex flex-col items-center gap-1 text-white/20">
                 <User className="w-6 h-6" />
-                <span className="text-[10px]">{selfName}</span>
+                <span className="text-[11px]">{selfName}</span>
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                             : 'bg-white/5 text-white/80'
                         )}>
                           <p className="text-sm">{msg.text}</p>
-                          <p className="text-[10px] text-white/30 mt-1 text-right">{msg.time}</p>
+                          <p className="text-[11px] text-white/30 mt-1 text-right">{msg.time}</p>
                         </div>
                       </div>
                     ))}
@@ -250,7 +250,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                   placeholder={t('teleconsult.notesPlaceholder')}
                   className="min-h-[300px] bg-white/5 border-white/10 text-white text-sm"
                 />
-                <p className="text-[10px] text-white/30 mt-2">{t('teleconsult.autoSaved')}</p>
+                <p className="text-[11px] text-white/30 mt-2">{t('teleconsult.autoSaved')}</p>
               </div>
             )}
           </div>
@@ -277,7 +277,7 @@ function ToolbarButton({ icon, label, active, danger, onClick }: {
       )}
     >
       {icon}
-      <span className="text-[10px] hidden md:block">{label}</span>
+      <span className="text-[11px] hidden md:block">{label}</span>
     </button>
   );
 }

@@ -44,12 +44,12 @@ export function PatientAppointmentsList({
   const getPaymentStatus = (consultation: Consultation) => {
     if (consultation.type === 'teleconsulta') {
       return consultation.isPaid ?
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-green-500/20 text-green-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-green-500/20 text-green-400">
           <Check className="w-3 h-3" />
           Pago
         </span> :
 
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-yellow-500/20 text-yellow-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-yellow-500/20 text-yellow-400">
           <AlertCircle className="w-3 h-3" />
           Pendente
         </span>;
@@ -57,7 +57,7 @@ export function PatientAppointmentsList({
     }
     // Presencial always shows "A pagar"
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-blue-500/20 text-blue-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-blue-500/20 text-blue-400">
         <Clock className="w-3 h-3" />
         A pagar
       </span>);

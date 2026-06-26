@@ -69,7 +69,7 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
           </div>
         </CardHeader>
         <CardContent>
-          <div className="hidden lg:grid grid-cols-8 gap-1 text-[10px] font-medium text-muted-foreground px-1 mb-1">
+          <div className="hidden lg:grid grid-cols-8 gap-1 text-[11px] font-medium text-muted-foreground px-1 mb-1">
             <span>{t('team.day')}</span><span>{t('team.active') || 'Active'}</span><span>{t('team.morningStart')}</span><span>{t('team.morningEnd')}</span>
             <span>{t('team.breakStart')}</span><span>{t('team.breakEnd')}</span><span>{t('team.afternoonStart')}</span><span>{t('team.afternoonEnd')}</span>
           </div>
@@ -160,7 +160,7 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span>25 Dez 2026 — {t('team.unavailable')}</span>
-            <Badge variant="outline" className="text-[10px] bg-destructive/10 text-destructive border-destructive/30">❌</Badge>
+            <Badge variant="outline" className="text-[11px] bg-destructive/10 text-destructive border-destructive/30">❌</Badge>
           </div>
           <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
             <Plus className="w-3 h-3" />{t('team.addException')}

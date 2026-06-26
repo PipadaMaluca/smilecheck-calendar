@@ -135,11 +135,11 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                     {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span className="text-[9px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                    <span className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                       {consultation.notes}
                     </span>
                   )}
-                  <span className="text-[10px] text-muted-foreground ml-auto flex-shrink-0">
+                  <span className="text-[11px] text-muted-foreground ml-auto flex-shrink-0">
                     {consultation.duration}min
                   </span>
                 </div>
