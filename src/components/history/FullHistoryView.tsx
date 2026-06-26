@@ -8,6 +8,7 @@ import { mockScoreHistory, mockDentistScoreHistory, mockClinicScoreHistory, Cons
 import { getDentistsForClinic } from '@/data/mockData';
 import { UserRole } from '@/types/calendar';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 import { HistoryScoreCard } from '@/components/history/HistoryScoreCard';
 import { format, subMonths, isAfter, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -233,7 +234,7 @@ function HistoryShell({ title, onBack, inline, children }: { title: string; onBa
   }
 
   return (
-    <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
+    <FullScreenMobileOverlay>
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onBack}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{title}</h2>
@@ -242,6 +243,6 @@ function HistoryShell({ title, onBack, inline, children }: { title: string; onBa
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-4">{children}</div>
       </ScrollArea>
-    </div>
+    </FullScreenMobileOverlay>
   );
 }
