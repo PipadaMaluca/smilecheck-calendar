@@ -9,6 +9,7 @@ import { ExceptionalOpeningTab } from './tabs/ExceptionalOpeningTab';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface SlotCreationScreenProps {
   isOpen: boolean;
@@ -30,7 +31,7 @@ export function SlotCreationScreen({
   if (!isOpen) return null;
 
   return (
-    <div className={cn("fixed inset-0 z-[60] bg-background flex flex-col", isMobile ? "pb-[60px]" : "")}>
+    <FullScreenMobileOverlay className={cn(!isMobile && "pb-0")}>
       <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-card">
         <h2 className="text-lg font-bold text-foreground">{t('creationTabs.newCreation')}</h2>
         <Button variant="ghost" size="icon" onClick={onClose}>
@@ -57,6 +58,6 @@ export function SlotCreationScreen({
           <ExceptionalOpeningTab initialDate={initialDate} initialTime={initialTime} dentistKey={dentistKey} dentistName={dentistName} userRole={userRole} onClose={onClose} />
         </TabsContent>
       </Tabs>
-    </div>
+    </FullScreenMobileOverlay>
   );
 }
