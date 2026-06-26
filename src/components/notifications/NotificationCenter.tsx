@@ -301,9 +301,9 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
       {/* Notification List */}
       <div className="max-h-[75vh] overflow-y-auto">
         {filteredRecent.length === 0 ?
-        <div className="text-center py-8 text-muted-foreground">
-            <Bell className="w-8 h-8 mx-auto mb-2 opacity-30" />
-            <p className="text-xs">{t('notifications.noNotifications')}</p>
+        <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+            <Bell className="w-10 h-10 mb-3 opacity-30" />
+            <p className="text-xs">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
 
         filteredRecent.map((notification) => {
@@ -422,9 +422,9 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
 
       <div className="space-y-1">
         {filteredNotifications.length === 0 ?
-        <div className="text-center py-12 text-muted-foreground">
-            <Bell className="w-10 h-10 mx-auto mb-3 opacity-30" />
-            <p className="text-sm">{t('notifications.noNotifications')}</p>
+        <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
+            <Bell className="w-10 h-10 mb-3 opacity-30" />
+            <p className="text-sm">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
 
         filteredNotifications.map((notification) => {
