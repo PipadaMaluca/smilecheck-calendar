@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientDossierView } from '@/components/calendar/desktop/PatientDossierView';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 import { UserRole } from '@/types/calendar';
 
@@ -21,7 +22,7 @@ export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate, u
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
+    <FullScreenMobileOverlay className="overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
@@ -35,6 +36,6 @@ export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate, u
         onNavigate={onNavigate || (() => {})}
         userRole={userRole}
       />
-    </div>
+    </FullScreenMobileOverlay>
   );
 }
