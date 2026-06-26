@@ -21,6 +21,7 @@ import { BidirectionalFeedbackModal } from '@/components/feedback/BidirectionalF
 import { AvatarFrame } from '@/components/level/AvatarFrame';
 import { LevelSeal } from '@/components/level/LevelSeal';
 import { NextLevelBenefits } from '@/components/level/NextLevelBenefits';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface DentistProfileViewProps {
   dentist: DentistSearchResult;
@@ -453,7 +454,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   }
 
   return (
-    <div className="fixed inset-0 bg-background z-[60] flex flex-col overflow-hidden pb-[60px]">
+    <FullScreenMobileOverlay className="overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{t('profile.dentistProfile')}</h2>
@@ -470,6 +471,6 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         contextLabel={dentist.specialties.join(' · ')}
         onSubmit={() => setHasPendingRating(false)}
       />
-    </div>);
+    </FullScreenMobileOverlay>);
 
 }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollableTabsList } from '@/components/ui/scrollable-tabs-list';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 
@@ -49,12 +50,12 @@ function ClinicTeamView() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full overflow-x-auto justify-start flex-nowrap">
+        <ScrollableTabsList>
           <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.teamTab')}</TabsTrigger>
           <TabsTrigger value="horarios" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.clinicHours')}</TabsTrigger>
           <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.availability')}</TabsTrigger>
           <TabsTrigger value="cobertura" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.coverage')}</TabsTrigger>
-        </TabsList>
+        </ScrollableTabsList>
 
         <TabsContent value="equipa" className="mt-4">
           <ClinicTeamTab onSwitchToAvailability={handleSwitchToAvailability} />
@@ -83,10 +84,10 @@ function DentistTeamView() {
       </div>
 
       <Tabs defaultValue="disponibilidade" className="w-full">
-        <TabsList className="w-full overflow-x-auto justify-start flex-nowrap">
+        <ScrollableTabsList>
           <TabsTrigger value="disponibilidade" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.availability')}</TabsTrigger>
           <TabsTrigger value="equipa" className="text-xs whitespace-nowrap flex-shrink-0">{t('team.teamTab')}</TabsTrigger>
-        </TabsList>
+        </ScrollableTabsList>
 
         <TabsContent value="disponibilidade" className="mt-4">
           <DentistAvailabilityTab />

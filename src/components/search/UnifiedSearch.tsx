@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Search, X, Star, MapPin, User, Building2, Stethoscope, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -249,7 +250,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
   if (isMobile) {
     if (!isOpen) return null;
     return (
-      <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
+      <FullScreenMobileOverlay>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-semibold">{t('search.searchTitle')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -257,7 +258,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
           </Button>
         </div>
         {content}
-      </div>
+      </FullScreenMobileOverlay>
     );
   }
 
