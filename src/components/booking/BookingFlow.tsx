@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -37,14 +36,6 @@ interface BookingData {
   selectedSlots: SelectedSlot[];
   preferences: WaitingPreferences;
 }
-
-const ALL_SLOTS = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
-  '19:00', '19:30', '20:00', '20:30',
-];
-
-const OCCUPIED_SLOTS = ['09:30', '10:30', '14:30', '16:00', '17:30', '19:30'];
 
 export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTime, initialDayLabel }: BookingFlowProps) {
   const { t, i18n } = useTranslation();
