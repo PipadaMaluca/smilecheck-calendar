@@ -19,6 +19,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from
 '@/components/ui/alert-dialog';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface EditProfileViewProps {
   userRole: UserRole;
@@ -851,8 +852,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   }
 
   return (
-    <div className="fixed inset-0 bg-background z-[65] flex flex-col pb-[60px]">
+    <FullScreenMobileOverlay className="z-[65]">
       {content}
-    </div>);
+    </FullScreenMobileOverlay>);
 
 }
