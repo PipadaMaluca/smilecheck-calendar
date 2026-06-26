@@ -2186,7 +2186,8 @@
     "unread": "Unread",
     "appointments": "Appointments",
     "messages": "Messages",
-    "points": "Points"
+    "points": "Points",
+    "noNotificationsInCategory": "No notifications in this category"
   },
   "teleconsult": {
     "title": "Teleconsultation",

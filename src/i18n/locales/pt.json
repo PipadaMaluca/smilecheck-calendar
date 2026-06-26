@@ -1836,8 +1836,8 @@
     "inviteConfirm": "Convidar {{name}} para a {{clinic}}?",
     "writeMessage": "Escreva uma mensagem...",
     "copied": "Copiado!",
-    "selectDentistFromClinic": "Selecione um dentista desta clínica para marcar consulta."
-    ,"patientsTab": "Pacientes",
+    "selectDentistFromClinic": "Selecione um dentista desta clínica para marcar consulta.",
+    "patientsTab": "Pacientes",
     "patientSearchPlaceholder": "Pesquisar paciente por nome, email ou telefone...",
     "patientFilter": {
       "all": "Todos",
@@ -2187,7 +2187,8 @@
     "unread": "Não lidas",
     "appointments": "Consultas",
     "messages": "Mensagens",
-    "points": "Pontos"
+    "points": "Pontos",
+    "noNotificationsInCategory": "Nenhuma notificação nesta categoria"
   },
   "teleconsult": {
     "title": "Teleconsulta",
