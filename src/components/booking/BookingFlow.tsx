@@ -192,11 +192,6 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     }, 2000);
   };
 
-  const availableSlots = ALL_SLOTS.filter(s => {
-    if (data.consultationType === 'presencial') return s < '19:00' && !OCCUPIED_SLOTS.includes(s);
-    return !OCCUPIED_SLOTS.includes(s);
-  });
-
   // Step renderers
   const renderClinicStep = () => (
     <div className="space-y-4 animate-fade-in">
