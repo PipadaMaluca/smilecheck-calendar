@@ -10,6 +10,7 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ProfileSkeleton } from '@/components/skeletons';
 import { EditProfileView } from './EditProfileView';
 import { PatientProfileBody } from './patient/PatientProfileBody';
+import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface ProfileViewProps {
   userRole: UserRole;
@@ -61,7 +62,7 @@ export function ProfileView(props: ProfileViewProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-background z-[60] flex flex-col pb-[60px]">
+    <FullScreenMobileOverlay>
       <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border flex-shrink-0">
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
@@ -70,6 +71,6 @@ export function ProfileView(props: ProfileViewProps) {
         <div className="w-10" />
       </div>
       <ScrollArea className="flex-1">{profileBody}</ScrollArea>
-    </div>
+    </FullScreenMobileOverlay>
   );
 }
