@@ -498,7 +498,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
             </>
           )}
         </AlertDialogContent>
-      </Dialog>
+      </AlertDialog>
 
       {/* Auto-match alert dialog (simulated cancellation) */}
       <Dialog open={!!autoMatch} onOpenChange={(o) => !o && setAutoMatch(null)}>
