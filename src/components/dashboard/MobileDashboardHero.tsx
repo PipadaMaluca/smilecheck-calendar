@@ -75,10 +75,12 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
 
   // Action pills per role
   const { pillsMobile, pillsTablet } = useMemo(() => {
+    const sortByLabel = <T extends { label: string }>(items: T[]) =>
+      [...items].sort((a, b) => a.label.localeCompare(b.label, 'pt', { sensitivity: 'base' }));
     if (userRole === 'patient') {
       const mobileItems = [
         { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
+        { id: 'loja', icon: ShoppingBag, label: t('nav.rewards', 'Recompensas') },
         { id: 'convidar', icon: Gift, label: t('nav.invite') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
         { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
@@ -92,7 +94,7 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
         { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
       ];
-      return { pillsMobile: mobileItems, pillsTablet: tabletItems };
+      return { pillsMobile: sortByLabel(mobileItems), pillsTablet: sortByLabel(tabletItems) };
     }
     const items = [
       { id: 'equipa', icon: Users, label: t('nav.team') },
@@ -102,7 +104,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
       { id: 'convidar', icon: Gift, label: t('nav.invite') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
     ];
-    return { pillsMobile: items, pillsTablet: items };
+    const sorted = sortByLabel(items);
+    return { pillsMobile: sorted, pillsTablet: sorted };
   }, [userRole, t]);
 
   const onPillClick = (id: string) => onNavigate(id);
