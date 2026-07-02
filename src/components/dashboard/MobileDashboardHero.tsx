@@ -14,6 +14,7 @@ import {
   Star,
   Flame,
   Gift,
+  UserPlus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
@@ -28,13 +29,14 @@ const DEMO_DATE = new Date(2026, 0, 31);
 interface MobileDashboardHeroProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
+  onStartTriage?: () => void;
 }
 
 /**
  * Mobile-only compact hero: next-appointment card + stat strip + scrollable action pills.
  * Hidden on tablet/desktop (md:hidden on the wrapper).
  */
-export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHeroProps) {
+export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: MobileDashboardHeroProps) {
   const { t } = useTranslation();
   const points = USER_POINTS[userRole];
   const level = getLevelForXP(points.xp);
@@ -78,23 +80,14 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
     const sortByLabel = <T extends { label: string }>(items: T[]) =>
       [...items].sort((a, b) => a.label.localeCompare(b.label, 'pt', { sensitivity: 'base' }));
     if (userRole === 'patient') {
-      const mobileItems = [
-        { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-        { id: 'loja', icon: ShoppingBag, label: t('nav.rewards', 'Recompensas') },
-        { id: 'convidar', icon: Gift, label: t('nav.invite') },
+      // Exactly 4 actions: Marcar Consulta (primary, first), then alphabetical.
+      const patientItems = [
+        { id: 'marcar-consulta', icon: Calendar, label: t('dashboard.bookAppointment') },
+        { id: 'convidar', icon: UserPlus, label: t('nav.invite') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
-        { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
         { id: 'saude', icon: Heart, label: t('nav.health') },
       ];
-      const tabletItems = [
-        { id: 'saude', icon: Heart, label: t('nav.health') },
-        { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-        { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
-        { id: 'convidar', icon: Gift, label: t('nav.invite') },
-        { id: 'pesquisa', icon: Search, label: t('nav.search') },
-        { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
-      ];
-      return { pillsMobile: sortByLabel(mobileItems), pillsTablet: sortByLabel(tabletItems) };
+      return { pillsMobile: patientItems, pillsTablet: patientItems };
     }
     const items = [
       { id: 'equipa', icon: Users, label: t('nav.team') },
@@ -108,7 +101,13 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
     return { pillsMobile: sorted, pillsTablet: sorted };
   }, [userRole, t]);
 
-  const onPillClick = (id: string) => onNavigate(id);
+  const onPillClick = (id: string) => {
+    if (id === 'marcar-consulta') {
+      if (onStartTriage) return onStartTriage();
+      return onNavigate('triagem');
+    }
+    onNavigate(id);
+  };
 
   return (
     <div className="lg:hidden -mx-4 px-4 md:px-6 space-y-3">
@@ -309,8 +308,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         </button>
       </div>
 
-      {/* === Action pills grid (mobile: 3x2) — card-styled to match stat cards === */}
-      <div className="grid grid-cols-3 gap-1.5 md:hidden">
+      {/* === Action pills grid (mobile: 2x2 for patient, 3x2 for others) === */}
+      <div className={cn('grid gap-1.5 md:hidden', userRole === 'patient' ? 'grid-cols-2' : 'grid-cols-3')}>
         {pillsMobile.map((p) => {
           const Icon = p.icon;
           const shortLabel = p.id === 'loja' ? t('nav.rewards', 'Recompensas') : p.label;
@@ -331,8 +330,8 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         })}
       </div>
 
-      {/* === Action pills grid (tablet: 3x2) — card-styled === */}
-      <div className="hidden md:grid lg:hidden grid-cols-3 gap-3">
+      {/* === Action pills grid (tablet: 4 across for patient, 3x2 for others) === */}
+      <div className={cn('hidden md:grid lg:hidden gap-3', userRole === 'patient' ? 'grid-cols-4' : 'grid-cols-3')}>
         {pillsTablet.map((p) => {
           const Icon = p.icon;
           return (
