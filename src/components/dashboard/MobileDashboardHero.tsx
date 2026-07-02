@@ -82,15 +82,15 @@ export function MobileDashboardHero({ userRole, onNavigate }: MobileDashboardHer
         { id: 'convidar', icon: Gift, label: t('nav.invite') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
         { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
-        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
+        { id: 'saude', icon: Heart, label: t('nav.health') },
       ];
       const tabletItems = [
         { id: 'saude', icon: Heart, label: t('nav.health') },
-        { id: 'pontuacoes', icon: Star, label: t('nav.scores') },
         { id: 'conquistas', icon: Award, label: t('nav.achievements') },
         { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
         { id: 'convidar', icon: Gift, label: t('nav.invite') },
         { id: 'pesquisa', icon: Search, label: t('nav.search') },
+        { id: 'faturacao', icon: BarChart3, label: t('nav.billing', 'Faturação') },
       ];
       return { pillsMobile: mobileItems, pillsTablet: tabletItems };
     }
