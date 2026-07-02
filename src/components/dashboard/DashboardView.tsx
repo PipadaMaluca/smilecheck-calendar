@@ -4,7 +4,7 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle, ChevronDown } from 'lucide-react';
+import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle, ChevronDown, UserPlus } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -837,10 +837,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       })
       .slice(0, 6);
 
-    const patientActions = [
-    { label: t('dashboard.bookAppointment'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
-    { label: t('nav.achievements'), icon: Award, color: 'bg-amber-500/15 text-amber-400', action: () => onNavigate('conquistas') },
-    { label: t('dashboard.myHealth'), icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') }];
+    // Single-row quick actions: Marcar Consulta first (primary), then alphabetical.
+    const patientQuickActionsRow = [
+      { label: t('dashboard.bookAppointment'), icon: Calendar, action: () => onStartTriage?.() },
+      { label: t('nav.invite'), icon: UserPlus, action: () => onNavigate('convidar') },
+      { label: t('nav.search'), icon: Search, action: () => onNavigate('pesquisa') },
+      { label: t('nav.health'), icon: Heart, action: () => onNavigate('saude') },
+    ];
 
 
     return (
@@ -848,7 +851,24 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* Stats Cards — use shared renderer for clickable cards */}
         {renderStatsCards()}
 
-        {/* 2-column grid: Próximas Consultas | Ações Rápidas + Feedback Pendente */}
+        {/* Quick actions row (desktop/tablet) — mobile pills are rendered by MobileDashboardHero */}
+        <div className="hidden lg:grid grid-cols-4 gap-3">
+          {patientQuickActionsRow.map((action) => {
+            const ActionIcon = action.icon;
+            return (
+              <button
+                key={action.label}
+                onClick={action.action}
+                className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-all"
+              >
+                <ActionIcon className="w-5 h-5 flex-shrink-0" style={{ color: '#2196F3' }} />
+                <span className="text-sm font-medium text-foreground truncate">{action.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 2-column grid: Próximas Consultas | Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* LEFT: Próximas Consultas */}
           <Card id="onboarding-consultas-hoje" className="bg-card/80 backdrop-blur border-border">
@@ -885,32 +905,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             </CardContent>
           </Card>
 
-          {/* RIGHT: Ações Rápidas + Feedback Pendente */}
+          {/* RIGHT: Feedback Pendente */}
           <div className="space-y-6">
-            {/* Ações Rápidas (hidden on mobile — replaced by hero pills) */}
-            <Card className="hidden md:block bg-card/80 backdrop-blur border-border">
-              <CardContent className="p-4 space-y-3">
-                <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
-                <div className="flex flex-col gap-2">
-                  {patientActions.map((action) => {
-                    const ActionIcon = action.icon;
-                    return (
-                      <button
-                        key={action.label}
-                        onClick={action.action}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/30 transition-colors text-left">
-                        
-                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${action.color}`}>
-                          <ActionIcon className="w-4.5 h-4.5" />
-                        </div>
-                        <span className="text-sm font-medium text-foreground">{action.label}</span>
-                      </button>);
-
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Feedback Pendente */}
             <PendingFeedbackCard userRole="patient" />
           </div>
@@ -953,7 +949,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         </div>
 
         {/* Role-specific content */}
-        <MobileDashboardHero userRole={userRole} onNavigate={onNavigate} />
+        <MobileDashboardHero userRole={userRole} onNavigate={onNavigate} onStartTriage={onStartTriage} />
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
 
         <CoachMark
