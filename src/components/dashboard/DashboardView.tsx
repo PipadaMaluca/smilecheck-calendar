@@ -839,7 +839,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
     const patientActions = [
     { label: t('dashboard.bookAppointment'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onStartTriage?.() },
-    { label: t('dashboard.viewRewards'), icon: Gift, color: 'bg-emerald-500/15 text-emerald-400', action: () => onNavigate('loja') },
+    { label: t('nav.achievements'), icon: Award, color: 'bg-amber-500/15 text-amber-400', action: () => onNavigate('conquistas') },
     { label: t('dashboard.myHealth'), icon: Heart, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('saude') }];
 
 
