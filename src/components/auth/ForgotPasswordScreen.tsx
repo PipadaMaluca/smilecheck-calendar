@@ -7,6 +7,8 @@ import { AuthBackground } from './AuthBackground';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { supabase } from '@/integrations/supabase/client';
+
 
 export function ForgotPasswordScreen() {
   const navigate = useNavigate();
