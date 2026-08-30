@@ -7,6 +7,8 @@ import { AuthBackground } from './AuthBackground';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { supabase } from '@/integrations/supabase/client';
+
 
 export function ForgotPasswordScreen() {
   const navigate = useNavigate();
@@ -22,10 +24,17 @@ export function ForgotPasswordScreen() {
       return;
     }
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1000));
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
     setLoading(false);
+    if (err) {
+      setError(err.message);
+      return;
+    }
     setSent(true);
   };
+
 
   if (sent) {
     return (

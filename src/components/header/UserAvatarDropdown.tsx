@@ -19,6 +19,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAuth } from '@/contexts/AuthContext';
+
 
 interface UserAvatarDropdownProps {
   userRole: UserRole;
@@ -43,6 +45,8 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const { signOut } = useAuth();
+
 
   const userInfo = getUserInfo(userRole, t);
   const levelCfg = LEVEL_CONFIG[userInfo.level];
@@ -163,7 +167,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setShowLogoutConfirm(false); window.location.href = '/'; }}>
+            <AlertDialogAction onClick={async () => { setShowLogoutConfirm(false); await signOut(); window.location.href = '/login'; }}>
               {t('settings.logout')}
             </AlertDialogAction>
           </AlertDialogFooter>
