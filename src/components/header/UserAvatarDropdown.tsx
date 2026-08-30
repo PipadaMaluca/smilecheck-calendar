@@ -163,7 +163,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setShowLogoutConfirm(false); window.location.href = '/'; }}>
+            <AlertDialogAction onClick={async () => { setShowLogoutConfirm(false); await signOut(); window.location.href = '/login'; }}>
               {t('settings.logout')}
             </AlertDialogAction>
           </AlertDialogFooter>
