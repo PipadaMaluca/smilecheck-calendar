@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -51,6 +52,7 @@ function LinkRow({ icon: Icon, label, danger = false, onClick }: {
 export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewProps) {
   const { replayFull, replayTooltips } = useOnboarding();
   const { t } = useTranslation();
+  const { signOut } = useAuth();
   const [notifOpen, setNotifOpen] = useState(false);
 
   return (
@@ -145,7 +147,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <LinkRow icon={LogOut} label={t('settings.logout')} danger />
+            <LinkRow icon={LogOut} label={t('settings.logout')} danger onClick={async () => { await signOut(); window.location.href = '/login'; }} />
           </CardContent>
         </Card>
       </div>
