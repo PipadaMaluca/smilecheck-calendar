@@ -202,24 +202,87 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     }
   };
 
-  const handleConfirm = () => {
-    if (data.consultationType === 'teleconsulta' && isDirectBooking) {
-      goNext(); // go to payment
-    } else {
-      // presencial direct OR any waiting-list case -> skip payment, go to success
-      const successIdx = steps.indexOf('success');
-      if (successIdx >= 0) setStep('success');
-      else setStep('success');
+  /**
+   * Persists the booking for real users:
+   * - exactly 1 slot & no preferences (case D) -> appointments row
+   * - every other case -> waiting_list row (never an appointment)
+   * Demo mode performs no write at all.
+   */
+  const persistBooking = async (): Promise<boolean> => {
+    if (!writesToDb || !user) return true;
+
+    const clinicUuid = data.clinic?.id ? SEED_CLINIC_UUID_BY_ID[data.clinic.id] ?? null : null;
+    const isTele = data.consultationType === 'teleconsulta';
+    const consultationType = isTele ? 'teleconsulta' as const : 'primeira_consulta' as const;
+
+    setSubmitting(true);
+    try {
+      if (isDirectBooking) {
+        const slot = data.selectedSlots[0];
+        await createAppointment({
+          patientId: user.id,
+          dentistId: dentistUuid,
+          clinicId: clinicUuid,
+          consultationType,
+          scheduledAt: toUtcTimestamp(slot.date, slot.time),
+          durationMinutes: 30,
+          isTeleconsultation: isTele,
+          paymentStatus: isTele ? 'a_pagar' : 'nao_aplicavel',
+          observation: data.preferences.observation.trim() || null,
+          price: isTele ? totalPrice : null,
+        });
+      } else {
+        await createWaitingListEntry({
+          patientId: user.id,
+          dentistId: dentistUuid,
+          clinicId: clinicUuid,
+          consultationType,
+          preferredSlots: data.selectedSlots.map(s => ({
+            date: `${s.date.getFullYear()}-${String(s.date.getMonth() + 1).padStart(2, '0')}-${String(s.date.getDate()).padStart(2, '0')}`,
+            time: s.time,
+          })),
+          genericPreferences: {
+            periods: data.preferences.periods,
+            weekdays: data.preferences.days,
+          },
+          urgency: data.preferences.urgency === 'urgent' || data.isUrgent ? 'urgente' : 'normal',
+          observation: data.preferences.observation.trim() || null,
+        });
+      }
+      refresh();
+      return true;
+    } catch (e) {
+      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
+      else toast.error((e as Error)?.message ?? 'Não foi possível concluir a marcação');
+      return false;
+    } finally {
+      setSubmitting(false);
     }
+  };
+
+  const handleConfirm = async () => {
+    if (data.consultationType === 'teleconsulta' && isDirectBooking) {
+      goNext(); // go to payment; the row is written after payment succeeds
+      return;
+    }
+    // presencial direct OR any waiting-list case -> skip payment, go to success
+    const ok = await persistBooking();
+    if (ok) setStep('success');
   };
 
   const handlePay = () => {
     setStep('processing');
-    setTimeout(() => {
+    setTimeout(async () => {
+      const ok = await persistBooking();
+      if (!ok) {
+        setStep('payment');
+        return;
+      }
       setPaymentFailed(false);
       setStep('success');
     }, 2000);
   };
+
 
   // Step renderers
   const renderClinicStep = () => (
