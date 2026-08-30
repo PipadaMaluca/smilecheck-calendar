@@ -10,6 +10,8 @@ import { PhoneInput } from './PhoneInput';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { supabase } from '@/integrations/supabase/client';
+
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
 
