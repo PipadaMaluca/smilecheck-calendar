@@ -29,6 +29,9 @@ interface Props {
   onSelectedSlotsChange: (s: SelectedSlot[]) => void;
   preferences: WaitingPreferences;
   onPreferencesChange: (p: WaitingPreferences) => void;
+  /** Real occupancy (`yyyy-mm-dd_HH:MM` keys) for authenticated users. When
+   *  omitted, the deterministic mock occupancy is used (demo mode). */
+  occupiedKeys?: Set<string>;
 }
 
 const HOURS_START = 8;
@@ -83,6 +86,7 @@ export function AvailabilityGridStep({
   onSelectedSlotsChange,
   preferences,
   onPreferencesChange,
+  occupiedKeys,
 }: Props) {
   const isMobile = useIsMobile();
   const today = useMemo(() => new Date(), []);
@@ -129,8 +133,8 @@ export function AvailabilityGridStep({
     if (past) {
       return <div className="h-9 rounded-md bg-muted/30 border border-border/20" />;
     }
-    const occupied = isOccupied(dayIdx, time);
     const key = fmtKey(date, time);
+    const occupied = occupiedKeys ? occupiedKeys.has(key) : isOccupied(dayIdx, time);
     const selected = selectedKeys.has(key);
 
     if (occupied) {

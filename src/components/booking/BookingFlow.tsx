@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,17 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { generateReceipt } from '@/components/billing/billingMockData';
 import { toast } from 'sonner';
 import { AvailabilityGridStep, type SelectedSlot, type WaitingPreferences } from './AvailabilityGridStep';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAgendaData } from '@/data/agendaSource';
+import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
+import {
+  createAppointment,
+  createWaitingListEntry,
+  fetchOccupiedSlotKeys,
+  SlotTakenError,
+  toUtcTimestamp,
+} from '@/data/agendaWrites';
+
 
 interface BookingFlowProps {
   dentist: DentistSearchResult;
@@ -93,6 +104,28 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const [paymentFailed, setPaymentFailed] = useState(false);
   const receiptId = `SC-2026-00${Math.floor(Math.random() * 900 + 100)}`;
 
+  // --- Backend write path (real users only; demo stays fully on mock) ---
+  const { user } = useAuth();
+  const { isDemo, refresh } = useAgendaData();
+  const writesToDb = !isDemo && !!user;
+  const [submitting, setSubmitting] = useState(false);
+  const [occupiedKeys, setOccupiedKeys] = useState<Set<string> | null>(null);
+
+  const dentistUuid = SEED_DENTIST_UUID_BY_ID[dentist.id] ?? null;
+
+  useEffect(() => {
+    if (!writesToDb || !dentistUuid) return;
+    let cancelled = false;
+    const from = new Date();
+    from.setHours(0, 0, 0, 0);
+    const to = new Date(from.getTime() + 90 * 24 * 3600_000);
+    fetchOccupiedSlotKeys(dentistUuid, from, to)
+      .then(keys => { if (!cancelled) setOccupiedKeys(keys); })
+      .catch(() => { if (!cancelled) setOccupiedKeys(new Set()); });
+    return () => { cancelled = true; };
+  }, [writesToDb, dentistUuid]);
+
+
   const allSteps: BookingStep[] = skipClinic
     ? ['type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success']
     : ['clinic', 'type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success'];
@@ -169,24 +202,87 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     }
   };
 
-  const handleConfirm = () => {
-    if (data.consultationType === 'teleconsulta' && isDirectBooking) {
-      goNext(); // go to payment
-    } else {
-      // presencial direct OR any waiting-list case -> skip payment, go to success
-      const successIdx = steps.indexOf('success');
-      if (successIdx >= 0) setStep('success');
-      else setStep('success');
+  /**
+   * Persists the booking for real users:
+   * - exactly 1 slot & no preferences (case D) -> appointments row
+   * - every other case -> waiting_list row (never an appointment)
+   * Demo mode performs no write at all.
+   */
+  const persistBooking = async (): Promise<boolean> => {
+    if (!writesToDb || !user) return true;
+
+    const clinicUuid = data.clinic?.id ? SEED_CLINIC_UUID_BY_ID[data.clinic.id] ?? null : null;
+    const isTele = data.consultationType === 'teleconsulta';
+    const consultationType = isTele ? 'teleconsulta' as const : 'primeira_consulta' as const;
+
+    setSubmitting(true);
+    try {
+      if (isDirectBooking) {
+        const slot = data.selectedSlots[0];
+        await createAppointment({
+          patientId: user.id,
+          dentistId: dentistUuid,
+          clinicId: clinicUuid,
+          consultationType,
+          scheduledAt: toUtcTimestamp(slot.date, slot.time),
+          durationMinutes: 30,
+          isTeleconsultation: isTele,
+          paymentStatus: isTele ? 'a_pagar' : 'nao_aplicavel',
+          observation: data.preferences.observation.trim() || null,
+          price: isTele ? totalPrice : null,
+        });
+      } else {
+        await createWaitingListEntry({
+          patientId: user.id,
+          dentistId: dentistUuid,
+          clinicId: clinicUuid,
+          consultationType,
+          preferredSlots: data.selectedSlots.map(s => ({
+            date: `${s.date.getFullYear()}-${String(s.date.getMonth() + 1).padStart(2, '0')}-${String(s.date.getDate()).padStart(2, '0')}`,
+            time: s.time,
+          })),
+          genericPreferences: {
+            periods: data.preferences.periods,
+            weekdays: data.preferences.days,
+          },
+          urgency: data.preferences.urgency === 'urgent' || data.isUrgent ? 'urgente' : 'normal',
+          observation: data.preferences.observation.trim() || null,
+        });
+      }
+      refresh();
+      return true;
+    } catch (e) {
+      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
+      else toast.error((e as Error)?.message ?? 'Não foi possível concluir a marcação');
+      return false;
+    } finally {
+      setSubmitting(false);
     }
+  };
+
+  const handleConfirm = async () => {
+    if (data.consultationType === 'teleconsulta' && isDirectBooking) {
+      goNext(); // go to payment; the row is written after payment succeeds
+      return;
+    }
+    // presencial direct OR any waiting-list case -> skip payment, go to success
+    const ok = await persistBooking();
+    if (ok) setStep('success');
   };
 
   const handlePay = () => {
     setStep('processing');
-    setTimeout(() => {
+    setTimeout(async () => {
+      const ok = await persistBooking();
+      if (!ok) {
+        setStep('payment');
+        return;
+      }
       setPaymentFailed(false);
       setStep('success');
     }, 2000);
   };
+
 
   // Step renderers
   const renderClinicStep = () => (
@@ -292,6 +388,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         })}
         preferences={data.preferences}
         onPreferencesChange={(p) => setData(d => ({ ...d, preferences: p }))}
+        occupiedKeys={occupiedKeys ?? undefined}
       />
     </div>
   );
@@ -702,7 +799,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </Button>
         )}
         {step === 'confirm' ? (
-          <Button className="flex-1" onClick={handleConfirm}>
+          <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
             {bookingCase === 'D' && data.consultationType === 'teleconsulta'
               ? t('common.next')
               : bookingCase === 'B'
@@ -763,7 +860,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             )}
             {step === 'confirm' ? (
-              <Button className="flex-1" onClick={handleConfirm}>
+              <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
                 {bookingCase === 'D' && data.consultationType === 'teleconsulta'
                   ? t('common.next')
                   : bookingCase === 'B'

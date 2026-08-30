@@ -17,6 +17,17 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '@/integrations/supabase/client';
+import { useAgendaData } from '@/data/agendaSource';
+import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
+import {
+  createAppointment,
+  parseDurationMinutes,
+  reasonToConsultationType,
+  SlotTakenError,
+  toUtcTimestamp,
+} from '@/data/agendaWrites';
+
 
 const DURATION_OPTIONS = ['15min', '30min', '45min', '1h', '1h30', '2h'];
 
@@ -64,6 +75,9 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
   const [notes, setNotes] = useState('');
   const [patientSuggestions, setPatientSuggestions] = useState<typeof MOCK_PATIENTS>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const { isDemo, refresh } = useAgendaData();
 
   const TITLE_OPTIONS = [t('creationTabs.mr'), t('creationTabs.mrs'), t('creationTabs.unknown')];
 
@@ -74,11 +88,39 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
     }))
   );
 
-  const searchPatient = (query: string, field: string) => {
+  const searchPatient = async (query: string, field: string) => {
+    setSelectedPatientId(null);
     if (query.length < 2) { setShowSuggestions(false); return; }
-    const results = MOCK_PATIENTS.filter(p => {
-      const searchStr = `${p.firstName} ${p.lastName} ${p.phone} ${p.email} ${p.dob}`.toLowerCase();
-      return searchStr.includes(query.toLowerCase());
+
+    if (isDemo) {
+      const results = MOCK_PATIENTS.filter(p => {
+        const searchStr = `${p.firstName} ${p.lastName} ${p.phone} ${p.email} ${p.dob}`.toLowerCase();
+        return searchStr.includes(query.toLowerCase());
+      });
+      setPatientSuggestions(results);
+      setShowSuggestions(results.length > 0);
+      return;
+    }
+
+    // Real users: search the patients the professional is allowed to see (RLS).
+    const like = `%${query}%`;
+    const { data } = await supabase
+      .from('profiles')
+      .select('id, full_name, phone, email, date_of_birth')
+      .eq('role', 'patient')
+      .or(`full_name.ilike.${like},phone.ilike.${like},email.ilike.${like}`)
+      .limit(8);
+
+    const results = (data ?? []).map(p => {
+      const parts = (p.full_name ?? '').split(' ');
+      return {
+        id: p.id,
+        firstName: parts[0] ?? '',
+        lastName: parts.slice(1).join(' '),
+        dob: p.date_of_birth ?? '',
+        phone: p.phone ?? '',
+        email: p.email ?? '',
+      };
     });
     setPatientSuggestions(results);
     setShowSuggestions(results.length > 0);
@@ -92,14 +134,55 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
     setEmail(p.email);
     setIsNewPatient(false);
     setShowSuggestions(false);
+    setSelectedPatientId(isDemo ? null : p.id);
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!reason) { toast.error(t('creationTabs.selectReasonError')); return; }
     if (!firstName.trim()) { toast.error(t('creationTabs.patientNameError')); return; }
-    toast.success(t('creationTabs.consultationCreated'));
-    onClose();
+
+    if (isDemo) {
+      toast.success(t('creationTabs.consultationCreated'));
+      onClose();
+      return;
+    }
+
+    if (!selectedPatientId) {
+      toast.error('Selecione um paciente existente na pesquisa');
+      return;
+    }
+
+    const [clinicMockId, dentistMockId] = selectedDentist.split('-');
+    const dentistId = SEED_DENTIST_UUID_BY_ID[dentistMockId] ?? null;
+    const clinicId = SEED_CLINIC_UUID_BY_ID[clinicMockId] ?? null;
+    const consultationType = reasonToConsultationType(reason);
+    const isTele = consultationType === 'teleconsulta';
+
+    setCreating(true);
+    try {
+      await createAppointment({
+        patientId: selectedPatientId,
+        dentistId,
+        clinicId,
+        consultationType,
+        scheduledAt: toUtcTimestamp(date, time),
+        durationMinutes: parseDurationMinutes(duration),
+        isTeleconsultation: isTele,
+        paymentStatus: isTele ? 'a_pagar' : 'nao_aplicavel',
+        notes: notes.trim() || null,
+        observation: referrer.trim() ? `Referenciado por: ${referrer.trim()}` : null,
+      });
+      refresh();
+      toast.success(t('creationTabs.consultationCreated'));
+      onClose();
+    } catch (e) {
+      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
+      else toast.error((e as Error)?.message ?? 'Erro ao criar consulta');
+    } finally {
+      setCreating(false);
+    }
   };
+
 
   return (
     <div className="flex flex-col h-full">
@@ -300,7 +383,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
           <Button variant="outline" size="sm" className="text-xs" onClick={() => toast.info(t('creationTabs.findOtherTime'))}>
             {t('creationTabs.findOtherTime')}
           </Button>
-          <Button size="sm" onClick={handleCreate}>{t('creationTabs.createConsultation')}</Button>
+          <Button size="sm" onClick={handleCreate} disabled={creating}>{t('creationTabs.createConsultation')}</Button>
         </div>
       </div>
     </div>
