@@ -14,6 +14,11 @@ const LOCALE_MAP: Record<string, string> = {
   en: 'en-GB', // EU English: 31/01/2026 ordering, comma-decimal-free numbers
 };
 
+function getActiveLocale(): string {
+  const lng = (i18n.language || 'pt').slice(0, 2);
+  return LOCALE_MAP[lng] || LOCALE_MAP.pt;
+}
+
 /** Long form: "31 de Janeiro de 2026" / "31 janvier 2026" / "January 31, 2026" */
 export function formatDate(
   d: Date | string | number,
