@@ -5,7 +5,8 @@ import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCirc
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { mockConsultations, mockClinics } from '@/data/mockData';
+import { mockClinics } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
@@ -43,6 +44,7 @@ interface AgendaSearchBarProps {
 }
 
 export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
+  const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -82,9 +84,9 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
 
   const allPatients = useMemo(() => {
     const seen = new Map<string, PatientResult>();
-    mockConsultations.forEach((c) => {
+    agendaConsultations.forEach((c) => {
       if (!seen.has(c.patient.id)) {
-        const patientConsults = mockConsultations.filter(mc => mc.patient.id === c.patient.id);
+        const patientConsults = agendaConsultations.filter(mc => mc.patient.id === c.patient.id);
         const scheduled = patientConsults.filter(mc => mc.status === 'agendada' || mc.status === 'confirmada').length;
         seen.set(c.patient.id, {
           type: 'patient',
@@ -100,7 +102,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       }
     });
     return Array.from(seen.values());
-  }, []);
+  }, [agendaConsultations]);
 
   const allDentists = useMemo<DentistResult[]>(() =>
     MOCK_DENTIST_RESULTS.map((d) => ({

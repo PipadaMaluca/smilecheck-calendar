@@ -25,7 +25,9 @@ import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
-import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
+import { mockFamilyMembers } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
+import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
@@ -36,6 +38,7 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PatientCalendar() {
+  const { patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { t } = useTranslation();
   const smileIcon = useWatermarkSrc();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -54,8 +57,8 @@ export function PatientCalendar() {
 
   // Filter consultations by selected family members
   const filteredConsultations = selectedMembers.includes('all')
-    ? mockPatientConsultations
-    : mockPatientConsultations.filter(c => selectedMembers.includes(c.patient.id));
+    ? patientAgendaConsultations
+    : patientAgendaConsultations.filter(c => selectedMembers.includes(c.patient.id));
 
   const appointmentDates = filteredConsultations.map((c) => c.date);
   const dayConsultations = filteredConsultations.filter((c) =>
@@ -108,7 +111,7 @@ export function PatientCalendar() {
   const handleTabChange = (tab: string) => {
     // Card 1: open next consultation detail — navigate to consultas tab with pre-selection
     if (tab === 'consulta-detalhe') {
-      const nextConsultation = [...mockPatientConsultations]
+      const nextConsultation = [...patientAgendaConsultations]
         .filter(c => c.date >= DEMO_DATE)
         .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
       // Clear states first
@@ -143,6 +146,8 @@ export function PatientCalendar() {
     }
     setActiveTab(tab);
   };
+
+  if (agendaLoading) return <AgendaSkeleton />;
 
   return (
     <ProfileNavigationProvider

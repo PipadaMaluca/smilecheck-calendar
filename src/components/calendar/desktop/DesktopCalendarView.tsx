@@ -53,7 +53,9 @@ import { ConsultationDetailView } from './ConsultationDetailView';
 import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
-import { mockConsultations, mockDentists, mockFamilyMembers, mockPatientConsultations, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
+import { mockDentists, mockFamilyMembers, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
+import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { isSameDay, startOfWeek, addDays, addWeeks, subWeeks, format } from 'date-fns';
@@ -91,6 +93,8 @@ const getPresentDentistKeys = () => {
 };
 
 export function DesktopCalendarView() {
+  const { consultations: agendaConsultations, patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
+
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -141,13 +145,11 @@ export function DesktopCalendarView() {
   const [hoveredConsultation, setHoveredConsultation] = useState<Consultation | null>(null);
   const [dossierPatientId, setDossierPatientId] = useState<string | null>(null);
   const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
-  const appointmentDates = mockConsultations.map((c) => c.date);
+  const appointmentDates = agendaConsultations.map((c) => c.date);
 
   // Consultation mode (dentist only)
   const dentistConsultations = useMemo(() =>
-    mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id),
-    []
-  );
+    agendaConsultations.filter((c) => c.dentist.id === mockDentists[0].id), [agendaConsultations]);
   const consultationMode = useConsultationMode(activeRole === 'dentist' ? dentistConsultations : []);
 
   // Onboarding: trigger on first visit per role
@@ -203,25 +205,25 @@ export function DesktopCalendarView() {
   const slotsPerDentist = useMemo(() => {
     const result: Record<string, TimeSlot[]> = {};
     filteredDentists.forEach(({ dentist, clinicId, key }) => {
-      const dentistConsultations = mockConsultations.filter((c) => c.dentist.id === dentist.id && c.clinic.id === clinicId);
+      const dentistConsultations = agendaConsultations.filter((c) => c.dentist.id === dentist.id && c.clinic.id === clinicId);
       result[key] = generateTimeSlots(selectedDate, dentistConsultations);
     });
     return result;
-  }, [selectedDate, filteredDentists]);
+  }, [selectedDate, filteredDentists, agendaConsultations]);
 
   const dayConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) return [];
-    return mockConsultations.filter((c) => {
+    return agendaConsultations.filter((c) => {
       if (!isSameDay(c.date, selectedDate)) return false;
       const key = `${c.clinic.id}-${c.dentist.id}`;
       return selectedDentistIds.includes(key);
     });
-  }, [selectedDate, selectedDentistIds]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations]);
 
   const patientConsultations = useMemo(() => {
-    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) return mockPatientConsultations;
-    return mockPatientConsultations.filter((c) => selectedFamilyMemberIds.includes(c.patient.id));
-  }, [selectedFamilyMemberIds]);
+    if (selectedFamilyMemberIds.length === mockFamilyMembers.length) return patientAgendaConsultations;
+    return patientAgendaConsultations.filter((c) => selectedFamilyMemberIds.includes(c.patient.id));
+  }, [selectedFamilyMemberIds, patientAgendaConsultations]);
 
   const handleDentistToggle = useCallback((dentistId: string, isCheckbox: boolean, clinicId?: string) => {
     if (!clinicId) return;
@@ -297,7 +299,7 @@ export function DesktopCalendarView() {
   {
     // Check for overlap at target
     const [toClinicId, toDentistId] = toKey.split('-');
-    const existing = mockConsultations.find((c) =>
+    const existing = agendaConsultations.find((c) =>
     isSameDay(c.date, selectedDate) && c.time === toTime &&
     c.dentist.id === toDentistId && c.clinic.id === toClinicId &&
     c.id !== consultation.id
@@ -316,7 +318,7 @@ export function DesktopCalendarView() {
     } else {
       setPendingMove(moveInfo);
     }
-  }, [selectedDate]);
+  }, [selectedDate, agendaConsultations]);
 
   // Drag-and-drop for week view
   const handleWeekDragMove = useCallback((
@@ -331,7 +333,7 @@ export function DesktopCalendarView() {
     const fromDentist = mockDentists.find((d) => d.id === fromDentistIdRaw);
     const fromDentistName = fromDentist?.name || t('common.dentist');
 
-    const existing = mockConsultations.find((c) =>
+    const existing = agendaConsultations.find((c) =>
     isSameDay(c.date, toDate) && c.time === toTime &&
     c.dentist.id === toDentistId && c.clinic.id === toClinicId &&
     c.id !== consultation.id
@@ -350,7 +352,7 @@ export function DesktopCalendarView() {
     } else {
       setPendingMove(moveInfo);
     }
-  }, [t]);
+  }, [t, agendaConsultations]);
 
   const confirmMove = useCallback((moveInfo: DragMoveInfo) => {
     toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
@@ -491,7 +493,7 @@ export function DesktopCalendarView() {
     // Handle consultation detail with specific ID
     if (tab.startsWith('consulta-detalhe:')) {
       const consultationId = tab.split(':')[1];
-      const consultation = mockConsultations.find(c => c.id === consultationId);
+      const consultation = agendaConsultations.find(c => c.id === consultationId);
       if (consultation) {
         setDetailConsultation(consultation);
         setActiveNavTab('home');
@@ -539,7 +541,7 @@ export function DesktopCalendarView() {
     setPendingMove(null);
     setOverlapConsultation(null);
     setPendingOverlapMove(null);
-  }, []);
+  }, [agendaConsultations]);
 
   const toggleFavorite = useCallback((id: string) => {
     setFavorites((prev) => prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]);
@@ -594,7 +596,7 @@ export function DesktopCalendarView() {
       if (activeRole === 'patient') {
         // Navigate to consultas tab with next consultation pre-selected
         const PATIENT_DEMO_DATE = new Date(2026, 0, 31);
-        const nextConsultation = [...mockPatientConsultations]
+        const nextConsultation = [...patientAgendaConsultations]
           .filter(c => c.date >= PATIENT_DEMO_DATE)
           .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
         
@@ -607,7 +609,7 @@ export function DesktopCalendarView() {
       } else if (activeRole === 'dentist') {
         // Find next consultation for today for this dentist
         const DEMO_DATE = new Date(2026, 0, 31);
-        const dentistCons = mockConsultations
+        const dentistCons = agendaConsultations
           .filter((c) => c.dentist.id === mockDentists[0].id && isSameDay(c.date, DEMO_DATE))
           .sort((a, b) => a.time.localeCompare(b.time));
         const nextConsultation = dentistCons[0];
@@ -1072,6 +1074,8 @@ export function DesktopCalendarView() {
 
     }
   };
+
+  if (agendaLoading) return <AgendaSkeleton />;
 
   return (
     <ProfileNavigationProvider

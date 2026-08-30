@@ -6,7 +6,8 @@ import {
   ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel,
 } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
+import { mockDentists, generateTimeSlots } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { cn } from '@/lib/utils';
@@ -67,6 +68,7 @@ const SCALE_STYLES: Record<ScaleLevel, {
 };
 
 export function DesktopWeekView({
+  const { consultations: agendaConsultations } = useAgendaData();
   selectedDate,
   dentistColumns,
   includeSunday = false,
@@ -110,14 +112,14 @@ export function DesktopWeekView({
           m[dayKey][key] = [];
           return;
         }
-        const dc = mockConsultations.filter(
+        const dc = agendaConsultations.filter(
           c => isSameDay(c.date, day) && c.dentist.id === dentist.id && c.clinic.id === clinicId
         );
         m[dayKey][key] = generateTimeSlots(day, dc);
       });
     });
     return m;
-  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|')]);
+  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|'), agendaConsultations]);
 
   const handleContextMenu = (e: React.MouseEvent, c: Consultation) => {
     e.preventDefault();

@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from 'date-fns';
 import { Consultation, CATEGORY_COLORS } from '@/types/calendar';
-import { mockConsultations } from '@/data/mockData';
+import {  } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
 import { cn } from '@/lib/utils';
 
 interface DesktopMonthViewProps {
@@ -13,6 +14,7 @@ interface DesktopMonthViewProps {
 }
 
 export function DesktopMonthView({
+  const { consultations: agendaConsultations } = useAgendaData();
   selectedDate,
   selectedDentistKey,
   onDateSelect,
@@ -45,7 +47,7 @@ export function DesktopMonthView({
   // Count consultations per day for this dentist
   const consultationsByDay = useMemo(() => {
     const map: Record<string, Consultation[]> = {};
-    mockConsultations.forEach(c => {
+    agendaConsultations.forEach(c => {
       if (c.dentist.id === dentistId && c.clinic.id === clinicId) {
         const key = format(c.date, 'yyyy-MM-dd');
         if (!map[key]) map[key] = [];
@@ -53,7 +55,7 @@ export function DesktopMonthView({
       }
     });
     return map;
-  }, [selectedDentistKey]);
+  }, [selectedDentistKey, agendaConsultations]);
 
   const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 

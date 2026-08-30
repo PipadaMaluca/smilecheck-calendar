@@ -72,6 +72,7 @@ export type Database = {
           observation: string | null
           patient_id: string
           payment_status: Database["public"]["Enums"]["payment_status"]
+          price: number | null
           scheduled_at: string
           status: Database["public"]["Enums"]["appointment_status"]
           updated_at: string
@@ -89,6 +90,7 @@ export type Database = {
           observation?: string | null
           patient_id: string
           payment_status?: Database["public"]["Enums"]["payment_status"]
+          price?: number | null
           scheduled_at: string
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
@@ -106,6 +108,7 @@ export type Database = {
           observation?: string | null
           patient_id?: string
           payment_status?: Database["public"]["Enums"]["payment_status"]
+          price?: number | null
           scheduled_at?: string
           status?: Database["public"]["Enums"]["appointment_status"]
           updated_at?: string
@@ -425,6 +428,7 @@ export type Database = {
           fear_level: number
           id: string
           medical_notes: string | null
+          rating: number | null
           updated_at: string
         }
         Insert: {
@@ -434,6 +438,7 @@ export type Database = {
           fear_level?: number
           id: string
           medical_notes?: string | null
+          rating?: number | null
           updated_at?: string
         }
         Update: {
@@ -443,6 +448,7 @@ export type Database = {
           fear_level?: number
           id?: string
           medical_notes?: string | null
+          rating?: number | null
           updated_at?: string
         }
         Relationships: [
