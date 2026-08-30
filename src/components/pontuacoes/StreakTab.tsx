@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { USER_POINTS, MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';

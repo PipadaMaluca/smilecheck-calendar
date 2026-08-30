@@ -1,24 +1,9 @@
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Calendar,
-  Users,
-  BarChart3,
-  MessageCircle,
-  Award,
-  ShoppingBag,
-  Search,
-  Heart,
-  Bell,
-  Settings,
-  Star,
-  Flame,
-  Gift,
-  UserPlus,
-} from 'lucide-react';
+import { Calendar, Users, BarChart3, Award, ShoppingBag, Search, Heart, Star, Flame, Gift, UserPlus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
-import { UserRole, CATEGORY_COLORS, getCategoryLabel, getCategoryBadgeStyle, ConsultationCategory } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, getCategoryLabel, ConsultationCategory } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';

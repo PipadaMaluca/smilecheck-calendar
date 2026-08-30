@@ -6,7 +6,7 @@ import {
   ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel,
 } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { mockConsultations, mockDentists, generateTimeSlots, mockClinics } from '@/data/mockData';
+import { mockConsultations, mockDentists, generateTimeSlots } from '@/data/mockData';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { cn } from '@/lib/utils';

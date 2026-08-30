@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@/components/ui/button';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
@@ -27,7 +26,7 @@ import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
-import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
+import { DentistSearchResult } from '@/data/mockDentistSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';

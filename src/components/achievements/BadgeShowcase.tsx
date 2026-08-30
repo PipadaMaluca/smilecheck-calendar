@@ -3,7 +3,7 @@ import { Plus, Pencil, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
+import { Achievement, AchievementCategory, DEFAULT_SHOWCASED } from './achievementData';
 import { BadgeFrame } from './BadgeFrame';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { UserRole } from '@/types/calendar';

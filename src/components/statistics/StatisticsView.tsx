@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGr
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
 import { Download, Calendar, CheckCircle2, XCircle, Star, TrendingUp } from 'lucide-react';
-import { mockConsultations, getDentistsForClinic, mockClinics, clinicDentists, mockDentists } from '@/data/mockData';
+import { mockConsultations, getDentistsForClinic, mockClinics, mockDentists } from '@/data/mockData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ScrollArea } from '@/components/ui/scroll-area';

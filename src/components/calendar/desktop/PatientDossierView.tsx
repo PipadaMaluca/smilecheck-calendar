@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, ArrowLeft, Star, Video, Calendar as CalendarIcon, Check, SkipForward } from 'lucide-react';
+import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, ArrowLeft, Video, Calendar as CalendarIcon, Check, SkipForward } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -7,12 +7,12 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { CATEGORY_COLORS, getCategoryBadgeStyle } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
-import { generateClinicalAlerts, calculateRecall, SEVERITY_CONFIG, ClinicalAlert } from '@/data/clinicalSafetyData';
+import { generateClinicalAlerts, calculateRecall, SEVERITY_CONFIG } from '@/data/clinicalSafetyData';
 import { toast } from 'sonner';
 import { OdontogramChart } from '@/components/odontogram/OdontogramChart';
 

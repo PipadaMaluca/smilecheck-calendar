@@ -15,7 +15,6 @@ import { ConsultationReasonSelector } from '../ConsultationReasonSelector';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 

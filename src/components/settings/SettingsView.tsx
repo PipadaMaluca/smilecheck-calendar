@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  HelpCircle, FileText, Shield, LogOut, ChevronRight,
-  Lock, Trash2, BookOpen, Globe, Mail, HelpCircle as FAQ, Bell, ChevronDown
-} from 'lucide-react';
+import { HelpCircle, FileText, Shield, LogOut, ChevronRight, Lock, Trash2, BookOpen, Mail, HelpCircle as FAQ, Bell, ChevronDown } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';
@@ -12,7 +9,6 @@ import { ConnectedDevicesSection } from '@/components/settings/ConnectedDevicesS
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
 import { UserRole } from '@/types/calendar';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { resetAllCoachMarks } from '@/components/onboarding/CoachMark';

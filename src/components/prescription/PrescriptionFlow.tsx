@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { X, Search, User, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send, AlertTriangle } from 'lucide-react';
+import { X, Search, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,12 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { mockConsultations, mockDentists, mockClinics } from '@/data/mockData';
-import {
-  MEDICATIONS_WITH_TAGS,
-  getMedicationAllergyBlock,
-  getMedicationInteractions,
-  type MedicationDef,
-  type InteractionWarning } from
+import { MEDICATIONS_WITH_TAGS, getMedicationAllergyBlock, getMedicationInteractions, type MedicationDef } from
 '@/data/drugSafetyData';
 import { useTranslation } from 'react-i18next';
 

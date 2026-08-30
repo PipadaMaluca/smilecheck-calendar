@@ -1,4 +1,4 @@
-import { User, AlertTriangle, Pill, Calendar, Clock } from 'lucide-react';
+import { User, AlertTriangle, Pill, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';

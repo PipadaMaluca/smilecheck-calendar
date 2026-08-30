@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Clock, Stethoscope, CheckCircle2, AlertTriangle, XCircle,
