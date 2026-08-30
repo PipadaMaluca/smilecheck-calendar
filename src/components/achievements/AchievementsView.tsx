@@ -11,9 +11,8 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { UserRole } from '@/types/calendar';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
+import { Achievement, AchievementCategory, DEFAULT_SHOWCASED } from './achievementData';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { toast } from 'sonner';
 
@@ -303,16 +302,10 @@ function resolveCategories(defs: CategoryDef[], t: (key: string) => string): Ach
   }));
 }
 
-// Keep exports for other components that use these
-export const patientAchievements: AchievementCategory[] = []; // Will be resolved at render time
-export const dentistAchievements: AchievementCategory[] = [];
-export const clinicAchievements: AchievementCategory[] = [];
-
+ // Will be resolved at render time
 function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
   const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;
-  const tier = getBadgeTier(achievement);
-  const tierStyle = BADGE_TIER_STYLES[tier];
 
   return (
     <Card
@@ -395,10 +388,8 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
   const isLoading = useSimulatedLoading(1200, 'achievements');
-  const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
-  const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
 
   const categories = getAchievementCategories(userRole, t);
 

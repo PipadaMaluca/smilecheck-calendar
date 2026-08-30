@@ -43,18 +43,6 @@ const healthySurfaces = (): Record<Surface, SurfaceData> => ({
   L: { status: 'healthy' },
 });
 
-export function getDefaultOdontogram(): OdontogramState {
-  const state: OdontogramState = {};
-  // Upper: 11-18, 21-28; Lower: 31-38, 41-48
-  for (const q of [1, 2, 3, 4]) {
-    for (let t = 1; t <= 8; t++) {
-      const id = `${q}${t}`;
-      state[id] = { surfaces: healthySurfaces(), notes: '', isMissing: false };
-    }
-  }
-  return state;
-}
-
 export function getJoaoSilvaMockData(): { state: OdontogramState; history: OdontogramHistory[] } {
   const state = getDefaultOdontogram();
 

@@ -145,30 +145,6 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
   },
 ];
 
-export const MOCK_REVIEWS: Record<string, DentistReview[]> = {
-  '1': [
-    { id: 'r1', patientName: 'Ana M.', rating: 5, date: '2025-01-28', comment: 'Excelente profissional! Muito atencioso e explicou tudo com calma.' },
-    { id: 'r2', patientName: 'Carlos S.', rating: 5, date: '2025-01-25', comment: 'A melhor experiência que tive num dentista. Recomendo!' },
-    { id: 'r3', patientName: 'Maria L.', rating: 4, date: '2025-01-20', comment: 'Muito bom, só tive que esperar um pouco.' },
-    { id: 'r4', patientName: 'João P.', rating: 5, date: '2025-01-15', comment: 'Tratamento indolor, fantástico.' },
-    { id: 'r5', patientName: 'Sofia R.', rating: 5, date: '2025-01-10', comment: 'Profissional de confiança.' },
-    { id: 'r1-6', patientName: 'Helena N.', rating: 5, date: '2025-01-05', comment: 'Branqueamento ficou impecável e sem qualquer sensibilidade. Voltarei sem dúvida.' },
-    { id: 'r1-7', patientName: 'Bruno P.', rating: 4, date: '2024-12-28', comment: 'Bom atendimento e explicações claras. A clínica podia ter mais estacionamento.' },
-    { id: 'r1-8', patientName: 'Inês C.', rating: 5, date: '2024-12-18', comment: 'Sempre pontual e muito cuidadoso. Já levei toda a família.' },
-    { id: 'r1-9', patientName: 'Tiago M.', rating: 5, date: '2024-12-04', comment: 'Resolveu uma urgência minha num sábado. Profissional 5 estrelas.' },
-    { id: 'r1-10', patientName: 'Diana C.', rating: 4, date: '2024-11-22', comment: 'Muito simpático e competente. Preço justo pelo serviço.' },
-    { id: 'r1-11', patientName: 'André G.', rating: 5, date: '2024-11-08', comment: 'A teleconsulta foi extremamente útil para tirar dúvidas pós-cirurgia.' },
-    { id: 'r1-12', patientName: 'Rita O.', rating: 3, date: '2024-10-25', comment: 'Bom dentista, mas demorou mais do que o esperado a chamar-me.' },
-  ],
-  '2': [
-    { id: 'r6', patientName: 'Pedro A.', rating: 5, date: '2025-01-27', comment: 'Muito competente e simpático.' },
-    { id: 'r7', patientName: 'Rita F.', rating: 5, date: '2025-01-22', comment: 'Fez o meu aparelho e ficou perfeito!' },
-    { id: 'r8', patientName: 'Bruno M.', rating: 4, date: '2025-01-18', comment: 'Bom profissional, clínica muito moderna.' },
-    { id: 'r9', patientName: 'Inês C.', rating: 5, date: '2025-01-12', comment: 'Resolveu o meu problema rapidamente.' },
-    { id: 'r10', patientName: 'Tiago N.', rating: 5, date: '2025-01-08', comment: 'Recomendo sem hesitar.' },
-  ],
-};
-
 // Default reviews for dentists without specific reviews
 const defaultReviews: DentistReview[] = [
   { id: 'dr1', patientName: 'Paciente A.', rating: 5, date: '2025-01-26', comment: 'Muito profissional e atencioso.' },

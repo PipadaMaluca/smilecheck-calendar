@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { cn } from '@/lib/utils';
 import { OdontogramState, OdontogramHistory, ToothData, STATUS_COLORS, ToothStatus, UPPER_RIGHT, UPPER_LEFT, LOWER_LEFT, LOWER_RIGHT, getJoaoSilvaMockData } from './odontogramData';
 import { ToothSVG } from './ToothSVG';
 import { ToothPopover } from './ToothPopover';

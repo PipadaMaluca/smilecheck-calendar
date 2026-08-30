@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Star, Calendar, MessageCircle, FolderOpen, AlertTriangle, Building2, User, ChevronDown } from 'lucide-react';
+import { Search, Star, Calendar, MessageCircle, FolderOpen, AlertTriangle, Building2, User } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

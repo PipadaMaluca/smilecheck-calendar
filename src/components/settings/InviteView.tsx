@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, UserPlus, Gift, Users, Clock } from 'lucide-react';
+import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, Gift, Users } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';

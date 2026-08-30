@@ -12,10 +12,6 @@ export function hasSeenVideoSplash(role: string): boolean {
   return localStorage.getItem(`${STORAGE_KEY_PREFIX}${role}`) === 'done';
 }
 
-export function markVideoSplashSeen(role: string): void {
-  localStorage.setItem(`${STORAGE_KEY_PREFIX}${role}`, 'done');
-}
-
 export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [fadeOut, setFadeOut] = useState(false);

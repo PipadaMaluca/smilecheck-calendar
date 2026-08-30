@@ -9,41 +9,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 const ROLE_EVENT = 'smilecheck:set-role';
 
-export function dispatchRoleChange(role: UserRole) {
-  window.dispatchEvent(new CustomEvent(ROLE_EVENT, { detail: role }));
-}
-
-export function useDemoRole(): [UserRole, (r: UserRole) => void] {
-  const [params, setParams] = useSearchParams();
-  const urlRole = params.get('role');
-  const initial: UserRole =
-    urlRole === 'patient' || urlRole === 'dentist' || urlRole === 'clinic'
-      ? urlRole
-      : 'clinic';
-  const [role, setRoleState] = useState<UserRole>(initial);
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const next = (e as CustomEvent<UserRole>).detail;
-      if (next === 'patient' || next === 'dentist' || next === 'clinic') {
-        setRoleState(next);
-      }
-    };
-    window.addEventListener(ROLE_EVENT, handler);
-    return () => window.removeEventListener(ROLE_EVENT, handler);
-  }, []);
-
-  const setRole = (r: UserRole) => {
-    setRoleState(r);
-    const next = new URLSearchParams(params);
-    next.set('role', r);
-    setParams(next, { replace: true });
-    dispatchRoleChange(r);
-  };
-
-  return [role, setRole];
-}
-
 interface DemoControlsPanelProps {
   className?: string;
   compact?: boolean;

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollableTabsList } from '@/components/ui/scrollable-tabs-list';
 import { UserRole } from '@/types/calendar';
