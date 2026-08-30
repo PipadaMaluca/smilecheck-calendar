@@ -11,7 +11,10 @@ export function CalendarDemo() {
   const roleParam = searchParams.get('role');
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
   const [activeView, setActiveView] = useState(initialRole);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth >= 1024
+  );
+
 
   // Video splash — only on first login ever (single first-run gate).
   const splashRole = initialRole;
@@ -53,23 +56,21 @@ export function CalendarDemo() {
     setShowVideoSplash(false);
   }, []);
 
-  // On desktop (>= 1024px), show the Doctolib-style layout
-  if (isDesktop) {
-    return (
-      <>
-        {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
-        <DesktopCalendarView />
-      </>
-    );
-  }
-
-  // Mobile/tablet: render active role calendar; role switching now lives inside the hamburger menu's DemoControlsPanel
+  // The splash is rendered ONCE, outside the desktop/mobile branches, so a
+  // breakpoint change can never unmount + remount it (which restarted the video).
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
+    <>
       {showVideoSplash && <VideoSplashScreen role={splashRole} onFinish={handleVideoFinish} />}
-      {activeView === 'patient' && <PatientCalendar />}
-      {activeView === 'dentist' && <DentistCalendar />}
-      {activeView === 'clinic' && <ClinicCalendar />}
-    </div>
+      {isDesktop ? (
+        <DesktopCalendarView />
+      ) : (
+        <div className="min-h-screen bg-background overflow-x-hidden max-w-[100vw]">
+          {activeView === 'patient' && <PatientCalendar />}
+          {activeView === 'dentist' && <DentistCalendar />}
+          {activeView === 'clinic' && <ClinicCalendar />}
+        </div>
+      )}
+    </>
   );
 }
+

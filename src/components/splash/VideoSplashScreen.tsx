@@ -21,6 +21,8 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const hasFinished = useRef(false);
+  const hasStarted = useRef(false);
+  const finishRef = useRef<() => void>(() => {});
 
   const handleFinish = useCallback(() => {
     if (hasFinished.current) return;
@@ -30,38 +32,34 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
     setTimeout(() => onFinish(), 500);
   }, [role, onFinish]);
 
+  finishRef.current = handleFinish;
+
+  // Timers + playback start run exactly once per mount — no prop-identity reruns,
+  // so the video is never restarted mid-playback.
   useEffect(() => {
-    // Show skip button after 2 seconds
     const skipTimer = setTimeout(() => setShowSkip(true), 2000);
-    // Safety timeout — if video doesn't end in 8 seconds, finish anyway
-    const safetyTimer = setTimeout(() => handleFinish(), 8000);
+    const safetyTimer = setTimeout(() => finishRef.current(), 8000);
+
+    const video = videoRef.current;
+    if (video && !hasStarted.current) {
+      hasStarted.current = true;
+      video.muted = false;
+      const playPromise = video.play();
+      if (playPromise) {
+        playPromise.catch(() => {
+          // Autoplay with audio blocked — resume muted from the same position.
+          video.muted = true;
+          video.play().catch(() => finishRef.current());
+        });
+      }
+    }
 
     return () => {
       clearTimeout(skipTimer);
       clearTimeout(safetyTimer);
     };
-  }, [handleFinish]);
+  }, []);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Try to play with audio first
-    video.muted = false;
-    const playPromise = video.play();
-    if (playPromise) {
-      playPromise.catch(() => {
-        // Autoplay with audio blocked — play muted
-        if (video) {
-          video.muted = true;
-          video.play().catch(() => {
-            // Can't play at all — skip
-            handleFinish();
-          });
-        }
-      });
-    }
-  }, [handleFinish]);
 
   return (
     <div
