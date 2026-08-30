@@ -36,12 +36,17 @@ export interface RedeemSuccess {
 
 export interface RedeemFailure {
   redeemed: false;
-  reason: 'insufficient_points' | string;
+  reason: string;
   points_cost?: number;
   current_reward_points?: number;
 }
 
 export type RedeemResult = RedeemSuccess | RedeemFailure;
+
+export function isRedeemFailure(result: RedeemResult): result is RedeemFailure {
+  return result.redeemed === false;
+}
+
 
 export async function redeemReward(profileId: string, rewardKey: string): Promise<RedeemResult> {
   const { data, error } = await supabase.rpc('redeem_reward', {
