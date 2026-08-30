@@ -144,11 +144,23 @@ export function LoginScreen() {
         <button onClick={() => navigate('/signup')} className="text-primary hover:underline font-medium">{t('auth.createAccount')}</button>
       </p>
 
-      <button onClick={() => navigate('/demo?demo=true')} className="mt-3 text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-        {t('auth.demo')}
-      </button>
+      <div className="w-full mt-6 pt-4 border-t border-border">
+        <p className="text-xs text-muted-foreground text-center mb-2">
+          {t('auth.enterDemoMode', { defaultValue: 'Entrar em modo Demo' })}
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {demoButtons.map(({ role, label, Icon }) => (
+            <Button key={role} variant="outline" onClick={() => startDemo(role)}
+              className="h-11 flex-col gap-0.5 text-[11px] font-medium px-1">
+              <Icon className="w-4 h-4" />
+              <span className="truncate w-full text-center">{label}</span>
+            </Button>
+          ))}
+        </div>
+      </div>
     </div>
   );
+
 
   const qrSection = (
     <div className="flex flex-col items-center">
