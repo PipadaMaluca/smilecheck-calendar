@@ -104,6 +104,28 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const [paymentFailed, setPaymentFailed] = useState(false);
   const receiptId = `SC-2026-00${Math.floor(Math.random() * 900 + 100)}`;
 
+  // --- Backend write path (real users only; demo stays fully on mock) ---
+  const { user } = useAuth();
+  const { isDemo, refresh } = useAgendaData();
+  const writesToDb = !isDemo && !!user;
+  const [submitting, setSubmitting] = useState(false);
+  const [occupiedKeys, setOccupiedKeys] = useState<Set<string> | null>(null);
+
+  const dentistUuid = SEED_DENTIST_UUID_BY_ID[dentist.id] ?? null;
+
+  useEffect(() => {
+    if (!writesToDb || !dentistUuid) return;
+    let cancelled = false;
+    const from = new Date();
+    from.setHours(0, 0, 0, 0);
+    const to = new Date(from.getTime() + 90 * 24 * 3600_000);
+    fetchOccupiedSlotKeys(dentistUuid, from, to)
+      .then(keys => { if (!cancelled) setOccupiedKeys(keys); })
+      .catch(() => { if (!cancelled) setOccupiedKeys(new Set()); });
+    return () => { cancelled = true; };
+  }, [writesToDb, dentistUuid]);
+
+
   const allSteps: BookingStep[] = skipClinic
     ? ['type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success']
     : ['clinic', 'type', 'datetime', 'confirm', ...(data.consultationType === 'teleconsulta' ? ['payment' as const, 'processing' as const] : []), 'success'];
