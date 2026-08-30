@@ -115,9 +115,11 @@ async function loadParties(appointmentId: string): Promise<AppointmentParties | 
 
 /**
  * Awards the point transactions attached to an appointment status change.
- * - `concluida` → attendance (patient) + consulta concluída/teleconsulta
- *   (dentist) + consulta na clínica/teleconsulta (clinic owner)
- * - `falta`     → patient no-show penalty (reward points only)
+ * - `visto` (consultation completed, DB `concluida`) → attendance (patient)
+ *   + consulta concluída/teleconsulta (dentist)
+ *   + consulta na clínica/teleconsulta (clinic owner)
+ * - `falta_nao_justificada` → patient no-show penalty (reward points only).
+ *   A justified absence carries no penalty.
  * - `confirmada` → patient confirmation points (24h vs 1h window)
  */
 export async function awardStatusPoints(
@@ -125,7 +127,7 @@ export async function awardStatusPoints(
   status: ConsultationStatus,
   actorRole: UserRole
 ): Promise<void> {
-  if (status !== 'concluida' && status !== 'falta' && status !== 'confirmada') return;
+  if (status !== 'visto' && status !== 'falta_nao_justificada' && status !== 'confirmada') return;
   const parties = await loadParties(appointmentId);
   if (!parties) return;
 
@@ -139,12 +141,12 @@ export async function awardStatusPoints(
     return;
   }
 
-  if (status === 'falta') {
+  if (status === 'falta_nao_justificada') {
     await awardPoints(parties.patientId, 'falta', opts);
     return;
   }
 
-  // concluida — the attendance formula is computed server-side.
+  // visto / concluída — the attendance formula is computed server-side.
   await awardPoints(parties.patientId, 'compareceu', opts);
   if (parties.dentistId) {
     await awardPoints(
