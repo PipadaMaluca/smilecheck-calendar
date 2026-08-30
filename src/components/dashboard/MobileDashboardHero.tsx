@@ -7,7 +7,8 @@ import { UserRole, CATEGORY_COLORS, getCategoryLabel, ConsultationCategory } fro
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
-import { USER_POINTS, getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
+import { getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -23,7 +24,7 @@ interface MobileDashboardHeroProps {
  */
 export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: MobileDashboardHeroProps) {
   const { t } = useTranslation();
-  const points = USER_POINTS[userRole];
+  const points = usePointsData(userRole);
   const level = getLevelForXP(points.xp);
   const multiplier = LEVEL_MULTIPLIERS[level.key];
   const xpProgress = getXPProgress(points.xp);

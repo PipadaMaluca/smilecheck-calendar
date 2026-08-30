@@ -37,7 +37,8 @@ import { getPatientInitials } from '@/lib/avatarUtils';
 import { AvatarFrame } from '@/components/level/AvatarFrame';
 import { LevelSeal } from '@/components/level/LevelSeal';
 import { NextLevelBenefits } from '@/components/level/NextLevelBenefits';
-import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
+import { getLevelForXP } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { toast } from 'sonner';
@@ -136,7 +137,8 @@ export function PatientProfileBody({
   const { t } = useTranslation();
 
   const data = PATIENT_DATA;
-  const derivedLevelKey = getLevelForXP(USER_POINTS.patient.xp).key;
+  const patientPoints = usePointsData('patient');
+  const derivedLevelKey = getLevelForXP(patientPoints.xp).key;
   const effectiveLevel = derivedLevelKey;
   const levelCfg = LEVEL_CONFIG[effectiveLevel] || LEVEL_CONFIG[data.level];
   const planCfg = PLAN_CONFIG[data.plan];

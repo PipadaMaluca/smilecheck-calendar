@@ -4,7 +4,8 @@ import { User, Settings, LogOut, Gem, Star, Flame } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockFamilyMembers, mockClinics } from '@/data/mockData';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
-import { USER_POINTS, getLevelForXP } from '@/data/pointsData';
+import { getLevelForXP } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
 import { AvatarFrame } from '@/components/level/AvatarFrame';
 import { LevelIcon } from '@/components/level/LevelIcon';
 import { cn } from '@/lib/utils';
@@ -27,8 +28,8 @@ interface UserAvatarDropdownProps {
   onNavigate: (tab: string) => void;
 }
 
-function getUserInfo(userRole: UserRole, t: (key: string) => string) {
-  const lvl = getLevelForXP(USER_POINTS[userRole].xp).key;
+function getUserInfo(userRole: UserRole, xp: number, t: (key: string) => string) {
+  const lvl = getLevelForXP(xp).key;
   switch (userRole) {
     case 'patient':
       return { name: mockFamilyMembers[0].name, subtitle: t('common.patient'), level: lvl };
@@ -46,11 +47,11 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const { signOut } = useAuth();
+  const stats = usePointsData(userRole);
 
 
-  const userInfo = getUserInfo(userRole, t);
+  const userInfo = getUserInfo(userRole, stats.xp, t);
   const levelCfg = LEVEL_CONFIG[userInfo.level];
-  const stats = USER_POINTS[userRole];
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

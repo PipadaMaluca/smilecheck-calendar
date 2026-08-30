@@ -8,8 +8,10 @@ import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import {
   LEVELS, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, LEVEL_REWARDS,
-  LEVEL_UNLOCKS, USER_POINTS, getLevelForXP, getXPProgress, getVisibilityBoost, MAX_XP,
+  LEVEL_UNLOCKS, getLevelForXP, getXPProgress, getVisibilityBoost, MAX_XP,
 } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
+import { StatsSkeleton } from '@/components/skeletons';
 
 interface MyLevelViewProps {
   userRole: UserRole;
@@ -17,11 +19,13 @@ interface MyLevelViewProps {
 
 export function MyLevelView({ userRole }: MyLevelViewProps) {
   const { t } = useTranslation();
-  const data = USER_POINTS[userRole];
+  const data = usePointsData(userRole);
   const current = getLevelForXP(data.xp);
   const progress = getXPProgress(data.xp);
   const boost = getVisibilityBoost(current.key, data.plan);
   const multiplier = LEVEL_MULTIPLIERS[current.key];
+
+  if (data.loading) return <StatsSkeleton />;
 
   return (
     <div className="space-y-5">

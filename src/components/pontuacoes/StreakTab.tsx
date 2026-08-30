@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
-import { USER_POINTS, MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';
+import { MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +15,7 @@ interface StreakTabProps {
 
 
 export function StreakTab({ userRole }: StreakTabProps) {
-  const data = USER_POINTS[userRole];
+  const data = usePointsData(userRole);
   const streakHistory = MOCK_STREAK_HISTORY[userRole];
   const checkinDays = getCheckinDays(userRole);
   const [calendarMonth, setCalendarMonth] = useState(0);

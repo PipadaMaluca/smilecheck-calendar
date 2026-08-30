@@ -7,7 +7,9 @@ import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, getPointsHistoryForRole, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getVisibilityBoost } from '@/data/pointsData';
+import { getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getVisibilityBoost } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
+import { StatsSkeleton } from '@/components/skeletons';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -22,7 +24,7 @@ interface PontosTabProps {
 const DEMO_DATE = new Date(2026, 0, 31);
 
 export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
-  const data = USER_POINTS[userRole];
+  const data = usePointsData(userRole);
   const level = getLevelForXP(data.xp);
   const xpProgress = getXPProgress(data.xp);
   const [historyFilter, setHistoryFilter] = useState<'todos' | 'ganhos' | 'perdidos'>('todos');
@@ -31,7 +33,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
   const earnActions = getEarnActionsForRole(userRole);
   const penaltyActions = getPenaltyActionsForRole(userRole);
-  const pointsHistory = getPointsHistoryForRole(userRole);
+  const pointsHistory = data.history;
   const multiplier = LEVEL_MULTIPLIERS[level.key];
   const boost = getVisibilityBoost(level.key, data.plan);
 
@@ -39,7 +41,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
     data.plan === 'pro' ? t('scores.planProLabel') :
     t('scores.planPremiumLabel');
 
-  const filteredHistory = pointsHistory.filter(entry => {
+  const filteredHistory = data.loading ? [] : pointsHistory.filter(entry => {
     if (historyFilter === 'ganhos' && entry.points <= 0) return false;
     if (historyFilter === 'perdidos' && entry.points >= 0) return false;
     if (periodFilter === 'hoje' && !isSameDay(entry.date, DEMO_DATE)) return false;
@@ -49,6 +51,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   });
 
   const roleLabel = userRole === 'patient' ? t('scores.patient2x') : userRole === 'dentist' ? t('roles.dentist') : t('roles.clinic');
+
+  if (data.loading) return <StatsSkeleton />;
 
   return (
     <div className="space-y-6">
