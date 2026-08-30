@@ -27,7 +27,6 @@ export function PostCallSummary({ isOpen, onClose, isDentist, remoteName, durati
     sendPrescription: false,
     followUp: false,
   });
-  const [customStep, setCustomStep] = useState('');
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

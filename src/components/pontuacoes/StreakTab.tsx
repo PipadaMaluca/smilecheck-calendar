@@ -12,7 +12,6 @@ interface StreakTabProps {
   userRole: UserRole;
 }
 
-const DEMO_DATE = new Date(2026, 0, 31);
 
 export function StreakTab({ userRole }: StreakTabProps) {
   const data = USER_POINTS[userRole];

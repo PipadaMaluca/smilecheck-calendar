@@ -52,7 +52,6 @@ export function PatientCalendar() {
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
-  const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
   const filteredConsultations = selectedMembers.includes('all')

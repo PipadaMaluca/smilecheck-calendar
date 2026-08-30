@@ -109,7 +109,6 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const [newVaccineDate, setNewVaccineDate] = useState('');
   const [docFilter, setDocFilter] = useState('todos');
 
-  const currentMember = members.find(m => m.id === selectedMemberId)!;
   const data = healthData[selectedMemberId] || emptyHealthData();
 
   const updateData = useCallback((updater: (prev: MemberHealthData) => MemberHealthData) => {

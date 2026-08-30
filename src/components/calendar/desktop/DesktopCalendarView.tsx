@@ -105,7 +105,6 @@ export function DesktopCalendarView() {
   const urlParams = new URLSearchParams(window.location.search);
   const urlRole = urlParams.get('role');
   const initialRole: UserRole = (urlRole === 'patient' || urlRole === 'dentist' || urlRole === 'clinic') ? urlRole : 'clinic';
-  const isDemoMode = urlParams.get('demo') === 'true';
   const [activeRole, setActiveRole] = useState<UserRole>(initialRole);
   const [activeNavTab, setActiveNavTab] = useState('home');
   const [showTriage, setShowTriage] = useState(false);
@@ -328,7 +327,7 @@ export function DesktopCalendarView() {
     const [toClinicId, toDentistId] = toKey.split('-');
     const toDentist = mockDentists.find((d) => d.id === toDentistId);
     const toDentistName = toDentist?.name || t('common.dentist');
-    const [fromClinicIdRaw, fromDentistIdRaw] = fromKey.split('-');
+    const [, fromDentistIdRaw] = fromKey.split('-');
     const fromDentist = mockDentists.find((d) => d.id === fromDentistIdRaw);
     const fromDentistName = fromDentist?.name || t('common.dentist');
 

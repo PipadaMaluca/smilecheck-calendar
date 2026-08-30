@@ -161,7 +161,6 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredDentists.slice(0, 3) : filteredDentists).map(d => {
-                  const levelCfg = LEVEL_CONFIG[d.level];
                   const isFav = favorites.includes(d.id);
                   return (
                     <button

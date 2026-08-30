@@ -72,7 +72,6 @@ export function DentistCalendar() {
   const [showSearch, setShowSearch] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
   const [referralPreSelectedDentist, setReferralPreSelectedDentist] = useState<DentistSearchResult | null>(null);
-  const [quickBookDentist, setQuickBookDentist] = useState<{ dentist: DentistSearchResult; dayLabel: string; slot: string } | null>(null);
   const [favorites, setFavorites] = useState<string[]>(['1', '2']);
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);

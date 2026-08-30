@@ -167,7 +167,6 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
 // Publish vacancy panel for clinics
 function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation();
-  const [enabled, setEnabled] = useState(true);
   const [contractTypes, setContractTypes] = useState<string[]>([]);
   const [specialties, setSpecialties] = useState<string[]>([]);
   const [schedule, setSchedule] = useState('');

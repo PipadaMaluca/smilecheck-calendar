@@ -17,7 +17,6 @@ interface BadgeShowcaseProps {
 }
 
 export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onViewCollection, className }: BadgeShowcaseProps) {
-  const isMobile = useIsMobile();
   const [showModal, setShowModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
 

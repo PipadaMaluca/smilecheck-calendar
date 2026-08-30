@@ -312,7 +312,6 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
   const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;
   const tier = getBadgeTier(achievement);
-  const tierStyle = BADGE_TIER_STYLES[tier];
 
   return (
     <Card
@@ -395,7 +394,6 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
   const isLoading = useSimulatedLoading(1200, 'achievements');
-  const isMobile = useIsMobile();
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
   const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
