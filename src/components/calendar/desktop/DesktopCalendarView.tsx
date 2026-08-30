@@ -52,7 +52,7 @@ import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { ConsultationDetailView } from './ConsultationDetailView';
 import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
-import { Consultation, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
+import { Consultation, ConsultationStatus, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
 import { mockDentists, mockFamilyMembers, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { useAgendaData } from '@/data/agendaSource';
 import { useAppointmentActions } from '@/data/appointmentActions';
@@ -97,12 +97,6 @@ export function DesktopCalendarView() {
   const { consultations: agendaConsultations, patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { changeStatus, rescheduleConsultation, cancelConsultation } = useAppointmentActions();
 
-  const handleStatusChange = useCallback((c: Consultation, status: ConsultationStatus) => {
-    if (status === 'visto') setFeedbackConsultation(c);
-    void changeStatus(c, status);
-    toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);
-  }, [changeStatus, t]);
-
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
@@ -114,6 +108,13 @@ export function DesktopCalendarView() {
   const [clipboardConsultation, setClipboardConsultation] = useState<Consultation | null>(null);
   const [pasteTarget, setPasteTarget] = useState<{time: string;dentistKey: string;dentistName: string;} | null>(null);
   const [feedbackConsultation, setFeedbackConsultation] = useState<Consultation | null>(null);
+
+  const handleStatusChange = useCallback((c: Consultation, status: ConsultationStatus) => {
+    if (status === 'visto') setFeedbackConsultation(c);
+    void changeStatus(c, status);
+    toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);
+  }, [changeStatus, t]);
+
   const urlParams = new URLSearchParams(window.location.search);
   const urlRole = urlParams.get('role');
   const initialRole: UserRole = (urlRole === 'patient' || urlRole === 'dentist' || urlRole === 'clinic') ? urlRole : 'clinic';
