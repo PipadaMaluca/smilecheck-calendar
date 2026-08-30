@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Copy, Check, Clock } from 'lucide-react';
 import { toast } from 'sonner';
-import { RedeemHistoryItem, MOCK_REDEEM_HISTORY } from '@/data/rewardsData';
+import { RedeemHistoryItem } from '@/data/rewardsData';
+import { ListSkeleton } from '@/components/skeletons';
 
 const STATUS_KEYS: Record<string, { labelKey: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   pendente: { labelKey: 'store.statusPending', variant: 'secondary' },
@@ -20,12 +21,18 @@ const FILTER_KEYS = [
   { value: 'expirado', labelKey: 'store.filterExpired' },
 ] as const;
 
-export function RewardsHistory() {
+interface RewardsHistoryProps {
+  /** Mock list in demo mode, real `redemptions` rows for authenticated users. */
+  items: RedeemHistoryItem[];
+  loading?: boolean;
+}
+
+export function RewardsHistory({ items, loading = false }: RewardsHistoryProps) {
   const { t } = useTranslation();
   const [filter, setFilter] = useState<string>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const filtered = MOCK_REDEEM_HISTORY.filter(item => {
+  const filtered = items.filter(item => {
     if (filter === 'all') return true;
     return item.status === filter;
   });
@@ -47,7 +54,9 @@ export function RewardsHistory() {
         ))}
       </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <ListSkeleton rows={4} />
+      ) : filtered.length === 0 ? (
         <p className="text-center text-muted-foreground py-8">{t('store.noRedeems')}</p>
       ) : (
         <div className="space-y-2">

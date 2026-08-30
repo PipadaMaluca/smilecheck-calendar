@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Gift, ShoppingBag } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { UserRole } from '@/types/calendar';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { CardGridSkeleton } from '@/components/skeletons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { REWARD_TABS, RewardProduct, getAllProductsForRole } from '@/data/rewardsData';
+import { REWARD_TABS, RewardProduct, RedeemHistoryItem, MOCK_REDEEM_HISTORY, getAllProductsForRole } from '@/data/rewardsData';
 import { ProductGrid } from './ProductGrid';
 import { BrandsList } from './BrandsList';
 import { RedeemModal } from './RedeemModal';
 import { RewardsHistory } from './RewardsHistory';
 import { AllProductsList } from './AllProductsList';
 import { useTranslation } from 'react-i18next';
+import { usePointsData, usePointsRefresh } from '@/data/pointsSource';
+import { useAuth } from '@/contexts/AuthContext';
+import { fetchRedemptions, redeemReward, rewardKeyFor } from '@/data/rewardsWrites';
 
 const TAB_LABEL_KEYS: Record<string, string> = {
   consultas: 'store.tabConsultas',
@@ -27,9 +30,21 @@ interface RewardsStoreViewProps {
   userRole: UserRole;
 }
 
+function generateDemoCode(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const seg2 = Array.from({ length: 3 }, () => chars[Math.floor(Math.random() * 26)]).join('');
+  const seg3 = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return `SC-${seg2}-${seg3}`;
+}
+
 export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const { t } = useTranslation();
   const isLoading = useSimulatedLoading(1200, 'rewards');
+  const { user } = useAuth();
+  const points = usePointsData(userRole);
+  const refreshPoints = usePointsRefresh();
+  const isDemo = points.isDemo || !user;
+
   const getInitialPoints = () => {
     switch (userRole) {
       case 'patient': return 450;
@@ -37,14 +52,59 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
       case 'clinic': return 3800;
     }
   };
-  const [userPoints, setUserPoints] = useState(getInitialPoints());
+  // Demo mode keeps a purely local balance; real users read `user_levels`.
+  const [demoPoints, setDemoPoints] = useState(getInitialPoints());
+  const userPoints = isDemo ? demoPoints : points.rewardPoints;
+
   const [redeemProduct, setRedeemProduct] = useState<RewardProduct | null>(null);
+  const [history, setHistory] = useState<RedeemHistoryItem[]>(MOCK_REDEEM_HISTORY);
+  const [historyLoading, setHistoryLoading] = useState(false);
+
+  const loadHistory = useCallback(async () => {
+    if (isDemo || !user) return;
+    setHistoryLoading(true);
+    try {
+      setHistory(await fetchRedemptions(user.id));
+    } catch {
+      setHistory([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  }, [isDemo, user]);
+
+  useEffect(() => {
+    if (isDemo) {
+      setHistory(MOCK_REDEEM_HISTORY);
+      return;
+    }
+    void loadHistory();
+  }, [isDemo, loadHistory]);
 
   const tabs = REWARD_TABS[userRole] || REWARD_TABS.patient;
   const allProducts = getAllProductsForRole(userRole);
 
   const handleRedeem = (product: RewardProduct) => { setRedeemProduct(product); };
-  const handleConfirmRedeem = () => { if (redeemProduct) setUserPoints(prev => prev - redeemProduct.points); };
+
+  const handleConfirmRedeem = async (): Promise<{ code: string } | { error: string }> => {
+    if (!redeemProduct) return { error: t('store.redeemFailed') };
+
+    if (isDemo || !user) {
+      setDemoPoints(prev => Math.max(prev - redeemProduct.points, 0));
+      return { code: generateDemoCode() };
+    }
+
+    const result = await redeemReward(user.id, rewardKeyFor(userRole, redeemProduct.id));
+    if (!result.redeemed) {
+      return {
+        error: result.reason === 'insufficient_points'
+          ? t('store.insufficientPoints')
+          : t('store.redeemFailed'),
+      };
+    }
+    refreshPoints();
+    void loadHistory();
+    return { code: result.redemption_code };
+  };
 
   if (isLoading) {
     return (
@@ -113,7 +173,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsContent>
 
         <TabsContent value="historico" className="mt-4">
-          <RewardsHistory />
+          <RewardsHistory items={history} loading={historyLoading} />
         </TabsContent>
       </Tabs>
 

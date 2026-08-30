@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Loader2 } from 'lucide-react';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog';
@@ -13,15 +13,12 @@ interface RedeemModalProps {
   product: RewardProduct | null;
   userPoints: number;
   onClose: () => void;
-  onConfirm: () => void;
-}
-
-function generateCode(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  const seg1 = 'SC';
-  const seg2 = Array.from({ length: 3 }, () => chars[Math.floor(Math.random() * 26)]).join('');
-  const seg3 = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-  return `${seg1}-${seg2}-${seg3}`;
+  /**
+   * Performs the redemption. Demo mode returns a locally generated code;
+   * real users get the code from the backend `redeem_reward` function.
+   * Returning an error message keeps the modal open and shows a toast.
+   */
+  onConfirm: () => Promise<{ code: string } | { error: string }>;
 }
 
 export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemModalProps) {
@@ -29,12 +26,19 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
   const [redeemed, setRedeemed] = useState(false);
   const [code, setCode] = useState('');
   const [copied, setCopied] = useState(false);
+  const [pending, setPending] = useState(false);
 
-  const handleConfirm = () => {
-    const newCode = generateCode();
-    setCode(newCode);
+  const handleConfirm = async () => {
+    if (pending) return;
+    setPending(true);
+    const result = await onConfirm();
+    setPending(false);
+    if ('error' in result) {
+      toast.error(result.error);
+      return;
+    }
+    setCode(result.code);
     setRedeemed(true);
-    onConfirm();
   };
 
   const handleCopy = () => {
@@ -45,6 +49,7 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
   };
 
   const handleClose = () => {
+    if (pending) return;
     setRedeemed(false);
     setCode('');
     setCopied(false);
@@ -88,8 +93,11 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
               </p>
             </div>
             <DialogFooter className="gap-2">
-              <Button variant="outline" onClick={handleClose}>{t('common.cancel')}</Button>
-              <Button onClick={handleConfirm}>{t('store.confirmBtn')}</Button>
+              <Button variant="outline" onClick={handleClose} disabled={pending}>{t('common.cancel')}</Button>
+              <Button onClick={handleConfirm} disabled={pending}>
+                {pending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                {t('store.confirmBtn')}
+              </Button>
             </DialogFooter>
           </>
         ) : (

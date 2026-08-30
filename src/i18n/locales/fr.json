@@ -1882,6 +1882,8 @@
     "redeemConfirmed": "Échange confirmé ! 🎉",
     "yourCode": "Votre code d'échange pour",
     "codeCopied": "Code copié !",
+    "insufficientPoints": "Points insuffisants",
+    "redeemFailed": "Impossible de finaliser l'échange",
     "copyCode": "Copier le code",
     "copied": "Copié !",
     "emailSent": "📧 Un e-mail avec les détails a été envoyé.",
