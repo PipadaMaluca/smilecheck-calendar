@@ -72,7 +72,8 @@ function overlaps(a: Interval, b: Interval) {
 export async function assertDentistSlotFree(
   dentistId: string,
   scheduledAtIso: string,
-  durationMinutes: number
+  durationMinutes: number,
+  excludeAppointmentId?: string
 ): Promise<void> {
   const start = new Date(scheduledAtIso).getTime();
   const target: Interval = { start, end: start + durationMinutes * 60_000 };
@@ -84,7 +85,7 @@ export async function assertDentistSlotFree(
 
   const { data, error } = await supabase
     .from('appointments')
-    .select('scheduled_at, duration_minutes, status')
+    .select('id, scheduled_at, duration_minutes, status')
     .eq('dentist_id', dentistId)
     .gte('scheduled_at', dayStart.toISOString())
     .lt('scheduled_at', dayEnd.toISOString());
@@ -93,12 +94,14 @@ export async function assertDentistSlotFree(
 
   const clash = (data ?? []).some((row) => {
     if (row.status === 'cancelada') return false;
+    if (excludeAppointmentId && row.id === excludeAppointmentId) return false;
     const s = new Date(row.scheduled_at).getTime();
     return overlaps(target, { start: s, end: s + (row.duration_minutes ?? 30) * 60_000 });
   });
 
   if (clash) throw new SlotTakenError();
 }
+
 
 export interface CreateAppointmentInput {
   patientId: string;
