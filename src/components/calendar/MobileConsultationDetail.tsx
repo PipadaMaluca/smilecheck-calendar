@@ -12,6 +12,7 @@ import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { toast } from 'sonner';
+import { useAppointmentActions } from '@/data/appointmentActions';
 
 interface MobileConsultationDetailProps {
   consultation: Consultation;
@@ -66,6 +67,15 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
+  const { cancelConsultation, pending: actionPending } = useAppointmentActions();
+
+  const handleCancelConsultation = async () => {
+    const ok = await cancelConsultation(consultation);
+    if (ok) {
+      toast.success(t('consultationDetail.statusChanged'));
+      onClose();
+    }
+  };
 
   const isTeleconsulta = consultation.type === 'teleconsulta';
   const status = consultation.status || 'agendada';
@@ -127,7 +137,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onViewDossier?.(consultation.patient.id)}>
               <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('dossierFull', 'dossierMed', 'dossierShort')}
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
+            <Button variant="outline" size="sm" disabled={actionPending} onClick={handleCancelConsultation} className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
               <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('cancelFull', 'cancelMed', 'cancelShort')}
             </Button>
           </div>
@@ -158,7 +168,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto min-w-0" onClick={() => onViewDossier?.(consultation.patient.id)}>
               <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('dossierFull', 'dossierMed', 'dossierShort')}
             </Button>
-            <Button variant="outline" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
+            <Button variant="outline" size="sm" disabled={actionPending} onClick={handleCancelConsultation} className="gap-2 justify-start text-[13px] px-3 py-2 h-auto border-destructive/30 text-destructive hover:bg-destructive/10 min-w-0">
               <X className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('cancelFull', 'cancelMed', 'cancelShort')}
             </Button>
           </div>

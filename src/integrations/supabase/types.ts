@@ -670,6 +670,7 @@ export type Database = {
       }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
+      treats_patient: { Args: { _patient_id: string }; Returns: boolean }
     }
     Enums: {
       app_language: "pt" | "fr" | "en"
