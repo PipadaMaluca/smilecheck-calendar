@@ -1901,6 +1901,8 @@
     "redeemConfirmed": "Redemption confirmed! 🎉",
     "yourCode": "Your redemption code for",
     "codeCopied": "Code copied!",
+    "insufficientPoints": "Insufficient points",
+    "redeemFailed": "Could not complete the redemption",
     "copyCode": "Copy code",
     "copied": "Copied!",
     "emailSent": "📧 An email with the details has been sent.",

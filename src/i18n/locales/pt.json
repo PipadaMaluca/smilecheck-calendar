@@ -1902,6 +1902,8 @@
     "redeemConfirmed": "Resgate confirmado! 🎉",
     "yourCode": "O seu código de resgate para",
     "codeCopied": "Código copiado!",
+    "insufficientPoints": "Pontos insuficientes",
+    "redeemFailed": "Não foi possível concluir o resgate",
     "copyCode": "Copiar código",
     "copied": "Copiado!",
     "emailSent": "📧 Um email foi enviado com os detalhes do resgate.",
