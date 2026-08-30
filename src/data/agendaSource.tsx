@@ -185,6 +185,8 @@ interface AgendaDataValue {
   patientConsultations: Consultation[];
   loading: boolean;
   error: string | null;
+  isDemo: boolean;
+  refresh: () => void;
 }
 
 const AgendaDataContext = createContext<AgendaDataValue>({
@@ -192,6 +194,8 @@ const AgendaDataContext = createContext<AgendaDataValue>({
   patientConsultations: mockPatientConsultations,
   loading: false,
   error: null,
+  isDemo: true,
+  refresh: () => {},
 });
 
 export function AgendaDataProvider({ children }: { children: React.ReactNode }) {
@@ -199,6 +203,7 @@ export function AgendaDataProvider({ children }: { children: React.ReactNode }) 
   const [consultations, setConsultations] = useState<Consultation[]>(mockConsultations);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     if (demoMode || !user) {
@@ -228,7 +233,9 @@ export function AgendaDataProvider({ children }: { children: React.ReactNode }) 
     return () => {
       cancelled = true;
     };
-  }, [demoMode, user]);
+  }, [demoMode, user, reloadKey]);
+
+  const refresh = useCallback(() => setReloadKey((k) => k + 1), []);
 
   const value = useMemo<AgendaDataValue>(() => {
     const isDemo = demoMode || !user;
@@ -238,11 +245,14 @@ export function AgendaDataProvider({ children }: { children: React.ReactNode }) 
       patientConsultations: isDemo ? mockPatientConsultations : consultations,
       loading,
       error,
+      isDemo,
+      refresh,
     };
-  }, [consultations, demoMode, user, loading, error]);
+  }, [consultations, demoMode, user, loading, error, refresh]);
 
   return <AgendaDataContext.Provider value={value}>{children}</AgendaDataContext.Provider>;
 }
+
 
 export function useAgendaData(): AgendaDataValue {
   return useContext(AgendaDataContext);
