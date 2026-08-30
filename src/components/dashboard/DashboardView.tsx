@@ -19,7 +19,8 @@ import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
-import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
+import { getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
+import { usePointsData } from '@/data/pointsSource';
 import { LevelUpCelebration } from '@/components/level/LevelUpCelebration';
 import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
@@ -140,7 +141,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   []);
 
   // Dual points data
-  const pointsData = USER_POINTS[userRole];
+  const pointsData = usePointsData(userRole);
   const level = getLevelForXP(pointsData.xp);
   const xpProgress = getXPProgress(pointsData.xp);
   const multiplier = LEVEL_MULTIPLIERS[level.key];
