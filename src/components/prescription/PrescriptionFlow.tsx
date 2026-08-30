@@ -11,6 +11,8 @@ import { mockConsultations, mockDentists, mockClinics } from '@/data/mockData';
 import { MEDICATIONS_WITH_TAGS, getMedicationAllergyBlock, getMedicationInteractions, type MedicationDef } from
 '@/data/drugSafetyData';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
+import { awardPointsSilently } from '@/data/pointsWrites';
 
 interface PrescriptionFlowProps {
   onClose: () => void;
@@ -75,6 +77,7 @@ const getRecentPatients = () => {
 
 export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: PrescriptionFlowProps) {
   const { t } = useTranslation();
+  const { demoMode, user } = useAuth();
   const isMobile = useIsMobile();
   const skipPatient = !!preSelectedPatient;
 
@@ -145,6 +148,10 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
   const goNext = () => {
     const next = steps[stepIndex + 1];
     if (next) setCurrentStep(next);
+    // Prescription issued → dentist points (server-side, real users only).
+    if (next === 'success' && !demoMode && user) {
+      awardPointsSilently(user.id, 'emitir_receita');
+    }
   };
 
   const goPrev = () => {

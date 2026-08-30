@@ -245,6 +245,35 @@ export type Database = {
           },
         ]
       }
+      daily_checkins: {
+        Row: {
+          checkin_date: string
+          created_at: string
+          id: string
+          profile_id: string
+        }
+        Insert: {
+          checkin_date?: string
+          created_at?: string
+          id?: string
+          profile_id: string
+        }
+        Update: {
+          checkin_date?: string
+          created_at?: string
+          id?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_checkins_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dentists: {
         Row: {
           bio: string | null
@@ -509,6 +538,42 @@ export type Database = {
           },
         ]
       }
+      points_rules: {
+        Row: {
+          action_key: string
+          created_at: string
+          id: string
+          is_evaluation: boolean
+          label: string
+          points: number
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          xp: number
+        }
+        Insert: {
+          action_key: string
+          created_at?: string
+          id?: string
+          is_evaluation?: boolean
+          label: string
+          points?: number
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          xp?: number
+        }
+        Update: {
+          action_key?: string
+          created_at?: string
+          id?: string
+          is_evaluation?: boolean
+          label?: string
+          points?: number
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          xp?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -664,11 +729,40 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_points: {
+        Args: {
+          _multiplier?: number
+          _points: number
+          _profile_id: string
+          _reason: string
+          _related_appointment_id?: string
+          _xp: number
+        }
+        Returns: Json
+      }
+      award_points: {
+        Args: {
+          _action_key: string
+          _context?: Json
+          _profile_id: string
+          _rating?: number
+          _related_appointment_id?: string
+        }
+        Returns: Json
+      }
       current_role_is: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
+      level_for_xp: {
+        Args: { _xp: number }
+        Returns: Database["public"]["Enums"]["level_tier"]
+      }
+      level_multiplier: {
+        Args: { _level: Database["public"]["Enums"]["level_tier"] }
+        Returns: number
+      }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
     }

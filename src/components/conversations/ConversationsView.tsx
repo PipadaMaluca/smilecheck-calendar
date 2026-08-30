@@ -15,6 +15,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ChatListSkeleton } from '@/components/skeletons';
+import { useAuth } from '@/contexts/AuthContext';
+import { awardPointsSilently } from '@/data/pointsWrites';
 
 interface Message {
   id: string;
@@ -260,6 +262,7 @@ interface ConversationsViewProps {
 
 export function ConversationsView({ userRole, onNavigate }: ConversationsViewProps) {
   const { t } = useTranslation();
+  const { demoMode, user } = useAuth();
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [messageInput, setMessageInput] = useState('');
@@ -331,6 +334,10 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
   const handleSend = () => {
     if (!messageInput.trim()) return;
     setMessageInput('');
+    // Replying within 24h → dentist points (server-side, real users only).
+    if (!demoMode && user && userRole === 'dentist') {
+      awardPointsSilently(user.id, 'mensagem_24h');
+    }
   };
 
   const handleNewConversation = () => {
