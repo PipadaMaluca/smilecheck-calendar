@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, QrCode, ChevronDown, ChevronUp } from 'lucide-react';
+import { Eye, EyeOff, Loader2, QrCode, ChevronDown, ChevronUp, User, Stethoscope, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AuthBackground } from './AuthBackground';
@@ -10,17 +10,21 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import type { UserRole } from '@/types/calendar';
 
 export function LoginScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const watermarkSrc = useWatermarkSrc();
+  const { enterDemo, exitDemo } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
   const [qrExpanded, setQrExpanded] = useState(false);
 
   const validate = () => {
@@ -35,14 +39,42 @@ export function LoginScreen() {
   const handleLogin = async () => {
     if (!validate()) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
+    exitDemo();
+    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    if (error) {
+      setLoading(false);
+      setErrors({
+        form: /invalid login/i.test(error.message)
+          ? t('auth.invalidCredentials', { defaultValue: 'Email ou senha incorretos.' })
+          : error.message,
+      });
+      return;
+    }
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .maybeSingle();
     setLoading(false);
-    navigate('/app');
+    navigate(`/app?role=${profile?.role ?? 'patient'}`);
   };
+
+  const startDemo = (role: UserRole) => {
+    localStorage.removeItem(`smilecheck_video_splash_${role}`);
+    enterDemo(role);
+    navigate(`/app?role=${role}&demo=true`);
+  };
+
+  const demoButtons: { role: UserRole; label: string; Icon: typeof User }[] = [
+    { role: 'patient', label: t('demo.patient', { defaultValue: 'Paciente' }), Icon: User },
+    { role: 'dentist', label: t('demo.dentist', { defaultValue: 'Dentista' }), Icon: Stethoscope },
+    { role: 'clinic', label: t('demo.clinic', { defaultValue: 'Clínica' }), Icon: Building2 },
+  ];
 
   const handleQRAuthorized = () => {
     navigate('/app');
   };
+
 
   const loginForm = (
     <div className="flex flex-col items-center animate-fade-in">
