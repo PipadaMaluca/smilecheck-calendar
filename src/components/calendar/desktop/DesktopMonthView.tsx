@@ -14,13 +14,14 @@ interface DesktopMonthViewProps {
 }
 
 export function DesktopMonthView({
-  const { consultations: agendaConsultations } = useAgendaData();
   selectedDate,
   selectedDentistKey,
   onDateSelect,
   onSwitchToDay,
 }: DesktopMonthViewProps) {
+  const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
+
   const [clinicId, dentistId] = useMemo(() => {
     const parts = selectedDentistKey.split('-');
     return [parts[0], parts.slice(1).join('-') || parts[0]];
