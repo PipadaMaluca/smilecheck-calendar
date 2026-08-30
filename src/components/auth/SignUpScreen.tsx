@@ -90,14 +90,31 @@ export function SignUpScreen() {
   const handleCreateAccount = async () => {
     if (!validateStep2()) return;
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1000));
+    const role = accountType === 'dentista' ? 'dentist' : accountType === 'clinica' ? 'clinic' : 'patient';
+    const { error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: {
+          role,
+          full_name: name.trim(),
+          language: i18n.language?.slice(0, 2) || 'pt',
+          phone: `${countryCode} ${phone}`.trim(),
+          rpps_number: orderNumber.trim() || null,
+          clinic_name: clinicName.trim() || null,
+          address: address.trim() || null,
+        },
+      },
+    });
     setLoading(false);
-    setVerificationPhase('email');
-    setOtpValue('');
-    setSmsOtpValue('');
-    setStep(3);
-    startResendTimer();
+    if (error) {
+      setErrors({ email: /already registered/i.test(error.message) ? t('auth.emailInUse', { defaultValue: 'Este email já está registado.' }) : error.message });
+      return;
+    }
+    navigate(`/app?role=${role}`);
   };
+
 
   const startResendTimer = () => {
     setResendCountdown(60);
