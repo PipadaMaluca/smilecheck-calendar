@@ -11,7 +11,10 @@ export function CalendarDemo() {
   const roleParam = searchParams.get('role');
   const initialRole = (roleParam === 'patient' || roleParam === 'dentist' || roleParam === 'clinic') ? roleParam : 'patient';
   const [activeView, setActiveView] = useState(initialRole);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth >= 1024
+  );
+
 
   // Video splash — only on first login ever (single first-run gate).
   const splashRole = initialRole;
