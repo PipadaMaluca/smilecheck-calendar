@@ -2309,7 +2309,10 @@
     "evaluateClinic": "Rate {{name}}",
     "giveFeedback": "Give Feedback",
     "forYou": "for you",
-    "lockedHint": "The feedback will be visible when both parties have rated"
+    "lockedHint": "The feedback will be visible when both parties have rated",
+    "alreadyRated": "You already rated this consultation",
+    "notAllowed": "You cannot rate this consultation",
+    "saveFailed": "Could not save the rating"
   },
   "contestation": {
     "title": "Dispute Rating",

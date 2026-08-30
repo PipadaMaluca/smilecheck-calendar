@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +12,7 @@ import {
 import { BidirectionalFeedbackModal } from './BidirectionalFeedbackModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePointsRefresh } from '@/data/pointsSource';
-import { awardFeedbackPoints, resolveFeedbackTargetProfileId } from '@/data/pointsWrites';
+import { fetchPendingFeedback, submitFeedback } from '@/data/feedbackWrites';
 
 interface PendingFeedbackCardProps {
   userRole: UserRole;
@@ -20,32 +20,63 @@ interface PendingFeedbackCardProps {
 
 export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
   const { t } = useTranslation();
-  const initial = useMemo(() => getPendingForRole(userRole), [userRole]);
-  const [items, setItems] = useState<PendingFeedbackItem[]>(initial);
-  const [activeItem, setActiveItem] = useState<PendingFeedbackItem | null>(null);
+  const mockItems = useMemo(() => getPendingForRole(userRole), [userRole]);
   const { demoMode, user } = useAuth();
+  const isReal = !demoMode && !!user;
+  const [items, setItems] = useState<PendingFeedbackItem[]>(isReal ? [] : mockItems);
+  const [activeItem, setActiveItem] = useState<PendingFeedbackItem | null>(null);
   const refreshPoints = usePointsRefresh();
 
-  const handleSubmit = (rating: number, _comment: string) => {
+  // Real users: pending prompts come from completed appointments in the DB
+  // (minus directions already rated). Demo mode stays on mock, zero requests.
+  useEffect(() => {
+    if (!isReal || !user) {
+      setItems(mockItems);
+      return;
+    }
+    let cancelled = false;
+    void fetchPendingFeedback(user.id, userRole).then((rows) => {
+      if (!cancelled) setItems(rows);
+    });
+    return () => { cancelled = true; };
+  }, [isReal, user, userRole, mockItems]);
+
+  const handleSubmit = async (rating: number, comment: string) => {
     if (!activeItem) return;
     const item = activeItem;
-    // Remove the submitted item from pending list
-    setItems((prev) => prev.filter((i) => i.id !== item.id));
 
-    // Real users: the rating points go to the person being rated, awarded
-    // server-side. Demo mode keeps the mock behaviour with zero DB writes.
-    if (demoMode || !user) return;
-    void (async () => {
-      const targetProfileId = await resolveFeedbackTargetProfileId(
-        item.targetRole,
-        item.targetId,
-        item.targetName
-      );
-      if (!targetProfileId) return;
-      await awardFeedbackPoints(targetProfileId, rating);
-      refreshPoints();
-    })();
+    // Demo mode: mock behaviour only, zero DB writes.
+    if (!isReal || !user || !item.appointmentId || !item.targetProfileId) {
+      setItems((prev) => prev.filter((i) => i.id !== item.id));
+      return;
+    }
+
+    const result = await submitFeedback({
+      appointmentId: item.appointmentId,
+      fromProfileId: user.id,
+      toProfileId: item.targetProfileId,
+      rating,
+      comment,
+    });
+
+    if (!result.saved) {
+      if (result.reason === 'already_rated') {
+        setItems((prev) => prev.filter((i) => i.id !== item.id));
+        return { ok: false, error: t('bidirectionalFeedback.alreadyRated') };
+      }
+      return {
+        ok: false,
+        error: result.reason === 'not_allowed'
+          ? t('bidirectionalFeedback.notAllowed')
+          : t('bidirectionalFeedback.saveFailed'),
+      };
+    }
+
+    setItems((prev) => prev.filter((i) => i.id !== item.id));
+    refreshPoints();
+    return { ok: true };
   };
+
 
   if (items.length === 0) return null;
 

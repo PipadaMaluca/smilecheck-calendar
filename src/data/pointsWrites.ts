@@ -1,6 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { ConsultationStatus, UserRole } from '@/types/calendar';
-import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
 
 /**
  * Phase 4 · sub-step 2 — WRITE path.
@@ -162,50 +161,6 @@ export async function awardStatusPoints(
       opts
     );
   }
-}
-
-/**
- * Resolves the mock feedback target (dentist-3 / clinic "1" / patient name)
- * to a real profile UUID so rating points can be awarded server-side.
- */
-export async function resolveFeedbackTargetProfileId(
-  targetRole: 'patient' | 'dentist' | 'clinic',
-  targetId: string,
-  targetName: string
-): Promise<string | null> {
-  if (targetRole === 'dentist') {
-    const key = targetId.replace(/^dentist-/, '');
-    return SEED_DENTIST_UUID_BY_ID[key] ?? null;
-  }
-  if (targetRole === 'clinic') {
-    const uuid = SEED_CLINIC_UUID_BY_ID[targetId];
-    if (uuid) {
-      const { data } = await supabase
-        .from('clinics')
-        .select('owner_profile_id')
-        .eq('id', uuid)
-        .maybeSingle();
-      return data?.owner_profile_id ?? null;
-    }
-    return null;
-  }
-  const { data } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('role', 'patient')
-    .eq('full_name', targetName)
-    .limit(1)
-    .maybeSingle();
-  return data?.id ?? null;
-}
-
-/** Feedback rating → points for the person being rated (all 6 directions). */
-export async function awardFeedbackPoints(
-  targetProfileId: string,
-  rating: number,
-  appointmentId?: string | null
-): Promise<AwardResult | null> {
-  return awardPoints(targetProfileId, 'feedback_rating', { rating, appointmentId });
 }
 
 /**
