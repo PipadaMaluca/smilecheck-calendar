@@ -383,7 +383,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
           <Button variant="outline" size="sm" className="text-xs" onClick={() => toast.info(t('creationTabs.findOtherTime'))}>
             {t('creationTabs.findOtherTime')}
           </Button>
-          <Button size="sm" onClick={handleCreate}>{t('creationTabs.createConsultation')}</Button>
+          <Button size="sm" onClick={handleCreate} disabled={creating}>{t('creationTabs.createConsultation')}</Button>
         </div>
       </div>
     </div>
