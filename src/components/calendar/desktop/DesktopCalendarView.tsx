@@ -55,6 +55,7 @@ import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@
 import { Consultation, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
 import { mockDentists, mockFamilyMembers, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
 import { useAgendaData } from '@/data/agendaSource';
+import { useAppointmentActions } from '@/data/appointmentActions';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
@@ -94,6 +95,13 @@ const getPresentDentistKeys = () => {
 
 export function DesktopCalendarView() {
   const { consultations: agendaConsultations, patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
+  const { changeStatus, rescheduleConsultation, cancelConsultation } = useAppointmentActions();
+
+  const handleStatusChange = useCallback((c: Consultation, status: ConsultationStatus) => {
+    if (status === 'visto') setFeedbackConsultation(c);
+    void changeStatus(c, status);
+    toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);
+  }, [changeStatus, t]);
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
@@ -354,10 +362,14 @@ export function DesktopCalendarView() {
     }
   }, [t, agendaConsultations]);
 
-  const confirmMove = useCallback((moveInfo: DragMoveInfo) => {
-    toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
+  const confirmMove = useCallback(async (moveInfo: DragMoveInfo) => {
+    const ok = await rescheduleConsultation(moveInfo.consultation, {
+      date: moveInfo.toDate,
+      time: moveInfo.toTime,
+    });
+    if (ok) toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
     setPendingMove(null);
-  }, []);
+  }, [rescheduleConsultation]);
 
   const confirmOverlap = useCallback(() => {
     if (pendingOverlapMove) {
@@ -454,7 +466,7 @@ export function DesktopCalendarView() {
         onSlotClick={handleSlotClick}
         onDateChange={setSelectedDate}
         onViewModeChange={(m) => setViewMode(m)}
-        onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
+        onStatusChange={handleStatusChange}
         onCopy={(c) => {setClipboardConsultation(c);toast.info('Clique num slot vazio para colar a consulta');}}
         onDragMove={handleWeekDragMove}
         onConsultationHover={setHoveredConsultation} />;
@@ -474,7 +486,7 @@ export function DesktopCalendarView() {
       onSlotClick={handleSlotClick}
       selectedDate={selectedDate}
       workingHours={{ start: liveAgendaSettings.startHour, end: liveAgendaSettings.endHour }}
-      onStatusChange={(c, s) => {if (s === 'visto') {setFeedbackConsultation(c);}toast.success(`${t('consultationDetail.statusChanged')} — ${c.patient.name}`);}}
+      onStatusChange={handleStatusChange}
       onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
       isPasteMode={!!clipboardConsultation}
       onEmptySlotClick={(time, dKey, dName) => {
@@ -1131,11 +1143,19 @@ export function DesktopCalendarView() {
 
       {/* Edit Consultation Modal - for dentist/clinic only */}
       {activeRole !== 'patient' && (
-        <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={(updated) => {
-            console.log('Saved consultation:', updated);
+        <EditConsultationModal consultation={selectedConsultation} isOpen={!!selectedConsultation} onClose={() => setSelectedConsultation(null)} onSave={async (updated) => {
+            const ok = await rescheduleConsultation(updated, {
+              date: updated.date,
+              time: updated.time,
+              duration: updated.duration,
+              category: updated.category,
+              notes: updated.notes ?? null,
+            });
+            if (ok) toast.success(`${t('consultationDetail.statusChanged')} — ${updated.patient.name}`);
             setSelectedConsultation(null);
-          }} onCancel={(consultation) => {
-            console.log('Cancelled consultation:', consultation);
+          }} onCancel={async (consultation) => {
+            const ok = await cancelConsultation(consultation);
+            if (ok) toast.success(t('consultationDetail.cancelAction'));
             setSelectedConsultation(null);
           }} />
       )}
