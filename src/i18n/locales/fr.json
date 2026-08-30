@@ -2290,7 +2290,10 @@
     "evaluateClinic": "Évaluer {{name}}",
     "giveFeedback": "Donner un Avis",
     "forYou": "pour vous",
-    "lockedHint": "L'avis sera visible lorsque les deux parties auront évalué"
+    "lockedHint": "L'avis sera visible lorsque les deux parties auront évalué",
+    "alreadyRated": "Vous avez déjà évalué cette consultation",
+    "notAllowed": "Vous ne pouvez pas évaluer cette consultation",
+    "saveFailed": "Impossible d'enregistrer l'évaluation"
   },
   "contestation": {
     "title": "Contester l'Évaluation",

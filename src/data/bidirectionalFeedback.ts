@@ -39,6 +39,10 @@ export interface PendingFeedbackItem {
   dentistName?: string;
   /** Whether this pending item arose because a consultation completed */
   contextLabel?: string;
+  /** Real (DB) items only: the appointment being rated */
+  appointmentId?: string;
+  /** Real (DB) items only: the recipient's profile UUID */
+  targetProfileId?: string;
 }
 
 export interface SubmittedFeedback {

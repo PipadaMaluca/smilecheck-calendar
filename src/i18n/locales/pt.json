@@ -2310,7 +2310,10 @@
     "evaluateClinic": "Avaliar {{name}}",
     "giveFeedback": "Dar Feedback",
     "forYou": "para si",
-    "lockedHint": "O feedback será visível quando ambas as partes avaliarem"
+    "lockedHint": "O feedback será visível quando ambas as partes avaliarem",
+    "alreadyRated": "Já avaliou esta consulta",
+    "notAllowed": "Não pode avaliar esta consulta",
+    "saveFailed": "Não foi possível guardar a avaliação"
   },
   "contestation": {
     "title": "Contestar Avaliação",

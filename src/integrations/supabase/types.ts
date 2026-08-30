@@ -203,6 +203,7 @@ export type Database = {
           owner_profile_id: string | null
           phone: string | null
           postal_code: string | null
+          rating: number | null
           updated_at: string
         }
         Insert: {
@@ -218,6 +219,7 @@ export type Database = {
           owner_profile_id?: string | null
           phone?: string | null
           postal_code?: string | null
+          rating?: number | null
           updated_at?: string
         }
         Update: {
@@ -233,6 +235,7 @@ export type Database = {
           owner_profile_id?: string | null
           phone?: string | null
           postal_code?: string | null
+          rating?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -851,6 +854,10 @@ export type Database = {
         }
         Returns: Json
       }
+      can_rate_appointment: {
+        Args: { _appointment_id: string; _to_profile_id: string }
+        Returns: boolean
+      }
       current_role_is: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
@@ -866,6 +873,10 @@ export type Database = {
         Returns: number
       }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
+      recompute_profile_rating: {
+        Args: { _profile_id: string }
+        Returns: undefined
+      }
       redeem_reward: {
         Args: { _profile_id: string; _reward_key: string }
         Returns: Json

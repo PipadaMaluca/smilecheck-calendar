@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
+import { useRealRatingForMockId } from '@/data/feedbackSource';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -111,7 +112,21 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const canViewerRate = !isOwnProfile && viewerRole === 'clinic';
   const levelCfg = LEVEL_CONFIG[dentist.level];
   const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
-  const reviews = getReviewsForDentist(dentist.id);
+  const realRating = useRealRatingForMockId('dentist', dentist.id);
+  const mockReviews = getReviewsForDentist(dentist.id);
+  // Real users with real feedback rows see the DB values; otherwise mock stays.
+  const hasRealRating = realRating.count > 0;
+  const displayRating = hasRealRating && realRating.average !== null ? realRating.average : dentist.rating;
+  const displayReviewCount = hasRealRating ? realRating.count : dentist.reviewCount;
+  const reviews = hasRealRating
+    ? realRating.reviews.map((r) => ({
+        id: r.id,
+        patientName: r.fromName || '—',
+        rating: r.rating,
+        date: r.createdAt,
+        comment: r.comment || '',
+      }))
+    : mockReviews;
   const initials = getDentistInitials(dentist.name);
   const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
 
@@ -158,8 +173,8 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-              <span className={cn('text-sm font-bold', levelCfg.color)}>{dentist.rating}</span>
-              <span className="text-xs text-muted-foreground">({dentist.reviewCount} {t('profile.reviews').toLowerCase()})</span>
+              <span className={cn('text-sm font-bold', levelCfg.color)}>{displayRating}</span>
+              <span className="text-xs text-muted-foreground">({displayReviewCount} {t('profile.reviews').toLowerCase()})</span>
             </div>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
@@ -369,13 +384,13 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <h4 className="text-sm font-semibold text-foreground">{t('profile.reviews')}</h4>
         <div className="flex items-center gap-4">
           <div className="text-center">
-            <p className="text-3xl font-bold">{dentist.rating}</p>
+            <p className="text-3xl font-bold">{displayRating}</p>
             <div className="flex justify-center">
               {Array.from({ length: 5 }).map((_, i) =>
-            <Star key={i} className={cn('w-4 h-4', i < Math.floor(dentist.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+            <Star key={i} className={cn('w-4 h-4', i < Math.floor(displayRating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
             )}
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{dentist.reviewCount} {t('profile.reviews').toLowerCase()}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{displayReviewCount} {t('profile.reviews').toLowerCase()}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map((b) =>

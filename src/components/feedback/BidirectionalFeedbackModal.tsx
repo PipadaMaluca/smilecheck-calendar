@@ -22,7 +22,7 @@ export interface BidirectionalFeedbackModalProps {
   targetRole: FeedbackTargetRole;
   /** Subline shown under the target name (e.g. clinic name or consultation type) */
   contextLabel?: string;
-  onSubmit: (rating: number, comment: string) => void;
+  onSubmit: (rating: number, comment: string) => void | Promise<{ ok: boolean; error?: string } | void>;
 }
 
 export function BidirectionalFeedbackModal({
@@ -38,6 +38,7 @@ export function BidirectionalFeedbackModal({
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState('');
   const [showFloater, setShowFloater] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isOpen) {
@@ -45,6 +46,7 @@ export function BidirectionalFeedbackModal({
       setHover(0);
       setComment('');
       setShowFloater(false);
+      setIsSubmitting(false);
     }
   }, [isOpen]);
 
@@ -64,10 +66,16 @@ export function BidirectionalFeedbackModal({
     .slice(0, 2)
     .toUpperCase();
 
-  const handleSubmit = () => {
-    if (rating === 0) return;
+  const handleSubmit = async () => {
+    if (rating === 0 || isSubmitting) return;
+    setIsSubmitting(true);
+    const result = await onSubmit(rating, comment.trim());
+    setIsSubmitting(false);
+    if (result && result.ok === false) {
+      toast.error(result.error || t('bidirectionalFeedback.saveFailed'));
+      return;
+    }
     setShowFloater(true);
-    onSubmit(rating, comment.trim());
     toast.success(t('bidirectionalFeedback.sentToast'));
     setTimeout(() => {
       onClose();
@@ -157,7 +165,7 @@ export function BidirectionalFeedbackModal({
           </div>
 
           <div className="flex flex-col gap-2 pt-1">
-            <Button className="w-full min-h-[44px]" onClick={handleSubmit} disabled={rating === 0}>
+            <Button className="w-full min-h-[44px]" onClick={handleSubmit} disabled={rating === 0 || isSubmitting}>
               {t('bidirectionalFeedback.send')}
             </Button>
             <button
