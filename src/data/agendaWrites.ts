@@ -269,7 +269,7 @@ export async function updateAppointment(input: UpdateAppointmentInput): Promise<
     if (dentistId) await assertDentistSlotFree(dentistId, scheduledAt, duration, id);
   }
 
-  const patch: Record<string, unknown> = {};
+  const patch: Database['public']['Tables']['appointments']['Update'] = {};
   if (rest.dentistId !== undefined) patch.dentist_id = rest.dentistId;
   if (rest.clinicId !== undefined) patch.clinic_id = rest.clinicId;
   if (rest.scheduledAt !== undefined) patch.scheduled_at = rest.scheduledAt;
