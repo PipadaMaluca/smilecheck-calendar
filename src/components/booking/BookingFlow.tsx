@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,17 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { generateReceipt } from '@/components/billing/billingMockData';
 import { toast } from 'sonner';
 import { AvailabilityGridStep, type SelectedSlot, type WaitingPreferences } from './AvailabilityGridStep';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAgendaData } from '@/data/agendaSource';
+import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
+import {
+  createAppointment,
+  createWaitingListEntry,
+  fetchOccupiedSlotKeys,
+  SlotTakenError,
+  toUtcTimestamp,
+} from '@/data/agendaWrites';
+
 
 interface BookingFlowProps {
   dentist: DentistSearchResult;
