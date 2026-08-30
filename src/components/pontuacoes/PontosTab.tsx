@@ -52,6 +52,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
   const roleLabel = userRole === 'patient' ? t('scores.patient2x') : userRole === 'dentist' ? t('roles.dentist') : t('roles.clinic');
 
+  if (data.loading) return <StatsSkeleton />;
+
   return (
     <div className="space-y-6">
       {/* Section A — Nível e Experiência */}
