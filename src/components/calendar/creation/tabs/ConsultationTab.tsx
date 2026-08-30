@@ -17,6 +17,17 @@ import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '@/integrations/supabase/client';
+import { useAgendaData } from '@/data/agendaSource';
+import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
+import {
+  createAppointment,
+  parseDurationMinutes,
+  reasonToConsultationType,
+  SlotTakenError,
+  toUtcTimestamp,
+} from '@/data/agendaWrites';
+
 
 const DURATION_OPTIONS = ['15min', '30min', '45min', '1h', '1h30', '2h'];
 
