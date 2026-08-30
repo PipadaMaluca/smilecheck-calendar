@@ -110,10 +110,13 @@ export function LoginScreen() {
           </button>
         </div>
 
+        {errors.form && <p className="text-destructive text-sm text-center">{errors.form}</p>}
+
         <Button onClick={handleLogin} disabled={loading} className="w-full h-12 text-base font-semibold">
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('auth.login')}
         </Button>
       </div>
+
 
       <div className="flex items-center w-full my-6">
         <div className="flex-1 h-px bg-border" />
