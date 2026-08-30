@@ -3,7 +3,7 @@ import { Ban } from 'lucide-react';
 import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { mockClinics, dentistWorksOnDemo } from '@/data/mockData';
+import { mockClinics } from '@/data/mockData';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { toast } from 'sonner';

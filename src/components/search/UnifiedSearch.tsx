@@ -1,16 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, X, Star, MapPin, User, Building2, Stethoscope, ChevronRight } from 'lucide-react';
+import { Search, X, Star, User, Building2, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
-import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
-import { mockClinics } from '@/data/mockData';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -163,7 +161,6 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredDentists.slice(0, 3) : filteredDentists).map(d => {
-                  const levelCfg = LEVEL_CONFIG[d.level];
                   const isFav = favorites.includes(d.id);
                   return (
                     <button

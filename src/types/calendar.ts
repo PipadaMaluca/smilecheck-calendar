@@ -118,15 +118,6 @@ export const CATEGORY_COLORS: Record<ConsultationCategory, { bg: string; text: s
   outro: { bg: 'bg-[#9E9E9E]', text: 'text-white', hex: '#9E9E9E' },
 };
 
-// Helper: returns inline style for category-colored text (low-opacity bg pill style)
-// Cirurgia (#212121) uses white text; all others use the category color as text
-export function getCategoryTextStyle(hex: string): import('react').CSSProperties {
-  if (hex === '#212121') {
-    return { color: '#fff' };
-  }
-  return { color: hex };
-}
-
 // Helper: returns inline style for a category badge/pill (low-opacity background + full-color text)
 // Cirurgia uses white text on low-opacity black bg
 export function getCategoryBadgeStyle(hex: string): import('react').CSSProperties {
@@ -187,9 +178,6 @@ export const CATEGORY_I18N_KEYS: Record<ConsultationCategory, string> = {
 export function getCategoryLabel(t: (key: string) => string, category: ConsultationCategory): string {
   return t(CATEGORY_I18N_KEYS[category]);
 }
-
-// Mobile category labels (shorter) - same as main labels now
-export const CATEGORY_LABELS_SHORT = CATEGORY_LABELS;
 
 // Legend order as specified
 export const LEGEND_ORDER: ConsultationCategory[] = [

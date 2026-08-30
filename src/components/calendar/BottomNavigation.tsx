@@ -4,11 +4,6 @@ import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
 
-const BADGE_CONFIG: Record<string, { color: string; type: 'count' | 'alert'; key: string }> = {
-  conversas: { color: 'bg-blue-500', type: 'count', key: 'conversas' },
-  loja: { color: '', type: 'alert', key: '' }, // no badge for loja
-};
-
 interface BottomNavigationProps {
   userRole: UserRole;
   activeTab: string;

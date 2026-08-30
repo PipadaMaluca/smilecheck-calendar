@@ -4,22 +4,19 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { Star, Calendar, Video, Users, Clock, Trophy, Flame, Award, CheckCircle2, AlertTriangle, Search, Bell, BarChart3, Heart, Gift, Check, X, Ban, MessageCircle, ChevronDown, UserPlus } from 'lucide-react';
+import { Star, Calendar, Users, Flame, Award, Search, BarChart3, Heart, Check, X, Ban, ChevronDown, UserPlus } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
-import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, ConsultationCategory, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryLabel } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay, format } from 'date-fns';
 import { pt } from 'date-fns/locale';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { USER_POINTS, getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
@@ -184,32 +181,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return null;
   }, [userRole, todayConsultations, level, pointsData, t]);
 
-  const quickActions = useMemo(() => {
-    switch (userRole) {
-      case 'dentist':
-        return [
-        { label: t('dashboard.viewTodayAgenda'), icon: Calendar, action: () => onNavigate('agenda') },
-        { label: t('dashboard.searchLabel'), icon: Search, action: () => onNavigate('pesquisa') },
-        { label: t('dashboard.viewAllNotifications'), icon: Bell, action: () => onNavigate('notificacoes') }];
-
-      case 'clinic':
-        return [
-        { label: t('dashboard.viewFullAgenda'), icon: Calendar, action: () => {
-            window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
-            onNavigate('agenda');
-          } },
-        { label: t('dashboard.manageTeam'), icon: Users, action: () => onNavigate('equipa') },
-        { label: t('dashboard.viewStats'), icon: BarChart3, action: () => onNavigate('estatisticas') }];
-
-      case 'patient':
-        return [
-        { label: t('dashboard.bookAppointment'), icon: Calendar, action: () => onStartTriage?.() },
-        { label: t('dashboard.viewRewards'), icon: Trophy, action: () => onNavigate('loja') },
-        { label: t('dashboard.myHealth'), icon: Star, action: () => onNavigate('saude') }];
-
-    }
-  }, [userRole, onNavigate, onStartTriage, t]);
-
   // Shared stats cards renderer
   const renderStatsCards = () => {
     if (!stats) return null;
@@ -218,8 +189,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const HeroIcon = heroStat.icon;
     const heroCategory: ConsultationCategory | undefined = heroStat.category;
     const heroBorderHex = heroCategory ? CATEGORY_COLORS[heroCategory].hex : '#2196F3';
-    const heroPillStyle = heroCategory ? getCategoryBadgeStyle(CATEGORY_COLORS[heroCategory].hex) : undefined;
-    const heroPillLabel = heroCategory ? getCategoryLabel(t, heroCategory) : (heroStat.extraLine || '');
 
     return (
       <div className="hidden lg:flex flex-col gap-3 sm:gap-4">
@@ -367,13 +336,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   };
 
-  // Abbreviate name: "Maria Silva" → "Maria S."
-  const abbreviateName = (name: string) => {
-    const parts = name.split(' ');
-    if (parts.length <= 1) return name;
-    return `${parts[0]} ${parts[parts.length - 1][0]}.`;
-  };
-
   // Confirmation indicator
   const confirmIndicator = (status: ConfirmationStatus, isIrrelevant = false) => {
     if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[11px] text-muted-foreground font-bold">—</span>;
@@ -454,8 +416,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
               {morningCons.map((c, index) => {
-                  const catColor = c.category ? CATEGORY_COLORS[c.category] : null;
-                  const catLabel = c.category ? getCategoryLabel(t, c.category) : c.type;
                   const isLast = index === morningCons.length - 1;
                   return (
                     <SwipeableRow
@@ -588,8 +548,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c, idx) => {
                   const isLastConf = idx === dentistConfirmations.length - 1;
-                  const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                  const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
                   return (
                     <div
                       key={c.consultationId}
@@ -652,8 +610,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
     const clinicDentists = getDentistsForClinic('1');
-    const presCount = todayConsultations.filter((c) => c.type === 'presencial').length;
-    const teleCount = todayConsultations.filter((c) => c.type === 'teleconsulta').length;
 
 
     // Group confirmations by dentist
@@ -754,8 +710,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       <div key={dentist.id}>
                         <p className="text-[11px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[11px] font-semibold text-muted-foreground uppercase" /></p>
                         {confirmations.slice(0, 2).map((c) => {
-                          const catColor = c.category ? CATEGORY_COLORS[c.category as ConsultationCategory] : null;
-                          const catLabel = c.category ? getCategoryLabel(t, c.category as ConsultationCategory) : '';
                           rowIndex++;
                           const isLast = rowIndex === totalRows;
                           return (
@@ -880,7 +834,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               <div className="">
                 {upcomingItems.map((item, index) => {
                   const catColor = item.category ? CATEGORY_COLORS[item.category] : null;
-                  const catLabel = item.category ? getCategoryLabel(t, item.category) : '';
                   const isLast = index === upcomingItems.length - 1;
                   return (
                     <div key={item.id} className={cn(

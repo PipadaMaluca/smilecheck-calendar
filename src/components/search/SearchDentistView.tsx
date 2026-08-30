@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Stethoscope, SlidersHorizontal, X, Flag } from 'lucide-react';
+import { ArrowLeft, Stethoscope, SlidersHorizontal, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -9,7 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { DentistFilters } from './DentistFilters';
 import { DentistCard } from './DentistCard';
 import { DentistProfileModal } from './DentistProfileModal';
-import { MOCK_DENTIST_RESULTS, DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getVisibilityBoost } from '@/data/pointsData';
 import smileCheckIcon from '@/assets/smilecheck-icon.png';
 import { TriageData } from '@/types/triage';

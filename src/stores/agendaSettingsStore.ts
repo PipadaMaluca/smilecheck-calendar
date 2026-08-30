@@ -103,10 +103,6 @@ export function useAgendaSettings(): AgendaSettings {
   );
 }
 
-export function getCategoryColor(cat: ConsultationCategory | string): string {
-  return state.categoryColors[cat] || CATEGORY_COLORS[cat as ConsultationCategory]?.hex || '#3B82F6';
-}
-
 /**
  * Return the per-slot row height (px) based on the active density setting.
  * `baseNormal` is the component's intrinsic normal height (e.g. 38 or 40).

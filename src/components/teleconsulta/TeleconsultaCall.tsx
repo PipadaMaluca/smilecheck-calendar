@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { User, Mic, MicOff, Video, VideoOff, MessageCircle, Paperclip, FileText, Monitor, Phone, Clock, Wifi, X, Send, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { User, Mic, MicOff, Video, VideoOff, MessageCircle, Paperclip, FileText, Monitor, Phone, Clock, X, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';

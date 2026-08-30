@@ -2,9 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Lock, Check } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { UserRole } from '@/types/calendar';
-import {
-  LEVELS, LEVEL_TRANSLATION_KEYS, LEVEL_UNLOCKS, USER_POINTS, getLevelForXP, getNextLevel,
-} from '@/data/pointsData';
+import { LEVEL_TRANSLATION_KEYS, LEVEL_UNLOCKS, USER_POINTS, getLevelForXP, getNextLevel } from '@/data/pointsData';
 
 /** Compact card listing what's unlocked at the user's current level + previewing next level. */
 export function NextLevelBenefits({ userRole }: { userRole: UserRole }) {

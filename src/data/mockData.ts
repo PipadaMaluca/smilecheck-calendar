@@ -1739,8 +1739,6 @@ export const mockConsultations: Consultation[] = ([
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {
   const slots: TimeSlot[] = [];
-  const DEMO_DATE = new Date(2026, 0, 31);
-  const isDemo = date.toDateString() === DEMO_DATE.toDateString();
   
   // Generate slots from 08:00 to 21:30
   for (let hour = 8; hour < 22; hour++) {
