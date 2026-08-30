@@ -68,7 +68,6 @@ const SCALE_STYLES: Record<ScaleLevel, {
 };
 
 export function DesktopWeekView({
-  const { consultations: agendaConsultations } = useAgendaData();
   selectedDate,
   dentistColumns,
   includeSunday = false,
@@ -80,8 +79,10 @@ export function DesktopWeekView({
   onDragMove,
   onConsultationHover,
 }: DesktopWeekViewProps) {
+  const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
+
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const numDays = includeSunday ? 7 : 6;
   const weekDays = Array.from({ length: numDays }, (_, i) => addDays(weekStart, i));
