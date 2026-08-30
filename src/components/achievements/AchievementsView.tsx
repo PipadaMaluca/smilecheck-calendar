@@ -302,11 +302,7 @@ function resolveCategories(defs: CategoryDef[], t: (key: string) => string): Ach
   }));
 }
 
-// Keep exports for other components that use these
-export const patientAchievements: AchievementCategory[] = []; // Will be resolved at render time
-export const dentistAchievements: AchievementCategory[] = [];
-export const clinicAchievements: AchievementCategory[] = [];
-
+ // Will be resolved at render time
 function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
   const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;

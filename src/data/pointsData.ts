@@ -37,10 +37,6 @@ export const LEVEL_MULTIPLIERS: Record<string, number> = {
   adamantino: 3.0,
 };
 
-export function getMultiplierForXP(xp: number): number {
-  return LEVEL_MULTIPLIERS[getLevelForXP(xp).key] ?? 1.0;
-}
-
 /** Visual ring color for avatar frame (Tailwind ring color). Lata = no frame. */
 export const LEVEL_FRAME_RING: Record<string, string> = {
   lata: '',
@@ -103,22 +99,6 @@ export const LEVEL_UNLOCKS: Record<UserRole, Record<string, LevelUnlock[]>> = {
     adamantino: [{ key: 'animatedSeal' }, { key: 'goldenFrame' }, { key: 'vipSupport' }, { key: 'consultancyBadge' }],
   },
 };
-
-export function getBadgeSlotsForLevel(role: UserRole, levelKey: string): number {
-  // Cumulative — pick the highest badge slot count from levels up to and including current
-  const unlocks = LEVEL_UNLOCKS[role];
-  let slots = 2;
-  let unlimited = false;
-  for (const lvl of LEVELS) {
-    const arr = unlocks[lvl.key] || [];
-    for (const u of arr) {
-      if (u.key === 'badgesUnlimited') unlimited = true;
-      if (typeof u.badgeSlots === 'number') slots = Math.max(slots, u.badgeSlots);
-    }
-    if (lvl.key === levelKey) break;
-  }
-  return unlimited ? Infinity : slots;
-}
 
 // ===== PRIORITY × SUBSCRIPTION PLAN =====
 /** Boost percentage used for search ranking. */
@@ -346,9 +326,6 @@ export const CLINIC_POINTS_HISTORY: PointsHistoryEntry[] = [
   { id: 'ch-7', date: new Date(2026, 0, 20), time: '12:00', description: 'Novo dentista ativo', xp: 15, points: 15, relatedName: 'Dr. Fábio Lobo' },
   { id: 'ch-8', date: new Date(2026, 0, 15), time: '10:00', description: 'Reclamação não resolvida', xp: 0, points: -10, relatedName: 'Rita Oliveira' },
 ];
-
-// Keep old export for backward compat
-export const MOCK_POINTS_HISTORY = PATIENT_POINTS_HISTORY;
 
 export function getPointsHistoryForRole(role: UserRole): PointsHistoryEntry[] {
   switch (role) {
