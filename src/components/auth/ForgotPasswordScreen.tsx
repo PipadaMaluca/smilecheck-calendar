@@ -22,10 +22,17 @@ export function ForgotPasswordScreen() {
       return;
     }
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1000));
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
     setLoading(false);
+    if (err) {
+      setError(err.message);
+      return;
+    }
     setSent(true);
   };
+
 
   if (sent) {
     return (
