@@ -1,9 +1,10 @@
-import { Home, Calendar, Users, MessageCircle, Award, Gift, BarChart3, Search, TrendingUp, Receipt, Gift as GiftIcon } from 'lucide-react';
+import { Home, Calendar, Users, MessageCircle, Trophy, Award, CreditCard, Gift, Settings, Heart, FilePlus, FileText, BarChart3, Search, TrendingUp, Receipt, Gift as GiftIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/branding/Logo';
 import { UserRole } from '@/types/calendar';
+import { Separator } from '@/components/ui/separator';
 import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
 import { DemoControlsPanel } from '@/components/demo/DemoControlsPanel';
 

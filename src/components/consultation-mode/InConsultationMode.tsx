@@ -4,6 +4,17 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Pill, FileText, FolderOpen, CheckCircle2, X, Clock, ChevronUp } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+interface InConsultationModeProps {
+  consultation: Consultation | null;
+  onEndConsultation: () => void;
+  onDismiss: () => void;
+  onOpenDossier: (patientId: string) => void;
+  onPrescribe: () => void;
+  onReferral: () => void;
+  onRate: (consultation: Consultation) => void;
+}
 
 // Top bar component
 export function InConsultationBar({
@@ -65,6 +76,7 @@ export function ConsultationFAB({
   onReferral: () => void;
 }) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
   const actions = [

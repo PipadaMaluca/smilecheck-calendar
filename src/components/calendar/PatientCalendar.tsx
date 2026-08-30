@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { MonthlyCalendar } from './MonthlyCalendar';
 import { ConsultationCard } from './ConsultationCard';
@@ -26,12 +27,13 @@ import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
 import { mockPatientConsultations, mockFamilyMembers } from '@/data/mockData';
-import { DentistSearchResult } from '@/data/mockDentistSearch';
+import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { pt } from 'date-fns/locale';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -51,6 +53,7 @@ export function PatientCalendar() {
   const [viewDentistProfile, setViewDentistProfile] = useState<DentistSearchResult | null>(null);
   const [viewClinicProfile, setViewClinicProfile] = useState<string | null>(null);
   const [showFullHistory, setShowFullHistory] = useState(false);
+  const isMobile = useIsMobile();
 
   // Filter consultations by selected family members
   const filteredConsultations = selectedMembers.includes('all')

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Plus, Pencil, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Achievement, AchievementCategory, DEFAULT_SHOWCASED } from './achievementData';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
 import { BadgeFrame } from './BadgeFrame';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { UserRole } from '@/types/calendar';
@@ -16,6 +17,7 @@ interface BadgeShowcaseProps {
 }
 
 export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onViewCollection, className }: BadgeShowcaseProps) {
+  const isMobile = useIsMobile();
   const [showModal, setShowModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
 

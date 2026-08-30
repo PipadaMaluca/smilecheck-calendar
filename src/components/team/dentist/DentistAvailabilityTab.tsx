@@ -10,7 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Plus, Trash2, Save, Video, Plane, GraduationCap, User, MoreHorizontal } from 'lucide-react';
+import { Pencil, Plus, Trash2, Save, Calendar, Video, Plane, GraduationCap, User, MoreHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 

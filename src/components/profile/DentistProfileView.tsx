@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, User, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';

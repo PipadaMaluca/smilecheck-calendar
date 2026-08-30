@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { MoreHorizontal, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';

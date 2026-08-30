@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, User, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Lock } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, Clock, User, Globe, Camera, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Accessibility, Lock } from 'lucide-react';
 import { LEVEL_GLOW, CLINIC_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,8 @@ import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { mockClinics, getDentistsForClinic } from '@/data/mockData';
-import { LEVEL_CONFIG, PLAN_CONFIG } from '@/data/mockDentistSearch';
+import { mockDentists, mockClinics, getDentistsForClinic } from '@/data/mockData';
+import { LEVEL_CONFIG, PLAN_CONFIG, getReviewsForDentist, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { BadgeShowcase } from '@/components/achievements/BadgeShowcase';
 import { getAchievementCategories } from '@/components/achievements/AchievementsView';

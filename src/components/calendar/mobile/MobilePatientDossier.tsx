@@ -1,5 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { PatientDossierView } from '@/components/calendar/desktop/PatientDossierView';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 

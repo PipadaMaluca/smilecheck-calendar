@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { X, Search, Check, Star, Send, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
+import { ArrowLeft, X, Search, User, Check, Star, MapPin, FileText, Send, Download, Mail, ChevronRight, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';

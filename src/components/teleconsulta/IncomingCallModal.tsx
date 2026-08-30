@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { User, Video, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
 interface IncomingCallModalProps {

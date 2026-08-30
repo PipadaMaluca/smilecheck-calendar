@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
+import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Mail, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { AvatarFrame } from '@/components/level/AvatarFrame';
 import { getMockLevelForName } from '@/lib/levelMock';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Consultation, CATEGORY_COLORS, STATUS_CONFIG, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, UserRole, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
+import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { toast } from 'sonner';
 
 interface MobileConsultationDetailProps {

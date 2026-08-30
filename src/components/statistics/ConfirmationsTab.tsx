@@ -7,7 +7,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
-import { UserRole, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { getDentistInitials } from '@/lib/avatarUtils';

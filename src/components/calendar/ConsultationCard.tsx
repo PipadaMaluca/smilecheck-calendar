@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, CATEGORY_LABELS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';

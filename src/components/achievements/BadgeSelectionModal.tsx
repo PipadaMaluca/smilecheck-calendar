@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES } from './achievementData';
+import { BadgeFrame } from './BadgeFrame';
 import { toast } from 'sonner';
 
 interface BadgeSelectionModalProps {

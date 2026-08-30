@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Star, Calendar, Clock, Image } from 'lucide-react';
+import { Star, Calendar, Clock, FileText, Image, CheckSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -27,6 +27,7 @@ export function PostCallSummary({ isOpen, onClose, isDentist, remoteName, durati
     sendPrescription: false,
     followUp: false,
   });
+  const [customStep, setCustomStep] = useState('');
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

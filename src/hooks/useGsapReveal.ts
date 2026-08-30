@@ -23,6 +23,7 @@ export function useGsapReveals() {
       // Words variant — split each [data-reveal="words"] into word spans
       gsap.utils.toArray<HTMLElement>('[data-reveal="words"]').forEach((el) => {
         if (el.dataset.split === '1') return;
+        const text = el.textContent || '';
         // Preserve children (e.g. highlighted span) by walking child nodes
         const frag = document.createDocumentFragment();
         el.childNodes.forEach((node) => {

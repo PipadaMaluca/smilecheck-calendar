@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag } from 'lucide-react';
+import { 
+  X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight,
+  AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Clock,
+  Download, Loader2, Star, Landmark, Coins, Tag
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { DentistSearchResult } from '@/data/mockDentistSearch';
+import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { generateReceipt } from '@/components/billing/billingMockData';
 import { toast } from 'sonner';

@@ -3,7 +3,7 @@ import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban 
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ListSkeleton } from '@/components/skeletons';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, CATEGORY_LABELS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';

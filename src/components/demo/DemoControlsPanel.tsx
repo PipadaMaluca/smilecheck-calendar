@@ -9,7 +9,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 const ROLE_EVENT = 'smilecheck:set-role';
 
-function useDemoRole(): [UserRole, (r: UserRole) => void] {
+export function dispatchRoleChange(role: UserRole) {
+  window.dispatchEvent(new CustomEvent(ROLE_EVENT, { detail: role }));
+}
+
+export function useDemoRole(): [UserRole, (r: UserRole) => void] {
   const [params, setParams] = useSearchParams();
   const urlRole = params.get('role');
   const initial: UserRole =
@@ -34,7 +38,7 @@ function useDemoRole(): [UserRole, (r: UserRole) => void] {
     const next = new URLSearchParams(params);
     next.set('role', r);
     setParams(next, { replace: true });
-    window.dispatchEvent(new CustomEvent(ROLE_EVENT, { detail: r }));
+    dispatchRoleChange(r);
   };
 
   return [role, setRole];

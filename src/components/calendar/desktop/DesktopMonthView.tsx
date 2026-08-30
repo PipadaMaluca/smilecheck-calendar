@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from 'date-fns';
+import { pt } from 'date-fns/locale';
 import { Consultation, CATEGORY_COLORS } from '@/types/calendar';
 import { mockConsultations } from '@/data/mockData';
 import { cn } from '@/lib/utils';

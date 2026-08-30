@@ -1,4 +1,4 @@
-import { CATEGORY_COLORS, LEGEND_ORDER, getCategoryLabel } from '@/types/calendar';
+import { CATEGORY_COLORS, CATEGORY_LABELS, LEGEND_ORDER , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 

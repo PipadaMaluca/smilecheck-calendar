@@ -3,6 +3,7 @@ import { Monitor, Tablet, Smartphone, X, Link2, Camera, CheckCircle2, AlertTrian
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
 interface ConnectedDevice {

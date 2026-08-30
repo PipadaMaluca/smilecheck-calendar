@@ -65,6 +65,19 @@ export const MEDICATIONS_WITH_TAGS: MedicationDef[] = [
   { name: 'Tramadol', dosage: '50mg', allergenTags: [] },
 ];
 
+// Map patient-facing allergy names to allergen tags
+export function patientAllergyToTags(allergy: string): AllergenTag[] {
+  const lower = allergy.toLowerCase();
+  if (lower === 'penicilina') return ['Penicilina'];
+  if (lower.includes('aine') || lower.includes('anti-inflamatórios não esteróides')) return ['AINEs'];
+  if (lower.includes('anestésicos locais') || lower.includes('lidocaína')) return ['Anestésicos locais'];
+  if (lower === 'aspirina') return ['Aspirina'];
+  if (lower.includes('sulfonamida')) return ['Sulfonamidas'];
+  if (lower.includes('cefalosporina')) return ['Cefalosporinas'];
+  if (lower.includes('macrólido') || lower.includes('eritromicina') || lower.includes('azitromicina')) return ['Macrólidos'];
+  return [];
+}
+
 // Check if a medication is blocked by patient allergies
 export function getMedicationAllergyBlock(
   med: MedicationDef,
@@ -93,6 +106,34 @@ export interface DrugInteraction {
   prescribedTags: AllergenTag[] | string[]; // tags or med names that trigger interaction
   risk: string;
 }
+
+export const DRUG_INTERACTIONS: DrugInteraction[] = [
+  {
+    currentMed: 'varfarina',
+    prescribedTags: ['AINEs'],
+    risk: 'Aumento do risco de hemorragia',
+  },
+  {
+    currentMed: 'varfarina',
+    prescribedTags: ['Aspirina'],
+    risk: 'Aumento do risco de hemorragia',
+  },
+  {
+    currentMed: 'metformina',
+    prescribedTags: ['AINEs'],
+    risk: 'Aumento do risco renal',
+  },
+  {
+    currentMed: 'anti-hipertensivo',
+    prescribedTags: ['AINEs'],
+    risk: 'Reduz eficácia do anti-hipertensivo',
+  },
+  {
+    currentMed: 'antidepressivo',
+    prescribedTags: ['Tramadol'],
+    risk: 'Risco de síndrome serotoninérgico',
+  },
+];
 
 // Common anti-hypertensives and antidepressants for matching
 const ANTI_HYPERTENSIVES = ['losartan', 'enalapril', 'amlodipina', 'ramipril', 'valsartan', 'lisinopril', 'anti-hipertensivo'];

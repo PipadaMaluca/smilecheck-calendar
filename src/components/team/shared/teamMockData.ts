@@ -103,3 +103,10 @@ export const customClosures = [
   { date: '15 Ago 2026', name: 'Obras', type: 'custom' as const },
 ];
 
+export const dentistVacations = [
+  { id: 'v1', dentistId: '1', start: '15 Jul 2026', end: '31 Jul 2026', days: 17 },
+];
+
+export const dentistExceptions = [
+  { id: 'e1', dentistId: '1', date: '25 Dez 2026', type: 'unavailable' as const, reason: 'Feriado' },
+];

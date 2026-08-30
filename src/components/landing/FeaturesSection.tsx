@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, Video, Check, Star } from 'lucide-react';
+import { Calendar, Trophy, Video, Check, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 

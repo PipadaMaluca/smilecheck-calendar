@@ -149,6 +149,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
   
   // Check if current user is in top 10
   const userInTop10 = currentLeaderboard.some(e => e.isCurrentUser);
+  const currentUserName = isClinic ? mockClinics[0].name : `Dr. ${mockDentists[0].name.split(' ').slice(1).join(' ')}`;
   const currentUserXP = 7800;
   const currentUserGlobalPos = isClinic ? 15 : 42;
 

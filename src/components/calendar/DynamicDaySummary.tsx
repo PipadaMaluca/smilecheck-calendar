@@ -1,7 +1,7 @@
-import { BarChart3, Video, MapPin, Users } from 'lucide-react';
-import { Consultation } from '@/types/calendar';
+import { BarChart3, Video, MapPin, Clock, Users } from 'lucide-react';
+import { Consultation, Dentist, Clinic } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { mockClinics, getDentistsForClinic } from '@/data/mockData';
+import { mockClinics, mockDentists, getDentistsForClinic } from '@/data/mockData';
 import { useTranslation } from 'react-i18next';
 
 interface DynamicDaySummaryProps {

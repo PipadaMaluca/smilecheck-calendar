@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ArrowLeft, Briefcase, MapPin, Star, Clock, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check, Settings } from 'lucide-react';
+import { ArrowLeft, Briefcase, MapPin, Star, Clock, Calendar, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { getDentistInitials, getClinicInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
+import { mockClinics } from '@/data/mockData';
 import { UserRole } from '@/types/calendar';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -167,6 +168,7 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
 // Publish vacancy panel for clinics
 function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation();
+  const [enabled, setEnabled] = useState(true);
   const [contractTypes, setContractTypes] = useState<string[]>([]);
   const [specialties, setSpecialties] = useState<string[]>([]);
   const [schedule, setSchedule] = useState('');

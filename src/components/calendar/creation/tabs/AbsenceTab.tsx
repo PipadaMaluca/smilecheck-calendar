@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -16,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
+const FREE_COLORS = ['#9E9E9E'];
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
 
 const timeOptions: string[] = [];
@@ -51,6 +53,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
   const [frequency, setFrequency] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
   const [weekdays, setWeekdays] = useState<number[]>([]);
   const [repeatUntil, setRepeatUntil] = useState<Date>(new Date(2026, 2, 31));
+  const [repeatCount, setRepeatCount] = useState('');
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
   const [selectedColor, setSelectedColor] = useState('#9E9E9E');

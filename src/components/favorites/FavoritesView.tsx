@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase } from 'lucide-react';
+import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Share2, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
