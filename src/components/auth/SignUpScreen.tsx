@@ -27,8 +27,9 @@ function maskPhone(countryCode: string, phone: string) {
 
 export function SignUpScreen() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState(1);
+
   const [accountType, setAccountType] = useState<AccountType>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
