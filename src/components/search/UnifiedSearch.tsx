@@ -8,7 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
 

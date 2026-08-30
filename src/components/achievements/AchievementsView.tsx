@@ -11,9 +11,8 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { UserRole } from '@/types/calendar';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { Achievement, AchievementCategory, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
+import { Achievement, AchievementCategory, getBadgeTier, DEFAULT_SHOWCASED } from './achievementData';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { toast } from 'sonner';
 

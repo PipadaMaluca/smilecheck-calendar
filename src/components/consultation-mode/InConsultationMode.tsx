@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Pill, FileText, FolderOpen, CheckCircle2, X, Clock, ChevronUp } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 // Top bar component
 export function InConsultationBar({
