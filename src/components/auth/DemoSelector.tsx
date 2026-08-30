@@ -3,16 +3,19 @@ import { useTranslation } from 'react-i18next';
 import { User, Stethoscope, Building2 } from 'lucide-react';
 import { AuthBackground } from './AuthBackground';
 import { Logo } from '@/components/branding/Logo';
+import { useAuth } from '@/contexts/AuthContext';
+import type { UserRole } from '@/types/calendar';
 
-const options = [
-  { icon: Building2, labelKey: 'demo.clinic', name: 'SmileCheck', path: '/app?role=clinic&demo=true' },
-  { icon: Stethoscope, labelKey: 'demo.dentist', name: 'Dr. Gonçalo Pipo', path: '/app?role=dentist&demo=true' },
-  { icon: User, labelKey: 'demo.patient', name: 'João Silva', path: '/app?role=patient&demo=true' },
+const options: { icon: typeof User; labelKey: string; name: string; role: UserRole }[] = [
+  { icon: Building2, labelKey: 'demo.clinic', name: 'SmileCheck', role: 'clinic' },
+  { icon: Stethoscope, labelKey: 'demo.dentist', name: 'Dr. Gonçalo Pipo', role: 'dentist' },
+  { icon: User, labelKey: 'demo.patient', name: 'João Silva', role: 'patient' },
 ];
 
 export function DemoSelector() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { enterDemo } = useAuth();
 
   return (
     <AuthBackground>
@@ -28,11 +31,11 @@ export function DemoSelector() {
         <div className="w-full space-y-3">
           {options.map((o) =>
             <button
-              key={o.path}
+              key={o.role}
               onClick={() => {
-                const role = o.path.split('role=')[1];
-                if (role) localStorage.removeItem(`smilecheck_video_splash_${role}`);
-                navigate(o.path);
+                localStorage.removeItem(`smilecheck_video_splash_${o.role}`);
+                enterDemo(o.role);
+                navigate(`/app?role=${o.role}&demo=true`);
               }}
               className="w-full flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border hover:border-primary hover:bg-accent transition-all"
             >
