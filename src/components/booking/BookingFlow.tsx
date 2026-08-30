@@ -388,6 +388,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         })}
         preferences={data.preferences}
         onPreferencesChange={(p) => setData(d => ({ ...d, preferences: p }))}
+        occupiedKeys={occupiedKeys ?? undefined}
       />
     </div>
   );
@@ -798,7 +799,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </Button>
         )}
         {step === 'confirm' ? (
-          <Button className="flex-1" onClick={handleConfirm}>
+          <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
             {bookingCase === 'D' && data.consultationType === 'teleconsulta'
               ? t('common.next')
               : bookingCase === 'B'
@@ -859,7 +860,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             )}
             {step === 'confirm' ? (
-              <Button className="flex-1" onClick={handleConfirm}>
+              <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
                 {bookingCase === 'D' && data.consultationType === 'teleconsulta'
                   ? t('common.next')
                   : bookingCase === 'B'
