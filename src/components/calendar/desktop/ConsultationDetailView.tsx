@@ -351,7 +351,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <Button variant="secondary" size="sm" className="gap-2 flex-1">
                   <RefreshCw className="w-4 h-4" /> {t('consultationDetail.rescheduleAction')}
                 </Button>
-                <Button variant="outline" size="sm" className="gap-2 flex-1 border-destructive/30 text-destructive hover:bg-destructive/10">
+                <Button variant="outline" size="sm" disabled={actionPending} onClick={handleCancelConsultation} className="gap-2 flex-1 border-destructive/30 text-destructive hover:bg-destructive/10">
                   <X className="w-4 h-4" /> {t('consultationDetail.cancelAction')}
                 </Button>
               </div>
