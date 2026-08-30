@@ -613,6 +613,107 @@ export type Database = {
         }
         Relationships: []
       }
+      redemptions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          points_cost: number
+          profile_id: string
+          redemption_code: string
+          reward_key: string
+          reward_name: string
+          status: Database["public"]["Enums"]["redemption_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          points_cost: number
+          profile_id: string
+          redemption_code: string
+          reward_key: string
+          reward_name: string
+          status?: Database["public"]["Enums"]["redemption_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          points_cost?: number
+          profile_id?: string
+          redemption_code?: string
+          reward_key?: string
+          reward_name?: string
+          status?: Database["public"]["Enums"]["redemption_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "redemptions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rewards_catalog: {
+        Row: {
+          active: boolean
+          brand: string | null
+          category: string
+          created_at: string
+          description: string | null
+          discount: string | null
+          emoji: string | null
+          id: string
+          name: string
+          points_cost: number
+          reward_key: string
+          role: Database["public"]["Enums"]["app_role"]
+          sponsored: boolean
+          subcategory: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          brand?: string | null
+          category: string
+          created_at?: string
+          description?: string | null
+          discount?: string | null
+          emoji?: string | null
+          id?: string
+          name: string
+          points_cost: number
+          reward_key: string
+          role: Database["public"]["Enums"]["app_role"]
+          sponsored?: boolean
+          subcategory?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          brand?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          discount?: string | null
+          emoji?: string | null
+          id?: string
+          name?: string
+          points_cost?: number
+          reward_key?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          sponsored?: boolean
+          subcategory?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_levels: {
         Row: {
           best_streak: number
@@ -754,6 +855,7 @@ export type Database = {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
+      generate_redemption_code: { Args: never; Returns: string }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       level_for_xp: {
         Args: { _xp: number }
@@ -764,6 +866,10 @@ export type Database = {
         Returns: number
       }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
+      redeem_reward: {
+        Args: { _profile_id: string; _reward_key: string }
+        Returns: Json
+      }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
     }
     Enums: {
@@ -800,6 +906,7 @@ export type Database = {
         | "Adamantino"
       payment_status: "a_pagar" | "pago" | "nao_aplicavel"
       points_type: "xp" | "reward_points"
+      redemption_status: "pendente" | "usado" | "expirado"
       waiting_status: "em_espera" | "notificado" | "confirmado"
       waiting_urgency: "normal" | "urgente"
     }
@@ -965,6 +1072,7 @@ export const Constants = {
       ],
       payment_status: ["a_pagar", "pago", "nao_aplicavel"],
       points_type: ["xp", "reward_points"],
+      redemption_status: ["pendente", "usado", "expirado"],
       waiting_status: ["em_espera", "notificado", "confirmado"],
       waiting_urgency: ["normal", "urgente"],
     },
