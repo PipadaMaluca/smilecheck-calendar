@@ -94,7 +94,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
     }
 
     const result = await redeemReward(user.id, rewardKeyFor(userRole, redeemProduct.id));
-    if (!result.redeemed) {
+    if (isRedeemFailure(result)) {
       return {
         error: result.reason === 'insufficient_points'
           ? t('store.insufficientPoints')
