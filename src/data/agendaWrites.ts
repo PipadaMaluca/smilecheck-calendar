@@ -453,16 +453,18 @@ export async function assignWaitingMatch(
     price: slot.price,
   });
 
-  const { error: waitingError } = await supabase
+  const { data: confirmed, error: waitingError } = await supabase
     .from('waiting_list')
     .update({ status: 'confirmado' })
     .eq('id', match.id)
-    .eq('status', 'em_espera');
+    .eq('status', 'em_espera')
+    .select('id');
 
-  if (waitingError) {
-    // Roll back so we never keep an appointment without a confirmed entry.
+  // Roll back so we never keep an appointment without a confirmed entry —
+  // both on a hard error and when the entry was already taken meanwhile.
+  if (waitingError || !confirmed?.length) {
     await cancelAppointment(appointmentId).catch(() => undefined);
-    throw waitingError;
+    throw waitingError ?? new Error('Entrada da lista de espera já não está em espera');
   }
 
   // Non-blocking: the patient notification must not undo a consistent pair.
