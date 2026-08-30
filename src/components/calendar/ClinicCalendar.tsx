@@ -29,7 +29,9 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
-import { mockConsultations, mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { useAgendaData } from '@/data/agendaSource';
+import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
@@ -48,6 +50,8 @@ const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.i
 const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
+
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
@@ -86,7 +90,7 @@ export function ClinicCalendar() {
       
       dentistsToShow.forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
-        const dentistConsultations = mockConsultations.filter(
+        const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
@@ -95,7 +99,7 @@ export function ClinicCalendar() {
     });
     
     return result;
-  }, [selectedDate, selectedDentistIds]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations]);
 
   /**
    * Mobile-only column list for the dentist pills row:
@@ -109,7 +113,7 @@ export function ClinicCalendar() {
       if (!selectedClinicIds.has(clinic.id)) return;
       getDentistsForClinic(clinic.id).forEach(dentist => {
         const worksToday = dentistWorksOnDemo(clinic.id, dentist.id);
-        const dentistConsultations = mockConsultations.filter(
+        const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
         const slots = generateTimeSlots(selectedDate, dentistConsultations);
@@ -117,10 +121,10 @@ export function ClinicCalendar() {
       });
     });
     return result;
-  }, [selectedDate, selectedDentistIds]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations]);
 
   // Day consultations for summary
-  const allDayConsultations = mockConsultations.filter(
+  const allDayConsultations = agendaConsultations.filter(
     (c) => c.date.toDateString() === selectedDate.toDateString()
   );
 
@@ -201,17 +205,17 @@ export function ClinicCalendar() {
       const parts = selectedDentistIds[0].split('-');
       const clinicId = parts[0];
       const dentistId = parts.slice(1).join('-') || parts[0];
-      const consultations = mockConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId && passesAgendaFilters(c));
+      const consultations = agendaConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId && passesAgendaFilters(c));
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = mockConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1' && passesAgendaFilters(c));
+    const consultations = agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1' && passesAgendaFilters(c));
     return generateTimeSlots(date, consultations);
   };
 
   const listSlots = useMemo(() => {
     return getSlots(selectedDate);
-  }, [selectedDate, selectedDentistIds, selectedClinics]);
+  }, [selectedDate, selectedDentistIds, selectedClinics, agendaConsultations]);
 
   // When view mode changes to 3-day or list, ensure only one dentist is selected
   // If none selected, auto-select first dentist
@@ -265,7 +269,7 @@ export function ClinicCalendar() {
     // Open specific consultation detail by ID
     if (tab.startsWith('consulta-detalhe:')) {
       const consultationId = tab.split(':')[1];
-      const consultation = mockConsultations.find(c => c.id === consultationId);
+      const consultation = agendaConsultations.find(c => c.id === consultationId);
       if (consultation) {
         setSelectedConsultation(consultation);
       }
@@ -289,6 +293,8 @@ export function ClinicCalendar() {
     }
     setActiveTab(tab);
   };
+
+  if (agendaLoading) return <AgendaSkeleton />;
 
   return (
     <ProfileNavigationProvider
