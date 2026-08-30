@@ -10,6 +10,9 @@ import {
   FEEDBACK_GIVER_REWARD,
 } from '@/data/bidirectionalFeedback';
 import { BidirectionalFeedbackModal } from './BidirectionalFeedbackModal';
+import { useAuth } from '@/contexts/AuthContext';
+import { usePointsRefresh } from '@/data/pointsSource';
+import { awardFeedbackPoints, resolveFeedbackTargetProfileId } from '@/data/pointsWrites';
 
 interface PendingFeedbackCardProps {
   userRole: UserRole;
@@ -20,11 +23,28 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
   const initial = useMemo(() => getPendingForRole(userRole), [userRole]);
   const [items, setItems] = useState<PendingFeedbackItem[]>(initial);
   const [activeItem, setActiveItem] = useState<PendingFeedbackItem | null>(null);
+  const { demoMode, user } = useAuth();
+  const refreshPoints = usePointsRefresh();
 
   const handleSubmit = (rating: number, _comment: string) => {
     if (!activeItem) return;
+    const item = activeItem;
     // Remove the submitted item from pending list
-    setItems((prev) => prev.filter((i) => i.id !== activeItem.id));
+    setItems((prev) => prev.filter((i) => i.id !== item.id));
+
+    // Real users: the rating points go to the person being rated, awarded
+    // server-side. Demo mode keeps the mock behaviour with zero DB writes.
+    if (demoMode || !user) return;
+    void (async () => {
+      const targetProfileId = await resolveFeedbackTargetProfileId(
+        item.targetRole,
+        item.targetId,
+        item.targetName
+      );
+      if (!targetProfileId) return;
+      await awardFeedbackPoints(targetProfileId, rating);
+      refreshPoints();
+    })();
   };
 
   if (items.length === 0) return null;

@@ -14,6 +14,8 @@ import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/
 import { mockDentists, mockClinics, mockConsultations } from '@/data/mockData';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
+import { awardPointsSilently } from '@/data/pointsWrites';
 
 interface ReferralLetterFlowProps {
   onClose: () => void;
@@ -67,6 +69,7 @@ const SPECIALTY_KEYS: Record<string, string> = {
 
 export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite, preSelectedDentist }: ReferralLetterFlowProps) {
   const { t } = useTranslation();
+  const { demoMode, user } = useAuth();
   const isMobile = useIsMobile();
   const [step, setStep] = useState(1);
   const [patientSearch, setPatientSearch] = useState('');
@@ -107,6 +110,8 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
   const handleSend = () => {
     setCompleted(true);
+    // Referral letter → dentist points (server-side, real users only).
+    if (!demoMode && user) awardPointsSilently(user.id, 'carta_referencia');
     toast.success(t('referral.referralSuccess'));
   };
 

@@ -1,6 +1,7 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { awardPoints } from '@/data/pointsWrites';
 import { UserRole } from '@/types/calendar';
 import {
   USER_POINTS,
@@ -101,6 +102,8 @@ interface PointsContextValue {
   loading: boolean;
   error: string | null;
   isDemo: boolean;
+  /** Re-reads the level/ledger rows after a server-side award. */
+  refresh: () => void;
 }
 
 const PointsDataContext = createContext<PointsContextValue>({
@@ -108,6 +111,7 @@ const PointsDataContext = createContext<PointsContextValue>({
   loading: false,
   error: null,
   isDemo: true,
+  refresh: () => undefined,
 });
 
 export function PointsDataProvider({ children }: { children: React.ReactNode }) {
@@ -115,6 +119,8 @@ export function PointsDataProvider({ children }: { children: React.ReactNode }) 
   const [data, setData] = useState<PointsState>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tick, setTick] = useState(0);
+  const refresh = useCallback(() => setTick((n) => n + 1), []);
 
   useEffect(() => {
     if (demoMode || !user) {
@@ -144,11 +150,24 @@ export function PointsDataProvider({ children }: { children: React.ReactNode }) 
     return () => {
       cancelled = true;
     };
-  }, [demoMode, user]);
+  }, [demoMode, user, tick]);
+
+  // Daily check-in (app open) — server-side award, once per UTC day. The
+  // backend function is idempotent per day, so a repeat call is a no-op.
+  useEffect(() => {
+    if (demoMode || !user) return;
+    let cancelled = false;
+    awardPoints(user.id, 'checkin_diario').then((res) => {
+      if (!cancelled && res?.awarded) refresh();
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [demoMode, user, refresh]);
 
   const value = useMemo<PointsContextValue>(
-    () => ({ data, loading, error, isDemo: demoMode || !user }),
-    [data, loading, error, demoMode, user]
+    () => ({ data, loading, error, isDemo: demoMode || !user, refresh }),
+    [data, loading, error, demoMode, user, refresh]
   );
 
   return <PointsDataContext.Provider value={value}>{children}</PointsDataContext.Provider>;
@@ -189,4 +208,9 @@ export function usePointsData(role: UserRole): PointsSourceValue {
       isDemo,
     };
   }, [data, loading, error, isDemo, mock, role]);
+}
+
+/** Refreshes the points totals after a server-side award. */
+export function usePointsRefresh(): () => void {
+  return useContext(PointsDataContext).refresh;
 }

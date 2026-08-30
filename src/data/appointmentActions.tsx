@@ -5,6 +5,9 @@ import { pt } from 'date-fns/locale';
 import { supabase } from '@/integrations/supabase/client';
 import { Consultation, ConsultationCategory, ConsultationStatus } from '@/types/calendar';
 import { useAgendaData } from '@/data/agendaSource';
+import { usePointsRefresh } from '@/data/pointsSource';
+import { awardStatusPoints } from '@/data/pointsWrites';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   FreedSlot,
   SlotTakenError,
@@ -74,6 +77,8 @@ interface MatchState {
 
 export function AppointmentActionsProvider({ children }: { children: React.ReactNode }) {
   const { isDemo, refresh } = useAgendaData();
+  const { role } = useAuth();
+  const refreshPoints = usePointsRefresh();
   const [pending, setPending] = useState(false);
   const [matchState, setMatchState] = useState<MatchState | null>(null);
 
@@ -84,6 +89,10 @@ export function AppointmentActionsProvider({ children }: { children: React.React
       try {
         await updateAppointmentStatus(consultation.id, status);
         refresh();
+        // Points are written server-side by `award_points`; a failure there
+        // must never make the status change look broken.
+        await awardStatusPoints(consultation.id, status, role);
+        refreshPoints();
         return true;
       } catch (e) {
         toast.error((e as Error)?.message ?? 'Não foi possível atualizar o estado');
@@ -92,7 +101,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         setPending(false);
       }
     },
-    [isDemo, refresh]
+    [isDemo, refresh, refreshPoints, role]
   );
 
   const rescheduleConsultation = useCallback<AppointmentActionsValue['rescheduleConsultation']>(
