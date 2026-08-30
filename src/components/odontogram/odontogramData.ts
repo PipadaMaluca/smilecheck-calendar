@@ -35,6 +35,14 @@ export interface OdontogramHistory {
 
 export type OdontogramState = Record<string, ToothData>;
 
+const healthySurfaces = (): Record<Surface, SurfaceData> => ({
+  M: { status: 'healthy' },
+  D: { status: 'healthy' },
+  O: { status: 'healthy' },
+  V: { status: 'healthy' },
+  L: { status: 'healthy' },
+});
+
 export function getJoaoSilvaMockData(): { state: OdontogramState; history: OdontogramHistory[] } {
   const state = getDefaultOdontogram();
 
