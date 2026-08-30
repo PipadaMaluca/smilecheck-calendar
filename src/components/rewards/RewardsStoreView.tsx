@@ -14,7 +14,7 @@ import { AllProductsList } from './AllProductsList';
 import { useTranslation } from 'react-i18next';
 import { usePointsData, usePointsRefresh } from '@/data/pointsSource';
 import { useAuth } from '@/contexts/AuthContext';
-import { fetchRedemptions, redeemReward, rewardKeyFor } from '@/data/rewardsWrites';
+import { fetchRedemptions, isRedeemFailure, redeemReward, rewardKeyFor } from '@/data/rewardsWrites';
 
 const TAB_LABEL_KEYS: Record<string, string> = {
   consultas: 'store.tabConsultas',
