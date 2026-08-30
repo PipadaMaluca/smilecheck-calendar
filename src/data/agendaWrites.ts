@@ -214,3 +214,271 @@ export async function fetchOccupiedSlotKeys(
   }
   return keys;
 }
+
+/* ------------------------------------------------------------------ *
+ * Phase 3 · sub-step 3 — UPDATE / CANCEL path + waiting-list match.
+ * Demo mode never reaches this module.
+ * ------------------------------------------------------------------ */
+
+type DbAppointmentStatus = Database['public']['Enums']['appointment_status'];
+
+/** UI status -> backend appointment_status enum. */
+export const STATUS_TO_DB: Record<string, DbAppointmentStatus> = {
+  agendada: 'agendada',
+  confirmada: 'confirmada',
+  em_sala_espera: 'em_sala_de_espera',
+  em_consulta: 'em_consulta',
+  concluida: 'concluida',
+  visto: 'visto',
+  falta_justificada: 'falta',
+  falta_nao_justificada: 'falta',
+  cancelada: 'cancelada',
+};
+
+export interface UpdateAppointmentInput {
+  id: string;
+  dentistId?: string | null;
+  clinicId?: string | null;
+  scheduledAt?: string;
+  durationMinutes?: number;
+  consultationType?: DbConsultationType;
+  isTeleconsultation?: boolean;
+  notes?: string | null;
+  observation?: string | null;
+  price?: number | null;
+}
+
+/**
+ * Edit / reschedule. Reuses the create-path double-booking guard, excluding the
+ * row being edited so keeping the same slot is always allowed.
+ */
+export async function updateAppointment(input: UpdateAppointmentInput): Promise<void> {
+  const { id, ...rest } = input;
+
+  if (rest.scheduledAt || rest.durationMinutes || rest.dentistId !== undefined) {
+    const { data: current, error: readError } = await supabase
+      .from('appointments')
+      .select('dentist_id, scheduled_at, duration_minutes')
+      .eq('id', id)
+      .single();
+    if (readError) throw readError;
+
+    const dentistId = rest.dentistId !== undefined ? rest.dentistId : current.dentist_id;
+    const scheduledAt = rest.scheduledAt ?? current.scheduled_at;
+    const duration = rest.durationMinutes ?? current.duration_minutes ?? 30;
+    if (dentistId) await assertDentistSlotFree(dentistId, scheduledAt, duration, id);
+  }
+
+  const patch: Record<string, unknown> = {};
+  if (rest.dentistId !== undefined) patch.dentist_id = rest.dentistId;
+  if (rest.clinicId !== undefined) patch.clinic_id = rest.clinicId;
+  if (rest.scheduledAt !== undefined) patch.scheduled_at = rest.scheduledAt;
+  if (rest.durationMinutes !== undefined) patch.duration_minutes = rest.durationMinutes;
+  if (rest.consultationType !== undefined) patch.consultation_type = rest.consultationType;
+  if (rest.isTeleconsultation !== undefined) patch.is_teleconsultation = rest.isTeleconsultation;
+  if (rest.notes !== undefined) patch.notes = rest.notes;
+  if (rest.observation !== undefined) patch.observation = rest.observation;
+  if (rest.price !== undefined) patch.price = rest.price;
+
+  if (!Object.keys(patch).length) return;
+
+  const { error } = await supabase.from('appointments').update(patch).eq('id', id);
+  if (error) throw error;
+}
+
+/** Status change (points writing stays for the later points phase). */
+export async function updateAppointmentStatus(id: string, uiStatus: string): Promise<void> {
+  const status = STATUS_TO_DB[uiStatus];
+  if (!status) throw new Error(`Estado desconhecido: ${uiStatus}`);
+  const { error } = await supabase.from('appointments').update({ status }).eq('id', id);
+  if (error) throw error;
+}
+
+/** Soft cancel — the row is kept for history and the slot becomes free again. */
+export async function cancelAppointment(id: string): Promise<void> {
+  const { error } = await supabase
+    .from('appointments')
+    .update({ status: 'cancelada' as DbAppointmentStatus })
+    .eq('id', id);
+  if (error) throw error;
+}
+
+/* ---------------- Waiting-list auto-match on cancel ---------------- */
+
+export interface WaitingMatch {
+  id: string;
+  patientId: string;
+  patientName: string;
+  consultationType: DbConsultationType;
+  urgency: DbWaitingUrgency;
+  createdAt: string;
+  reason: 'preferred_slot' | 'generic_preferences';
+}
+
+interface WaitingRow {
+  id: string;
+  patient_id: string;
+  dentist_id: string | null;
+  clinic_id: string | null;
+  consultation_type: DbConsultationType;
+  preferred_slots: unknown;
+  generic_preferences: unknown;
+  urgency: DbWaitingUrgency;
+  created_at: string;
+}
+
+function toDateKey(d: Date) {
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+}
+
+function toTimeKey(d: Date) {
+  return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
+}
+
+/** JS getUTCDay() (0=Sun) -> stored weekday numbering (1=Mon .. 6=Sat). */
+function toStoredWeekday(d: Date) {
+  const day = d.getUTCDay();
+  return day === 0 ? 0 : day;
+}
+
+export interface FreedSlot {
+  scheduledAt: string;
+  durationMinutes: number;
+  dentistId: string | null;
+  clinicId: string | null;
+  consultationType: DbConsultationType;
+  isTeleconsultation: boolean;
+  price: number | null;
+}
+
+/**
+ * Waiting entries (em_espera) that want the freed slot, either through an
+ * explicit preferred slot or through their generic preferences.
+ * Sorted urgent-first, then oldest-first.
+ */
+export async function findWaitingMatches(slot: FreedSlot): Promise<WaitingMatch[]> {
+  let query = supabase
+    .from('waiting_list')
+    .select('id, patient_id, dentist_id, clinic_id, consultation_type, preferred_slots, generic_preferences, urgency, created_at')
+    .eq('status', 'em_espera')
+    .eq('consultation_type', slot.consultationType);
+
+  if (slot.dentistId) query = query.or(`dentist_id.eq.${slot.dentistId},dentist_id.is.null`);
+
+  const { data, error } = await query.returns<WaitingRow[]>();
+  if (error) throw error;
+
+  const freed = new Date(slot.scheduledAt);
+  const dateKey = toDateKey(freed);
+  const timeKey = toTimeKey(freed);
+  const weekday = toStoredWeekday(freed);
+  const period = freed.getUTCHours() < 13 ? 'morning' : 'afternoon';
+
+  const rows = (data ?? []).filter((row) => {
+    if (slot.clinicId && row.clinic_id && row.clinic_id !== slot.clinicId) return false;
+    return true;
+  });
+
+  const matches: WaitingMatch[] = [];
+  for (const row of rows) {
+    const slots = Array.isArray(row.preferred_slots)
+      ? (row.preferred_slots as { date?: string; time?: string }[])
+      : [];
+    const prefersSlot = slots.some((s) => s?.date === dateKey && s?.time === timeKey);
+
+    const prefs = (row.generic_preferences ?? {}) as { periods?: string[]; weekdays?: number[] };
+    const periods = prefs.periods ?? [];
+    const weekdays = prefs.weekdays ?? [];
+    const periodOk = periods.length === 0 ? false : periods.includes(period);
+    const weekdayOk = weekdays.length === 0 ? false : weekdays.includes(weekday);
+    const prefersGeneric =
+      (periods.length > 0 || weekdays.length > 0) &&
+      (periods.length === 0 || periodOk) &&
+      (weekdays.length === 0 || weekdayOk);
+
+    if (!prefersSlot && !prefersGeneric) continue;
+
+    matches.push({
+      id: row.id,
+      patientId: row.patient_id,
+      patientName: 'Paciente',
+      consultationType: row.consultation_type,
+      urgency: row.urgency,
+      createdAt: row.created_at,
+      reason: prefersSlot ? 'preferred_slot' : 'generic_preferences',
+    });
+  }
+
+  if (matches.length) {
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id, full_name')
+      .in('id', [...new Set(matches.map((m) => m.patientId))]);
+    const names = new Map((profiles ?? []).map((p) => [p.id, p.full_name ?? 'Paciente']));
+    for (const m of matches) m.patientName = names.get(m.patientId) ?? 'Paciente';
+  }
+
+  matches.sort((a, b) => {
+    if (a.urgency !== b.urgency) return a.urgency === 'urgente' ? -1 : 1;
+    return a.createdAt.localeCompare(b.createdAt);
+  });
+
+  return matches;
+}
+
+/**
+ * Assign a freed slot to a waiting patient. Sequential writes with rollback:
+ * the appointment INSERT happens first, and the waiting entry is only marked
+ * `confirmado` afterwards. If that second write fails, the appointment is
+ * soft-cancelled again so the two tables never disagree.
+ */
+export async function assignWaitingMatch(
+  match: WaitingMatch,
+  slot: FreedSlot,
+  notificationMessage: string
+): Promise<string> {
+  if (slot.dentistId) {
+    await assertDentistSlotFree(slot.dentistId, slot.scheduledAt, slot.durationMinutes);
+  }
+
+  const appointmentId = await createAppointment({
+    patientId: match.patientId,
+    dentistId: slot.dentistId,
+    clinicId: slot.clinicId,
+    consultationType: slot.consultationType,
+    scheduledAt: slot.scheduledAt,
+    durationMinutes: slot.durationMinutes,
+    isTeleconsultation: slot.isTeleconsultation,
+    paymentStatus: slot.isTeleconsultation ? 'a_pagar' : 'nao_aplicavel',
+    price: slot.price,
+  });
+
+  const { error: waitingError } = await supabase
+    .from('waiting_list')
+    .update({ status: 'confirmado' })
+    .eq('id', match.id)
+    .eq('status', 'em_espera');
+
+  if (waitingError) {
+    // Roll back so we never keep an appointment without a confirmed entry.
+    await cancelAppointment(appointmentId).catch(() => undefined);
+    throw waitingError;
+  }
+
+  // Non-blocking: the patient notification must not undo a consistent pair.
+  await supabase
+    .from('notifications')
+    .insert({
+      profile_id: match.patientId,
+      type: 'appointment',
+      title: 'Horário confirmado',
+      message: notificationMessage,
+      action_url: '/app',
+      read: false,
+    })
+    .then(({ error }) => {
+      if (error) console.warn('Notificação não criada:', error.message);
+    });
+
+  return appointmentId;
+}
