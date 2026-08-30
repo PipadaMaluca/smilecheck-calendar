@@ -28,20 +28,11 @@ export function formatDate(
   return new Intl.DateTimeFormat(getActiveLocale(), opts).format(date);
 }
 
-/** Short numeric date: "31/01/2026" */
-export function formatDateShort(d: Date | string | number): string {
-  return formatDate(d, { day: '2-digit', month: '2-digit', year: 'numeric' });
-}
-
-/** Day of week, e.g. "Segunda-feira" / "Lundi" / "Monday" */
-export function formatWeekday(d: Date | string | number, style: 'long' | 'short' = 'long'): string {
-  return formatDate(d, { weekday: style });
-}
-
 /** Time, e.g. "14:30" */
 export function formatTime(d: Date | string | number): string {
   return formatDate(d, { hour: '2-digit', minute: '2-digit' });
 }
+
 
 /** Number with locale grouping: 1.247 (PT) / 1 247 (FR) / 1,247 (EN) */
 export function formatNumber(n: number, opts: Intl.NumberFormatOptions = {}): string {
