@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AlertTriangle, BellRing, CalendarCheck, Trash2, Users, Zap } from 'lucide-react';
+import { AlertTriangle, BellRing, CalendarCheck, Loader2, Trash2, Users, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -37,13 +37,25 @@ import { UserRole, ConsultationCategory } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { toast } from 'sonner';
+import { ListSkeleton } from '@/components/skeletons';
+import { SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
+import { useAuth } from '@/contexts/AuthContext';
+import {
+  assignWaitingEntry,
+  notifyWaitingEntry,
+  removeWaitingEntry,
+  upcomingSlotOptions,
+  useWaitingList,
+  type WaitingEntry,
+} from '@/data/waitingListSource';
 
 type Urgency = 'urgent' | 'normal';
 type WlStatus = 'waiting' | 'notified' | 'confirmed';
 
 interface PreferredSlot {
-  day: string;   // e.g. "Ter 13"
+  day: string;   // display label, e.g. "Ter 3 Fev"
   time: string;  // e.g. "10:00"
+  date?: string; // ISO yyyy-mm-dd, only for real DB entries
 }
 
 interface WaitlistEntry {
@@ -51,13 +63,21 @@ interface WaitlistEntry {
   name: string;
   category: ConsultationCategory;
   preferredSlots: PreferredSlot[];
-  genericPrefs: string[];           // e.g. ["Manhãs", "Seg/Qua"]
+  genericPrefs: string[];
   observation: string;
   urgency: Urgency;
-  addedDaysAgo: number;             // for "há Xd"
+  addedDaysAgo: number;
+  status: WlStatus;
+  real?: WaitingEntry;
 }
 
-const MOCK_WAITLIST: Record<string, WaitlistEntry[]> = {
+interface WaitlistGroup {
+  key: string;
+  dentistName: string;
+  entries: WaitlistEntry[];
+}
+
+const MOCK_WAITLIST: Record<string, Omit<WaitlistEntry, 'status'>[]> = {
   '1': [
     {
       id: 'wl-1', name: 'Rita Oliveira', category: 'endodontia', urgency: 'urgent', addedDaysAgo: 2,
@@ -120,12 +140,68 @@ const STATUS_STYLES: Record<WlStatus, string> = {
   confirmed: 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30',
 };
 
-const FREED_SLOTS = [
+const FREED_SLOTS: PreferredSlot[] = [
   { day: 'Ter 3 Fev', time: '09:00' },
   { day: 'Qua 4 Fev', time: '11:00' },
   { day: 'Qui 5 Fev', time: '15:00' },
   { day: 'Sex 6 Fev', time: '10:30' },
 ];
+
+const DB_TYPE_TO_CATEGORY: Record<string, ConsultationCategory> = {
+  primeira_consulta: 'primeira_consulta',
+  destartarizacao: 'destartarizacao',
+  cirurgia: 'cirurgia',
+  endodontia: 'endodontia',
+  odontopediatria: 'odontopediatria',
+  ortodontia: 'ortodontia',
+  protese: 'protese',
+  restauracao: 'restauracao',
+  urgencia: 'urgencia',
+  teleconsulta: 'teleconsulta',
+  avaliacao: 'outro',
+};
+
+const PERIOD_LABELS: Record<string, string> = { morning: 'Manhãs', afternoon: 'Tardes' };
+const WEEKDAY_LABELS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+function formatSlotDay(isoDate: string) {
+  const [y, m, d] = isoDate.split('-').map(Number);
+  const date = new Date(Date.UTC(y, m - 1, d));
+  return date.toLocaleDateString('pt-PT', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  });
+}
+
+function daysSince(iso: string) {
+  const created = new Date(iso).getTime();
+  return Math.max(0, Math.floor((Date.now() - created) / 86400000));
+}
+
+function toUiEntry(entry: WaitingEntry): WaitlistEntry {
+  const genericPrefs = [
+    ...entry.genericPrefs.periods.map((p) => PERIOD_LABELS[p] ?? p),
+    ...entry.genericPrefs.weekdays.map((w) => WEEKDAY_LABELS[w] ?? String(w)),
+  ];
+  return {
+    id: entry.id,
+    name: entry.patientName,
+    category: DB_TYPE_TO_CATEGORY[entry.consultationType] ?? 'outro',
+    preferredSlots: entry.preferredSlots.map((s) => ({
+      day: formatSlotDay(s.date),
+      time: s.time,
+      date: s.date,
+    })),
+    genericPrefs,
+    observation: entry.observation ?? '—',
+    urgency: entry.urgency === 'urgente' ? 'urgent' : 'normal',
+    addedDaysAgo: daysSince(entry.createdAt),
+    status: entry.status === 'notificado' ? 'notified' : 'waiting',
+    real: entry,
+  };
+}
 
 interface WaitingListTabProps {
   selectedDentist: string;
@@ -134,6 +210,8 @@ interface WaitingListTabProps {
 
 export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProps) {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const { entries: realEntries, loading, isDemo, refresh } = useWaitingList();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistsToShow = useMemo(() => {
@@ -142,11 +220,12 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     return clinicDentists;
   }, [clinicDentists, selectedDentist, userRole]);
 
-  // Local mutable state for entries (status / removals).
-  const [entries, setEntries] = useState(MOCK_WAITLIST);
+  // Demo-only mutable mock state (status / removals).
+  const [mockEntries, setMockEntries] = useState(MOCK_WAITLIST);
   const [statusMap, setStatusMap] = useState<Record<string, WlStatus>>({});
   const [urgencyFilter, setUrgencyFilter] = useState<'all' | 'urgent'>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | ConsultationCategory>('all');
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   // Action modals
   const [assignTarget, setAssignTarget] = useState<{ entry: WaitlistEntry; dentistName: string } | null>(null);
@@ -156,19 +235,61 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     { slot: PreferredSlot; entry: WaitlistEntry; dentistName: string; dentistId: string } | null
   >(null);
 
+  const realSlotOptions = useMemo(
+    () => upcomingSlotOptions().map((s) => ({ day: formatSlotDay(s.date), time: s.time, date: s.date })),
+    []
+  );
+
   const formatAdded = (days: number) => {
     if (days === 0) return t('waitingList.mgmt.today');
     if (days === 1) return t('waitingList.mgmt.yesterday');
     return t('waitingList.mgmt.daysAgo', { count: days });
   };
 
-  const getStatus = (id: string): WlStatus => statusMap[id] ?? 'waiting';
+  const groups = useMemo<WaitlistGroup[]>(() => {
+    if (isDemo) {
+      return dentistsToShow.map((d) => ({
+        key: d.id,
+        dentistName: d.name,
+        entries: (mockEntries[d.id] || []).map((e) => ({
+          ...e,
+          status: statusMap[e.id] ?? 'waiting',
+        })),
+      }));
+    }
+
+    // Real data: RLS already scopes the rows; apply the dentist selector on top.
+    const wantedUuid =
+      userRole === 'dentist'
+        ? user?.id ?? null
+        : selectedDentist !== 'all'
+          ? SEED_DENTIST_UUID_BY_ID[selectedDentist] ?? null
+          : null;
+
+    const filtered = wantedUuid
+      ? realEntries.filter((e) => e.dentistId === wantedUuid)
+      : realEntries;
+
+    const byDentist = new Map<string, WaitingEntry[]>();
+    filtered.forEach((e) => {
+      const key = e.dentistId ?? 'unassigned';
+      const list = byDentist.get(key) ?? [];
+      list.push(e);
+      byDentist.set(key, list);
+    });
+
+    return [...byDentist.entries()].map(([key, list]) => ({
+      key,
+      dentistName: list[0].dentistName !== '—' ? list[0].dentistName : t('waitingList.mgmt.anyDentist', 'Sem dentista atribuído'),
+      entries: list.map(toUiEntry),
+    }));
+  }, [isDemo, dentistsToShow, mockEntries, statusMap, realEntries, selectedDentist, userRole, user?.id, t]);
 
   const filterEntries = (list: WaitlistEntry[]) => {
     const filtered = list.filter((e) => {
       if (urgencyFilter === 'urgent' && e.urgency !== 'urgent') return false;
       if (typeFilter !== 'all' && e.category !== typeFilter) return false;
-      return getStatus(e.id) !== undefined; // always true; placeholder
+      return true;
     });
     // Urgent first, then oldest first.
     return [...filtered].sort((a, b) => {
@@ -177,64 +298,124 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     });
   };
 
-  const handleNotify = (entry: WaitlistEntry) => {
-    setStatusMap((m) => ({ ...m, [entry.id]: 'notified' }));
-    toast.success(t('waitingList.mgmt.notified'), { description: entry.name });
+  const handleNotify = async (entry: WaitlistEntry) => {
+    if (!entry.real) {
+      setStatusMap((m) => ({ ...m, [entry.id]: 'notified' }));
+      toast.success(t('waitingList.mgmt.notified'), { description: entry.name });
+      return;
+    }
+    setBusyId(entry.id);
+    try {
+      await notifyWaitingEntry(
+        entry.real,
+        t('waitingList.mgmt.notifyMessage', 'Há uma vaga disponível para a sua consulta.')
+      );
+      toast.success(t('waitingList.mgmt.notified'), { description: entry.name });
+      refresh();
+    } catch (e) {
+      toast.error(t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
+    } finally {
+      setBusyId(null);
+    }
   };
 
-  const handleAssignConfirm = (slot: PreferredSlot, entry: WaitlistEntry, dentistName: string) => {
-    setStatusMap((m) => ({ ...m, [entry.id]: 'confirmed' }));
-    setAssignTarget(null);
-    setAutoMatch(null);
-    toast.success(
-      t('waitingList.mgmt.assigned', { when: `${slot.day} · ${slot.time}` }),
-      { description: `${entry.name} → ${dentistName}` },
-    );
+  const handleAssignConfirm = async (slot: PreferredSlot, entry: WaitlistEntry, dentistName: string) => {
+    if (!entry.real) {
+      setStatusMap((m) => ({ ...m, [entry.id]: 'confirmed' }));
+      setAssignTarget(null);
+      setAutoMatch(null);
+      toast.success(
+        t('waitingList.mgmt.assigned', { when: `${slot.day} · ${slot.time}` }),
+        { description: `${entry.name} → ${dentistName}` },
+      );
+      return;
+    }
+    if (!slot.date) {
+      toast.error(t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
+      return;
+    }
+    setBusyId(entry.id);
+    try {
+      await assignWaitingEntry(
+        entry.real,
+        { date: slot.date, time: slot.time },
+        userRole === 'dentist' ? user?.id ?? null : null,
+        `${slot.day} · ${slot.time}`
+      );
+      setAssignTarget(null);
+      setAutoMatch(null);
+      toast.success(
+        t('waitingList.mgmt.assigned', { when: `${slot.day} · ${slot.time}` }),
+        { description: `${entry.name} → ${dentistName}` },
+      );
+      refresh();
+    } catch (e) {
+      toast.error(t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
+    } finally {
+      setBusyId(null);
+    }
   };
 
-  const handleRemoveConfirm = () => {
+  const handleRemoveConfirm = async () => {
     if (!removeTarget) return;
     const { entry, dentistId } = removeTarget;
-    setEntries((e) => ({
-      ...e,
-      [dentistId]: (e[dentistId] || []).filter((x) => x.id !== entry.id),
-    }));
-    toast.success(t('waitingList.mgmt.removed'), { description: entry.name });
-    setRemoveTarget(null);
-    setRemoveReason('external');
+    if (!entry.real) {
+      setMockEntries((e) => ({
+        ...e,
+        [dentistId]: (e[dentistId] || []).filter((x) => x.id !== entry.id),
+      }));
+      toast.success(t('waitingList.mgmt.removed'), { description: entry.name });
+      setRemoveTarget(null);
+      setRemoveReason('external');
+      return;
+    }
+    setBusyId(entry.id);
+    try {
+      await removeWaitingEntry(entry.id);
+      toast.success(t('waitingList.mgmt.removed'), { description: entry.name });
+      setRemoveTarget(null);
+      setRemoveReason('external');
+      refresh();
+    } catch (e) {
+      toast.error(t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
+    } finally {
+      setBusyId(null);
+    }
   };
 
   const simulateCancellation = () => {
-    // Pick a random freed slot and find a waiting entry that matches OR fallback to first urgent.
+    // Demo-only helper: picks a freed slot and the first matching waiting entry.
     const slot = FREED_SLOTS[Math.floor(Math.random() * FREED_SLOTS.length)];
     let matchEntry: WaitlistEntry | undefined;
-    let matchDentist: { id: string; name: string } | undefined;
-    outer: for (const d of dentistsToShow) {
-      for (const e of entries[d.id] || []) {
-        if (getStatus(e.id) !== 'waiting') continue;
-        const slotMatch = e.preferredSlots.some(
-          (s) => s.day === slot.day && s.time === slot.time,
-        );
+    let matchGroup: WaitlistGroup | undefined;
+    outer: for (const g of groups) {
+      for (const e of g.entries) {
+        if (e.status !== 'waiting') continue;
+        const slotMatch = e.preferredSlots.some((s) => s.day === slot.day && s.time === slot.time);
         if (slotMatch || e.genericPrefs.length > 0 || e.urgency === 'urgent') {
           matchEntry = e;
-          matchDentist = d;
+          matchGroup = g;
           break outer;
         }
       }
     }
-    if (!matchEntry || !matchDentist) {
+    if (!matchEntry || !matchGroup) {
       toast(t('waitingList.mgmt.autoMatchTitle'), { description: t('waitingList.empty') });
       return;
     }
-    setAutoMatch({ slot, entry: matchEntry, dentistName: matchDentist.name, dentistId: matchDentist.id });
+    setAutoMatch({ slot, entry: matchEntry, dentistName: matchGroup.dentistName, dentistId: matchGroup.key });
   };
 
   // All category options present in current data
   const availableCategories = useMemo(() => {
     const set = new Set<ConsultationCategory>();
-    dentistsToShow.forEach((d) => (entries[d.id] || []).forEach((e) => set.add(e.category)));
+    groups.forEach((g) => g.entries.forEach((e) => set.add(e.category)));
     return Array.from(set);
-  }, [entries, dentistsToShow]);
+  }, [groups]);
+
+  if (!isDemo && loading) {
+    return <ListSkeleton rows={4} />;
+  }
 
   return (
     <div className="space-y-4">
@@ -268,27 +449,38 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
             ))}
           </SelectContent>
         </Select>
-        <div className="ml-auto">
-          <Button variant="outline" size="sm" className="h-8 text-xs gap-1" onClick={simulateCancellation}>
-            <AlertTriangle className="w-3 h-3" />
-            {t('waitingList.mgmt.simulateCancel')}
-          </Button>
-        </div>
+        {isDemo && (
+          <div className="ml-auto">
+            <Button variant="outline" size="sm" className="h-8 text-xs gap-1" onClick={simulateCancellation}>
+              <AlertTriangle className="w-3 h-3" />
+              {t('waitingList.mgmt.simulateCancel')}
+            </Button>
+          </div>
+        )}
       </div>
 
-      {dentistsToShow.map((dentist) => {
-        const list = filterEntries(entries[dentist.id] || []);
-        const initials = getDentistInitials(dentist.name);
+      {groups.length === 0 && (
+        <Card className="bg-card/80 border-border">
+          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+            <Users className="w-12 h-12 text-muted-foreground/30 mb-4" />
+            <p className="text-sm text-muted-foreground">{t('waitingList.mgmt.empty')}</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {groups.map((group) => {
+        const list = filterEntries(group.entries);
+        const initials = getDentistInitials(group.dentistName);
 
         return (
-          <Card key={dentist.id} className="bg-card/80 border-border overflow-hidden">
+          <Card key={group.key} className="bg-card/80 border-border overflow-hidden">
             <CardContent className="p-0">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-border gap-2">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {initials}
                   </div>
-                  <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
+                  <ClickableDentistName name={group.dentistName} className="text-sm font-semibold text-foreground" />
                 </div>
                 <Badge variant="outline" className="text-[11px] self-start sm:self-auto">
                   {list.length} {t('waitingList.patients')}
@@ -298,7 +490,8 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
               {list.length > 0 ? (
                 <ul className="divide-y divide-border">
                   {list.map((entry) => {
-                    const status = getStatus(entry.id);
+                    const status = entry.status;
+                    const busy = busyId === entry.id;
                     return (
                       <li key={entry.id} className="p-3 sm:p-4 space-y-2">
                         {/* Header row */}
@@ -363,17 +556,17 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                           <Button
                             size="sm"
                             className="h-8 text-xs gap-1"
-                            disabled={status === 'confirmed'}
-                            onClick={() => setAssignTarget({ entry, dentistName: dentist.name })}
+                            disabled={status === 'confirmed' || busy}
+                            onClick={() => setAssignTarget({ entry, dentistName: group.dentistName })}
                           >
-                            <CalendarCheck className="w-3.5 h-3.5" />
+                            {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CalendarCheck className="w-3.5 h-3.5" />}
                             {t('waitingList.mgmt.assign')}
                           </Button>
                           <Button
                             variant="outline"
                             size="sm"
                             className="h-8 text-xs gap-1"
-                            disabled={status !== 'waiting'}
+                            disabled={status !== 'waiting' || busy}
                             onClick={() => handleNotify(entry)}
                           >
                             <BellRing className="w-3.5 h-3.5" />
@@ -383,7 +576,8 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                             variant="ghost"
                             size="sm"
                             className="h-8 text-xs gap-1 text-destructive hover:text-destructive"
-                            onClick={() => setRemoveTarget({ entry, dentistId: dentist.id })}
+                            disabled={busy}
+                            onClick={() => setRemoveTarget({ entry, dentistId: group.key })}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                             {t('waitingList.mgmt.remove')}
@@ -440,7 +634,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                     {t('waitingList.mgmt.otherSlots')}
                   </p>
                   <div className="grid grid-cols-2 gap-2">
-                    {FREED_SLOTS.map((s, i) => (
+                    {(assignTarget.entry.real ? realSlotOptions : FREED_SLOTS).map((s, i) => (
                       <button
                         key={i}
                         className="px-3 py-2 rounded-md border border-border bg-background text-foreground text-xs font-medium hover:bg-muted transition-colors text-left"
@@ -500,7 +694,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Auto-match alert dialog (simulated cancellation) */}
+      {/* Auto-match alert dialog (simulated cancellation — demo only) */}
       <Dialog open={!!autoMatch} onOpenChange={(o) => !o && setAutoMatch(null)}>
         <DialogContent className="max-w-sm">
           {autoMatch && (
