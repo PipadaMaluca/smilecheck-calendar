@@ -26,6 +26,7 @@ import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 import { MobileDashboardHero } from './MobileDashboardHero';
+import { useWaitingList } from '@/data/waitingListSource';
 
 interface DashboardViewProps {
   userRole: UserRole;
