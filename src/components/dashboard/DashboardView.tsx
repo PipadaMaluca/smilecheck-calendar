@@ -633,25 +633,37 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       confirmations: mockConfirmations.filter((c) => c.dentistName === d.name)
     })).filter((g) => g.confirmations.length > 0);
 
-    // Mock waitlist grouped by dentist
-    const CLINIC_WAITLIST: Record<string, typeof MOCK_WAITING_LIST> = {
+    // Waitlist grouped by dentist — mock in demo, real DB rows otherwise.
+    const MOCK_CLINIC_WAITLIST: Record<string, { id: string; patientName: string; observation: string }[]> = {
       'Dr. Gonçalo Pipo': [
-      { id: 'cwl-1', patientName: 'Rita Oliveira', detailKey: 'wantsToAnticipate', currentDate: '3 Fev', currentTime: '14:00', priority: 'alta' as const, isUrgent: true, observation: 'Dor intensa no dente 26' },
-      { id: 'cwl-2', patientName: 'Bruno Pereira', detailKey: 'availableMonWed', currentDate: '5 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false, observation: 'Seg/Qua após 15h' },
-      { id: 'cwl-3', patientName: 'André Gomes', detailKey: 'anyMorning', currentDate: '6 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false, observation: 'Qualquer manhã' }],
+      { id: 'cwl-1', patientName: 'Rita Oliveira', observation: 'Dor intensa no dente 26' },
+      { id: 'cwl-2', patientName: 'Bruno Pereira', observation: 'Seg/Qua após 15h' },
+      { id: 'cwl-3', patientName: 'André Gomes', observation: 'Qualquer manhã' }],
 
       'Dr. Alexandre Bernardo': [
-      { id: 'cwl-4', patientName: 'Sofia Lopes', detailKey: 'wantsToAnticipate', currentDate: '4 Fev', currentTime: '11:00', priority: 'alta' as const, isUrgent: true, observation: 'Quer antecipar consulta' },
-      { id: 'cwl-5', patientName: 'Helena Nunes', detailKey: 'availableAfternoons', currentDate: '7 Fev', currentTime: '15:00', priority: 'normal' as const, isUrgent: false, observation: 'Apenas tardes' },
-      { id: 'cwl-6', patientName: 'Carlos Santos', detailKey: 'anyDay', currentDate: '8 Fev', currentTime: '10:00', priority: 'normal' as const, isUrgent: false, observation: 'Qualquer dia' }],
+      { id: 'cwl-4', patientName: 'Sofia Lopes', observation: 'Quer antecipar consulta' },
+      { id: 'cwl-5', patientName: 'Helena Nunes', observation: 'Apenas tardes' },
+      { id: 'cwl-6', patientName: 'Carlos Santos', observation: 'Qualquer dia' }],
 
       'Dr. Gil Santos': [
-      { id: 'cwl-7', patientName: 'Teresa Martins', detailKey: 'availableTueThu', currentDate: '5 Fev', currentTime: '14:30', priority: 'normal' as const, isUrgent: false, observation: 'Ter/Qui ideal' },
-      { id: 'cwl-8', patientName: 'Paulo Dias', detailKey: 'wantsToAnticipate', currentDate: '6 Fev', currentTime: '16:00', priority: 'alta' as const, isUrgent: true, observation: 'Pré-cirurgia, urgente' },
-      { id: 'cwl-9', patientName: 'Beatriz Nunes', detailKey: 'anyTime', currentDate: '9 Fev', currentTime: '09:00', priority: 'normal' as const, isUrgent: false, observation: 'Flexível' }]
+      { id: 'cwl-7', patientName: 'Teresa Martins', observation: 'Ter/Qui ideal' },
+      { id: 'cwl-8', patientName: 'Paulo Dias', observation: 'Pré-cirurgia, urgente' },
+      { id: 'cwl-9', patientName: 'Beatriz Nunes', observation: 'Flexível' }]
 
     };
+    const CLINIC_WAITLIST: Record<string, { id: string; patientName: string; observation: string }[]> =
+      waitingIsDemo
+        ? MOCK_CLINIC_WAITLIST
+        : dbWaitingEntries.reduce<Record<string, { id: string; patientName: string; observation: string }[]>>(
+            (acc, e) => {
+              const key = e.dentistName !== '—' ? e.dentistName : t('waitingList.mgmt.anyDentist');
+              acc[key] = [...(acc[key] ?? []), { id: e.id, patientName: e.patientName, observation: e.observation ?? '—' }];
+              return acc;
+            },
+            {}
+          );
     const totalWaitlist = Object.values(CLINIC_WAITLIST).flat().length;
+
 
 
 
