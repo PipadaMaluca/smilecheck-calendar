@@ -854,6 +854,7 @@ export type Database = {
         }
         Returns: Json
       }
+      can_notify_profile: { Args: { _profile_id: string }; Returns: boolean }
       can_rate_appointment: {
         Args: { _appointment_id: string; _to_profile_id: string }
         Returns: boolean

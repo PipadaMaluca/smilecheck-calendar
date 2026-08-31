@@ -125,9 +125,11 @@ export async function notifyWaitingEntry(entry: WaitingEntry, message: string): 
 
 /** Hard delete — the waiting list is not clinical history. */
 export async function removeWaitingEntry(id: string): Promise<void> {
-  const { error } = await supabase.from('waiting_list').delete().eq('id', id);
+  const { data, error } = await supabase.from('waiting_list').delete().eq('id', id).select('id');
   if (error) throw error;
+  if (!data?.length) throw new Error('Entrada não encontrada');
 }
+
 
 /**
  * Assign a slot: reuses the Phase 3.3 auto-match writer, so the appointment is
