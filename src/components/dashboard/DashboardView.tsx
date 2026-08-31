@@ -113,6 +113,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const { toast } = useToast();
   const isLoading = useSimulatedLoading(1200, `dashboard:${userRole}`);
   const userName = getUserName(userRole);
+  // Waiting-list summary: real rows for authenticated users, mock in demo mode.
+  const { entries: dbWaitingEntries, isDemo: waitingIsDemo } = useWaitingList();
+  const dentistWaitlist = waitingIsDemo
+    ? MOCK_WAITING_LIST.map((wl) => ({ id: wl.id, patientName: wl.patientName, observation: wl.observation }))
+    : dbWaitingEntries.map((e) => ({
+        id: e.id,
+        patientName: e.patientName,
+        observation: e.observation ?? '—',
+      }));
+
   const [activeSwipeRow, setActiveSwipeRow] = useState<string | null>(null);
   const [consultationStatuses, setConsultationStatuses] = useState<Record<string, string>>({});
   // Level-up celebration only fires when XP genuinely crosses a threshold.
