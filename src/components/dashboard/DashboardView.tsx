@@ -591,16 +591,20 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="dentist:lista-espera"
-              badge={<Badge variant="outline" className="text-[11px]">{MOCK_WAITING_LIST.length}</Badge>}
+              badge={<Badge variant="outline" className="text-[11px]">{dentistWaitlist.length}</Badge>}
             >
               <div className="space-y-0 flex-1">
-                {MOCK_WAITING_LIST.map((wl) =>
+                {dentistWaitlist.length === 0 && (
+                  <p className="text-xs text-muted-foreground py-2">{t('waitingList.noPatients')}</p>
+                )}
+                {dentistWaitlist.map((wl) =>
                 <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
                     <span className="text-[11px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
                   </div>
                 )}
               </div>
+
               <button
                 className="w-full text-xs text-primary hover:bg-primary/5 py-2 rounded-md transition-colors font-medium mt-2"
                 onClick={() => {onNavigate('estatisticas');setTimeout(() => document.querySelector<HTMLButtonElement>('[data-subtab="lista_espera"]')?.click(), 100);}}>
