@@ -9,6 +9,7 @@ import { getQuickActions } from './quickActions';
 import { Star, Calendar, Users, Flame, Award, Search, BarChart3, Heart, Check, X, Ban, ChevronDown, UserPlus } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
