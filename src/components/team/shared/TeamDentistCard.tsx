@@ -148,7 +148,7 @@ export function TeamDentistCard({
               {dentist.scheduleSummary && <p>
 <Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{dentist.scheduleSummary}</p>}
               {dentist.teleconsultas !== undefined && (
-                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? `✅ ${t('team.teleconsultations')}` : `❌ ${t('team.noTeleconsultations')}`}</p>
+                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? t('team.teleconsultations') : `❌ ${t('team.noTeleconsultations')}`}</p>
               )}
               <p>
                 {dentist.consultationsThisMonth} {t('team.consultationsLabel')}

@@ -3,7 +3,7 @@ import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, Flame } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
@@ -69,7 +69,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             <p className="text-lg font-bold font-mono text-primary">
               {String(countdown.hours).padStart(2, '0')}h {String(countdown.minutes).padStart(2, '0')}m {String(countdown.seconds).padStart(2, '0')}s
             </p>
-            <p className="text-xs text-muted-foreground mt-1">{t('scores.openDaily')} 📅</p>
+            <p className="text-xs text-muted-foreground mt-1">{t('scores.openDaily')}</p>
           </div>
           <div className="space-y-2">
             {[
@@ -121,7 +121,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
                     missed && isPast && 'text-muted-foreground/40'
                   )}
                 >
-                  {hasCheckin ? '✅' : day}
+                  {hasCheckin ? <Check className="w-4 h-4" /> : day}
                 </div>
               );
             })}
@@ -138,7 +138,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
               <div key={i} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    {s.isCurrent && '🔥 '}{s.label}: {s.days} {t('scores.days')}
+                    {s.isCurrent && <Flame className="w-3.5 h-3.5 inline mr-1 text-warning" />}{s.label}: {s.days} {t('scores.days')}
                   </p>
                   <p className="text-[11px] text-muted-foreground">{s.startDate} — {s.endDate}</p>
                 </div>

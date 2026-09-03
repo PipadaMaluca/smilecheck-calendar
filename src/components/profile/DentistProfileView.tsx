@@ -189,7 +189,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="text-xs">
-              {DENTIST_EXTRA.acceptsNewPatients ? `✓ ${t('profile.acceptsNewPatients')}` : `✗ ${t('profile.notAcceptingPatients')}`}
+              {DENTIST_EXTRA.acceptsNewPatients ? t('profile.acceptsNewPatients') : t('profile.notAcceptingPatients')}
             </Badge>
             {DENTIST_EXTRA.teleconsultaAvailable &&
           <Badge variant="outline" className="text-xs text-success border-emerald-400/30 bg-emerald-400/10">
