@@ -338,11 +338,14 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
       {/* Notification List */}
       <div className="max-h-[75vh] overflow-y-auto">
-        {filteredRecent.length === 0 ?
+        {loading ?
+        <NotificationSkeleton /> :
+        filteredRecent.length === 0 ?
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
             <Bell className="w-10 h-10 mb-3 opacity-30" />
             <p className="text-xs">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
+
 
         filteredRecent.map((notification) => {
           const Icon = NOTIFICATION_ICONS[notification.type];
