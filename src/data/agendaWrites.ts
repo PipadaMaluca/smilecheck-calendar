@@ -317,6 +317,18 @@ export async function updateAppointment(input: UpdateAppointmentInput): Promise<
 
   const { error } = await supabase.from('appointments').update(patch).eq('id', id);
   if (error) throw error;
+
+  if (rest.scheduledAt) {
+    const target = await appointmentTarget(id);
+    const slot = formatSlot(rest.scheduledAt);
+    notifyProfileSilently({
+      profileId: target?.patient_id,
+      type: 'appointment_changed',
+      title: 'Consulta alterada',
+      message: `Novo horário: ${slot.date} às ${slot.time}`,
+      actionUrl: '/app?tab=agenda',
+    });
+  }
 }
 
 /** Status change (points writing stays for the later points phase). */
@@ -325,16 +337,58 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
   if (!status) throw new Error(`Estado desconhecido: ${uiStatus}`);
   const { error } = await supabase.from('appointments').update({ status }).eq('id', id);
   if (error) throw error;
+
+  if (status === 'confirmada' || status === 'cancelada' || status === 'concluida') {
+    const target = await appointmentTarget(id);
+    const slot = target ? formatSlot(target.scheduled_at) : null;
+    if (status === 'confirmada') {
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'appointment_confirmed',
+        title: 'Consulta confirmada',
+        message: slot ? `${slot.date} às ${slot.time}` : undefined,
+        actionUrl: '/app?tab=agenda',
+      });
+    } else if (status === 'cancelada') {
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'appointment_cancelled',
+        title: 'Consulta cancelada',
+        message: slot ? `${slot.date} às ${slot.time}` : undefined,
+        actionUrl: '/app?tab=agenda',
+      });
+    } else {
+      // Completed consultation -> ask the patient for the bidirectional rating.
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'feedback_pending',
+        title: 'Avalie a sua consulta',
+        message: slot ? `Consulta de ${slot.date}` : undefined,
+        actionUrl: '/app?tab=pontuacoes',
+      });
+    }
+  }
 }
 
 /** Soft cancel — the row is kept for history and the slot becomes free again. */
 export async function cancelAppointment(id: string): Promise<void> {
+  const target = await appointmentTarget(id);
   const { error } = await supabase
     .from('appointments')
     .update({ status: 'cancelada' as DbAppointmentStatus })
     .eq('id', id);
   if (error) throw error;
+
+  const slot = target ? formatSlot(target.scheduled_at) : null;
+  notifyProfileSilently({
+    profileId: target?.patient_id,
+    type: 'appointment_cancelled',
+    title: 'Consulta cancelada',
+    message: slot ? `${slot.date} às ${slot.time}` : undefined,
+    actionUrl: '/app?tab=agenda',
+  });
 }
+
 
 /* ---------------- Waiting-list auto-match on cancel ---------------- */
 
