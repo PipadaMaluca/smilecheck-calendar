@@ -51,7 +51,7 @@ export function TriageDurationStep({
               >
                 {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
               </div>
-              <Glyph emoji=<Glyph emoji={duration.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-5 h-5" />
+              <Glyph emoji={duration.icon} className="w-5 h-5" />
               <span className="text-sm font-medium text-foreground">{t(duration.key)}</span>
             </button>
           );

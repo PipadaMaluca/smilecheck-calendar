@@ -79,7 +79,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             ].map((tier, i) => (
               <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/50">
                 <div className="flex items-center gap-2">
-                  <Glyph emoji=<Glyph emoji={tier.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-5 h-5" />
+                  <Glyph emoji={tier.icon} className="w-5 h-5" />
                   <span className="text-xs font-medium text-foreground">{tier.label}</span>
                 </div>
                 <span className="text-xs font-bold text-primary">{tier.reward}</span>

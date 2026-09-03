@@ -51,7 +51,7 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         <div className="grid grid-cols-3 gap-2 w-full">
           {rankingTypes.map((type, index) => (
             <div key={index} className="bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-center" style={{ padding: '12px 4px' }}>
-              <Glyph emoji=<Glyph emoji={type.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-6 h-6" />
+              <Glyph emoji={type.icon} className="w-6 h-6" />
               <p className="text-[12px] font-bold text-foreground mt-1">{t(type.titleKey)}</p>
               <p className="text-[11px] text-muted-foreground mt-0.5">{t(type.descKey)}</p>
             </div>

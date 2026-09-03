@@ -50,7 +50,7 @@ export const SlideRewards = ({ isActive }: SlideRewardsProps) => {
             <div key={index} className="flex items-center justify-between p-3 rounded-xl border"
               style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.1)', borderColor: 'hsla(162, 100%, 43%, 0.2)' }}>
               <div className="flex items-center gap-2">
-                <Glyph emoji=<Glyph emoji={reward.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-6 h-6" />
+                <Glyph emoji={reward.icon} className="w-6 h-6" />
                 <span className="text-foreground/80 text-sm">{t(reward.labelKey)}</span>
               </div>
               <span className="text-gaming-green font-bold text-sm">{reward.bonus}</span>

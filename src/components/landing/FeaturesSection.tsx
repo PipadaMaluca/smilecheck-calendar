@@ -92,7 +92,7 @@ function BadgesMockup() {
       <div className="grid grid-cols-3 gap-3 mb-4">
         {items.map((it) => (
           <div key={it.l} className="aspect-square rounded-xl bg-gradient-to-br from-[#F5F9FF] to-[#E8F2FF] dark:from-[#1E3A5F]/40 dark:to-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] flex flex-col items-center justify-center gap-1">
-            <Glyph emoji=<Glyph emoji={it.e} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-7 h-7" />
+            <Glyph emoji={it.e} className="w-7 h-7" />
             <span className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
           </div>
         ))}
@@ -282,7 +282,7 @@ function FeatureGrid({ features }: { features: { icon: string; titleKey: string;
           key={f.titleKey}
           className="group p-7 rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] hover:border-[#2196F3]/50 hover:shadow-xl hover:shadow-[#2196F3]/10 hover:-translate-y-1 transition-all duration-300"
         >
-          <Glyph emoji=<Glyph emoji={f.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-8 h-8 mb-4 block" />
+          <Glyph emoji={f.icon} className="w-8 h-8 mb-4 block" />
           <h3 className="font-semibold text-[#1A202C] dark:text-white mb-2">{t(f.titleKey)}</h3>
           <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] leading-relaxed">{t(f.descKey)}</p>
         </div>

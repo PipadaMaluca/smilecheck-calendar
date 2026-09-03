@@ -64,7 +64,7 @@ export function TriageSymptomsStep({
                   : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'
               )}
             >
-              <Glyph emoji=<Glyph emoji={symptom.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-7 h-7 mb-2" />
+              <Glyph emoji={symptom.icon} className="w-7 h-7 mb-2" />
               <span className="text-xs font-medium text-center leading-tight">{t(symptom.key)}</span>
             </button>
           );
