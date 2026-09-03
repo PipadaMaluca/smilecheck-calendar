@@ -649,7 +649,33 @@
     padding-bottom: 6px;
     margin-bottom: 6px;
   }
+
+  /* === In-app tactile press (Area 1) ===
+     Single shared token for every tappable surface inside the app.
+     Landing-page marketing motion is intentionally excluded. */
+  .press {
+    transition: transform var(--motion-fast) var(--ease-premium);
+    will-change: transform;
+  }
+  .press:active {
+    transform: scale(0.98);
+  }
+  /* Cards that lift on hover press down instead of translating on tap */
+  .card-hover-lift:active,
+  .interactive-lift:active {
+    transform: scale(0.98);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .press,
+    .press:active,
+    .card-hover-lift:active,
+    .interactive-lift:active {
+      transition: none;
+      transform: none;
+    }
+  }
 }
+
 
 :root:not(.light) .consultation-row:not(:last-child) {
   border-bottom-color: rgba(255, 255, 255, 0.08);
