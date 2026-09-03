@@ -454,11 +454,14 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
       </div>
 
       <div className="space-y-1">
-        {filteredNotifications.length === 0 ?
+        {loading ?
+        <NotificationSkeleton rows={6} /> :
+        filteredNotifications.length === 0 ?
         <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
             <Bell className="w-10 h-10 mb-3 opacity-30" />
             <p className="text-sm">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
+
 
         filteredNotifications.map((notification) => {
           const Icon = NOTIFICATION_ICONS[notification.type];
