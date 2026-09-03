@@ -410,30 +410,22 @@ interface NotificationsFullViewProps {
 export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationsFullViewProps) {
   const { t } = useTranslation();
   const FILTERS = useFilterLabels();
-  const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
+  const { notifications, unreadCount, loading, markRead, markAllRead } = useNotificationList(userRole);
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
 
   const filteredNotifications = useMemo(() => filterNotifications(notifications, activeFilter), [notifications, activeFilter]);
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  const markAsRead = (id: string) => {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
-  };
-
-  const markAllRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-  };
 
   const handleClick = (notification: Notification) => {
     if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
       return;
     }
-    markAsRead(notification.id);
+    markRead(notification.id);
     if (notification.action && onNavigate) {
       onNavigate(notification.action);
     }
   };
+
 
   return (
     <div className={cn('flex-1 overflow-y-auto', inline ? '' : 'px-4 py-4')}>
