@@ -167,7 +167,7 @@ export function SwipeableRow({
       <div
         className={cn(
           "relative z-10 bg-card",
-          !isDragging && "transition-transform duration-200 ease-out"
+          !isDragging && "transition-transform duration-150 ease-out"
         )}
         style={{
           transform: `translateX(${offset}px)`,

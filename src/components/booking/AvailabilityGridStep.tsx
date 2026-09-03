@@ -159,7 +159,7 @@ export function AvailabilityGridStep({
     return (
       <button
         onClick={() => toggleSlot(date, time)}
-        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-success text-[11px] font-semibold transition-all hover:bg-emerald-500/25 hover:brightness-110"
+        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-success text-[11px] font-semibold transition-[transform,background-color,border-color,color,box-shadow] hover:bg-emerald-500/25 hover:brightness-110"
       >
         {time}
       </button>
@@ -231,7 +231,7 @@ export function AvailabilityGridStep({
                 key={i}
                 onClick={() => setMobileDayIdx(i)}
                 className={cn(
-                  'flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold border transition-all',
+                  'flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold border transition-colors',
                   mobileDayIdx === i
                     ? 'bg-primary text-primary-foreground border-primary'
                     : 'bg-secondary text-foreground border-border'
@@ -334,7 +334,7 @@ export function AvailabilityGridStep({
                       key={label}
                       onClick={() => dayToggle(dayNum)}
                       className={cn(
-                        'px-3 py-1.5 rounded-md text-xs font-medium border transition-all',
+                        'px-3 py-1.5 rounded-md text-xs font-medium border transition-colors',
                         selected
                           ? 'bg-primary text-primary-foreground border-primary'
                           : 'bg-background text-foreground border-border hover:border-primary/50'

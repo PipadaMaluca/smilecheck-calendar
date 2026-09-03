@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConsultationScore } from '@/types/scoring';
-import { CATEGORY_COLORS, ConsultationCategory, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { CATEGORY_COLORS, ConsultationCategory, UserRole, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -54,10 +54,8 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   const renderSecondLine = () => (
     <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
       {catLabel && (
-        <span
-          className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
-          style={{ ...getCategoryBadgeStyle(catColor?.hex || ''), padding: '2px 10px' }}
-        >
+        <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground leading-none whitespace-nowrap">
+          <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: catColor?.hex || 'hsl(var(--primary))' }} />
           {catLabel}
         </span>
       )}

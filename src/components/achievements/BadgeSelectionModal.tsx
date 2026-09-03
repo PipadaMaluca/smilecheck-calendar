@@ -68,7 +68,7 @@ export function BadgeSelectionModal({ open, onOpenChange, categories, selectedId
             {Array.from({ length: 8 }).map((_, i) => {
               const ach = selectedAchievements[i];
               return (
-                <div key={i} className={cn('aspect-square rounded-xl flex items-center justify-center transition-all',
+                <div key={i} className={cn('aspect-square rounded-xl flex items-center justify-center transition-colors',
                   ach ? 'bg-gradient-to-br ' + BADGE_TIER_STYLES[getBadgeTier(ach)].bgGradient + ' border ' + BADGE_TIER_STYLES[getBadgeTier(ach)].borderColor : 'border-2 border-dashed border-border/50')}>
                   {ach ? <Glyph emoji={ach.emoji} fallback={Trophy} className="w-5 h-5" /> : <Plus className="w-4 h-4 text-muted-foreground/40" />}
                 </div>
@@ -93,7 +93,7 @@ export function BadgeSelectionModal({ open, onOpenChange, categories, selectedId
                       const tierStyle = BADGE_TIER_STYLES[tier];
                       return (
                         <button key={ach.id} onClick={() => toggle(ach.id)} disabled={isLocked}
-                          className={cn('relative flex items-center gap-2 p-2 rounded-lg border text-left transition-all',
+                          className={cn('relative flex items-center gap-2 p-2 rounded-lg border text-left transition-colors',
                             isSelected ? 'border-primary bg-primary/10 ring-1 ring-primary/30' : isLocked ? 'border-border/30 opacity-40 cursor-not-allowed' : 'border-border hover:border-primary/40 hover:bg-secondary/50')}>
                           {isSelected && <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center"><Check className="w-3 h-3 text-primary-foreground" /></div>}
                           {isLocked && <div className="absolute -top-1 -right-1 w-4 h-4 bg-muted rounded-full flex items-center justify-center"><Lock className="w-2.5 h-2.5 text-muted-foreground" /></div>}

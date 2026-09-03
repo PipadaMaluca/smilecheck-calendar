@@ -108,7 +108,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
                       href={`#${l.id}`}
                       onClick={(e) => handleClick(e, l.id)}
                       className={cn(
-                        'inline-flex items-center text-[11px] md:text-[12px] lg:text-[13px] whitespace-nowrap transition-all duration-200 border-b-2',
+                        'inline-flex items-center text-[11px] md:text-[12px] lg:text-[13px] whitespace-nowrap transition-colors duration-150 border-b-2',
                         isActive
                           ? 'text-[#2196F3] font-semibold border-[#2196F3]'
                           : cn(

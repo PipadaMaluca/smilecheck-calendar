@@ -27,7 +27,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[210] flex items-center justify-center transition-opacity duration-500',
+        'fixed inset-0 z-[210] flex items-center justify-center transition-opacity duration-300',
         selected !== null ? 'opacity-0 pointer-events-none' : 'opacity-100',
         'bg-gradient-to-br from-[hsl(220,40%,8%)] via-[hsl(220,30%,12%)] to-[hsl(220,40%,8%)]'
       )}
@@ -56,7 +56,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
               className={cn(
                 'group w-full h-16 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)]',
                 'bg-gradient-to-r from-[hsl(220,30%,15%)] to-[hsl(220,30%,18%)]',
-                'flex items-center gap-4 px-6 transition-all duration-300',
+                'flex items-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >

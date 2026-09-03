@@ -34,7 +34,7 @@ export function TriageDesktopSidebar({ activeItem }: TriageDesktopSidebarProps) 
               key={item.id}
               onClick={() => navigate(item.path)}
               className={cn(
-                'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left',
+                'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left',
                 isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground'
               )}
             >

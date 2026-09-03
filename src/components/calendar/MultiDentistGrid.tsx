@@ -329,7 +329,7 @@ export function MultiDentistGrid({
                         onMouseLeave={() => onConsultationHover?.(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
                         className={cn(
-                          "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-all overflow-hidden appointment-card-mobile",
+                          "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-colors overflow-hidden appointment-card-mobile",
                           smallMobileMulti ? "!px-[4px] !py-[3px]" : isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}

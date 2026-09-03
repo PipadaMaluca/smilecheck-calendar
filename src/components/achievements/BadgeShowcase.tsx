@@ -56,7 +56,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
               <button
                 key={`empty-${i}`}
                 onClick={() => setShowModal(true)}
-                className="aspect-square rounded-xl border-2 border-dashed border-border/40 flex items-center justify-center hover:border-primary/40 hover:bg-primary/5 transition-all group"
+                className="aspect-square rounded-xl border-2 border-dashed border-border/40 flex items-center justify-center hover:border-primary/40 hover:bg-primary/5 transition-colors group"
               >
                 <Plus className="w-5 h-5 text-muted-foreground/40 group-hover:text-primary/60 transition-colors" />
               </button>

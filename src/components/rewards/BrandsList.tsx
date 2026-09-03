@@ -31,7 +31,7 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
             const canAfford = userPoints >= product.points;
             const missing = product.points - userPoints;
             return (
-              <Card key={product.id} className={cn('transition-all', !canAfford && 'opacity-60')}>
+              <Card key={product.id} className={cn('transition-colors', !canAfford && 'opacity-60')}>
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-xl shrink-0">
                     <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />

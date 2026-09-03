@@ -23,7 +23,7 @@ export const SlideLevels = ({ isActive }: SlideLevelsProps) => {
       </h2>
       <div className="glass-card p-4 w-full max-w-sm space-y-2">
         {levelsData.map((level, index) => (
-          <div key={index} className={`flex items-center justify-between p-3 rounded-xl border transition-all duration-300 ${level.bgColor} ${level.borderColor}`}>
+          <div key={index} className={`flex items-center justify-between p-3 rounded-xl border transition-colors duration-300 ${level.bgColor} ${level.borderColor}`}>
             <div className="flex items-center gap-3">
               <LevelIcon levelKey={level.levelKey} size={24} />
               <span className={`font-bold ${level.color}`}>{t(`onboarding.levels.${level.nameKey}`)}</span>

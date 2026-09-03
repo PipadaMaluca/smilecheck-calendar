@@ -162,7 +162,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <button
                 key={p.id}
                 onClick={() => setSelectedPatient(p)}
-                className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
+                className={cn("w-full flex items-center p-3 rounded-lg border transition-colors hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
                 selectedPatient?.id === p.id ? 'border-primary bg-primary/10' : 'border-border'
                 )}>
                   <Avatar className="h-10 w-10">
@@ -427,7 +427,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
               <div key={s} className="flex-1">
-              <div className={cn('h-1.5 rounded-full transition-all', s <= step ? 'bg-primary' : 'bg-muted')} />
+              <div className={cn('h-1.5 rounded-full transition-colors', s <= step ? 'bg-primary' : 'bg-muted')} />
             </div>
               )}
           </div>

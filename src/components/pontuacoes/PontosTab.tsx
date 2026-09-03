@@ -95,7 +95,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               return (
                 <div key={l.key} className="flex items-center">
                   <div className={cn(
-                    'flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg transition-all min-w-[50px]',
+                    'flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg transition-colors min-w-[50px]',
                     isCurrent ? `${l.bgColor} ${l.borderColor} border-2` : isPast ? 'opacity-60' : 'opacity-30'
                   )}>
                     <LevelIcon levelKey={l.key} size={20} />

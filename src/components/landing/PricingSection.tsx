@@ -55,7 +55,7 @@ export function PricingSection() {
 
   return (
     <section id="planos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
-      <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
+      <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
           <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
           <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
@@ -72,7 +72,7 @@ export function PricingSection() {
                 aria-selected={!annual}
                 onClick={() => setAnnual(false)}
                 className={cn(
-                  'px-5 py-1.5 text-sm rounded-full transition-all',
+                  'px-5 py-1.5 text-sm rounded-full transition-colors',
                   !annual
                     ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
@@ -86,7 +86,7 @@ export function PricingSection() {
                 aria-selected={annual}
                 onClick={() => setAnnual(true)}
                 className={cn(
-                  'px-5 py-1.5 text-sm rounded-full transition-all',
+                  'px-5 py-1.5 text-sm rounded-full transition-colors',
                   annual
                     ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
@@ -146,7 +146,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
             <div
               key={plan.name}
               data-anim="tilt-card"
-              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-all duration-200 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
+              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-[transform,background-color,border-color,color,box-shadow] duration-150 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
             >
               <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
                 {plan.badge}
@@ -160,7 +160,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         return (
           <div key={plan.name} data-anim="tilt-card" className={cn(
-            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-all duration-200 bg-white dark:bg-[#0D2137]',
+            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-colors duration-150 bg-white dark:bg-[#0D2137]',
             isPopular
               ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
               : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
@@ -210,7 +210,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
       <Button
         onClick={onCta}
         className={cn(
-          'w-full rounded-full font-semibold transition-all',
+          'w-full rounded-full font-semibold transition-colors',
           accent
             ? 'bg-[#2196F3] hover:bg-[#1E88E5] text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
             : 'bg-white dark:bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'

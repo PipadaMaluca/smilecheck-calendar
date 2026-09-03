@@ -64,7 +64,7 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[200] bg-background transition-opacity duration-500',
+        'fixed inset-0 z-[200] bg-background transition-opacity duration-300',
         fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       )}
     >
@@ -81,7 +81,7 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
       <button
         onClick={handleFinish}
         className={cn(
-          'absolute top-6 right-6 z-10 text-sm text-white/70 hover:text-white transition-all duration-300',
+          'absolute top-6 right-6 z-10 text-sm text-white/70 hover:text-white transition-colors duration-300',
           'px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm',
           showSkip ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}

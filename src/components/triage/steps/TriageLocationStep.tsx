@@ -210,7 +210,7 @@ export function TriageLocationStep({
                   <path
                     d={shape.outline}
                     className={cn(
-                      'transition-all duration-150',
+                      'transition-colors duration-150',
                       isSelected ? 'fill-primary/90 stroke-primary' : 'fill-[#0f2a42] stroke-[#4a6a8a]',
                     )}
                     strokeWidth={1.2}
@@ -220,7 +220,7 @@ export function TriageLocationStep({
                     <path
                       d={shape.detail}
                       className={cn(
-                        'transition-all duration-150',
+                        'transition-colors duration-150',
                         isSelected ? 'stroke-primary-foreground/40' : 'stroke-[#3a5a7a]/50',
                       )}
                       strokeWidth={0.7}

@@ -83,7 +83,7 @@ export function OnboardingCarousel() {
         <div className="flex justify-center items-center gap-2 py-3">
           {slides.map((_, index) => (
             <button key={index} onClick={() => scrollTo(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'w-6' : 'w-2 bg-muted hover:bg-muted-foreground/50'}`}
+              className={`h-2 rounded-full transition-colors duration-300 ${index === currentSlide ? 'w-6' : 'w-2 bg-muted hover:bg-muted-foreground/50'}`}
               style={index === currentSlide ? { backgroundColor: '#2196F3', boxShadow: '0 0 12px rgba(33, 150, 243, 0.5)' } : {}} />
           ))}
         </div>
@@ -91,7 +91,7 @@ export function OnboardingCarousel() {
         {!isLast && (
           <div className="flex flex-col items-center gap-2 px-4 pb-4 safe-area-pb">
             <button onClick={scrollNext}
-              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-all duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-[48px]"
+              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-[transform,background-color,border-color,color,box-shadow] duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-[48px]"
               style={{ backgroundColor: '#2196F3', boxShadow: '0 0 20px rgba(33, 150, 243, 0.3)' }}>
               {t('onboarding.next')}
               <ChevronRight className="w-4 h-4" />

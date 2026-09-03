@@ -35,13 +35,13 @@ export function WaitingRoom({ isOpen, dentistName, onLeave }: WaitingRoomProps) 
       <div className="flex items-center gap-4">
         <button
           onClick={() => setIsMuted(!isMuted)}
-          className={cn('p-3 rounded-xl transition-all', isMuted ? 'bg-red-600/20 text-red-400' : 'bg-white/10 text-white')}
+          className={cn('p-3 rounded-xl transition-colors', isMuted ? 'bg-red-600/20 text-red-400' : 'bg-white/10 text-white')}
         >
           {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
         </button>
         <button
           onClick={() => setIsCameraOff(!isCameraOff)}
-          className={cn('p-3 rounded-xl transition-all', isCameraOff ? 'bg-red-600/20 text-red-400' : 'bg-white/10 text-white')}
+          className={cn('p-3 rounded-xl transition-colors', isCameraOff ? 'bg-red-600/20 text-red-400' : 'bg-white/10 text-white')}
         >
           {isCameraOff ? <VideoOff className="w-5 h-5" /> : <Video className="w-5 h-5" />}
         </button>

@@ -214,7 +214,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
           }}
           placeholder={t('search.placeholder')}
           className={cn(
-            'pl-9 pr-8 h-9 w-full text-sm transition-all',
+            'pl-9 pr-8 h-9 w-full text-sm transition-[transform,background-color,border-color,color,box-shadow]',
             isFocused && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
           )}
         />

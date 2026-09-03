@@ -121,7 +121,7 @@ export function DesktopNavSidebar({
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-0.5 h-auto py-1.5 px-1 w-full transition-all duration-200 relative rounded-none border-l-[3px]',
+          'flex flex-col gap-0.5 h-auto py-1.5 px-1 w-full transition-colors duration-150 relative rounded-none border-l-[3px]',
           isActive
             ? 'border-l-[#2196F3] text-sidebar-foreground bg-transparent hover:bg-sidebar-accent/40'
             : 'border-l-transparent text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/40'
@@ -130,10 +130,7 @@ export function DesktopNavSidebar({
         <div className="relative">
           <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-[#2196F3]')} />
           {badge && (
-            <span className={cn(
-              'absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[11px] font-bold text-white border-2 border-sidebar',
-              badge.color
-            )}>
+            <span className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
               {badge.type === 'count' ? badge.value : '!'}
             </span>
           )}
@@ -155,7 +152,7 @@ export function DesktopNavSidebar({
   return (
     <aside
       className={cn(
-        'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
+        'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
         isExpanded ? 'w-[100px]' : 'w-[64px]'
       )}
     >
@@ -164,7 +161,7 @@ export function DesktopNavSidebar({
         <Logo
           variant="icon"
           size={isExpanded ? 48 : 40}
-          className="transition-all duration-300"
+          className="transition-colors duration-300"
         />
         {userRole !== 'patient' && (
           <span className={cn(

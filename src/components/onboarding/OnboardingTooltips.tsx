@@ -118,7 +118,7 @@ function _UnusedOnboardingTooltips() {
       {/* Spotlight ring */}
       {position?.spotlightRect && (
         <div
-          className="fixed z-[91] pointer-events-none rounded-lg ring-2 ring-primary/60 transition-all duration-300"
+          className="fixed z-[91] pointer-events-none rounded-lg ring-2 ring-primary/60 transition-colors duration-300"
           style={{
             top: position.spotlightRect.top - 6,
             left: position.spotlightRect.left - 6,

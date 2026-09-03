@@ -808,7 +808,7 @@ export function DesktopCalendarView() {
               {activeRole === 'patient' ? (
                 <div className="flex-1 flex overflow-hidden relative z-0">
                   <div className={cn(
-                    "transition-all duration-300 ease-out overflow-hidden",
+                    "transition-colors duration-300 ease-out overflow-hidden",
                     selectedConsultation ? "w-1/2" : "w-full"
                   )}>
                     {renderContent()}

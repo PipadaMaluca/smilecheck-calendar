@@ -23,7 +23,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
 
   return (
     <div className="h-full flex flex-col items-center justify-center px-6">
-      <div className={`mb-6 ${isActive ? 'animate-rocket' : ''}`}>
+      <div className={"mb-6"}>
         <div className="w-24 h-24 rounded-full flex items-center justify-center glow-gold" style={{ background: 'linear-gradient(135deg, hsla(45, 100%, 50%, 0.2), hsla(162, 100%, 43%, 0.1))' }}>
           <Glyph emoji="🚀" className="w-14 h-14" />
         </div>
@@ -60,7 +60,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
           <span className="text-muted-foreground text-sm">{bonusPoints}/{maxPoints} pts</span>
         </div>
         <div className="h-3 bg-secondary/50 rounded-full overflow-hidden mb-2">
-          <div className="h-full rounded-full transition-all duration-1000 glow-green"
+          <div className="h-full rounded-full transition-colors duration-300 glow-green"
             style={{ width: `${progressPercentage}%`, background: 'linear-gradient(to right, hsl(162, 100%, 43%), hsla(162, 100%, 43%, 0.7))' }} />
         </div>
         <div className="flex items-center gap-1 text-sm text-muted-foreground">

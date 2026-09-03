@@ -295,7 +295,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             key={c.id}
             onClick={() => setData(d => ({ ...d, clinic: c }))}
             className={cn(
-              'w-full p-4 rounded-xl border text-left transition-all',
+              'w-full p-4 rounded-xl border text-left transition-colors',
               data.clinic?.id === c.id
                 ? 'border-primary bg-primary/10 ring-1 ring-primary'
                 : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -322,7 +322,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <button
           onClick={() => setData(d => ({ ...d, consultationType: 'presencial', isUrgent: false }))}
           className={cn(
-            'w-full p-4 rounded-xl border text-left transition-all',
+            'w-full p-4 rounded-xl border text-left transition-colors',
             data.consultationType === 'presencial'
               ? 'border-primary bg-primary/10 ring-1 ring-primary'
               : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -340,7 +340,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <button
           onClick={() => setData(d => ({ ...d, consultationType: 'teleconsulta' }))}
           className={cn(
-            'w-full p-4 rounded-xl border text-left transition-all',
+            'w-full p-4 rounded-xl border text-left transition-colors',
             data.consultationType === 'teleconsulta'
               ? 'border-primary bg-primary/10 ring-1 ring-primary'
               : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -529,7 +529,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <button
           onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
           className={cn(
-            'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
+            'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-colors',
             paymentMethod === 'card' && useSavedCard ? 'border-primary bg-primary/10 ring-1 ring-primary' : 'border-border bg-secondary hover:border-muted-foreground/40'
           )}
         >
@@ -552,7 +552,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <button
               onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
               className={cn(
-                'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-all',
+                'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-colors',
                 paymentMethod === m.id
                   ? 'border-primary bg-primary/10 ring-1 ring-primary'
                   : 'border-border bg-secondary hover:border-muted-foreground/40'

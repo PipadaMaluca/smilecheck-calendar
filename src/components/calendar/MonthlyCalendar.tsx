@@ -88,7 +88,7 @@ export function MonthlyCalendar({
               key={idx}
               onClick={() => onDateSelect(date)}
               className={cn(
-                'relative flex flex-col items-center justify-center w-10 h-10 rounded-lg text-sm transition-all',
+                'relative flex flex-col items-center justify-center w-10 h-10 rounded-lg text-sm transition-colors',
                 !isCurrentMonth && 'text-muted-foreground/40',
                 isCurrentMonth && 'text-foreground hover:bg-secondary/50',
                 isToday && 'bg-primary text-primary-foreground font-semibold',

@@ -24,10 +24,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
 
   const langs = ['pt', 'fr', 'en'] as const;
 
-  const pillInactive = isDark
-    ? 'bg-transparent text-[#94A3B8] hover:bg-[#1E3A5F] hover:text-white'
-    : 'bg-transparent text-[#4A5568] hover:bg-[#EBF4FF] hover:text-[#1A202C]';
-  const pillActive = 'bg-[#2196F3] text-white';
+  const pillInactive = 'bg-transparent text-muted-foreground hover:text-foreground';
+  const pillActive = 'bg-card text-foreground shadow-sm';
 
   const renderToggleGroup = (size: 'sm' | 'md') => {
     const btn =
@@ -40,11 +38,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
     return (
       <div
         className={cn(
-          'flex items-center rounded-[12px] border backdrop-blur-md',
-          containerPad,
-          isDark
-            ? 'bg-[#0D2137]/80 border-[#1E3A5F]'
-            : 'bg-[#EBF4FF]/80 border-[#D6E4F0]'
+          'flex items-center rounded-[12px] border border-border bg-muted/60 backdrop-blur-md',
+          containerPad
         )}
       >
         <div className="flex items-center gap-[2px]">
@@ -60,11 +55,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           ))}
         </div>
         <div
-          className={cn('w-[2px] rounded-full', dividerH)}
-          style={{
-            background:
-              'linear-gradient(180deg, transparent 0%, #2196F3 30%, #1565C0 70%, transparent 100%)',
-          }}
+          className={cn('w-px rounded-full bg-border', dividerH)}
           aria-hidden="true"
         />
         <div className="flex items-center gap-[2px]">
@@ -90,7 +81,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl border-b',
+        'fixed top-0 left-0 right-0 z-50 transition-colors duration-300 backdrop-blur-xl border-b',
         isDark
           ? 'bg-[#0A1929]/80 border-[#1E3A5F]'
           : 'bg-white/80 border-[#E2E8F0]',
@@ -116,7 +107,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               </button>
               <button
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[12px] font-semibold whitespace-nowrap shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-all"
+                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[12px] font-semibold whitespace-nowrap shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-colors"
                 style={{ padding: '5px 10px' }}
               >
                 {t('landing.navbar.signup')}
@@ -150,7 +141,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <Button
                 size="sm"
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[13px] font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-all whitespace-nowrap"
+                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[13px] font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
               >
                 {t('landing.navbar.signup')}
               </Button>

@@ -271,7 +271,7 @@ function ToolbarButton({ icon, label, active, danger, onClick }: {
     <button
       onClick={onClick}
       className={cn(
-        'flex flex-col items-center gap-1 p-2 md:p-3 rounded-xl transition-all',
+        'flex flex-col items-center gap-1 p-2 md:p-3 rounded-xl transition-colors',
         danger ? 'bg-red-600/20 text-red-400 hover:bg-red-600/30' :
         active ? 'bg-white/10 text-white' : 'text-white/50 hover:bg-white/5 hover:text-white/80'
       )}

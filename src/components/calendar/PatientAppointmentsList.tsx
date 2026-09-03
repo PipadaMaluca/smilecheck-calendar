@@ -119,7 +119,7 @@ export function PatientAppointmentsList({
               >
               <div
                 className={cn(
-                  'bg-card rounded-xl cursor-pointer transition-all duration-200',
+                  'bg-card rounded-xl cursor-pointer transition-[transform,background-color,border-color,color,box-shadow] duration-150',
                   'border-l-4',
                   compact ? 'p-3' : 'p-4',
                   isSelected 

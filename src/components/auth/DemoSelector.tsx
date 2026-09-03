@@ -37,7 +37,7 @@ export function DemoSelector() {
                 enterDemo(o.role);
                 navigate(`/app?role=${o.role}&demo=true`);
               }}
-              className="w-full flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border hover:border-primary hover:bg-accent transition-all"
+              className="w-full flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border hover:border-primary hover:bg-accent transition-colors"
             >
               <o.icon className="w-5 h-5 text-primary" />
               <span className="text-foreground font-medium">{t(o.labelKey)} {o.name}</span>

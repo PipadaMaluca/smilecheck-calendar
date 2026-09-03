@@ -98,7 +98,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                       <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
                       <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, color: 'hsl(var(--foreground))' }} />
                       {(chartToggle === 'total' || chartToggle === 'presencial') && <Bar dataKey="presencial" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} name={t('billing.inPerson')} />}
-                      {(chartToggle === 'total' || chartToggle === 'teleconsulta') && <Bar dataKey="teleconsulta" fill="hsl(210, 80%, 65%)" radius={[4, 4, 0, 0]} name={t('billing.teleconsultas')} />}
+                      {(chartToggle === 'total' || chartToggle === 'teleconsulta') && <Bar dataKey="teleconsulta" fill="hsl(210, 60%, 75%)" radius={[4, 4, 0, 0]} name={t('billing.teleconsultas')} />}
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

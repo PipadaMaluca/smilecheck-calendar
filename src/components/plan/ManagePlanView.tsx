@@ -343,7 +343,7 @@ export function ManagePlanView({
             <Card
               key={plan.id}
               className={cn(
-                'relative transition-all duration-200 flex flex-col rounded-2xl',
+                'relative transition-colors duration-150 flex flex-col rounded-2xl',
                 isMobile && 'snap-center shrink-0 w-[85%]',
                 isPro && 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]',
                 isPremium && 'border-2 border-transparent bg-clip-padding [background-image:linear-gradient(hsl(var(--card)),hsl(var(--card))),linear-gradient(135deg,#2196F3,#1565C0)] [background-origin:border-box] [background-clip:padding-box,border-box]',
