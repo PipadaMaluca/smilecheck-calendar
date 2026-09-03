@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievement_defs: {
+        Row: {
+          achievement_key: string
+          bonus_points: number
+          category_key: string
+          created_at: string
+          id: string
+          metric: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          secret: boolean
+          sort_order: number
+          target: number
+          updated_at: string
+        }
+        Insert: {
+          achievement_key: string
+          bonus_points?: number
+          category_key: string
+          created_at?: string
+          id?: string
+          metric?: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          secret?: boolean
+          sort_order?: number
+          target?: number
+          updated_at?: string
+        }
+        Update: {
+          achievement_key?: string
+          bonus_points?: number
+          category_key?: string
+          created_at?: string
+          id?: string
+          metric?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          secret?: boolean
+          sort_order?: number
+          target?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       achievements: {
         Row: {
           achievement_key: string
@@ -859,6 +901,7 @@ export type Database = {
         Args: { _appointment_id: string; _to_profile_id: string }
         Returns: boolean
       }
+      check_achievements: { Args: { _profile_id: string }; Returns: Json }
       current_role_is: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
