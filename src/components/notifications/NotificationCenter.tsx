@@ -273,14 +273,10 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
     return () => {clearTimeout(timer);document.removeEventListener('mousedown', handler);};
   }, [onClose]);
 
-  const markAsRead = (id: string) => {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
-  };
-
   const handleNotificationClick = (e: React.MouseEvent, notification: Notification) => {
     e.preventDefault();
     e.stopPropagation();
-    markAsRead(notification.id);
+    markRead(notification.id);
 
     if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
@@ -297,9 +293,10 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
   const handleMarkAllRead = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    markAllRead();
     // Keep dropdown open
   };
+
 
   const handleViewAll = (e: React.MouseEvent) => {
     e.stopPropagation();
