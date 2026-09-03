@@ -1,4 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
+import { checkAchievementsSilently } from '@/data/achievementsSource';
 import type { ConsultationStatus, UserRole } from '@/types/calendar';
 
 /**
@@ -161,6 +162,11 @@ export async function awardStatusPoints(
       opts
     );
   }
+
+  // A completed consultation moves several achievement metrics at once.
+  checkAchievementsSilently(parties.patientId);
+  checkAchievementsSilently(parties.dentistId);
+  checkAchievementsSilently(parties.clinicOwnerId);
 }
 
 /**

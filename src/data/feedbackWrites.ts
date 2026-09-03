@@ -1,5 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { awardPoints, type AwardResult } from '@/data/pointsWrites';
+import { checkAchievementsSilently } from '@/data/achievementsSource';
 import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
 import type { FeedbackTargetRole, PendingFeedbackItem } from '@/data/bidirectionalFeedback';
 import type { UserRole } from '@/types/calendar';
@@ -60,6 +61,9 @@ export async function submitFeedback({
 
   // Points go to the person being rated, server-side.
   const award = await awardPoints(toProfileId, 'feedback_rating', { rating, appointmentId });
+  // Rating achievements: given (author) and received (recipient).
+  checkAchievementsSilently(fromProfileId);
+  checkAchievementsSilently(toProfileId);
   return { saved: true, award };
 }
 
