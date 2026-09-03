@@ -57,7 +57,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
       onClick={onClick}
       onContextMenu={handleContextMenu}
       className={cn(
-        'consultation-card cursor-pointer animate-slide-up',
+        'consultation-card cursor-pointer animate-slide-up press',
         isTeleconsulta ? 'consultation-card-teleconsulta' : 'consultation-card-presencial'
       )}
       style={{ borderLeftColor: colors.hex, borderLeftWidth: '4px' }}

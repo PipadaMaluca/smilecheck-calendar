@@ -61,7 +61,7 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
 
       <div className="flex gap-2 flex-wrap">
         {filterOptions.map((f) => (
-          <Badge key={f.key} variant={filter === f.key ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => setFilter(f.key)}>
+          <Badge key={f.key} variant={filter === f.key ? 'default' : 'outline'} className="cursor-pointer transition-colors press" onClick={() => setFilter(f.key)}>
             {f.label}
           </Badge>
         ))}

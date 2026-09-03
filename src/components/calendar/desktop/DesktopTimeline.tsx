@@ -288,8 +288,8 @@ export function DesktopTimeline({
                       <div
                         key={`empty-${time}`}
                         className={cn(
-                          "appt-slot-free transition-colors border rounded-full mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30",
-                          isPasteMode && "cursor-pointer",
+                          "appt-slot-free transition-colors border rounded-full mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30 press",
+                          isPasteMode && "cursor-pointer press",
                           dragOverSlot === slotId ? "bg-primary/20 border-primary/50" : "border-transparent"
                         )}
                         style={{ gridRow: `${idx + 1} / span 1` }}

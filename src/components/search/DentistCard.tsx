@@ -40,7 +40,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
   return (
     <div
       className={cn(
-        'bg-card rounded-lg border border-border p-4 space-y-3 flex flex-col h-full min-h-[200px] interactive-lift cursor-pointer'
+        'bg-card rounded-lg border border-border p-4 space-y-3 flex flex-col h-full min-h-[200px] interactive-lift cursor-pointer press'
       )}
       onClick={() => onViewProfile(dentist)}
     >

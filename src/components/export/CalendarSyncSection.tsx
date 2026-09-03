@@ -138,7 +138,7 @@ export function CalendarSyncSection() {
               { key: 'absences' as const, label: t('export.syncAbsences') },
               { key: 'trainings' as const, label: t('export.syncTrainings') },
             ]).map(({ key, label }) => (
-              <label key={key} className="flex items-center gap-2.5 cursor-pointer min-h-[44px]">
+              <label key={key} className="flex items-center gap-2.5 cursor-pointer min-h-[44px] press">
                 <Checkbox
                   checked={syncItems[key]}
                   onCheckedChange={(v) => setSyncItems(prev => ({ ...prev, [key]: !!v }))}

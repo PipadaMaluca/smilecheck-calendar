@@ -226,7 +226,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
     <button
       data-notification-bell
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary", className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary press", className)}>
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
       {unreadCount > 0 &&
@@ -357,8 +357,8 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
               onClick={(e) => handleNotificationClick(e, notification)}
               onKeyDown={(e) => {if (e.key === 'Enter') handleNotificationClick(e as any, notification);}}
               className={cn(
-                'flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors border-b border-border/50 last:border-0',
-                'hover:bg-accent/40 active:bg-accent/60',
+                'flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors border-b border-border/50 last:border-0 press',
+                'hover:bg-accent/40 active:bg-accent/60 press',
                 !notification.read && 'bg-primary/5'
               )}>
 
@@ -388,7 +388,7 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
           role="button"
           tabIndex={0}
           onClick={handleViewAll}
-          className="w-full py-2.5 text-center text-sm text-primary font-medium hover:bg-accent/30 transition-colors cursor-pointer">
+          className="w-full py-2.5 text-center text-sm text-primary font-medium hover:bg-accent/30 transition-colors cursor-pointer press">
 
           {t('notifications.viewAll')}
         </div>
@@ -472,8 +472,8 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
               tabIndex={0}
               onClick={() => handleClick(notification)}
               className={cn(
-                'flex items-start gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors',
-                'hover:bg-accent/40 active:bg-accent/60',
+                'flex items-start gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors press',
+                'hover:bg-accent/40 active:bg-accent/60 press',
                 !notification.read && 'bg-primary/5'
               )}>
 
@@ -488,7 +488,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
                   <p className="text-xs text-muted-foreground mt-0.5">{notification.description}</p>
                   <p className="text-[11px] text-muted-foreground/60 mt-1">{notification.time}</p>
                   {notification.actionLabel && !notification.read &&
-                <Badge className="mt-1.5 text-[11px] h-5 cursor-pointer">{notification.actionLabel}</Badge>
+                <Badge className="mt-1.5 text-[11px] h-5 cursor-pointer press">{notification.actionLabel}</Badge>
                 }
                 </div>
               </div>);

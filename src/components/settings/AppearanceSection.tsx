@@ -110,7 +110,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                     type="color"
                     value={colors.primary}
                     onChange={e => setColors(c => ({ ...c, primary: e.target.value }))}
-                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent"
+                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent press"
                   />
                   <Input
                     value={colors.primary}
@@ -127,7 +127,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                     type="color"
                     value={colors.accent}
                     onChange={e => setColors(c => ({ ...c, accent: e.target.value }))}
-                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent"
+                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent press"
                   />
                   <Input
                     value={colors.accent}
@@ -144,7 +144,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                     type="color"
                     value={colors.background}
                     onChange={e => setColors(c => ({ ...c, background: e.target.value }))}
-                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent"
+                    className="w-10 h-10 rounded-lg border border-border cursor-pointer bg-transparent press"
                   />
                   <Input
                     value={colors.background}

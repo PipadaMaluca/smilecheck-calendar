@@ -144,7 +144,7 @@ export function NotificationSettingsSection({ userRole }: NotificationSettingsSe
             </p>
             <div className="space-y-2">
               {group.options.map(option => (
-                <label key={option.id} className="flex items-center gap-3 cursor-pointer py-1">
+                <label key={option.id} className="flex items-center gap-3 cursor-pointer py-1 press">
                   <Checkbox
                     checked={checked[option.id] ?? option.defaultChecked}
                     onCheckedChange={() => toggle(option.id)}

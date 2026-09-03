@@ -82,7 +82,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-[10px] overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors"
+          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-[10px] overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors press"
           style={{ '--consultation-type-color': next.catColor } as CSSProperties}
         >
           <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
@@ -129,7 +129,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           </p>
           <button
             onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-            className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift"
+            className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-2xl overflow-hidden text-left h-[60px] hover:bg-muted/40 transition-colors shadow-sm card-hover-lift press"
             style={{ '--consultation-type-color': next.catColor } as CSSProperties}
           >
             <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
@@ -168,7 +168,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       <div className="md:hidden grid grid-cols-3 gap-1.5">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
           <span className="text-[11px] text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex items-center gap-1 min-w-0">
@@ -193,7 +193,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
           <span className="text-[11px] text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1 flex-1">
@@ -205,7 +205,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors"
+          className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
           <span className="text-[11px] text-muted-foreground leading-none">Streak</span>
           <div className="flex items-center gap-1 flex-1">
@@ -285,7 +285,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               className={cn(
                 'flex flex-col items-center justify-center gap-1 h-12 rounded-xl px-1',
                 'bg-card border border-border text-foreground',
-                'active:bg-muted/40 transition-colors',
+                'active:bg-muted/40 transition-colors press',
               )}
             >
               <Icon className="w-4 h-4 text-[#2196F3] flex-shrink-0" />

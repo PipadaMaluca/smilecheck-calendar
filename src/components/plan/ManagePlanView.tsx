@@ -471,20 +471,20 @@ export function ManagePlanView({
             <div className="space-y-2">
               <Label className="text-sm font-medium">{t('plan.paymentMethod')}</Label>
               <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
                   <RadioGroupItem value="card" id="card" />
                   <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm">{t('plan.cardLabel')}</Label>
+                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm press">{t('plan.cardLabel')}</Label>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
                   <RadioGroupItem value="paypal" id="paypal" />
                   <Wallet className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="paypal" className="flex-1 cursor-pointer text-sm">PayPal</Label>
+                  <Label htmlFor="paypal" className="flex-1 cursor-pointer text-sm press">PayPal</Label>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
                   <RadioGroupItem value="mbway" id="mbway" />
                   <Smartphone className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="mbway" className="flex-1 cursor-pointer text-sm">MB WAY</Label>
+                  <Label htmlFor="mbway" className="flex-1 cursor-pointer text-sm press">MB WAY</Label>
                 </div>
               </RadioGroup>
             </div>

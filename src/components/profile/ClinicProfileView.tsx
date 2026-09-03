@@ -324,7 +324,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 >
                   <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
                   {hasPendingRating && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-background animate-pulse" />
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-background" />
                   )}
                 </Button>
               )}

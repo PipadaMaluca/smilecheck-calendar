@@ -140,7 +140,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                     {reasons.map(r => (
                       <div key={r} className="flex items-center space-x-2">
                         <RadioGroupItem value={r} id={`reason-${r}`} />
-                        <Label htmlFor={`reason-${r}`} className="text-sm font-normal cursor-pointer">{r}</Label>
+                        <Label htmlFor={`reason-${r}`} className="text-sm font-normal cursor-pointer press">{r}</Label>
                       </div>
                     ))}
                   </RadioGroup>

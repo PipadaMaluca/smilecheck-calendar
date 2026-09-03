@@ -91,7 +91,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   return (
     <Card
       className={cn(
-        'cursor-pointer transition-colors border-border hover:border-primary/30',
+        'cursor-pointer transition-colors border-border hover:border-primary/30 press',
         isExpanded && 'border-primary/40',
         isPending && 'border-amber-500/20'
       )}

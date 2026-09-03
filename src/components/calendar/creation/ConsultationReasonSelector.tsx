@@ -129,7 +129,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
               <button
                 type="button"
                 onClick={() => toggleGroup(group.labelKey)}
-                className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted/30 rounded"
+                className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted/30 rounded press"
               >
                 {isExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
                 {t(group.labelKey)}
@@ -139,7 +139,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
                   {group.items.map(item => {
                     const label = t(item.labelKey);
                     return (
-                      <label key={item.labelKey} className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-muted/20 rounded cursor-pointer">
+                      <label key={item.labelKey} className="flex items-center gap-2 px-2 py-1 text-xs hover:bg-muted/20 rounded cursor-pointer press">
                         <Checkbox
                           checked={selectedItems?.includes(label) || false}
                           onCheckedChange={() => onToggleItem?.(label)}
@@ -174,7 +174,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
               onClick={() => onChange(label)}
               className={cn(
                 'flex items-center gap-2 w-full text-left px-3 py-2 text-sm rounded-md transition-colors',
-                value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
+                value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30 press'
               )}
             >
               <span>{label}</span>
@@ -188,7 +188,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
             <button
               type="button"
               onClick={() => toggleGroup(group.labelKey)}
-              className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm font-semibold text-muted-foreground hover:bg-muted/30 rounded-md"
+              className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm font-semibold text-muted-foreground hover:bg-muted/30 rounded-md press"
             >
               {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
               {t(group.labelKey)}
@@ -204,7 +204,7 @@ export function ConsultationReasonSelector({ value, onChange, asCheckboxList, se
                       onClick={() => onChange(label)}
                       className={cn(
                         'flex items-center gap-2 w-full text-left px-3 py-1.5 text-sm rounded-md transition-colors',
-                        value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30'
+                        value === label ? 'bg-primary/20 text-primary font-medium' : 'hover:bg-muted/30 press'
                       )}
                     >
                       <span>{label}</span>

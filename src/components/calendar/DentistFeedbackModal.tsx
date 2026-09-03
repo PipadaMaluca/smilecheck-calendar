@@ -78,12 +78,12 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
               <label
                 key={cb.id}
                 className={cn(
-                  'flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors',
+                  'flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors press',
                   checkedIds.includes(cb.id)
                     ? cb.isNegative
                       ? 'border-destructive/50 bg-destructive/10'
                       : 'border-primary/50 bg-primary/10'
-                    : 'border-border hover:bg-accent/30'
+                    : 'border-border hover:bg-accent/30 press'
                 )}
               >
                 <Checkbox

@@ -202,7 +202,7 @@ export function TriageLocationStep({
                   transform={`translate(${tooth.x},${tooth.y}) rotate(${tooth.rotate}) scale(${scale})`}
                   onClick={() => toggleTooth(tooth.id)}
                   className={cn(
-                    'cursor-pointer',
+                    'cursor-pointer press',
                     unknownLocation && 'opacity-40 cursor-not-allowed pointer-events-none',
                   )}
                 >
@@ -267,7 +267,7 @@ export function TriageLocationStep({
       </div>
 
       <div
-        className="flex items-center gap-3 p-3 bg-[#1E3A5F] rounded-lg cursor-pointer"
+        className="flex items-center gap-3 p-3 bg-[#1E3A5F] rounded-lg cursor-pointer press"
         onClick={() => handleUnknownToggle(!unknownLocation)}
       >
         <Checkbox

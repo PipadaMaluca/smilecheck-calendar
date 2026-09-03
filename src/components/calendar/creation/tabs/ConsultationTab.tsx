@@ -308,7 +308,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
                     <button
                       key={p.id}
                       onClick={() => selectPatient(p)}
-                      className="w-full text-left px-3 py-2 text-xs hover:bg-muted/30 border-b border-border last:border-0"
+                      className="w-full text-left px-3 py-2 text-xs hover:bg-muted/30 border-b border-border last:border-0 press"
                     >
                       <span className="font-medium">{p.firstName} {p.lastName}</span>
                       <span className="text-muted-foreground ml-2">{p.phone}</span>

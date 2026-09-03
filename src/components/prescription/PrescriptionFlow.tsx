@@ -241,8 +241,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         alreadyAdded ?
         'bg-primary/10 text-primary cursor-default' :
         hasInteraction ?
-        'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5' :
-        'hover:bg-muted/50 border border-transparent hover:border-border'
+        'hover:bg-muted/50 border border-amber-500/30 bg-amber-500/5 press' :
+        'hover:bg-muted/50 border border-transparent hover:border-border press'
       )}>
         <div className="flex items-center gap-2">
           {isBlocked ?
@@ -471,17 +471,17 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
       <div className="space-y-3 max-w-lg mx-auto">
         <h3 className="text-sm font-semibold">{t('prescription.sendOptions')}:</h3>
-        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
+        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer press">
           <Checkbox checked={sendToHealth} onCheckedChange={(v) => setSendToHealth(!!v)} />
           <Send className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm">{t('prescription.sendToHealth')}</span>
         </label>
-        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
+        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer press">
           <Checkbox checked={sendByEmail} onCheckedChange={(v) => setSendByEmail(!!v)} />
           <Mail className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm">{t('prescription.sendByEmail')}</span>
         </label>
-        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer">
+        <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer press">
           <Checkbox checked={downloadPdf} onCheckedChange={(v) => setDownloadPdf(!!v)} />
           <Download className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm">{t('prescription.downloadPdf')}</span>

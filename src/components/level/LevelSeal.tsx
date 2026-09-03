@@ -29,7 +29,7 @@ const SEAL_STYLES: Record<string, string> = {
   ouro: 'bg-amber-400/20 text-amber-500 border-amber-400/40',
   platina: 'bg-purple-400/20 text-purple-300 border-purple-400/40',
   diamante: 'bg-blue-400/20 text-blue-300 border-blue-400/40',
-  adamantino: 'bg-amber-300/30 text-amber-200 border-amber-300/60 level-frame-shimmer',
+  adamantino: 'bg-amber-300/30 text-amber-200 border-amber-300/60',
 };
 
 interface LevelSealProps {

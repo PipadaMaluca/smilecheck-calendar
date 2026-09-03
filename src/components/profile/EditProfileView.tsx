@@ -76,7 +76,7 @@ function DentistJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.typeWanted')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_TYPES.map((jt) =>
-            <Badge key={jt} variant={jobTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, jt)}>{jt}</Badge>
+            <Badge key={jt} variant={jobTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(jobTypes, setJobTypes, jt)}>{jt}</Badge>
             )}
             </div>
           </div>
@@ -84,7 +84,7 @@ function DentistJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.scheduleAvailability')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_PERIODS.map((p) =>
-            <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
+            <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
             )}
             </div>
           </div>
@@ -160,7 +160,7 @@ function ClinicJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.contractType')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_TYPES.map((jt) =>
-            <Badge key={jt} variant={contractTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, jt)}>{jt}</Badge>
+            <Badge key={jt} variant={contractTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(contractTypes, setContractTypes, jt)}>{jt}</Badge>
             )}
             </div>
           </div>
@@ -168,7 +168,7 @@ function ClinicJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.specialtiesSought')}</Label>
             <div className="flex flex-wrap gap-2">
               {SPECIALTIES.map((s) =>
-            <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
+            <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
             )}
             </div>
           </div>
@@ -197,7 +197,7 @@ function ClinicJobToggles() {
             <Label className="text-xs mb-2 block">{t('editProfile.benefitsOffered')}</Label>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
-            <label key={b} className="flex items-center gap-2 text-xs cursor-pointer">
+            <label key={b} className="flex items-center gap-2 text-xs cursor-pointer press">
                   <Checkbox checked={benefits.includes(b)} onCheckedChange={() => toggle(benefits, setBenefits, b)} />
                   {b}
                 </label>
@@ -449,7 +449,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.languages')}</SectionTitle>
               <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((l) =>
-            <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
+            <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
             )}
               </div>
 
@@ -519,7 +519,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.specialties')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {SPECIALTIES.map((s) =>
-              <Badge key={s} variant={selectedSpecialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>{s}</Badge>
+              <Badge key={s} variant={selectedSpecialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer transition-colors press" onClick={() => toggleMultiSelect(selectedSpecialties, setSelectedSpecialties, s)}>{s}</Badge>
               )}
                 </div>
               </div>
@@ -532,7 +532,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.languages')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((l) =>
-              <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
+              <Badge key={l} variant={selectedLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer transition-colors press" onClick={() => toggleMultiSelect(selectedLanguages, setSelectedLanguages, l)}>{l}</Badge>
               )}
                 </div>
               </div>
@@ -674,7 +674,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.languages')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {LANGUAGES.map((l) =>
-              <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
+              <Badge key={l} variant={clinicLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(clinicLanguages, setClinicLanguages, l)}>{l}</Badge>
               )}
                 </div>
               </div>
@@ -726,7 +726,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.paymentMethods')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {PAYMENT_METHODS.map((m) =>
-              <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
+              <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
               )}
                 </div>
               </div>
@@ -735,7 +735,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.insurances')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {INSURANCE_OPTIONS.map((ins) =>
-              <Badge key={ins} variant={clinicInsurances.includes(ins) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggleMultiSelect(clinicInsurances, setClinicInsurances, ins)}>{ins}</Badge>
+              <Badge key={ins} variant={clinicInsurances.includes(ins) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(clinicInsurances, setClinicInsurances, ins)}>{ins}</Badge>
               )}
                 </div>
               </div>
@@ -744,7 +744,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.xrayTypes')}</SectionTitle>
               <div className="space-y-2">
                 {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
-            <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer">
+            <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={clinicXrayServices.includes(xray)} onCheckedChange={() => {
                 setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
               }} />
@@ -756,7 +756,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.accessibilitySection')}</SectionTitle>
               <div className="space-y-2">
                 {ACCESSIBILITY_OPTIONS.map((acc) =>
-            <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer">
+            <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={clinicAccessibility.includes(acc)} onCheckedChange={() => {
                 setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
               }} />

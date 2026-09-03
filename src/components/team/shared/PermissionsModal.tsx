@@ -51,7 +51,7 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
             <Badge
               key={key}
               variant="outline"
-              className="cursor-pointer hover:bg-primary/10 transition-colors text-xs"
+              className="cursor-pointer hover:bg-primary/10 transition-colors text-xs press"
               onClick={() => setPerms({ ...presetValues[key] })}
             >
               {t(`permissions.${key}`)}

@@ -40,7 +40,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
         <p className="text-muted-foreground text-sm mb-4">{t('onboarding.nextSteps')}</p>
         <div className="space-y-3">
           {steps.map((step, index) => (
-            <div key={index} className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors cursor-pointer">
+            <div key={index} className="flex items-center justify-between p-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors cursor-pointer press">
               <div className="flex items-center gap-3">
                 <Square className="w-5 h-5 text-muted-foreground" />
                 <span className="text-foreground/80">{step.label}</span>

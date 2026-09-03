@@ -139,7 +139,7 @@ export function ConnectedDevicesSection() {
             <div className="flex flex-col items-center gap-4 py-6">
               {/* Simulated camera view */}
               <div className="w-56 h-56 rounded-xl bg-muted/30 border-2 border-dashed border-primary/50 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-4 border-2 border-primary rounded-lg animate-pulse" />
+                <div className="absolute inset-4 border-2 border-primary rounded-lg" />
                 <Camera className="w-10 h-10 text-muted-foreground" />
               </div>
               <Loader2 className="w-5 h-5 animate-spin text-primary" />

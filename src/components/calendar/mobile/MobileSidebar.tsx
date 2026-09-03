@@ -97,7 +97,7 @@ export function MobileSidebar({
     return (
       <button
         onClick={onClick}
-        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-4 gap-[15px]",
+        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-4 gap-[15px] press",
         active && 'text-primary bg-primary/10'
         )}>
         <div className="relative">
@@ -127,7 +127,7 @@ export function MobileSidebar({
 
         {/* User Profile */}
         <button
-          className="p-4 border-b border-border w-full text-left hover:bg-muted/50 transition-colors"
+          className="p-4 border-b border-border w-full text-left hover:bg-muted/50 transition-colors press"
           onClick={() => {onClose();onProfileClick?.();}}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">

@@ -173,7 +173,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
             <Card
               key={card.id}
               className={cn(
-                'cursor-pointer transition-colors',
+                'cursor-pointer transition-colors press',
                 isMobile ? 'w-full' : 'w-[180px] md:w-[200px]',
                 selectedView === card.id
                   ? 'border-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)]'
@@ -206,7 +206,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
               <Card
                 key={card.id}
                 className={cn(
-                  'cursor-pointer transition-colors',
+                  'cursor-pointer transition-colors press',
                   isMobile ? 'w-full' : 'w-[160px] md:w-[180px]',
                   selectedView === card.id
                     ? 'border-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)]'

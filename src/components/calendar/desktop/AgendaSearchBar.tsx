@@ -251,7 +251,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                   {results.patients.map((p) => (
                     <button
                       key={`patient-${p.id}`}
-                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left group"
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left group press"
                       onClick={() => handleResultClick(p)}
                     >
                       <Avatar className="h-9 w-9 flex-shrink-0">
@@ -281,10 +281,10 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                           <div>{p.totalCount} total</div>
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-success hover:bg-emerald-500/20 cursor-pointer">
+                          <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-success hover:bg-emerald-500/20 cursor-pointer press">
                             <CheckCircle2 className="w-3.5 h-3.5" />
                           </span>
-                          <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 cursor-pointer">
+                          <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 cursor-pointer press">
                             <CalendarPlus className="w-3.5 h-3.5" />
                           </span>
                         </div>
@@ -305,7 +305,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                   {results.dentists.map((d) => (
                     <button
                       key={`dentist-${d.id}`}
-                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left"
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left press"
                       onClick={() => handleResultClick(d)}
                     >
                       <Avatar className="h-9 w-9 flex-shrink-0">
@@ -345,7 +345,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                   {results.clinics.map((c) => (
                     <button
                       key={`clinic-${c.id}`}
-                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left"
+                      className="w-full px-3 py-2.5 flex items-center gap-3 hover:bg-accent/50 transition-colors text-left press"
                       onClick={() => handleResultClick(c)}
                     >
                       <Avatar className="h-9 w-9 flex-shrink-0">
@@ -369,7 +369,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Show all results link */}
               <div className="border-t border-border">
                 <button
-                  className="w-full px-3 py-2.5 text-xs text-primary hover:bg-accent/50 transition-colors text-center font-medium"
+                  className="w-full px-3 py-2.5 text-xs text-primary hover:bg-accent/50 transition-colors text-center font-medium press"
                   onClick={() => { setIsOpen(false); setQuery(''); onNavigateSearch?.(); }}
                 >
                   Mostrar todos os resultados →

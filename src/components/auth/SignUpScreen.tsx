@@ -209,7 +209,7 @@ export function SignUpScreen() {
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
             {accountTypes.map(at => (
               <button key={at.value} onClick={() => setAccountType(at.value)}
-                className={cn('flex flex-col items-center p-4 rounded-xl border-2 transition-colors duration-150 bg-secondary hover:bg-accent',
+                className={cn('flex flex-col items-center p-4 rounded-xl border-2 transition-colors duration-150 bg-secondary hover:bg-accent press',
                   accountType === at.value ? 'border-primary shadow-[0_0_15px_hsl(207_90%_54%/0.3)]' : 'border-border')}>
                 <at.icon className={cn('w-8 h-8 mb-2', accountType === at.value ? 'text-primary' : 'text-muted-foreground')} />
                 <span className="font-semibold text-sm text-foreground">{at.title}</span>

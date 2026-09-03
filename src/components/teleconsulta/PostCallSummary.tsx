@@ -81,15 +81,15 @@ export function PostCallSummary({ isOpen, onClose, isDentist, remoteName, durati
               <div className="space-y-3">
                 <label className="text-xs font-semibold text-muted-foreground uppercase">{t('teleconsult.nextSteps')}</label>
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={nextSteps.schedule} onCheckedChange={v => setNextSteps(p => ({ ...p, schedule: !!v }))} />
                     {t('teleconsult.scheduleNext')}
                   </label>
-                  <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={nextSteps.sendPrescription} onCheckedChange={v => setNextSteps(p => ({ ...p, sendPrescription: !!v }))} />
                     {t('teleconsult.sendPrescription')}
                   </label>
-                  <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={nextSteps.followUp} onCheckedChange={v => setNextSteps(p => ({ ...p, followUp: !!v }))} />
                     {t('teleconsult.followUp')}
                   </label>

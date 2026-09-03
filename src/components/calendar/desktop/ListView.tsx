@@ -75,7 +75,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
               return (
                 <TableRow
                   key={consultation.id}
-                  className="border-b border-[#1E3A5F]/50 cursor-pointer hover:bg-[#152238] transition-colors"
+                  className="border-b border-[#1E3A5F]/50 cursor-pointer hover:bg-[#152238] transition-colors press"
                   onClick={() => onConsultationClick(consultation)}
                   onMouseEnter={() => onConsultationHover?.(consultation)}
                   onMouseLeave={() => onConsultationHover?.(null)}

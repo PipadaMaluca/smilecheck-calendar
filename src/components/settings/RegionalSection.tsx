@@ -83,7 +83,7 @@ export function RegionalSection() {
             <Clock className="w-3.5 h-3.5" />
             Fuso Horário
           </div>
-          <label className="flex items-center gap-2 cursor-pointer py-1">
+          <label className="flex items-center gap-2 cursor-pointer py-1 press">
             <Checkbox
               checked={autoTimezone}
               onCheckedChange={(v) => setAutoTimezone(!!v)}

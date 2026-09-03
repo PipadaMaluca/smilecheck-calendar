@@ -281,7 +281,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 <p className="text-xs text-muted-foreground">{t('referral.attachmentsDesc')}</p>
               </div>
 
-              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer">
+              <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer press">
                 <Upload className="w-6 h-6 mx-auto text-muted-foreground mb-2" />
                 <p className="text-sm text-muted-foreground">{t('referral.dropFiles')}</p>
                 <p className="text-xs text-muted-foreground mt-1">{t('referral.fileTypes')}</p>
@@ -374,15 +374,15 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
 
             <div className="space-y-3">
               <p className="text-xs font-semibold text-muted-foreground">{t('referral.sendOptions')}:</p>
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex items-center gap-3 cursor-pointer press">
                 <Checkbox checked={sendToHealth} onCheckedChange={(v) => setSendToHealth(!!v)} />
                 <span className="text-sm">{t('referral.sendToHealth')}</span>
               </label>
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex items-center gap-3 cursor-pointer press">
                 <Checkbox checked={sendEmail} onCheckedChange={(v) => setSendEmail(!!v)} />
                 <span className="text-sm">{t('referral.sendByEmail')}</span>
               </label>
-              <label className="flex items-center gap-3 cursor-pointer">
+              <label className="flex items-center gap-3 cursor-pointer press">
                 <Checkbox checked={downloadPdf} onCheckedChange={(v) => setDownloadPdf(!!v)} />
                 <span className="text-sm">{t('referral.downloadPdf')}</span>
               </label>

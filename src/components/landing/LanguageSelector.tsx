@@ -36,7 +36,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
         <img
           src={logoSrc}
           alt="SmileCheck"
-          className="h-[100px] sm:h-[120px] drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)] animate-[pulse_3s_ease-in-out_infinite]"
+          className="h-[100px] sm:h-[120px] drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)]"
         />
 
         <div className="text-center">

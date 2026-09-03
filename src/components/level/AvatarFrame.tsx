@@ -61,7 +61,7 @@ export function AvatarFrame({ levelKey, size, className, children, shape = 'circ
           className={cn(
             'absolute bottom-0 right-0 w-2 h-2 rounded-full ring-2 ring-background',
             pip,
-            isAdam && 'level-frame-shimmer',
+            
           )}
         />
       </div>
@@ -74,7 +74,7 @@ export function AvatarFrame({ levelKey, size, className, children, shape = 'circ
         'relative shrink-0 ring-[1.5px] ring-offset-2 ring-offset-background',
         radius,
         ring,
-        isAdam && 'level-frame-shimmer',
+        
         className,
       )}
       style={style}

@@ -60,7 +60,7 @@ export function ConsultationContextMenu({ consultation, position, onClose, onSta
     <div ref={menuRef} style={style} className="bg-card border border-border rounded-lg shadow-xl min-w-[220px] py-1 animate-fade-in">
       {STATUS_OPTIONS.map(({ status, label, icon: Icon, color }) => (
         <button key={status} onClick={() => { onStatusChange(consultation, status); onClose(); }}
-          className={cn('w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent/50 transition-colors text-left', consultation.status === status && 'bg-accent/30')}>
+          className={cn('w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent/50 transition-colors text-left press', consultation.status === status && 'bg-accent/30')}>
           <Icon className={cn('w-4 h-4', color)} /><span>{label}</span>
           {consultation.status === status && <CheckCircle2 className="w-3.5 h-3.5 text-primary ml-auto" />}
         </button>
@@ -68,7 +68,7 @@ export function ConsultationContextMenu({ consultation, position, onClose, onSta
       <div className="border-t border-border my-1" />
       {ACTION_OPTIONS.map(({ id, label, icon: Icon }) => (
         <button key={id} onClick={() => handleAction(id)}
-          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent/50 transition-colors text-left">
+          className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent/50 transition-colors text-left press">
           <Icon className="w-4 h-4 text-muted-foreground" /><span>{label}</span>
         </button>
       ))}

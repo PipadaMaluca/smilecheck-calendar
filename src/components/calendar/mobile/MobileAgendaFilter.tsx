@@ -149,7 +149,7 @@ export function MobileAgendaFilter({
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/40"
+      className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/40 press"
     >
       <span>{label}</span>
       <span className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -246,7 +246,7 @@ export function MobileAgendaFilter({
                 <button
                   type="button"
                   onClick={() => agendaFiltersStore.toggleAllPatientStatuses()}
-                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left"
+                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left press"
                 >
                   <Checkbox
                     checked={
@@ -266,7 +266,7 @@ export function MobileAgendaFilter({
                     key={s}
                     type="button"
                     onClick={() => agendaFiltersStore.togglePatientStatus(s)}
-                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left"
+                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left press"
                   >
                     <Checkbox
                       checked={filters.patientStatuses.includes(s)}
@@ -293,7 +293,7 @@ export function MobileAgendaFilter({
                 <button
                   type="button"
                   onClick={() => agendaFiltersStore.toggleAllConsultationCategories()}
-                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left"
+                  className="w-full flex items-center gap-2 px-4 py-1.5 hover:bg-muted/40 text-left press"
                 >
                   <Checkbox
                     checked={
@@ -313,7 +313,7 @@ export function MobileAgendaFilter({
                     key={c}
                     type="button"
                     onClick={() => agendaFiltersStore.toggleConsultationCategory(c)}
-                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left"
+                    className="w-full flex items-center gap-2 pl-8 pr-4 py-1.5 hover:bg-muted/40 text-left press"
                   >
                     <Checkbox
                       checked={filters.consultationCategories.includes(c)}

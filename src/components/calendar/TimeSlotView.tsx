@@ -88,7 +88,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
             className={cn(
               'time-slot',
               slot.status === 'livre' && 'time-slot-livre',
-              isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
+              isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform press',
               isBloqueado && 'time-slot-bloqueado',
             )}
             style={{
