@@ -111,7 +111,7 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
         !expired && "shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
       )}>
         {!expired && (
-          <div className="absolute inset-0 rounded-2xl border-2 border-primary/50 animate-pulse pointer-events-none" />
+          <div className="absolute inset-0 rounded-2xl border-2 border-primary/50 pointer-events-none" />
         )}
         <svg width={qrWidth} height={qrWidth} viewBox={`0 0 ${size * cellSize} ${size * cellSize}`} className="block max-w-[200px] sm:max-w-[250px] w-full h-auto">
           {qrMatrix.map((row, i) =>

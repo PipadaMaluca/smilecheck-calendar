@@ -43,7 +43,7 @@ export function TriageCompletion({ triageData, onFindDentists }: TriageCompletio
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-6 px-4">
       <div className="relative">
-        <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center animate-pulse">
+        <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center animate-scale-in">
           <CheckCircle className="w-14 h-14 text-green-500" />
         </div>
         <div className="absolute inset-0 rounded-full bg-green-500/10 animate-ping" />

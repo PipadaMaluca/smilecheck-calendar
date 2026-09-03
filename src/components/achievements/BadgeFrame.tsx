@@ -37,9 +37,9 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         style.bgGradient,
         style.borderColor,
         sizeClasses[size],
-        'hover:scale-110',
+        'hover:scale-[1.04]',
         // Glow effect
-        tier === 'legendary' && 'animate-pulse shadow-lg',
+        tier === 'legendary' && 'shadow-lg',
         tier === 'expert' && 'shadow-md',
         tier !== 'legendary' && tier !== 'expert' && 'shadow-sm',
         style.glowColor,
@@ -52,12 +52,6 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
           </>
         )}
 
-        {/* Shine sweep for gold+ */}
-        {(tier === 'expert' || tier === 'legendary') && (
-          <div className="absolute inset-0 rounded-xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_3s_ease-in-out_infinite]" />
-          </div>
-        )}
 
         {/* Icon */}
         {!isSecret && achievement.secret ? (
