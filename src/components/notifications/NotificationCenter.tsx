@@ -249,19 +249,15 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationDropdownProps) {
-  const { t, i18n: i18nInstance } = useTranslation();
+  const { t } = useTranslation();
   const FILTERS = useFilterLabels();
-  const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
-  // Rebuild notifications when language changes so titles/descriptions reflect the new locale
-  useEffect(() => {
-    setNotifications(getNotificationsForRole(userRole));
-  }, [i18nInstance.language, userRole]);
+  const { notifications, unreadCount, loading, markRead, markAllRead } = useNotificationList(userRole);
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const recent = notifications.slice(0, 12);
   const filteredRecent = useMemo(() => filterNotifications(recent, activeFilter), [recent, activeFilter]);
-  const unreadCount = notifications.filter((n) => !n.read).length;
+
 
   // Close on click outside (but not on the bell button itself - that's handled by toggle)
   useEffect(() => {
