@@ -387,18 +387,26 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
-  const isLoading = useSimulatedLoading(1200, 'achievements');
   const [showManageModal, setShowManageModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
   const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
 
-  const categories = getAchievementCategories(userRole, t);
+  const mockCategories = useMemo(() => getAchievementCategories(userRole, t), [userRole, t]);
+  const {
+    categories,
+    loading: dbLoading,
+    isDemo,
+    unlockedCount: unlockedAchievements,
+    total: totalAchievements,
+  } = useAchievements(userRole, mockCategories);
 
-  const totalAchievements = categories.reduce((sum, cat) => sum + cat.achievements.length, 0);
-  const unlockedAchievements = categories.reduce(
-    (sum, cat) => sum + cat.achievements.filter(a => a.unlocked).length, 0
-  );
-  const progressPercent = Math.round((unlockedAchievements / totalAchievements) * 100);
+  const simulatedLoading = useSimulatedLoading(1200, 'achievements');
+  const isLoading = isDemo ? simulatedLoading : dbLoading;
+
+  const progressPercent = totalAchievements
+    ? Math.round((unlockedAchievements / totalAchievements) * 100)
+    : 0;
+
 
   const completedCategories = categories.map(cat => ({
     ...cat,
