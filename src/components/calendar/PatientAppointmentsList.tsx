@@ -3,7 +3,7 @@ import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban 
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ListSkeleton } from '@/components/skeletons';
 import { Button } from '@/components/ui/button';
-import { Consultation, CATEGORY_COLORS, getCategoryLabel, getAccentBorderColor, getAccentSurface, getCategoryDotStyle } from '@/types/calendar';
+import { Consultation, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -119,15 +119,14 @@ export function PatientAppointmentsList({
               >
               <div
                 className={cn(
-                  'bg-card rounded-xl cursor-pointer transition-[transform,background-color,border-color,color,box-shadow] duration-150 press',
+                  'bg-card rounded-xl cursor-pointer transition-[transform,background-color,border-color,color,box-shadow] duration-150',
                   'border-l-4',
                   compact ? 'p-3' : 'p-4',
                   isSelected 
                     ? 'ring-2 ring-primary shadow-[0_0_12px_hsl(var(--primary)/0.3)] scale-[1.01]' 
                     : 'hover:scale-[1.01] hover:shadow-lg'
                 )}
-                data-cat={category}
-                style={{ borderLeftColor: getAccentBorderColor(category), backgroundColor: getAccentSurface(category) }}
+                style={{ borderLeftColor: colors.hex }}
                 onClick={() => onConsultationClick(consultation)}>
 
                   <div className="flex items-start justify-between gap-3">
@@ -146,12 +145,9 @@ export function PatientAppointmentsList({
                       {/* Category */}
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
-                          className={cn(
-                            "inline-flex items-center gap-1.5 text-[11px] font-semibold leading-none whitespace-nowrap",
-                            category === 'urgencia' ? 'text-destructive' : category === 'teleconsulta' ? 'text-warning' : 'text-foreground'
-                          )}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                          style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                         >
-                          <span style={getCategoryDotStyle(colors.hex)} />
                           {isTeleconsulta && <Video className="w-3 h-3" />}
                           {getCategoryLabel(t, category)}
                         </span>

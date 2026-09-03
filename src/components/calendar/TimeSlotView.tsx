@@ -1,5 +1,5 @@
 import { Video, MapPin, Lock } from 'lucide-react';
-import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryLabel } from '@/types/calendar';
+import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { useSlotHeight } from '@/stores/agendaSettingsStore';
@@ -84,16 +84,17 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
         return (
           <div
             key={`${slot.time}-${idx}`}
-            data-cat={isOcupado ? category : undefined}
             onClick={() => isOcupado && onSlotClick?.(slot)}
             className={cn(
               'time-slot',
               slot.status === 'livre' && 'time-slot-livre',
-              isOcupado && 'appt-block time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform press',
+              isOcupado && 'time-slot-ocupado cursor-pointer hover:scale-[1.01] transition-transform',
               isBloqueado && 'time-slot-bloqueado',
             )}
             style={{
               gridRow: `${startIdx + 1} / span ${spanCount}`,
+              borderLeftColor: isOcupado ? colors.hex : undefined,
+              borderLeftWidth: isOcupado ? '3px' : undefined,
             }}
           >
             <span className="w-10 text-xs font-mono text-muted-foreground">
@@ -120,25 +121,21 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                   ) : (
                     <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: colors.hex }} />
                   )}
-                  <span className="text-xs font-bold truncate">
+                  <span className="text-xs font-bold text-white truncate">
                     {patientNameWithAge}
                   </span>
                 </div>
-                {/* Line 2: type dot + label + notes + duration */}
-                <div data-line="type-row" className="flex flex-wrap items-center gap-1 ml-4 min-w-0">
+                {/* Line 2: Category (colored) + Notes (gray) + Duration */}
+                <div className="flex flex-wrap items-center gap-1 ml-4 min-w-0">
                   <span
-                    data-type-chip
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold leading-none whitespace-nowrap flex-shrink-0"
+                    className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                    style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
-                    <span
-                      className="rounded-full inline-block flex-shrink-0"
-                      style={{ width: 6, height: 6, backgroundColor: colors.hex }}
-                    />
                     {getCategoryLabel(t, category)}
                     {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span data-notes className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                    <span className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                       {consultation.notes}
                     </span>
                   )}
@@ -148,7 +145,6 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 </div>
               </div>
             )}
-
           </div>
         );
       })}
