@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Trophy } from 'lucide-react';
 import { Plus, Pencil, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

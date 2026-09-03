@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Lightbulb } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Camera, X, Lightbulb } from 'lucide-react';
 import { cn } from '@/lib/utils';
