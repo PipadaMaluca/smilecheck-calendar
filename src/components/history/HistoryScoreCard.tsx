@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ConsultationScore } from '@/types/scoring';
-import { CATEGORY_COLORS, ConsultationCategory, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { CATEGORY_COLORS, ConsultationCategory, UserRole, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
