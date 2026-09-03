@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
+import { useAchievements } from '@/data/achievementsSource';
+
 import { CardGridSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { Lock, HelpCircle, Star as StarIcon } from 'lucide-react';
