@@ -371,22 +371,24 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
 }
 
 /** Soft cancel — the row is kept for history and the slot becomes free again. */
-export async function cancelAppointment(id: string): Promise<void> {
-  const target = await appointmentTarget(id);
+export async function cancelAppointment(id: string, options?: { silent?: boolean }): Promise<void> {
+  const target = options?.silent ? null : await appointmentTarget(id);
   const { error } = await supabase
     .from('appointments')
     .update({ status: 'cancelada' as DbAppointmentStatus })
     .eq('id', id);
   if (error) throw error;
 
-  const slot = target ? formatSlot(target.scheduled_at) : null;
-  notifyProfileSilently({
-    profileId: target?.patient_id,
-    type: 'appointment_cancelled',
-    title: 'Consulta cancelada',
-    message: slot ? `${slot.date} às ${slot.time}` : undefined,
-    actionUrl: '/app?tab=agenda',
-  });
+  if (target) {
+    const slot = formatSlot(target.scheduled_at);
+    notifyProfileSilently({
+      profileId: target.patient_id,
+      type: 'appointment_cancelled',
+      title: 'Consulta cancelada',
+      message: `${slot.date} às ${slot.time}`,
+      actionUrl: '/app?tab=agenda',
+    });
+  }
 }
 
 
@@ -550,7 +552,7 @@ export async function assignWaitingMatch(
   // Roll back so we never keep an appointment without a confirmed entry —
   // both on a hard error and when the entry was already taken meanwhile.
   if (waitingError || !confirmed?.length) {
-    await cancelAppointment(appointmentId).catch(() => undefined);
+    await cancelAppointment(appointmentId, { silent: true }).catch(() => undefined);
     throw waitingError ?? new Error('Entrada da lista de espera já não está em espera');
   }
 
