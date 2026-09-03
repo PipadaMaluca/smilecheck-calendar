@@ -212,8 +212,8 @@ const mockConversations: Record<UserRole, Conversation[]> = {
 
 const typeBadgeConfig: Record<string, { icon: typeof User; className: string }> = {
   Paciente: { icon: User, className: 'bg-blue-500/20 text-blue-400' },
-  Dentista: { icon: Stethoscope, className: 'bg-emerald-500/20 text-emerald-400' },
-  Clínica: { icon: Building2, className: 'bg-amber-500/20 text-amber-400' },
+  Dentista: { icon: Stethoscope, className: 'bg-emerald-500/20 text-success' },
+  Clínica: { icon: Building2, className: 'bg-amber-500/20 text-warning' },
 };
 
 function OnlineStatusDot({ online }: { online?: boolean | null }) {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Download, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -110,7 +111,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
             <h3 className="text-lg font-semibold text-foreground">{t('export.generatedSuccess')}</h3>
             <p className="text-sm text-muted-foreground text-center">{generatedFilename}</p>
             <Button onClick={handleDownload} className="gap-2">
-              📥 {t('export.download')}
+<Glyph emoji="📥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('export.download')}
             </Button>
             <Button variant="ghost" onClick={handleClose} className="text-sm">
               {t('common.close')}

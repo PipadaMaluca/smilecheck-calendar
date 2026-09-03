@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar, Video, Check, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -86,18 +87,18 @@ function BadgesMockup() {
           <div className="text-sm font-bold text-[#1A202C] dark:text-white">Conquistas</div>
           <div className="text-xs text-[#4A5568] dark:text-[#94A3B8]">22 de 40 desbloqueadas</div>
         </div>
-        <div className="text-2xl">🏅</div>
+        <Glyph emoji="🏅" className="w-7 h-7" />
       </div>
       <div className="grid grid-cols-3 gap-3 mb-4">
         {items.map((it) => (
           <div key={it.l} className="aspect-square rounded-xl bg-gradient-to-br from-[#F5F9FF] to-[#E8F2FF] dark:from-[#1E3A5F]/40 dark:to-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] flex flex-col items-center justify-center gap-1">
-            <span className="text-2xl">{it.e}</span>
+            <Glyph emoji={it.e} className="w-7 h-7" />
             <span className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
           </div>
         ))}
       </div>
       <div className="rounded-lg bg-[#F5F9FF] dark:bg-[#1E3A5F]/30 p-3 flex items-center gap-2">
-        <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+        <Star className="w-4 h-4 text-warning fill-amber-400" />
         <div className="text-xs text-[#1A202C] dark:text-white"><span className="font-semibold">450 XP</span> — Nível Prata</div>
       </div>
     </div>
@@ -123,7 +124,7 @@ function TeleconsultaMockup() {
         </div>
         <div className="flex gap-2">
           <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center"><Video className="w-4 h-4 text-white" /></div>
-          <div className="w-9 h-9 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">✕</div>
+          <Glyph emoji="✕" className="w-3.5 h-3.5 w-9 h-9 rounded-full bg-red-500 flex items-center justify-center text-white" />
         </div>
       </div>
     </div>
@@ -227,7 +228,7 @@ export function FeaturesSection() {
           <ScrollReveal>
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
-                📹 {t('landing.features.teleEyebrow')}
+<Glyph emoji="📹" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('landing.features.teleEyebrow')}
               </div>
               <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
                 {t('landing.features.teleTitle')}
@@ -281,7 +282,7 @@ function FeatureGrid({ features }: { features: { icon: string; titleKey: string;
           key={f.titleKey}
           className="group p-7 rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] hover:border-[#2196F3]/50 hover:shadow-xl hover:shadow-[#2196F3]/10 hover:-translate-y-1 transition-all duration-300"
         >
-          <span className="text-3xl mb-4 block">{f.icon}</span>
+          <Glyph emoji={f.icon} className="w-8 h-8 mb-4 block" />
           <h3 className="font-semibold text-[#1A202C] dark:text-white mb-2">{t(f.titleKey)}</h3>
           <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] leading-relaxed">{t(f.descKey)}</p>
         </div>

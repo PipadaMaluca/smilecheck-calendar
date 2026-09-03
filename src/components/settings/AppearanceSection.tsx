@@ -60,7 +60,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                 <Sun className="w-4 h-4 text-muted-foreground" />
               )}
               <span className="text-sm text-foreground">
-                {darkMode ? '🌙 Modo Escuro' : '☀️ Modo Claro'}
+                {darkMode ? <><Moon className="w-4 h-4 inline mr-1.5" />Modo Escuro</> : <><Sun className="w-4 h-4 inline mr-1.5" />Modo Claro</>}
               </span>
             </div>
             <Switch checked={darkMode} onCheckedChange={setDarkMode} />

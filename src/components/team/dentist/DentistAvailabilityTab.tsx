@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -220,7 +221,7 @@ export function DentistAvailabilityTab() {
 
   const reasonIcon = (key: string) => {
     if (key.includes('Holiday')) return <Plane className="w-4 h-4 text-primary" />;
-    if (key.includes('Training')) return <GraduationCap className="w-4 h-4 text-amber-400" />;
+    if (key.includes('Training')) return <GraduationCap className="w-4 h-4 text-warning" />;
     if (key.includes('Personal')) return <User className="w-4 h-4 text-muted-foreground" />;
     return <MoreHorizontal className="w-4 h-4 text-muted-foreground" />;
   };
@@ -237,7 +238,7 @@ export function DentistAvailabilityTab() {
           onClick={() => togglePeriod(dayIdx, period)}
           className="flex items-center justify-center gap-1 text-xs text-destructive/70 bg-destructive/10 rounded-md px-2 py-2 hover:bg-destructive/20 transition-colors min-h-[44px] w-full"
         >
-          ❌ {t('team.closed')}
+<Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.closed')}
         </button>
       );
     }
@@ -326,15 +327,19 @@ export function DentistAvailabilityTab() {
       {/* Weekly Schedule Grid */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">🗓️ {t('team.weeklySchedule')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="🗓️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.weeklySchedule')}</CardTitle>
         </CardHeader>
         <CardContent>
           {/* Desktop header */}
           <div className="hidden sm:grid grid-cols-4 gap-2 text-[11px] font-medium text-muted-foreground mb-2 px-1">
             <span>{t('team.day')}</span>
-            <span className="text-center">☀️ {t('availability.morning')}</span>
-            <span className="text-center">🌤️ {t('availability.afternoon')}</span>
-            <span className="text-center">🌙 {t('availability.eveningTele')}</span>
+            <span className="text-center">
+<Glyph emoji="☀️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.morning')}</span>
+            <span className="text-center">
+<Glyph emoji="🌤️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.afternoon')}</span>
+            <span className="text-center">
+<Glyph emoji="🌙" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.eveningTele')}</span>
           </div>
 
           <div className="space-y-2">
@@ -391,7 +396,8 @@ export function DentistAvailabilityTab() {
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">📅 {t('availability.exceptionsTitle')}</CardTitle>
+            <CardTitle className="text-base">
+<Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.exceptionsTitle')}</CardTitle>
             <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={openAddException}>
               <Plus className="w-3 h-3" />{t('availability.addException')}
             </Button>
@@ -431,7 +437,8 @@ export function DentistAvailabilityTab() {
       {/* Teleconsultation Availability */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📱 {t('availability.teleAvailability')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.teleAvailability')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">

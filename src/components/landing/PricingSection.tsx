@@ -202,7 +202,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
         ))}
       </ul>
       {plan.warning && (
-        <div className="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
+        <div className="flex items-center gap-2 text-xs text-warning dark:text-warning bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
           <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
           {plan.warning}
         </div>

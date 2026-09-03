@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { MessageCircle, Link2, Check, Search } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -28,7 +29,8 @@ export function InviteModal({ open, onClose }: InviteModalProps) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>👥 {t('team.inviteDentist')}</DialogTitle>
+          <DialogTitle>
+<Glyph emoji="👥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.inviteDentist')}</DialogTitle>
           <DialogDescription>{t('team.inviteDesc')}</DialogDescription>
         </DialogHeader>
 

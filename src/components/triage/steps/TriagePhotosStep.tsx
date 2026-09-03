@@ -111,9 +111,9 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
           {t('triage.photos.tips')}
         </h4>
         <ul className="space-y-1.5 text-xs text-muted-foreground">
-          <li className="flex items-start gap-2"><span>💡</span><span>{t('triage.photos.tip1')}</span></li>
-          <li className="flex items-start gap-2"><span>💡</span><span>{t('triage.photos.tip2')}</span></li>
-          <li className="flex items-start gap-2"><span>💡</span><span>{t('triage.photos.tip3')}</span></li>
+          <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" /><span>{t('triage.photos.tip1')}</span></li>
+          <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" /><span>{t('triage.photos.tip2')}</span></li>
+          <li className="flex items-start gap-2"><Lightbulb className="w-4 h-4 text-warning flex-shrink-0 mt-0.5" /><span>{t('triage.photos.tip3')}</span></li>
         </ul>
       </div>
     </div>

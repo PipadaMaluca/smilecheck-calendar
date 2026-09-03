@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, User, Stethoscope, Building2, Eye, EyeOff, Loader2, Mail, Phone, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -322,14 +323,14 @@ export function SignUpScreen() {
             <div className="relative">
               <Input placeholder={t('auth.fullName')} value={name} onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: '' })); }}
                 className={cn('h-12 bg-secondary border-border pr-10', errors.name && 'border-destructive')} />
-              {name && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">✅</span>}
+              {name && <Glyph emoji="✅" className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />}
               {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
             </div>
 
             <div className="relative">
               <Input type="email" placeholder={t('auth.email')} value={email} onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })); }}
                 className={cn('h-12 bg-secondary border-border pr-10', errors.email && 'border-destructive')} />
-              {email && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">✅</span>}
+              {email && <Glyph emoji="✅" className="w-5 h-5 absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />}
               {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
             </div>
 

@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -104,7 +105,8 @@ export function CoverageTab() {
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📋 {t('team.coverageSummary')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.coverageSummary')}</CardTitle>
         </CardHeader>
         <CardContent className="px-0 pb-2">
           <Table className="w-full table-fixed">
@@ -127,14 +129,14 @@ export function CoverageTab() {
                     </span>
                   </TableCell>
                   <TableCell className="text-base" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>
-                    {statusIcons[day.status]}
+                    <Glyph emoji={statusIcons[day.status]} className="w-4 h-4" />
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
           <div className="mt-3 mx-4 p-2 rounded-md bg-amber-500/10 border border-amber-500/20 text-xs text-amber-500">
-            ⚠️ {t('team.considerAddingCoverage')}
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.considerAddingCoverage')}
           </div>
         </CardContent>
       </Card>

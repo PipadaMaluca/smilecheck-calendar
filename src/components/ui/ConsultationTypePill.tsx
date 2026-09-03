@@ -1,4 +1,5 @@
 import { CATEGORY_PILL_EMOJIS, ConsultationCategory, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { CSSProperties, ReactNode } from 'react';
@@ -51,7 +52,7 @@ export function ConsultationTypePill({
     >
       {children}
       {text}
-      {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
+      {emoji && <Glyph emoji={emoji} className="w-3.5 h-3.5" />}
     </span>
   );
 }

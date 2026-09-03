@@ -1,4 +1,5 @@
 import { User } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { addMinutes, format } from 'date-fns';
 import { pt, enUS, fr } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
@@ -41,7 +42,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '3px 10px' }}
           >
             {getCategoryLabel(t, category)}
-            {emoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{emoji}</span>}
+            {emoji && <Glyph emoji={emoji} className="w-3.5 h-3.5" />}
           </span>
           <div className="text-[13px] capitalize text-[#64748B] dark:text-[#94A3B8]">
             {format(consultation.date, 'EEE d MMM', { locale })}

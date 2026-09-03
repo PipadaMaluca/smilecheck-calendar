@@ -89,7 +89,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
             <h3 className="text-sm font-bold text-foreground">
               {t('bidirectionalFeedback.pendingTitle')}
             </h3>
-            <Badge variant="outline" className="text-[11px] border-amber-500/30 text-amber-600 bg-amber-500/10">
+            <Badge variant="outline" className="text-[11px] border-amber-500/30 text-warning bg-amber-500/10">
               {items.length}
             </Badge>
           </div>
@@ -127,7 +127,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 text-xs flex-shrink-0 border-amber-500/40 text-amber-600 hover:bg-amber-500/10 min-h-[36px]"
+                    className="h-8 text-xs flex-shrink-0 border-amber-500/40 text-warning hover:bg-amber-500/10 min-h-[36px]"
                     onClick={() => setActiveItem(item)}
                   >
                     {t('bidirectionalFeedback.giveFeedback')}

@@ -81,7 +81,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             <div className="flex items-center gap-1">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
               <span className="text-xs font-semibold text-foreground">{dentist.rating}</span>
               <span className="text-[11px] text-muted-foreground">({dentist.reviewCount})</span>
             </div>

@@ -159,7 +159,7 @@ export function AvailabilityGridStep({
     return (
       <button
         onClick={() => toggleSlot(date, time)}
-        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 text-[11px] font-semibold transition-all hover:bg-emerald-500/25 hover:brightness-110"
+        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-success text-[11px] font-semibold transition-all hover:bg-emerald-500/25 hover:brightness-110"
       >
         {time}
       </button>

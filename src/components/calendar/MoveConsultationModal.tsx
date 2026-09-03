@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Glyph } from '@/components/ui/glyph';
 import { Button } from '@/components/ui/button';
 import { Consultation, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -99,7 +100,7 @@ export function OverlapWarningModal({ isOpen, existingConsultation, onClose, onC
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-lg flex items-center gap-2">
-            <span className="text-amber-500">⚠️</span> {t('agenda.slotOccupied')}
+            <Glyph emoji="⚠️" className="w-5 h-5 text-amber-500" /> {t('agenda.slotOccupied')}
           </DialogTitle>
         </DialogHeader>
 

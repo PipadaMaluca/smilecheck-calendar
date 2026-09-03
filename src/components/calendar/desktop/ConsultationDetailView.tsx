@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { User, Calendar, Clock, MapPin, Video, Camera, MessageCircle, FileText, RefreshCw, Copy, ArrowLeft, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -142,7 +143,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                     </span>
                   )}
                   <span className={cn('text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
-                    {statusConfig.icon} {statusConfig.label}
+                    <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
@@ -184,7 +185,8 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               </div>
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
-                  <span>💰 {t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
+                  <span>
+<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
                 </div>
               )}
             </div>
@@ -218,7 +220,8 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">⚠️ {t('consultationDetail.allergies')}:</p>
+                  <p className="text-sm font-medium text-destructive">
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.allergies')}:</p>
                   <div className="flex flex-wrap gap-1.5">
                     {healthAlerts.allergies.map(a => (
                       <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
@@ -301,7 +304,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                   <RefreshCw className="w-4 h-4 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
                 </Button>
                 {isBlocked ? (
-                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400 min-w-0" onClick={handleUnblock}>
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-success min-w-0" onClick={handleUnblock}>
                     <Unlock className="w-4 h-4 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
                   </Button>
                 ) : (
@@ -328,7 +331,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                   <RefreshCw className="w-4 h-4 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
                 </Button>
                 {isBlocked ? (
-                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-emerald-400 min-w-0" onClick={handleUnblock}>
+                  <Button variant="secondary" size="sm" className="gap-2 justify-start text-success min-w-0" onClick={handleUnblock}>
                     <Unlock className="w-4 h-4 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
                   </Button>
                 ) : (
@@ -364,7 +367,8 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
+            <DialogTitle>
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
               {t('consultationDetail.blockDesc')}
             </DialogDescription>

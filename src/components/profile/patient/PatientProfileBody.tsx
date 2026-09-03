@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_GLOW, PATIENT_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import {
@@ -192,7 +193,7 @@ export function PatientProfileBody({
             </Button>
           </div>
           {isBlocked ?
-            <Button variant="outline" className="w-full gap-2 text-xs text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+            <Button variant="outline" className="w-full gap-2 text-xs text-success border-emerald-500/30" onClick={handleUnblock}>
               <Unlock className="w-4 h-4" /> {t('profile.unblockPatient')}
             </Button> :
 
@@ -211,7 +212,7 @@ export function PatientProfileBody({
             <MessageCircle className="w-4 h-4" /> {t('profile.sendMessage')}
           </Button>
           {isBlocked ?
-          <Button variant="outline" className="gap-2 text-xs flex-1 text-emerald-400 border-emerald-500/30" onClick={handleUnblock}>
+          <Button variant="outline" className="gap-2 text-xs flex-1 text-success border-emerald-500/30" onClick={handleUnblock}>
               <Unlock className="w-4 h-4" /> {t('profile.unblockPatient')}
             </Button> :
 
@@ -256,7 +257,7 @@ export function PatientProfileBody({
 
               <div className="flex items-center justify-center md:justify-start gap-2 mt-3">
                 <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <Star className="w-4 h-4 fill-amber-400 text-warning" />
                   <span className="text-sm font-bold">{data.rating}</span>
                   <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
                 </div>
@@ -268,7 +269,7 @@ export function PatientProfileBody({
                 </span>
                 <LevelSeal role="patient" levelKey={effectiveLevel} />
                 <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
-                  📋 {planCfg.label}
+<Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{planCfg.label}
                 </span>
               </div>
             </div>
@@ -415,7 +416,7 @@ export function PatientProfileBody({
                 <div>
                   <ClickableDentistName name={data.mainDentist.name} className="text-sm font-medium" />
                   <div className="flex items-center gap-1.5 mt-1">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <Star className="w-3 h-3 fill-amber-400 text-warning" />
                     <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
                     <span className="text-[11px] text-muted-foreground">· {data.mainDentist.consultations} {t('profile.consultations')}</span>
                   </div>
@@ -453,7 +454,7 @@ export function PatientProfileBody({
                   key={i}
                   className={cn(
                     'w-4 h-4',
-                    i < Math.floor(data.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground'
+                    i < Math.floor(data.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground'
                   )} />
 
                 )}
@@ -479,7 +480,7 @@ export function PatientProfileBody({
                   <ClickableDentistName name={r.dentistName} className="text-xs font-semibold" />
                   <div className="flex gap-0.5">
                     {Array.from({ length: r.rating }).map((_, i) =>
-                  <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  <Star key={i} className="w-3 h-3 fill-amber-400 text-warning" />
                   )}
                   </div>
                 </div>
@@ -523,7 +524,8 @@ export function PatientProfileBody({
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ {t('profile.blockTitle', { name: data.name })}</DialogTitle>
+            <DialogTitle>
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('profile.blockTitle', { name: data.name })}</DialogTitle>
             <DialogDescription>
               {t('profile.blockDesc')}
             </DialogDescription>

@@ -173,18 +173,18 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
-                          {isFav && <Star className="w-3 h-3 fill-amber-400 text-amber-400 flex-shrink-0" />}
+                          {isFav && <Star className="w-3 h-3 fill-amber-400 text-warning flex-shrink-0" />}
                           <span className="text-sm font-medium text-foreground truncate">{d.name}</span>
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          {d.specialties.join(', ')} · <Star className="w-3 h-3 inline fill-amber-400 text-amber-400" />{d.rating}
+                          {d.specialties.join(', ')} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{d.rating}
                         </p>
                       </div>
                       <button
                         onClick={e => { e.stopPropagation(); onToggleFavorite?.(d.id); }}
                         className="p-1"
                       >
-                        <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+                        <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
                       </button>
                     </button>
                   );
@@ -218,7 +218,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {c.address} · <Star className="w-3 h-3 inline fill-amber-400 text-amber-400" />{c.rating}
+                        {c.address} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{c.rating}
                       </p>
                     </div>
                     <span className="text-xs text-muted-foreground">{c.distance} km</span>

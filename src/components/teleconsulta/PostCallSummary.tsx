@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Star, Calendar, Clock, Image } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -33,7 +34,7 @@ export function PostCallSummary({ isOpen, onClose, isDentist, remoteName, durati
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            ✅ {t('teleconsult.callEnded')}
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('teleconsult.callEnded')}
           </DialogTitle>
           <DialogDescription>{t('teleconsult.summaryWith')} {remoteName}</DialogDescription>
         </DialogHeader>

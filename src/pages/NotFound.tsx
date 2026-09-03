@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { Glyph } from '@/components/ui/glyph';
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
@@ -40,7 +41,7 @@ const NotFound = () => {
         src={watermarkSrc}
         alt=""
         aria-hidden="true"
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.05] pointer-events-none z-0 object-contain"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.025] pointer-events-none z-0 object-contain"
       />
 
       <div className="relative z-10 text-center max-w-md mx-auto space-y-6">
@@ -68,7 +69,7 @@ const NotFound = () => {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
           <Button onClick={() => navigate("/")} className="gap-2 min-h-[44px]">
-            🏠 {t('errors.goHome')}
+<Glyph emoji="🏠" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('errors.goHome')}
           </Button>
           <Button variant="outline" onClick={() => navigate(-1)} className="gap-2 min-h-[44px]">
             ← {t('errors.goBack')}

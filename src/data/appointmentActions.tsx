@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
@@ -212,7 +213,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
       <AlertDialog open={!!matchState} onOpenChange={(open) => !open && setMatchState(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>⚠️ Horário disponível!</AlertDialogTitle>
+            <AlertDialogTitle className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-warning" /> Horário disponível!</AlertDialogTitle>
             <AlertDialogDescription>
               {topMatch?.patientName} tem este horário nas preferências da lista de espera.
               <br />

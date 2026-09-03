@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Trophy } from 'lucide-react';
+import { Trophy, Hourglass } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -62,12 +62,12 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
       )}
 
       {showPending && pendingScores.length > 0 && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-warning/30 bg-warning-surface/10">
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <span className="text-base">⏳</span>
+              <Hourglass className="w-4 h-4 text-warning flex-shrink-0" />
               <h3 className="text-sm font-bold text-foreground">{t('dashboard.pendingPoints')}</h3>
-              <Badge variant="outline" className="text-xs border-amber-500/30 text-amber-600 bg-amber-500/10">
+              <Badge variant="outline" className="text-xs border-warning/30 text-warning bg-warning-surface/10">
                 +{pendingPoints} pts
               </Badge>
             </div>
@@ -75,17 +75,17 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
               {t('dashboard.pendingFeedback')}
             </p>
             {pendingScores.map((score) => (
-              <div key={score.id} className="flex items-center justify-between py-2 border-t border-border/50">
+              <div key={score.id} className="flex items-center justify-between gap-3 py-2 border-t border-border/50">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-foreground truncate">
                     {score.consultationTime || ''} - {score.dentistName}
                   </p>
-                  <p className="text-xs text-muted-foreground">{score.clinicName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{score.clinicName}</p>
                 </div>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="h-7 text-xs flex-shrink-0 border-amber-500/30 text-amber-600 hover:bg-amber-500/10"
+                  className="h-8 text-xs flex-shrink-0 border-warning/30 text-warning hover:bg-warning-surface/10 hover:text-warning"
                   onClick={() => setFeedbackScore(score)}
                 >
                   {t('bidirectionalFeedback.rate')}
@@ -95,6 +95,7 @@ export function PatientScoreHistory({ mode = 'full', userRole = 'patient', onNav
           </CardContent>
         </Card>
       )}
+
 
       {showHistory && (
         <div className="space-y-3">

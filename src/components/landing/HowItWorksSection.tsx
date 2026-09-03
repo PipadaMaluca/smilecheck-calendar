@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +34,7 @@ export function HowItWorksSection() {
           {steps.map((s, i) => (
             <div key={s.titleKey} className="relative text-center">
               <div className="w-24 h-24 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center text-4xl relative z-10 border border-primary/20">
-                {s.icon}
+                <Glyph emoji={s.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
               </div>
               <span className="inline-block text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full mb-3">
                 {t('landing.howItWorks.step', { number: i + 1 })}

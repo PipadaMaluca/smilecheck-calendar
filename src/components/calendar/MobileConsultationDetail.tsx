@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -126,7 +127,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
             {isBlocked ? (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30 min-w-0" onClick={handleUnblock}>
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-success border-emerald-500/30 min-w-0" onClick={handleUnblock}>
                 <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
               </Button>
             ) : (
@@ -157,7 +158,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
             {isBlocked ? (
-              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-emerald-400 border-emerald-500/30 min-w-0" onClick={handleUnblock}>
+              <Button variant="secondary" size="sm" className="gap-2 justify-start text-[13px] px-3 py-2 h-auto text-success border-emerald-500/30 min-w-0" onClick={handleUnblock}>
                 <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
               </Button>
             ) : (
@@ -221,7 +222,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                     </span>
                   )}
                   <span className={cn('text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
-                    {statusConfig.icon} {statusConfig.label}
+                    <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
                   </span>
                 </div>
               </div>
@@ -267,7 +268,8 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </div>
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
-                  <span>💰 {t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
+                  <span>
+<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
                 </div>
               )}
             </div>
@@ -301,7 +303,8 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               </h3>
               {healthAlerts.allergies.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-destructive">⚠️ {t('consultationDetail.allergies')}:</p>
+                  <p className="text-sm font-medium text-destructive">
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.allergies')}:</p>
                   <div className="flex flex-wrap gap-1.5">
                     {healthAlerts.allergies.map(a => (
                       <span key={a} className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{a}</span>
@@ -378,7 +381,8 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
         <DialogContent className="sm:max-w-md z-[70]">
           <DialogHeader>
-            <DialogTitle>⚠️ {t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
+            <DialogTitle>
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
             <DialogDescription>
               {t('consultationDetail.blockDesc')}
             </DialogDescription>

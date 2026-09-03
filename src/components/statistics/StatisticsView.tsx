@@ -253,7 +253,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <TableCell className="text-sm text-center">{d.faltas}</TableCell>
                           <TableCell className="text-center">
                             <div className="flex items-center justify-center gap-[5px]">
-                              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                              <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
                               <span className="text-sm">{d.rating}</span>
                             </div>
                           </TableCell>
@@ -323,7 +323,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <p className="text-xs text-muted-foreground">{p.count} {t('statistics.consultations').toLowerCase()}</p>
                         </div>
                         <div className="flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                          <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
                           <span className="text-xs">{p.rating.toFixed(1)}</span>
                         </div>
                       </div>

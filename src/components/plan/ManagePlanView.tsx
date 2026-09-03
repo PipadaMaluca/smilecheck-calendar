@@ -247,7 +247,7 @@ export function ManagePlanView({
           <p className="text-xs sm:text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30 text-[11px]">
+          <Badge className="bg-amber-500/20 text-warning border-amber-500/30 text-[11px]">
             {currentPlanName ?? (currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : t('plan.tiers.free'))}
           </Badge>
           {currentPriceLabel && (
@@ -303,7 +303,7 @@ export function ManagePlanView({
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.annual')}
-          <span className="ml-1.5 text-xs font-bold text-emerald-400">{t('plan.discount')}</span>
+          <span className="ml-1.5 text-xs font-bold text-success">{t('plan.discount')}</span>
         </button>
       </div>
 
@@ -367,7 +367,7 @@ export function ManagePlanView({
                 )}>
                   <Icon className={cn(
                     'w-5 h-5',
-                    plan.id === 'premium' ? 'text-amber-400' :
+                    plan.id === 'premium' ? 'text-warning' :
                     plan.id === 'pro' ? 'text-primary' :
                     'text-muted-foreground'
                   )} />
@@ -421,8 +421,8 @@ export function ManagePlanView({
                       <div className="rounded-md bg-amber-500/10 border border-amber-500/20 px-2 py-1.5">
                         {warningFeatures.map((feat, i) =>
                         <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
-                          <span className="text-amber-400 font-medium">{t(feat.textKey)}</span>
+                          <AlertTriangle className="w-3.5 h-3.5 text-warning flex-shrink-0 mt-0.5" />
+                          <span className="text-warning font-medium">{t(feat.textKey)}</span>
                         </div>
                         )}
                       </div>

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
+import { Gift } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -67,11 +69,11 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
               <DialogTitle>{t('store.confirmRedeem')}</DialogTitle>
               <DialogDescription className="space-y-2 pt-2">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{product.emoji || '🎁'}</span>
+                  <Glyph emoji={product.emoji} fallback={Gift} className="w-7 h-7 text-primary" />
                   <div>
                     <p className="text-sm font-medium text-foreground">{product.name}</p>
                     {product.discount && (
-                      <Badge variant="outline" className="text-xs border-amber-500/50 text-amber-400 mt-1">
+                      <Badge variant="outline" className="text-xs border-amber-500/50 text-warning mt-1">
                         {product.discount} {t('store.discount')}
                       </Badge>
                     )}

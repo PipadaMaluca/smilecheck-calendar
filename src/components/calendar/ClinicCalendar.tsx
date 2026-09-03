@@ -305,7 +305,7 @@ export function ClinicCalendar() {
     <div className="min-h-screen bg-background pb-24 overflow-x-hidden relative max-w-[100vw]">
       {/* Background Watermark Logo */}
       <div 
-        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+        className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-[0.025] z-0"
         style={{
           backgroundImage: `url(${smileIcon})`,
           backgroundRepeat: 'no-repeat',

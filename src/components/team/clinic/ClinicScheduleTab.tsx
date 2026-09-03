@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
@@ -145,7 +146,8 @@ export function ClinicScheduleTab() {
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <CardTitle className="text-base">🕐 {t('team.operatingHours')}</CardTitle>
+            <CardTitle className="text-base">
+<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.operatingHours')}</CardTitle>
             <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={copyMondayToWeekdays}>
               <Copy className="w-3 h-3" />
               <span className="hidden sm:inline">{t('team.schedule.copyMondayToWeekdays')}</span>
@@ -177,13 +179,15 @@ export function ClinicScheduleTab() {
                     <Input type="time" value={h.end} onChange={e => updateTime(i, 'end', e.target.value)} className="h-8 text-xs px-2" />
                   </>
                 ) : (
-                  <span className="col-span-2 text-xs text-destructive font-medium">❌ {t('team.closedFem')}</span>
+                  <span className="col-span-2 text-xs text-destructive font-medium">
+<Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.closedFem')}</span>
                 )}
               </div>
             ))}
 
             {!hours[6].open && (
-              <p className="text-xs text-muted-foreground pl-2">📱 {t('team.teleOnlyOnSunday')}</p>
+              <p className="text-xs text-muted-foreground pl-2">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.teleOnlyOnSunday')}</p>
             )}
           </div>
 
@@ -192,7 +196,8 @@ export function ClinicScheduleTab() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-sm font-medium">🍽️ {t('team.schedule.lunchBreak')}</span>
+                <span className="text-sm font-medium">
+<Glyph emoji="🍽️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.schedule.lunchBreak')}</span>
                 <p className="text-xs text-muted-foreground">{t('team.schedule.lunchBreakDesc')}</p>
               </div>
               <Switch checked={lunchBreak} onCheckedChange={setLunchBreak} />
@@ -211,7 +216,8 @@ export function ClinicScheduleTab() {
       {/* Section 2 — Holidays & Closures */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📅 {t('team.holidays')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.holidays')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
@@ -280,7 +286,8 @@ export function ClinicScheduleTab() {
       {/* Section 3 — Capacity */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📊 {t('team.capacity')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="📊" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.capacity')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between gap-4">

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { AlertTriangle } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -43,7 +45,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
   ];
 
   const handleSubmit = () => {
-    toast.success(`📩 ${t('consultationDetail.rescheduleModal.requestSent')}`);
+    toast.success(t('consultationDetail.rescheduleModal.requestSent'));
     setStep('done');
     setTimeout(() => {
       onClose();
@@ -62,7 +64,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto z-[70]">
         {step === 'done' ? (
           <div className="text-center py-8 space-y-3">
-            <div className="text-4xl">📩</div>
+            <Glyph emoji="📩" className="w-10 h-10" />
             <p className="text-lg font-semibold">{t('consultationDetail.rescheduleModal.requestSent')}</p>
             <p className="text-sm text-muted-foreground">{t('consultationDetail.rescheduleModal.dentistNotified')}</p>
           </div>
@@ -156,8 +158,8 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                   />
                 </div>
 
-                <div className="bg-amber-500/10 rounded-lg p-3 text-sm text-amber-400 flex items-start gap-2">
-                  <span>⚠️</span>
+                <div className="bg-amber-500/10 rounded-lg p-3 text-sm text-warning flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-warning" />
                   <span>{t('consultationDetail.rescheduleModal.warning')}</span>
                 </div>
 

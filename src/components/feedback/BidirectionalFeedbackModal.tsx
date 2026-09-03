@@ -118,14 +118,14 @@ export function BidirectionalFeedbackModal({
                 <Star
                   className={cn(
                     'w-9 h-9 transition-colors',
-                    s <= display ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30',
+                    s <= display ? 'text-warning fill-amber-400' : 'text-muted-foreground/30',
                   )}
                   style={s <= display ? { color: '#FFD700', fill: '#FFD700' } : undefined}
                 />
               </button>
             ))}
             {showFloater && (
-              <span className="pointer-events-none absolute right-2 -top-2 text-sm font-bold text-emerald-400 animate-fade-in"
+              <span className="pointer-events-none absolute right-2 -top-2 text-sm font-bold text-success animate-fade-in"
                 style={{ animation: 'floatUp 900ms ease-out forwards' }}>
                 +{FEEDBACK_GIVER_REWARD} pts
               </span>

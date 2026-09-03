@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -494,8 +495,10 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Summary */}
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
-        <p className="text-xs text-muted-foreground">📅 {data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} ⏰ {data.time} (30 min)</p>
-        <p className="text-xs text-muted-foreground">🏥 {data.clinic?.name}</p>
+        <p className="text-xs text-muted-foreground">
+<Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} ⏰ {data.time} (30 min)</p>
+        <p className="text-xs text-muted-foreground">
+<Glyph emoji="🏥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">{t('editConsultation.teleconsultation')}</span>
@@ -508,7 +511,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
           )}
           {discount > 0 && (
-            <div className="flex justify-between text-sm text-emerald-400">
+            <div className="flex justify-between text-sm text-success">
               <span>{t('booking.discount')} (-20%)</span>
               <span>-€{discount.toFixed(2)}</span>
             </div>
@@ -532,7 +535,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         >
           <CreditCard className="w-4 h-4" />
           <span className="text-sm font-medium text-foreground">Visa ****4532</span>
-          <Star className="w-3 h-3 text-amber-400 ml-auto" />
+          <Star className="w-3 h-3 text-warning ml-auto" />
         </button>
       </div>
 
@@ -643,7 +646,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                   }}
                   className="text-xs"
                 >
-                  ✅ {t('booking.confirmCard')}
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.confirmCard')}
                 </Button>
                 <button
                   className="text-xs text-muted-foreground hover:text-foreground"
@@ -691,8 +694,10 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Input placeholder={t('booking.code')} value={promoCode} onChange={e => { setPromoCode(e.target.value); setPromoApplied(null); }} className="flex-1" />
           <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
-        {promoApplied === true && <p className="text-xs text-emerald-400">✅ {t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
-        {promoApplied === false && <p className="text-xs text-destructive">❌ {t('booking.invalidCode')}</p>}
+        {promoApplied === true && <p className="text-xs text-success">
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
+        {promoApplied === false && <p className="text-xs text-destructive">
+<Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.invalidCode')}</p>}
       </div>
 
       {/* Terms */}

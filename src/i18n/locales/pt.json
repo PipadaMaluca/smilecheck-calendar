@@ -98,7 +98,13 @@
     "tomorrow": "Amanhã",
     "minAgo": "há {{n}} min",
     "hoursAgo": "há {{n}}h",
-    "daysAgo": "há {{n}} dias"
+    "daysAgo": "há {{n}} dias",
+    "patient": "Paciente",
+    "dentist": "Dentista",
+    "clinic": "Clínica",
+    "from": "De",
+    "to": "Até",
+    "weeksAgo": "Há {{n}} semanas"
   },
   "nav": {
     "home": "Início",
@@ -131,7 +137,8 @@
     "fullHistory": "Histórico Completo",
     "alerts": "Alertas",
     "profile": "Perfil",
-    "chat": "Chat"
+    "chat": "Chat",
+    "rewards": "Recompensas"
   },
   "auth": {
     "login": "Entrar",
@@ -230,7 +237,10 @@
       "paciente": "Gerir consultas, pontos e saúde oral",
       "dentista": "Gerir agenda, pacientes e teleconsultas",
       "clinica": "Gerir equipa, estatísticas e operações"
-    }
+    },
+    "emailInUse": "Este email já está registado.",
+    "invalidCredentials": "Email ou palavra-passe incorretos.",
+    "enterDemoMode": "Entrar em modo Demo"
   },
   "roles": {
     "patient": "Paciente",
@@ -772,7 +782,9 @@
     "doctorNotWorking": "Hoje o médico não trabalha nesta clínica",
     "urgency": "Urgência",
     "dentalClinic": "Clínica Dentária",
-    "generalDentist": "Médico Dentista"
+    "generalDentist": "Médico Dentista",
+    "dentists": "Dentistas",
+    "teleconsultation": "Teleconsulta"
   },
   "consultationTypes": {
     "firstConsultation": "1ª Consulta",
@@ -1617,7 +1629,10 @@
       "Sex",
       "Sáb",
       "Dom"
-    ]
+    ],
+    "levelXp": "Nível e XP",
+    "points": "Pontos",
+    "streak": "Sequência"
   },
   "settings": {
     "title": "Configurações",
@@ -1870,7 +1885,8 @@
     "totalConsultations": "Total: {{count}} consultas",
     "viewDossier": "Ver Dossier",
     "noPatientsFound": "Nenhum paciente encontrado",
-    "tryOtherTerms": "Tente pesquisar com outros termos."
+    "tryOtherTerms": "Tente pesquisar com outros termos.",
+    "nextLabel": "Próx"
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",
@@ -2016,7 +2032,8 @@
     "consultations": "consultas",
     "tele": "tele",
     "myPlan": "Meu Plano",
-    "paymentsAndBilling": "Pagamentos e Faturação"
+    "paymentsAndBilling": "Pagamentos e Faturação",
+    "clinicBilling": "Faturação da Clínica"
   },
   "team": {
     "title": "Gestão de Equipa",
@@ -2172,7 +2189,8 @@
     "teleAvailability": "Disponibilidade Teleconsultas",
     "teleScheduleNote": "Os horários de teleconsulta (noite) são configurados na grelha semanal acima.",
     "saveChanges": "Guardar Alterações",
-    "savedSuccess": "✅ Disponibilidade atualizada com sucesso"
+    "savedSuccess": "✅ Disponibilidade atualizada com sucesso",
+    "reasonLabel": "Motivo"
   },
   "chat": {
     "title": "Conversas",
@@ -2316,7 +2334,7 @@
     "pendingTitle": "Pontos Pendentes",
     "pendingHint": "Avalie e ganhe +2 pts por cada feedback enviado.",
     "evaluatePatient": "Avaliar {{name}}",
-    "evaluateDentist": "Avaliar Dr. {{name}}",
+    "evaluateDentist": "Avaliar {{name}}",
     "evaluateClinic": "Avaliar {{name}}",
     "giveFeedback": "Dar Feedback",
     "forYou": "para si",
@@ -3035,7 +3053,15 @@
       "free": "Grátis"
     },
     "discount": "-15%",
-    "planLabel": "Plano"
+    "planLabel": "Plano",
+    "month": "mês",
+    "currentPlanLabel": "Plano atual",
+    "newPlanLabel": "Novo plano",
+    "confirmChange": "Confirmar Alteração",
+    "confirmChangeTitle": "Confirmar alteração",
+    "changeEffectImmediate": "A alteração será efetiva imediatamente.",
+    "showAllFeatures": "Ver todas (+{{count}})",
+    "showLess": "Ver menos"
   },
   "health": {
     "title": "A Minha Saúde",
@@ -3200,7 +3226,8 @@
     "benefit_meals": "Alimentação",
     "avail_afternoons_mon_thu": "Tardes disponíveis (Seg-Qui)",
     "avail_saturdays_full": "Sábados inteiros",
-    "avail_mon_fri_available": "Seg-Sex disponível"
+    "avail_mon_fri_available": "Seg-Sex disponível",
+    "fixedPerConsultLabel": "Fixo por consulta"
   },
   "prescription": {
     "title": "Prescrever Receita",
@@ -3345,7 +3372,12 @@
     "type": "Tipo",
     "h24": "24h",
     "h1": "1h",
-    "noConsultations": "Sem consultas hoje."
+    "noConsultations": "Sem consultas hoje.",
+    "legend": "Legenda",
+    "confirmed": "Confirmada",
+    "pending": "Aguarda confirmação",
+    "cancelled": "Cancelada / falta",
+    "irrelevant": "Não aplicável"
   },
   "export": {
     "selectAtLeast": "Selecione pelo menos um tipo de relatório.",

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
@@ -62,7 +63,8 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">🕐 {t('team.weeklySchedule')}</CardTitle>
+            <CardTitle className="text-base">
+<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.weeklySchedule')}</CardTitle>
             <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={copyToAll}>
               <Copy className="w-3 h-3" />{t('team.copyToAll')}
             </Button>
@@ -127,7 +129,8 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📱 {t('agenda.teleconsultation')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('agenda.teleconsultation')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
@@ -155,7 +158,8 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">🚫 {t('team.exceptions')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="🚫" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.exceptions')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -170,7 +174,8 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">✈️ {t('team.vacation')}</CardTitle>
+          <CardTitle className="text-base">
+<Glyph emoji="✈️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.vacation')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between text-sm">

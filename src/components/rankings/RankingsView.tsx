@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Trophy, TrendingUp, TrendingDown, Minus, Flag, Building2, User } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -102,7 +103,7 @@ const clinicLeaderboards: Record<string, { position: number; name: string; xp: n
 
 function TrendIcon({ trend, change }: { trend: 'up' | 'down' | 'same'; change: number }) {
   if (trend === 'up') return (
-    <span className="flex items-center gap-1 text-emerald-400 text-xs font-medium">
+    <span className="flex items-center gap-1 text-success text-xs font-medium">
       <TrendingUp className="w-3.5 h-3.5" /> +{change}
     </span>
   );
@@ -119,9 +120,9 @@ function TrendIcon({ trend, change }: { trend: 'up' | 'down' | 'same'; change: n
 }
 
 function MedalEmoji({ position }: { position: number }) {
-  if (position === 1) return <span className="text-lg">🥇</span>;
-  if (position === 2) return <span className="text-lg">🥈</span>;
-  if (position === 3) return <span className="text-lg">🥉</span>;
+  if (position === 1) return <Glyph emoji="🥇" className="w-5 h-5" />;
+  if (position === 2) return <Glyph emoji="🥈" className="w-5 h-5" />;
+  if (position === 3) return <Glyph emoji="🥉" className="w-5 h-5" />;
   return <span className="text-sm font-bold text-muted-foreground w-6 text-center">#{position}</span>;
 }
 

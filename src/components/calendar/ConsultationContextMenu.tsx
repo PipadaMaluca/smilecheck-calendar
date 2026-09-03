@@ -23,8 +23,8 @@ export function ConsultationContextMenu({ consultation, position, onClose, onSta
 
   const STATUS_OPTIONS: { status: ConsultationStatus; label: string; icon: React.ElementType; color: string }[] = [
     { status: 'em_sala_espera', label: t('contextMenu.inWaitingRoom'), icon: Clock, color: 'text-blue-400' },
-    { status: 'em_consulta', label: t('contextMenu.inConsultation'), icon: Stethoscope, color: 'text-amber-400' },
-    { status: 'visto', label: t('contextMenu.seen'), icon: CheckCircle2, color: 'text-emerald-400' },
+    { status: 'em_consulta', label: t('contextMenu.inConsultation'), icon: Stethoscope, color: 'text-warning' },
+    { status: 'visto', label: t('contextMenu.seen'), icon: CheckCircle2, color: 'text-success' },
     { status: 'falta_justificada', label: t('contextMenu.justifiedAbsence'), icon: AlertTriangle, color: 'text-orange-400' },
     { status: 'falta_nao_justificada', label: t('contextMenu.unjustifiedAbsence'), icon: XCircle, color: 'text-destructive' },
   ];

@@ -160,7 +160,7 @@ function PatientCard({
             </span>
             {p.rating !== null ? (
               <span className="text-xs text-muted-foreground flex items-center gap-1">
-                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                <Star className="w-3 h-3 fill-amber-400 text-warning" />
                 {p.rating} · {t('search.reviewsCount', { count: p.reviewCount })}
               </span>
             ) : (

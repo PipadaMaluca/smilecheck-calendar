@@ -41,7 +41,7 @@ export function IncomingCallModal({ isOpen, dentistName, onAccept, onReject }: I
         <div className="space-y-2">
           <p className="text-white/50 text-sm">{t('incomingCall.starting')}</p>
           <h2 className="text-2xl font-bold text-white">{dentistName}</h2>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-warning">
             <Video className="w-3.5 h-3.5" /> {t('incomingCall.teleconsulta')}
           </span>
         </div>

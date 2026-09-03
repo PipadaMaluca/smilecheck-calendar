@@ -105,7 +105,7 @@ export function PatientAppointmentsList({
                   icon: <MessageCircle className="w-5 h-5" />,
                   color: '#2196F3',
                   onAction: () => {
-                    toast({ title: `💬 ${t('common.message')}: ${consultation.dentist.name}`, duration: 2000 });
+                    toast({ title: `${t('common.message')}: ${consultation.dentist.name}`, duration: 2000 });
                   }
                 }]}
                 rightActions={[{
@@ -113,7 +113,7 @@ export function PatientAppointmentsList({
                   icon: <Ban className="w-5 h-5" />,
                   color: '#F44336',
                   onAction: () => {
-                    toast({ title: `❌ ${t('common.cancelConsultation')}`, duration: 2000 });
+                    toast({ title: t('common.cancelConsultation'), duration: 2000 });
                   }
                 }]}
               >

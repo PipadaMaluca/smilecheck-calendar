@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -52,10 +53,10 @@ export function StreakTab({ userRole }: StreakTabProps) {
       {/* Current Streak */}
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 text-center space-y-3">
-          <span className="text-6xl">🔥</span>
+          <Glyph emoji="🔥" className="w-14 h-14" />
           <p className="text-4xl font-bold text-foreground">{data.streak} {t('scores.days')}</p>
           <p className="text-sm text-muted-foreground">{t('scores.bestStreak')}: {data.bestStreak} {t('scores.days')}</p>
-          <p className="text-xs text-amber-400">{t('scores.resetAt')}</p>
+          <p className="text-xs text-warning">{t('scores.resetAt')}</p>
         </CardContent>
       </Card>
 
@@ -78,7 +79,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             ].map((tier, i) => (
               <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/50">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">{tier.icon}</span>
+                  <Glyph emoji={tier.icon} className="w-5 h-5" />
                   <span className="text-xs font-medium text-foreground">{tier.label}</span>
                 </div>
                 <span className="text-xs font-bold text-primary">{tier.reward}</span>
@@ -116,7 +117,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
                   className={cn(
                     'w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium mx-auto',
                     isToday && 'ring-2 ring-primary',
-                    hasCheckin && 'bg-emerald-500/20 text-emerald-400',
+                    hasCheckin && 'bg-emerald-500/20 text-success',
                     missed && isPast && 'text-muted-foreground/40'
                   )}
                 >

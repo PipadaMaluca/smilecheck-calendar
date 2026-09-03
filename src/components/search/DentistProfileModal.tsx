@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Video, X, Calendar, MessageCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -57,7 +58,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
           <div className="flex items-center justify-center gap-2 mt-1">
             <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <Star className="w-4 h-4 fill-amber-400 text-warning" />
               <span className="text-sm font-semibold text-foreground">{dentist.rating}</span>
               <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
             </div>
@@ -134,7 +135,8 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                   {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
                 </p>
                 {isSunday && (
-                  <p className="text-[11px] text-primary mb-1">📱 {t('search.sundayTeleconsultOnly')}</p>
+                  <p className="text-[11px] text-primary mb-1">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('search.sundayTeleconsultOnly')}</p>
                 )}
                 <div className="flex flex-wrap gap-1">
                   {day.slots.map((slot) => (
@@ -180,7 +182,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                 <span className="text-xs font-semibold text-foreground">{review.patientName}</span>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: review.rating }).map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-warning" />
                   ))}
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
@@ -170,7 +171,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       return [
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: (nextPatientCon as any)?.category as ConsultationCategory | undefined, primaryName: nextDentistName },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
-      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'dentist') {
@@ -180,14 +181,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       return [
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: next?.category, primaryName: next?.patient.name || '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
-      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'clinic') {
       return [
       { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
-      { label: t('dashboard.availablePoints'), value: `⭐ ${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja' },
+      { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     return null;
@@ -304,7 +305,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{pointsData.xp.toLocaleString()} XP</span>
                         <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{multiplier.toFixed(1)}</span>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+                      <div className="w-full h-1.5 rounded-full bg-muted dark:bg-[#1E3A5F] overflow-hidden">
                         <div
                           className={cn(
                             "h-full rounded-full transition-all duration-1000 ease-out",
@@ -316,10 +317,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     </div>
                   ) : 'isStreak' in stat && (stat as any).isStreak ? (
                     <span className="font-bold text-foreground inline-flex items-center gap-1.5 text-lg">
-                      <span>🔥</span> {stat.value} {t('points.days')}
+                      <Flame className="w-4 h-4 text-warning" /> {stat.value} {t('points.days')}
                     </span>
                   ) : (
-                    <span className="font-bold text-foreground truncate text-lg">{stat.value}</span>
+                    <span className="font-bold text-foreground truncate text-lg inline-flex items-center gap-1.5">{'isPoints' in stat && (stat as any).isPoints && <Star className="w-4 h-4 text-warning fill-current" />}{stat.value}</span>
                   )}
                 </CardContent>
               </Card>
@@ -333,10 +334,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // Status badge helper
   const getStatusBadge = (status?: string) => {
     const configs: Record<string, {label: string;className: string;}> = {
-      confirmada: { label: t('consultation.confirmed'), className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
-      em_sala_espera: { label: t('consultation.waitingRoom'), className: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
+      confirmada: { label: t('consultation.confirmed'), className: 'bg-emerald-500/15 text-success border-emerald-500/30' },
+      em_sala_espera: { label: t('consultation.waitingRoom'), className: 'bg-warning-surface/15 text-warning border-warning/30' },
       em_consulta: { label: t('consultation.inProgress'), className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
-      visto: { label: t('consultation.seen'), className: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' },
+      visto: { label: t('consultation.seen'), className: 'bg-emerald-500/15 text-success border-emerald-500/30' },
       falta_justificada: { label: t('consultation.noShow'), className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
       falta_nao_justificada: { label: t('consultation.noShow'), className: 'bg-red-500/15 text-red-400 border-red-500/30' }
     };
@@ -351,8 +352,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // Confirmation indicator
   const confirmIndicator = (status: ConfirmationStatus, isIrrelevant = false) => {
     if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[11px] text-muted-foreground font-bold">—</span>;
-    if (status === 'confirmed') return <span className="w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[11px] text-emerald-400 font-bold">✓</span>;
-    if (status === 'declined') return <span className="w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[11px] text-red-400 font-bold">✗</span>;
+    if (status === 'confirmed') return <Glyph emoji="✓" className="w-5 h-5 w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[11px] text-success font-bold" />;
+    if (status === 'declined') return <Glyph emoji="✗" className="w-5 h-5 w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[11px] text-red-400 font-bold" />;
     return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[11px] text-orange-400 font-bold">●</span>;
   };
 
@@ -468,7 +469,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <div
                       className={cn(
                         "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all py-1.5",
-                        !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]",
+                        !isLast && "border-b border-border",
                         isLast && "consultation-row-last"
                       )}
                       onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}>
@@ -565,7 +566,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       key={c.consultationId}
                       className={cn(
                         "flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5",
-                        !isLastConf && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                        !isLastConf && "border-b border-border"
                       )}
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                     >
@@ -696,7 +697,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       key={d.id}
                       className={cn(
                         "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden",
-                        !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                        !isLast && "border-b border-border"
                       )}
                       onClick={() => {
                         window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
@@ -745,7 +746,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                               key={c.consultationId}
                               className={cn(
                                 "flex items-center gap-1.5 py-1.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors",
-                                !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                                !isLast && "border-b border-border"
                               )}
                               onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
                             >
@@ -866,7 +867,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   return (
                     <div key={item.id} className={cn(
                       "consultation-row flex items-center gap-3 py-1.5",
-                      !isLast && "border-b border-[#E2E8F0] dark:border-white/[0.08]"
+                      !isLast && "border-b border-border"
                     )}>
                       <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Upload, X, FileText, Clock, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -53,7 +54,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
   if (submitted) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4">
-        <span className="text-6xl">✅</span>
+        <Glyph emoji="✅" className="w-14 h-14" />
         <h2 className="text-xl font-bold text-foreground">{t('contestation.submitted')}</h2>
         <p className="text-sm text-muted-foreground max-w-md">
           {t('contestation.submittedDesc')}
@@ -97,12 +98,12 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
 
         {/* Warning banner */}
         <div className="flex items-start gap-3 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-          <Clock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+          <Clock className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-xs font-medium text-amber-400">
+            <p className="text-xs font-medium text-warning">
               {t('contestation.timeLimit')}
             </p>
-            <p className="text-xs text-amber-400/80">
+            <p className="text-xs text-warning/80">
               {t('contestation.timeRemaining')}: {remainingHours}h {remainingMinutes}min
             </p>
           </div>

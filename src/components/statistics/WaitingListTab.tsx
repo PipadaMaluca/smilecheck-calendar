@@ -400,7 +400,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
       }
     }
     if (!matchEntry || !matchGroup) {
-      toast(t('waitingList.mgmt.autoMatchTitle'), { description: t('waitingList.empty') });
+      toast(t('waitingList.mgmt.autoMatchTitle'), { description: t('waitingList.noPatients') });
       return;
     }
     setAutoMatch({ slot, entry: matchEntry, dentistName: matchGroup.dentistName, dentistId: matchGroup.key });

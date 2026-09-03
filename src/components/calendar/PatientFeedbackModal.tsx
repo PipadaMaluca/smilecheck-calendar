@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -35,7 +36,7 @@ function StarRating({ value, hovered, onRate, onHover, onLeave }: {
             className={cn(
               'w-8 h-8 transition-colors',
               star <= display
-                ? 'text-amber-400 fill-amber-400'
+                ? 'text-warning fill-amber-400'
                 : 'text-muted-foreground/30'
             )}
           />
@@ -112,7 +113,8 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
               className="resize-none"
               rows={2}
             />
-            <p className="text-[11px] text-muted-foreground">✏️ {t('feedback.editableUntil')}</p>
+            <p className="text-[11px] text-muted-foreground">
+<Glyph emoji="✏️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('feedback.editableUntil')}</p>
           </div>
 
           <div className="border-t border-border" />
@@ -137,7 +139,8 @@ export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
               className="resize-none"
               rows={2}
             />
-            <p className="text-[11px] text-muted-foreground">✏️ {t('feedback.editableUntil')}</p>
+            <p className="text-[11px] text-muted-foreground">
+<Glyph emoji="✏️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('feedback.editableUntil')}</p>
           </div>
 
           <div className="flex flex-col gap-2 pt-2">
