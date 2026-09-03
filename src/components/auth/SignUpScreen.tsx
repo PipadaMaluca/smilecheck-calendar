@@ -353,7 +353,10 @@ export function SignUpScreen() {
                   <span className="text-xs text-muted-foreground">{strength.label}</span>
                 </div>
               )}
-              {errors.password && <p className="text-destructive text-xs mt-1">{errors.password}</p>}
+              {errors.password
+                ? <p className="text-destructive text-xs mt-1">{errors.password}</p>
+                : <p className="text-muted-foreground text-xs mt-1">{t('auth.passwordHint')}</p>}
+
             </div>
 
             <div className="border-l-2 border-primary pl-3">
