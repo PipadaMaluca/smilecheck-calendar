@@ -176,10 +176,14 @@ export function useNotifications(): UseNotificationsResult {
   useEffect(load, [load]);
 
   // Live updates so events triggered elsewhere in the app show up immediately.
+  // The topic carries a per-instance suffix: several components use this hook at
+  // once and Supabase reuses a channel with an identical topic, which would make
+  // the second `.on()` throw ("after subscribe()").
   useEffect(() => {
     if (!enabled || !user) return;
+    const topic = `notifications:${user.id}:${Math.random().toString(36).slice(2, 10)}`;
     const channel = supabase
-      .channel(`notifications:${user.id}`)
+      .channel(topic)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'notifications', filter: `profile_id=eq.${user.id}` },
@@ -190,6 +194,7 @@ export function useNotifications(): UseNotificationsResult {
       void supabase.removeChannel(channel);
     };
   }, [enabled, user, load]);
+
 
   const markRead = useCallback(
     (id: string) => {
