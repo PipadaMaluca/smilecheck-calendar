@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { supabase } from '@/integrations/supabase/client';
+import { mapAuthError } from '@/lib/authErrors';
+
 
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
@@ -112,7 +114,8 @@ export function SignUpScreen() {
     });
     setLoading(false);
     if (error) {
-      setErrors({ email: /already registered/i.test(error.message) ? t('auth.emailInUse', { defaultValue: 'Este email já está registado.' }) : error.message });
+      const mapped = mapAuthError(error, t);
+      setErrors({ [mapped.field === 'general' ? 'email' : mapped.field]: mapped.message });
       return;
     }
     navigate(`/app?role=${role}`);
@@ -353,7 +356,10 @@ export function SignUpScreen() {
                   <span className="text-xs text-muted-foreground">{strength.label}</span>
                 </div>
               )}
-              {errors.password && <p className="text-destructive text-xs mt-1">{errors.password}</p>}
+              {errors.password
+                ? <p className="text-destructive text-xs mt-1">{errors.password}</p>
+                : <p className="text-muted-foreground text-xs mt-1">{t('auth.passwordHint')}</p>}
+
             </div>
 
             <div className="border-l-2 border-primary pl-3">
@@ -491,7 +497,10 @@ export function SignUpScreen() {
                 <span className="text-xs text-muted-foreground">{strength.label}</span>
               </div>
             )}
-            {errors.password && <p className="text-destructive text-xs mt-1">{errors.password}</p>}
+            {errors.password
+              ? <p className="text-destructive text-xs mt-1">{errors.password}</p>
+              : <p className="text-muted-foreground text-xs mt-1">{t('auth.passwordHint')}</p>}
+
           </div>
 
           <div>
