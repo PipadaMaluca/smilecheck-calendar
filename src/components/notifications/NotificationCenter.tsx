@@ -157,6 +157,62 @@ function filterNotifications(notifications: Notification[], filter: FilterType) 
   }
 }
 
+/**
+ * Single source of truth for the notification UI.
+ *
+ * Real users read/write the `notifications` table; demo mode (and unauthenticated
+ * viewers) keep the local mock list with zero DB writes.
+ */
+function useNotificationList(userRole: UserRole) {
+  const { i18n: i18nInstance } = useTranslation();
+  const db = useNotifications();
+  const [mock, setMock] = useState(() => getNotificationsForRole(userRole));
+
+  useEffect(() => {
+    if (!db.enabled) setMock(getNotificationsForRole(userRole));
+  }, [db.enabled, i18nInstance.language, userRole]);
+
+  const markMockRead = useCallback((id: string) => {
+    setMock((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+  }, []);
+  const markMockAllRead = useCallback(() => {
+    setMock((prev) => prev.map((n) => ({ ...n, read: true })));
+  }, []);
+
+  if (db.enabled) {
+    return {
+      notifications: db.notifications,
+      unreadCount: db.unreadCount,
+      loading: db.loading,
+      markRead: db.markRead,
+      markAllRead: db.markAllRead,
+    };
+  }
+  return {
+    notifications: mock,
+    unreadCount: mock.filter((n) => !n.read).length,
+    loading: false,
+    markRead: markMockRead,
+    markAllRead: markMockAllRead,
+  };
+}
+
+function NotificationSkeleton({ rows = 4 }: { rows?: number }) {
+  return (
+    <div className="py-2">
+      {Array.from({ length: rows }).map((_, i) =>
+        <div key={i} className="flex items-start gap-3 px-4 py-3">
+          <div className="w-8 h-8 rounded-full bg-secondary animate-pulse flex-shrink-0" />
+          <div className="flex-1 space-y-2 pt-1">
+            <div className="h-3 w-1/2 rounded bg-secondary animate-pulse" />
+            <div className="h-2.5 w-3/4 rounded bg-secondary/70 animate-pulse" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Bell ───
 interface NotificationBellProps {
   onClick: () => void;
@@ -165,7 +221,7 @@ interface NotificationBellProps {
 }
 
 export function NotificationBell({ onClick, className, userRole = 'patient' }: NotificationBellProps) {
-  const unreadCount = getNotificationsForRole(userRole).filter((n) => !n.read).length;
+  const { unreadCount } = useNotificationList(userRole);
   return (
     <button
       data-notification-bell
@@ -181,6 +237,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
     </button>);
 
 }
+
 
 // ─── Dropdown (Desktop) ───
 interface NotificationDropdownProps {
