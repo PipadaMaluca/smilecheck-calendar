@@ -139,6 +139,38 @@ export function getCategoryBadgeStyle(hex: string): import('react').CSSPropertie
   return { backgroundColor: pill.bg, color: pill.color };
 }
 
+/* ============================================================
+   NEUTRAL AGENDA COLOR MODEL
+   Consultation blocks/cards use a neutral surface; the TYPE is
+   conveyed by a small colored dot. Only urgência (red) and
+   teleconsulta (orange) get a saturated accent.
+   ============================================================ */
+export const ACCENT_CATEGORIES: ConsultationCategory[] = ['urgencia', 'teleconsulta'];
+
+export function isAccentCategory(category?: ConsultationCategory | null): boolean {
+  return !!category && ACCENT_CATEGORIES.includes(category);
+}
+
+/** Left-border color for a consultation surface: accent for urgência/teleconsulta, neutral otherwise. */
+export function getAccentBorderColor(category?: ConsultationCategory | null): string {
+  if (category === 'urgencia') return 'hsl(var(--destructive))';
+  if (category === 'teleconsulta') return 'hsl(var(--warning))';
+  return 'hsl(var(--border))';
+}
+
+/** Subtle surface tint for a consultation surface: only accent categories are tinted. */
+export function getAccentSurface(category?: ConsultationCategory | null): string | undefined {
+  if (category === 'urgencia') return 'hsl(var(--destructive) / 0.10)';
+  if (category === 'teleconsulta') return 'hsl(var(--warning) / 0.10)';
+  return undefined;
+}
+
+/** Style for the small per-type dot (keeps the existing type colors + legend meaningful). */
+export function getCategoryDotStyle(hex: string, size = 6): import('react').CSSProperties {
+  return { width: size, height: size, borderRadius: 999, backgroundColor: hex, display: 'inline-block', flexShrink: 0 };
+}
+
+
 // Fallback labels (Portuguese) - prefer getCategoryLabel(t, category) for translated labels
 export const CATEGORY_LABELS: Record<ConsultationCategory, string> = {
   primeira_consulta: '1ª Consulta',

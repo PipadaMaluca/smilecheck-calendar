@@ -3,7 +3,7 @@ import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle, Euro } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Consultation, UserRole, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
+import { Consultation, UserRole, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryLabel, getAccentBorderColor, getAccentSurface, isAccentCategory } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -60,7 +60,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         'consultation-card cursor-pointer animate-slide-up press',
         isTeleconsulta ? 'consultation-card-teleconsulta' : 'consultation-card-presencial'
       )}
-      style={{ borderLeftColor: colors.hex, borderLeftWidth: '4px' }}
+      data-cat={category}
+      style={{ borderLeftColor: getAccentBorderColor(category), borderLeftWidth: '4px', backgroundColor: getAccentSurface(category) }}
     >
       {/* Status Badge */}
       <div className="flex items-center justify-between mb-2">
@@ -74,11 +75,11 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             className={cn(
               'w-10 h-10 rounded-xl flex items-center justify-center'
             )}
-            style={{ backgroundColor: `${colors.hex}20` }}
+            style={{ backgroundColor: isAccentCategory(category) ? `${colors.hex}20` : 'hsl(var(--muted))' }}
           >
             <Icon
               className="w-5 h-5"
-              style={{ color: colors.hex }}
+              style={{ color: isAccentCategory(category) ? colors.hex : 'hsl(var(--muted-foreground))' }}
             />
           </div>
           <div>
@@ -103,8 +104,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
           </div>
         </div>
         <span
-          className="text-[11px] font-bold rounded-full inline-flex items-center"
-          style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+          className="text-[11px] font-semibold rounded-full inline-flex items-center bg-muted text-muted-foreground"
+          style={{ padding: '2px 10px' }}
         >
           {consultation.duration} min
         </span>
