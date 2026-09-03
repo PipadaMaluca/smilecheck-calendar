@@ -297,7 +297,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         if (stat.clickTab === 'pontuacoes-streak') onNavigate('pontuacoes');
                         else if (stat.clickTab) onNavigate(stat.clickTab);
                       }}
-                      className="flex flex-col justify-center gap-2 min-w-0 px-4 py-5 text-left transition-colors hover:bg-primary/[0.04]"
+                      className="flex flex-col justify-center gap-2 min-w-0 px-4 py-5 text-left transition-colors hover:bg-primary/[0.04] press"
                     >
                       <span className="flex items-center gap-1.5 min-w-0 text-[11px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                         <Icon className="w-3.5 h-3.5 flex-shrink-0" />
