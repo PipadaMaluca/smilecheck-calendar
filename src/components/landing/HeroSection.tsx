@@ -47,7 +47,7 @@ export function HeroSection() {
     { end: 5000, prefix: '+', labelKey: 'landing.stats.patients' },
     { end: 500, prefix: '+', labelKey: 'landing.stats.dentists' },
     { end: 50, prefix: '+', labelKey: 'landing.stats.clinics' },
-    { end: 48, prefix: '⭐ ', labelKey: 'landing.stats.avgRating', isDecimal: true },
+    { end: 48, prefix: '', labelKey: 'landing.stats.avgRating', isDecimal: true },
   ];
 
   return (

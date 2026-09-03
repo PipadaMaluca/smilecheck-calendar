@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -42,7 +43,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                 {data.xp.toLocaleString()} / {MAX_XP.toLocaleString()} XP · ×{multiplier.toFixed(1)} {t('level.multiplier')}
               </p>
             </div>
-            <Badge variant="secondary" className="shrink-0">⚡ +{boost}%</Badge>
+            <Badge variant="secondary" className="shrink-0"><Zap className="w-3 h-3 inline mr-1" />+{boost}%</Badge>
           </div>
           <Progress value={progress.percent} className="h-3" />
         </CardContent>

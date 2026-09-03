@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Trophy } from 'lucide-react';
 import { Plus, Pencil, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -34,7 +35,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
       {/* Header */}
       <div className="flex items-center justify-between">
         <h4 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
-          🏆 Conquistas em Destaque
+          <Trophy className="w-4 h-4 text-primary" /> Conquistas em Destaque
         </h4>
         {isOwnProfile && (
           <button

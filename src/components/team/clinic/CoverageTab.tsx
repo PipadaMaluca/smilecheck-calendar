@@ -129,7 +129,7 @@ export function CoverageTab() {
                     </span>
                   </TableCell>
                   <TableCell className="text-base" style={{ width: '20%', padding: '12px 16px', textAlign: 'center' }}>
-                    {statusIcons[day.status]}
+                    <Glyph emoji={statusIcons[day.status]} className="w-4 h-4" />
                   </TableCell>
                 </TableRow>
               ))}

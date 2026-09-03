@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AlertTriangle } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -44,7 +45,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
   ];
 
   const handleSubmit = () => {
-    toast.success(`📩 ${t('consultationDetail.rescheduleModal.requestSent')}`);
+    toast.success(t('consultationDetail.rescheduleModal.requestSent'));
     setStep('done');
     setTimeout(() => {
       onClose();
@@ -158,7 +159,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                 </div>
 
                 <div className="bg-amber-500/10 rounded-lg p-3 text-sm text-warning flex items-start gap-2">
-                  <span>⚠️</span>
+                  <AlertTriangle className="w-4 h-4 text-warning" />
                   <span>{t('consultationDetail.rescheduleModal.warning')}</span>
                 </div>
 

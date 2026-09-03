@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 import { Sun, Moon, Palette, Lock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -60,7 +61,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                 <Sun className="w-4 h-4 text-muted-foreground" />
               )}
               <span className="text-sm text-foreground">
-                {darkMode ? '🌙 Modo Escuro' : '☀️ Modo Claro'}
+                {darkMode ? <><Moon className="w-4 h-4 inline mr-1.5" />Modo Escuro</> : <><Sun className="w-4 h-4 inline mr-1.5" />Modo Claro</>}
               </span>
             </div>
             <Switch checked={darkMode} onCheckedChange={setDarkMode} />

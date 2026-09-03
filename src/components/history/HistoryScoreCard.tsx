@@ -1,4 +1,5 @@
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Star, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Scale } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -177,7 +178,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
             )}
             {score.totalPoints < 0 && onContest && (
               <Button variant="outline" size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onContest(); }}>
-                ⚖️ Contestar
+                <Scale className="w-3.5 h-3.5 mr-1 inline" /> Contestar
               </Button>
             )}
           </div>

@@ -1,4 +1,5 @@
 import { UserRole } from '@/types/calendar';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 
 interface SlidePointsProps { isActive: boolean; userRole: UserRole; }
