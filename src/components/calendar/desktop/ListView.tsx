@@ -85,7 +85,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                     <div className="flex items-center gap-2">
                       <div
                         className="w-1 h-8 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: colors.hex }}
+                        style={{ backgroundColor: getAccentBorderColor(category) }}
                       />
                       <ClickableDentistName name={consultation.dentist.name} className="text-xs" />
                     </div>
