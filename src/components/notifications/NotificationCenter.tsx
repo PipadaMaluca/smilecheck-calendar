@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { Bell, Check, CheckCheck, Calendar, MessageCircle, Star, Award, FileText, Stethoscope, AlertTriangle, ArrowLeft, Clock, UserPlus, BarChart3, Users, XCircle, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,23 +7,11 @@ import { UserRole } from '@/types/calendar';
 import { mockScoreHistory } from '@/types/scoring';
 import { useTranslation } from 'react-i18next';
 
-export type NotificationType =
-'lembrete_24h' | 'lembrete_1h' | 'feedback' | 'receita' | 'referencia' |
-'consulta_alterada' | 'consulta_cancelada' | 'pontos' | 'mensagem' | 'referral_usado' |
-'novo_agendamento' | 'paciente_confirmou' | 'paciente_cancelou' | 'sala_espera' |
-'feedback_recebido' | 'conquista' | 'resumo_diario' | 'novo_dentista' | 'referenciou_paciente';
+import { useNotifications } from '@/data/notificationsSource';
+import type { Notification, NotificationType } from '@/components/notifications/notificationTypes';
 
-export interface Notification {
-  id: string;
-  type: NotificationType;
-  title: string;
-  description: string;
-  time: string;
-  read: boolean;
-  actionLabel?: string;
-  linkedScoreId?: string;
-  action?: string;
-}
+export type { Notification, NotificationType };
+
 
 const NOTIFICATION_ICONS: Record<NotificationType, React.ElementType> = {
   lembrete_24h: Calendar,
@@ -169,6 +157,62 @@ function filterNotifications(notifications: Notification[], filter: FilterType) 
   }
 }
 
+/**
+ * Single source of truth for the notification UI.
+ *
+ * Real users read/write the `notifications` table; demo mode (and unauthenticated
+ * viewers) keep the local mock list with zero DB writes.
+ */
+function useNotificationList(userRole: UserRole) {
+  const { i18n: i18nInstance } = useTranslation();
+  const db = useNotifications();
+  const [mock, setMock] = useState(() => getNotificationsForRole(userRole));
+
+  useEffect(() => {
+    if (!db.enabled) setMock(getNotificationsForRole(userRole));
+  }, [db.enabled, i18nInstance.language, userRole]);
+
+  const markMockRead = useCallback((id: string) => {
+    setMock((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+  }, []);
+  const markMockAllRead = useCallback(() => {
+    setMock((prev) => prev.map((n) => ({ ...n, read: true })));
+  }, []);
+
+  if (db.enabled) {
+    return {
+      notifications: db.notifications,
+      unreadCount: db.unreadCount,
+      loading: db.loading,
+      markRead: db.markRead,
+      markAllRead: db.markAllRead,
+    };
+  }
+  return {
+    notifications: mock,
+    unreadCount: mock.filter((n) => !n.read).length,
+    loading: false,
+    markRead: markMockRead,
+    markAllRead: markMockAllRead,
+  };
+}
+
+function NotificationSkeleton({ rows = 4 }: { rows?: number }) {
+  return (
+    <div className="py-2">
+      {Array.from({ length: rows }).map((_, i) =>
+        <div key={i} className="flex items-start gap-3 px-4 py-3">
+          <div className="w-8 h-8 rounded-full bg-secondary animate-pulse flex-shrink-0" />
+          <div className="flex-1 space-y-2 pt-1">
+            <div className="h-3 w-1/2 rounded bg-secondary animate-pulse" />
+            <div className="h-2.5 w-3/4 rounded bg-secondary/70 animate-pulse" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Bell ───
 interface NotificationBellProps {
   onClick: () => void;
@@ -177,7 +221,7 @@ interface NotificationBellProps {
 }
 
 export function NotificationBell({ onClick, className, userRole = 'patient' }: NotificationBellProps) {
-  const unreadCount = getNotificationsForRole(userRole).filter((n) => !n.read).length;
+  const { unreadCount } = useNotificationList(userRole);
   return (
     <button
       data-notification-bell
@@ -194,6 +238,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
 
 }
 
+
 // ─── Dropdown (Desktop) ───
 interface NotificationDropdownProps {
   onViewAll: () => void;
@@ -204,19 +249,15 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationDropdownProps) {
-  const { t, i18n: i18nInstance } = useTranslation();
+  const { t } = useTranslation();
   const FILTERS = useFilterLabels();
-  const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
-  // Rebuild notifications when language changes so titles/descriptions reflect the new locale
-  useEffect(() => {
-    setNotifications(getNotificationsForRole(userRole));
-  }, [i18nInstance.language, userRole]);
+  const { notifications, unreadCount, loading, markRead, markAllRead } = useNotificationList(userRole);
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const recent = notifications.slice(0, 12);
   const filteredRecent = useMemo(() => filterNotifications(recent, activeFilter), [recent, activeFilter]);
-  const unreadCount = notifications.filter((n) => !n.read).length;
+
 
   // Close on click outside (but not on the bell button itself - that's handled by toggle)
   useEffect(() => {
@@ -232,14 +273,10 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
     return () => {clearTimeout(timer);document.removeEventListener('mousedown', handler);};
   }, [onClose]);
 
-  const markAsRead = (id: string) => {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
-  };
-
   const handleNotificationClick = (e: React.MouseEvent, notification: Notification) => {
     e.preventDefault();
     e.stopPropagation();
-    markAsRead(notification.id);
+    markRead(notification.id);
 
     if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
@@ -256,9 +293,10 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
   const handleMarkAllRead = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    markAllRead();
     // Keep dropdown open
   };
+
 
   const handleViewAll = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -300,11 +338,14 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
 
       {/* Notification List */}
       <div className="max-h-[75vh] overflow-y-auto">
-        {filteredRecent.length === 0 ?
+        {loading ?
+        <NotificationSkeleton /> :
+        filteredRecent.length === 0 ?
         <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
             <Bell className="w-10 h-10 mb-3 opacity-30" />
             <p className="text-xs">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
+
 
         filteredRecent.map((notification) => {
           const Icon = NOTIFICATION_ICONS[notification.type];
@@ -369,30 +410,22 @@ interface NotificationsFullViewProps {
 export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavigate, userRole = 'patient' }: NotificationsFullViewProps) {
   const { t } = useTranslation();
   const FILTERS = useFilterLabels();
-  const [notifications, setNotifications] = useState(() => getNotificationsForRole(userRole));
+  const { notifications, unreadCount, loading, markRead, markAllRead } = useNotificationList(userRole);
   const [activeFilter, setActiveFilter] = useState<FilterType>('todas');
 
   const filteredNotifications = useMemo(() => filterNotifications(notifications, activeFilter), [notifications, activeFilter]);
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  const markAsRead = (id: string) => {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
-  };
-
-  const markAllRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-  };
 
   const handleClick = (notification: Notification) => {
     if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
       return;
     }
-    markAsRead(notification.id);
+    markRead(notification.id);
     if (notification.action && onNavigate) {
       onNavigate(notification.action);
     }
   };
+
 
   return (
     <div className={cn('flex-1 overflow-y-auto', inline ? '' : 'px-4 py-4')}>
@@ -421,11 +454,14 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
       </div>
 
       <div className="space-y-1">
-        {filteredNotifications.length === 0 ?
+        {loading ?
+        <NotificationSkeleton rows={6} /> :
+        filteredNotifications.length === 0 ?
         <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
             <Bell className="w-10 h-10 mb-3 opacity-30" />
             <p className="text-sm">{activeFilter === 'todas' ? t('notifications.noNotifications') : t('notifications.noNotificationsInCategory')}</p>
           </div> :
+
 
         filteredNotifications.map((notification) => {
           const Icon = NOTIFICATION_ICONS[notification.type];

@@ -902,6 +902,16 @@ export type Database = {
         Returns: boolean
       }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
+      create_notification: {
+        Args: {
+          _action_url?: string
+          _message?: string
+          _profile_id: string
+          _title: string
+          _type: string
+        }
+        Returns: string
+      }
       current_role_is: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean

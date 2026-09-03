@@ -1,5 +1,27 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
+import { notifyProfileSilently } from '@/data/notificationsSource';
+
+/** Stored timestamps are rendered from their UTC components (see `toUtcTimestamp`). */
+function formatSlot(iso: string): { date: string; time: string } {
+  const d = new Date(iso);
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const hh = String(d.getUTCHours()).padStart(2, '0');
+  const mi = String(d.getUTCMinutes()).padStart(2, '0');
+  return { date: `${dd}/${mm}/${d.getUTCFullYear()}`, time: `${hh}:${mi}` };
+}
+
+/** Patient id + slot of an appointment, used to address event notifications. */
+async function appointmentTarget(id: string) {
+  const { data } = await supabase
+    .from('appointments')
+    .select('patient_id, scheduled_at')
+    .eq('id', id)
+    .maybeSingle();
+  return data ?? null;
+}
+
 
 /**
  * Phase 3 · sub-step 2 — CREATE (INSERT) path.
@@ -143,8 +165,19 @@ export async function createAppointment(input: CreateAppointmentInput): Promise<
     .single();
 
   if (error) throw error;
+
+  const slot = formatSlot(input.scheduledAt);
+  notifyProfileSilently({
+    profileId: input.patientId,
+    type: 'appointment_created',
+    title: 'Nova consulta agendada',
+    message: `${slot.date} às ${slot.time}`,
+    actionUrl: '/app?tab=agenda',
+  });
+
   return data.id;
 }
+
 
 export interface CreateWaitingListInput {
   patientId: string;
@@ -284,6 +317,18 @@ export async function updateAppointment(input: UpdateAppointmentInput): Promise<
 
   const { error } = await supabase.from('appointments').update(patch).eq('id', id);
   if (error) throw error;
+
+  if (rest.scheduledAt) {
+    const target = await appointmentTarget(id);
+    const slot = formatSlot(rest.scheduledAt);
+    notifyProfileSilently({
+      profileId: target?.patient_id,
+      type: 'appointment_changed',
+      title: 'Consulta alterada',
+      message: `Novo horário: ${slot.date} às ${slot.time}`,
+      actionUrl: '/app?tab=agenda',
+    });
+  }
 }
 
 /** Status change (points writing stays for the later points phase). */
@@ -292,16 +337,60 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
   if (!status) throw new Error(`Estado desconhecido: ${uiStatus}`);
   const { error } = await supabase.from('appointments').update({ status }).eq('id', id);
   if (error) throw error;
+
+  if (status === 'confirmada' || status === 'cancelada' || status === 'concluida') {
+    const target = await appointmentTarget(id);
+    const slot = target ? formatSlot(target.scheduled_at) : null;
+    if (status === 'confirmada') {
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'appointment_confirmed',
+        title: 'Consulta confirmada',
+        message: slot ? `${slot.date} às ${slot.time}` : undefined,
+        actionUrl: '/app?tab=agenda',
+      });
+    } else if (status === 'cancelada') {
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'appointment_cancelled',
+        title: 'Consulta cancelada',
+        message: slot ? `${slot.date} às ${slot.time}` : undefined,
+        actionUrl: '/app?tab=agenda',
+      });
+    } else {
+      // Completed consultation -> ask the patient for the bidirectional rating.
+      notifyProfileSilently({
+        profileId: target?.patient_id,
+        type: 'feedback_pending',
+        title: 'Avalie a sua consulta',
+        message: slot ? `Consulta de ${slot.date}` : undefined,
+        actionUrl: '/app?tab=pontuacoes',
+      });
+    }
+  }
 }
 
 /** Soft cancel — the row is kept for history and the slot becomes free again. */
-export async function cancelAppointment(id: string): Promise<void> {
+export async function cancelAppointment(id: string, options?: { silent?: boolean }): Promise<void> {
+  const target = options?.silent ? null : await appointmentTarget(id);
   const { error } = await supabase
     .from('appointments')
     .update({ status: 'cancelada' as DbAppointmentStatus })
     .eq('id', id);
   if (error) throw error;
+
+  if (target) {
+    const slot = formatSlot(target.scheduled_at);
+    notifyProfileSilently({
+      profileId: target.patient_id,
+      type: 'appointment_cancelled',
+      title: 'Consulta cancelada',
+      message: `${slot.date} às ${slot.time}`,
+      actionUrl: '/app?tab=agenda',
+    });
+  }
 }
+
 
 /* ---------------- Waiting-list auto-match on cancel ---------------- */
 
@@ -463,7 +552,7 @@ export async function assignWaitingMatch(
   // Roll back so we never keep an appointment without a confirmed entry —
   // both on a hard error and when the entry was already taken meanwhile.
   if (waitingError || !confirmed?.length) {
-    await cancelAppointment(appointmentId).catch(() => undefined);
+    await cancelAppointment(appointmentId, { silent: true }).catch(() => undefined);
     throw waitingError ?? new Error('Entrada da lista de espera já não está em espera');
   }
 
