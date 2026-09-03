@@ -165,8 +165,19 @@ export async function createAppointment(input: CreateAppointmentInput): Promise<
     .single();
 
   if (error) throw error;
+
+  const slot = formatSlot(input.scheduledAt);
+  notifyProfileSilently({
+    profileId: input.patientId,
+    type: 'appointment_created',
+    title: 'Nova consulta agendada',
+    message: `${slot.date} às ${slot.time}`,
+    actionUrl: '/app?tab=agenda',
+  });
+
   return data.id;
 }
+
 
 export interface CreateWaitingListInput {
   patientId: string;
