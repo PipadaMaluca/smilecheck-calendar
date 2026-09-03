@@ -11,6 +11,7 @@ import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mo
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useSyncedMonth } from '@/hooks/useSyncedMonth';
 import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
 import { ConsultationHoverPreview } from './ConsultationHoverPreview';
 import { CATEGORY_COLORS } from '@/types/calendar';
@@ -51,7 +52,7 @@ export function DesktopCalendarSidebar({
 }: DesktopCalendarSidebarProps) {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useSyncedMonth(selectedDate);
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1', '2', '3']);
   const today = new Date();
 

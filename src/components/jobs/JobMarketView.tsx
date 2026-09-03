@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Briefcase, MapPin, Star, Clock, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -365,7 +366,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate">{offer.clinicName}</p>
                     <div className="flex items-center gap-1 mt-0.5">
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{offer.rating}</span>
                       <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                     </div>
@@ -481,7 +482,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
                   <div className="flex items-center gap-1 mt-0.5">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <Star className="w-3 h-3 fill-amber-400 text-warning" />
                     <span className="text-xs font-medium">{d.rating}</span>
                     <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                   </div>
@@ -498,12 +499,15 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </div>
                 <p className="text-xs text-muted-foreground">{t('jobs.yearsExperience', { count: d.experience })}</p>
                 {d.teleconsultas ? (
-                  <p className="text-[11px] text-primary font-medium">📱 {t('jobs.availableForTeleconsultas')} ✅</p>
+                  <p className="text-[11px] text-primary font-medium">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.availableForTeleconsultas')} ✅</p>
                 ) : (
-                  <p className="text-[11px] text-muted-foreground">📱 {t('agenda.teleconsultation')} ❌</p>
+                  <p className="text-[11px] text-muted-foreground">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('agenda.teleconsultation')} ❌</p>
                 )}
                 {d.salary && <p className="text-sm font-semibold text-primary">{d.salary}</p>}
-                <p className="text-[11px] text-muted-foreground">📅 {t('jobs.availableSince')}: {d.availableDate}</p>
+                <p className="text-[11px] text-muted-foreground">
+<Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.availableSince')}: {d.availableDate}</p>
                 <p className="text-[11px] text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
               </div>
 
@@ -694,7 +698,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <Textarea value={proposalData.message} onChange={e => setProposalData(p => ({ ...p, message: e.target.value }))} rows={3} />
               </div>
               <p className="text-[11px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
-                ⚠️ {t('jobs.proposalWarning')}
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.proposalWarning')}
               </p>
             </div>
           )}

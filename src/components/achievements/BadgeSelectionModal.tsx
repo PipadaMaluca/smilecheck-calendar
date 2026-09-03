@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Check, Lock, Trophy } from 'lucide-react';
+import { Check, Lock, Trophy, Plus } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -69,7 +70,7 @@ export function BadgeSelectionModal({ open, onOpenChange, categories, selectedId
               return (
                 <div key={i} className={cn('aspect-square rounded-xl flex items-center justify-center transition-all',
                   ach ? 'bg-gradient-to-br ' + BADGE_TIER_STYLES[getBadgeTier(ach)].bgGradient + ' border ' + BADGE_TIER_STYLES[getBadgeTier(ach)].borderColor : 'border-2 border-dashed border-border/50')}>
-                  {ach ? <span className="text-xl">{ach.emoji}</span> : <span className="text-muted-foreground/30 text-lg">+</span>}
+                  {ach ? <Glyph emoji={ach.emoji} fallback={Trophy} className="w-5 h-5" /> : <Plus className="w-4 h-4 text-muted-foreground/40" />}
                 </div>
               );
             })}
@@ -97,11 +98,11 @@ export function BadgeSelectionModal({ open, onOpenChange, categories, selectedId
                           {isSelected && <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center"><Check className="w-3 h-3 text-primary-foreground" /></div>}
                           {isLocked && <div className="absolute -top-1 -right-1 w-4 h-4 bg-muted rounded-full flex items-center justify-center"><Lock className="w-2.5 h-2.5 text-muted-foreground" /></div>}
                           <div className={cn('w-9 h-9 rounded-lg flex items-center justify-center text-lg border flex-shrink-0 bg-gradient-to-br', tierStyle.bgGradient, tierStyle.borderColor)}>
-                            {ach.secret && !ach.unlocked ? '❓' : ach.emoji}
+                            <Glyph emoji={ach.secret && !ach.unlocked ? '❓' : ach.emoji} fallback={Trophy} className="w-5 h-5" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium truncate">{ach.secret && !ach.unlocked ? '???' : ach.name}</p>
-                            <p className="text-[11px] text-amber-400">+{ach.points} pts</p>
+                            <p className="text-[11px] text-warning">+{ach.points} pts</p>
                           </div>
                         </button>
                       );

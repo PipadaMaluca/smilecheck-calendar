@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
@@ -63,7 +64,7 @@ export function TriageSymptomsStep({
                   : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'
               )}
             >
-              <span className="text-2xl mb-2">{symptom.icon}</span>
+              <Glyph emoji=<Glyph emoji={symptom.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-7 h-7 mb-2" />
               <span className="text-xs font-medium text-center leading-tight">{t(symptom.key)}</span>
             </button>
           );

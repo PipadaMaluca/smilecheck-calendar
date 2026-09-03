@@ -281,7 +281,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                           <div>{p.totalCount} total</div>
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-400 hover:bg-emerald-500/20 cursor-pointer">
+                          <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-success hover:bg-emerald-500/20 cursor-pointer">
                             <CheckCircle2 className="w-3.5 h-3.5" />
                           </span>
                           <span className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 cursor-pointer">
@@ -309,7 +309,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                       onClick={() => handleResultClick(d)}
                     >
                       <Avatar className="h-9 w-9 flex-shrink-0">
-                        <AvatarFallback className="bg-emerald-500/10 text-emerald-400 text-xs font-medium">
+                        <AvatarFallback className="bg-emerald-500/10 text-success text-xs font-medium">
                           {getInitials(d.name)}
                         </AvatarFallback>
                       </Avatar>
@@ -349,7 +349,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                       onClick={() => handleResultClick(c)}
                     >
                       <Avatar className="h-9 w-9 flex-shrink-0">
-                        <AvatarFallback className="bg-amber-500/10 text-amber-400 text-xs font-medium">
+                        <AvatarFallback className="bg-amber-500/10 text-warning text-xs font-medium">
                           {getInitials(c.name)}
                         </AvatarFallback>
                       </Avatar>

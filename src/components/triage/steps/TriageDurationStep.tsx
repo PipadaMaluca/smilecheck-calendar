@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
 import { cn } from '@/lib/utils';
 
 const DURATION_ITEMS = [
@@ -50,7 +51,7 @@ export function TriageDurationStep({
               >
                 {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
               </div>
-              <span className="text-lg">{duration.icon}</span>
+              <Glyph emoji=<Glyph emoji={duration.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> className="w-5 h-5" />
               <span className="text-sm font-medium text-foreground">{t(duration.key)}</span>
             </button>
           );

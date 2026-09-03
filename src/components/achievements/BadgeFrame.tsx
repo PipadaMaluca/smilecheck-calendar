@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, Trophy } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { Achievement, getBadgeTier, BADGE_TIER_STYLES } from './achievementData';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -46,8 +47,8 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         {/* Decorative wings/stars for higher tiers */}
         {(tier === 'expert' || tier === 'legendary') && size !== 'sm' && (
           <>
-            <div className="absolute -top-1 -right-1 text-[11px]">⭐</div>
-            {tier === 'legendary' && <div className="absolute -top-1 -left-1 text-[11px]">⭐</div>}
+            <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -right-1 text-[11px]" />
+            {tier === 'legendary' && <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -left-1 text-[11px]" />}
           </>
         )}
 
@@ -59,16 +60,22 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         )}
 
         {/* Icon */}
-        {isSecret ? (
-          <span className="relative z-10">{achievement.emoji}</span>
-        ) : achievement.secret ? (
+        {!isSecret && achievement.secret ? (
           <HelpCircle className={cn(
-            'text-emerald-400/60',
+            'text-success/60',
             size === 'sm' ? 'w-4 h-4' : size === 'md' ? 'w-6 h-6' : 'w-8 h-8'
           )} />
         ) : (
-          <span className="relative z-10">{achievement.emoji}</span>
+          <Glyph
+            emoji={achievement.emoji}
+            fallback={Trophy}
+            className={cn(
+              'relative z-10',
+              size === 'sm' ? 'w-4 h-4' : size === 'md' ? 'w-6 h-6' : 'w-8 h-8'
+            )}
+          />
         )}
+
       </div>
 
       {showName && (
@@ -87,7 +94,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         <TooltipContent side="top" className="max-w-48">
           <p className="font-semibold text-xs">{achievement.secret && !achievement.unlocked ? '???' : achievement.name}</p>
           <p className="text-[11px] text-muted-foreground">{achievement.secret && !achievement.unlocked ? 'Conquista secreta' : achievement.description}</p>
-          <p className="text-[11px] font-medium text-amber-400 mt-0.5">+{achievement.points} pts</p>
+          <p className="text-[11px] font-medium text-warning mt-0.5">+{achievement.points} pts</p>
         </TooltipContent>
       </Tooltip>
     );

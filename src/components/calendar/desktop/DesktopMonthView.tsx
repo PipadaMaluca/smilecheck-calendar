@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from 'date-fns';
 import { Consultation, CATEGORY_COLORS } from '@/types/calendar';
@@ -123,7 +124,8 @@ export function DesktopMonthView({
                     )}
                   </div>
                   {hasUrgent && (
-                    <div className="text-[11px] text-destructive font-medium">⚠ {t('agenda.urgency')}</div>
+                    <div className="text-[11px] text-destructive font-medium">
+<Glyph emoji="⚠" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('agenda.urgency')}</div>
                   )}
                 </div>
               )}

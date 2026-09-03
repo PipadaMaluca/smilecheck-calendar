@@ -1,5 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Achievement, getBadgeTier, BADGE_TIER_STYLES, DEFAULT_SHOWCASED } from './achievementData';
+import { Glyph } from '@/components/ui/glyph';
+import { Trophy } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface MiniBadgesProps {
@@ -27,12 +29,12 @@ export function MiniBadges({ achievements, maxVisible = 3, className }: MiniBadg
                 style.bgGradient,
                 style.borderColor,
               )}>
-                {ach.emoji}
+                <Glyph emoji={ach.emoji} fallback={Trophy} className="w-3.5 h-3.5" />
               </div>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-[11px]">
               <p className="font-medium">{ach.name}</p>
-              <p className="text-amber-400">+{ach.points} pts</p>
+              <p className="text-warning">+{ach.points} pts</p>
             </TooltipContent>
           </Tooltip>
         );

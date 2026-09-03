@@ -31,6 +31,13 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Semantic status tokens (dark) */
+    --warning: 38 92% 55%;
+    --warning-foreground: 214 50% 10%;
+    --warning-surface: 38 92% 55%;
+    --success: 152 60% 45%;
+    --success-foreground: 214 50% 10%;
+
     --border: 214 30% 25%;
     --input: 214 30% 25%;
     --ring: 207 90% 54%;
@@ -151,6 +158,14 @@
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
+
+    /* Semantic status tokens (light) — deeper, print-safe values so text
+       keeps AA contrast on white surfaces. */
+    --warning: 32 85% 42%;
+    --warning-foreground: 0 0% 100%;
+    --warning-surface: 38 92% 50%;
+    --success: 152 55% 33%;
+    --success-foreground: 0 0% 100%;
 
     --border: 210 60% 89%;              /* #D6E4F0 blue-gray */
     --input: 210 100% 98%;              /* #F5F9FF */

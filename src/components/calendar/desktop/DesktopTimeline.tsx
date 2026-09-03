@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { Ban } from 'lucide-react';
 import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -402,7 +403,7 @@ export function DesktopTimeline({
                           {/* Status indicator */}
                           <div className="flex-shrink-0">
                             <span className={cn('text-[11px] font-medium', statusCfg.color)}>
-                              {statusCfg.icon}
+                              <Glyph emoji={statusCfg.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
                             </span>
                           </div>
                         </div>

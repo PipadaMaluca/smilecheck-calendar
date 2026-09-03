@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Copy, RefreshCw, ChevronDown, Smartphone, Apple, Mail, AlertCircle, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -73,7 +74,7 @@ export function CalendarSyncSection() {
                     }`}
                   >
                     <span className="flex items-center gap-3">
-                      <span className="text-xl leading-none" aria-hidden>{emoji}</span>
+                      <Glyph emoji={emoji} className="w-6 h-6 text-primary" />
                       <span className="text-base font-semibold">{label}</span>
                     </span>
                     <ChevronDown className={`w-4 h-4 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />

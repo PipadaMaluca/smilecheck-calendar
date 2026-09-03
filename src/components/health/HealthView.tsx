@@ -183,7 +183,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 <div className="flex items-center gap-1 mt-0.5">
                   <span className="text-[11px] text-muted-foreground">{member.age} {t('health.years')}</span>
                   {member.age < 18 && (
-                    <Badge variant="secondary" className="text-[11px] px-1 py-0 h-3.5 bg-amber-500/20 text-amber-400 border-amber-500/30">
+                    <Badge variant="secondary" className="text-[11px] px-1 py-0 h-3.5 bg-amber-500/20 text-warning border-amber-500/30">
                       {t('health.minor')}
                     </Badge>
                   )}

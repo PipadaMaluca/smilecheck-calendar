@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Calendar, Clock, MapPin, Video, MessageCircle, RefreshCw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -111,7 +112,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                       </span>
                     )}
                     <span className={cn('text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
-                      {statusConfig.icon} {statusConfig.label}
+                      <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
                     </span>
                   </div>
                 </div>
@@ -256,7 +257,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
         <DialogContent className="sm:max-w-md z-[70]">
           {cancelled ? (
             <div className="text-center py-8 space-y-3">
-              <div className="text-4xl">✅</div>
+              <Glyph emoji="✅" className="w-10 h-10" />
               <p className="text-lg font-semibold">{t('consultationDetail.cancellationModal.cancelledSuccess')}</p>
               <p className="text-sm text-muted-foreground">{t('consultationDetail.cancellationModal.redirecting')}</p>
             </div>
@@ -270,7 +271,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
               </DialogHeader>
 
               <div className="bg-destructive/10 rounded-lg p-3 text-sm text-destructive flex items-start gap-2">
-                <span className="mt-0.5">⚠️</span>
+                <Glyph emoji="⚠️" className="w-5 h-5 mt-0.5" />
                 <span>{t('consultationDetail.cancellationModal.warning')}</span>
               </div>
 

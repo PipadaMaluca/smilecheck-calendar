@@ -134,7 +134,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   return (
     <div className="relative flex-1 flex flex-col min-h-0">
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
-        <img src={smileCheckIcon} alt="" className="w-[60vw] max-w-[500px] opacity-[0.05]" />
+        <img src={smileCheckIcon} alt="" className="w-[60vw] max-w-[500px] opacity-[0.025]" />
       </div>
       <div className="relative z-10 p-4 md:p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">

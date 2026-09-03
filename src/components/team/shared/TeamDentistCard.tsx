@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
 import { User, Star, Award, MoreVertical, Calendar, BarChart3, Key, Pause, Play, X, Phone } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -94,7 +95,7 @@ export function TeamDentistCard({
                     {[1, 2, 3, 4, 5].map((i) => (
                       <Star
                         key={i}
-                        className={cn('w-3 h-3', i <= Math.round(dentist.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground/30')}
+                        className={cn('w-3 h-3', i <= Math.round(dentist.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')}
                       />
                     ))}
                     <span className="text-xs text-muted-foreground ml-0.5">{dentist.rating.toFixed(1)}</span>
@@ -103,7 +104,7 @@ export function TeamDentistCard({
                     <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[dentist.level] || dentist.level)}
                   </Badge>
                   <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', status.className)}>
-                    {status.icon} {t(STATUS_KEY_MAP[dentist.status])}
+                    <Glyph emoji={status.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {t(STATUS_KEY_MAP[dentist.status])}
                   </Badge>
                 </div>
               </div>
@@ -144,7 +145,8 @@ export function TeamDentistCard({
 
             {/* Details */}
             <div className="mt-2 space-y-0.5 text-xs text-muted-foreground">
-              {dentist.scheduleSummary && <p>🕐 {dentist.scheduleSummary}</p>}
+              {dentist.scheduleSummary && <p>
+<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{dentist.scheduleSummary}</p>}
               {dentist.teleconsultas !== undefined && (
                 <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? `✅ ${t('team.teleconsultations')}` : `❌ ${t('team.noTeleconsultations')}`}</p>
               )}

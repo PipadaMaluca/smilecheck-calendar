@@ -245,7 +245,7 @@ export function FavoritesView({
                   onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
                   className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
                 >
-                  <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-amber-400 scale-110' : 'text-muted-foreground hover:text-amber-400')} />
+                  <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
                 </button>
 
                 <div className="flex items-start gap-3 pr-10">
@@ -259,7 +259,7 @@ export function FavoritesView({
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                      <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
                       <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
                         {t(levelCfg.labelKey)}
@@ -301,7 +301,7 @@ export function FavoritesView({
                   onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
                   className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-all z-10"
                 >
-                  <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-amber-400 scale-110' : 'text-muted-foreground hover:text-amber-400')} />
+                  <Star className={cn('w-5 h-5 transition-all duration-200', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
                 </button>
 
                 <div className="flex items-start gap-3 pr-10">

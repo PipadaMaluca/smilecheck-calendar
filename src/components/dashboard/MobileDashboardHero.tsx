@@ -174,7 +174,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                     AGORA
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[11px] font-bold whitespace-nowrap">
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-success text-[11px] font-bold whitespace-nowrap">
                     em {next.countdownMin} min
                   </span>
                 )}

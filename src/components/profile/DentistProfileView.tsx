@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
@@ -172,7 +173,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <Star className="w-4 h-4 fill-amber-400 text-warning" />
               <span className={cn('text-sm font-bold', levelCfg.color)}>{displayRating}</span>
               <span className="text-xs text-muted-foreground">({displayReviewCount} {t('profile.reviews').toLowerCase()})</span>
             </div>
@@ -183,7 +184,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             </span>
             <LevelSeal role="dentist" levelKey={dentist.level} />
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
-              📋 {planCfg.label}
+<Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{planCfg.label}
             </span>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
@@ -191,8 +192,8 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               {DENTIST_EXTRA.acceptsNewPatients ? `✓ ${t('profile.acceptsNewPatients')}` : `✗ ${t('profile.notAcceptingPatients')}`}
             </Badge>
             {DENTIST_EXTRA.teleconsultaAvailable &&
-          <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-400/30 bg-emerald-400/10">
-                📱 {t('profile.teleconsultAvailable')}
+          <Badge variant="outline" className="text-xs text-success border-emerald-400/30 bg-emerald-400/10">
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('profile.teleconsultAvailable')}
               </Badge>
           }
           </div>
@@ -217,7 +218,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               {canViewerRate && (
                 <Button
                   variant="outline"
-                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-amber-600 hover:bg-amber-500/10"
+                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-warning hover:bg-amber-500/10"
                   onClick={() => setShowRateModal(true)}
                 >
                   <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
@@ -233,7 +234,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           className="p-1 transition-transform hover:scale-110 flex-shrink-0 text-left px-[10px] py-[5px] pr-[30px] pl-[5px]"
           title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}>
           
-                <Star className={cn("transition-colors h-[25px] w-[25px] text-left", isFavorite ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground hover:text-amber-400')} />
+                <Star className={cn("transition-colors h-[25px] w-[25px] text-left", isFavorite ? 'fill-amber-400 text-warning' : 'text-muted-foreground hover:text-warning')} />
               </button>
         }
           </div>
@@ -333,7 +334,8 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               </div>
               <div className="flex flex-wrap gap-1">
                 {cs.accessibility.map((a) =>
-            <Badge key={a} variant="outline" className="text-[11px]">✓ {a}</Badge>
+            <Badge key={a} variant="outline" className="text-[11px]">
+<Glyph emoji="✓" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{a}</Badge>
             )}
               </div>
               <Button size="sm" variant="outline" className="w-full text-xs" onClick={() => setShowBooking(true)}>
@@ -387,7 +389,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <p className="text-3xl font-bold">{displayRating}</p>
             <div className="flex justify-center">
               {Array.from({ length: 5 }).map((_, i) =>
-            <Star key={i} className={cn('w-4 h-4', i < Math.floor(displayRating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+            <Star key={i} className={cn('w-4 h-4', i < Math.floor(displayRating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
             )}
             </div>
             <p className="text-xs text-muted-foreground mt-0.5">{displayReviewCount} {t('profile.reviews').toLowerCase()}</p>
@@ -407,7 +409,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className="bg-muted/40 border border-dashed border-border rounded-lg p-3 flex items-center gap-2">
               <Lock className="w-4 h-4 text-muted-foreground flex-shrink-0" />
               <p className="text-xs text-muted-foreground">
-                🔒 {t('bidirectionalFeedback.lockedHint')}
+<Glyph emoji="🔒" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('bidirectionalFeedback.lockedHint')}
               </p>
             </div>
           )}
@@ -422,7 +424,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
                 </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: r.rating }).map((_, i) =>
-              <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+              <Star key={i} className="w-3 h-3 fill-amber-400 text-warning" />
               )}
                 </div>
               </div>

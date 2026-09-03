@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { X, Search, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -324,7 +325,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       <div className="flex flex-wrap gap-1">
               {patientHealth.allergies.map((a) =>
         <span key={a} className="text-[11px] px-1.5 py-0.5 rounded bg-destructive/10 text-destructive font-medium">
-                  ⚠️ {a}
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{a}
                 </span>
         )}
             </div>
@@ -334,10 +335,10 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
       {patientHealth.medications.length > 0 &&
     <div className="p-2.5 rounded-lg border border-amber-500/30 bg-amber-500/5">
-          <p className="text-xs font-medium text-amber-600 mb-1">{t('prescription.currentPatientMeds')}:</p>
+          <p className="text-xs font-medium text-warning mb-1">{t('prescription.currentPatientMeds')}:</p>
           <div className="flex flex-wrap gap-1">
             {patientHealth.medications.map((m) =>
-        <span key={m.name} className="text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600">
+        <span key={m.name} className="text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 text-warning">
                 {m.name} {m.dosage}
               </span>
         )}
@@ -404,7 +405,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
                     </div>
                     {interactions.length > 0 &&
                 <p className="text-[11px] text-amber-500 font-medium">
-                        ⚠️ {t('prescription.interactionWith')} {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('prescription.interactionWith')} {interactions.map((w) => w.currentMedName).join(', ')} — {interactions[0].risk}
                       </p>
                 }
                     <Input
@@ -441,7 +442,8 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           <p className="text-sm"><span className="font-semibold">{t('prescription.patientLabel')}:</span> {selectedPatient?.name}</p>
           <p className="text-xs text-gray-600">{selectedPatient?.age} {t('profile.years')}</p>
           {patientHealth.allergies.length > 0 &&
-        <p className="text-xs text-red-600 mt-1">⚠️ {t('prescription.allergiesWarning')}: {patientHealth.allergies.join(', ')}</p>
+        <p className="text-xs text-red-600 mt-1">
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('prescription.allergiesWarning')}: {patientHealth.allergies.join(', ')}</p>
         }
         </div>
 

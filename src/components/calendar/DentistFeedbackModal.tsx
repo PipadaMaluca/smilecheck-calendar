@@ -116,7 +116,7 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
                   <Star
                     className={cn(
                       'w-7 h-7 transition-colors',
-                      star <= display ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'
+                      star <= display ? 'text-warning fill-amber-400' : 'text-muted-foreground/30'
                     )}
                   />
                 </button>

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, ArrowLeft, Video, Calendar as CalendarIcon, Check, SkipForward } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -266,19 +267,19 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold flex items-center gap-1.5">
-                                {sev.icon} {alert.title}
+                                <Glyph emoji={sev.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {alert.title}
                               </p>
                               <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
                             </div>
                             <span className={cn('text-[11px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
                           </div>
                           {isAck ? (
-                            <p className="text-[11px] text-emerald-400 mt-1.5 flex items-center gap-1">
+                            <p className="text-[11px] text-success mt-1.5 flex items-center gap-1">
                               <Check className="w-3 h-3" /> {t('dossier.verifiedBy')} Dr. Gonçalo Pipo — 31 Jan 2026
                             </p>
                           ) : (isDentist || isClinic) && (
                             <div className="flex items-center gap-2 mt-2">
-                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-emerald-400 hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
+                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-success hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
                                 <Check className="w-3 h-3" /> {t('dossier.confirm')}
                               </Button>
                               <div className="relative">
@@ -306,7 +307,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   <h3 className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
                     <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.clinicalAlerts')}
                   </h3>
-                  <p className="text-sm text-muted-foreground">✅ {t('dossier.noAlerts')}</p>
+                  <p className="text-sm text-muted-foreground">
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('dossier.noAlerts')}</p>
                 </div>
               )}
 
@@ -319,7 +321,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   {data.medications.map((m: any) => (
                     <div key={m.name} className={cn('text-sm p-2.5 rounded-lg', m.interaction ? 'bg-yellow-500/10 border border-yellow-500/20' : 'bg-secondary/30')}>
                       <span className="font-medium">{m.name}</span> <span className="text-muted-foreground">— {m.dosage}</span>
-                      {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">⚠️ {m.interaction}</p>}
+                      {m.interaction && <p className="text-xs text-yellow-400 mt-0.5">
+<Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{m.interaction}</p>}
                     </div>
                   ))}
                 </div>
@@ -348,7 +351,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   </p>
                   {recall.isOverdue && (
                     <p className="text-xs text-destructive font-semibold mt-1">
-                      🔴 {t('dossier.overdue')} {t('dossier.overdueDetail', { months: Math.floor((recall.overdueDays || 0) / 30) })}
+<Glyph emoji="🔴" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('dossier.overdue')} {t('dossier.overdueDetail', { months: Math.floor((recall.overdueDays || 0) / 30) })}
                     </p>
                   )}
                 </div>
@@ -515,7 +518,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <Separator />
             <div className="space-y-1">
               {previewPrescription.medications.map((m: string, i: number) => (
-                <p key={i} className="text-sm">💊 {m}</p>
+                <p key={i} className="text-sm">
+<Glyph emoji="💊" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{m}</p>
               ))}
             </div>
           </div>

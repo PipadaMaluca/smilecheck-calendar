@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -81,10 +82,10 @@ export function TriageIntensityStep({
         </div>
 
         <div className="flex justify-between px-2">
-          <span className="text-2xl">😊</span>
-          <span className="text-2xl">😐</span>
-          <span className="text-2xl">😣</span>
-          <span className="text-2xl">😫</span>
+          <Glyph emoji="😊" className="w-7 h-7" />
+          <Glyph emoji="😐" className="w-7 h-7" />
+          <Glyph emoji="😣" className="w-7 h-7" />
+          <Glyph emoji="😫" className="w-7 h-7" />
         </div>
       </div>
 

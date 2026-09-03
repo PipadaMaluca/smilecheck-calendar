@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Check, X, Circle, Minus, type LucideIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { mockConsultations, getDentistsForClinic } from '@/data/mockData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -16,25 +17,50 @@ const DEMO_DATE = new Date(2026, 0, 31);
 
 type BadgeStatus = 'confirmed' | 'cancelled' | 'pending' | 'irrelevant';
 
-const statusBadge = (status: BadgeStatus) => {
-  const styles: Record<BadgeStatus, string> = {
-    confirmed: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    cancelled: 'bg-red-500/20 text-red-400 border-red-500/30',
-    pending: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-    irrelevant: 'bg-muted text-muted-foreground border-border',
-  };
-  const icons: Record<BadgeStatus, string> = {
-    confirmed: '✓',
-    cancelled: '✗',
-    pending: '●',
-    irrelevant: '—',
-  };
-  return (
-    <span className={cn('inline-flex items-center justify-center w-7 h-7 rounded-md border text-xs font-bold', styles[status])}>
-      {icons[status]}
-    </span>
-  );
+const STATUS_STYLES: Record<BadgeStatus, string> = {
+  confirmed: 'bg-emerald-500/15 text-emerald-500 border-emerald-500/30',
+  cancelled: 'bg-red-500/15 text-red-500 border-red-500/30',
+  pending: 'bg-orange-500/15 text-orange-500 border-orange-500/30',
+  irrelevant: 'bg-muted text-muted-foreground border-border',
 };
+
+const STATUS_ICONS: Record<BadgeStatus, LucideIcon> = {
+  confirmed: Check,
+  cancelled: X,
+  pending: Circle,
+  irrelevant: Minus,
+};
+
+const STATUS_LABEL_KEYS: Record<BadgeStatus, string> = {
+  confirmed: 'confirmations.confirmed',
+  cancelled: 'confirmations.cancelled',
+  pending: 'confirmations.pending',
+  irrelevant: 'confirmations.irrelevant',
+};
+
+const LEGEND_ORDER: BadgeStatus[] = ['confirmed', 'pending', 'cancelled', 'irrelevant'];
+
+function StatusBadge({ status, label }: { status: BadgeStatus; label: string }) {
+  const Icon = STATUS_ICONS[status];
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span
+          role="img"
+          aria-label={label}
+          className={cn(
+            'inline-flex items-center justify-center w-7 h-7 rounded-md border cursor-default',
+            STATUS_STYLES[status]
+          )}
+        >
+          <Icon className={cn('w-3.5 h-3.5', status === 'pending' && 'fill-current')} strokeWidth={2.5} />
+        </span>
+      </TooltipTrigger>
+      <TooltipContent side="top" className="text-[11px]">{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
 
 function get24hStatus(status?: string): BadgeStatus {
   if (!status) return 'pending';
@@ -79,6 +105,24 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
 
   return (
     <div className="space-y-4">
+      {/* Legend */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-1">
+        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+          {t('confirmations.legend')}
+        </span>
+        {LEGEND_ORDER.map(status => {
+          const Icon = STATUS_ICONS[status];
+          return (
+            <span key={status} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+              <span className={cn('inline-flex items-center justify-center w-5 h-5 rounded-md border', STATUS_STYLES[status])}>
+                <Icon className={cn('w-3 h-3', status === 'pending' && 'fill-current')} strokeWidth={2.5} />
+              </span>
+              {t(STATUS_LABEL_KEYS[status])}
+            </span>
+          );
+        })}
+      </div>
+
       {dentistsToShow.map(dentist => {
         const dCons = todayConsultations
           .filter(c => c.dentist.id === dentist.id)
@@ -102,10 +146,11 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                   <ClickableDentistName name={dentist.name} className="text-sm font-semibold text-foreground" />
                 </div>
                 <div className="flex items-center gap-3 text-xs flex-shrink-0">
-                  <span className="text-emerald-400">✓ {confirmed}</span>
-                  <span className="text-orange-400">● {pending}</span>
-                  <span className="text-red-400">✗ {cancelled}</span>
+                  <span className="flex items-center gap-1 text-emerald-500"><Check className="w-3.5 h-3.5" strokeWidth={2.5} /> {confirmed}</span>
+                  <span className="flex items-center gap-1 text-orange-500"><Circle className="w-3 h-3 fill-current" /> {pending}</span>
+                  <span className="flex items-center gap-1 text-red-500"><X className="w-3.5 h-3.5" strokeWidth={2.5} /> {cancelled}</span>
                 </div>
+
               </div>
               {displayCons.length > 0 ? (
                 <div className="overflow-x-auto">
@@ -139,8 +184,8 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                                 {catLabel}
                               </span>
                             </TableCell>
-                            <TableCell className="text-center">{statusBadge(s24)}</TableCell>
-                            <TableCell className="text-center">{statusBadge(s1)}</TableCell>
+                            <TableCell className="text-center"><StatusBadge status={s24} label={t(STATUS_LABEL_KEYS[s24])} /></TableCell>
+                            <TableCell className="text-center"><StatusBadge status={s1} label={t(STATUS_LABEL_KEYS[s1])} /></TableCell>
                           </TableRow>
                         );
                       })}

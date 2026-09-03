@@ -98,7 +98,13 @@
     "tomorrow": "Demain",
     "minAgo": "il y a {{n}} min",
     "hoursAgo": "il y a {{n}} h",
-    "daysAgo": "il y a {{n}} jours"
+    "daysAgo": "il y a {{n}} jours",
+    "patient": "Patient",
+    "dentist": "Dentiste",
+    "clinic": "Clinique",
+    "from": "De",
+    "to": "À",
+    "weeksAgo": "Il y a {{n}} semaines"
   },
   "nav": {
     "home": "Accueil",
@@ -128,7 +134,11 @@
     "inviteFriends": "Inviter des Amis",
     "invite": "Inviter",
     "exportReports": "Exporter les Rapports",
-    "fullHistory": "Historique Complet"
+    "fullHistory": "Historique Complet",
+    "rewards": "Récompenses",
+    "alerts": "Alertes",
+    "chat": "Chat",
+    "profile": "Profil"
   },
   "auth": {
     "login": "Se connecter",
@@ -227,7 +237,10 @@
       "paciente": "Gérer rendez-vous, points et santé bucco-dentaire",
       "dentista": "Gérer agenda, patients et téléconsultations",
       "clinica": "Gérer équipe, statistiques et opérations"
-    }
+    },
+    "emailInUse": "Cet e-mail est déjà enregistré.",
+    "invalidCredentials": "E-mail ou mot de passe incorrect.",
+    "enterDemoMode": "Entrer en mode Démo"
   },
   "roles": {
     "patient": "Patient",
@@ -769,7 +782,9 @@
     "doctorNotWorking": "Aujourd'hui le médecin ne travaille pas dans cette clinique",
     "urgency": "Urgence",
     "dentalClinic": "Clinique Dentaire",
-    "generalDentist": "Médecin Dentiste"
+    "generalDentist": "Médecin Dentiste",
+    "dentists": "Dentistes",
+    "teleconsultation": "Téléconsultation"
   },
   "consultationTypes": {
     "firstConsultation": "1ère Consultation",
@@ -1597,7 +1612,10 @@
       "Ven",
       "Sam",
       "Dim"
-    ]
+    ],
+    "levelXp": "Niveau et XP",
+    "points": "Points",
+    "streak": "Série"
   },
   "settings": {
     "title": "Paramètres",
@@ -1850,7 +1868,8 @@
     "totalConsultations": "Total: {{count}} consultations",
     "viewDossier": "Voir Dossier",
     "noPatientsFound": "Aucun patient trouvé",
-    "tryOtherTerms": "Essayez d'autres termes de recherche."
+    "tryOtherTerms": "Essayez d'autres termes de recherche.",
+    "nextLabel": "Proch"
   },
   "history": {
     "consultationHistory": "Historique des Consultations",
@@ -1996,7 +2015,8 @@
     "consultations": "consultations",
     "tele": "télé",
     "myPlan": "Mon Plan",
-    "paymentsAndBilling": "Paiements et Facturation"
+    "paymentsAndBilling": "Paiements et Facturation",
+    "clinicBilling": "Facturation de la Clinique"
   },
   "team": {
     "title": "Gestion d'Équipe",
@@ -2152,7 +2172,8 @@
     "teleAvailability": "Disponibilité Téléconsultations",
     "teleScheduleNote": "Les créneaux de téléconsultation (soir) sont configurés dans le planning hebdomadaire ci-dessus.",
     "saveChanges": "Enregistrer les Modifications",
-    "savedSuccess": "✅ Disponibilité mise à jour avec succès"
+    "savedSuccess": "✅ Disponibilité mise à jour avec succès",
+    "reasonLabel": "Motif"
   },
   "chat": {
     "title": "Conversations",
@@ -2296,7 +2317,7 @@
     "pendingTitle": "Points en Attente",
     "pendingHint": "Évaluez et gagnez +2 pts pour chaque avis envoyé.",
     "evaluatePatient": "Évaluer {{name}}",
-    "evaluateDentist": "Évaluer Dr. {{name}}",
+    "evaluateDentist": "Évaluer {{name}}",
     "evaluateClinic": "Évaluer {{name}}",
     "giveFeedback": "Donner un Avis",
     "forYou": "pour vous",
@@ -3009,7 +3030,15 @@
       "free": "Gratuit"
     },
     "discount": "-15%",
-    "planLabel": "Plan"
+    "planLabel": "Plan",
+    "month": "mois",
+    "currentPlanLabel": "Plan actuel",
+    "newPlanLabel": "Nouveau plan",
+    "confirmChange": "Confirmer le Changement",
+    "confirmChangeTitle": "Confirmer le changement",
+    "changeEffectImmediate": "Le changement prendra effet immédiatement.",
+    "showAllFeatures": "Voir tout (+{{count}})",
+    "showLess": "Voir moins"
   },
   "health": {
     "title": "Ma Santé",
@@ -3174,7 +3203,8 @@
     "benefit_meals": "Restauration",
     "avail_afternoons_mon_thu": "Après-midis disponibles (Lun-Jeu)",
     "avail_saturdays_full": "Samedis complets",
-    "avail_mon_fri_available": "Lun-Ven disponible"
+    "avail_mon_fri_available": "Lun-Ven disponible",
+    "fixedPerConsultLabel": "Fixe par consultation"
   },
   "prescription": {
     "title": "Prescrire",
@@ -3319,7 +3349,12 @@
     "type": "Type",
     "h24": "24h",
     "h1": "1h",
-    "noConsultations": "Aucune consultation aujourd'hui."
+    "noConsultations": "Aucune consultation aujourd'hui.",
+    "legend": "Légende",
+    "confirmed": "Confirmée",
+    "pending": "En attente de confirmation",
+    "cancelled": "Annulée / absence",
+    "irrelevant": "Non applicable"
   },
   "export": {
     "selectAtLeast": "Sélectionnez au moins un type de rapport.",
@@ -3909,5 +3944,12 @@
     },
     "unlockedAt": "Débloqué à {{level}}",
     "unlocksAt": "Se débloque à {{level}}"
+  },
+  "agendaFilters": {
+    "consultationTypesGroup": "Types de consultation",
+    "patientStatus": "Statut du patient"
+  },
+  "patientStatuses": {
+    "all": "Tous"
   }
 }

@@ -7,6 +7,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
+import { useSyncedMonth } from '@/hooks/useSyncedMonth';
 import { useTranslation } from 'react-i18next';
 
 
@@ -41,7 +42,7 @@ export function PatientSidebar({
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [isFamilyOpen, setIsFamilyOpen] = useState(true);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useSyncedMonth(selectedDate);
   const today = new Date();
 
   const filteredMembers = familyMembers.filter((m) =>

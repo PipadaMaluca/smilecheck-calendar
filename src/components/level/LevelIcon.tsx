@@ -6,7 +6,7 @@ export const LEVEL_ICON_MAP: Record<string, { Icon: LucideIcon; colorClass: stri
   lata:       { Icon: Cylinder,    colorClass: 'text-slate-400' },
   bronze:     { Icon: Shield,      colorClass: 'text-amber-700' },
   prata:      { Icon: ShieldCheck, colorClass: 'text-slate-300' },
-  ouro:       { Icon: Award,       colorClass: 'text-amber-400' },
+  ouro:       { Icon: Award,       colorClass: 'text-warning' },
   platina:    { Icon: Gem,         colorClass: 'text-purple-400' },
   diamante:   { Icon: Diamond,     colorClass: 'text-blue-400' },
   adamantino: { Icon: Crown,       colorClass: 'text-amber-300' },

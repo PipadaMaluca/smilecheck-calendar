@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
+import { Gift } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -57,11 +59,11 @@ function ProductCard({ product, userPoints, onRedeem }: { product: RewardProduct
     <Card className={cn('transition-all duration-200', !canAfford && 'opacity-60')}>
       <CardContent className="p-4 flex flex-col items-center text-center space-y-2">
         <div className={cn('w-12 h-12 rounded-full flex items-center justify-center text-2xl', canAfford ? 'bg-primary/20' : 'bg-secondary')}>
-          {product.emoji || '🎁'}
+          <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />
         </div>
         <h4 className="text-sm font-semibold text-foreground leading-tight">{product.name}</h4>
         {product.discount && (
-          <Badge variant="outline" className="text-xs border-amber-500/50 text-amber-400">
+          <Badge variant="outline" className="text-xs border-amber-500/50 text-warning">
             {product.discount} {t('store.discount')}
           </Badge>
         )}

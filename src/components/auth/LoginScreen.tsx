@@ -195,7 +195,7 @@ export function LoginScreen() {
   return (
     <div className="min-h-screen bg-background flex relative overflow-hidden">
       <img src={watermarkSrc} alt="" aria-hidden="true"
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.05] pointer-events-none z-0 object-contain" />
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.025] pointer-events-none z-0 object-contain" />
       <div className="w-1/2 md:w-[55%] lg:w-1/2 flex items-center justify-center p-8 z-10 relative">
         <div className="w-full max-w-md">{loginForm}</div>
       </div>

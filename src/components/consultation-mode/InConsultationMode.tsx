@@ -168,8 +168,8 @@ export function PointsEarnedAnimation({ xp, pts }: { xp: number; pts: number }) 
 
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[110] pointer-events-none flex flex-col items-center gap-1">
-      <span className="text-2xl font-bold text-emerald-400 animate-points-float">+{xp} XP</span>
-      <span className="text-xl font-bold text-amber-400 animate-points-float" style={{ animationDelay: '0.15s' }}>+{pts} pts</span>
+      <span className="text-2xl font-bold text-success animate-points-float">+{xp} XP</span>
+      <span className="text-xl font-bold text-warning animate-points-float" style={{ animationDelay: '0.15s' }}>+{pts} pts</span>
     </div>
   );
 }

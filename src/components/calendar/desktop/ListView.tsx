@@ -1,4 +1,5 @@
 import { MoreHorizontal, User } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { Button } from '@/components/ui/button';
 import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -34,7 +35,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
     const config = STATUS_CONFIG[status];
     return (
       <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs', config.bg, config.color)}>
-        {config.icon} {config.label}
+        <Glyph emoji={config.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {config.label}
       </span>
     );
   };

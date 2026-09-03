@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -67,7 +68,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <p className="text-xs text-muted-foreground mt-1">
                 <span className="font-semibold text-primary">×{multiplier.toFixed(1)} {t('level.multiplier')}</span>
                 {' · '}
-                <span>⚡ {t('level.visibility')}: +{boost}%</span>
+                <span>
+<Glyph emoji="⚡" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('level.visibility')}: +{boost}%</span>
               </p>
             </div>
           </div>
@@ -111,7 +113,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-3">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">⭐</span>
+            <Glyph emoji="⭐" className="w-8 h-8" />
             <div>
               <p className="text-2xl font-bold text-foreground">{data.rewardPoints.toLocaleString()} {t('scores.available')}</p>
               <p className="text-xs text-muted-foreground">{planLabel}</p>
@@ -196,9 +198,12 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <div>
                 <h4 className="text-sm font-bold text-foreground mb-2">{t('scores.antiFraud')}</h4>
                 <div className="space-y-1.5 text-xs text-muted-foreground">
-                  <p>📱 {t('scores.antiFraudPhone')}</p>
-                  <p>📊 {t('scores.antiFraudLimit')}</p>
-                  <p>⚖️ {t('scores.antiFraudContest')}</p>
+                  <p>
+<Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('scores.antiFraudPhone')}</p>
+                  <p>
+<Glyph emoji="📊" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('scores.antiFraudLimit')}</p>
+                  <p>
+<Glyph emoji="⚖️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('scores.antiFraudContest')}</p>
                 </div>
               </div>
             </div>
@@ -254,7 +259,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   )}
                   <span className={cn(
                     'text-[11px] font-bold',
-                    entry.points > 0 ? 'text-emerald-400' : entry.points < 0 ? 'text-destructive' : 'text-muted-foreground'
+                    entry.points > 0 ? 'text-success' : entry.points < 0 ? 'text-destructive' : 'text-muted-foreground'
                   )}>
                     {entry.points > 0 ? '+' : ''}{entry.points} pts
                   </span>

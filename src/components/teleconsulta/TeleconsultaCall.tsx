@@ -75,7 +75,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
   return (
     <div className="fixed inset-0 z-[100] bg-[#0a0a0f] flex flex-col">
       {/* Watermark */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.03] z-0"
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.02] z-0"
         style={{ backgroundImage: `url(${smileIcon})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: '30%' }} />
 
       {/* Top Bar */}
@@ -86,7 +86,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           </div>
           <div>
             <p className="text-sm font-semibold text-white">{remoteName}</p>
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/20 text-amber-400">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/20 text-warning">
               <Video className="w-3 h-3" /> {t('teleconsult.title')}
             </span>
           </div>

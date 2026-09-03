@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { X, Search, Check, Star, Send, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -217,7 +218,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <button
                 onClick={() => setDentistFilter('favorites')}
                 className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
-                ⭐ {t('referral.onlyFavorites')}</button>
+<Glyph emoji="⭐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('referral.onlyFavorites')}</button>
             </div>
             <div className="space-y-2">
               {filteredDentists.map((d) => {
@@ -238,11 +239,11 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1">
-                        {isFav && <Star className="w-3 h-3 fill-amber-400 text-amber-400" />}
+                        {isFav && <Star className="w-3 h-3 fill-amber-400 text-warning" />}
                         <span className="text-sm font-medium truncate">{d.name}</span>
                       </div>
                       <div className="flex items-center gap-1.5 mt-0.5">
-                        <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        <Star className="w-3 h-3 fill-amber-400 text-warning" />
                         <span className={cn('text-xs font-medium', levelCfg.color)}>{d.rating}</span>
                         <span className="text-xs text-muted-foreground">· {d.clinics[0]?.name}</span>
                         <span className="text-xs text-muted-foreground">· {d.distance} km</span>
@@ -252,7 +253,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
                       <button onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
-                        <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground')} />
+                        <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
                       </button>
                     </div>
                   </button>);
@@ -317,7 +318,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
           <div className="space-y-4">
             <Alert className="border-amber-500/50 bg-amber-500/10">
               <AlertTriangle className="h-4 w-4 text-amber-500" />
-              <AlertTitle className="text-sm font-semibold text-amber-600">{t('referral.omdMissing')}</AlertTitle>
+              <AlertTitle className="text-sm font-semibold text-warning">{t('referral.omdMissing')}</AlertTitle>
               <AlertDescription className="text-xs text-muted-foreground">
                 {t('referral.omdMissingDesc')}
                 <button className="block mt-1 text-xs font-medium text-primary hover:underline">

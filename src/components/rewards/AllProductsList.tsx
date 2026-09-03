@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import { Glyph } from '@/components/ui/glyph';
+import { Gift } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { RewardProduct } from '@/data/rewardsData';
@@ -56,14 +58,14 @@ export function AllProductsList({ products, userPoints, onRedeem }: AllProductsL
               )}
             >
               <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-2xl shrink-0">
-                {product.emoji || '🎁'}
+                <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{product.name}</p>
                 <p className="text-xs text-muted-foreground truncate">
                   {product.category}
                   {product.discount && (
-                    <span className="ml-2 text-amber-400 font-medium">{product.discount} {t('store.discount')}</span>
+                    <span className="ml-2 text-warning font-medium">{product.discount} {t('store.discount')}</span>
                   )}
                 </p>
               </div>

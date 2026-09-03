@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -64,7 +65,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
       {/* Status Badge */}
       <div className="flex items-center justify-between mb-2">
         <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium', statusConfig.bg, statusConfig.color)}>
-          {statusConfig.icon} {statusConfig.label}
+          <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
         </span>
       </div>
       <div className="flex items-start justify-between mb-3">
@@ -141,7 +142,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>
             )}
             <p className="text-xs text-muted-foreground">
-              ⭐ {consultation.patient.rating} | 🥈 {consultation.patient.level}
+<Glyph emoji="⭐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{consultation.patient.rating} | 🥈 {consultation.patient.level}
             </p>
           </>
         )}
@@ -159,7 +160,8 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             consultation.isPaid ? (
               <span className="text-primary">💰 €{consultation.price} ({t('consultationDetail.paid')})</span>
             ) : consultation.clinic.distance ? (
-              <span>📍 {consultation.clinic.distance} km</span>
+              <span>
+<Glyph emoji="📍" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{consultation.clinic.distance} km</span>
             ) : (
               <span className="text-[#FDD835]">💰 €{consultation.price} ({t('consultationDetail.pendingPayment')})</span>
             )

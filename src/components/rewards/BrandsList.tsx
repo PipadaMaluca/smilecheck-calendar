@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
+import { Gift } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -32,7 +34,7 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
               <Card key={product.id} className={cn('transition-all', !canAfford && 'opacity-60')}>
                 <CardContent className="p-3 flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-xl shrink-0">
-                    {product.emoji || '🎁'}
+                    <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">{product.name}</p>

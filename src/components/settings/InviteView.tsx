@@ -123,7 +123,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
-            <p className="text-xl md:text-2xl font-bold text-amber-400 leading-tight">150</p>
+            <p className="text-xl md:text-2xl font-bold text-warning leading-tight">150</p>
             <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">Pts ganhos</span><span className="hidden md:inline">Pontos ganhos</span></p>
           </CardContent>
         </Card>
@@ -146,7 +146,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
                 <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-[11px]">
                   {h.status === 'confirmed' ? 'Confirmado' : 'Pendente'}
                 </Badge>
-                {h.points > 0 && <span className="text-[11px] md:text-xs font-medium text-amber-400 whitespace-nowrap">+{h.points} pts</span>}
+                {h.points > 0 && <span className="text-[11px] md:text-xs font-medium text-warning whitespace-nowrap">+{h.points} pts</span>}
               </div>
             </div>
           ))}

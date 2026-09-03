@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { User, Star, Award, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -94,7 +95,7 @@ export function DentistTeamTab() {
                             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                               <div className="flex items-center gap-0.5">
                                 {[1, 2, 3, 4, 5].map((i) => (
-                                  <Star key={i} className={cn('w-3 h-3', i <= Math.round(extras.rating) ? 'fill-amber-400 text-amber-400' : 'text-muted-foreground/30')} />
+                                  <Star key={i} className={cn('w-3 h-3', i <= Math.round(extras.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')} />
                                 ))}
                                 <span className="text-[11px] text-muted-foreground ml-0.5">{extras.rating.toFixed(1)}</span>
                               </div>
@@ -103,7 +104,8 @@ export function DentistTeamTab() {
                               </Badge>
                             </div>
                             {extras.scheduleSummary && (
-                              <p className="text-[11px] text-muted-foreground mt-1">🕐 {extras.scheduleSummary}</p>
+                              <p className="text-[11px] text-muted-foreground mt-1">
+<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{extras.scheduleSummary}</p>
                             )}
                           </div>
                         </CardContent>

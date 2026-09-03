@@ -967,7 +967,7 @@ export function DesktopCalendarView() {
       case 'plano':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader(t('plan.managePlan'))}
+            {renderStandardHeader(t('nav.managePlan'))}
             <div className="flex-1 overflow-y-auto"><ManagePlanView userRole={activeRole} /></div>
           </div>);
 
@@ -975,7 +975,7 @@ export function DesktopCalendarView() {
       case 'loja':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            {renderStandardHeader(t('rewards.title'))}
+            {renderStandardHeader(t('store.title'))}
             <div className="flex-1 overflow-y-auto"><RewardsStoreView userRole={activeRole} /></div>
           </div>);
 
@@ -1113,7 +1113,7 @@ export function DesktopCalendarView() {
       <div className="flex flex-1 min-h-0 relative">
       {/* Background Watermark Logo */}
       <div
-          className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-5 z-0"
+          className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-[0.025] z-0"
           style={{
             backgroundImage: `url(${smileIcon})`,
             backgroundRepeat: 'no-repeat',

@@ -5,7 +5,8 @@ import { useAchievements } from '@/data/achievementsSource';
 
 import { CardGridSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
-import { Lock, HelpCircle, Star as StarIcon } from 'lucide-react';
+import { Lock, HelpCircle, Star as StarIcon, Check, Trophy, Sparkles } from 'lucide-react';
+import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -312,70 +313,78 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
   return (
     <Card
       className={cn(
-        'bg-card/80 backdrop-blur border-border transition-all duration-300 relative',
+        'h-full bg-card/80 backdrop-blur transition-all duration-300 relative overflow-hidden',
         achievement.unlocked
-          ? 'ring-1 ring-primary/20 hover:scale-[1.03] hover:shadow-lg hover:shadow-primary/10 cursor-pointer'
-          : 'opacity-60'
+          ? 'border-border ring-1 ring-primary/20 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 cursor-pointer'
+          : 'border-dashed border-border/70 bg-muted/20'
       )}
       onClick={achievement.unlocked && onClickCompleted ? onClickCompleted : undefined}
     >
-      <CardContent className="p-3">
-        <div className="flex items-start gap-3">
+      <CardContent className="p-3 h-full flex flex-col gap-2">
+        <div className="flex items-start gap-3 min-w-0">
           <div className={cn(
-            'h-10 w-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0',
-            isSecret ? 'bg-purple-500/10 shadow-[0_0_8px_hsl(270,60%,50%,0.15)]' : achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
+            'h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0',
+            isSecret
+              ? 'bg-purple-500/10 shadow-[0_0_8px_hsl(270,60%,50%,0.15)]'
+              : achievement.unlocked ? 'bg-primary/10' : 'bg-muted'
           )}>
             {isSecret ? (
               <HelpCircle className="w-5 h-5 text-purple-400" />
             ) : (
-              achievement.emoji
+              <Glyph
+                emoji={achievement.emoji}
+                fallback={Trophy}
+                className={cn('w-5 h-5', achievement.unlocked ? 'text-primary' : 'text-muted-foreground')}
+              />
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex items-start gap-1.5 min-w-0">
               <p className={cn(
-                'text-sm font-medium truncate',
+                'text-sm font-medium leading-snug line-clamp-2 min-w-0',
                 achievement.unlocked ? 'text-foreground' : 'text-muted-foreground'
               )}>
                 {isSecret ? '???' : achievement.name}
               </p>
-              {achievement.unlocked && (
-                <span className="text-[11px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-medium flex-shrink-0">
-                  ✓
-                </span>
-              )}
-              <span className={cn(
-                'text-[11px] font-bold ml-auto flex-shrink-0',
-                achievement.unlocked ? 'text-amber-400' : 'text-muted-foreground'
-              )}>
-                +{achievement.points} pts
-              </span>
-              {isShowcased && (
-                <span className="text-amber-400 text-xs flex-shrink-0">⭐</span>
-              )}
-              {!achievement.unlocked && !isSecret && (
-                <Lock className="w-3 h-3 text-muted-foreground flex-shrink-0" />
-              )}
+              {achievement.unlocked ? (
+                <Check className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" strokeWidth={3} />
+              ) : !isSecret ? (
+                <Lock className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />
+              ) : null}
             </div>
-            <p className="text-xs text-muted-foreground truncate">
+            <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
               {isSecret ? t('achievements.secret') : achievement.description}
             </p>
-            {achievement.progress && !isSecret && (
-              <div className="mt-2">
-                <Progress
-                  value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
-                  className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
-                />
-                <p className="text-[11px] text-muted-foreground mt-0.5">
-                  {achievement.progress.current}/{achievement.progress.target}
-                </p>
-              </div>
-            )}
           </div>
+        </div>
+
+        {achievement.progress && !isSecret && (
+          <div>
+            <Progress
+              value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
+              className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
+            />
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {achievement.progress.current}/{achievement.progress.target}
+            </p>
+          </div>
+        )}
+
+        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+          <span className={cn(
+            'text-[11px] font-bold whitespace-nowrap',
+            achievement.unlocked ? 'text-amber-500' : 'text-muted-foreground'
+          )}>
+            +{achievement.points} pts
+          </span>
+          {isShowcased && (
+            <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500 flex-shrink-0" />
+          )}
         </div>
       </CardContent>
     </Card>
   );
+
 }
 
 export function getAchievementCategories(userRole: UserRole, t?: (key: string) => string): AchievementCategory[] {
@@ -421,7 +430,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
       toast.info(`"${ach.name}" ${t('achievements.removedFromShowcase')}`);
     } else if (showcasedIds.length < 8) {
       setShowcasedIds(prev => [...prev, ach.id]);
-      toast.success(`✅ "${ach.name}" ${t('achievements.addedToShowcase')}`);
+      toast.success(`"${ach.name}" ${t('achievements.addedToShowcase')}`);
     } else {
       setAddToShowcaseTarget(ach);
       setShowManageModal(true);
@@ -443,7 +452,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
             <Separator className="mb-4" />
             {isSecretsSection ? (
               <div className="mb-3 p-4 rounded-lg bg-gradient-to-r from-purple-900/40 via-slate-900/50 to-purple-800/30 border border-purple-500/30 shadow-[0_0_15px_hsl(270,60%,50%,0.1)]">
-                <h2 className="text-base font-semibold text-foreground">🔮 {t('achievements.secrets')}</h2>
+                <h2 className="text-base font-semibold text-foreground flex items-center gap-2"><Sparkles className="w-4 h-4 text-purple-300" />{t('achievements.secrets')}</h2>
                 <p className="text-xs text-purple-300/70 mt-0.5">{t('achievements.secretsDesc')}</p>
               </div>
             ) : (

@@ -67,7 +67,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
         <p className="text-xs text-muted-foreground truncate">{score.clinicName}</p>
       )}
       {isPending && (
-        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-amber-500/30 text-amber-600 bg-amber-500/10">
+        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-amber-500/30 text-warning bg-amber-500/10">
           <Clock className="w-2.5 h-2.5 mr-0.5" /> Pendente
         </Badge>
       )}
@@ -123,7 +123,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 variant="outline"
                 className={cn(
                   'text-xs font-bold border-0',
-                  isPending ? 'bg-amber-500/10 text-amber-600'
+                  isPending ? 'bg-amber-500/10 text-warning'
                     : isPositive ? 'bg-primary/10 text-primary'
                     : isNegative ? 'bg-destructive/10 text-destructive'
                     : 'bg-muted text-muted-foreground'
@@ -154,7 +154,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 <p className="text-xs font-medium text-muted-foreground">{t('history.ratingGiven')}</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} className={cn('w-3.5 h-3.5', s <= score.patientFeedback!.rating ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/20')} />
+                    <Star key={s} className={cn('w-3.5 h-3.5', s <= score.patientFeedback!.rating ? 'text-warning fill-amber-400' : 'text-muted-foreground/20')} />
                   ))}
                 </div>
                 {score.patientFeedback.comment && <p className="text-xs text-muted-foreground italic">"{score.patientFeedback.comment}"</p>}
@@ -165,7 +165,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                 <p className="text-xs font-medium text-muted-foreground">{t('history.ratingReceived')}</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} className={cn('w-3.5 h-3.5', s <= (score.receivedRating || 0) ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/20')} />
+                    <Star key={s} className={cn('w-3.5 h-3.5', s <= (score.receivedRating || 0) ? 'text-warning fill-amber-400' : 'text-muted-foreground/20')} />
                   ))}
                 </div>
               </div>

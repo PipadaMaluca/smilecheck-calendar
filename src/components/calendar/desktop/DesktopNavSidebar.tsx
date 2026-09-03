@@ -168,7 +168,7 @@ export function DesktopNavSidebar({
         />
         {userRole !== 'patient' && (
           <span className={cn(
-            'font-bold rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-center',
+            'font-bold rounded-full bg-amber-500/20 text-warning border border-amber-500/30 text-center',
             isExpanded ? 'text-[11px] px-2.5 py-0.5' : 'text-[11px] px-1.5 py-0'
           )}>
             Pro
