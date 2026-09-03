@@ -56,7 +56,7 @@ function ProductCard({ product, userPoints, onRedeem }: { product: RewardProduct
   const missing = product.points - userPoints;
 
   return (
-    <Card className={cn('transition-all duration-200', !canAfford && 'opacity-60')}>
+    <Card className={cn('transition-colors duration-150', !canAfford && 'opacity-60')}>
       <CardContent className="p-4 flex flex-col items-center text-center space-y-2">
         <div className={cn('w-12 h-12 rounded-full flex items-center justify-center text-2xl', canAfford ? 'bg-primary/20' : 'bg-secondary')}>
           <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />

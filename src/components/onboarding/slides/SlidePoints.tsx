@@ -31,7 +31,7 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
       </h2>
       <div className="glass-card p-4 w-full max-w-sm space-y-2">
         {keys.map((key, index) => (
-          <div key={index} className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 transition-all duration-300">
+          <div key={index} className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 transition-colors duration-300">
             <div className="flex items-center gap-3">
               <Glyph emoji={icons[index]} className="w-6 h-6 text-primary" />
               <span className="text-foreground font-medium text-sm">{t(`onboarding.pointsLabels.${key}`)}</span>

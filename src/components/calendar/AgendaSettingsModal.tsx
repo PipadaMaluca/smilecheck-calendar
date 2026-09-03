@@ -315,7 +315,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                               type="button"
                               onClick={() => setColor(preset)}
                               className={cn(
-                                'relative w-7 h-7 rounded-full border-2 transition-all hover:scale-110 flex items-center justify-center',
+                                'relative w-7 h-7 rounded-full border-2 transition-[transform,background-color,border-color,color,box-shadow] hover:scale-110 flex items-center justify-center',
                                 color.toLowerCase() === preset.toLowerCase()
                                   ? 'border-primary ring-2 ring-primary/40'
                                   : 'border-border'

@@ -183,7 +183,7 @@ export function DesktopCalendarSidebar({
                 key={idx}
                 onClick={() => onDateSelect(date)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center w-6 h-6 rounded text-[11px] transition-all',
+                  'relative flex flex-col items-center justify-center w-6 h-6 rounded text-[11px] transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
                   isCurrentMonth && 'text-foreground hover:bg-[#152238]',
                   isToday && 'bg-primary text-primary-foreground font-semibold',

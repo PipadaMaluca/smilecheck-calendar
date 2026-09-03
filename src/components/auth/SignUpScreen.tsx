@@ -209,7 +209,7 @@ export function SignUpScreen() {
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
             {accountTypes.map(at => (
               <button key={at.value} onClick={() => setAccountType(at.value)}
-                className={cn('flex flex-col items-center p-4 rounded-xl border-2 transition-all duration-200 bg-secondary hover:bg-accent',
+                className={cn('flex flex-col items-center p-4 rounded-xl border-2 transition-colors duration-150 bg-secondary hover:bg-accent',
                   accountType === at.value ? 'border-primary shadow-[0_0_15px_hsl(207_90%_54%/0.3)]' : 'border-border')}>
                 <at.icon className={cn('w-8 h-8 mb-2', accountType === at.value ? 'text-primary' : 'text-muted-foreground')} />
                 <span className="font-semibold text-sm text-foreground">{at.title}</span>
@@ -352,7 +352,7 @@ export function SignUpScreen() {
               {password && (
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex-1 h-1.5 rounded-full bg-secondary overflow-hidden">
-                    <div className={cn('h-full rounded-full transition-all', strength.color, strength.width)} />
+                    <div className={cn('h-full rounded-full transition-colors', strength.color, strength.width)} />
                   </div>
                   <span className="text-xs text-muted-foreground">{strength.label}</span>
                 </div>
@@ -493,7 +493,7 @@ export function SignUpScreen() {
             {password && (
               <div className="mt-2 flex items-center gap-2">
                 <div className="flex-1 h-1.5 rounded-full bg-secondary overflow-hidden">
-                  <div className={cn('h-full rounded-full transition-all', strength.color, strength.width)} />
+                  <div className={cn('h-full rounded-full transition-colors', strength.color, strength.width)} />
                 </div>
                 <span className="text-xs text-muted-foreground">{strength.label}</span>
               </div>

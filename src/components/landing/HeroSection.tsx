@@ -80,7 +80,7 @@ export function HeroSection() {
           <Button
             size="lg"
             onClick={() => navigate('/signup')}
-            className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-base font-semibold px-8 py-4 h-12 sm:h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto"
+            className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-base font-semibold px-8 py-4 h-12 sm:h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-[transform,background-color,border-color,color,box-shadow] duration-300 w-full sm:w-auto"
           >
             {t('landing.hero.cta')}
           </Button>
@@ -88,7 +88,7 @@ export function HeroSection() {
             size="lg"
             variant="outline"
             onClick={() => navigate('/app?demo=true&role=patient')}
-            className="rounded-full text-base font-semibold px-8 py-4 h-12 sm:h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#D6E4F0] text-[#1565C0] hover:border-[#2196F3] hover:bg-[#EBF4FF] dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300"
+            className="rounded-full text-base font-semibold px-8 py-4 h-12 sm:h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-[#D6E4F0] text-[#1565C0] hover:border-[#2196F3] hover:bg-[#EBF4FF] dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-[transform,background-color,border-color,color,box-shadow] duration-300"
           >
             {t('landing.hero.demo')}
           </Button>

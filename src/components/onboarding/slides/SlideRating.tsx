@@ -21,7 +21,7 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
         {isClinic ? t('onboarding.ratingTitleClinic') : t('onboarding.ratingTitleYou')}
       </h2>
 
-      <div className={`glass-card-strong p-8 mb-8 glow-green ${isActive ? 'animate-pulse-glow' : ''}`}>
+      <div className={"glass-card-strong p-8 mb-8 glow-green"}>
         <div className="flex items-center gap-3">
           <Star className="w-10 h-10 text-gaming-gold fill-current" style={{ color: 'hsl(45, 100%, 50%)' }} />
           <span className="font-gaming text-5xl" style={{ color: '#4CAF50' }}>4.7</span>
@@ -37,13 +37,13 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
         <p className="text-muted-foreground text-sm text-center mb-4">{t('onboarding.ratingLegend')}</p>
         {ratingLegend.map((item, index) => (
           <div key={index}
-            className={`flex items-center gap-3 p-3 rounded-xl transition-all ${item.special ? 'border' : 'bg-secondary/30'}`}
+            className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${item.special ? 'border' : 'bg-secondary/30'}`}
             style={item.special ? { backgroundColor: 'rgba(255, 215, 0, 0.15)', borderColor: 'rgba(255, 215, 0, 0.4)', boxShadow: '0 0 15px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.15)' } : {}}>
             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color, boxShadow: item.special ? `0 0 8px ${item.color}` : 'none' }} />
             <span className="text-sm" style={{ color: item.color }}>{item.stars}</span>
             <span className="font-medium ml-auto flex items-center" style={{ color: item.color }}>
               {t(item.labelKey)}
-              {item.special && <Sparkles className="inline-block w-4 h-4 ml-1 animate-sparkle" style={{ color: item.color }} />}
+              {item.special && <Sparkles className="inline-block w-4 h-4 ml-1" style={{ color: item.color }} />}
             </span>
           </div>
         ))}

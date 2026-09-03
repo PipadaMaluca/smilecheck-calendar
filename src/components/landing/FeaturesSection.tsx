@@ -24,7 +24,7 @@ function ScrollReveal({ children, className, delay = 0 }: { children: React.Reac
     <div
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={cn('transition-all duration-700 ease-out motion-reduce:transition-none', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5', className)}
+      className={cn('transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-out motion-reduce:transition-none', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5', className)}
     >
       {children}
     </div>
@@ -280,7 +280,7 @@ function FeatureGrid({ features }: { features: { icon: string; titleKey: string;
       {features.map((f) => (
         <div
           key={f.titleKey}
-          className="group p-7 rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] hover:border-[#2196F3]/50 hover:shadow-xl hover:shadow-[#2196F3]/10 hover:-translate-y-1 transition-all duration-300"
+          className="group p-7 rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] hover:border-[#2196F3]/50 hover:shadow-xl hover:shadow-[#2196F3]/10 hover:-translate-y-1 transition-[transform,background-color,border-color,color,box-shadow] duration-300"
         >
           <Glyph emoji={f.icon} className="w-8 h-8 mb-4 block" />
           <h3 className="font-semibold text-[#1A202C] dark:text-white mb-2">{t(f.titleKey)}</h3>

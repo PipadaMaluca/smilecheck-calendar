@@ -108,7 +108,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
                             disabled={occupied}
                             onClick={() => setSelectedTime(slot)}
                             className={cn(
-                              'text-sm py-2 rounded-lg border transition-all',
+                              'text-sm py-2 rounded-lg border transition-colors',
                               occupied && 'opacity-40 cursor-not-allowed bg-muted border-border line-through',
                               !occupied && !selected && 'border-border bg-secondary hover:border-primary/50',
                               selected && 'border-primary bg-primary text-primary-foreground font-semibold'

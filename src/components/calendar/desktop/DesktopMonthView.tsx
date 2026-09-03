@@ -87,7 +87,7 @@ export function DesktopMonthView({
               key={idx}
               onClick={() => onSwitchToDay(date)}
               className={cn(
-                'relative rounded-lg p-2 min-h-[80px] text-left transition-all border',
+                'relative rounded-lg p-2 min-h-[80px] text-left transition-colors border',
                 !isCurrentMonth && 'opacity-40 border-transparent',
                 isCurrentMonth && count > 0 && 'bg-primary/5 border-primary/20 hover:bg-primary/10',
                 isCurrentMonth && count === 0 && 'bg-secondary/20 border-transparent hover:bg-secondary/40',

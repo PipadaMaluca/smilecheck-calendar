@@ -173,7 +173,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         {steps.filter((s) => s !== 'success').map((step, i) =>
       <div key={step} className="flex-1">
             <div className={cn(
-          'h-1.5 rounded-full transition-all',
+          'h-1.5 rounded-full transition-colors',
           i <= stepIndex && currentStep !== 'success' ? 'bg-primary' : 'bg-muted'
         )} />
           </div>
@@ -198,7 +198,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       <button
         key={patient.id}
         onClick={() => setSelectedPatient(patient)}
-        className={cn("w-full flex items-center p-3 rounded-lg border transition-all hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
+        className={cn("w-full flex items-center p-3 rounded-lg border transition-colors hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
         selectedPatient?.id === patient.id ? 'border-primary bg-primary/10' : 'border-border'
         )}>
             <Avatar className="h-10 w-10">
@@ -235,7 +235,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
       onClick={() => !alreadyAdded && !isBlocked && addMedication(med.name, med.dosage)}
       disabled={alreadyAdded || isBlocked}
       className={cn(
-        'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-all',
+        'w-full flex items-center justify-between p-2.5 rounded-lg text-sm transition-colors',
         isBlocked ?
         'opacity-50 cursor-not-allowed bg-muted/30' :
         alreadyAdded ?

@@ -31,9 +31,9 @@ export const dentistRevenueMonths = [
 ];
 
 export const clinicDentistRevenue = [
-  { id: '1', name: 'Dr. Gonçalo Pipo', consultas: 52, tele: 15, revenue: 4200, color: 'hsl(210, 80%, 55%)' },
-  { id: '2', name: 'Dr. Alexandre Bernardo', consultas: 48, tele: 12, revenue: 3800, color: 'hsl(150, 60%, 45%)' },
-  { id: '3', name: 'Dr. Gil Santos', consultas: 45, tele: 18, revenue: 4800, color: 'hsl(30, 80%, 55%)' },
+  { id: '1', name: 'Dr. Gonçalo Pipo', consultas: 52, tele: 15, revenue: 4200, color: 'hsl(210, 85%, 45%)' },
+  { id: '2', name: 'Dr. Alexandre Bernardo', consultas: 48, tele: 12, revenue: 3800, color: 'hsl(210, 75%, 60%)' },
+  { id: '3', name: 'Dr. Gil Santos', consultas: 45, tele: 18, revenue: 4800, color: 'hsl(210, 60%, 75%)' },
 ];
 
 export const savedCards = [

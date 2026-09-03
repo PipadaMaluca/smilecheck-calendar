@@ -190,19 +190,19 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-xs font-medium">{t('statistics.totalConsultations')}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.totalConsultations')}</span>
                   </div>
-                  <span className="text-2xl font-bold text-foreground">{totalConsultations}</span>
+                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{totalConsultations}</span>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span className="text-xs font-medium">{t('statistics.confirmationRate')}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.confirmationRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-foreground">{confirmRate}%</span>
+                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{confirmRate}%</span>
                     <Progress value={confirmRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -211,10 +211,10 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <XCircle className="w-4 h-4" />
-                    <span className="text-xs font-medium">{t('statistics.absenceRate')}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.absenceRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-foreground">{faltaRate}%</span>
+                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{faltaRate}%</span>
                     <Progress value={faltaRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -223,9 +223,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="w-4 h-4" />
-                    <span className="text-xs font-medium">{t('statistics.estimatedRevenue')}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
-                  <span className="text-2xl font-bold text-foreground">€{revenue}</span>
+                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">€{revenue.toLocaleString('pt-PT')}</span>
                 </CardContent>
               </Card>
             </div>

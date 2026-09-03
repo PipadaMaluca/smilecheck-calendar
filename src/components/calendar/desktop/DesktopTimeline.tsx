@@ -359,7 +359,7 @@ export function DesktopTimeline({
                             setContextMenu({ consultation, x: e.clientX, y: e.clientY });
                           }}
                           className={cn(
-                             "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:shadow-lg overflow-hidden",
+                             "appt-block mx-0.5 rounded cursor-grab active:cursor-grabbing transition-colors hover:shadow-lg overflow-hidden",
                             draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                           )}
                           style={{

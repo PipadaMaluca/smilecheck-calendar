@@ -321,7 +321,7 @@ export function DesktopWeekView({
                             }}
                             onDragEnd={() => setDragged(null)}
                             className={cn(
-                              'appt-block absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing transition-all hover:shadow-lg flex flex-col',
+                              'appt-block absolute left-0.5 right-0.5 rounded cursor-grab active:cursor-grabbing transition-colors hover:shadow-lg flex flex-col',
                               scaleCfg.cardPad,
                               dragged?.consultation.id === c.id && 'opacity-40 border-2 border-dashed border-primary'
                             )}

@@ -20,7 +20,7 @@ export function LandingFooter() {
       {/* CTA Banner */}
       <section className="py-8 sm:py-10 md:py-12 px-6 md:px-10 bg-white dark:bg-background" id="contacto">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2196F3] to-[#1565C0] p-8 sm:p-10 md:p-12 shadow-2xl shadow-[#2196F3]/20 sc-hue-shift">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2196F3] to-[#1565C0] p-8 sm:p-10 md:p-12 shadow-2xl shadow-[#2196F3]/20">
             <div className="sc-particles" aria-hidden="true">
               {Array.from({ length: 14 }).map((_, i) => (
                 <span
@@ -36,7 +36,7 @@ export function LandingFooter() {
             </div>
             <h2 data-reveal="words" className="relative text-[28px] sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">{t('landing.ctaFinal.title')}</h2>
             <p data-reveal="up" className="relative text-white/85 text-base sm:text-lg font-light mb-6 sm:mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.ctaFinal.subtitle')}</p>
-            <Button size="lg" className="sc-pulse-cta relative rounded-full bg-white text-[#2196F3] hover:bg-white/95 hover:-translate-y-0.5 text-base font-semibold w-full sm:w-auto px-10 h-12 shadow-xl transition-all" onClick={() => navigate('/signup')}>
+            <Button size="lg" className="sc-pulse-cta relative rounded-full bg-white text-[#2196F3] hover:bg-white/95 hover:-translate-y-0.5 text-base font-semibold w-full sm:w-auto px-10 h-12 shadow-xl transition-[transform,background-color,border-color,color,box-shadow]" onClick={() => navigate('/signup')}>
               {t('landing.ctaFinal.cta')}
             </Button>
             <p className="relative text-sm text-white/75 mt-4">{t('landing.ctaFinal.noCommitment')}</p>

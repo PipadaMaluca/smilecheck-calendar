@@ -5,6 +5,7 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
+import { getQuickActions } from './quickActions';
 import { Star, Calendar, Users, Flame, Award, Search, BarChart3, Heart, Check, X, Ban, ChevronDown, UserPlus } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -12,7 +13,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryLabel } from '@/types/calendar';
-import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -87,7 +87,7 @@ function CollapsibleSection({
             <div className="flex items-center gap-2">
               <ChevronDown
                 className={cn(
-                  'w-4 h-4 text-muted-foreground transition-transform duration-200',
+                  'w-4 h-4 text-muted-foreground transition-transform duration-150',
                   !open && '-rotate-90'
                 )}
               />
@@ -203,150 +203,172 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const heroCategory: ConsultationCategory | undefined = heroStat.category;
     const heroBorderHex = heroCategory ? CATEGORY_COLORS[heroCategory].hex : '#2196F3';
 
+    const goHero = () => {
+      if (!heroStat.clickTab) return;
+      if (heroStat.clickTab === 'agenda') {
+        window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
+        onNavigate('agenda');
+      } else onNavigate(heroStat.clickTab);
+    };
+
     return (
-      <div className="hidden lg:flex flex-col gap-3 sm:gap-4">
-        {/* Tablet: hero full-width row + 3 equal below. Desktop: 40%+20%×3 single row */}
-        <div id="coachmark-stat-cards" className="grid grid-cols-3 lg:grid-cols-[45fr_25fr_15fr_15fr] gap-3 sm:gap-4">
-          {/* Hero Card 1 */}
+      <div className="hidden lg:flex flex-col gap-4">
+        <div
+          id="coachmark-stat-cards"
+          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4 items-stretch"
+        >
+          {/* PRIMARY — Próxima Consulta */}
           <Card
             className={cn(
-              "proxima-consulta-card relative bg-card/80 backdrop-blur border border-border min-w-0 col-span-3 lg:col-span-1 card-hover-lift rounded-2xl overflow-hidden",
-              heroStat.clickTab && "cursor-pointer hover:shadow-[0_0_12px_hsl(var(--primary)/0.5)] hover:bg-primary/10 transition-all"
+              'proxima-consulta-card relative min-w-0 rounded-2xl overflow-hidden border-border',
+              'bg-gradient-to-br from-primary/[0.07] via-card to-card ring-1 ring-primary/15 shadow-sm',
+              heroStat.clickTab && 'cursor-pointer card-hover-lift'
             )}
             style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
-            onClick={heroStat.clickTab ? () => {
-              if (heroStat.clickTab === 'consulta-detalhe') onNavigate('consulta-detalhe');
-              else if (heroStat.clickTab === 'agenda') {
-                window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
-                onNavigate('agenda');
-              } else onNavigate(heroStat.clickTab!);
-            } : undefined}
+            onClick={heroStat.clickTab ? goHero : undefined}
           >
-            {/* Dynamic colored left stripe (4px) — overlay to bypass any border overrides */}
-            <span
-              aria-hidden
-              className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none"
-              style={{ backgroundColor: heroBorderHex }}
-            />
-            <CardContent className="p-6 border-0 px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center text-left">
-              <div className="flex items-center gap-1.5 text-muted-foreground min-w-0 text-center text-base">
-                <HeroIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: heroBorderHex }} />
-                <span className="font-medium truncate text-base">{heroStat.label}</span>
+            <CardContent className="p-6 flex flex-col gap-3 min-w-0 min-h-[148px]">
+              <div className="flex items-center gap-2 min-w-0">
+                <HeroIcon className="w-4 h-4 flex-shrink-0 text-primary" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground truncate">
+                  {heroStat.label}
+                </span>
               </div>
+
               {userRole === 'clinic' ? (
-                <div className="flex items-center gap-2 min-w-0 text-center">
-                  <span className="font-bold text-foreground text-lg">{heroStat.value}</span>
+                <div className="flex flex-col gap-1 min-w-0">
+                  <span className="text-[32px] leading-none font-semibold tabular-nums text-foreground">
+                    {heroStat.value}
+                  </span>
                   {heroStat.subtitle && (
-                    <span className="text-muted-foreground truncate text-sm">
-                      {String(heroStat.subtitle).split('·').map((part, i) => {
-                        const trimmed = part.trim();
-                        const isPresencial = trimmed.includes(t('dashboard.presential'));
-                        const isTeleconsulta = trimmed.includes(t('dashboard.teleconsultations'));
-                        return (
-                          <span key={i}>
-                            {i > 0 && <span className="text-muted-foreground"> · </span>}
-                            <span className={isPresencial ? 'text-presencial font-medium' : isTeleconsulta ? 'text-teleconsulta font-medium' : ''}>
-                              {trimmed}
-                            </span>
-                          </span>
-                        );
-                      })}
-                    </span>
+                    <span className="text-sm text-muted-foreground truncate">{heroStat.subtitle}</span>
                   )}
                 </div>
               ) : (
-                <div className="flex items-center gap-2 min-w-0 text-center">
-                  <span className="font-bold text-foreground flex-shrink-0 text-lg">{heroStat.value}</span>
-                  <span className="text-muted-foreground flex-shrink-0 text-lg">·</span>
-                  <span className="font-medium text-foreground truncate min-w-0 text-lg">
-                    {heroStat.primaryName || heroStat.subtitle || ''}
+                <div className="flex flex-col gap-1.5 min-w-0">
+                  <span className="text-[26px] leading-tight font-semibold text-foreground truncate">
+                    {heroStat.primaryName || heroStat.subtitle || '—'}
                   </span>
-                  {heroCategory && (
-                    <ConsultationTypePill
-                      category={heroCategory}
-                      className="ml-auto flex-shrink-0 max-w-[40%]"
-                    />
-                  )}
+                  <div className="flex items-center gap-3 min-w-0 text-sm">
+                    <span className="tabular-nums font-medium text-foreground">{heroStat.value}</span>
+                    {heroStat.subtitle && heroStat.primaryName && (
+                      <span className="text-muted-foreground truncate">{heroStat.subtitle}</span>
+                    )}
+                    {heroCategory && (
+                      <span className="inline-flex items-center gap-1.5 text-muted-foreground min-w-0">
+                        <span
+                          aria-hidden
+                          className="w-2 h-2 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: heroBorderHex }}
+                        />
+                        <span className="truncate">{getCategoryLabel(t, heroCategory)}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
+
+              <Button
+                size="sm"
+                className="mt-auto self-start rounded-full px-4"
+                onClick={(e) => { e.stopPropagation(); goHero(); }}
+              >
+                {userRole === 'clinic' ? t('dashboard.viewFullAgenda') : t('common.details')}
+              </Button>
             </CardContent>
           </Card>
 
-          {/* Cards 2-4 — compact horizontal on mobile, vertical on tablet+ */}
-          {restStats.map((stat) => {
-            const Icon = stat.icon;
-            const isClickable = !!stat.clickTab;
-            const isXPCard = stat.label === t('dashboard.levelAndXp');
-            return (
-              <Card
-                key={stat.label}
-                id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
-                className={cn(
-                  "bg-card/80 backdrop-blur border-border min-w-0 card-hover-lift rounded-2xl",
-                  isClickable && "cursor-pointer hover:shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:bg-primary/10 transition-all"
-                )}
-                onClick={isClickable ? () => {
-                  if (stat.clickTab === 'pontuacoes-streak') onNavigate('pontuacoes');
-                  else onNavigate(stat.clickTab!);
-                } : undefined}
-              >
-                <CardContent className="p-6 border-0 px-4 py-3.5 flex flex-col gap-1.5 min-w-0 min-h-[84px] justify-center text-left">
-                  <span className="font-medium text-muted-foreground truncate flex items-center gap-1.5 text-center text-base">
-                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
-                    {stat.label}
-                  </span>
-                  {isXPCard ? (
-                    <div className="flex flex-col gap-2 min-w-0 w-full" onClick={(e) => { e.stopPropagation(); handleLevelBadgeTap(); }}>
-                      <div className="flex items-center min-w-0">
-                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                          <LevelIcon levelKey={level.key} size={25} />
-                          <span className="font-bold text-foreground truncate text-[20px]">{stat.value}</span>
+          {/* SECONDARY — quiet three-up metric strip */}
+          <Card className="min-w-0 rounded-2xl border-border bg-card/60 backdrop-blur shadow-none">
+            <CardContent className="p-0 h-full">
+              <div className="grid grid-cols-3 h-full divide-x divide-border">
+                {restStats.map((stat) => {
+                  const Icon = stat.icon;
+                  const isXPCard = stat.label === t('dashboard.levelAndXp');
+                  const isStreak = 'isStreak' in stat && (stat as any).isStreak;
+                  return (
+                    <button
+                      key={stat.label}
+                      type="button"
+                      id={stat.label === t('dashboard.availablePoints') ? 'onboarding-pontuacao-card' : undefined}
+                      onClick={() => {
+                        if (isXPCard) handleLevelBadgeTap();
+                        if (stat.clickTab === 'pontuacoes-streak') onNavigate('pontuacoes');
+                        else if (stat.clickTab) onNavigate(stat.clickTab);
+                      }}
+                      className="flex flex-col justify-center gap-2 min-w-0 px-4 py-5 text-left transition-colors hover:bg-primary/[0.04]"
+                    >
+                      <span className="flex items-center gap-1.5 min-w-0 text-[11px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+                        <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                        <span className="truncate">{stat.label}</span>
+                      </span>
+                      <span className="flex items-center gap-2 min-w-0">
+                        {isXPCard && <LevelIcon levelKey={level.key} size={20} />}
+                        <span className="text-lg font-semibold tabular-nums text-foreground truncate">
+                          {isStreak ? `${stat.value} ${t('points.days')}` : stat.value}
+                        </span>
+                      </span>
+                      {isXPCard ? (
+                        <div className="w-full h-1 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-primary transition-[width] duration-300"
+                            style={{ width: `${xpProgress.percent}%` }}
+                          />
                         </div>
-                        <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{pointsData.xp.toLocaleString()} XP</span>
-                        <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{multiplier.toFixed(1)}</span>
-                      </div>
-                      <div className="w-full h-1.5 rounded-full bg-muted dark:bg-[#1E3A5F] overflow-hidden">
-                        <div
-                          className={cn(
-                            "h-full rounded-full transition-all duration-1000 ease-out",
-                            LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
-                          )}
-                          style={{ width: `${xpProgress.percent}%` }}
-                        />
-                      </div>
-                    </div>
-                  ) : 'isStreak' in stat && (stat as any).isStreak ? (
-                    <span className="font-bold text-foreground inline-flex items-center gap-1.5 text-lg">
-                      <Flame className="w-4 h-4 text-warning" /> {stat.value} {t('points.days')}
-                    </span>
-                  ) : (
-                    <span className="font-bold text-foreground truncate text-lg inline-flex items-center gap-1.5">{'isPoints' in stat && (stat as any).isPoints && <Star className="w-4 h-4 text-warning fill-current" />}{stat.value}</span>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
+                      ) : (
+                        <span className="text-[11px] text-muted-foreground tabular-nums truncate">
+                          {'isPoints' in stat && (stat as any).isPoints
+                            ? `${pointsData.xp.toLocaleString()} XP`
+                            : '\u00A0'}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
   };
 
-  // Status badge helper
+  // Status helper — quiet by default; colour is reserved for exception states only.
   const getStatusBadge = (status?: string) => {
-    const configs: Record<string, {label: string;className: string;}> = {
-      confirmada: { label: t('consultation.confirmed'), className: 'bg-emerald-500/15 text-success border-emerald-500/30' },
-      em_sala_espera: { label: t('consultation.waitingRoom'), className: 'bg-warning-surface/15 text-warning border-warning/30' },
-      em_consulta: { label: t('consultation.inProgress'), className: 'bg-purple-500/15 text-purple-400 border-purple-500/30' },
-      visto: { label: t('consultation.seen'), className: 'bg-emerald-500/15 text-success border-emerald-500/30' },
-      falta_justificada: { label: t('consultation.noShow'), className: 'bg-orange-500/15 text-orange-400 border-orange-500/30' },
-      falta_nao_justificada: { label: t('consultation.noShow'), className: 'bg-red-500/15 text-red-400 border-red-500/30' }
+    const labels: Record<string, string> = {
+      confirmada: t('consultation.confirmed'),
+      em_sala_espera: t('consultation.waitingRoom'),
+      em_consulta: t('consultation.inProgress'),
+      visto: t('consultation.seen'),
+      falta_justificada: t('consultation.noShow'),
+      falta_nao_justificada: t('consultation.noShow'),
     };
-    const cfg = status ? configs[status] : null;
+    const isException = status === 'falta_justificada' || status === 'falta_nao_justificada';
+    const label = (status && labels[status]) || t('consultation.scheduled');
+    if (isException) {
+      return (
+        <Badge variant="outline" className="text-[11px] flex-shrink-0 bg-destructive/10 text-destructive border-destructive/30">
+          {label}
+        </Badge>
+      );
+    }
     return (
-      <Badge variant="outline" className={`text-[11px] flex-shrink-0 ${cfg?.className || 'bg-blue-500/15 text-blue-400 border-blue-500/30'}`}>
-        {cfg?.label || t('consultation.scheduled')}
-      </Badge>);
+      <span className="text-[11px] font-medium text-muted-foreground flex-shrink-0 whitespace-nowrap">
+        {label}
+      </span>
+    );
+  };
 
+  // Consultation type — small colour dot + label instead of a saturated pill.
+  const typeDot = (category?: ConsultationCategory, size: 'sm' | 'md' = 'md') => {
+    if (!category) return null;
+    const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
+    return (
+      <span className={cn('inline-flex items-center gap-1.5 min-w-0 text-muted-foreground', size === 'sm' ? 'text-[11px]' : 'text-xs')}>
+        <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+        <span className="truncate">{getCategoryLabel(t, category)}</span>
+      </span>
+    );
   };
 
   // Confirmation indicator
@@ -357,45 +379,39 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[11px] text-orange-400 font-bold">●</span>;
   };
 
-  const dentistQuickActionCards = [
-    { label: t('dashboard.viewTodayAgenda'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => onNavigate('agenda') },
-    { label: t('dashboard.manageTeam'), icon: Users, color: 'bg-teal-500/15 text-teal-400', action: () => onNavigate('equipa') },
-    { label: t('dashboard.viewStats'), icon: BarChart3, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('estatisticas') },
-  ];
+  // ONE canonical row of four quick actions per role (shared with the mobile hero).
+  const runQuickAction = (role: UserRole, id: string) => {
+    if (id === 'marcar-consulta') {
+      if (onStartTriage) return onStartTriage();
+      return onNavigate('triagem');
+    }
+    if (id === 'agenda' && role === 'clinic') {
+      window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' }));
+    }
+    onNavigate(id);
+  };
 
-  const clinicQuickActionCards = [
-    { label: t('dashboard.viewTodayAgenda'), icon: Calendar, color: 'bg-blue-500/15 text-blue-400', action: () => { window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: 'clinic-1' })); onNavigate('agenda'); } },
-    { label: t('dashboard.manageTeam'), icon: Users, color: 'bg-teal-500/15 text-teal-400', action: () => onNavigate('equipa') },
-    { label: t('dashboard.viewStats'), icon: BarChart3, color: 'bg-purple-500/15 text-purple-400', action: () => onNavigate('estatisticas') },
-  ];
-
-  const renderQuickActionsCard = (actions: typeof dentistQuickActionCards) => (
-    <Card className="bg-card/80 backdrop-blur border-border rounded-2xl">
-      <CardContent className="p-4 space-y-3">
-        <h3 className="t-h3 text-foreground">{t('dashboard.quickActions')}</h3>
-        <div className="flex flex-col gap-2">
-          {actions.map((action) => {
-            const ActionIcon = action.icon;
-            return (
-              <button
-                key={action.label}
-                onClick={action.action}
-                className="flex items-center gap-3 px-4 h-12 w-full rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-all text-left">
-                <ActionIcon className="w-5 h-5 flex-shrink-0" style={{ color: '#2196F3' }} />
-                <span className="text-sm font-medium text-foreground">{action.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+  const renderQuickActionsRow = (role: UserRole) => (
+    <div className="hidden md:grid grid-cols-4 gap-3">
+      {getQuickActions(role, t).map((action) => {
+        const ActionIcon = action.icon;
+        return (
+          <button
+            key={action.id}
+            onClick={() => runQuickAction(role, action.id)}
+            className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-colors"
+          >
+            <ActionIcon className="w-5 h-5 flex-shrink-0 text-primary" />
+            <span className="text-sm font-medium text-foreground truncate">{action.label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 
   const renderRightColumn = (role: 'dentist' | 'clinic', waitingListNode?: React.ReactNode) => {
-    const actions = role === 'clinic' ? clinicQuickActionCards : dentistQuickActionCards;
     return (
       <div className="space-y-6">
-        {renderQuickActionsCard(actions)}
         {waitingListNode}
         <PendingFeedbackCard userRole={role} />
       </div>
@@ -415,6 +431,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="space-y-6">
         {renderStatsCards()}
+
+        {renderQuickActionsRow('dentist')}
 
         {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
@@ -468,7 +486,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     >
                     <div
                       className={cn(
-                        "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-all py-1.5",
+                        "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-colors py-1.5",
                         !isLast && "border-b border-border",
                         isLast && "consultation-row-last"
                       )}
@@ -482,7 +500,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           </span>
                         </div>
                         <div className="flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
-                          <ConsultationTypePill category={c.category as ConsultationCategory} />
+                          {typeDot(c.category as ConsultationCategory)}
                           {c.notes && (
                             <span className="text-[11px] text-muted-foreground truncate min-w-0 flex-shrink">
                               {c.notes}
@@ -519,7 +537,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           />
                         </span>
                         <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 1 }}>
-                          <ConsultationTypePill category={c.category as ConsultationCategory} size="sm" />
+                          {typeDot(c.category as ConsultationCategory, 'sm')}
                         </div>
                         <span
                           className="text-[12px] text-muted-foreground truncate min-w-0"
@@ -572,7 +590,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     >
                       <div className="flex-1 min-w-0 flex items-center gap-1.5">
                         <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                        {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
+                        {c.category && <span className="flex-shrink-0">{typeDot(c.category as ConsultationCategory, 'sm')}</span>}
                       </div>
                       {confirmIndicator(c.status24h)}
                       {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -673,6 +691,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     return (
       <div className="space-y-4">
         {renderStatsCards()}
+
+        {renderQuickActionsRow('clinic')}
         {/* 2-column: LEFT (3 sub-cards) | RIGHT (quick actions + pending) */}
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
           {/* LEFT column */}
@@ -696,7 +716,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <div
                       key={d.id}
                       className={cn(
-                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-all cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden",
+                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-colors cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden",
                         !isLast && "border-b border-border"
                       )}
                       onClick={() => {
@@ -752,7 +772,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             >
                               <div className="flex-1 min-w-0 flex items-center gap-1">
                                 <span className="text-xs text-foreground truncate"><ClickablePatientName name={c.patientName} className="text-xs text-foreground" /></span>
-                                {c.category && <ConsultationTypePill category={c.category as ConsultationCategory} className="flex-shrink-0" />}
+                                {c.category && <span className="flex-shrink-0">{typeDot(c.category as ConsultationCategory, 'sm')}</span>}
                               </div>
                               {confirmIndicator(c.status24h)}
                               {confirmIndicator(c.status1h, c.isNoShow === true)}
@@ -820,13 +840,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       })
       .slice(0, 6);
 
-    // Single-row quick actions: Marcar Consulta first (primary), then alphabetical.
-    const patientQuickActionsRow = [
-      { label: t('dashboard.bookAppointment'), icon: Calendar, action: () => onStartTriage?.() },
-      { label: t('nav.invite'), icon: UserPlus, action: () => onNavigate('convidar') },
-      { label: t('nav.search'), icon: Search, action: () => onNavigate('pesquisa') },
-      { label: t('nav.health'), icon: Heart, action: () => onNavigate('saude') },
-    ];
 
 
     return (
@@ -834,22 +847,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* Stats Cards — use shared renderer for clickable cards */}
         {renderStatsCards()}
 
-        {/* Quick actions row (desktop/tablet) — mobile pills are rendered by MobileDashboardHero */}
-        <div className="hidden lg:grid grid-cols-4 gap-3">
-          {patientQuickActionsRow.map((action) => {
-            const ActionIcon = action.icon;
-            return (
-              <button
-                key={action.label}
-                onClick={action.action}
-                className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-all"
-              >
-                <ActionIcon className="w-5 h-5 flex-shrink-0" style={{ color: '#2196F3' }} />
-                <span className="text-sm font-medium text-foreground truncate">{action.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        {/* Canonical quick actions row — mobile pills are rendered by MobileDashboardHero */}
+        {renderQuickActionsRow('patient')}
 
         {/* 2-column grid: Próximas Consultas | Feedback Pendente */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -875,7 +874,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <p className="text-sm font-medium text-foreground truncate">
                           <ClickableDentistName name={item.dentist.name} className="text-sm font-medium text-foreground" />
                         </p>
-                        {item.category && <ConsultationTypePill category={item.category} />}
+                        {item.category && typeDot(item.category, 'sm')}
                       </div>
                       <Badge variant="outline" className="text-[11px] flex-shrink-0">
                         {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}

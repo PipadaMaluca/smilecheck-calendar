@@ -173,7 +173,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 key={member.id}
                 onClick={() => { setSelectedMemberId(member.id); setProfileChanged(false); setDocFilter('todos'); }}
                 className={cn(
-                  'flex-shrink-0 flex flex-col items-center px-4 py-2 rounded-lg transition-all duration-200 border-b-2',
+                  'flex-shrink-0 flex flex-col items-center px-4 py-2 rounded-lg transition-colors duration-150 border-b-2',
                   selectedMemberId === member.id
                     ? 'bg-primary/10 border-primary text-foreground'
                     : 'bg-transparent border-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground'

@@ -1,14 +1,14 @@
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Users, BarChart3, Award, ShoppingBag, Search, Heart, Star, Flame, Gift, UserPlus } from 'lucide-react';
+import { Star, Flame } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
-import { UserRole, CATEGORY_COLORS, getCategoryLabel, ConsultationCategory } from '@/types/calendar';
-import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
+import { UserRole, CATEGORY_COLORS, getCategoryLabel } from '@/types/calendar';
 import { mockConsultations, mockDentists, mockPatientConsultations } from '@/data/mockData';
 import { isSameDay } from 'date-fns';
 import { getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
+import { getQuickActions } from './quickActions';
 
 const DEMO_DATE = new Date(2026, 0, 31);
 
@@ -61,31 +61,8 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
     };
   }, [userRole, t]);
 
-  // Action pills per role
-  const { pillsMobile, pillsTablet } = useMemo(() => {
-    const sortByLabel = <T extends { label: string }>(items: T[]) =>
-      [...items].sort((a, b) => a.label.localeCompare(b.label, 'pt', { sensitivity: 'base' }));
-    if (userRole === 'patient') {
-      // Exactly 4 actions: Marcar Consulta (primary, first), then alphabetical.
-      const patientItems = [
-        { id: 'marcar-consulta', icon: Calendar, label: t('dashboard.bookAppointment') },
-        { id: 'convidar', icon: UserPlus, label: t('nav.invite') },
-        { id: 'pesquisa', icon: Search, label: t('nav.search') },
-        { id: 'saude', icon: Heart, label: t('nav.health') },
-      ];
-      return { pillsMobile: patientItems, pillsTablet: patientItems };
-    }
-    const items = [
-      { id: 'equipa', icon: Users, label: t('nav.team') },
-      { id: 'estatisticas', icon: BarChart3, label: t('nav.statistics') },
-      { id: 'conquistas', icon: Award, label: t('nav.achievements') },
-      { id: 'loja', icon: ShoppingBag, label: t('nav.rewardsStore') },
-      { id: 'convidar', icon: Gift, label: t('nav.invite') },
-      { id: 'pesquisa', icon: Search, label: t('nav.search') },
-    ];
-    const sorted = sortByLabel(items);
-    return { pillsMobile: sorted, pillsTablet: sorted };
-  }, [userRole, t]);
+  // ONE canonical row of four actions per role, same order at every width.
+  const pills = useMemo(() => getQuickActions(userRole, t), [userRole, t]);
 
   const onPillClick = (id: string) => {
     if (id === 'marcar-consulta') {
@@ -119,16 +96,19 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               </span>
             </div>
             {next.category && (
-              <ConsultationTypePill category={next.category as ConsultationCategory} className="self-start" />
+              <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground self-start">
+                <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: next.catColor }} />
+                <span className="truncate">{next.catLabel}</span>
+              </span>
             )}
           </div>
           <div className="flex items-center pr-3 flex-shrink-0">
             {next.countdownMin === 0 ? (
-              <span className="px-2 py-1 rounded-full bg-emerald-500/15 text-emerald-500 text-[11px] font-bold animate-pulse">
+              <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
                 AGORA
               </span>
             ) : (
-              <span className="px-2 py-1 rounded-full bg-blue-500/15 text-blue-400 text-[11px] font-semibold whitespace-nowrap">
+              <span className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
                 em {next.countdownMin} min
               </span>
             )}
@@ -163,18 +143,18 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                 </span>
               </div>
               {next.category && (
-                <ConsultationTypePill
-                  category={next.category as ConsultationCategory}
-                  className="flex-shrink-0"
-                />
+                <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground flex-shrink-0">
+                  <span aria-hidden className="w-2 h-2 rounded-full" style={{ backgroundColor: next.catColor }} />
+                  <span className="truncate">{next.catLabel}</span>
+                </span>
               )}
               <div className="flex-shrink-0">
                 {next.countdownMin === 0 ? (
-                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-500 text-[11px] font-bold animate-pulse">
+                  <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
                     AGORA
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-success text-[11px] font-bold whitespace-nowrap">
+                  <span className="px-2.5 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
                     em {next.countdownMin} min
                   </span>
                 )}
@@ -200,7 +180,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           <div className="w-full h-1 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
             <div
               className={cn(
-                'h-full rounded-full transition-all duration-1000 ease-out',
+                'h-full rounded-full transition-colors duration-300 ease-out',
                 LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
               )}
               style={{ width: `${xpProgress.percent}%` }}
@@ -241,7 +221,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       <div className="hidden md:grid lg:hidden grid-cols-3 gap-3">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
           <span className="text-[11px] text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex flex-col gap-1.5 min-w-0 flex-1 justify-center">
@@ -258,7 +238,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
             <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
               <div
                 className={cn(
-                  "h-full rounded-full transition-all duration-1000 ease-out",
+                  "h-full rounded-full transition-colors duration-300 ease-out",
                   LEVEL_ICON_MAP[level.key]?.colorClass.replace('text-', 'bg-') || 'bg-primary'
                 )}
                 style={{ width: `${xpProgress.percent}%` }}
@@ -268,7 +248,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
           <span className="text-[11px] text-muted-foreground">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1.5">
@@ -281,7 +261,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-all flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
           <span className="text-[11px] text-muted-foreground">Streak</span>
           <div className="flex items-center gap-1.5">
@@ -295,10 +275,9 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       </div>
 
       {/* === Action pills grid (mobile: 2x2 for patient, 3x2 for others) === */}
-      <div className={cn('grid gap-1.5 md:hidden', userRole === 'patient' ? 'grid-cols-2' : 'grid-cols-3')}>
-        {pillsMobile.map((p) => {
+      <div className="grid grid-cols-2 gap-2 md:hidden">
+        {pills.map((p) => {
           const Icon = p.icon;
-          const shortLabel = p.id === 'loja' ? t('nav.rewards', 'Recompensas') : p.label;
           return (
             <button
               key={p.id}
@@ -310,15 +289,15 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               )}
             >
               <Icon className="w-4 h-4 text-[#2196F3] flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-none truncate max-w-full px-1">{shortLabel}</span>
+              <span className="text-[11px] font-medium leading-none truncate max-w-full px-1">{p.label}</span>
             </button>
           );
         })}
       </div>
 
       {/* === Action pills grid (tablet: 4 across for patient, 3x2 for others) === */}
-      <div className={cn('hidden md:grid lg:hidden gap-3', userRole === 'patient' ? 'grid-cols-4' : 'grid-cols-3')}>
-        {pillsTablet.map((p) => {
+      <div className="hidden md:grid lg:hidden grid-cols-4 gap-3">
+        {pills.map((p) => {
           const Icon = p.icon;
           return (
             <button
@@ -327,7 +306,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 h-14 rounded-2xl px-2',
                 'bg-card border border-border text-foreground shadow-sm',
-                'card-hover-lift hover:border-primary/40 transition-all group',
+                'card-hover-lift hover:border-primary/40 transition-colors group',
               )}
             >
               <Icon className="w-5 h-5 text-[#2196F3] flex-shrink-0" />

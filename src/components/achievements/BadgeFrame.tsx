@@ -32,7 +32,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
       onClick={onClick}
     >
       <div className={cn(
-        'relative flex items-center justify-center rounded-xl border-2 transition-all duration-300',
+        'relative flex items-center justify-center rounded-xl border-2 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
         'bg-gradient-to-br',
         style.bgGradient,
         style.borderColor,

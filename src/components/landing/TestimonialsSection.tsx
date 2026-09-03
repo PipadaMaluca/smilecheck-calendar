@@ -30,7 +30,7 @@ export function TestimonialsSection() {
 
   return (
     <section id="testemunhos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-[#F5F9FF] dark:bg-[#0D2137]" ref={ref}>
-      <div className={cn('max-w-6xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
+      <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
           <h2 id="testemunhos-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
             {t('landing.testimonials.title')}
@@ -43,7 +43,7 @@ export function TestimonialsSection() {
               const name = t(item.nameKey);
               return (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2 sc-perspective">
-                  <div data-reveal="image" data-anim="tilt-card" className="p-5 rounded-2xl bg-white dark:bg-background border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-[0_2px_8px_rgba(33,150,243,0.08)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.12)] transition-all duration-300 h-full flex flex-col">
+                  <div data-reveal="image" data-anim="tilt-card" className="p-5 rounded-2xl bg-white dark:bg-background border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-[0_2px_8px_rgba(33,150,243,0.08)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.12)] transition-colors duration-300 h-full flex flex-col">
                     <div className="text-6xl text-[#2196F3]/30 leading-none font-serif mb-2">"</div>
                     <div className="flex gap-0.5 mb-4">
                       {Array.from({ length: item.rating }).map((_, j) => (

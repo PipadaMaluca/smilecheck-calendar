@@ -106,7 +106,7 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-6">
       <div className={cn(
-        "relative rounded-2xl p-3 sm:p-4 bg-white transition-all duration-300",
+        "relative rounded-2xl p-3 sm:p-4 bg-white transition-colors duration-300",
         expired ? "opacity-40 grayscale" : "",
         !expired && "shadow-[0_0_30px_hsl(var(--primary)/0.3)]"
       )}>

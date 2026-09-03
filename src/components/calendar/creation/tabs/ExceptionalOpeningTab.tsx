@@ -94,7 +94,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
                   key={color}
                   onClick={() => setSelectedColor(color)}
                   className={cn(
-                    'w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all',
+                    'w-8 h-8 rounded-full border-2 flex items-center justify-center transition-[transform,background-color,border-color,color,box-shadow]',
                     selectedColor === color ? 'border-primary scale-110' : 'border-transparent'
                   )}
                   style={{ backgroundColor: color }}

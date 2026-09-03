@@ -130,7 +130,7 @@ export function PatientSidebar({
                 key={idx}
                 onClick={() => onDateSelect(date)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center aspect-square w-full rounded-md text-sm transition-all',
+                  'relative flex flex-col items-center justify-center aspect-square w-full rounded-md text-sm transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
                   isCurrentMonth && 'text-foreground hover:bg-[#152238]',
                   isToday && 'bg-primary text-primary-foreground font-semibold',

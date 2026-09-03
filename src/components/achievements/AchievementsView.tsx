@@ -313,7 +313,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
   return (
     <Card
       className={cn(
-        'h-full bg-card/80 backdrop-blur transition-all duration-300 relative overflow-hidden',
+        'h-full bg-card/80 backdrop-blur transition-[transform,background-color,border-color,color,box-shadow] duration-300 relative overflow-hidden',
         achievement.unlocked
           ? 'border-border ring-1 ring-primary/20 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 cursor-pointer'
           : 'border-dashed border-border/70 bg-muted/20'

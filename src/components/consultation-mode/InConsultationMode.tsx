@@ -90,7 +90,7 @@ export function ConsultationFAB({
             return (
               <button
                 key={action.label}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-all hover:scale-105 whitespace-nowrap min-h-[44px]"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-[transform,background-color,border-color,color,box-shadow] hover:scale-105 whitespace-nowrap min-h-[44px]"
                 style={{ backgroundColor: action.bg }}
                 onClick={() => { setIsOpen(false); action.onClick(); }}
               >
@@ -105,7 +105,7 @@ export function ConsultationFAB({
       {/* Main FAB — responsive sizing */}
       <button
         className={cn(
-          'rounded-full shadow-lg flex items-center justify-center transition-all duration-200',
+          'rounded-full shadow-lg flex items-center justify-center transition-[transform,background-color,border-color,color,box-shadow] duration-150',
           'w-11 h-11 md:w-12 md:h-12 lg:w-14 lg:h-14',
           isOpen
             ? 'bg-destructive text-white rotate-45'
@@ -168,8 +168,8 @@ export function PointsEarnedAnimation({ xp, pts }: { xp: number; pts: number }) 
 
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[110] pointer-events-none flex flex-col items-center gap-1">
-      <span className="text-2xl font-bold text-success animate-points-float">+{xp} XP</span>
-      <span className="text-xl font-bold text-warning animate-points-float" style={{ animationDelay: '0.15s' }}>+{pts} pts</span>
+      <span className="text-2xl font-bold text-success animate-fade-in">+{xp} XP</span>
+      <span className="text-xl font-bold text-warning animate-fade-in" style={{ animationDelay: '0.15s' }}>+{pts} pts</span>
     </div>
   );
 }
@@ -200,7 +200,7 @@ export function QuickRatingPrompt({
             <button
               key={star}
               className={cn(
-                'text-3xl transition-transform duration-100',
+                'text-3xl transition-transform duration-150',
                 (hoveredStar >= star) ? 'scale-110' : 'opacity-40'
               )}
               onMouseEnter={() => setHoveredStar(star)}

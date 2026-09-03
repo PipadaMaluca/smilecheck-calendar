@@ -52,7 +52,7 @@ export function AllProductsList({ products, userPoints, onRedeem }: AllProductsL
               onClick={() => canAfford && onRedeem(product)}
               disabled={!canAfford}
               className={cn(
-                'w-full flex items-center gap-3 rounded-lg p-3 mb-2 text-left transition-all duration-150',
+                'w-full flex items-center gap-3 rounded-lg p-3 mb-2 text-left transition-colors duration-150',
                 'bg-card border border-border/50',
                 canAfford ? 'cursor-pointer hover:bg-accent/60 hover:shadow-md hover:border-primary/30' : 'opacity-50 cursor-not-allowed',
               )}

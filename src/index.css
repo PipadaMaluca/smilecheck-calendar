@@ -372,7 +372,7 @@
   }
 
   .btn-gaming {
-    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-all duration-300;
+    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-colors duration-300;
     background: linear-gradient(135deg, hsl(var(--gaming-green)), hsl(var(--gaming-green) / 0.8));
     @apply text-background;
     @apply hover:scale-105 active:scale-95;
@@ -383,7 +383,7 @@
   }
 
   .btn-gaming-gold {
-    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-all duration-300;
+    @apply relative overflow-hidden font-bold uppercase tracking-wider transition-colors duration-300;
     background: linear-gradient(135deg, hsl(var(--gaming-gold)), hsl(var(--gaming-gold) / 0.8));
     @apply text-background;
     @apply hover:scale-105 active:scale-95;
@@ -409,7 +409,7 @@
 
 
   .calendar-day {
-    @apply relative flex flex-col items-center justify-center w-10 h-10 rounded-full transition-all duration-200;
+    @apply relative flex flex-col items-center justify-center w-10 h-10 rounded-full transition-colors duration-150;
   }
 
   .calendar-day-today {
@@ -427,7 +427,7 @@
   }
 
   .consultation-card {
-    @apply relative overflow-hidden rounded-xl bg-card p-4 transition-all duration-300 hover:scale-[1.02];
+    @apply relative overflow-hidden rounded-xl bg-card p-4 transition-colors duration-300 hover:scale-[1.02];
     background: var(--gradient-card);
     box-shadow: var(--shadow-card);
   }
@@ -446,7 +446,7 @@
   }
 
   .time-slot {
-    @apply relative flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200;
+    @apply relative flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-150;
   }
 
   .time-slot-livre {
@@ -489,7 +489,7 @@
   }
 
   .bottom-nav-item {
-    @apply flex flex-col items-center gap-1 py-2 px-4 text-muted-foreground transition-all duration-200;
+    @apply flex flex-col items-center gap-1 py-2 px-4 text-muted-foreground transition-colors duration-150;
   }
 
   .bottom-nav-item-active {
@@ -497,7 +497,7 @@
   }
 
   .floating-button {
-    @apply fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110;
+    @apply fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg transition-colors duration-300 hover:scale-110;
     box-shadow: var(--shadow-glow);
   }
 
@@ -547,102 +547,71 @@
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn var(--motion-slow) var(--ease-premium);
   }
 
   .animate-slide-up {
-    animation: slideUp 0.3s ease-out;
+    animation: slideUp var(--motion-slow) var(--ease-premium);
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.2s ease-out;
+    animation: scaleIn var(--motion-slow) var(--ease-premium);
   }
 
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
 
-  .animate-sparkle {
-    animation: sparkle 1.5s ease-in-out infinite;
-  }
+  /* === MICRO-INTERACTIONS === */
 
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-  }
-
-  .animate-rocket {
-    animation: rocket 2s ease-in-out infinite;
-  }
-
-  .animate-countdown {
-    animation: countdown-pulse 1s ease-in-out infinite;
-  }
-
-  /* === MICRO-ANIMATIONS === */
-
-  /* 1. Button press feedback */
+  /* Button press feedback */
   .btn-press {
-    transition: transform 100ms ease;
+    transition: transform var(--motion-fast) var(--ease-premium);
   }
   .btn-press:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
   }
 
-  /* 2. Points float animation */
-  .animate-points-float {
-    animation: pointsFloat 1.5s ease-out forwards;
+  /* Restrained press/tap feedback for any tappable surface */
+  .tappable {
+    transition: transform var(--motion-fast) var(--ease-premium),
+      background-color var(--motion-fast) var(--ease-premium),
+      border-color var(--motion-fast) var(--ease-premium);
+  }
+  .tappable:active {
+    transform: scale(0.98);
   }
 
-  /* 3. Achievement pop + shimmer */
-  .animate-achievement-pop {
-    animation: achievementPop 300ms ease-out;
-  }
-  .animate-golden-shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-  .animate-golden-shimmer::after {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%; width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.15), transparent);
-    animation: goldenShimmer 1.2s ease-out 0.3s forwards;
-    pointer-events: none;
-  }
-
-  /* 4. Favorite star toggle */
-  .animate-star-pop {
-    animation: starPop 400ms ease-out;
-  }
-
-  /* 5. Streak fire flicker */
-  .animate-fire-flicker {
-    animation: fireFlicker 1.2s ease-in-out infinite;
-  }
-
-  /* 6. Progress bar fill */
+  /* Progress bar fill */
   .animate-bar-fill {
-    animation: barFill 1s ease-out forwards;
+    animation: barFill var(--motion-slow) var(--ease-premium) forwards;
   }
 
-  /* 7. Badge status pulse */
-  .animate-status-pulse {
-    animation: statusPulse 600ms ease-out;
+  /* Retired novelty animations — kept as no-ops for compatibility */
+  .animate-points-float,
+  .animate-achievement-pop,
+  .animate-golden-shimmer,
+  .animate-star-pop,
+  .animate-fire-flicker,
+  .animate-status-pulse,
+  .animate-float,
+  .animate-sparkle,
+  .animate-pulse-glow,
+  .animate-rocket,
+  .animate-countdown {
+    animation: fadeIn var(--motion-slow) var(--ease-premium);
   }
 
   /* 8. Sidebar active slide */
   .sidebar-slide-bg {
-    transition: background-color 200ms ease, color 200ms ease;
+    transition: background-color var(--motion-fast) var(--ease-premium), color var(--motion-fast) var(--ease-premium);
   }
 
   /* 9. Card hover lift (desktop only) */
   .card-hover-lift {
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition: transform var(--motion-slow) var(--ease-premium), box-shadow var(--motion-slow) var(--ease-premium);
   }
 
   /* === Hover sweep (3.3) — premium feedback === */
   .interactive-lift {
-    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    transition: transform var(--motion-fast) var(--ease-premium), box-shadow var(--motion-fast) var(--ease-premium), border-color var(--motion-fast) var(--ease-premium);
   }
   @media (hover: hover) {
     .interactive-lift:hover {
@@ -655,7 +624,7 @@
 
   /* Number tween helper (3.1) */
   .num-tween {
-    transition: color 220ms ease, transform 220ms ease;
+    transition: color var(--motion-fast) var(--ease-premium), transform var(--motion-fast) var(--ease-premium);
     will-change: transform;
   }
   .num-tween.flash-up { color: hsl(var(--primary)); transform: translateY(-1px); }
@@ -750,75 +719,15 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-  50% { transform: scale(1.1) rotate(5deg); opacity: 0.9; }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 10px currentColor); }
-  50% { opacity: 0.8; filter: drop-shadow(0 0 20px currentColor); }
-}
-
-@keyframes rocket {
-  0%, 100% { transform: translateY(0) rotate(-5deg); }
-  25% { transform: translateY(-8px) rotate(0deg); }
-  50% { transform: translateY(-4px) rotate(5deg); }
-  75% { transform: translateY(-10px) rotate(0deg); }
-}
-
-@keyframes countdown-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
 
 /* Micro-animation keyframes */
-@keyframes pointsFloat {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-40px); }
-}
-
-@keyframes achievementPop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
-}
-
-@keyframes goldenShimmer {
-  0% { left: -100%; }
-  100% { left: 200%; }
-}
-
-@keyframes starPop {
-  0% { transform: scale(1) rotate(0deg); }
-  40% { transform: scale(1.3) rotate(15deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
-
-@keyframes fireFlicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
-
 @keyframes barFill {
   from { transform: translateX(-100%); }
   to { transform: translateX(-var(--bar-remain, 0%)); }
-}
-
-@keyframes statusPulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
 }
 
 /* MOBILE ONLY - max-width 480px */
@@ -955,7 +864,7 @@ html, body, #root {
     filter: brightness(1.05);
   }
   .hoverable-row {
-    transition: background-color 150ms ease;
+    transition: background-color var(--motion-fast) var(--ease-premium);
   }
   .hoverable-row:hover {
     background-color: hsl(var(--accent) / 0.5);
@@ -1293,6 +1202,17 @@ html, body, #root {
   --brand-heading-dark: #64B5F6;
 }
 
+/* ============================================================
+   MOTION SYSTEM — two durations, one easing curve
+   --motion-fast (150ms): micro-interactions (hover, press, toggles)
+   --motion-slow (300ms): surface changes (modals, cards, pages)
+   ============================================================ */
+:root {
+  --ease-premium: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-fast: 150ms;
+  --motion-slow: 300ms;
+}
+
 /* Smooth interactive transitions everywhere (excluding landing) */
 body:not(.on-landing) button,
 body:not(.on-landing) [role="button"],
@@ -1303,11 +1223,30 @@ body:not(.on-landing) select,
 body:not(.on-landing) [class*="bg-card"],
 body:not(.on-landing) .bg-card {
   transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    color 200ms ease,
-    box-shadow 200ms ease,
-    transform 200ms ease;
+    background-color var(--motion-fast) var(--ease-premium),
+    border-color var(--motion-fast) var(--ease-premium),
+    color var(--motion-fast) var(--ease-premium),
+    box-shadow var(--motion-fast) var(--ease-premium),
+    transform var(--motion-fast) var(--ease-premium);
+}
+
+/* --- Tactile press feedback on every tappable surface --- */
+body:not(.on-landing) button:not(:disabled):not([data-nopress]):active,
+body:not(.on-landing) [role="button"]:not([data-nopress]):active,
+body:not(.on-landing) [role="tab"]:not([data-nopress]):active,
+body:not(.on-landing) [role="menuitem"]:not([data-nopress]):active,
+body:not(.on-landing) [role="option"]:not([data-nopress]):active {
+  transform: scale(0.98);
+}
+body:not(.on-landing) .cursor-pointer:not([data-nopress]):active,
+body:not(.on-landing) [data-tappable]:active {
+  transform: scale(0.98);
+  transition: transform var(--motion-fast) var(--ease-premium);
+}
+body:not(.on-landing) [role="switch"]:active,
+body:not(.on-landing) [role="checkbox"]:active,
+body:not(.on-landing) [role="radio"]:active {
+  transform: scale(0.94);
 }
 
 /* === CARDS — both modes get 16px radius + hover lift on desktop === */
@@ -1779,7 +1718,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .sc-hue-shift { animation: sc-hue-shift 8s ease-in-out infinite; }
 .sc-logo-glow { animation: sc-logo-glow 3s ease-in-out infinite; border-radius: 9999px; }
 
-.sc-card-tilt { transition: transform 200ms ease-out; transform-style: preserve-3d; will-change: transform; }
+.sc-card-tilt { transition: transform var(--motion-slow) var(--ease-premium); transform-style: preserve-3d; will-change: transform; }
 .sc-perspective { perspective: 1200px; }
 
 .sc-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }

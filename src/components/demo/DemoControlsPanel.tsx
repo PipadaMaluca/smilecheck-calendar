@@ -56,11 +56,9 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-[26px] rounded-md text-[11px] font-semibold transition-all flex items-center justify-center px-0.5 uppercase';
-  const active = 'bg-[#2196F3] text-white';
-  const inactive = isDark
-    ? 'bg-transparent text-[#94A3B8] hover:bg-[#1E3A5F] hover:text-white'
-    : 'bg-transparent text-[#4A5568] hover:bg-[#EBF4FF] hover:text-[#1A202C]';
+    'flex-1 h-[26px] rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
+  const active = 'bg-card text-foreground shadow-sm';
+  const inactive = 'bg-transparent text-muted-foreground hover:text-foreground';
 
   const Row = ({ children }: { children: React.ReactNode }) => (
     <div className="flex items-center gap-[2px]">{children}</div>
@@ -79,11 +77,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
 
   const Divider = () => (
     <div
-      className="h-[1px] my-1 rounded-full"
-      style={{
-        background:
-          'linear-gradient(90deg, transparent 0%, #2196F3 30%, #1565C0 70%, transparent 100%)',
-      }}
+      className="h-[1px] my-1 rounded-full bg-border" 
       aria-hidden="true"
     />
   );
@@ -91,8 +85,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   return (
     <div
       className={cn(
-        'rounded-[10px] border backdrop-blur-md mx-1',
-        isDark ? 'bg-[#0D2137]/80 border-[#1E3A5F]' : 'bg-[#EBF4FF]/80 border-[#D6E4F0]',
+        'rounded-[10px] border border-border bg-muted/60 backdrop-blur-md mx-1',
         'p-1.5',
         className
       )}

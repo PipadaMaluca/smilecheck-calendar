@@ -28,7 +28,7 @@ export function FAQSection() {
 
   return (
     <section id="faq" className="py-8 sm:py-10 px-6 md:px-10 bg-[#F5F9FF] dark:bg-background" ref={ref}>
-      <div className={cn('max-w-3xl mx-auto transition-all duration-700', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
+      <div className={cn('max-w-3xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <h2 id="faq-title" style={{ scrollMarginTop: '120px' }} className="text-[28px] sm:text-4xl lg:text-5xl font-bold tracking-tight text-center text-[#1A202C] dark:text-white mb-6">
           {t('landing.faq.title')}
         </h2>
