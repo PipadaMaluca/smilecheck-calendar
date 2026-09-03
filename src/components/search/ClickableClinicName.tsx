@@ -31,7 +31,7 @@ export function ClickableClinicName({ name, clinicId, className, children }: Cli
         nav.openClinicProfile(clinic.id);
       }}
       className={cn(
-        'text-left hover:underline hover:text-primary transition-colors cursor-pointer press',
+        'text-left hover:underline hover:text-primary transition-colors cursor-pointer',
         className
       )}
     >

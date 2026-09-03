@@ -49,7 +49,7 @@ export function PhoneInput({ countryCode, onCountryCodeChange, phone, onPhoneCha
                   type="button"
                   onClick={() => { onCountryCodeChange(c.code); setOpen(false); }}
                   className={cn(
-                    'flex items-center gap-2 w-full px-3 py-2.5 text-sm hover:bg-accent transition-colors press',
+                    'flex items-center gap-2 w-full px-3 py-2.5 text-sm hover:bg-accent transition-colors',
                     c.code === countryCode && 'bg-accent'
                   )}
                 >
