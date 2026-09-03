@@ -47,7 +47,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
           <div className="text-[13px] capitalize text-[#64748B] dark:text-[#94A3B8]">
             {format(consultation.date, 'EEE d MMM', { locale })}
           </div>
-          <div className="text-base font-bold" style={{ color: colors.hex }}>
+          <div className="text-base font-bold text-[#0F172A] dark:text-[#E2E8F0]">
             {getTimeRange(consultation)}
           </div>
         </section>
