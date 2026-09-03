@@ -1,5 +1,27 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
+import { notifyProfileSilently } from '@/data/notificationsSource';
+
+/** Stored timestamps are rendered from their UTC components (see `toUtcTimestamp`). */
+function formatSlot(iso: string): { date: string; time: string } {
+  const d = new Date(iso);
+  const dd = String(d.getUTCDate()).padStart(2, '0');
+  const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const hh = String(d.getUTCHours()).padStart(2, '0');
+  const mi = String(d.getUTCMinutes()).padStart(2, '0');
+  return { date: `${dd}/${mm}/${d.getUTCFullYear()}`, time: `${hh}:${mi}` };
+}
+
+/** Patient id + slot of an appointment, used to address event notifications. */
+async function appointmentTarget(id: string) {
+  const { data } = await supabase
+    .from('appointments')
+    .select('patient_id, scheduled_at')
+    .eq('id', id)
+    .maybeSingle();
+  return data ?? null;
+}
+
 
 /**
  * Phase 3 · sub-step 2 — CREATE (INSERT) path.
