@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
-import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle } from 'lucide-react';
+import { Video, MapPin, MessageCircle, X, Navigation, AlertTriangle, Euro } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Consultation, UserRole, CATEGORY_COLORS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
@@ -152,18 +152,18 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
         <div className="text-xs text-muted-foreground">
           {userRole === 'patient' ? (
             isTeleconsulta && consultation.isPaid ? (
-              <span className="text-primary">💰 €{consultation.price} ({t('consultationDetail.paid')})</span>
+              <span className="text-primary"><Euro className="w-3 h-3 inline mr-0.5" />{consultation.price} ({t('consultationDetail.paid')})</span>
             ) : (
-              <span className="text-[#FDD835]">💰 €{consultation.price} ({t('consultationDetail.toPay')})</span>
+              <span className="text-[#FDD835]"><Euro className="w-3 h-3 inline mr-0.5" />{consultation.price} ({t('consultationDetail.toPay')})</span>
             )
           ) : (
             consultation.isPaid ? (
-              <span className="text-primary">💰 €{consultation.price} ({t('consultationDetail.paid')})</span>
+              <span className="text-primary"><Euro className="w-3 h-3 inline mr-0.5" />{consultation.price} ({t('consultationDetail.paid')})</span>
             ) : consultation.clinic.distance ? (
               <span>
 <Glyph emoji="📍" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{consultation.clinic.distance} km</span>
             ) : (
-              <span className="text-[#FDD835]">💰 €{consultation.price} ({t('consultationDetail.pendingPayment')})</span>
+              <span className="text-[#FDD835]"><Euro className="w-3 h-3 inline mr-0.5" />{consultation.price} ({t('consultationDetail.pendingPayment')})</span>
             )
           )}
         </div>

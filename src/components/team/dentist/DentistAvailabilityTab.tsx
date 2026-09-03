@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Pencil, Plus, Trash2, Save, Video, Plane, GraduationCap, User, MoreHorizontal } from 'lucide-react';
+import { Pencil, Plus, Trash2, Save, Video, Plane, GraduationCap, User, MoreHorizontal, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -265,10 +265,10 @@ export function DentistAvailabilityTab() {
           </div>
           <div className="flex gap-1">
             <Button size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
-              ✓
+              <Check className="w-3.5 h-3.5" />
             </Button>
             <Button size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
-              ✕
+              <X className="w-3.5 h-3.5" />
             </Button>
           </div>
         </div>
@@ -370,9 +370,9 @@ export function DentistAvailabilityTab() {
                     {(['morning', 'afternoon', 'evening'] as const).map(period => (
                       <div key={period} className="flex items-center gap-2">
                         <span className="text-[11px] text-muted-foreground w-16 flex-shrink-0">
-                          {period === 'morning' ? `☀️ ${t('availability.morning')}` :
-                           period === 'afternoon' ? `🌤️ ${t('availability.afternoon')}` :
-                           `🌙 ${t('availability.eveningShort')}`}
+                          {period === 'morning' ? t('availability.morning') :
+                           period === 'afternoon' ? t('availability.afternoon') :
+                           t('availability.eveningShort')}
                         </span>
                         <div className="flex-1">
                           {renderTimeCell(idx, period, day[period])}

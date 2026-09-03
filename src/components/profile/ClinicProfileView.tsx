@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
-import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, User, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Lock } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, User, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Lock, Check } from 'lucide-react';
 import { LEVEL_GLOW, CLINIC_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { useRealRatingForMockId } from '@/data/feedbackSource';
@@ -463,7 +463,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Video className="w-4 h-4 text-success" />
-          <span>{t('profile.teleconsultationsAvailable')} ✅</span>
+          <span className="inline-flex items-center gap-1">{t('profile.teleconsultationsAvailable')} <Check className="w-3.5 h-3.5 text-success" /></span>
         </div>
       </section>
 

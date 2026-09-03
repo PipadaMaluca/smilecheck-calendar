@@ -1,4 +1,4 @@
-import { User } from 'lucide-react';
+import { User, Check } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
 import { addMinutes, format } from 'date-fns';
 import { pt, enUS, fr } from 'date-fns/locale';
@@ -65,7 +65,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
 
         <section className="pt-4 text-[13px] font-semibold">
           {isConfirmed ? (
-            <span className="text-emerald-500">✓ Confirmada</span>
+            <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Confirmada</span>
           ) : (
             <span className="text-amber-500">⏳ Pendente</span>
           )}

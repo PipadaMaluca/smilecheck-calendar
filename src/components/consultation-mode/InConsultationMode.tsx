@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Pill, FileText, FolderOpen, CheckCircle2, X, Clock, ChevronUp } from 'lucide-react';
+import { Pill, FileText, FolderOpen, CheckCircle2, X, Clock, ChevronUp, Star } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
 
 // Top bar component
@@ -207,7 +207,7 @@ export function QuickRatingPrompt({
               onMouseLeave={() => setHoveredStar(0)}
               onClick={() => onRate(star)}
             >
-              ⭐
+              <Star className="w-7 h-7 fill-current" />
             </button>
           ))}
         </div>
