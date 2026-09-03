@@ -1,7 +1,7 @@
 import { MoreHorizontal, User } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryLabel} from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryLabel, getAccentBorderColor } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
