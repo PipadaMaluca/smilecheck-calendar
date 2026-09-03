@@ -112,7 +112,8 @@ export function SignUpScreen() {
     });
     setLoading(false);
     if (error) {
-      setErrors({ email: /already registered/i.test(error.message) ? t('auth.emailInUse', { defaultValue: 'Este email já está registado.' }) : error.message });
+      const mapped = mapAuthError(error, t);
+      setErrors({ [mapped.field === 'general' ? 'email' : mapped.field]: mapped.message });
       return;
     }
     navigate(`/app?role=${role}`);
