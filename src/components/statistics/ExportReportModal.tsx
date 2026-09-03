@@ -128,7 +128,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
               <p className="text-sm font-medium mb-2">{t('export.reportType')}</p>
               <div className="space-y-2">
                 {reportKeys.map(key => (
-                  <label key={key} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors">
+                  <label key={key} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors press">
                     <Checkbox checked={selectedReports.includes(key)} onCheckedChange={() => toggleReport(key)} />
                     <span className="text-sm text-foreground">{t(`export.report_${key}`)}</span>
                   </label>
@@ -142,7 +142,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
                 {PERIOD_KEYS.map(key => (
                   <div key={key} className="flex items-center gap-2">
                     <RadioGroupItem value={key} id={`modal-period-${key}`} />
-                    <Label htmlFor={`modal-period-${key}`} className="text-sm cursor-pointer">{t(`export.period_${key}`)}</Label>
+                    <Label htmlFor={`modal-period-${key}`} className="text-sm cursor-pointer press">{t(`export.period_${key}`)}</Label>
                   </div>
                 ))}
               </RadioGroup>
@@ -177,11 +177,11 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
               <RadioGroup value={format} onValueChange={setFormat} className="flex gap-4">
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="pdf" id="modal-fmt-pdf" />
-                  <Label htmlFor="modal-fmt-pdf" className="text-sm cursor-pointer">PDF</Label>
+                  <Label htmlFor="modal-fmt-pdf" className="text-sm cursor-pointer press">PDF</Label>
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="excel" id="modal-fmt-excel" />
-                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer">Excel (.csv)</Label>
+                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer press">Excel (.csv)</Label>
                 </div>
               </RadioGroup>
             </div>

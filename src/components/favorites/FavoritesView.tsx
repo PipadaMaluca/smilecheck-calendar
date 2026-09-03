@@ -238,12 +238,12 @@ export function FavoritesView({
 
             return (
               <div key={d.id}
-                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150"
+                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewProfile(d)}
               >
                 <button
                   onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10"
+                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10 press"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
                 </button>
@@ -294,12 +294,12 @@ export function FavoritesView({
             const initials = getClinicInitials(c.name);
             return (
               <div key={`c-${c.id}`}
-                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150"
+                className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >
                 <button
                   onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10"
+                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10 press"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
                 </button>

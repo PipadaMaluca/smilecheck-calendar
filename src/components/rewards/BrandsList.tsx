@@ -57,7 +57,7 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {brands.map(brand => (
-        <Card key={brand.id} className="cursor-pointer hover:bg-accent/50 transition-colors" onClick={() => setSelectedBrand(brand)}>
+        <Card key={brand.id} className="cursor-pointer hover:bg-accent/50 transition-colors press" onClick={() => setSelectedBrand(brand)}>
           <CardContent className="p-4 flex items-center gap-4">
             <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-xs font-bold text-foreground shrink-0">
               {brand.name.slice(0, 2)}

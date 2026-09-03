@@ -99,7 +99,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">{t('creationTabs.agendas')}</h3>
             <div className="space-y-1 max-h-40 overflow-y-auto">
               {agendaOptions.map(a => (
-                <label key={a.key} className="flex items-center gap-2 px-2 py-1.5 text-sm hover:bg-muted/20 rounded cursor-pointer">
+                <label key={a.key} className="flex items-center gap-2 px-2 py-1.5 text-sm hover:bg-muted/20 rounded cursor-pointer press">
                   <Checkbox
                     checked={selectedAgendas.includes(a.key)}
                     onCheckedChange={() => toggleAgenda(a.key)}

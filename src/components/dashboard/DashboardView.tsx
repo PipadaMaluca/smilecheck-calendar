@@ -223,7 +223,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             className={cn(
               'proxima-consulta-card relative min-w-0 rounded-2xl overflow-hidden border-border',
               'bg-gradient-to-br from-primary/[0.07] via-card to-card ring-1 ring-primary/15 shadow-sm',
-              heroStat.clickTab && 'cursor-pointer card-hover-lift'
+              heroStat.clickTab && 'cursor-pointer card-hover-lift press'
             )}
             style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
             onClick={heroStat.clickTab ? goHero : undefined}
@@ -487,7 +487,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     >
                     <div
                       className={cn(
-                        "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-colors py-1.5",
+                        "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-colors py-1.5 press",
                         !isLast && "border-b border-border",
                         isLast && "consultation-row-last"
                       )}
@@ -497,7 +497,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <div className="flex items-center gap-2 text-left min-w-0">
                           <span className="text-xs font-bold text-primary flex-shrink-0">{c.time}</span>
                           <span className="text-xs text-foreground truncate min-w-0" onClick={(e) => e.stopPropagation()}>
-                            <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer" />
+                            <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs text-foreground hover:underline cursor-pointer press" />
                           </span>
                         </div>
                         <div className="flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
@@ -534,7 +534,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           <ClickablePatientName
                             name={c.patient.name}
                             patientId={c.patient.id}
-                            className="text-[14px] font-semibold text-foreground hover:underline cursor-pointer"
+                            className="text-[14px] font-semibold text-foreground hover:underline cursor-pointer press"
                           />
                         </span>
                         <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 1 }}>
@@ -584,7 +584,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <div
                       key={c.consultationId}
                       className={cn(
-                        "flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5",
+                        "flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5 press",
                         !isLastConf && "border-b border-border"
                       )}
                       onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}
@@ -717,7 +717,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     <div
                       key={d.id}
                       className={cn(
-                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-colors cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden",
+                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-colors cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden press",
                         !isLast && "border-b border-border"
                       )}
                       onClick={() => {
@@ -766,7 +766,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                             <div
                               key={c.consultationId}
                               className={cn(
-                                "flex items-center gap-1.5 py-1.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors",
+                                "flex items-center gap-1.5 py-1.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors press",
                                 !isLast && "border-b border-border"
                               )}
                               onClick={() => onNavigate(`consulta-detalhe:${c.consultationId}`)}

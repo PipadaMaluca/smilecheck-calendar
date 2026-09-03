@@ -311,11 +311,11 @@ export function AvailabilityGridStep({
             <div>
               <Label className="text-xs font-semibold text-foreground mb-2 block">Preferência de período</Label>
               <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer press">
                   <Checkbox checked={preferences.periods.includes('morning')} onCheckedChange={() => periodToggle('morning')} />
                   <span className="text-xs text-foreground">Manhã (08:00-13:00)</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer press">
                   <Checkbox checked={preferences.periods.includes('afternoon')} onCheckedChange={() => periodToggle('afternoon')} />
                   <span className="text-xs text-foreground">Tarde (14:00-20:00)</span>
                 </label>
@@ -355,11 +355,11 @@ export function AvailabilityGridStep({
                 onValueChange={(v) => onPreferencesChange({ ...preferences, urgency: v as 'normal' | 'urgent' })}
                 className="space-y-1.5"
               >
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer press">
                   <RadioGroupItem value="normal" id="urg-normal" />
                   <span className="text-xs text-foreground">Normal (contactar quando disponível)</span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer press">
                   <RadioGroupItem value="urgent" id="urg-urgent" />
                   <span className="text-xs text-foreground flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3 text-destructive" />

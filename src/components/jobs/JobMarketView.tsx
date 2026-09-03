@@ -122,13 +122,13 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.preferredType')}</Label>
                 <div className="flex flex-wrap gap-2">
-                  {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={jobTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(jobTypes, setJobTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
+                  {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={jobTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(jobTypes, setJobTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
                 </div>
               </div>
               <div>
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.timeAvailability')}</Label>
                 <div className="flex flex-wrap gap-2">
-                  {JOB_PERIOD_KEYS.map(k => <Badge key={k} variant={periods.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(periods, setPeriods, k)}>{t(`jobs.${k}`)}</Badge>)}
+                  {JOB_PERIOD_KEYS.map(k => <Badge key={k} variant={periods.includes(k) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(periods, setPeriods, k)}>{t(`jobs.${k}`)}</Badge>)}
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -192,13 +192,13 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.contractTypeLabel')}</Label>
             <div className="flex flex-wrap gap-2">
-              {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={contractTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(contractTypes, setContractTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
+              {JOB_TYPE_KEYS.map(k => <Badge key={k} variant={contractTypes.includes(k) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(contractTypes, setContractTypes, k)}>{t(`jobs.${k}`)}</Badge>)}
             </div>
           </div>
           <div>
             <Label className="text-xs text-muted-foreground mb-2 block">{t('jobs.soughtSpecialties')}</Label>
             <div className="flex flex-wrap gap-2">
-              {SPECIALTY_KEYS.map(k => <Badge key={k} variant={specialties.includes(k) ? 'default' : 'outline'} className="cursor-pointer" onClick={() => toggle(specialties, setSpecialties, k)}>{t(`specialties.${k}`)}</Badge>)}
+              {SPECIALTY_KEYS.map(k => <Badge key={k} variant={specialties.includes(k) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(specialties, setSpecialties, k)}>{t(`specialties.${k}`)}</Badge>)}
             </div>
           </div>
           <div>
@@ -226,7 +226,7 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
             <Label className="text-xs mb-2 block">{t('jobs.benefits')}</Label>
             <div className="grid grid-cols-2 gap-2">
               {BENEFITS_KEYS.map(k => (
-                <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
+                <label key={k} className="flex items-center gap-2 text-xs cursor-pointer press">
                   <Checkbox checked={benefits.includes(k)} onCheckedChange={() => toggle(benefits, setBenefits, k)} />
                   {t(`jobs.benefit_${k}`)}
                 </label>
@@ -321,7 +321,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
       <div className="p-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </button>
             <div>
@@ -432,7 +432,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     <div className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
+          <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
           </button>
           <div>
@@ -567,7 +567,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 {['fullTime', 'partTime', 'freelancer', 'temporaryReplacement'].map(k => (
                   <button key={k} onClick={() => setProposalData(p => ({ ...p, contractType: k }))}
                     className={cn('p-3 rounded-xl border text-sm font-medium transition-colors text-left',
-                      proposalData.contractType === k ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-accent')}>
+                      proposalData.contractType === k ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-accent press')}>
                     {t(`jobs.${k}`)}
                   </button>
                 ))}
@@ -615,7 +615,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                               updated[i] = { ...updated[i], [period]: !updated[i][period] };
                               setProposalData(p => ({ ...p, weekSchedule: updated }));
                             }} className={cn('w-8 h-8 rounded-lg border transition-colors',
-                              ws[period] ? 'bg-primary text-primary-foreground border-primary' : 'border-border hover:bg-accent')}>
+                              ws[period] ? 'bg-primary text-primary-foreground border-primary' : 'border-border hover:bg-accent press')}>
                               {ws[period] ? '✓' : ''}
                             </button>
                           </td>
@@ -662,7 +662,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <Label className="text-xs mb-2 block">{t('jobs.benefits')}</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {BENEFITS_KEYS.map(k => (
-                    <label key={k} className="flex items-center gap-2 text-xs cursor-pointer">
+                    <label key={k} className="flex items-center gap-2 text-xs cursor-pointer press">
                       <Checkbox checked={proposalData.benefits.includes(k)} onCheckedChange={() => {
                         setProposalData(p => ({
                           ...p, benefits: p.benefits.includes(k) ? p.benefits.filter(x => x !== k) : [...p.benefits, k]

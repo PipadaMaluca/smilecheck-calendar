@@ -86,7 +86,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
           <CardHeader className="pb-2"><CardTitle className="text-sm">{t('export.reportType')}</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             {reports.map(report => (
-              <label key={report.id} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors">
+              <label key={report.id} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors press">
                 <Checkbox checked={selectedReports.includes(report.id)} onCheckedChange={() => toggleReport(report.id)} />
                 <span className="text-sm text-foreground">{report.label}</span>
               </label>
@@ -103,7 +103,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
                 {PERIOD_OPTIONS.map(opt => (
                   <div key={opt.id} className="flex items-center gap-2">
                     <RadioGroupItem value={opt.id} id={`period-${opt.id}`} />
-                    <Label htmlFor={`period-${opt.id}`} className="text-sm cursor-pointer">{opt.label}</Label>
+                    <Label htmlFor={`period-${opt.id}`} className="text-sm cursor-pointer press">{opt.label}</Label>
                   </div>
                 ))}
               </RadioGroup>
@@ -136,9 +136,9 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
           <CardHeader className="pb-2"><CardTitle className="text-sm">{t('export.format')}</CardTitle></CardHeader>
           <CardContent>
             <RadioGroup value={format} onValueChange={setFormat} className="space-y-2">
-              <div className="flex items-center gap-2"><RadioGroupItem value="pdf" id="fmt-pdf" /><Label htmlFor="fmt-pdf" className="text-sm cursor-pointer">PDF</Label></div>
-              <div className="flex items-center gap-2"><RadioGroupItem value="excel" id="fmt-excel" /><Label htmlFor="fmt-excel" className="text-sm cursor-pointer">Excel (.xlsx)</Label></div>
-              <div className="flex items-center gap-2"><RadioGroupItem value="csv" id="fmt-csv" /><Label htmlFor="fmt-csv" className="text-sm cursor-pointer">CSV</Label></div>
+              <div className="flex items-center gap-2"><RadioGroupItem value="pdf" id="fmt-pdf" /><Label htmlFor="fmt-pdf" className="text-sm cursor-pointer press">PDF</Label></div>
+              <div className="flex items-center gap-2"><RadioGroupItem value="excel" id="fmt-excel" /><Label htmlFor="fmt-excel" className="text-sm cursor-pointer press">Excel (.xlsx)</Label></div>
+              <div className="flex items-center gap-2"><RadioGroupItem value="csv" id="fmt-csv" /><Label htmlFor="fmt-csv" className="text-sm cursor-pointer press">CSV</Label></div>
             </RadioGroup>
           </CardContent>
         </Card>

@@ -356,7 +356,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </div>
         </button>
         {data.consultationType === 'teleconsulta' && (
-          <label className="flex items-center gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 cursor-pointer">
+          <label className="flex items-center gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 cursor-pointer press">
             <Checkbox
               checked={data.isUrgent}
               onCheckedChange={(v) => setData(d => ({ ...d, isUrgent: !!v }))}
@@ -628,7 +628,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {cardName.length === 0 && cardNumber.length > 0 && (
             <p className="text-xs text-destructive">{t('booking.nameRequired')}</p>
           )}
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer press">
             <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
             <span className="text-xs text-muted-foreground">{t('booking.saveCardFuture')}</span>
           </label>
@@ -701,7 +701,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       </div>
 
       {/* Terms */}
-      <label className="flex items-center gap-3 cursor-pointer">
+      <label className="flex items-center gap-3 cursor-pointer press">
         <Checkbox checked={acceptTerms} onCheckedChange={(v) => setAcceptTerms(!!v)} />
         <span className="text-xs text-muted-foreground">{t('booking.acceptTerms')}</span>
       </label>
@@ -848,7 +848,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="fixed inset-0 z-[60] bg-background" style={{ bottom: '60px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-semibold text-foreground">Marcar Consulta</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
@@ -897,7 +897,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="relative w-full max-w-[500px] max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Marcar Consulta</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>

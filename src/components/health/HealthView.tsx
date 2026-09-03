@@ -215,7 +215,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                 {PREDEFINED_ALLERGIES.map(allergy => {
                   const isChecked = data.allergies.includes(allergy);
                   return (
-                      <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors">
+                      <label key={allergy} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 cursor-pointer transition-colors press">
                        <Checkbox
                          checked={isChecked}
                          onCheckedChange={() => {

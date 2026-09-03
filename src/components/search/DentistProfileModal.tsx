@@ -212,7 +212,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="fixed inset-0 z-[55] bg-background" style={{ bottom: '60px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
@@ -229,7 +229,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent">
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>

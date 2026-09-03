@@ -144,7 +144,7 @@ function PatientCard({
   const levelCfg = LEVEL_CONFIG[p.level];
   const isMobile = useIsMobile();
   return (
-    <div className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150" onClick={onViewDossier}>
+    <div className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press" onClick={onViewDossier}>
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-base font-bold text-primary flex-shrink-0">
           {getInitials(p.name)}

@@ -281,7 +281,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   {cancellationReasons.map((reason) => (
                     <div key={reason} className="flex items-center space-x-2">
                       <RadioGroupItem value={reason} id={reason} />
-                      <Label htmlFor={reason} className="text-sm font-normal cursor-pointer">{reason}</Label>
+                      <Label htmlFor={reason} className="text-sm font-normal cursor-pointer press">{reason}</Label>
                     </div>
                   ))}
                 </RadioGroup>

@@ -54,7 +54,7 @@ export function AllProductsList({ products, userPoints, onRedeem }: AllProductsL
               className={cn(
                 'w-full flex items-center gap-3 rounded-lg p-3 mb-2 text-left transition-colors duration-150',
                 'bg-card border border-border/50',
-                canAfford ? 'cursor-pointer hover:bg-accent/60 hover:shadow-md hover:border-primary/30' : 'opacity-50 cursor-not-allowed',
+                canAfford ? 'cursor-pointer hover:bg-accent/60 hover:shadow-md hover:border-primary/30 press' : 'opacity-50 cursor-not-allowed',
               )}
             >
               <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-2xl shrink-0">

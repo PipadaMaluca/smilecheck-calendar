@@ -54,7 +54,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
         onDragLeave={() => setDragActive(false)}
         className={cn(
-          'relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors',
+          'relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors press',
           dragActive ? 'border-primary bg-primary/10' : 'border-[#1E3A5F] hover:border-primary/50 bg-[#1E3A5F]/50',
           photos.length >= MAX_PHOTOS && 'opacity-50 pointer-events-none'
         )}

@@ -24,7 +24,7 @@ export function InConsultationBar({
 
   return (
     <div
-      className="h-10 flex items-center justify-between px-4 cursor-pointer animate-fade-in flex-shrink-0"
+      className="h-10 flex items-center justify-between px-4 cursor-pointer animate-fade-in flex-shrink-0 press"
       style={{ backgroundColor: 'rgba(27, 94, 32, 0.9)' }}
       onClick={() => onOpenDossier(consultation.patient.id)}
     >

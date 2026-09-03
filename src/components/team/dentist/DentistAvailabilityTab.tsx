@@ -316,7 +316,7 @@ export function DentistAvailabilityTab() {
                 checked={applyToAll}
                 onCheckedChange={(v) => setApplyToAll(v === true)}
               />
-              <label htmlFor="applyAll" className="text-sm cursor-pointer">
+              <label htmlFor="applyAll" className="text-sm cursor-pointer press">
                 {t('availability.applyToAll')}
               </label>
             </div>

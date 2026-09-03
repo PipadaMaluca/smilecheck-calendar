@@ -90,7 +90,7 @@ export function TriageIntensityStep({
       </div>
 
       <div
-        className="flex items-center gap-3 p-4 bg-[#1E3A5F] rounded-xl cursor-pointer"
+        className="flex items-center gap-3 p-4 bg-[#1E3A5F] rounded-xl cursor-pointer press"
         onClick={() => handleRoutineToggle(!isRoutineCheckup)}
       >
         <Checkbox

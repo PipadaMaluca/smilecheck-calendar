@@ -302,7 +302,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                       <PopoverTrigger asChild>
                         <button
                           type="button"
-                          className="w-7 h-7 rounded-md border border-border shadow-sm cursor-pointer hover:scale-110 transition-transform"
+                          className="w-7 h-7 rounded-md border border-border shadow-sm cursor-pointer hover:scale-110 transition-transform press"
                           style={{ backgroundColor: color }}
                           aria-label={`Edit color for ${tr(t, cat.labelKey, cat.fallback)}`}
                         />
@@ -335,7 +335,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                             type="color"
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
-                            className="w-8 h-8 rounded cursor-pointer bg-transparent border border-border"
+                            className="w-8 h-8 rounded cursor-pointer bg-transparent border border-border press"
                           />
                         </div>
                       </PopoverContent>

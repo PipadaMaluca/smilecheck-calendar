@@ -26,7 +26,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
   const badge = (
     <div
       className={cn(
-        'flex flex-col items-center gap-1 group cursor-pointer',
+        'flex flex-col items-center gap-1 group cursor-pointer press',
         className
       )}
       onClick={onClick}

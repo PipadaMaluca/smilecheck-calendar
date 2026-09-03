@@ -19,7 +19,7 @@ interface ToothSVGProps {
 export function ToothSVG({ toothId, data, isSelected, onClick, size = 44 }: ToothSVGProps) {
   if (data.isMissing) {
     return (
-      <svg width={size} height={size + 14} viewBox="0 0 44 58" className="cursor-pointer" onClick={onClick}>
+      <svg width={size} height={size + 14} viewBox="0 0 44 58" className="cursor-pointer press" onClick={onClick}>
         <text x="22" y="10" textAnchor="middle" fontSize="9" fontWeight="600" fontFamily="monospace"
           className={cn(isSelected ? 'fill-primary' : 'fill-muted-foreground/60')}>{toothId}</text>
         <g transform="translate(2,16)">
@@ -59,7 +59,7 @@ export function ToothSVG({ toothId, data, isSelected, onClick, size = 44 }: Toot
   };
 
   return (
-    <svg width={size} height={size + 14} viewBox="0 0 44 58" className="cursor-pointer" onClick={onClick}>
+    <svg width={size} height={size + 14} viewBox="0 0 44 58" className="cursor-pointer press" onClick={onClick}>
       <text x="22" y="10" textAnchor="middle" fontSize="9" fontWeight="600" fontFamily="monospace"
         className={cn(isSelected ? 'fill-primary font-bold' : 'fill-muted-foreground/60')}>{toothId}</text>
       <g transform="translate(2,16)">

@@ -119,7 +119,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                 'flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium border transition-colors',
                 selectedLanguages.includes(lang.code)
                   ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
+                  : 'bg-secondary text-muted-foreground border-border hover:bg-accent press'
               )}
             >
               <span>{lang.flag}</span>
@@ -139,7 +139,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="relative z-10 p-4 md:p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </button>
             <div className="flex-1">

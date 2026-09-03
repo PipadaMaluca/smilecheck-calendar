@@ -328,7 +328,7 @@ export function DesktopCalendarSidebar({
                         onClick={(e) => e.stopPropagation()}
                       />
                       <button 
-                        className="flex flex-col min-w-0 text-left cursor-pointer hover:text-primary"
+                        className="flex flex-col min-w-0 text-left cursor-pointer hover:text-primary press"
                         onClick={() => onDentistToggle(dentist.id, false, clinic.id)}
                       >
                         <span className={cn(

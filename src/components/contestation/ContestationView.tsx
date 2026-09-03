@@ -114,9 +114,9 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
           <h3 className="text-sm font-bold text-foreground">{t('contestation.reason')}</h3>
           <RadioGroup value={selectedMotivo} onValueChange={setSelectedMotivo} className="space-y-2">
             {MOTIVOS.map((motivo) => (
-              <div key={motivo.key} className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/30 transition-colors cursor-pointer">
+              <div key={motivo.key} className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-primary/30 transition-colors cursor-pointer press">
                 <RadioGroupItem value={motivo.key} id={motivo.key} />
-                <Label htmlFor={motivo.key} className="text-sm text-foreground cursor-pointer flex-1">{motivo.label}</Label>
+                <Label htmlFor={motivo.key} className="text-sm text-foreground cursor-pointer flex-1 press">{motivo.label}</Label>
               </div>
             ))}
           </RadioGroup>
@@ -138,7 +138,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Documentos */}
         <div className="space-y-2">
           <h3 className="text-sm font-bold text-foreground">{t('contestation.supportDocs')}</h3>
-          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 active:border-primary/40 transition-colors cursor-pointer">
+          <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/30 active:border-primary/40 transition-colors cursor-pointer press">
             <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
             <p className="text-xs text-muted-foreground">
               <span className="hidden sm:inline">{t('contestation.dragFiles')}</span>
@@ -180,7 +180,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Agreement */}
         <div className="flex items-center gap-3">
           <Checkbox checked={agreed} onCheckedChange={(c) => setAgreed(!!c)} id="agree" />
-          <Label htmlFor="agree" className="text-xs text-foreground cursor-pointer">
+          <Label htmlFor="agree" className="text-xs text-foreground cursor-pointer press">
             {t('contestation.declare')}
           </Label>
         </div>
