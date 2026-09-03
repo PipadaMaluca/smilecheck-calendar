@@ -7,23 +7,11 @@ import { UserRole } from '@/types/calendar';
 import { mockScoreHistory } from '@/types/scoring';
 import { useTranslation } from 'react-i18next';
 
-export type NotificationType =
-'lembrete_24h' | 'lembrete_1h' | 'feedback' | 'receita' | 'referencia' |
-'consulta_alterada' | 'consulta_cancelada' | 'pontos' | 'mensagem' | 'referral_usado' |
-'novo_agendamento' | 'paciente_confirmou' | 'paciente_cancelou' | 'sala_espera' |
-'feedback_recebido' | 'conquista' | 'resumo_diario' | 'novo_dentista' | 'referenciou_paciente';
+import { useNotifications } from '@/data/notificationsSource';
+import type { Notification, NotificationType } from '@/components/notifications/notificationTypes';
 
-export interface Notification {
-  id: string;
-  type: NotificationType;
-  title: string;
-  description: string;
-  time: string;
-  read: boolean;
-  actionLabel?: string;
-  linkedScoreId?: string;
-  action?: string;
-}
+export type { Notification, NotificationType };
+
 
 const NOTIFICATION_ICONS: Record<NotificationType, React.ElementType> = {
   lembrete_24h: Calendar,
