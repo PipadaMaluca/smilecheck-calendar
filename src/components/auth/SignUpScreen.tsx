@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { supabase } from '@/integrations/supabase/client';
+import { mapAuthError } from '@/lib/authErrors';
+
 
 
 type AccountType = 'paciente' | 'dentista' | 'clinica' | null;
