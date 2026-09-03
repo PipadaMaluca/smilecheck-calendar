@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { awardPoints } from '@/data/pointsWrites';
+import { checkAchievementsSilently } from '@/data/achievementsSource';
 import { UserRole } from '@/types/calendar';
 import {
   USER_POINTS,
@@ -158,7 +159,10 @@ export function PointsDataProvider({ children }: { children: React.ReactNode }) 
     if (demoMode || !user) return;
     let cancelled = false;
     awardPoints(user.id, 'checkin_diario').then((res) => {
-      if (!cancelled && res?.awarded) refresh();
+      if (cancelled || !res?.awarded) return;
+      refresh();
+      // Streak / check-in achievements depend on the check-in just recorded.
+      checkAchievementsSilently(user.id);
     });
     return () => {
       cancelled = true;
