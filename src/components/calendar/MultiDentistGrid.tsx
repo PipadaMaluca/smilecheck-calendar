@@ -260,7 +260,7 @@ export function MultiDentistGrid({
                       <div
                         key={time}
                         className={cn(
-                          "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors cursor-pointer hover:bg-primary/10",
+                          "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors cursor-pointer hover:bg-primary/10 press",
                           dragOverSlot === slotId && "bg-primary/20 border-primary/50"
                         )}
                         style={{ gridRow: `${slotIdx + 1} / span 1` }}

@@ -260,7 +260,7 @@ export const SORT_OPTIONS = [
 ];
 
 export const LEVEL_CONFIG: Record<string, { labelKey: string; label: string; color: string; bg: string }> = {
-  lata: { labelKey: 'onboarding.levels.tin', label: 'Lata', color: 'text-slate-400', bg: 'bg-slate-400/15 border-slate-400/30' },
+  lata: { labelKey: 'onboarding.levels.can', label: 'Lata', color: 'text-slate-400', bg: 'bg-slate-400/15 border-slate-400/30' },
   bronze: { labelKey: 'onboarding.levels.bronze', label: 'Bronze', color: 'text-orange-400', bg: 'bg-orange-400/15 border-orange-400/30' },
   prata: { labelKey: 'onboarding.levels.silver', label: 'Prata', color: 'text-slate-300', bg: 'bg-slate-300/15 border-slate-300/30' },
   ouro: { labelKey: 'onboarding.levels.gold', label: 'Ouro', color: 'text-amber-400', bg: 'bg-amber-400/15 border-amber-400/30' },

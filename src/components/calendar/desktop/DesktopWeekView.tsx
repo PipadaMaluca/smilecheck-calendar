@@ -154,7 +154,7 @@ export function DesktopWeekView({
                 style={ dayMinW ? { minWidth: dayMinW } : undefined }
               >
                 <div
-                  className="text-center py-1.5 cursor-pointer hover:bg-secondary/30 transition-colors"
+                  className="text-center py-1.5 cursor-pointer hover:bg-secondary/30 transition-colors press"
                   onClick={() => { onDateChange(day); onViewModeChange('day'); }}
                 >
                   <div className={cn('text-[11px] uppercase font-medium', isToday ? 'text-primary' : 'text-muted-foreground')}>
