@@ -329,6 +329,9 @@ export function DesktopWeekView({
                               top: startIdx * SLOT_HEIGHT + 1,
                               height: spanCount * SLOT_HEIGHT - 2,
                               minHeight: 44,
+                              borderLeftWidth: '3px',
+                              borderLeftColor: colors.hex,
+                              backgroundColor: `${colors.hex}73`,
                             }}
                             onClick={() => onSlotClick(slot)}
                             onMouseEnter={() => onConsultationHover?.(c)}
@@ -340,22 +343,22 @@ export function DesktopWeekView({
                                 <span className={cn('font-mono text-muted-foreground flex-shrink-0', scaleCfg.timeFs)}>
                                   {slot.time}
                                 </span>
-                                <span className={cn('font-semibold truncate', scaleCfg.nameFs)}>
+                                <span className={cn('font-semibold truncate text-white', scaleCfg.nameFs)}>
                                   {displayName}
                                 </span>
                               </div>
                               <div className="mt-0.5 flex items-center gap-1 min-w-0">
                                 <span
-                                  data-type-chip
                                   className={cn(
-                                    'inline-flex items-center gap-1 font-semibold leading-none flex-shrink-0',
+                                    'inline-flex items-center gap-0.5 font-bold leading-none rounded-full flex-shrink-0',
                                     scaleCfg.pillFs
                                   )}
-                                  style={{ whiteSpace: 'nowrap', overflow: 'visible' }}
+                                  style={{ ...getCategoryBadgeStyle(colors.hex), padding: scaleCfg.pillPad, whiteSpace: 'nowrap', overflow: 'visible' }}
                                   title={getCategoryLabel(t, category)}
                                 >
-                                  <span style={{ width: 6, height: 6, borderRadius: 999, background: colors.hex, display: 'inline-block', flexShrink: 0 }} />
-                                  {!scaleCfg.pillTextHidden && (
+                                  {scaleCfg.pillTextHidden ? (
+                                    pillEmoji ? <span>{pillEmoji}</span> : <span style={{ width: 6, height: 6, borderRadius: 999, background: colors.hex, display: 'inline-block' }} />
+                                  ) : (
                                     <>
                                       {getCategoryLabel(t, category)}
                                       {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
@@ -364,7 +367,6 @@ export function DesktopWeekView({
                                 </span>
                               </div>
                             </div>
-
                           </div>
                         );
                       })}

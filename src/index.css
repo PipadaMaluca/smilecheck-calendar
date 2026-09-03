@@ -1126,7 +1126,56 @@ html, body, #root {
 .light .appt-block [class*="text-white"] { color: #1A202C !important; }
 .light .appt-block [class*="text-muted-foreground"] { color: #475569 !important; }
 
-/* (per-category saturated fills retired — see NEUTRAL AGENDA COLOR MODEL at end of file) */
+.light .appt-block[data-cat="primeira_consulta"] {
+  background-color: #FFF3C4 !important;
+  border-left-color: #F9A825 !important;
+  color: #5D4037 !important;
+}
+.light .appt-block[data-cat="destartarizacao"] {
+  background-color: #E1BEE7 !important;
+  border-left-color: #7B1FA2 !important;
+  color: #4A148C !important;
+}
+.light .appt-block[data-cat="cirurgia"] {
+  background-color: #CFD8DC !important;
+  border-left-color: #37474F !important;
+  color: #212121 !important;
+}
+.light .appt-block[data-cat="endodontia"] {
+  background-color: #F8BBD0 !important;
+  border-left-color: #C2185B !important;
+  color: #880E4F !important;
+}
+.light .appt-block[data-cat="odontopediatria"] {
+  background-color: #B3E5FC !important;
+  border-left-color: #039BE5 !important;
+  color: #01579B !important;
+}
+.light .appt-block[data-cat="ortodontia"] {
+  background-color: #C5E1A5 !important;
+  border-left-color: #558B2F !important;
+  color: #33691E !important;
+}
+.light .appt-block[data-cat="protese"] {
+  background-color: #A5D6A7 !important;
+  border-left-color: #2E7D32 !important;
+  color: #1B5E20 !important;
+}
+.light .appt-block[data-cat="restauracao"] {
+  background-color: #90CAF9 !important;
+  border-left-color: #1565C0 !important;
+  color: #0D47A1 !important;
+}
+.light .appt-block[data-cat="urgencia"] {
+  background-color: #EF9A9A !important;
+  border-left-color: #C62828 !important;
+  color: #B71C1C !important;
+}
+.light .appt-block[data-cat="teleconsulta"] {
+  background-color: #FFAB91 !important;
+  border-left-color: #E64A19 !important;
+  color: #BF360C !important;
+}
 
 /* Time display inside appointment blocks: bold blue */
 .light .appt-block .font-mono { color: #1565C0 !important; font-weight: 700; }
@@ -1350,7 +1399,16 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   border-left-style: solid !important;
 }
 /* Per-category dark-mode tinted backgrounds (~45% over navy) */
-/* (per-category saturated fills retired — see NEUTRAL AGENDA COLOR MODEL at end of file) */
+:root:not(.light) .appt-block[data-cat="primeira_consulta"]   { background-color: rgba(249, 168, 37, 0.45) !important; border-left-color: #F9A825 !important; }
+:root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.45) !important; border-left-color: #BA68C8 !important; }
+:root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.55) !important; border-left-color: #BDBDBD !important; }
+:root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.45) !important; border-left-color: #EC407A !important; }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(3, 155, 229, 0.45) !important;  border-left-color: #4FC3F7 !important; }
+:root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.45) !important; border-left-color: #9CCC65 !important; }
+:root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.45) !important;  border-left-color: #66BB6A !important; }
+:root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.50) !important; border-left-color: #42A5F5 !important; }
+:root:not(.light) .appt-block[data-cat="urgencia"]            { background-color: rgba(198, 40, 40, 0.50) !important;  border-left-color: #EF5350 !important; }
+:root:not(.light) .appt-block[data-cat="teleconsulta"]        { background-color: rgba(239, 108, 0, 0.45) !important;  border-left-color: #FFA726 !important; }
 
 /* Text inside dark-mode appt-blocks stays light for contrast */
 :root:not(.light) .appt-block,
@@ -1476,7 +1534,16 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 /* (Internal padding is managed per-view; no global padding override.) */
 
 /* Dark-mode appt-block opacity bumped to ~55% per brand spec */
-/* (per-category saturated fills retired — see NEUTRAL AGENDA COLOR MODEL at end of file) */
+:root:not(.light) .appt-block[data-cat="primeira_consulta"]   { background-color: rgba(249, 168, 37, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="destartarizacao"]     { background-color: rgba(123, 31, 162, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="cirurgia"]            { background-color: rgba(120, 120, 120, 0.60) !important; }
+:root:not(.light) .appt-block[data-cat="endodontia"]          { background-color: rgba(194, 24, 91, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="odontopediatria"]     { background-color: rgba(3, 155, 229, 0.55) !important;  }
+:root:not(.light) .appt-block[data-cat="ortodontia"]          { background-color: rgba(104, 159, 56, 0.55) !important; }
+:root:not(.light) .appt-block[data-cat="protese"]             { background-color: rgba(46, 125, 50, 0.55) !important;  }
+:root:not(.light) .appt-block[data-cat="restauracao"]         { background-color: rgba(21, 101, 192, 0.60) !important; }
+:root:not(.light) .appt-block[data-cat="urgencia"]            { background-color: rgba(198, 40, 40, 0.60) !important;  }
+:root:not(.light) .appt-block[data-cat="teleconsulta"]        { background-color: rgba(239, 108, 0, 0.55) !important;  }
 
 /* ============================================================
    LIGHT MODE — BLUE BRAND CONTRAST (extra polish pass)
@@ -1610,7 +1677,16 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 
 /* --- DARK MODE (default) --- */
 .appt-block { background-color: rgba(33,150,243,0.12) !important; border-bottom: 1px solid rgba(255,255,255,0.10); }
-/* (per-category saturated fills retired — see NEUTRAL AGENDA COLOR MODEL at end of file) */
+.appt-block[data-cat="primeira_consulta"] { background-color: rgba(249,168,37,0.12) !important; }
+.appt-block[data-cat="destartarizacao"]   { background-color: rgba(123,31,162,0.12) !important; }
+.appt-block[data-cat="cirurgia"]          { background-color: rgba(55,71,79,0.15) !important; }
+.appt-block[data-cat="endodontia"]        { background-color: rgba(194,24,91,0.12) !important; }
+.appt-block[data-cat="odontopediatria"]   { background-color: rgba(3,155,229,0.12) !important; }
+.appt-block[data-cat="ortodontia"]        { background-color: rgba(104,159,56,0.12) !important; }
+.appt-block[data-cat="protese"]           { background-color: rgba(46,125,50,0.12) !important; }
+.appt-block[data-cat="restauracao"]       { background-color: rgba(21,101,192,0.12) !important; }
+.appt-block[data-cat="urgencia"]          { background-color: rgba(198,40,40,0.12) !important; }
+.appt-block[data-cat="teleconsulta"]      { background-color: rgba(239,108,0,0.12) !important; }
 .appt-block .text-white { color: #E2E8F0 !important; }
 .appt-block [data-notes], .appt-block .text-\[\#8B9CB6\] { color: #94A3B8 !important; }
 
@@ -1858,66 +1934,3 @@ input[type="checkbox"]:checked::after {
   border-width: 0 2px 2px 0;
   transform: translate(-50%, -60%) rotate(45deg);
 }
-
-/* ============================================================
-   NEUTRAL AGENDA COLOR MODEL (canonical — overrides everything above)
-   Default appointment blocks are a quiet neutral surface. Consultation
-   TYPE is conveyed by a small colored dot + label inside the block.
-   Only Urgência (red) and Teleconsulta (orange) get a saturated accent.
-   Works in both themes via semantic tokens.
-   ============================================================ */
-.light .appt-block,
-:root:not(.light) .appt-block,
-.appt-block {
-  background-color: hsl(var(--card)) !important;
-  border: 1px solid hsl(var(--border)) !important;
-  border-left: 3px solid hsl(var(--border)) !important;
-  color: hsl(var(--foreground)) !important;
-  box-shadow: none !important;
-}
-.light .appt-block *,
-:root:not(.light) .appt-block *,
-.appt-block * { color: hsl(var(--foreground)) !important; }
-
-.light .appt-block [data-notes],
-.light .appt-block .text-\[\#8B9CB6\],
-.light .appt-block .font-mono,
-.light .appt-block [class*="text-muted-foreground"],
-:root:not(.light) .appt-block [data-notes],
-:root:not(.light) .appt-block .text-\[\#8B9CB6\],
-:root:not(.light) .appt-block .font-mono,
-:root:not(.light) .appt-block [class*="text-muted-foreground"] {
-  color: hsl(var(--muted-foreground)) !important;
-  font-weight: 500 !important;
-}
-
-.light .appt-block:hover,
-:root:not(.light) .appt-block:hover,
-.appt-block:hover { background-color: hsl(var(--muted)) !important; }
-
-/* --- The only two accented states --- */
-.light .appt-block[data-cat="urgencia"],
-:root:not(.light) .appt-block[data-cat="urgencia"],
-.appt-block[data-cat="urgencia"] {
-  background-color: hsl(var(--destructive) / 0.12) !important;
-  border-color: hsl(var(--destructive) / 0.35) !important;
-  border-left-color: hsl(var(--destructive)) !important;
-}
-.light .appt-block[data-cat="teleconsulta"],
-:root:not(.light) .appt-block[data-cat="teleconsulta"],
-.appt-block[data-cat="teleconsulta"] {
-  background-color: hsl(var(--warning) / 0.12) !important;
-  border-color: hsl(var(--warning) / 0.35) !important;
-  border-left-color: hsl(var(--warning)) !important;
-}
-
-/* --- Type chip: neutral text next to the color dot (no pill fill) --- */
-.appt-block [data-type-chip] {
-  background-color: transparent !important;
-  color: hsl(var(--muted-foreground)) !important;
-  padding: 0 !important;
-  font-weight: 600 !important;
-  gap: 4px !important;
-}
-.appt-block[data-cat="urgencia"] [data-type-chip] { color: hsl(var(--destructive)) !important; }
-.appt-block[data-cat="teleconsulta"] [data-type-chip] { color: hsl(var(--warning)) !important; }

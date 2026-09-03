@@ -1,4 +1,4 @@
-import { CATEGORY_PILL_EMOJIS, ConsultationCategory, CATEGORY_COLORS, getCategoryLabel, getCategoryDotStyle } from '@/types/calendar';
+import { CATEGORY_PILL_EMOJIS, ConsultationCategory, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -32,28 +32,25 @@ export function ConsultationTypePill({
   const { t } = useTranslation();
   if (!category) return null;
   const hex = CATEGORY_COLORS[category].hex;
+  const pillStyle = getCategoryBadgeStyle(hex);
   const text = label ?? getCategoryLabel(t, category);
   const emoji = CATEGORY_PILL_EMOJIS[category];
-  const sizeClass = 'text-[11px] font-semibold leading-none';
-  const toneClass =
-    category === 'urgencia'
-      ? 'text-destructive'
-      : category === 'teleconsulta'
-        ? 'text-warning'
-        : 'text-muted-foreground';
-  const padStyle: CSSProperties = size === 'sm' ? { padding: 0 } : { padding: 0 };
+  const sizeClass =
+    size === 'sm'
+      ? 'text-[11px] font-bold leading-none'
+      : 'text-[11px] font-bold leading-none';
+  const padStyle: CSSProperties =
+    size === 'sm' ? { padding: '2px 6px' } : { padding: '2px 10px' };
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 whitespace-nowrap flex-shrink-0',
+        'inline-flex items-center gap-[2px] rounded-full whitespace-nowrap flex-shrink-0',
         sizeClass,
-        toneClass,
         className,
       )}
-      style={{ ...padStyle, ...style }}
+      style={{ ...pillStyle, ...padStyle, ...style }}
     >
       {children}
-      <span style={getCategoryDotStyle(hex)} />
       {text}
       {emoji && <Glyph emoji={emoji} className="w-3.5 h-3.5" />}
     </span>
