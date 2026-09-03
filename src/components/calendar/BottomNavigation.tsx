@@ -64,7 +64,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => handleTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-[44px] min-h-[44px] transition-[transform,background-color,border-color,color,box-shadow] duration-150 relative overflow-visible',
+                'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-[44px] min-h-[44px] transition-[transform,background-color,border-color,color,box-shadow] duration-150 relative overflow-visible active:scale-[0.98]',
                 isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
               )}
             >
