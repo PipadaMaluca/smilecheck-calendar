@@ -217,26 +217,28 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                       )}
                       style={{
                         gridRow: `${startIdx + 1} / span ${spanCount}`,
-                        backgroundColor: `${colors.hex}73`,
-                        borderLeft: `2px solid ${colors.hex}`,
                       }}
                     >
                       <div className="flex flex-col leading-tight py-0.5">
                         {/* Line 1: First + Last Name (age anos) */}
                         <div className="flex items-center gap-0.5 truncate">
-                          <span className="truncate font-bold text-[11px] text-white">
+                          <span className="truncate font-bold text-[11px]">
                             {displayName}
                           </span>
                           <span className="text-[11px] text-muted-foreground whitespace-nowrap">
                             ({consultation.patient.age} anos)
                           </span>
                         </div>
-                        {/* Line 2: TYPE pill + notes */}
+                        {/* Line 2: type dot + label + notes */}
                         <div data-line="type-row" className="flex flex-wrap items-center gap-1 min-w-0">
                           <span
-                            className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
-                            style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
+                            data-type-chip
+                            className="inline-flex items-center gap-1 text-[11px] font-semibold leading-none whitespace-nowrap flex-shrink-0"
                           >
+                            <span
+                              className="rounded-full inline-block flex-shrink-0"
+                              style={{ width: 6, height: 6, backgroundColor: colors.hex }}
+                            />
                             {getCategoryLabel(t, category)}
                             {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                           </span>
@@ -246,6 +248,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                             </span>
                           )}
                         </div>
+
                       </div>
                     </div>
                   );

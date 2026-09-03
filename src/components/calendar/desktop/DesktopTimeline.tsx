@@ -364,9 +364,6 @@ export function DesktopTimeline({
                           )}
                           style={{
                             gridRow: `${startIdx + 1} / span ${spanCount}`,
-                            borderLeftWidth: '4px',
-                            borderLeftColor: styles.borderColor,
-                            backgroundColor: `${styles.borderColor}73`,
                           }}
                         >
                         <div className="flex items-start justify-between gap-0.5 p-1.5 h-full">
@@ -376,22 +373,27 @@ export function DesktopTimeline({
                               <span className="text-[11px] font-mono text-muted-foreground">
                                 {slot.time}
                               </span>
-                              <span className="text-[11px] font-bold truncate text-white leading-tight">
+                              <span className="text-[11px] font-bold truncate leading-tight">
                                 {consultation.patient.name}
                                 {consultation.patient.age && (
                                   <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
                                 )}
                               </span>
                             </div>
-                            {/* Line 2: type pill + notes */}
+                            {/* Line 2: type dot + type label + notes */}
                             <div data-line="type-row" className="mt-0.5 flex flex-wrap items-center gap-1 min-w-0">
                               <span
-                                className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
-                                style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
+                                data-type-chip
+                                className="inline-flex items-center gap-1 text-[11px] font-semibold leading-none whitespace-nowrap flex-shrink-0"
                               >
+                                <span
+                                  className="rounded-full inline-block flex-shrink-0"
+                                  style={{ width: 6, height: 6, backgroundColor: styles.borderColor }}
+                                />
                                 {getConsultationLabel(t, consultation)}
                                 {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                               </span>
+
                               {consultation.notes && (
                                 <span data-notes className="text-[11px] text-[#8B9CB6]">
                                   {consultation.notes}

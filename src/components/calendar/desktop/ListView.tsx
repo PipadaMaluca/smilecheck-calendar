@@ -1,7 +1,7 @@
 import { MoreHorizontal, User } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
 import { Button } from '@/components/ui/button';
-import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
+import { Consultation, Dentist, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, getCategoryLabel, getAccentBorderColor } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -85,7 +85,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                     <div className="flex items-center gap-2">
                       <div
                         className="w-1 h-8 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: colors.hex }}
+                        style={{ backgroundColor: getAccentBorderColor(category) }}
                       />
                       <ClickableDentistName name={consultation.dentist.name} className="text-xs" />
                     </div>
@@ -139,12 +139,16 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
-                        style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+                        className={cn(
+                          "inline-flex items-center gap-1.5 text-[11px] font-semibold leading-none whitespace-nowrap flex-shrink-0",
+                          category === 'urgencia' ? 'text-destructive' : category === 'teleconsulta' ? 'text-warning' : 'text-foreground'
+                        )}
                       >
+                        <span className="rounded-full inline-block flex-shrink-0" style={{ width: 6, height: 6, backgroundColor: colors.hex }} />
                         {getCategoryLabel(t, category)}
                         {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                       </span>
+
                       {consultation.notes && (
                         <span className="text-xs text-muted-foreground truncate min-w-0 flex-1">
                           {consultation.notes}
