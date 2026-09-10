@@ -213,7 +213,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
 
     return (
-      <div className="hidden lg:flex flex-col gap-4">
+      <div className="hidden md:flex flex-col gap-4">
         <div
           id="coachmark-stat-cards"
           className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4 items-stretch"
@@ -404,10 +404,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
           <button
             key={action.id}
             onClick={() => runQuickAction(role, action.id)}
-            className="flex items-center justify-center gap-2 h-12 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-colors"
+            className="flex items-center justify-center gap-2 min-h-12 px-3 py-2 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-colors"
           >
             <ActionIcon className="w-5 h-5 flex-shrink-0 text-primary" />
-            <span className="text-sm font-medium text-foreground truncate">{action.label}</span>
+            <span className="text-[13px] lg:text-sm font-medium text-foreground text-center leading-tight">{action.label}</span>
           </button>
         );
       })}

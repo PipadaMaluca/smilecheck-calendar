@@ -48,7 +48,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
     <>
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Aparência</CardTitle>
+          <CardTitle size="compact">Aparência</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Theme toggle */}

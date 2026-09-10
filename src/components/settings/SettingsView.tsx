@@ -99,7 +99,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 6. Ajuda & Suporte */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.helpAndSupport')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('settings.helpAndSupport')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={BookOpen} label={t('settings.reviewTutorial')} onClick={() => replayFull(userRole)} />
             <LinkRow icon={HelpCircle} label={t('settings.reviewTips')} onClick={() => { resetAllCoachMarks(); replayTooltips(userRole); toast.success(t('settings.tipsReset')); }} />
@@ -111,7 +111,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 7. Legal */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.legal')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('settings.legal')}</CardTitle></CardHeader>
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={FileText} label={t('settings.termsOfService')} onClick={() => window.open('/termos', '_blank')} />
             <LinkRow icon={Shield} label={t('settings.privacyPolicy')} onClick={() => window.open('/privacidade', '_blank')} />
@@ -120,7 +120,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 8. Segurança — always last */}
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('settings.security')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('settings.security')}</CardTitle></CardHeader>
           <CardContent className="space-y-0">
             <LinkRow icon={Lock} label={t('settings.changePassword')} />
             <Separator className="my-3" />

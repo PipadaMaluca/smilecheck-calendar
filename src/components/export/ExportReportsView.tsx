@@ -83,7 +83,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
         </div>
 
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('export.reportType')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('export.reportType')}</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             {reports.map(report => (
               <label key={report.id} className="flex items-center gap-3 cursor-pointer py-1 hover:bg-accent/30 rounded px-2 -mx-2 transition-colors press">
@@ -95,7 +95,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
         </Card>
 
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('export.filters')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('export.filters')}</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label className="text-xs font-medium text-muted-foreground">{t('export.period')}</label>
@@ -133,7 +133,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
         </Card>
 
         <Card className="bg-card/80 backdrop-blur border-border">
-          <CardHeader className="pb-2"><CardTitle className="text-sm">{t('export.format')}</CardTitle></CardHeader>
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('export.format')}</CardTitle></CardHeader>
           <CardContent>
             <RadioGroup value={format} onValueChange={setFormat} className="space-y-2">
               <div className="flex items-center gap-2"><RadioGroupItem value="pdf" id="fmt-pdf" /><Label htmlFor="fmt-pdf" className="text-sm cursor-pointer press">PDF</Label></div>

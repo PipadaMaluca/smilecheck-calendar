@@ -121,7 +121,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="metodos" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.savedCards')}</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.savedCards')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 {savedCards.map(c => (
                   <div key={c.id} className="flex items-center justify-between py-2">
@@ -187,7 +187,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
               </CardContent>
             </Card>
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">MB WAY</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle size="compact">MB WAY</CardTitle></CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -202,7 +202,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="dados" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.billingData')}</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.billingData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 <div><label className="text-xs text-muted-foreground">{t('billing.fullName')}</label><Input defaultValue="João Silva" className="mt-1" /></div>
                 <div><label className="text-xs text-muted-foreground">{t('billing.taxIdOptional')}</label><Input defaultValue="123 456 789" className="mt-1" /></div>

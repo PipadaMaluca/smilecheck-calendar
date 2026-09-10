@@ -25,14 +25,8 @@ const MOCK_HISTORY = [
 export function InviteView({ onClose, inline }: InviteViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const [isTabletOrBelow, setIsTabletOrBelow] = useState(false);
-  useEffect(() => {
-    const mql = window.matchMedia('(max-width: 1023px)');
-    const onChange = () => setIsTabletOrBelow(mql.matches);
-    onChange();
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
+  // Tablet follows desktop, so only true mobile widths use the stacked layout.
+  const isTabletOrBelow = isMobile;
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -131,7 +125,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
 
       {/* History */}
       <Card className="bg-card/80 backdrop-blur border-border">
-        <CardHeader className="pb-2"><CardTitle className="text-sm">Histórico de Convites</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle size="compact">Histórico de Convites</CardTitle></CardHeader>
         <CardContent className="space-y-0 divide-y divide-border px-3 md:px-6">
           {MOCK_HISTORY.map((h, i) => (
             <div key={i} className="flex items-center justify-between py-2.5 md:py-3 gap-2">

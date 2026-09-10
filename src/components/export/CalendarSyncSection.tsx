@@ -53,7 +53,7 @@ export function CalendarSyncSection() {
   return (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">{t('export.syncTitle')}</CardTitle>
+        <CardTitle size="compact">{t('export.syncTitle')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
         <p className="text-sm text-muted-foreground">{t('export.syncDescription')}</p>
