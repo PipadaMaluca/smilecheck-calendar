@@ -288,7 +288,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                 'active:bg-muted/40 transition-colors press',
               )}
             >
-              <Icon className="w-4 h-4 text-[#2196F3] flex-shrink-0" />
+              <Icon className="w-4 h-4 text-primary flex-shrink-0" />
               <span className="text-[11px] font-medium leading-none truncate max-w-full px-1">{p.label}</span>
             </button>
           );
@@ -309,7 +309,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                 'card-hover-lift hover:border-primary/40 transition-colors group',
               )}
             >
-              <Icon className="w-5 h-5 text-[#2196F3] flex-shrink-0" />
+              <Icon className="w-5 h-5 text-primary flex-shrink-0" />
               <span className="text-[11px] font-medium leading-none text-foreground text-center max-w-full truncate">{p.label}</span>
             </button>
           );
