@@ -133,7 +133,7 @@ export function NotificationSettingsSection({ userRole }: NotificationSettingsSe
   return (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">{t('settings.notifications')}</CardTitle>
+        <CardTitle size="compact">{t('settings.notifications')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-1">
         {groups.map((group, gi) => (

@@ -73,7 +73,7 @@ export function ConnectedDevicesSection() {
     <>
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle size="compact" className="flex items-center gap-2">
             <Link2 className="w-4 h-4 text-primary" />
             Dispositivos Conectados
           </CardTitle>

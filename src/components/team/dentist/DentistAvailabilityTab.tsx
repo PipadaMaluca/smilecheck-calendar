@@ -327,7 +327,7 @@ export function DentistAvailabilityTab() {
       {/* Weekly Schedule Grid */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">
+          <CardTitle>
 <Glyph emoji="🗓️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.weeklySchedule')}</CardTitle>
         </CardHeader>
         <CardContent>
@@ -396,7 +396,7 @@ export function DentistAvailabilityTab() {
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">
+            <CardTitle>
 <Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.exceptionsTitle')}</CardTitle>
             <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={openAddException}>
               <Plus className="w-3 h-3" />{t('availability.addException')}
@@ -437,7 +437,7 @@ export function DentistAvailabilityTab() {
       {/* Teleconsultation Availability */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">
+          <CardTitle>
 <Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.teleAvailability')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">

@@ -208,7 +208,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 LEFT: Alergias e Intolerâncias */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={AlertTriangle} label={t('health.allergies')} /></CardTitle>
+              <CardTitle><SectionIcon icon={AlertTriangle} label={t('health.allergies')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="space-y-2">
@@ -254,7 +254,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 1 RIGHT: Condições Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Activity} label={t('health.conditions')} /></CardTitle>
+              <CardTitle><SectionIcon icon={Activity} label={t('health.conditions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.conditions.length === 0 ? (
@@ -281,7 +281,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 2 LEFT: Medicação Actual */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Pill} label={t('health.currentMedication')} /></CardTitle>
+              <CardTitle><SectionIcon icon={Pill} label={t('health.currentMedication')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.medications.length === 0 ? (
@@ -312,7 +312,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 2 RIGHT: Perfil de Saúde */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Droplets} label={t('health.healthProfile')} /></CardTitle>
+              <CardTitle><SectionIcon icon={Droplets} label={t('health.healthProfile')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -349,7 +349,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 LEFT: Histórico de Vacinas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Syringe} label={t('health.vaccines')} /></CardTitle>
+              <CardTitle><SectionIcon icon={Syringe} label={t('health.vaccines')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.vaccines.length === 0 ? (
@@ -380,7 +380,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 3 RIGHT: Documentos Médicos */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={FileText} label={t('health.medicalDocuments')} /></CardTitle>
+              <CardTitle><SectionIcon icon={FileText} label={t('health.medicalDocuments')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Tabs value={docFilter} onValueChange={setDocFilter}>
@@ -422,7 +422,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 LEFT: Receitas Médicas */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
+              <CardTitle><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {data.prescriptions.length === 0 ? (
@@ -449,7 +449,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           {/* ROW 4 RIGHT: Cartas de Referência */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base"><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
+              <CardTitle><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {referrals.length === 0 ? (

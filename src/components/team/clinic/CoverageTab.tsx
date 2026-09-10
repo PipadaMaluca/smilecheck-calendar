@@ -105,7 +105,7 @@ export function CoverageTab() {
 
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">
+          <CardTitle>
 <Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.coverageSummary')}</CardTitle>
         </CardHeader>
         <CardContent className="px-0 pb-2">

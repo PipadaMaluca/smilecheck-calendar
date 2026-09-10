@@ -38,7 +38,7 @@ export function RegionalSection() {
   return (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">{t('settings.regional', 'Regional')}</CardTitle>
+        <CardTitle size="compact">{t('settings.regional', 'Regional')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Language — unified here, no separate section */}

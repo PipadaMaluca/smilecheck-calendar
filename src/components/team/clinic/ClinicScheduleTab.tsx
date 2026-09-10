@@ -146,7 +146,7 @@ export function ClinicScheduleTab() {
       <Card className="border-border/50">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between flex-wrap gap-2">
-            <CardTitle className="text-base">
+            <CardTitle>
 <Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.operatingHours')}</CardTitle>
             <Button variant="outline" size="sm" className="gap-1 text-xs" onClick={copyMondayToWeekdays}>
               <Copy className="w-3 h-3" />
@@ -216,7 +216,7 @@ export function ClinicScheduleTab() {
       {/* Section 2 — Holidays & Closures */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">
+          <CardTitle>
 <Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.holidays')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -286,7 +286,7 @@ export function ClinicScheduleTab() {
       {/* Section 3 — Capacity */}
       <Card className="border-border/50">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">
+          <CardTitle>
 <Glyph emoji="📊" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.capacity')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">

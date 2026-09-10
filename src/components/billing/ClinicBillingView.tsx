@@ -70,7 +70,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm">{t('billing.revenuePerDentist')}</CardTitle>
+                  <CardTitle size="compact">{t('billing.revenuePerDentist')}</CardTitle>
                   <div className="flex gap-1">
                     {(['mensal', 'semanal'] as const).map(m => (
                       <Button key={m} size="sm" variant={chartMode === m ? 'default' : 'outline'} onClick={() => setChartMode(m)} className="text-xs h-7 px-2">
@@ -154,7 +154,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
 
           <TabsContent value="dados" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.fiscalData')}</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.fiscalData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 <div><label className="text-xs text-muted-foreground">{t('billing.clinicName')}</label><Input defaultValue="Clínica SmileCheck" className="mt-1" /></div>
                 <div><label className="text-xs text-muted-foreground">{t('billing.taxIdCorp')}</label><Input defaultValue="509 123 456" className="mt-1" /></div>

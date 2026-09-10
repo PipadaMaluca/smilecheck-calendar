@@ -80,7 +80,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm">{t('billing.monthlyRevenue')}</CardTitle>
+                  <CardTitle size="compact">{t('billing.monthlyRevenue')}</CardTitle>
                   <div className="flex gap-1">
                     {(['total', 'presencial', 'teleconsulta'] as const).map(tog => (
                       <Button key={tog} size="sm" variant={chartToggle === tog ? 'default' : 'outline'} onClick={() => setChartToggle(tog)} className="text-xs capitalize h-7 px-2">
@@ -153,7 +153,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
 
           <TabsContent value="dados" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle className="text-sm">{t('billing.fiscalData')}</CardTitle></CardHeader>
+              <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.fiscalData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
                 <div><label className="text-xs text-muted-foreground">{t('billing.businessName')}</label><Input defaultValue="Dr. Gonçalo Pipo" className="mt-1" /></div>
                 <div><label className="text-xs text-muted-foreground">{t('billing.taxId')}</label><Input defaultValue="234 567 890" className="mt-1" /></div>
