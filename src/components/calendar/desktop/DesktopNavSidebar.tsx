@@ -41,8 +41,8 @@ export function DesktopNavSidebar({
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
     ],
     dentist: [
       { id: 'home', icon: Home, label: t('nav.home') },
@@ -54,8 +54,8 @@ export function DesktopNavSidebar({
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
     ],
     clinic: [
       { id: 'home', icon: Home, label: t('nav.home') },
@@ -67,8 +67,8 @@ export function DesktopNavSidebar({
       { id: 'loja', icon: Gift, label: t('nav.rewardsStore') },
       { id: 'faturacao', icon: Receipt, label: t('nav.billing') },
       { id: 'pesquisa', icon: Search, label: t('nav.search') },
-      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
       { id: 'conversas', icon: MessageCircle, label: t('nav.conversations') },
+      { id: 'convidar', icon: GiftIcon, label: t('nav.invite') },
     ],
   };
 

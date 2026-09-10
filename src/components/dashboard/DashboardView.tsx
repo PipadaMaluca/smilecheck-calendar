@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryLabel } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -334,7 +334,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     );
   };
 
-  // Status helper — quiet by default; colour is reserved for exception states only.
+  // Status helper — each workflow state has a distinct, theme-safe colour for fast scanning.
   const getStatusBadge = (status?: string) => {
     const labels: Record<string, string> = {
       confirmada: t('consultation.confirmed'),
@@ -344,29 +344,33 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       falta_justificada: t('consultation.noShow'),
       falta_nao_justificada: t('consultation.noShow'),
     };
-    const isException = status === 'falta_justificada' || status === 'falta_nao_justificada';
     const label = (status && labels[status]) || t('consultation.scheduled');
-    if (isException) {
-      return (
-        <Badge variant="outline" className="text-[11px] flex-shrink-0 bg-destructive/10 text-destructive border-destructive/30">
-          {label}
-        </Badge>
-      );
-    }
+    const statusClasses: Record<ConsultationStatus, string> = {
+      agendada: 'border-blue-500/40 bg-blue-500/15 text-blue-700 dark:text-blue-300',
+      confirmada: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+      em_sala_espera: 'border-orange-500/40 bg-orange-500/15 text-orange-700 dark:text-orange-300',
+      em_consulta: 'border-purple-500/40 bg-purple-500/15 text-purple-700 dark:text-purple-300',
+      visto: 'border-green-500/40 bg-green-500/15 text-green-700 dark:text-green-300',
+      falta_justificada: 'border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-300',
+      falta_nao_justificada: 'border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-300',
+    };
+    const normalizedStatus = status && status in statusClasses ? status as ConsultationStatus : 'agendada';
     return (
-      <span className="text-[11px] font-medium text-muted-foreground flex-shrink-0 whitespace-nowrap">
+      <Badge variant="outline" className={cn('text-[11px] font-medium flex-shrink-0 whitespace-nowrap', statusClasses[normalizedStatus])}>
         {label}
-      </span>
+      </Badge>
     );
   };
 
-  // Consultation type — small colour dot + label instead of a saturated pill.
+  // Consultation type — full agenda-matched pill, including a lightened surgery tone for dark mode.
   const typeDot = (category?: ConsultationCategory, size: 'sm' | 'md' = 'md') => {
     if (!category) return null;
     const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
     return (
-      <span className={cn('inline-flex items-center gap-1.5 min-w-0 text-muted-foreground', size === 'sm' ? 'text-[11px]' : 'text-xs')}>
-        <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+      <span
+        className={cn('inline-flex items-center min-w-0 max-w-full rounded-md font-semibold', size === 'sm' ? 'px-1.5 py-0.5 text-[11px]' : 'px-2 py-1 text-xs')}
+        style={getCategoryBadgeStyle(color)}
+      >
         <span className="truncate">{getCategoryLabel(t, category)}</span>
       </span>
     );
@@ -877,9 +881,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </p>
                         {item.category && typeDot(item.category, 'sm')}
                       </div>
-                      <Badge variant="outline" className="text-[11px] flex-shrink-0">
-                        {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}
-                      </Badge>
+                      {getStatusBadge(item.status)}
                     </div>);
 
                 })}
