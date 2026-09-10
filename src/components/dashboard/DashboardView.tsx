@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { UserRole, CATEGORY_COLORS, ConsultationCategory, getCategoryLabel } from '@/types/calendar';
+import { UserRole, CATEGORY_COLORS, ConsultationCategory, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
@@ -334,7 +334,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     );
   };
 
-  // Status helper — quiet by default; colour is reserved for exception states only.
+  // Status helper — each workflow state has a distinct, theme-safe colour for fast scanning.
   const getStatusBadge = (status?: string) => {
     const labels: Record<string, string> = {
       confirmada: t('consultation.confirmed'),
@@ -344,29 +344,33 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       falta_justificada: t('consultation.noShow'),
       falta_nao_justificada: t('consultation.noShow'),
     };
-    const isException = status === 'falta_justificada' || status === 'falta_nao_justificada';
     const label = (status && labels[status]) || t('consultation.scheduled');
-    if (isException) {
-      return (
-        <Badge variant="outline" className="text-[11px] flex-shrink-0 bg-destructive/10 text-destructive border-destructive/30">
-          {label}
-        </Badge>
-      );
-    }
+    const statusClasses: Record<ConsultationStatus, string> = {
+      agendada: 'border-blue-500/40 bg-blue-500/15 text-blue-700 dark:text-blue-300',
+      confirmada: 'border-emerald-500/40 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+      em_sala_espera: 'border-orange-500/40 bg-orange-500/15 text-orange-700 dark:text-orange-300',
+      em_consulta: 'border-purple-500/40 bg-purple-500/15 text-purple-700 dark:text-purple-300',
+      visto: 'border-green-500/40 bg-green-500/15 text-green-700 dark:text-green-300',
+      falta_justificada: 'border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-300',
+      falta_nao_justificada: 'border-red-500/40 bg-red-500/15 text-red-700 dark:text-red-300',
+    };
+    const normalizedStatus = status && status in statusClasses ? status as ConsultationStatus : 'agendada';
     return (
-      <span className="text-[11px] font-medium text-muted-foreground flex-shrink-0 whitespace-nowrap">
+      <Badge variant="outline" className={cn('text-[11px] font-medium flex-shrink-0 whitespace-nowrap', statusClasses[normalizedStatus])}>
         {label}
-      </span>
+      </Badge>
     );
   };
 
-  // Consultation type — small colour dot + label instead of a saturated pill.
+  // Consultation type — full agenda-matched pill, including a lightened surgery tone for dark mode.
   const typeDot = (category?: ConsultationCategory, size: 'sm' | 'md' = 'md') => {
     if (!category) return null;
     const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
     return (
-      <span className={cn('inline-flex items-center gap-1.5 min-w-0 text-muted-foreground', size === 'sm' ? 'text-[11px]' : 'text-xs')}>
-        <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+      <span
+        className={cn('inline-flex items-center min-w-0 max-w-full rounded-md font-semibold', size === 'sm' ? 'px-1.5 py-0.5 text-[11px]' : 'px-2 py-1 text-xs')}
+        style={getCategoryBadgeStyle(color)}
+      >
         <span className="truncate">{getCategoryLabel(t, category)}</span>
       </span>
     );
@@ -646,6 +650,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
     const clinicDentists = getDentistsForClinic('1');
+    const clinicTodayConsultations = [...todayConsultations]
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .slice(0, 7);
 
 
     // Group confirmations by dentist
@@ -705,34 +712,38 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[11px]">54 {t('dashboard.total')}</Badge>
               </div>
-              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {(() => {
-                  const dentistData: {id: string;name: string;pres: number;tele: number;}[] = [
-                  { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                  { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                  { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }];
-                  return dentistData.map((d, index) => {
-                    const isLast = index === dentistData.length - 1;
-                    return (
+              <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
+                {clinicTodayConsultations.map((c, index) => {
+                  const isLast = index === clinicTodayConsultations.length - 1;
+                  return (
                     <div
-                      key={d.id}
+                      key={c.id}
                       className={cn(
-                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-colors cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden press",
-                        !isLast && "border-b border-border"
+                        'consultation-row grid grid-cols-[42px_minmax(0,1fr)_auto] sm:grid-cols-[48px_minmax(100px,1fr)_minmax(100px,1fr)_auto] items-center gap-2 py-1.5 rounded cursor-pointer hover:bg-muted/30 transition-colors press',
+                        !isLast && 'border-b border-border'
                       )}
-                      onClick={() => {
-                        window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                        onNavigate('agenda');
-                      }}>
-                       <ClickableDentistName name={d.name} className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
-                       <span className="text-muted-foreground text-[11px]">:</span>
-                       <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
-                       <span className="text-[11px] text-muted-foreground">·</span>
-                       <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} {t('dashboard.tele')}</span>
-                     </div>
-                    );
-                  });
-                })()}
+                      onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}
+                    >
+                      <span className="text-xs font-bold tabular-nums text-primary">{c.time}</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">
+                          <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" />
+                        </p>
+                        <p className="text-[11px] text-muted-foreground truncate sm:hidden">
+                          <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground" />
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex min-w-0 items-center gap-2">
+                        {typeDot(c.category, 'sm')}
+                        <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground truncate" />
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1">
+                        <span className="sm:hidden">{typeDot(c.category, 'sm')}</span>
+                        {getStatusBadge(consultationStatuses[c.id] || c.status)}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
@@ -877,9 +888,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         </p>
                         {item.category && typeDot(item.category, 'sm')}
                       </div>
-                      <Badge variant="outline" className="text-[11px] flex-shrink-0">
-                        {item.status === 'confirmada' ? t('consultation.confirmed') : t('consultation.scheduled')}
-                      </Badge>
+                      {getStatusBadge(item.status)}
                     </div>);
 
                 })}
