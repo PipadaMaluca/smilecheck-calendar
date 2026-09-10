@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -53,11 +53,11 @@ function releaseSlot(id: string) {
   }
 }
 
-export function CoachMark(_props: CoachMarkProps) {
-  // Disabled: tutorial tooltips only live inside the Onboarding slideshow.
-  // Kept as a no-op so existing call sites continue to compile.
-  return null;
-}
+// Disabled: tutorial tooltips only live inside the Onboarding slideshow.
+// Kept as a forwardRef no-op so existing call sites (and tooling that passes a
+// ref) continue to work without React warnings.
+export const CoachMark = forwardRef<HTMLDivElement, CoachMarkProps>(() => null);
+CoachMark.displayName = 'CoachMark';
 
 // Legacy implementation preserved below but unreachable.
 function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: CoachMarkProps) {
