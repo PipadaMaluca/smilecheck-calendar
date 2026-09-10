@@ -162,4 +162,4 @@ export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackMo
       </DialogContent>
     </Dialog>
   );
-}
+});
