@@ -231,7 +231,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       {showDropdown && dropdownPosition && createPortal(
         <div
           ref={dropdownRef}
-          className="fixed mt-0 bg-card border border-border rounded-lg shadow-2xl overflow-hidden pointer-events-auto"
+          className="fixed mt-0 bg-card border border-border rounded-lg shadow-lg overflow-hidden pointer-events-auto"
           style={{
             zIndex: 9999,
             top: dropdownPosition.top,

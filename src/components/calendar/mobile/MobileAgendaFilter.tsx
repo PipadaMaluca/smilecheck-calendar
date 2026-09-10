@@ -215,7 +215,7 @@ export function MobileAgendaFilter({
           type="button"
           variant="outline"
           onClick={() => setOpen(true)}
-          className="h-auto flex items-center gap-1.5 px-4 py-1.5 rounded-[20px] text-xs font-medium bg-background text-foreground hover:bg-muted tap-target"
+          className="h-auto flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium bg-background text-foreground hover:bg-muted tap-target"
         >
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>

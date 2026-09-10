@@ -78,7 +78,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               </div>
               <span className="text-[11px] font-medium leading-none">{item.label}</span>
               {isActive && (
-                <span className="absolute top-0 w-8 h-[3px] bg-[#2196F3] rounded-[2px]" />
+                <span className="absolute top-0 w-8 h-[3px] bg-primary rounded-sm" />
               )}
             </button>
           );

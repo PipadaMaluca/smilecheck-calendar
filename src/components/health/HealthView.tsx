@@ -195,7 +195,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             <button
               onClick={() => setShowAddModal(true)}
               aria-label={t('account.addMember')}
-              className="bg-transparent border border-dashed border-[#2196F3] rounded-[20px] px-4 py-1.5 text-xs font-semibold text-[#2196F3] hover:bg-[#2196F3]/10 transition-colors"
+              className="bg-transparent border border-dashed border-primary rounded-full px-4 py-1.5 text-xs font-semibold text-primary hover:bg-primary/10 transition-colors"
             >
               + {t('account.addMember')}
             </button>

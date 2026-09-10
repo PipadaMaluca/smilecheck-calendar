@@ -38,7 +38,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
     return (
       <div
         className={cn(
-          'flex items-center rounded-[12px] border border-border bg-muted/60 backdrop-blur-md',
+          'flex items-center rounded-xl border border-border bg-muted/60 backdrop-blur-md',
           containerPad
         )}
       >

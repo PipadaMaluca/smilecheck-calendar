@@ -101,7 +101,7 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         </div>
 
         {/* Info Box */}
-        <div className="w-full rounded-[10px] text-center mt-4" style={{ backgroundColor: 'rgba(33, 150, 243, 0.1)', padding: '12px 16px' }}>
+        <div className="w-full rounded-lg text-center mt-4" style={{ backgroundColor: 'rgba(33, 150, 243, 0.1)', padding: '12px 16px' }}>
           <p className="text-[11px] text-muted-foreground leading-relaxed">
             {t('onboarding.rankingsUpdate')}
           </p>

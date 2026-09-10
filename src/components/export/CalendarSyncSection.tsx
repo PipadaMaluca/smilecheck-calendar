@@ -164,7 +164,7 @@ export function CalendarSyncSection() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3] hover:text-white hover:border-[#2196F3]"
+                  className="gap-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground hover:border-primary"
                 >
                   <RefreshCw className="w-3.5 h-3.5" /> {t('export.regenerateLink')}
                 </Button>
@@ -178,7 +178,7 @@ export function CalendarSyncSection() {
                   <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleRegenerate}
-                    className="bg-[#2196F3] text-white hover:bg-[#1E88E5]"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     {t('common.confirm')}
                   </AlertDialogAction>
