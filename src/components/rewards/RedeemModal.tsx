@@ -4,7 +4,7 @@ import { Gift } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Copy, Check, Loader2 } from 'lucide-react';
+import { Copy, Check, Loader2, PartyPopper, Mail, ShoppingCart, Globe } from 'lucide-react';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog';
@@ -105,7 +105,10 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>{t('store.redeemConfirmed')}</DialogTitle>
+              <DialogTitle className="flex items-center gap-2">
+                <PartyPopper className="w-5 h-5 text-primary" />
+                {t('store.redeemConfirmed')}
+              </DialogTitle>
               <DialogDescription>
                 {t('store.yourCode')} "{product.name}":
               </DialogDescription>
@@ -119,9 +122,11 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
                 {copied ? t('store.copied') : t('store.copyCode')}
               </Button>
               <div className="text-xs text-muted-foreground space-y-1">
-                <p>{t('store.emailSent')}</p>
+                <p className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" />{t('store.emailSent')}</p>
                 <p>{t('store.validity')}</p>
-                {product.discount ? <p>{t('store.useDiscount')}</p> : <p>{t('store.useSite')}</p>}
+                {product.discount
+                  ? <p className="flex items-center gap-1.5"><ShoppingCart className="w-3.5 h-3.5" />{t('store.useDiscount')}</p>
+                  : <p className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5" />{t('store.useSite')}</p>}
               </div>
             </div>
             <DialogFooter>

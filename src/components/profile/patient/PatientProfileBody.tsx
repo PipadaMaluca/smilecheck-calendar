@@ -179,7 +179,7 @@ export function PatientProfileBody({
       return (
         <div className="mt-4 space-y-2">
           <div className={cn('grid gap-2', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
-            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => toast.info('Teleconsulta em breve...')}>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => toast.info(t('sweep.teleconsulta.comingSoon'))}>
               <Video className="w-4 h-4" /> {t('profile.startTeleconsult')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>
@@ -522,7 +522,7 @@ export function PatientProfileBody({
 
       {/* Block Patient Modal */}
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
-        <DialogContent className="sm:max-w-md z-[70]">
+        <DialogContent className="sm:max-w-md z-notification">
           <DialogHeader>
             <DialogTitle>
 <Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('profile.blockTitle', { name: data.name })}</DialogTitle>

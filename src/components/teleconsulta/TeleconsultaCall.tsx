@@ -73,7 +73,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#0a0a0f] flex flex-col">
+    <div className="fixed inset-0 z-modal bg-[#0a0a0f] flex flex-col">
       {/* Watermark */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-[0.02] z-0"
         style={{ backgroundImage: `url(${smileIcon})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', backgroundSize: '30%' }} />
@@ -205,7 +205,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
               <h3 className="text-sm font-semibold text-white">
                 {activePanel === 'chat' ? t('teleconsult.chat') : t('teleconsult.notesTitle')}
               </h3>
-              <Button variant="ghost" size="icon" className="text-white/50 hover:text-white h-8 w-8" onClick={() => setActivePanel(null)}>
+              <Button variant="ghost" size="icon-sm" className="text-white/50 hover:text-white" onClick={() => setActivePanel(null)}>
                 <X className="w-4 h-4" />
               </Button>
             </div>
@@ -271,7 +271,7 @@ function ToolbarButton({ icon, label, active, danger, onClick }: {
     <button
       onClick={onClick}
       className={cn(
-        'flex flex-col items-center gap-1 p-2 md:p-3 rounded-xl transition-colors',
+        'flex flex-col items-center gap-1 p-2 md:p-3 rounded-xl transition-colors tap-target',
         danger ? 'bg-red-600/20 text-red-400 hover:bg-red-600/30' :
         active ? 'bg-white/10 text-white' : 'text-white/50 hover:bg-white/5 hover:text-white/80'
       )}

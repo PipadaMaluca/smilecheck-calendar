@@ -321,9 +321,9 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
       <div className="p-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
+            <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
-            </button>
+            </Button>
             <div>
               <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
                 <Briefcase className="w-5 h-5 text-primary" /> {t('jobs.title')}
@@ -432,9 +432,9 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     <div className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
+          <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
-          </button>
+          </Button>
           <div>
             <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Briefcase className="w-5 h-5 text-primary" /> {t('jobs.title')}
@@ -565,11 +565,11 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-2">
                 {['fullTime', 'partTime', 'freelancer', 'temporaryReplacement'].map(k => (
-                  <button key={k} onClick={() => setProposalData(p => ({ ...p, contractType: k }))}
-                    className={cn('p-3 rounded-xl border text-sm font-medium transition-colors text-left',
-                      proposalData.contractType === k ? 'border-primary bg-primary/10 text-primary' : 'border-border hover:bg-accent press')}>
+                  <Button key={k} type="button" variant="outline" aria-pressed={proposalData.contractType === k} onClick={() => setProposalData(p => ({ ...p, contractType: k }))}
+                    className={cn('h-auto justify-start p-3 rounded-xl text-sm font-medium text-left',
+                      proposalData.contractType === k ? 'border-primary bg-primary/10 text-primary hover:bg-primary/10' : 'border-border hover:bg-accent')}>
                     {t(`jobs.${k}`)}
-                  </button>
+                  </Button>
                 ))}
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -610,14 +610,14 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                         <td className="p-1 font-medium">{t(`common.weekdays.${ws.day}`)}</td>
                         {(['morning', 'afternoon', 'night'] as const).map(period => (
                           <td key={period} className="p-1 text-center">
-                            <button onClick={() => {
+                            <Button type="button" variant="outline" size="icon-sm" aria-pressed={ws[period]} onClick={() => {
                               const updated = [...proposalData.weekSchedule];
                               updated[i] = { ...updated[i], [period]: !updated[i][period] };
                               setProposalData(p => ({ ...p, weekSchedule: updated }));
-                            }} className={cn('w-8 h-8 rounded-lg border transition-colors',
-                              ws[period] ? 'bg-primary text-primary-foreground border-primary' : 'border-border hover:bg-accent press')}>
+                            }} className={cn('w-8 h-8 rounded-lg',
+                              ws[period] ? 'bg-primary text-primary-foreground border-primary hover:bg-primary' : 'border-border hover:bg-accent')}>
                               {ws[period] ? '✓' : ''}
-                            </button>
+                            </Button>
                           </td>
                         ))}
                       </tr>

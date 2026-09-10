@@ -4,6 +4,7 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { useAchievements } from '@/data/achievementsSource';
 
 import { CardGridSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useTranslation } from 'react-i18next';
 import { Lock, HelpCircle, Star as StarIcon, Check, Trophy, Sparkles } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
@@ -520,9 +521,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
 
           <TabsContent value="completas" className="space-y-0 mt-4">
             {completedCategories.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground text-sm">{t('achievements.noUnlocked')}</p>
-              </div>
+              <EmptyState icon={Trophy} title={t('achievements.noUnlocked')} />
             ) : (
               <>
                 <p className="text-xs text-muted-foreground mb-4">

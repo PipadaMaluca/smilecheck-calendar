@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Glyph } from '@/components/ui/glyph';
+import { Smile, Meh, Frown, Angry, Skull } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -11,7 +11,7 @@ interface TriageIntensityStepProps {
   onRoutineChange: (isRoutine: boolean) => void;
 }
 
-const PAIN_EMOJIS = ['😊', '🙂', '😐', '😕', '😣', '😖', '😩', '😫', '😵', '🤯', '💀'];
+const PAIN_ICONS = [Smile, Smile, Meh, Meh, Frown, Frown, Angry, Angry, Angry, Skull, Skull];
 
 const getIntensityColor = (value: number) => {
   if (value <= 3) return 'text-green-500';
@@ -41,7 +41,10 @@ export function TriageIntensityStep({
 
       <div className={cn('space-y-6', isRoutineCheckup && 'opacity-40 pointer-events-none')}>
         <div className="text-center">
-          <span className="text-6xl">{PAIN_EMOJIS[painIntensity]}</span>
+          {(() => {
+            const PainIcon = PAIN_ICONS[painIntensity];
+            return <PainIcon className={cn('w-16 h-16 mx-auto', getIntensityColor(painIntensity))} />;
+          })()}
           <p className={cn('text-3xl font-bold mt-2', getIntensityColor(painIntensity))}>
             {painIntensity}
           </p>
@@ -82,10 +85,10 @@ export function TriageIntensityStep({
         </div>
 
         <div className="flex justify-between px-2">
-          <Glyph emoji="😊" className="w-7 h-7" />
-          <Glyph emoji="😐" className="w-7 h-7" />
-          <Glyph emoji="😣" className="w-7 h-7" />
-          <Glyph emoji="😫" className="w-7 h-7" />
+          <Smile className="w-7 h-7 text-green-500" />
+          <Meh className="w-7 h-7 text-yellow-500" />
+          <Frown className="w-7 h-7 text-orange-500" />
+          <Angry className="w-7 h-7 text-red-500" />
         </div>
       </div>
 

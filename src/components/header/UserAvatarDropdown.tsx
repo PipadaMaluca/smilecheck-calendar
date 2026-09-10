@@ -90,7 +90,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
       {isOpen && (
         <div
           className={cn(
-            'absolute z-[200] rounded-lg overflow-hidden',
+            'absolute z-celebration rounded-lg overflow-hidden',
             // Dark theme defaults
             'bg-[#0D2137] border border-[#1E3A5F] shadow-[0_8px_24px_rgba(0,0,0,0.3)]',
             // Light theme overrides

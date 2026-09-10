@@ -6,7 +6,8 @@ import { DashboardSkeleton } from '@/components/skeletons';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { getQuickActions } from './quickActions';
-import { Star, Calendar, Users, Flame, Award, Search, BarChart3, Heart, Check, X, Ban, ChevronDown, UserPlus } from 'lucide-react';
+import { Star, Calendar, Users, Flame, Award, Search, BarChart3, Heart, Check, X, Ban, ChevronDown, UserPlus, CalendarX } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { Button } from '@/components/ui/button';
@@ -451,6 +452,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[11px]">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
+              {dentistCons.length === 0 && (
+                <EmptyState size="sm" icon={CalendarX} title={t('emptyStates.agendaTitle')} />
+              )}
               {morningCons.map((c, index) => {
                   const isLast = index === morningCons.length - 1;
                   return (
@@ -713,6 +717,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <Badge variant="outline" className="text-[11px]">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
+                {clinicTodayConsultations.length === 0 && (
+                  <EmptyState size="sm" icon={CalendarX} title={t('emptyStates.agendaTitle')} />
+                )}
                 {clinicTodayConsultations.map((c, index) => {
                   const isLast = index === clinicTodayConsultations.length - 1;
                   return (

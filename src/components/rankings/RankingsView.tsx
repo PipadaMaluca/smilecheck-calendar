@@ -8,6 +8,7 @@ import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface RankingsViewProps {
   userRole: UserRole;
@@ -127,6 +128,7 @@ function MedalEmoji({ position }: { position: number }) {
 }
 
 export function RankingsView({ userRole, inline }: RankingsViewProps) {
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [selectedView, setSelectedView] = useState<RankingView>('national');
 
@@ -135,8 +137,8 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
 
   // Build card list
   const cards: { id: RankingView; title: string; icon: React.ReactNode; position: number; total: number; trend: 'up' | 'down' | 'same'; change: number }[] = [
-    { id: 'global', title: 'Ranking Global', icon: <Trophy className="w-5 h-5 text-primary" />, ...rankings.global },
-    { id: 'national', title: 'Ranking Nacional', icon: <Flag className="w-5 h-5 text-primary" />, ...rankings.national },
+    { id: 'global', title: t('sweep.rankings.global'), icon: <Trophy className="w-5 h-5 text-primary" />, ...rankings.global },
+    { id: 'national', title: t('sweep.rankings.national'), icon: <Flag className="w-5 h-5 text-primary" />, ...rankings.national },
   ];
   if (!isClinic) {
     dentistRankings.clinics.forEach(c => {
@@ -157,8 +159,8 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
     <div className={cn(inline ? 'space-y-6' : 'p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32')}>
       {!inline && (
         <div>
-          <h1 className="text-xl font-bold text-foreground">Classificações</h1>
-          <p className="text-sm text-muted-foreground">Veja a sua posição nos rankings</p>
+          <h1 className="text-xl font-bold text-foreground">{t('sweep.rankings.title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('sweep.rankings.subtitle')}</p>
         </div>
       )}
 
@@ -189,7 +191,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   <TrendIcon trend={card.trend} change={card.change} />
                 </div>
                 <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                <p className="text-[11px] text-muted-foreground">de {card.total.toLocaleString()}</p>
+                <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: card.total.toLocaleString() })}</p>
                 <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
               </CardContent>
             </Card>
@@ -222,7 +224,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                     <TrendIcon trend={card.trend} change={card.change} />
                   </div>
                   <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                  <p className="text-[11px] text-muted-foreground">de {card.total.toLocaleString()}</p>
+                  <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: card.total.toLocaleString() })}</p>
                   <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
                 </CardContent>
               </Card>
@@ -236,7 +238,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
       {/* Leaderboard */}
       <div>
         <h2 className="text-base font-semibold text-foreground mb-4">
-          {cards.find(c => c.id === selectedView)?.title || 'Ranking Nacional'}
+          {cards.find(c => c.id === selectedView)?.title || t('sweep.rankings.national')}
         </h2>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-0">
@@ -260,7 +262,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                 <div className="flex-1 min-w-0">
                   <p className={cn('text-sm truncate', entry.isCurrentUser ? 'font-bold text-primary' : 'text-foreground')}>
                     {entry.name}
-                    {entry.isCurrentUser && <span className="text-xs ml-1">(Você)</span>}
+                    {entry.isCurrentUser && <span className="text-xs ml-1">{t('sweep.rankings.you')}</span>}
                   </p>
                 </div>
                 <span className="text-sm font-medium text-muted-foreground">
@@ -282,7 +284,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-primary truncate">
-                      {mockDentists[0].name} <span className="text-xs">(Você)</span>
+                      {mockDentists[0].name} <span className="text-xs">{t('sweep.rankings.you')}</span>
                     </p>
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">
@@ -303,7 +305,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-primary truncate">
-                      {isClinic ? mockClinics[0].name : mockDentists[0].name} <span className="text-xs">(Você)</span>
+                      {isClinic ? mockClinics[0].name : mockDentists[0].name} <span className="text-xs">{t('sweep.rankings.you')}</span>
                     </p>
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">

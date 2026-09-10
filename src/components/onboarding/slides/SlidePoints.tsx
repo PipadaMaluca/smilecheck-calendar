@@ -1,19 +1,19 @@
 import { UserRole } from '@/types/calendar';
-import { Glyph } from '@/components/ui/glyph';
+import { Wallet, Star, CheckCircle2, Footprints, AlarmClock, Handshake, Brush, ClipboardList, Smartphone, MessageCircle, FileText, Flame, Stethoscope, BarChart3, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface SlidePointsProps { isActive: boolean; userRole: UserRole; }
 
 const PATIENT_KEYS = ['rating5', 'rating4', 'confirm24h', 'confirm1h', 'attended', 'onTime', 'collaborated', 'hygiene', 'followedRecs'];
-const PATIENT_ICONS = ['⭐', '⭐', '✅', '✅', '🏃', '⏰', '🤝', '🪥', '📋'];
+const PATIENT_ICONS = [Star, Star, CheckCircle2, CheckCircle2, Footprints, AlarmClock, Handshake, Brush, ClipboardList];
 const PATIENT_PTS = ['+5 pts', '+3 pts', '+1 pt', '+1 pt', '+5 pts', '+2 pts', '+2 pts', '+2 pts', '+2 pts'];
 
 const DENTIST_KEYS = ['consultCompleted', 'teleconsultDone', 'reply24h', 'prescription', 'referralLetter', 'rating5FromPatient', 'streak7days'];
-const DENTIST_ICONS = ['📋', '📱', '💬', '📝', '📄', '⭐', '🔥'];
+const DENTIST_ICONS = [ClipboardList, Smartphone, MessageCircle, FileText, FileText, Star, Flame];
 const DENTIST_PTS = ['+8 pts', '+10 pts', '+2 pts', '+1 pt', '+2 pts', '+5 pts', '+10 pts'];
 
 const CLINIC_KEYS = ['clinicConsultCompleted', 'clinicTeleconsult', 'clinicRating5', 'newDentistActive', 'confirmRate90', 'dentistTop100'];
-const CLINIC_ICONS = ['📋', '📱', '⭐', '👨‍⚕️', '📊', '🏆'];
+const CLINIC_ICONS = [ClipboardList, Smartphone, Star, Stethoscope, BarChart3, Trophy];
 const CLINIC_PTS = ['+3 pts', '+5 pts', '+5 pts', '+15 pts', '+10 pts/sem', '+20 pts'];
 
 export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
@@ -27,18 +27,22 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
   return (
     <div className="h-full flex flex-col items-center justify-center px-6 overflow-y-auto py-8">
       <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2">
+        <Wallet className="w-6 h-6" />
         {t(`onboarding.${roleKey}.pointsTitle`)}
       </h2>
       <div className="glass-card p-4 w-full max-w-sm space-y-2">
-        {keys.map((key, index) => (
-          <div key={index} className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 transition-colors duration-300">
-            <div className="flex items-center gap-3">
-              <Glyph emoji={icons[index]} className="w-6 h-6 text-primary" />
-              <span className="text-foreground font-medium text-sm">{t(`onboarding.pointsLabels.${key}`)}</span>
+        {keys.map((key, index) => {
+          const Icon = icons[index];
+          return (
+            <div key={index} className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 transition-colors duration-300">
+              <div className="flex items-center gap-3">
+                <Icon className="w-6 h-6 text-primary" />
+                <span className="text-foreground font-medium text-sm">{t(`onboarding.pointsLabels.${key}`)}</span>
+              </div>
+              <span className="font-bold text-sm text-gaming-green">{pts[index]}</span>
             </div>
-            <span className="font-bold text-sm text-gaming-green">{pts[index]}</span>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">{t(`onboarding.${roleKey}.pointsBottom`)}</p>
       <p className="text-[11px] text-muted-foreground text-center max-w-xs mt-2">{t('onboarding.xpNote')}</p>

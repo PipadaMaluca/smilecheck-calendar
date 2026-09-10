@@ -132,7 +132,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                     <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
                     <p className="text-xs text-muted-foreground">{tc.duration} · €{tc.amount} · {t('billing.commissionLabel')}: €{tc.commission} · {t('billing.net')}: €{tc.net}</p>
                   </div>
-                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
+                  <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                     <Download className="w-4 h-4" />
                   </Button>
                 </CardContent>

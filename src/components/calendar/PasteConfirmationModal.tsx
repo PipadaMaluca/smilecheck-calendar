@@ -69,8 +69,8 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
 
   return (
     <>
-      <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[60]" onClick={onClose} />
-      <div className={cn('bg-card flex flex-col z-[61]', isMobile ? 'fixed inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh] animate-slide-up-modal' : 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-[95%] max-w-lg max-h-[90vh]')}>
+      <div className="fixed inset-0 scrim z-modal" onClick={onClose} />
+      <div className={cn('bg-card flex flex-col z-modal', isMobile ? 'fixed inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh] animate-slide-up-modal' : 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-[95%] max-w-lg max-h-[90vh]')}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-lg font-bold">{t('pasteConsultation.title')}</h2>
           <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>

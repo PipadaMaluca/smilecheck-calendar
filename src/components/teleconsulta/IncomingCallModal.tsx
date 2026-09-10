@@ -28,7 +28,7 @@ export function IncomingCallModal({ isOpen, dentistName, onAccept, onReject }: I
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[110] bg-[#0a0a0f]/95 backdrop-blur-xl flex items-center justify-center">
+    <div className="fixed inset-0 z-celebration bg-[#0a0a0f]/95 backdrop-blur-xl flex items-center justify-center">
       <div className="flex flex-col items-center gap-8 p-8 max-w-sm text-center animate-fade-in">
         {/* Pulsing avatar */}
         <div className="relative">

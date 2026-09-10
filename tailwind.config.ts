@@ -111,6 +111,19 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      zIndex: {
+        // === Stacking scale (Phase 6) — single source of truth for overlay z-index ===
+        // dropdown(40) < sticky(30 for headers, below dropdown intentionally) < overlay(50, shadcn Dialog/Sheet default)
+        // < modal(60, bespoke full-screen views + modals) < notification(70, notification panel + persistent chrome above modals)
+        // < toast(80) < celebration(90, level-up / incoming call, always on top)
+        dropdown: "40",
+        sticky: "30",
+        overlay: "50",
+        modal: "60",
+        notification: "70",
+        toast: "80",
+        celebration: "90",
+      },
       transitionTimingFunction: {
         DEFAULT: "cubic-bezier(0.4, 0, 0.2, 1)",
         premium: "cubic-bezier(0.4, 0, 0.2, 1)",

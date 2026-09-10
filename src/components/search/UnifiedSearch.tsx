@@ -93,26 +93,30 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             autoFocus
           />
           {query && (
-            <button onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2">
+            <Button type="button" variant="ghost" size="icon-sm" onClick={() => setQuery('')} className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6">
               <X className="w-4 h-4 text-muted-foreground" />
-            </button>
+            </Button>
           )}
         </div>
 
         <div className="flex gap-2 mt-3">
           {(['all', 'patients', 'dentists', 'clinics'] as const).map(f => (
-            <button
+            <Button
               key={f}
+              type="button"
+              variant="outline"
+              size="sm"
+              aria-pressed={activeFilter === f}
               onClick={() => setActiveFilter(f)}
               className={cn(
-                'px-3 py-1.5 text-xs font-medium rounded-full transition-colors',
+                'h-auto px-3 py-1.5 text-xs font-medium rounded-full border-transparent tap-target',
                 activeFilter === f
-                  ? 'bg-primary text-primary-foreground'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                   : 'bg-secondary text-muted-foreground hover:text-foreground'
               )}
             >
               {filterLabels[f]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -126,22 +130,22 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                   {t('search.patients')} ({filteredPatients.length})
                 </h3>
                 {activeFilter === 'all' && (
-                  <button onClick={() => setActiveFilter('patients')} className="text-xs text-primary hover:underline flex items-center gap-1">
+                  <Button type="button" variant="link" onClick={() => setActiveFilter('patients')} className="h-auto p-0 text-xs text-primary flex items-center gap-1">
                     {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
-                  </button>
+                  </Button>
                 )}
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredPatients.slice(0, 3) : filteredPatients).map(p => (
-                  <button key={p.id} className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-secondary/50 transition-colors text-left">
+                  <Button key={p.id} type="button" variant="ghost" className="w-full h-auto justify-start flex items-center gap-3 p-2.5 rounded-lg font-normal">
                     <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <User className="w-4 h-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{p.name}</p>
-                      <p className="text-xs text-muted-foreground">{p.age} {t('search.yearsOld')} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
+                      <p className="text-sm font-medium text-foreground truncate" title={p.name}>{p.name}</p>
+                      <p className="text-xs text-muted-foreground truncate" title={`${p.age} ${t('search.yearsOld')} · ${t('search.lastConsultation')}: ${p.lastConsultation}`}>{p.age} {t('search.yearsOld')} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -154,39 +158,44 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                   {t('search.dentistsTab')} ({filteredDentists.length})
                 </h3>
                 {activeFilter === 'all' && (
-                  <button onClick={() => setActiveFilter('dentists')} className="text-xs text-primary hover:underline flex items-center gap-1">
+                  <Button type="button" variant="link" onClick={() => setActiveFilter('dentists')} className="h-auto p-0 text-xs text-primary flex items-center gap-1">
                     {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
-                  </button>
+                  </Button>
                 )}
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredDentists.slice(0, 3) : filteredDentists).map(d => {
                   const isFav = favorites.includes(d.id);
                   return (
-                    <button
+                    <Button
                       key={d.id}
-                      className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-secondary/50 transition-colors text-left"
+                      type="button"
+                      variant="ghost"
+                      className="w-full h-auto justify-start flex items-center gap-3 p-2.5 rounded-lg font-normal"
                       onClick={() => onViewDentistProfile?.(d)}
                     >
                       <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 text-sm font-bold text-primary">
                         {getDentistInitials(d.name)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1.5 min-w-0">
                           {isFav && <Star className="w-3 h-3 fill-amber-400 text-warning flex-shrink-0" />}
-                          <span className="text-sm font-medium text-foreground truncate">{d.name}</span>
+                          <span className="text-sm font-medium text-foreground truncate min-w-0" title={d.name}>{d.name}</span>
                         </div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground truncate" title={`${d.specialties.join(', ')} · ${d.rating}`}>
                           {d.specialties.join(', ')} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{d.rating}
                         </p>
                       </div>
-                      <button
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon-sm"
+                        className="h-auto w-auto p-1"
                         onClick={e => { e.stopPropagation(); onToggleFavorite?.(d.id); }}
-                        className="p-1"
                       >
                         <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
-                      </button>
-                    </button>
+                      </Button>
+                    </Button>
                   );
                 })}
               </div>
@@ -200,29 +209,31 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                   {t('search.clinicsTab')} ({filteredClinics.length})
                 </h3>
                 {activeFilter === 'all' && (
-                  <button onClick={() => setActiveFilter('clinics')} className="text-xs text-primary hover:underline flex items-center gap-1">
+                  <Button type="button" variant="link" onClick={() => setActiveFilter('clinics')} className="h-auto p-0 text-xs text-primary flex items-center gap-1">
                     {t('search.viewAll')} <ChevronRight className="w-3 h-3" />
-                  </button>
+                  </Button>
                 )}
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredClinics.slice(0, 3) : filteredClinics).map(c => (
-                  <button
+                  <Button
                     key={c.id}
-                    className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-secondary/50 transition-colors text-left"
+                    type="button"
+                    variant="ghost"
+                    className="w-full h-auto justify-start flex items-center gap-3 p-2.5 rounded-lg font-normal"
                     onClick={() => onViewClinicProfile?.(c.id)}
                   >
                     <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <Building2 className="w-4 h-4 text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">{c.name}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm font-medium text-foreground truncate" title={c.name}>{c.name}</p>
+                      <p className="text-xs text-muted-foreground truncate" title={`${c.address} · ${c.rating}`}>
                         {c.address} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{c.rating}
                       </p>
                     </div>
-                    <span className="text-xs text-muted-foreground">{c.distance} km</span>
-                  </button>
+                    <span className="text-xs text-muted-foreground shrink-0">{c.distance} km</span>
+                  </Button>
                 ))}
               </div>
             </div>

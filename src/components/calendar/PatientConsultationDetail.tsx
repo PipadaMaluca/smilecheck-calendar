@@ -254,7 +254,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
       {/* ── Cancellation Modal ── */}
       <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
-        <DialogContent className="sm:max-w-md z-[70]">
+        <DialogContent className="sm:max-w-md z-notification">
           {cancelled ? (
             <div className="text-center py-8 space-y-3">
               <Glyph emoji="✅" className="w-10 h-10" />

@@ -7,8 +7,9 @@ export function DemoModeBadge() {
   const { t } = useTranslation();
   if (!demoMode) return null;
 
+  // Mobile: sits below full-screen overlays so it never covers modal footers; desktop: always visible
   return (
-    <div className="fixed left-3 bottom-[calc(env(safe-area-inset-bottom,0px)+76px)] md:bottom-3 z-[95] pointer-events-none">
+    <div className="fixed left-3 bottom-[calc(env(safe-area-inset-bottom,0px)+76px)] md:bottom-3 md:left-auto md:right-3 z-sticky md:z-toast pointer-events-none">
       <span className="inline-flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide bg-background/80 text-muted-foreground border border-border/60 backdrop-blur-md shadow-sm">
         <FlaskConical className="w-3 h-3 text-primary" />
         {t('auth.demo', { defaultValue: 'Demo' })}

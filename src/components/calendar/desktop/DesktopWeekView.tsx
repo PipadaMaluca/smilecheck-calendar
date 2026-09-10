@@ -254,7 +254,7 @@ export function DesktopWeekView({
 
                       {isSunday && (
                         <div className="absolute inset-0 flex items-center justify-center text-[11px] text-muted-foreground px-2 text-center">
-                          Sem agenda
+                          {t('sweep.weekView.noSchedule')}
                         </div>
                       )}
 

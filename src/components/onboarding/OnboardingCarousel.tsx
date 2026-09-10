@@ -57,7 +57,7 @@ export function OnboardingCarousel() {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-gradient-to-b from-background to-background/95">
+    <div className="fixed inset-0 z-modal bg-gradient-to-b from-background to-background/95">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-64 h-64 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />
         <div className="absolute bottom-40 right-10 w-80 h-80 rounded-full blur-3xl" style={{ backgroundColor: 'hsla(195, 100%, 70%, 0.05)' }} />

@@ -184,16 +184,16 @@ export function FavoritesView({
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="flex gap-1 bg-muted rounded-lg p-1 flex-shrink-0">
-          <button onClick={() => setTypeFilter('clinics')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'clinics' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+          <Button type="button" variant="ghost" aria-pressed={typeFilter === 'clinics'} onClick={() => setTypeFilter('clinics')} className={cn('h-auto px-4 py-2 text-sm font-medium rounded-md', typeFilter === 'clinics' ? 'bg-background text-foreground shadow-sm hover:bg-background' : 'text-muted-foreground hover:text-foreground')}>
             {t('search.clinicsTab')}
-          </button>
-          <button onClick={() => setTypeFilter('dentists')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+          </Button>
+          <Button type="button" variant="ghost" aria-pressed={typeFilter === 'dentists'} onClick={() => setTypeFilter('dentists')} className={cn('h-auto px-4 py-2 text-sm font-medium rounded-md', typeFilter === 'dentists' ? 'bg-background text-foreground shadow-sm hover:bg-background' : 'text-muted-foreground hover:text-foreground')}>
             {t('search.dentistsTab')}
-          </button>
+          </Button>
           {showPatientsTab && (
-            <button onClick={() => setTypeFilter('patients')} className={cn('px-4 py-2 text-sm font-medium rounded-md transition-colors', typeFilter === 'patients' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground')}>
+            <Button type="button" variant="ghost" aria-pressed={typeFilter === 'patients'} onClick={() => setTypeFilter('patients')} className={cn('h-auto px-4 py-2 text-sm font-medium rounded-md', typeFilter === 'patients' ? 'bg-background text-foreground shadow-sm hover:bg-background' : 'text-muted-foreground hover:text-foreground')}>
               {t('search.patientsTab')}
-            </button>
+            </Button>
           )}
         </div>
         <div className="flex gap-2 flex-wrap flex-1 justify-start sm:justify-end">
@@ -203,9 +203,9 @@ export function FavoritesView({
             </Button>
           )}
           {typeFilter !== 'patients' && (
-            <button onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('px-3 py-2 text-sm font-medium rounded-lg border transition-colors flex items-center gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:text-foreground')}>
+            <Button type="button" variant="outline" size="sm" aria-pressed={filterTab === 'favoritos'} onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
               <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -241,12 +241,16 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewProfile(d)}
               >
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-pressed={isFav}
                   onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10 press"
+                  className="absolute top-2 right-2 h-auto w-auto p-1 rounded hover:bg-accent/30 z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
-                </button>
+                </Button>
 
                 <div className="flex items-start gap-3 pr-10">
                   {photo ? (
@@ -257,7 +261,7 @@ export function FavoritesView({
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
+                    <p className="text-sm font-bold text-foreground truncate" title={d.name}>{d.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
@@ -276,9 +280,9 @@ export function FavoritesView({
                       className="mt-1"
                     />
                     {d.clinics[0] && (
-                      <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                        <MapPin className="w-3 h-3" />
-                        <span className="truncate">{d.clinics[0].name}</span>
+                      <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground min-w-0">
+                        <MapPin className="w-3 h-3 shrink-0" />
+                        <span className="truncate min-w-0" title={d.clinics[0].name}>{d.clinics[0].name}</span>
                       </div>
                     )}
                   </div>
@@ -297,23 +301,27 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-pressed={isFav}
                   onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
-                  className="absolute top-2 right-2 p-1 rounded hover:bg-accent/30 transition-[transform,background-color,border-color,color,box-shadow] z-10 press"
+                  className="absolute top-2 right-2 h-auto w-auto p-1 rounded hover:bg-accent/30 z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
-                </button>
+                </Button>
 
                 <div className="flex items-start gap-3 pr-10">
                   <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
                     {initials}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-foreground truncate">{c.name}</p>
+                    <p className="text-sm font-bold text-foreground truncate" title={c.name}>{c.name}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{t('agenda.dentalClinic')}</p>
-                    <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-                      <MapPin className="w-3 h-3" />
-                      <span className="truncate">{c.address}</span>
+                    <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground min-w-0">
+                      <MapPin className="w-3 h-3 shrink-0" />
+                      <span className="truncate min-w-0" title={c.address}>{c.address}</span>
                     </div>
                   </div>
                 </div>

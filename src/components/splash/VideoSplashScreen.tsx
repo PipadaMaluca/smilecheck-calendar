@@ -64,7 +64,7 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-[200] bg-background transition-opacity duration-300',
+        'fixed inset-0 z-celebration bg-background transition-opacity duration-300',
         fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       )}
     >

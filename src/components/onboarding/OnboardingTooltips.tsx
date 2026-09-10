@@ -90,7 +90,7 @@ function _UnusedOnboardingTooltips() {
   return (
     <>
       {/* Overlay with spotlight cutout */}
-      <div className="fixed inset-0 z-[90] pointer-events-auto" onClick={handleSkip}>
+      <div className="fixed inset-0 z-celebration pointer-events-auto" onClick={handleSkip}>
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <mask id="spotlight-mask">
@@ -118,7 +118,7 @@ function _UnusedOnboardingTooltips() {
       {/* Spotlight ring */}
       {position?.spotlightRect && (
         <div
-          className="fixed z-[91] pointer-events-none rounded-lg ring-2 ring-primary/60 transition-colors duration-300"
+          className="fixed z-celebration pointer-events-none rounded-lg ring-2 ring-primary/60 transition-colors duration-300"
           style={{
             top: position.spotlightRect.top - 6,
             left: position.spotlightRect.left - 6,
@@ -133,7 +133,7 @@ function _UnusedOnboardingTooltips() {
         <div
           ref={tooltipRef}
           className={cn(
-            'fixed z-[92] w-[300px] rounded-xl p-4 animate-fade-in',
+            'fixed z-celebration w-[300px] rounded-xl p-4 animate-fade-in',
             'bg-card border border-primary/30 shadow-lg'
           )}
           style={{ top: position.top, left: position.left }}

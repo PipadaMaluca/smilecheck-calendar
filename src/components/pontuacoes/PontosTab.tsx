@@ -11,6 +11,8 @@ import { UserRole } from '@/types/calendar';
 import { getLevelForXP, getXPProgress, LEVELS, getEarnActionsForRole, getPenaltyActionsForRole, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getVisibilityBoost } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
 import { StatsSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
+import { ClipboardList } from 'lucide-react';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { cn } from '@/lib/utils';
@@ -268,7 +270,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             );
           })}
           {filteredHistory.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground py-8">{t('scores.noResults')}</p>
+            <EmptyState icon={ClipboardList} title={t('scores.noResults')} />
           )}
         </div>
        </div>

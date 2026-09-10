@@ -852,7 +852,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   }
 
   return (
-    <FullScreenMobileOverlay className="z-[65]">
+    <FullScreenMobileOverlay>
       {content}
     </FullScreenMobileOverlay>);
 

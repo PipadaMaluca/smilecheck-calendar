@@ -139,12 +139,12 @@ function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: 
     return (
       <>
         <div
-          className="fixed inset-0 z-[79] bg-background/40 animate-fade-in"
+          className="fixed inset-0 z-notification bg-background/40 animate-fade-in"
           onClick={dismiss}
         />
         <div
           ref={ref}
-          className="fixed left-0 right-0 bottom-0 z-[80] animate-slide-in-right"
+          className="fixed left-0 right-0 bottom-0 z-notification animate-slide-in-right"
           style={{ animationDuration: '200ms' }}
         >
           <div className="mx-3 mb-[max(env(safe-area-inset-bottom),16px)] rounded-2xl p-4 bg-popover border border-border shadow-[0_4px_16px_rgba(33,150,243,0.18)]">
@@ -165,7 +165,7 @@ function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: 
   return (
     <div
       ref={ref}
-      className="fixed z-[80] w-[280px] animate-fade-in"
+      className="fixed z-notification w-[280px] animate-fade-in"
       style={{ top: pos.top, left: pos.left }}
     >
       <div className="bg-popover border border-border rounded-lg p-3.5 shadow-[0_4px_16px_rgba(33,150,243,0.18)] relative">

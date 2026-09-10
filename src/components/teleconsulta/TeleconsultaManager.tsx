@@ -8,6 +8,7 @@ import { PostCallSummary } from './PostCallSummary';
 import { NoTeleconsultaModal } from './NoTeleconsultaModal';
 import { TeleconsultaProvider } from '@/contexts/TeleconsultaContext';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 type TeleconsultaState = 'idle' | 'pre-call' | 'incoming' | 'waiting' | 'in-call' | 'post-call' | 'no-teleconsulta';
 
@@ -17,6 +18,7 @@ interface TeleconsultaManagerProps {
 }
 
 export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerProps) {
+  const { t } = useTranslation();
   const [state, setState] = useState<TeleconsultaState>('idle');
   const [callStartTime, setCallStartTime] = useState<number>(0);
   const [callDuration, setCallDuration] = useState('');
@@ -102,7 +104,7 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
 
   const handleCreateQuick = useCallback(() => {
     setState('idle');
-    toast.success('Teleconsulta rápida criada. A iniciar...');
+    toast.success(t('sweep.teleconsulta.quickCreated'));
     setTimeout(() => {
       setState('pre-call');
     }, 500);

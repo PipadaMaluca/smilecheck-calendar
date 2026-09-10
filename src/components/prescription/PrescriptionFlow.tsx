@@ -531,7 +531,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     return (
       <div className={cn(
         'border-t border-border bg-card flex justify-center',
-        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4' : 'p-3'
+        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-modal p-4' : 'p-3'
       )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           {currentStep === steps[0] ?
@@ -553,7 +553,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
     <div className={cn(
       'flex flex-col bg-background',
       isMobile ?
-      'fixed inset-0 z-[55]' :
+      'fixed inset-0 z-modal' :
       'flex-1'
     )}>
       <div className={cn(

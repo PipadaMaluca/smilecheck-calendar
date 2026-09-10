@@ -10,6 +10,7 @@ import { UserRole } from '@/types/calendar';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 import { HistoryScoreCard } from '@/components/history/HistoryScoreCard';
+import { EmptyState } from '@/components/ui/empty-state';
 import { subMonths, isAfter, isSameDay } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
@@ -158,7 +159,7 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
         {pagedClinic.length < filteredScores.length && (
           <Button variant="outline" className="w-full text-xs" onClick={() => setCurrentPage(p => p + 1)}>{t('history.loadMore')} ({filteredScores.length - pagedClinic.length} {t('history.remaining')})</Button>
         )}
-        {filteredScores.length === 0 && <p className="text-center text-sm text-muted-foreground py-8">{t('history.noResults')}</p>}
+        {filteredScores.length === 0 && <EmptyState icon={Trophy} title={t('history.noResults')} />}
       </HistoryShell>
     );
   }
@@ -207,7 +208,7 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
             {t('history.loadMore')} ({filteredScores.length - paged.length} {t('history.remaining')})
           </Button>
         )}
-        {filteredScores.length === 0 && <p className="text-center text-sm text-muted-foreground py-8">{t('history.noResults')}</p>}
+        {filteredScores.length === 0 && <EmptyState icon={Trophy} title={t('history.noResults')} />}
       </div>
 
       <PatientFeedbackModal score={feedbackScore} isOpen={!!feedbackScore} onClose={() => setFeedbackScore(null)} onSubmit={handlePatientFeedback} />

@@ -1,5 +1,4 @@
-import { Check, Square, PartyPopper } from 'lucide-react';
-import { Glyph } from '@/components/ui/glyph';
+import { Check, Square, PartyPopper, Rocket, Package, Medal } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +24,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
     <div className="h-full flex flex-col items-center justify-center px-6">
       <div className={"mb-6"}>
         <div className="w-24 h-24 rounded-full flex items-center justify-center glow-gold" style={{ background: 'linear-gradient(135deg, hsla(45, 100%, 50%, 0.2), hsla(162, 100%, 43%, 0.1))' }}>
-          <Glyph emoji="🚀" className="w-14 h-14" />
+          <Rocket className="w-14 h-14" />
         </div>
       </div>
 
@@ -54,7 +53,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
       <div className="glass-card p-4 w-full max-w-sm mb-8">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <Glyph emoji="🥫" className="w-6 h-6" />
+            <Package className="w-6 h-6" />
             <span className="text-foreground font-medium">{t('onboarding.levels.can')}</span>
           </div>
           <span className="text-muted-foreground text-sm">{bonusPoints}/{maxPoints} pts</span>
@@ -65,7 +64,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
         </div>
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <span>{t('onboarding.nextLevel')}</span>
-          <Glyph emoji="🥉" className="w-6 h-6" />
+          <Medal className="w-6 h-6 text-amber-600" />
           <span className="text-level-bronze font-medium">{t('onboarding.levels.bronze')}</span>
         </div>
       </div>

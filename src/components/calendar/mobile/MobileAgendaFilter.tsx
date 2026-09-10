@@ -146,17 +146,18 @@ export function MobileAgendaFilter({
     onClick,
     count,
   }: { label: string; open: boolean; onClick: () => void; count?: string }) => (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       onClick={onClick}
-      className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold hover:bg-muted/40 press"
+      className="w-full h-auto justify-between px-4 py-3 text-sm font-semibold rounded-none"
     >
       <span>{label}</span>
       <span className="flex items-center gap-2 text-xs text-muted-foreground">
         {count && <span className="tabular-nums">{count}</span>}
         {o ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
       </span>
-    </button>
+    </Button>
   );
 
   return (
@@ -210,9 +211,11 @@ export function MobileAgendaFilter({
 
       {/* ROW 5: Centered "Filtrar" button */}
       <div className="flex items-center justify-center pt-2 pb-2">
-        <button
+        <Button
+          type="button"
+          variant="outline"
           onClick={() => setOpen(true)}
-          className="flex items-center gap-1.5 px-4 py-1.5 rounded-[20px] text-xs font-medium border border-border bg-background text-foreground hover:bg-muted transition-colors"
+          className="h-auto flex items-center gap-1.5 px-4 py-1.5 rounded-[20px] text-xs font-medium bg-background text-foreground hover:bg-muted tap-target"
         >
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>
@@ -221,7 +224,7 @@ export function MobileAgendaFilter({
               {selectedDentistIds.length}
             </span>
           )}
-        </button>
+        </Button>
       </div>
 
       <Sheet open={open} onOpenChange={setOpen}>

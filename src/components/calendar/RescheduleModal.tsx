@@ -61,7 +61,7 @@ export function RescheduleModal({ consultation, isOpen, onClose, rescheduleCount
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto z-[70]">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto z-notification">
         {step === 'done' ? (
           <div className="text-center py-8 space-y-3">
             <Glyph emoji="📩" className="w-10 h-10" />

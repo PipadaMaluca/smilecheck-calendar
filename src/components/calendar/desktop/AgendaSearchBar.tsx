@@ -109,7 +109,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       type: 'dentist' as const,
       id: d.id,
       name: d.name,
-      specialties: d.specialties.join(', ') || 'Generalista',
+      specialties: d.specialties.join(', ') || t('sweep.search.generalist'),
       clinicName: d.clinics[0]?.name || '',
     })),
   []);
@@ -246,7 +246,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {results.patients.length > 0 && (
                 <div className="py-1">
                   <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                    <User className="w-3 h-3" /> Pacientes
+                    <User className="w-3 h-3" /> {t('sweep.search.patients')}
                   </div>
                   {results.patients.map((p) => (
                     <button
@@ -277,8 +277,8 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                       </div>
                       <div className="flex-shrink-0 text-right flex items-center gap-2">
                         <div className="text-[11px] text-muted-foreground leading-tight">
-                          <div className="text-primary font-medium">{p.scheduledCount} agendada{p.scheduledCount !== 1 ? 's' : ''}</div>
-                          <div>{p.totalCount} total</div>
+                          <div className="text-primary font-medium">{t('sweep.search.scheduledCount', { count: p.scheduledCount })}</div>
+                          <div>{t('sweep.search.totalLabel', { count: p.totalCount })}</div>
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                           <span className="w-7 h-7 rounded-md bg-emerald-500/10 flex items-center justify-center text-success hover:bg-emerald-500/20 cursor-pointer press">
@@ -300,7 +300,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {results.dentists.length > 0 && (
                 <div className="py-1">
                   <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                    <Stethoscope className="w-3 h-3" /> Dentistas
+                    <Stethoscope className="w-3 h-3" /> {t('sweep.search.dentists')}
                   </div>
                   {results.dentists.map((d) => (
                     <button
@@ -340,7 +340,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {results.clinics.length > 0 && (
                 <div className="py-1">
                   <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
-                    <Building2 className="w-3 h-3" /> Clínicas
+                    <Building2 className="w-3 h-3" /> {t('sweep.search.clinics')}
                   </div>
                   {results.clinics.map((c) => (
                     <button
@@ -372,13 +372,13 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                   className="w-full px-3 py-2.5 text-xs text-primary hover:bg-accent/50 transition-colors text-center font-medium press"
                   onClick={() => { setIsOpen(false); setQuery(''); onNavigateSearch?.(); }}
                 >
-                  Mostrar todos os resultados →
+                  {t('sweep.search.showAllResults')}
                 </button>
               </div>
             </div>
           ) : (
             <div className="px-3 py-6 text-center text-sm text-muted-foreground">
-              Nenhum resultado para "{query}"
+              {t('sweep.search.noResultsFor', { query })}
             </div>
           )}
         </div>,

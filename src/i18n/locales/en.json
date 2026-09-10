@@ -12,7 +12,7 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "markedAs": "✓ {{name}} marked as {{status}}",
+    "markedAs": "{{name}} marked as {{status}}",
     "message": "Message",
     "noShowLabel": "No-show",
     "confirmLabel": "Confirm",
@@ -104,7 +104,8 @@
     "clinic": "Clinic",
     "from": "From",
     "to": "To",
-    "weeksAgo": "{{n}} weeks ago"
+    "weeksAgo": "{{n}} weeks ago",
+    "retry": "Try again"
   },
   "nav": {
     "home": "Home",
@@ -195,7 +196,7 @@
     "completeRegistrationDesc": "Almost there! Confirm your details and fill in the missing fields.",
     "backupPassword": "Backup password",
     "confirmBackupPassword": "Confirm backup password",
-    "backupPasswordNote": "🔒 This password lets you access your account even without {{provider}}. We recommend using a different password.",
+    "backupPasswordNote": "This password lets you access your account even without {{provider}}. We recommend using a different password.",
     "finishRegistration": "Finish Registration",
     "verificationSentTo": "We sent a verification code to",
     "smsSentTo": "We sent an SMS to",
@@ -312,9 +313,9 @@
     "features": {
       "title": "Everything you need for your oral health",
       "subtitle": "One platform, three personalised experiences",
-      "forPatients": "🦷 Patients",
-      "forDentists": "🦷 Dentists",
-      "forClinics": "🏥 Clinics",
+      "forPatients": "Patients",
+      "forDentists": "Dentists",
+      "forClinics": "Clinics",
       "patient1Title": "Book Appointments",
       "patient1Desc": "Schedule in-person and teleconsultations in seconds",
       "patient2Title": "Earn Points",
@@ -514,7 +515,7 @@
       "gdpr": "GDPR",
       "cookies": "Cookies",
       "copyright": "All rights reserved",
-      "madeWith": "Made with ❤️ in Portugal"
+      "madeWith": "Made with love in Portugal"
     },
     "navbar": {
       "features": "Features",
@@ -547,7 +548,7 @@
       "welcomeTitle": "SmileCheck!",
       "welcomeSubtitle": "The app that rewards your oral health!",
       "welcomeTagline": "Earn points, level up and stand out!",
-      "pointsTitle": "💰 EARN XP & POINTS",
+      "pointsTitle": "EARN XP & POINTS",
       "pointsBottom": "Earn XP to level up and Points to redeem for rewards!",
       "startTitle": "YOU'RE READY!",
       "startBonus": "+5 pts for creating an account",
@@ -559,7 +560,7 @@
       "welcomeTitle": "SmileCheck Pro!",
       "welcomeSubtitle": "The platform that values your clinical practice!",
       "welcomeTagline": "Earn points, level up and stand out!",
-      "pointsTitle": "💰 EARN XP & POINTS",
+      "pointsTitle": "EARN XP & POINTS",
       "pointsBottom": "Earn XP to level up and Points to redeem for rewards!",
       "startTitle": "YOU'RE READY!",
       "startBonus": "+5 pts for creating an account",
@@ -571,7 +572,7 @@
       "welcomeTitle": "SmileCheck Clinic!",
       "welcomeSubtitle": "The platform that showcases your clinic!",
       "welcomeTagline": "Accumulate points, level up and lead the ranking!",
-      "pointsTitle": "💰 EARN XP & POINTS",
+      "pointsTitle": "EARN XP & POINTS",
       "pointsBottom": "Earn XP to level up and Points to redeem for rewards!",
       "startTitle": "YOU'RE READY!",
       "startBonus": "+10 pts for creating an account",
@@ -580,26 +581,26 @@
       "startStep3": "Verify official details"
     },
     "welcomeTo": "Welcome to",
-    "levelsTitle": "🏆 LEVEL UP",
+    "levelsTitle": "LEVEL UP",
     "levelsBottom": "Accumulate points and",
     "levelsBottomHighlight": "show your status!",
-    "rewardsTitle": "🎁 DAILY REWARDS",
+    "rewardsTitle": "DAILY REWARDS",
     "rewardsNextIn": "Next reward in:",
-    "rewardsOpenDaily": "Open the app every day! 📱",
+    "rewardsOpenDaily": "Open the app every day!",
     "rewardsReset": "Reset at",
     "rewardsResetTime": "9am",
     "rewardsDontLose": "— don't lose your streak!",
     "rewardsCheckin": "Daily check-in",
     "rewardsStreak7": "7-day streak",
     "rewardsStreak30": "30-day streak",
-    "rankingsTitle": "🏆 RANKINGS & COMPETITION",
+    "rankingsTitle": "RANKINGS & COMPETITION",
     "rankingsTypes": "Ranking Types",
     "monthlyPrizes": "Monthly Prizes",
     "annualHighlights": "Annual Highlights",
     "rankingsUpdate": "Rankings update in real time",
     "rankingsTiebreak": "In case of a tie: whoever has more teleconsultations wins",
-    "ratingTitleYou": "⭐ YOUR RATING",
-    "ratingTitleClinic": "⭐ YOUR RATING",
+    "ratingTitleYou": "YOUR RATING",
+    "ratingTitleClinic": "YOUR RATING",
     "ratingLegend": "Rating legend:",
     "ratingProblematic": "Problematic",
     "ratingAttention": "Attention",
@@ -614,8 +615,8 @@
     "xpNote": "XP never decreases · Reward points can be spent in the Store",
     "nextLevel": "Next:",
     "pointsLabels": {
-      "rating5": "5★ Rating",
-      "rating4": "4★ Rating",
+      "rating5": "5 Rating",
+      "rating4": "4 Rating",
       "confirm24h": "24h Confirmation",
       "confirm1h": "1h Confirmation",
       "attended": "Attended",
@@ -628,11 +629,11 @@
       "reply24h": "Reply to message within 24h",
       "prescription": "Issue prescription",
       "referralLetter": "Referral letter",
-      "rating5FromPatient": "5★ rating from patient",
+      "rating5FromPatient": "5 rating from patient",
       "streak7days": "7-day streak",
       "clinicConsultCompleted": "Appointment completed at clinic",
       "clinicTeleconsult": "Teleconsultation completed",
-      "clinicRating5": "5★ rating from patient",
+      "clinicRating5": "5 rating from patient",
       "newDentistActive": "New active dentist",
       "confirmRate90": "Confirmation rate > 90%",
       "dentistTop100": "Dentist in Top 100"
@@ -805,7 +806,8 @@
     "implantology": "Implantology",
     "oralSurgery": "Oral Surgery",
     "aesthetics": "Cosmetic Dentistry",
-    "other": "Other"
+    "other": "Other",
+    "evaluation": "Evaluation"
   },
   "patientStatuses": {
     "all": "All",
@@ -1726,7 +1728,7 @@
     "availabilityDate": "Availability date",
     "additionalNote": "Additional note",
     "additionalInfo": "Additional information...",
-    "visibleToClinics": "⚠️ This information is only visible to clinics in the Job Offers section.",
+    "visibleToClinics": "This information is only visible to clinics in the Job Offers section.",
     "clinicData": "Clinic Data",
     "nif": "Tax ID / Company ID",
     "website": "Website",
@@ -1759,7 +1761,7 @@
     "startDate": "Start date",
     "jobDescription": "Job description",
     "jobDescPlaceholder": "Describe the opportunity...",
-    "visibleToDentists": "⚠️ This information is only visible to dentists in the Job Offers section.",
+    "visibleToDentists": "This information is only visible to dentists in the Job Offers section.",
     "changePasswordBtn": "Change password",
     "deleteAccountBtn": "Delete account",
     "deleteAccountTitle": "Delete account?",
@@ -1924,17 +1926,17 @@
     "discountNote": "You will receive a discount code for your purchase.",
     "codeNote": "You will receive a code to redeem on the brand's website.",
     "confirmBtn": "Confirm Redemption",
-    "redeemConfirmed": "Redemption confirmed! 🎉",
+    "redeemConfirmed": "Redemption confirmed!",
     "yourCode": "Your redemption code for",
     "codeCopied": "Code copied!",
     "insufficientPoints": "Insufficient points",
     "redeemFailed": "Could not complete the redemption",
     "copyCode": "Copy code",
     "copied": "Copied!",
-    "emailSent": "📧 An email with the details has been sent.",
+    "emailSent": "An email with the details has been sent.",
     "validity": "⏱️ Valid for 30 days from today.",
-    "useDiscount": "🛒 Present this code at purchase to get the discount.",
-    "useSite": "🌐 Use this code on the brand's website to redeem the product.",
+    "useDiscount": "Present this code at purchase to get the discount.",
+    "useSite": "Use this code on the brand's website to redeem the product.",
     "redeemBtn": "Redeem",
     "missing": "Need",
     "discount": "discount",
@@ -2111,7 +2113,7 @@
       "lunchBreakDesc": "Set a break period between morning and afternoon",
       "copyMondayToWeekdays": "Copy Monday to all weekdays",
       "copyMon": "Copy Mon.",
-      "copiedToWeekdays": "✅ Monday schedule copied to all weekdays",
+      "copiedToWeekdays": "Monday schedule copied to all weekdays",
       "nationalHolidaysFr": "French national holidays",
       "openDespite": "Open",
       "markClosed": "Close",
@@ -2120,7 +2122,7 @@
       "simultaneousTele": "Simultaneous teleconsultations",
       "minIntervalBetween": "Minimum interval between consultations",
       "saveSchedules": "Save Schedules",
-      "savedSuccess": "✅ Schedules updated successfully",
+      "savedSuccess": "Schedules updated successfully",
       "modalTitleAdd": "Add Holiday / Closure",
       "modalTitleEdit": "Edit Holiday / Closure",
       "fieldName": "Name",
@@ -2169,7 +2171,9 @@
     "consultationsLabel": "appointments",
     "teleconsultationsLabel": "teleconsultations",
     "confirmationLabel": "confirmation",
-    "noTeleconsultations": "No teleconsultations"
+    "noTeleconsultations": "No teleconsultations",
+    "noResultsTitle": "No members found",
+    "noResultsDesc": "Try adjusting your search or filters."
   },
   "availability": {
     "selectClinic": "Select clinic",
@@ -2188,7 +2192,7 @@
     "teleAvailability": "Teleconsultation Availability",
     "teleScheduleNote": "Teleconsultation slots (evening) are configured in the weekly schedule above.",
     "saveChanges": "Save Changes",
-    "savedSuccess": "✅ Availability updated successfully",
+    "savedSuccess": "Availability updated successfully",
     "reasonLabel": "Reason"
   },
   "chat": {
@@ -2277,7 +2281,9 @@
     "tryAgain": "Try again",
     "errorCode": "Error",
     "needHelp": "Need help?",
-    "contactUs": "Contact us"
+    "contactUs": "Contact us",
+    "genericTitle": "Something went wrong",
+    "genericDesc": "We couldn't load the data. Please try again."
   },
   "empty": {
     "noAppointments": "No appointments scheduled",
@@ -2315,7 +2321,7 @@
     "good": "Good",
     "veryGood": "Very Good",
     "excellent": "Excellent",
-    "scaleHint": "1★ = 0 pts · 2★ = +3 · 3★ = +6 · 4★ = +10 · 5★ = +15"
+    "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15"
   },
   "bidirectionalFeedback": {
     "rate": "Rate",
@@ -2580,7 +2586,24 @@
     "formatMMYY": "Format: MM/YY",
     "receiptNumber": "No.",
     "presencial": "In-Person",
-    "teleconsulta": "Teleconsultation"
+    "teleconsulta": "Teleconsultation",
+    "slotTaken": "That slot is already taken",
+    "bookingFailed": "The booking could not be completed",
+    "clickSlotsHint": "Tap the available (green) slots to select them. You can pick several.",
+    "caseMultiple": "You selected {{count}} possible slots. The dentist/clinic will confirm one of them.",
+    "caseWaiting": "You will be added to the waiting list and notified when there is availability.",
+    "caseMixed": "The selected slots take priority. General preferences serve as a fallback.",
+    "urgentFee": "Urgent (+€5)",
+    "slotSelected": "Selected slot",
+    "slotsPossible": "{{count}} possible slots",
+    "waitingPrefs": "Preferences (Waiting List)",
+    "periodLabel": "Period",
+    "daysLabel": "Days",
+    "urgencyLabel": "Urgency",
+    "receiptDownloaded": "Receipt downloaded",
+    "teleconsultReceipt": "Teleconsultation {{name}}",
+    "joinWaitingList": "Join the Waiting List",
+    "confirmBookingAction": "Confirm Booking"
   },
   "timeBlock": {
     "editBlock": "Edit Block",
@@ -2680,7 +2703,13 @@
     "rgbColor": "RGB Color",
     "resetDefault": "Reset Default",
     "settingsSaved": "Schedule settings saved",
-    "settingsReset": "Settings reset to default"
+    "settingsReset": "Settings reset to default",
+    "defaultDurationByType": "Default duration by type",
+    "defaultDurationByTypeHint": "Preset duration when creating a new appointment of this type",
+    "lunchEnd": "Lunch end",
+    "lunchStart": "Lunch start",
+    "titleV2": "Agenda settings",
+    "weekDaysVisible": "Visible days of the week"
   },
   "daySummary": {
     "title": "Day Summary",
@@ -3525,15 +3554,15 @@
   "permissions": {
     "title": "Permissions",
     "description": "Configure this dentist's access",
-    "manageAgenda": "📅 Manage own schedule",
-    "viewPatients": "📋 View patient list",
-    "prescribe": "💊 Write prescriptions",
-    "referralLetters": "📄 Issue referral letters",
-    "viewStats": "📊 View clinic statistics",
-    "viewBilling": "💰 View fees and billing",
-    "inviteDentists": "👥 Invite dentists",
-    "changeSettings": "⚙️ Change clinic settings",
-    "doTeleconsults": "📱 Perform teleconsultations",
+    "manageAgenda": "Manage own schedule",
+    "viewPatients": "View patient list",
+    "prescribe": "Write prescriptions",
+    "referralLetters": "Issue referral letters",
+    "viewStats": "View clinic statistics",
+    "viewBilling": "View fees and billing",
+    "inviteDentists": "Invite dentists",
+    "changeSettings": "Change clinic settings",
+    "doTeleconsults": "Perform teleconsultations",
     "presetDefault": "Default",
     "presetAdmin": "Administrator",
     "presetConsultOnly": "Consultations only"
@@ -3559,7 +3588,7 @@
   },
   "phoneInput": {
     "france": "France",
-    "requiredForVerification": "📱 Phone number required for account verification"
+    "requiredForVerification": "Phone number required for account verification"
   },
   "actions": {
     "copyFull": "Copy Appointment",
@@ -3838,9 +3867,9 @@
     "days2": "2 days"
   },
   "demoBanner": {
-    "label": "🔧 Demo Mode — Fictional data",
+    "label": "Demo Mode — Fictional data",
     "dismiss": "Dismiss banner",
-    "disclaimer": "⚠️ Demo mode — The data shown is fictional"
+    "disclaimer": "Demo mode — The data shown is fictional"
   },
   "level": {
     "myLevelTab": "My Level",
@@ -3960,5 +3989,198 @@
     },
     "unlockedAt": "Unlocked at {{level}}",
     "unlocksAt": "Unlocks at {{level}}"
+  },
+  "availabilityGrid": {
+    "lunch": "Lunch",
+    "unavailableSlot": "Slot unavailable",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "legendAvailable": "Available",
+    "legendOccupied": "Booked",
+    "legendSelected": "Selected",
+    "legendUnavailable": "Unavailable",
+    "selectedCount_one": "<1>{{count}}</1> slot selected",
+    "selectedCount_other": "<1>{{count}}</1> slots selected",
+    "clearSelection": "Clear selection",
+    "waitingPrefsTitle": "Additional preferences (Waiting List)",
+    "waitingPrefsDesc": "If no slot suits you, share general preferences and we will contact you when there is availability",
+    "periodPref": "Preferred period",
+    "morningRange": "Morning (08:00-13:00)",
+    "afternoonRange": "Afternoon (14:00-20:00)",
+    "dayPref": "Preferred weekday",
+    "urgency": "Urgency",
+    "urgencyNormal": "Normal (contact me when available)",
+    "urgencyUrgent": "Urgent (first possible opening)",
+    "observationPlaceholder": "E.g. Pain in tooth 46 for 3 days, I prefer early morning, available immediately..."
+  },
+  "appearance": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "customize": "Customize",
+    "premiumOnly": "Customization available on the Premium plan",
+    "viewPlans": "View plans",
+    "customizeTheme": "Customize Theme",
+    "primaryColor": "Primary color",
+    "accentColor": "Accent color",
+    "backgroundColor": "Background color",
+    "preview": "PREVIEW",
+    "sampleButton": "Button",
+    "sampleAccent": "Accent",
+    "resetDefault": "Reset to default",
+    "saved": "Custom theme saved!"
+  },
+  "invite": {
+    "headline": "Invite friends and earn points!",
+    "subtitle": "Earn 50 points for every person who signs up",
+    "codeLabel": "Personal invite code",
+    "linkLabel": "Invite link",
+    "copied": "Copied",
+    "shareVia": "Share via",
+    "shareMessage": "Try SmileCheck! Use my code {{code}} when you sign up and earn points. {{link}}",
+    "emailSubject": "Try SmileCheck!",
+    "invited": "Invited",
+    "confirmed": "Confirmed",
+    "pointsEarned": "Points earned",
+    "pointsEarnedShort": "Pts earned",
+    "history": "Invite History",
+    "statusConfirmed": "Confirmed",
+    "statusPending": "Pending"
+  },
+  "sweep": {
+    "dentistProfile": {
+      "alreadyConsulted": "Already Consulted",
+      "noSlots": "No time slots",
+      "showMoreSlots": "+ Show more slots",
+      "about": "About",
+      "clinics": "Clinics",
+      "recentReviews": "Recent Reviews",
+      "bookAppointment": "Book Appointment",
+      "sendMessage": "Send Message",
+      "title": "Dentist Profile",
+      "reviewsCount": "({{count}} reviews)",
+      "noReviews": "No reviews"
+    },
+    "calendar": {
+      "movedTo": "{{name}}'s appointment moved to {{time}}",
+      "overlapScheduled": "Appointment scheduled with overlap at {{time}}",
+      "pasteHint": "Click an empty slot to paste the appointment",
+      "removedFavorite": "Removed from favorites",
+      "addedFavorite": "Added to favorites",
+      "blockDeleted": "Block deleted",
+      "consultationDetails": "Appointment Details"
+    },
+    "devices": {
+      "title": "Connected Devices",
+      "connectNew": "Connect new device",
+      "scanTitle": "Point at the QR code",
+      "newDeviceDetected": "New device detected",
+      "connectedTitle": "Device connected!",
+      "scanDesc": "Shown on the screen of the device you want to sign in on",
+      "confirmDesc": "Check the details before authorizing",
+      "authorizedDesc": "Login authorized successfully",
+      "scanning": "Looking for QR code...",
+      "warningRecognize": "Only authorize if you recognize this device",
+      "authorizeLogin": "Authorize Login",
+      "connectedSuccess": "Device connected successfully!"
+    },
+    "appointments": {
+      "updateStatusError": "Could not update the status",
+      "slotTaken": "Time slot already taken",
+      "rescheduleError": "Could not change the appointment",
+      "cancelError": "Could not cancel the appointment",
+      "assignError": "Could not assign the slot",
+      "confirmedMessage": "Your slot has been confirmed: {{slot}}",
+      "assignedTo": "Appointment assigned to {{name}}",
+      "slotAvailable": "Slot available!",
+      "waitlistPreference": "{{name}} has this time in their waiting list preferences.",
+      "urgent": "Urgent",
+      "othersWaiting": "+{{count}} other patient(s) waiting for this slot",
+      "ignore": "Ignore",
+      "assign": "Assign"
+    },
+    "patientSidebar": {
+      "newConsultation": "NEW APPOINTMENT",
+      "filterByMember": "Filter by member:",
+      "ageYears": "({{age}} years)"
+    },
+    "badges": {
+      "featuredAchievements": "Featured Achievements",
+      "edit": "Edit",
+      "viewCollection": "View Collection"
+    },
+    "appointmentsList": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "toPay": "To pay",
+      "title": "My Appointments",
+      "forPatient": "For: {{name}}"
+    },
+    "consultationTab": {
+      "selectExistingPatientError": "Select an existing patient from the search",
+      "createError": "Error creating appointment",
+      "referredBy": "Referred by: {{name}}"
+    },
+    "search": {
+      "patients": "Patients",
+      "dentists": "Dentists",
+      "clinics": "Clinics",
+      "scheduledCount_one": "{{count}} scheduled",
+      "scheduledCount_other": "{{count}} scheduled",
+      "totalLabel": "{{count}} total",
+      "showAllResults": "Show all results →",
+      "noResultsFor": "No results for \"{{query}}\"",
+      "generalist": "General practitioner"
+    },
+    "history": {
+      "missed": "Missed",
+      "completed": "Completed",
+      "expired": "Expired",
+      "contest": "Contest",
+      "pointsSuffix": "{{points}} pts"
+    },
+    "rankings": {
+      "title": "Rankings",
+      "subtitle": "See your position in the rankings",
+      "global": "Global Ranking",
+      "national": "National Ranking",
+      "of": "of {{total}}",
+      "you": "(You)"
+    },
+    "regional": {
+      "language": "Language",
+      "currency": "Currency",
+      "timezone": "Timezone",
+      "useDeviceTimezone": "Use device timezone",
+      "currencyUSD": "$ USD - US Dollar",
+      "currencyGBP": "£ GBP - British Pound",
+      "currencyBRL": "R$ BRL - Brazilian Real",
+      "currencyCHF": "CHF - Swiss Franc"
+    },
+    "clinicCalendar": {
+      "byDentist": "By Dentist"
+    },
+    "calendarSidebar": {
+      "findSlot": "Find Slot",
+      "allAgendas": "All Schedules",
+      "add": "Add",
+      "me": "(Me)",
+      "defaultHours": "9am-9pm"
+    },
+    "weekView": {
+      "noSchedule": "No schedule"
+    },
+    "familyFilter": {
+      "memberLabel": "{{name}} ({{age}} years) - {{relation}}"
+    },
+    "dentistProfileView": {
+      "orderCountry": "Board Country"
+    },
+    "teleconsulta": {
+      "comingSoon": "Teleconsultation coming soon...",
+      "quickCreated": "Quick teleconsultation created. Starting..."
+    },
+    "team": {
+      "noColleagues": "No colleagues in this clinic"
+    }
   }
 }

@@ -56,7 +56,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
         </AvatarFrame>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold text-foreground text-sm truncate">{dentist.name}</h3>
+            <h3 className="font-semibold text-foreground text-sm truncate min-w-0 flex-1" title={dentist.name}>{dentist.name}</h3>
             <div className="flex items-center gap-1 shrink-0">
               {showBoost && (
                 <TooltipProvider delayDuration={150}>
@@ -105,7 +105,11 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
         </div>
         <div className="flex items-center gap-1">
           <Clock className="w-3 h-3" />
-          <span className="text-primary font-medium">{dentist.nextAvailable}</span>
+          <span className="text-primary font-medium">
+            {dentist.nextAvailable
+              .replace(/^Hoje/, t('common.today'))
+              .replace(/^Amanhã/, t('common.tomorrow'))}
+          </span>
         </div>
         <div className="flex items-center gap-1">
           <Video className="w-3 h-3" />
@@ -130,7 +134,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
           ))}
         </div>
       )}
-      <div className="text-[11px] text-muted-foreground">
+      <div className="text-[11px] text-muted-foreground truncate min-w-0" title={dentist.clinics.map(c => c.name).join(' · ')}>
         {dentist.clinics.map((c, i) => (
           <span key={c.id}>
             {i > 0 && ' · '}

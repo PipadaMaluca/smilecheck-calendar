@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Trans, useTranslation } from 'react-i18next';
 
 export interface SelectedSlot {
   date: Date;
@@ -55,8 +56,7 @@ function fmtKey(date: Date, time: string) {
   return `${y}-${m}-${d}_${time}`;
 }
 
-const DAY_LABELS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-const MONTH_SHORT = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
 
 // Deterministic mock occupancy per (dayIndex, time)
 function isOccupied(dayIdx: number, time: string): boolean {
@@ -88,10 +88,12 @@ export function AvailabilityGridStep({
   onPreferencesChange,
   occupiedKeys,
 }: Props) {
+  const { t, i18n } = useTranslation();
   const isMobile = useIsMobile();
+  const DAY_LABELS = DAY_KEYS.map((k) => t(`common.weekdays.${k}`));
   const today = useMemo(() => new Date(), []);
   const [weekStart, setWeekStart] = useState<Date>(() => startOfWeek(today));
-  const [mobileDayIdx, setMobileDayIdx] = useState(0);
+  const [mobileDayIdx, setMobileDayIdx] = useState(() => Math.min(5, (today.getDay() + 6) % 7));
 
   const times = useMemo(() => generateTimes(slotMinutes), [slotMinutes]);
   const days = useMemo(() => {
@@ -102,7 +104,8 @@ export function AvailabilityGridStep({
     });
   }, [weekStart]);
 
-  const weekLabel = `${days[0].getDate()} - ${days[5].getDate()} ${MONTH_SHORT[days[5].getMonth()]} ${days[5].getFullYear()}`;
+  const monthShort = days[5].toLocaleDateString(i18n.language, { month: 'short' }).replace('.', '');
+  const weekLabel = `${days[0].getDate()} - ${days[5].getDate()} ${monthShort} ${days[5].getFullYear()}`;
 
   const selectedKeys = useMemo(() => new Set(selectedSlots.map(s => s.key)), [selectedSlots]);
 
@@ -121,7 +124,7 @@ export function AvailabilityGridStep({
     if (isLunch(time)) {
       return (
         <div className="h-9 rounded-md bg-muted/40 border border-border/30 flex items-center justify-center text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
-          {time === LUNCH_START ? 'Almoço' : ''}
+          {time === LUNCH_START ? t('availabilityGrid.lunch') : ''}
         </div>
       );
     }
@@ -140,7 +143,7 @@ export function AvailabilityGridStep({
     if (occupied) {
       return (
         <div
-          title="Horário indisponível"
+          title={t('availabilityGrid.unavailableSlot')}
           className="h-9 rounded-md bg-red-500/10 border border-red-500/20 cursor-not-allowed"
         />
       );
@@ -196,7 +199,7 @@ export function AvailabilityGridStep({
           }}
         >
           <ChevronLeft className="w-4 h-4 mr-1" />
-          <span className="hidden sm:inline">Semana anterior</span>
+          <span className="hidden sm:inline">{t('availabilityGrid.prevWeek')}</span>
         </Button>
         <div className="text-sm font-semibold text-foreground">{weekLabel}</div>
         <Button
@@ -208,17 +211,17 @@ export function AvailabilityGridStep({
             setWeekStart(d);
           }}
         >
-          <span className="hidden sm:inline">Semana seguinte</span>
+          <span className="hidden sm:inline">{t('availabilityGrid.nextWeek')}</span>
           <ChevronRight className="w-4 h-4 ml-1" />
         </Button>
       </div>
 
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" /> Disponível</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500/15 border border-red-500/30" /> Ocupado</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#2196F3]" /> Selecionado</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-muted/60 border border-border" /> Indisponível</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" /> {t('availabilityGrid.legendAvailable')}</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500/15 border border-red-500/30" /> {t('availabilityGrid.legendOccupied')}</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#2196F3]" /> {t('availabilityGrid.legendSelected')}</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-muted/60 border border-border" /> {t('availabilityGrid.legendUnavailable')}</span>
       </div>
 
       {/* Grid */}
@@ -278,14 +281,14 @@ export function AvailabilityGridStep({
       {/* Counter */}
       <div className="flex items-center justify-between text-sm">
         <span className="text-muted-foreground">
-          <span className="font-bold text-primary">{selectedSlots.length}</span> horário{selectedSlots.length === 1 ? '' : 's'} selecionado{selectedSlots.length === 1 ? '' : 's'}
+          <Trans i18nKey="availabilityGrid.selectedCount" count={selectedSlots.length} components={{ 1: <span className="font-bold text-primary" /> }} />
         </span>
         {selectedSlots.length > 0 && (
           <button
             onClick={() => onSelectedSlotsChange([])}
             className="text-xs text-muted-foreground hover:text-foreground"
           >
-            Limpar seleção
+            {t('availabilityGrid.clearSelection')}
           </button>
         )}
       </div>
@@ -297,9 +300,9 @@ export function AvailabilityGridStep({
           className="w-full flex items-center justify-between p-4 text-left hover:bg-secondary/50 transition-colors"
         >
           <div>
-            <p className="text-sm font-semibold text-foreground">Preferências adicionais (Lista de Espera)</p>
+            <p className="text-sm font-semibold text-foreground">{t('availabilityGrid.waitingPrefsTitle')}</p>
             <p className="text-[11px] text-muted-foreground mt-0.5">
-              Caso nenhum horário lhe convenha, indique preferências gerais e será contactado quando houver disponibilidade
+              {t('availabilityGrid.waitingPrefsDesc')}
             </p>
           </div>
           <ChevronDown className={cn('w-4 h-4 text-muted-foreground transition-transform shrink-0 ml-2', preferences.enabled && 'rotate-180')} />
@@ -309,22 +312,22 @@ export function AvailabilityGridStep({
           <div className="px-4 pb-4 space-y-4 border-t border-border pt-4 animate-fade-in">
             {/* Period */}
             <div>
-              <Label className="text-xs font-semibold text-foreground mb-2 block">Preferência de período</Label>
+              <Label className="text-xs font-semibold text-foreground mb-2 block">{t('availabilityGrid.periodPref')}</Label>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer press">
                   <Checkbox checked={preferences.periods.includes('morning')} onCheckedChange={() => periodToggle('morning')} />
-                  <span className="text-xs text-foreground">Manhã (08:00-13:00)</span>
+                  <span className="text-xs text-foreground">{t('availabilityGrid.morningRange')}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer press">
                   <Checkbox checked={preferences.periods.includes('afternoon')} onCheckedChange={() => periodToggle('afternoon')} />
-                  <span className="text-xs text-foreground">Tarde (14:00-20:00)</span>
+                  <span className="text-xs text-foreground">{t('availabilityGrid.afternoonRange')}</span>
                 </label>
               </div>
             </div>
 
             {/* Days */}
             <div>
-              <Label className="text-xs font-semibold text-foreground mb-2 block">Preferência de dia da semana</Label>
+              <Label className="text-xs font-semibold text-foreground mb-2 block">{t('availabilityGrid.dayPref')}</Label>
               <div className="flex flex-wrap gap-2">
                 {DAY_LABELS.map((label, idx) => {
                   const dayNum = idx + 1;
@@ -349,7 +352,7 @@ export function AvailabilityGridStep({
 
             {/* Urgency */}
             <div>
-              <Label className="text-xs font-semibold text-foreground mb-2 block">Urgência</Label>
+              <Label className="text-xs font-semibold text-foreground mb-2 block">{t('availabilityGrid.urgency')}</Label>
               <RadioGroup
                 value={preferences.urgency}
                 onValueChange={(v) => onPreferencesChange({ ...preferences, urgency: v as 'normal' | 'urgent' })}
@@ -357,13 +360,13 @@ export function AvailabilityGridStep({
               >
                 <label className="flex items-center gap-2 cursor-pointer press">
                   <RadioGroupItem value="normal" id="urg-normal" />
-                  <span className="text-xs text-foreground">Normal (contactar quando disponível)</span>
+                  <span className="text-xs text-foreground">{t('availabilityGrid.urgencyNormal')}</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer press">
                   <RadioGroupItem value="urgent" id="urg-urgent" />
                   <span className="text-xs text-foreground flex items-center gap-1">
                     <AlertTriangle className="w-3 h-3 text-destructive" />
-                    Urgente (primeira vaga possível)
+                    {t('availabilityGrid.urgencyUrgent')}
                   </span>
                 </label>
               </RadioGroup>
@@ -371,11 +374,11 @@ export function AvailabilityGridStep({
 
             {/* Observation */}
             <div>
-              <Label className="text-xs font-semibold text-foreground mb-2 block">Observações</Label>
+              <Label className="text-xs font-semibold text-foreground mb-2 block">{t('common.observations')}</Label>
               <Textarea
                 value={preferences.observation}
                 onChange={(e) => onPreferencesChange({ ...preferences, observation: e.target.value.slice(0, 500) })}
-                placeholder="Ex: Dor no dente 46 há 3 dias, prefiro início da manhã, tenho disponibilidade imediata..."
+                placeholder={t('availabilityGrid.observationPlaceholder')}
                 rows={3}
                 className="resize-none text-xs"
               />

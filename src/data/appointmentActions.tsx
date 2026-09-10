@@ -9,6 +9,7 @@ import { useAgendaData } from '@/data/agendaSource';
 import { usePointsRefresh } from '@/data/pointsSource';
 import { awardStatusPoints } from '@/data/pointsWrites';
 import { useAuth } from '@/contexts/AuthContext';
+import i18n from '@/i18n';
 import {
   FreedSlot,
   SlotTakenError,
@@ -96,7 +97,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         refreshPoints();
         return true;
       } catch (e) {
-        toast.error((e as Error)?.message ?? 'Não foi possível atualizar o estado');
+        toast.error((e as Error)?.message ?? i18n.t('sweep.appointments.updateStatusError'));
         return false;
       } finally {
         setPending(false);
@@ -125,8 +126,8 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         refresh();
         return true;
       } catch (e) {
-        if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
-        else toast.error((e as Error)?.message ?? 'Não foi possível alterar a consulta');
+        if (e instanceof SlotTakenError) toast.error(i18n.t('sweep.appointments.slotTaken'));
+        else toast.error((e as Error)?.message ?? i18n.t('sweep.appointments.rescheduleError'));
         return false;
       } finally {
         setPending(false);
@@ -170,7 +171,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         }
         return true;
       } catch (e) {
-        toast.error((e as Error)?.message ?? 'Não foi possível cancelar a consulta');
+        toast.error((e as Error)?.message ?? i18n.t('sweep.appointments.cancelError'));
         return false;
       } finally {
         setPending(false);
@@ -196,14 +197,14 @@ export function AppointmentActionsProvider({ children }: { children: React.React
       await assignWaitingMatch(
         topMatch,
         matchState.slot,
-        `O seu horário foi confirmado: ${slotLabel}`
+        i18n.t('sweep.appointments.confirmedMessage', { slot: slotLabel })
       );
-      toast.success(`Consulta atribuída a ${topMatch.patientName}`);
+      toast.success(i18n.t('sweep.appointments.assignedTo', { name: topMatch.patientName }));
       setMatchState(null);
       refresh();
     } catch (e) {
-      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
-      else toast.error((e as Error)?.message ?? 'Não foi possível atribuir o horário');
+      if (e instanceof SlotTakenError) toast.error(i18n.t('sweep.appointments.slotTaken'));
+      else toast.error((e as Error)?.message ?? i18n.t('sweep.appointments.assignError'));
     }
   };
 
@@ -213,30 +214,30 @@ export function AppointmentActionsProvider({ children }: { children: React.React
       <AlertDialog open={!!matchState} onOpenChange={(open) => !open && setMatchState(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-warning" /> Horário disponível!</AlertDialogTitle>
+            <AlertDialogTitle className="flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-warning" /> {i18n.t('sweep.appointments.slotAvailable')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {topMatch?.patientName} tem este horário nas preferências da lista de espera.
+              {i18n.t('sweep.appointments.waitlistPreference', { name: topMatch?.patientName })}
               <br />
               <span className="font-medium text-foreground">{slotLabel}</span>
               {topMatch?.urgency === 'urgente' && (
                 <>
                   <br />
-                  <span className="text-destructive font-medium">Urgente</span>
+                  <span className="text-destructive font-medium">{i18n.t('sweep.appointments.urgent')}</span>
                 </>
               )}
               {matchState && matchState.matches.length > 1 && (
                 <>
                   <br />
                   <span className="text-xs">
-                    +{matchState.matches.length - 1} outro(s) paciente(s) em espera para este horário
+                    {i18n.t('sweep.appointments.othersWaiting', { count: matchState.matches.length - 1 })}
                   </span>
                 </>
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Ignorar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleAssign}>Atribuir</AlertDialogAction>
+            <AlertDialogCancel>{i18n.t('sweep.appointments.ignore')}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleAssign}>{i18n.t('sweep.appointments.assign')}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

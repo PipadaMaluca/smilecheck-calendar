@@ -15,6 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ChatListSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useAuth } from '@/contexts/AuthContext';
 import { awardPointsSilently } from '@/data/pointsWrites';
 
@@ -411,8 +412,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
               <h2 className="text-lg font-bold">{t('chat.title')}</h2>
               <Button
                 variant="ghost"
-                size="icon"
-                className="h-8 w-8"
+                size="icon-sm"
                 onClick={handleNewConversation}
                 title={t('chat.newConversation')}
               >
@@ -436,7 +436,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
               <div className="p-4 border-b border-border space-y-3">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold">{t('chat.newConversation')}</h2>
-                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowNewConversation(false)}>
+                  <Button variant="ghost" size="icon-sm" onClick={() => setShowNewConversation(false)}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
@@ -488,19 +488,17 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
             <ScrollArea className="flex-1">
               <div className="divide-y divide-border">
                 {filtered.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-                    <MessageSquare className="w-12 h-12 text-muted-foreground/30 mb-4" />
-                    <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.chatTitle')}</h3>
-                    <p className="text-sm text-muted-foreground max-w-xs">
-                      {t(
-                        userRole === 'patient'
-                          ? 'emptyStates.chatDescPatient'
-                          : userRole === 'dentist'
-                          ? 'emptyStates.chatDescDentist'
-                          : 'emptyStates.chatDescClinic'
-                      )}
-                    </p>
-                  </div>
+                  <EmptyState
+                    icon={MessageSquare}
+                    title={t('emptyStates.chatTitle')}
+                    description={t(
+                      userRole === 'patient'
+                        ? 'emptyStates.chatDescPatient'
+                        : userRole === 'dentist'
+                        ? 'emptyStates.chatDescDentist'
+                        : 'emptyStates.chatDescClinic'
+                    )}
+                  />
                 ) : (
                   filtered.map((conversation) => {
                     const isActive = selectedConversation?.id === conversation.id;
@@ -683,13 +681,8 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
               </div>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-muted-foreground">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-7 h-7 text-muted-foreground/50" />
-                </div>
-                <p className="text-sm">{t('chat.selectConversation')}</p>
-              </div>
+            <div className="flex-1 flex items-center justify-center">
+              <EmptyState icon={Send} title={t('chat.selectConversation')} />
             </div>
           )}
         </div>

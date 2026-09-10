@@ -379,7 +379,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
 
       {/* Block Patient Modal */}
       <Dialog open={showBlockModal} onOpenChange={setShowBlockModal}>
-        <DialogContent className="sm:max-w-md z-[70]">
+        <DialogContent className="sm:max-w-md z-notification">
           <DialogHeader>
             <DialogTitle>
 <Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.blockTitle', { name: consultation.patient.name })}</DialogTitle>
