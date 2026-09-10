@@ -85,7 +85,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   return (
     <div
       className={cn(
-        'rounded-[10px] border border-border bg-muted/60 backdrop-blur-md mx-1',
+        'rounded-lg border border-border bg-muted/60 backdrop-blur-md mx-1',
         'p-1.5',
         className
       )}

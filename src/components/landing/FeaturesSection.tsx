@@ -109,7 +109,7 @@ function TeleconsultaMockup() {
   return (
     <div className="rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-[#0D2137] shadow-2xl shadow-[#2196F3]/20 overflow-hidden">
       <div className="aspect-video bg-gradient-to-br from-[#1E3A5F] via-[#0D2137] to-[#0A1929] relative flex items-center justify-center">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#2196F3] to-[#1565C0] flex items-center justify-center text-white text-3xl font-bold shadow-2xl">
+        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#2196F3] to-[#1565C0] flex items-center justify-center text-white text-3xl font-bold shadow-lg">
           GP
         </div>
         <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-[11px] font-bold flex items-center gap-1">

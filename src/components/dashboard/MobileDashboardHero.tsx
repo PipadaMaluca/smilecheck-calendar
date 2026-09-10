@@ -82,7 +82,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-[10px] overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors press"
+          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-lg overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors press"
           style={{ '--consultation-type-color': next.catColor } as CSSProperties}
         >
           <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />

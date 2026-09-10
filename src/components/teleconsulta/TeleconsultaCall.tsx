@@ -134,7 +134,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
           </div>
 
           {/* Self-view (floating) */}
-          <div className="absolute bottom-20 right-4 w-32 h-24 md:w-44 md:h-32 rounded-xl bg-[#1a1a24] border border-white/10 overflow-hidden shadow-2xl">
+          <div className="absolute bottom-20 right-4 w-32 h-24 md:w-44 md:h-32 rounded-xl bg-[#1a1a24] border border-white/10 overflow-hidden shadow-lg">
             <div className="w-full h-full flex items-center justify-center">
               <div className="flex flex-col items-center gap-1 text-white/20">
                 <User className="w-6 h-6" />
