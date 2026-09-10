@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
+import { useIsNarrowWidth } from '@/hooks/use-device';
 import { cn } from '@/lib/utils';
 import { Ban } from 'lucide-react';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
@@ -64,15 +65,7 @@ export function MultiDentistGrid({
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDentistId: string; fromClinicId: string; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   // Detect small mobile (<500px) for per-column min-width + scroll-snap behavior.
-  const [isSmallMobile, setIsSmallMobile] = useState<boolean>(
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 499px)').matches : false
-  );
-  useEffect(() => {
-    const mql = window.matchMedia('(max-width: 499px)');
-    const onChange = (e: MediaQueryListEvent) => setIsSmallMobile(e.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
+  const isSmallMobile = useIsNarrowWidth();
   // Generate time slot labels (08:00 to 21:30 = 28 slots)
   const timeSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {

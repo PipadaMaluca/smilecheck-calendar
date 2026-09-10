@@ -25,14 +25,8 @@ const MOCK_HISTORY = [
 export function InviteView({ onClose, inline }: InviteViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const [isTabletOrBelow, setIsTabletOrBelow] = useState(false);
-  useEffect(() => {
-    const mql = window.matchMedia('(max-width: 1023px)');
-    const onChange = () => setIsTabletOrBelow(mql.matches);
-    onChange();
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
+  // Tablet follows desktop, so only true mobile widths use the stacked layout.
+  const isTabletOrBelow = isMobile;
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
