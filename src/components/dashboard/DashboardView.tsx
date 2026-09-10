@@ -650,6 +650,9 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
     const clinicDentists = getDentistsForClinic('1');
+    const clinicTodayConsultations = [...todayConsultations]
+      .sort((a, b) => a.time.localeCompare(b.time))
+      .slice(0, 7);
 
 
     // Group confirmations by dentist
@@ -709,34 +712,38 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
                 <Badge variant="outline" className="text-[11px]">54 {t('dashboard.total')}</Badge>
               </div>
-              <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
-                {(() => {
-                  const dentistData: {id: string;name: string;pres: number;tele: number;}[] = [
-                  { id: '1', name: 'Dr. Gonçalo Pipo', pres: 13, tele: 5 },
-                  { id: '2', name: 'Dr. Alexandre Bernardo', pres: 13, tele: 5 },
-                  { id: '3', name: 'Dr. Gil Santos', pres: 14, tele: 4 }];
-                  return dentistData.map((d, index) => {
-                    const isLast = index === dentistData.length - 1;
-                    return (
+              <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
+                {clinicTodayConsultations.map((c, index) => {
+                  const isLast = index === clinicTodayConsultations.length - 1;
+                  return (
                     <div
-                      key={d.id}
+                      key={c.id}
                       className={cn(
-                        "consultation-row hover:border-primary/30 hover:bg-primary/5 rounded transition-colors cursor-pointer py-1.5 flex items-center gap-1.5 group whitespace-nowrap overflow-hidden press",
-                        !isLast && "border-b border-border"
+                        'consultation-row grid grid-cols-[42px_minmax(0,1fr)_auto] sm:grid-cols-[48px_minmax(100px,1fr)_minmax(100px,1fr)_auto] items-center gap-2 py-1.5 rounded cursor-pointer hover:bg-muted/30 transition-colors press',
+                        !isLast && 'border-b border-border'
                       )}
-                      onClick={() => {
-                        window.dispatchEvent(new CustomEvent('smilecheck:filter-dentist', { detail: `1-${d.id}` }));
-                        onNavigate('agenda');
-                      }}>
-                       <ClickableDentistName name={d.name} className="text-[11px] font-semibold flex-shrink-0 group-hover:text-primary transition-colors" />
-                       <span className="text-muted-foreground text-[11px]">:</span>
-                       <span className="text-[11px] font-bold text-presencial flex-shrink-0">{d.pres} {t('dashboard.pres')}</span>
-                       <span className="text-[11px] text-muted-foreground">·</span>
-                       <span className="text-[11px] font-bold text-teleconsulta flex-shrink-0">{d.tele} {t('dashboard.tele')}</span>
-                     </div>
-                    );
-                  });
-                })()}
+                      onClick={() => onNavigate(`consulta-detalhe:${c.id}`)}
+                    >
+                      <span className="text-xs font-bold tabular-nums text-primary">{c.time}</span>
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-foreground truncate">
+                          <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" />
+                        </p>
+                        <p className="text-[11px] text-muted-foreground truncate sm:hidden">
+                          <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground" />
+                        </p>
+                      </div>
+                      <div className="hidden sm:flex min-w-0 items-center gap-2">
+                        {typeDot(c.category, 'sm')}
+                        <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground truncate" />
+                      </div>
+                      <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1">
+                        <span className="sm:hidden">{typeDot(c.category, 'sm')}</span>
+                        {getStatusBadge(consultationStatuses[c.id] || c.status)}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
               <button className="text-xs text-primary hover:underline w-full text-left mt-2" onClick={() => onNavigate('agenda')}>
                 {t('dashboard.viewFullAgenda')} ›
