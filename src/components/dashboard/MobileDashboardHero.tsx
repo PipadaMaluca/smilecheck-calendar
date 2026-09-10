@@ -73,7 +73,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
   };
 
   return (
-    <div className="lg:hidden -mx-4 px-4 md:px-6 space-y-3">
+    <div className="md:hidden -mx-4 px-4 space-y-3">
       {/* === Hero: Next appointment (mobile only) === */}
       {next ? (
         <div className="md:hidden">
