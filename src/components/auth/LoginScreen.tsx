@@ -151,7 +151,8 @@ export function LoginScreen() {
         <div className="grid grid-cols-3 gap-2">
           {demoButtons.map(({ role, label, Icon }) => (
             <Button key={role} variant="outline" onClick={() => startDemo(role)}
-              className="h-11 flex-col gap-0.5 text-[11px] font-medium px-1">
+              className="h-auto min-h-11 py-1.5 flex-col gap-0.5 text-[11px] font-medium px-1 leading-tight">
+
               <Icon className="w-4 h-4" />
               <span className="truncate w-full text-center">{label}</span>
             </Button>
