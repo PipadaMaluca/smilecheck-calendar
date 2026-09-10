@@ -213,10 +213,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
 
     return (
-      <div className="hidden lg:flex flex-col gap-4">
+      <div className="hidden md:flex flex-col gap-4">
         <div
           id="coachmark-stat-cards"
-          className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4 items-stretch"
+          className="grid grid-cols-1 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4 items-stretch"
         >
           {/* PRIMARY — Próxima Consulta */}
           <Card
