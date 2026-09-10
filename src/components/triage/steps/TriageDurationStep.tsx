@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { Glyph } from '@/components/ui/glyph';
+import { AlarmClock, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const DURATION_ITEMS = [
-  { id: 'menos_24h', icon: '⏰', key: 'triage.duration.lessThan24h' },
-  { id: '1_3_dias', icon: '📅', key: 'triage.duration.1to3days' },
-  { id: '4_7_dias', icon: '📅', key: 'triage.duration.4to7days' },
-  { id: '1_2_semanas', icon: '📅', key: 'triage.duration.1to2weeks' },
-  { id: '2_4_semanas', icon: '📅', key: 'triage.duration.2to4weeks' },
-  { id: 'mais_1_mes', icon: '📅', key: 'triage.duration.moreThan1month' },
+  { id: 'menos_24h', icon: AlarmClock, key: 'triage.duration.lessThan24h' },
+  { id: '1_3_dias', icon: Calendar, key: 'triage.duration.1to3days' },
+  { id: '4_7_dias', icon: Calendar, key: 'triage.duration.4to7days' },
+  { id: '1_2_semanas', icon: Calendar, key: 'triage.duration.1to2weeks' },
+  { id: '2_4_semanas', icon: Calendar, key: 'triage.duration.2to4weeks' },
+  { id: 'mais_1_mes', icon: Calendar, key: 'triage.duration.moreThan1month' },
 ];
 
 interface TriageDurationStepProps {
@@ -32,6 +32,7 @@ export function TriageDurationStep({
       <div className="space-y-3">
         {DURATION_ITEMS.map((duration) => {
           const isSelected = selectedDuration === duration.id;
+          const Icon = duration.icon;
           return (
             <button
               key={duration.id}
@@ -51,7 +52,7 @@ export function TriageDurationStep({
               >
                 {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
               </div>
-              <Glyph emoji={duration.icon} className="w-5 h-5" />
+              <Icon className="w-5 h-5" />
               <span className="text-sm font-medium text-foreground">{t(duration.key)}</span>
             </button>
           );

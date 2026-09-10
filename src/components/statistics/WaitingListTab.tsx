@@ -38,6 +38,8 @@ import { useTranslation } from 'react-i18next';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { toast } from 'sonner';
 import { ListSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
+import { ErrorState } from '@/components/ui/error-state';
 import { SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -211,7 +213,7 @@ interface WaitingListTabProps {
 export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProps) {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { entries: realEntries, loading, isDemo, refresh } = useWaitingList();
+  const { entries: realEntries, loading, isDemo, refresh, error: waitingError } = useWaitingList();
   const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistsToShow = useMemo(() => {
@@ -417,6 +419,10 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     return <ListSkeleton rows={4} />;
   }
 
+  if (!isDemo && !loading && waitingError) {
+    return <ErrorState onRetry={refresh} />;
+  }
+
   return (
     <div className="space-y-4">
       {/* Filter bar */}
@@ -461,9 +467,8 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
 
       {groups.length === 0 && (
         <Card className="bg-card/80 border-border">
-          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-            <Users className="w-12 h-12 text-muted-foreground/30 mb-4" />
-            <p className="text-sm text-muted-foreground">{t('waitingList.mgmt.empty')}</p>
+          <CardContent>
+            <EmptyState icon={Users} title={t('waitingList.mgmt.empty')} />
           </CardContent>
         </Card>
       )}
@@ -476,11 +481,13 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
           <Card key={group.key} className="bg-card/80 border-border overflow-hidden">
             <CardContent className="p-0">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-border gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold flex-shrink-0">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold shrink-0">
                     {initials}
                   </div>
-                  <ClickableDentistName name={group.dentistName} className="text-sm font-semibold text-foreground" />
+                  <div className="min-w-0 flex-1 truncate" title={group.dentistName}>
+                    <ClickableDentistName name={group.dentistName} className="text-sm font-semibold text-foreground truncate block" />
+                  </div>
                 </div>
                 <Badge variant="outline" className="text-[11px] self-start sm:self-auto">
                   {list.length} {t('waitingList.patients')}
@@ -496,7 +503,9 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                       <li key={entry.id} className="p-3 sm:p-4 space-y-2">
                         {/* Header row */}
                         <div className="flex flex-wrap items-center gap-2">
-                          <ClickablePatientName name={entry.name} className="text-sm font-semibold text-foreground" />
+                          <span className="min-w-0 max-w-[60%] truncate" title={entry.name}>
+                            <ClickablePatientName name={entry.name} className="text-sm font-semibold text-foreground truncate block" />
+                          </span>
                           <ConsultationTypePill category={entry.category} />
                           <span
                             className={cn(

@@ -9,6 +9,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { mockClinics, clinicDentists, getDentistsForClinic } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import { EmptyState } from '@/components/ui/empty-state';
 
 const dentistExtras: Record<string, { rating: number; level: string; scheduleSummary: string }> = {
   '2': { rating: 4.9, level: 'Platina', scheduleSummary: 'Seg-Sex 09:00-19:00' },
@@ -114,7 +115,7 @@ export function DentistTeamTab() {
                   })}
                 </div>
                 {colleagues.length === 0 && (
-                  <p className="text-sm text-muted-foreground text-center py-4">Nenhum colega nesta clínica</p>
+                  <EmptyState size="sm" icon={User} title={t('sweep.team.noColleagues')} />
                 )}
               </CardContent>
             )}

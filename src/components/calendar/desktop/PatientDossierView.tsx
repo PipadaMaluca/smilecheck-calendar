@@ -508,8 +508,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
       {/* Preview Prescription Modal */}
       {previewPrescription && (
         <>
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setPreviewPrescription(null)} />
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-50 space-y-4">
+          <div className="fixed inset-0 scrim z-modal" onClick={() => setPreviewPrescription(null)} />
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-modal space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">{t('dossier.prescription')} — {previewPrescription.date}</h3>
               <Button variant="ghost" size="icon" onClick={() => setPreviewPrescription(null)}><ArrowLeft className="w-4 h-4" /></Button>
@@ -529,8 +529,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
       {/* Preview Image Modal */}
       {previewImage && (
         <>
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setPreviewImage(null)} />
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-card rounded-xl border border-border p-6 z-50 flex flex-col items-center gap-4">
+          <div className="fixed inset-0 scrim z-modal" onClick={() => setPreviewImage(null)} />
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-card rounded-xl border border-border p-6 z-modal flex flex-col items-center gap-4">
             <div className="w-full flex justify-start">
               <Button variant="ghost" size="icon" onClick={() => setPreviewImage(null)}><ArrowLeft className="w-4 h-4" /></Button>
             </div>
@@ -545,8 +545,8 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
       {/* Upload Modal */}
       {showUploadModal && (
         <>
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setShowUploadModal(false)} />
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-50 space-y-4">
+          <div className="fixed inset-0 scrim z-modal" onClick={() => setShowUploadModal(false)} />
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-card rounded-xl border border-border p-6 z-modal space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">{t('dossier.uploadImage')}</h3>
               <Button variant="ghost" size="icon" onClick={() => setShowUploadModal(false)}><ArrowLeft className="w-4 h-4" /></Button>

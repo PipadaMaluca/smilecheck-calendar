@@ -75,12 +75,12 @@ export function ConnectedDevicesSection() {
         <CardHeader className="pb-2">
           <CardTitle size="compact" className="flex items-center gap-2">
             <Link2 className="w-4 h-4 text-primary" />
-            Dispositivos Conectados
+            {t('sweep.devices.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <Button onClick={startScan} className="w-full gap-2">
-            <Camera className="w-4 h-4" /> Conectar novo dispositivo
+            <Camera className="w-4 h-4" /> {t('sweep.devices.connectNew')}
           </Button>
 
           {devices.length > 0 ? (
@@ -124,14 +124,14 @@ export function ConnectedDevicesSection() {
         <DialogContent className="max-w-sm">
           <DialogHeader>
             <DialogTitle>
-              {scanPhase === 'scanning' && 'Aponte para o código QR'}
-              {scanPhase === 'confirm' && 'Novo dispositivo detetado'}
-              {scanPhase === 'authorized' && 'Dispositivo conectado!'}
+              {scanPhase === 'scanning' && t('sweep.devices.scanTitle')}
+              {scanPhase === 'confirm' && t('sweep.devices.newDeviceDetected')}
+              {scanPhase === 'authorized' && t('sweep.devices.connectedTitle')}
             </DialogTitle>
             <DialogDescription>
-              {scanPhase === 'scanning' && 'Mostrado no ecrã do dispositivo onde quer entrar'}
-              {scanPhase === 'confirm' && 'Verifique os detalhes antes de autorizar'}
-              {scanPhase === 'authorized' && 'Login autorizado com sucesso'}
+              {scanPhase === 'scanning' && t('sweep.devices.scanDesc')}
+              {scanPhase === 'confirm' && t('sweep.devices.confirmDesc')}
+              {scanPhase === 'authorized' && t('sweep.devices.authorizedDesc')}
             </DialogDescription>
           </DialogHeader>
 
@@ -143,7 +143,7 @@ export function ConnectedDevicesSection() {
                 <Camera className="w-10 h-10 text-muted-foreground" />
               </div>
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <p className="text-xs text-muted-foreground">A procurar código QR...</p>
+              <p className="text-xs text-muted-foreground">{t('sweep.devices.scanning')}</p>
             </div>
           )}
 
@@ -160,15 +160,15 @@ export function ConnectedDevicesSection() {
 
               <div className="flex items-start gap-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
                 <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-yellow-500/90">Apenas autorize se reconhece este dispositivo</p>
+                <p className="text-xs text-yellow-500/90">{t('sweep.devices.warningRecognize')}</p>
               </div>
 
               <div className="flex gap-2">
                 <Button variant="outline" className="flex-1" onClick={() => { setShowScanner(false); setScanPhase('idle'); }}>
-                  Cancelar
+                  {t('common.cancel')}
                 </Button>
                 <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white" onClick={authorizeDevice}>
-                  Autorizar Login
+                  {t('sweep.devices.authorizeLogin')}
                 </Button>
               </div>
             </div>
@@ -179,7 +179,7 @@ export function ConnectedDevicesSection() {
               <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
                 <CheckCircle2 className="w-8 h-8 text-green-500" />
               </div>
-              <p className="text-sm font-medium text-foreground">Dispositivo conectado com sucesso!</p>
+              <p className="text-sm font-medium text-foreground">{t('sweep.devices.connectedSuccess')}</p>
             </div>
           )}
         </DialogContent>

@@ -93,8 +93,8 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 z-[70]" onClick={onClose} />
-      <div className="fixed inset-0 z-[71] flex items-center justify-center p-4">
+      <div className="fixed inset-0 scrim z-modal" onClick={onClose} />
+      <div className="fixed inset-0 z-modal flex items-center justify-center p-4">
         <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
           <div className="flex items-center justify-between p-4 border-b border-border">
             <h2 className="text-lg font-bold text-foreground">
@@ -243,8 +243,8 @@ export function TimeBlockDeleteConfirm({ isOpen, onClose, onDeleteSingle, onDele
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 z-[80]" onClick={onClose} />
-      <div className="fixed inset-0 z-[81] flex items-center justify-center p-4">
+      <div className="fixed inset-0 scrim z-modal" onClick={onClose} />
+      <div className="fixed inset-0 z-modal flex items-center justify-center p-4">
         <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-sm p-6 space-y-4">
           <h3 className="text-base font-bold text-foreground">{t('timeBlock.deleteBlock')}</h3>
           <p className="text-sm text-muted-foreground">{t('timeBlock.deleteConfirm')}</p>

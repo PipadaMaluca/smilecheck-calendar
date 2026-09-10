@@ -79,7 +79,7 @@ export function PatientSidebar({
       <div className="px-5 pt-4 pb-3 flex-shrink-0">
         <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-sm h-10">
           <Plus className="w-5 h-5" />
-          NOVA CONSULTA
+          {t('sweep.patientSidebar.newConsultation')}
         </Button>
       </div>
 
@@ -149,7 +149,7 @@ export function PatientSidebar({
       <div className="px-5 py-3 border-b border-[#1E3A5F] flex-shrink-0">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-muted-foreground">
-            Filtrar por membro:
+            {t('sweep.patientSidebar.filterByMember')}
           </span>
         </div>
       </div>
@@ -175,7 +175,7 @@ export function PatientSidebar({
           <Checkbox
             checked={allSelected}
             className="border-muted-foreground h-5 w-5 rounded-full data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
-          <span className="text-sm font-medium">Todos</span>
+          <span className="text-sm font-medium">{t('common.all')}</span>
         </div>
 
         {/* Family Group */}
@@ -206,7 +206,7 @@ export function PatientSidebar({
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className={cn('text-sm truncate', isSelected && 'font-medium')}>
-                      {member.name} ({member.age} anos)
+                      {member.name} {t('sweep.patientSidebar.ageYears', { age: member.age })}
                     </span>
                     <span className="text-xs text-muted-foreground">{member.relation}</span>
                   </div>

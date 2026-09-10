@@ -3,6 +3,7 @@ import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Video, X, Calendar, MessageCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { EmptyState } from '@/components/ui/empty-state';
 import { cn } from '@/lib/utils';
 import {
   DentistSearchResult,
@@ -60,7 +61,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-warning" />
               <span className="text-sm font-semibold text-foreground">{dentist.rating}</span>
-              <span className="text-xs text-muted-foreground">({dentist.reviewCount} avaliações)</span>
+              <span className="text-xs text-muted-foreground">{t('sweep.dentistProfile.reviewsCount', { count: dentist.reviewCount })}</span>
             </div>
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
               {t(levelCfg.labelKey)}
@@ -68,7 +69,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
           </div>
           {dentist.previousPatient && (
             <span className="inline-block mt-2 text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30">
-              Já Consultou
+              {t('sweep.dentistProfile.alreadyConsulted')}
             </span>
           )}
         </div>
@@ -97,13 +98,13 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
 
       {/* Bio */}
       <div className="bg-secondary rounded-xl p-4">
-        <h3 className="text-sm font-semibold text-foreground mb-2">Sobre</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.about')}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">{dentist.bio}</p>
       </div>
 
       {/* Clinics */}
       <div>
-        <h3 className="text-sm font-semibold text-foreground mb-2">Clínicas</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.clinics')}</h3>
         <div className="space-y-2">
           {dentist.clinics.map((c) => (
             <div key={c.id} className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
@@ -156,7 +157,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                     </button>
                   ))}
                   {day.slots.length === 0 && (
-                    <span className="text-[11px] text-muted-foreground">Sem horários</span>
+                    <span className="text-[11px] text-muted-foreground">{t('sweep.dentistProfile.noSlots')}</span>
                   )}
                 </div>
               </div>
@@ -168,13 +169,16 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
           className="mt-2 text-xs text-primary hover:text-primary/80 font-medium transition-colors"
           onClick={() => setShowBooking(true)}
         >
-          + Mostrar mais horários
+          {t('sweep.dentistProfile.showMoreSlots')}
         </button>
       </div>
 
       {/* Reviews */}
       <div>
-        <h3 className="text-sm font-semibold text-foreground mb-2">Avaliações Recentes</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.recentReviews')}</h3>
+        {reviews.length === 0 && (
+          <EmptyState size="sm" icon={Star} title={t('sweep.dentistProfile.noReviews', 'Sem avaliações')} />
+        )}
         <div className="space-y-2">
           {reviews.slice(0, 5).map((review) => (
             <div key={review.id} className="bg-secondary rounded-lg p-3">
@@ -197,11 +201,11 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="flex gap-3 pt-3 pb-2">
         <Button className="flex-1 bg-primary hover:bg-primary/90 h-11" onClick={() => setShowBooking(true)}>
           <Calendar className="w-4 h-4 mr-2" />
-          Marcar Consulta
+          {t('sweep.dentistProfile.bookAppointment')}
         </Button>
         <Button variant="outline" className="flex-1 border-border h-11">
           <MessageCircle className="w-4 h-4 mr-2" />
-          Enviar Mensagem
+          {t('sweep.dentistProfile.sendMessage')}
         </Button>
       </div>
     </div>
@@ -209,9 +213,9 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-[55] bg-background" style={{ bottom: '60px' }}>
+      <div className="fixed inset-0 z-modal bg-background" style={{ bottom: '64px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
+          <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
@@ -224,11 +228,11 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 md:p-8">
+      <div className="absolute inset-0 scrim" onClick={onClose} />
       <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold text-foreground">Perfil do Dentista</h2>
+          <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>

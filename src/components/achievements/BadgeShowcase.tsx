@@ -6,6 +6,7 @@ import { Achievement, AchievementCategory, DEFAULT_SHOWCASED } from './achieveme
 import { BadgeFrame } from './BadgeFrame';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { UserRole } from '@/types/calendar';
+import { useTranslation } from 'react-i18next';
 
 interface BadgeShowcaseProps {
   userRole: UserRole;
@@ -16,6 +17,7 @@ interface BadgeShowcaseProps {
 }
 
 export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onViewCollection, className }: BadgeShowcaseProps) {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
 
@@ -34,14 +36,14 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
       {/* Header */}
       <div className="flex items-center justify-between">
         <h4 className="text-sm font-semibold text-foreground flex items-center gap-1.5">
-          <Trophy className="w-4 h-4 text-primary" /> Conquistas em Destaque
+          <Trophy className="w-4 h-4 text-primary" /> {t('sweep.badges.featuredAchievements')}
         </h4>
         {isOwnProfile && (
           <button
             onClick={() => setShowModal(true)}
             className="text-xs text-primary hover:underline flex items-center gap-1"
           >
-            <Pencil className="w-3 h-3" /> Editar
+            <Pencil className="w-3 h-3" /> {t('sweep.badges.edit')}
           </button>
         )}
       </div>
@@ -85,7 +87,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
         className="w-full text-xs gap-1.5"
         onClick={onViewCollection}
       >
-        <Trophy className="w-3.5 h-3.5" /> Ver Coleção
+        <Trophy className="w-3.5 h-3.5" /> {t('sweep.badges.viewCollection')}
       </Button>
 
       {/* Selection Modal */}

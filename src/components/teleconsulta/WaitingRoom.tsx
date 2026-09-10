@@ -18,7 +18,7 @@ export function WaitingRoom({ isOpen, dentistName, onLeave }: WaitingRoomProps) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#0a0a0f] flex flex-col items-center justify-center gap-8 p-8">
+    <div className="fixed inset-0 z-modal bg-[#0a0a0f] flex flex-col items-center justify-center gap-8 p-8">
       <div className="w-64 h-48 md:w-80 md:h-60 rounded-2xl bg-[#1a1a24] border border-white/10 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2 text-white/20">
           <User className="w-10 h-10" />

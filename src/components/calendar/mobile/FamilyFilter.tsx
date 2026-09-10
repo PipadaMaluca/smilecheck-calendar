@@ -1,5 +1,6 @@
 import { mockFamilyMembers } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface FamilyFilterProps {
   selectedMembers: string[];
@@ -7,6 +8,7 @@ interface FamilyFilterProps {
 }
 
 export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterProps) {
+  const { t } = useTranslation();
   const isAllSelected = selectedMembers.includes('all');
 
   // Custom checkbox with larger size (24px x 24px)
@@ -47,7 +49,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
             )}
             onClick={() => onMemberToggle('all', false)}
           >
-            Todos
+            {t('common.all')}
           </button>
         </div>
 
@@ -67,7 +69,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
                 )}
                 onClick={() => onMemberToggle(member.id, false)}
               >
-                {member.name} ({member.age} anos) - {member.relation}
+                {t('sweep.familyFilter.memberLabel', { name: member.name, age: member.age, relation: member.relation })}
               </button>
             </div>
           );

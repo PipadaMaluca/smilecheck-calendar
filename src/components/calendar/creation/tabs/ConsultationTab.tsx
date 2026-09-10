@@ -148,7 +148,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
     }
 
     if (!selectedPatientId) {
-      toast.error('Selecione um paciente existente na pesquisa');
+      toast.error(t('sweep.consultationTab.selectExistingPatientError'));
       return;
     }
 
@@ -170,14 +170,14 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
         isTeleconsultation: isTele,
         paymentStatus: isTele ? 'a_pagar' : 'nao_aplicavel',
         notes: notes.trim() || null,
-        observation: referrer.trim() ? `Referenciado por: ${referrer.trim()}` : null,
+        observation: referrer.trim() ? t('sweep.consultationTab.referredBy', { name: referrer.trim() }) : null,
       });
       refresh();
       toast.success(t('creationTabs.consultationCreated'));
       onClose();
     } catch (e) {
-      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
-      else toast.error((e as Error)?.message ?? 'Erro ao criar consulta');
+      if (e instanceof SlotTakenError) toast.error(t('sweep.appointments.slotTaken'));
+      else toast.error((e as Error)?.message ?? t('sweep.consultationTab.createError'));
     } finally {
       setCreating(false);
     }

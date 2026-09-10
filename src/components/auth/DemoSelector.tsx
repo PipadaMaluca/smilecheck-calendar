@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { User, Stethoscope, Building2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { AuthBackground } from './AuthBackground';
 import { Logo } from '@/components/branding/Logo';
 import { useAuth } from '@/contexts/AuthContext';
@@ -30,24 +31,25 @@ export function DemoSelector() {
 
         <div className="w-full space-y-3">
           {options.map((o) =>
-            <button
+            <Button
               key={o.role}
+              variant="outline"
               onClick={() => {
                 localStorage.removeItem(`smilecheck_video_splash_${o.role}`);
                 enterDemo(o.role);
                 navigate(`/app?role=${o.role}&demo=true`);
               }}
-              className="w-full flex items-center gap-3 p-4 rounded-xl bg-secondary border border-border hover:border-primary hover:bg-accent transition-colors press"
+              className="w-full h-auto justify-start gap-3 p-4 rounded-xl bg-secondary border-border hover:border-primary hover:bg-accent"
             >
               <o.icon className="w-5 h-5 text-primary" />
               <span className="text-foreground font-medium">{t(o.labelKey)} {o.name}</span>
-            </button>
+            </Button>
           )}
         </div>
 
-        <button onClick={() => navigate('/login')} className="mt-6 text-sm text-muted-foreground hover:text-foreground">
+        <Button type="button" variant="link" onClick={() => navigate('/login')} className="mt-6 h-auto p-0 text-sm text-muted-foreground hover:text-foreground">
           {t('demo.backToLogin')}
-        </button>
+        </Button>
       </div>
     </AuthBackground>
   );

@@ -33,6 +33,8 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
+import { CalendarX } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state';
 import { pt } from 'date-fns/locale';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = new Date(2026, 0, 31);
@@ -232,7 +234,7 @@ export function PatientCalendar() {
               ) : upcomingConsultations.length > 0 ? (
                 <>
                   <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-                    Próximas consultas
+                    {t('agenda.nextConsultations')}
                   </h3>
                   <div className="space-y-3">
                     {upcomingConsultations.slice(0, 5).map((consultation) => (
@@ -251,9 +253,7 @@ export function PatientCalendar() {
                   </div>
                 </>
               ) : (
-              <div className="text-center py-12">
-                  <p className="text-muted-foreground mb-2">Sem consultas para este dia</p>
-                </div>
+              <EmptyState icon={CalendarX} title={t('agenda.noConsultationsDay')} />
               )}
             </div>
           </>

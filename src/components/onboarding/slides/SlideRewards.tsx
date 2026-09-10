@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Glyph } from '@/components/ui/glyph';
+import { Gift, Calendar, Flame, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface SlideRewardsProps { isActive: boolean; }
@@ -24,14 +24,14 @@ export const SlideRewards = ({ isActive }: SlideRewardsProps) => {
   const formatNumber = (num: number) => num.toString().padStart(2, '0');
 
   const rewards = [
-    { icon: '📅', labelKey: 'onboarding.rewardsCheckin', bonus: '+1 pt/dia' },
-    { icon: '🔥', labelKey: 'onboarding.rewardsStreak7', bonus: '+5 pts' },
-    { icon: '🏆', labelKey: 'onboarding.rewardsStreak30', bonus: '+15 pts' },
+    { icon: Calendar, labelKey: 'onboarding.rewardsCheckin', bonus: '+1 pt/dia' },
+    { icon: Flame, labelKey: 'onboarding.rewardsStreak7', bonus: '+5 pts' },
+    { icon: Trophy, labelKey: 'onboarding.rewardsStreak30', bonus: '+15 pts' },
   ];
 
   return (
     <div className="h-full flex flex-col items-center justify-center px-6">
-      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2">{t('onboarding.rewardsTitle')}</h2>
+      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2"><Gift className="w-6 h-6" />{t('onboarding.rewardsTitle')}</h2>
       <div className="glass-card-strong p-6 w-full max-w-sm text-center mb-6">
         <p className="text-muted-foreground mb-4 text-sm">{t('onboarding.rewardsNextIn')}</p>
         <div className="flex justify-center gap-2 mb-6">
@@ -46,16 +46,19 @@ export const SlideRewards = ({ isActive }: SlideRewardsProps) => {
         </div>
         <p className="text-foreground font-medium mb-4">{t('onboarding.rewardsOpenDaily')}</p>
         <div className="space-y-2">
-          {rewards.map((reward, index) => (
-            <div key={index} className="flex items-center justify-between p-3 rounded-xl border"
-              style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.1)', borderColor: 'hsla(162, 100%, 43%, 0.2)' }}>
-              <div className="flex items-center gap-2">
-                <Glyph emoji={reward.icon} className="w-6 h-6" />
-                <span className="text-foreground/80 text-sm">{t(reward.labelKey)}</span>
+          {rewards.map((reward, index) => {
+            const Icon = reward.icon;
+            return (
+              <div key={index} className="flex items-center justify-between p-3 rounded-xl border"
+                style={{ backgroundColor: 'hsla(162, 100%, 43%, 0.1)', borderColor: 'hsla(162, 100%, 43%, 0.2)' }}>
+                <div className="flex items-center gap-2">
+                  <Icon className="w-6 h-6" />
+                  <span className="text-foreground/80 text-sm">{t(reward.labelKey)}</span>
+                </div>
+                <span className="text-gaming-green font-bold text-sm">{reward.bonus}</span>
               </div>
-              <span className="text-gaming-green font-bold text-sm">{reward.bonus}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <p className="text-muted-foreground text-center text-sm max-w-xs">

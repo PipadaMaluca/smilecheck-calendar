@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ListSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Button } from '@/components/ui/button';
 import { Consultation, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -46,12 +47,12 @@ export function PatientAppointmentsList({
       return consultation.isPaid ?
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-green-500/20 text-green-400">
           <Check className="w-3 h-3" />
-          Pago
+          {t('sweep.appointmentsList.paid')}
         </span> :
 
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-yellow-500/20 text-yellow-400">
           <AlertCircle className="w-3 h-3" />
-          Pendente
+          {t('sweep.appointmentsList.pending')}
         </span>;
 
     }
@@ -59,7 +60,7 @@ export function PatientAppointmentsList({
     return (
       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-blue-500/20 text-blue-400">
         <Clock className="w-3 h-3" />
-        A pagar
+        {t('sweep.appointmentsList.toPay')}
       </span>);
 
   };
@@ -75,14 +76,10 @@ export function PatientAppointmentsList({
   return (
     <div className={cn("flex-1 overflow-auto p-4 bg-[#1A2F3D] animate-fade-in", compact && "p-3")}>
       <div className="space-y-4 w-full">
-        <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>Minhas Consultas</h2>
+        <h2 className={cn("font-semibold mb-4", compact ? "text-base" : "text-lg")}>{t('sweep.appointmentsList.title')}</h2>
 
         {sortedConsultations.length === 0 ?
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Calendar className="w-12 h-12 text-muted-foreground/30 mb-4" />
-            <h3 className="text-base font-bold text-foreground mb-1">{t('emptyStates.agendaTitle')}</h3>
-            <p className="text-sm text-muted-foreground max-w-xs">{t('emptyStates.agendaDesc')}</p>
-          </div> :
+        <EmptyState icon={Calendar} title={t('emptyStates.agendaTitle')} description={t('emptyStates.agendaDesc')} /> :
 
         <div
           className="grid gap-4"
@@ -156,7 +153,7 @@ export function PatientAppointmentsList({
 
                       {/* Patient name (for family view) */}
                       <p className="text-xs text-primary font-medium mb-1">
-                        Para: {consultation.patient.name}
+                        {t('sweep.appointmentsList.forPatient', { name: consultation.patient.name })}
                       </p>
 
                       {/* Dentist & Clinic */}

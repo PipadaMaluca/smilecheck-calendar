@@ -106,7 +106,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     </div>
                     <div className="flex items-center gap-2 ml-3">
                       <span className="text-sm font-bold text-foreground">€{p.amount.toFixed(2)}</span>
-                      <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
+                      <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>
@@ -131,8 +131,8 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                       {c.isDefault && <Badge variant="secondary" className="text-[11px]"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
                     </div>
                     <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" className="h-7 w-7"><Edit2 className="w-3 h-3" /></Button>
-                      <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive"><Trash2 className="w-3 h-3" /></Button>
+                      <Button size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
+                      <Button size="icon-sm" variant="ghost" className="text-destructive"><Trash2 className="w-3 h-3" /></Button>
                     </div>
                   </div>
                 ))}
@@ -194,7 +194,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     <Smartphone className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm text-foreground">+351 912 000 001</span>
                   </div>
-                  <Button size="icon" variant="ghost" className="h-7 w-7"><Edit2 className="w-3 h-3" /></Button>
+                  <Button size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
                 </div>
               </CardContent>
             </Card>

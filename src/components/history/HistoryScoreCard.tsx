@@ -67,22 +67,22 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
       )}
       {isPending && (
         <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-amber-500/30 text-warning bg-amber-500/10">
-          <Clock className="w-2.5 h-2.5 mr-0.5" /> Pendente
+          <Clock className="w-2.5 h-2.5 mr-0.5" /> {t('confirmationStates.pending')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints < 0 && (
         <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
-          <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> Falta
+          <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.missed')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints >= 0 && (
         <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
-          <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> Concluído
+          <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.completed')}
         </Badge>
       )}
       {isExpired && (
         <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
-          <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> Expirado
+          <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.expired')}
         </Badge>
       )}
     </div>
@@ -128,7 +128,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
                     : 'bg-muted text-muted-foreground'
                 )}
               >
-                {score.totalPoints >= 0 ? '+' : ''}{score.totalPoints} pts
+                {score.totalPoints >= 0 ? '+' : ''}{t('sweep.history.pointsSuffix', { points: score.totalPoints })}
               </Badge>
             </div>
             {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
@@ -176,7 +176,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
             )}
             {score.totalPoints < 0 && onContest && (
               <Button variant="outline" size="sm" className="w-full h-8 text-xs" onClick={(e) => { e.stopPropagation(); onContest(); }}>
-                <Scale className="w-3.5 h-3.5 mr-1 inline" /> Contestar
+                <Scale className="w-3.5 h-3.5 mr-1 inline" /> {t('sweep.history.contest')}
               </Button>
             )}
           </div>

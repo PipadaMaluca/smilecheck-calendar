@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import {
@@ -60,13 +61,15 @@ export function DentistFilters({
         />
       </div>
       {isMobile && (
-        <button
+        <Button
+          type="button"
+          variant="ghost"
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="h-auto p-0 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-transparent"
         >
           <SlidersHorizontal className="w-4 h-4" />
           <span>{t('search.filterTitle')}</span>
-        </button>
+        </Button>
       )}
       {showFilters && (
         <div className={cn(
@@ -97,18 +100,22 @@ export function DentistFilters({
             <ScrollArea className="max-w-[400px]">
               <div className="flex gap-1.5">
                 {AVAILABILITY_FILTERS.map((a) => (
-                  <button
+                  <Button
                     key={a.key}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    aria-pressed={availability === a.key}
                     onClick={() => onAvailabilityChange(a.key)}
                     className={cn(
-                      'px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors border',
+                      'h-auto px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap tap-target',
                       availability === a.key
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'bg-secondary text-muted-foreground border-border hover:bg-accent press'
+                        ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                        : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
                     )}
                   >
                     {t(a.labelKey)}
-                  </button>
+                  </Button>
                 ))}
               </div>
               <ScrollBar orientation="horizontal" />

@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { useTheme } from '@/hooks/useTheme';
+import { useTranslation } from 'react-i18next';
 
 interface AppearanceSectionProps {
   isPremium?: boolean;
@@ -27,6 +28,7 @@ const DEFAULT_COLORS = {
 };
 
 export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceSectionProps) {
+  const { t } = useTranslation();
   const [theme, setTheme] = useTheme();
   const darkMode = theme === 'dark';
   const setDarkMode = (v: boolean) => setTheme(v ? 'dark' : 'light');
@@ -37,7 +39,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
   const handleSave = () => {
     setSavedColors({ ...colors });
     setShowCustomize(false);
-    toast.success('Tema personalizado guardado!');
+    toast.success(t('appearance.saved'));
   };
 
   const handleReset = () => {
@@ -48,7 +50,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
     <>
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2">
-          <CardTitle size="compact">Aparência</CardTitle>
+          <CardTitle size="compact">{t('settings.appearance')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Theme toggle */}
@@ -60,7 +62,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                 <Sun className="w-4 h-4 text-muted-foreground" />
               )}
               <span className="text-sm text-foreground">
-                {darkMode ? <><Moon className="w-4 h-4 inline mr-1.5" />Modo Escuro</> : <><Sun className="w-4 h-4 inline mr-1.5" />Modo Claro</>}
+                {darkMode ? <><Moon className="w-4 h-4 inline mr-1.5" />{t('appearance.darkMode')}</> : <><Sun className="w-4 h-4 inline mr-1.5" />{t('appearance.lightMode')}</>}
               </span>
             </div>
             <Switch checked={darkMode} onCheckedChange={setDarkMode} />
@@ -74,16 +76,16 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
               onClick={() => setShowCustomize(true)}
             >
               <Palette className="w-4 h-4" />
-              Personalizar
+              {t('appearance.customize')}
             </Button>
           ) : (
             <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Lock className="w-4 h-4" />
-                <span>Personalização disponível no plano Premium</span>
+                <span>{t('appearance.premiumOnly')}</span>
               </div>
               <Button variant="link" size="sm" className="h-auto p-0 text-primary" onClick={onViewPlans}>
-                Ver planos
+                {t('appearance.viewPlans')}
               </Button>
             </div>
           )}
@@ -96,7 +98,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Palette className="w-5 h-5" />
-              Personalizar Tema
+              {t('appearance.customizeTheme')}
             </DialogTitle>
           </DialogHeader>
 
@@ -104,7 +106,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
             {/* Color pickers */}
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-sm">Cor primária</Label>
+                <Label className="text-sm">{t('appearance.primaryColor')}</Label>
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
@@ -121,7 +123,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm">Cor de destaque</Label>
+                <Label className="text-sm">{t('appearance.accentColor')}</Label>
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
@@ -138,7 +140,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm">Cor de fundo</Label>
+                <Label className="text-sm">{t('appearance.backgroundColor')}</Label>
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
@@ -157,7 +159,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
 
             {/* Preview */}
             <div className="space-y-2">
-              <Label className="text-xs text-muted-foreground">PREVIEW</Label>
+              <Label className="text-xs text-muted-foreground">{t('appearance.preview')}</Label>
               <div
                 className="rounded-xl p-4 border border-border space-y-3"
                 style={{ backgroundColor: colors.background }}
@@ -177,13 +179,13 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                     className="h-8 px-4 rounded-lg flex items-center text-xs font-medium text-white"
                     style={{ backgroundColor: colors.primary }}
                   >
-                    Botão
+                    {t('appearance.sampleButton')}
                   </div>
                   <div
                     className="h-8 px-4 rounded-lg flex items-center text-xs font-medium text-white"
                     style={{ backgroundColor: colors.accent }}
                   >
-                    Destaque
+                    {t('appearance.sampleAccent')}
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -195,8 +197,8 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
           </div>
 
           <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={handleReset}>Repor Padrão</Button>
-            <Button onClick={handleSave}>Guardar</Button>
+            <Button variant="outline" onClick={handleReset}>{t('appearance.resetDefault')}</Button>
+            <Button onClick={handleSave}>{t('common.save')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

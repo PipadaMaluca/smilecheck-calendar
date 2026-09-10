@@ -133,8 +133,8 @@ export function EndConsultationDialog({
   const { t } = useTranslation();
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onCancel} />
+    <div className="fixed inset-0 z-notification flex items-center justify-center">
+      <div className="absolute inset-0 scrim" onClick={onCancel} />
       <div className="relative bg-card border border-border rounded-2xl p-6 max-w-sm w-[90%] animate-scale-in space-y-4">
         <h3 className="text-lg font-bold text-foreground">
           {t('consultationMode.endTitle')}
@@ -167,7 +167,7 @@ export function PointsEarnedAnimation({ xp, pts }: { xp: number; pts: number }) 
   if (!visible) return null;
 
   return (
-    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[110] pointer-events-none flex flex-col items-center gap-1">
+    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-celebration pointer-events-none flex flex-col items-center gap-1">
       <span className="text-2xl font-bold text-success animate-fade-in">+{xp} XP</span>
       <span className="text-xl font-bold text-warning animate-fade-in" style={{ animationDelay: '0.15s' }}>+{pts} pts</span>
     </div>
@@ -188,8 +188,8 @@ export function QuickRatingPrompt({
   const [hoveredStar, setHoveredStar] = useState(0);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onSkip} />
+    <div className="fixed inset-0 z-notification flex items-center justify-center">
+      <div className="absolute inset-0 scrim" onClick={onSkip} />
       <div className="relative bg-card border border-border rounded-2xl p-6 max-w-sm w-[90%] animate-scale-in space-y-4 text-center">
         <h3 className="text-lg font-bold text-foreground">
           {t('consultationMode.ratePatient')}

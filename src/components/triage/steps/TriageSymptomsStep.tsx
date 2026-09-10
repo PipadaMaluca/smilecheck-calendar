@@ -1,18 +1,18 @@
 import { useTranslation } from 'react-i18next';
-import { Glyph } from '@/components/ui/glyph';
+import { Zap, Thermometer, Droplet, Wind, Frown, RefreshCw, HeartCrack, Palette, HelpCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 const SYMPTOM_ITEMS = [
-  { id: 'dor_dente', icon: '🦷', key: 'triage.symptoms.toothache' },
-  { id: 'sensibilidade', icon: '🌡️', key: 'triage.symptoms.sensitivity' },
-  { id: 'sangramento', icon: '🩸', key: 'triage.symptoms.bleedingGums' },
-  { id: 'mau_halito', icon: '😮‍💨', key: 'triage.symptoms.badBreath' },
-  { id: 'inchaco', icon: '😣', key: 'triage.symptoms.swelling' },
-  { id: 'dente_abanar', icon: '🔄', key: 'triage.symptoms.looseToothLabel' },
-  { id: 'dente_partido', icon: '💔', key: 'triage.symptoms.brokenTooth' },
-  { id: 'manchas', icon: '🎨', key: 'triage.symptoms.stains' },
-  { id: 'outro', icon: '❓', key: 'triage.symptoms.other' },
+  { id: 'dor_dente', icon: Zap, key: 'triage.symptoms.toothache' },
+  { id: 'sensibilidade', icon: Thermometer, key: 'triage.symptoms.sensitivity' },
+  { id: 'sangramento', icon: Droplet, key: 'triage.symptoms.bleedingGums' },
+  { id: 'mau_halito', icon: Wind, key: 'triage.symptoms.badBreath' },
+  { id: 'inchaco', icon: Frown, key: 'triage.symptoms.swelling' },
+  { id: 'dente_abanar', icon: RefreshCw, key: 'triage.symptoms.looseToothLabel' },
+  { id: 'dente_partido', icon: HeartCrack, key: 'triage.symptoms.brokenTooth' },
+  { id: 'manchas', icon: Palette, key: 'triage.symptoms.stains' },
+  { id: 'outro', icon: HelpCircle, key: 'triage.symptoms.other' },
 ];
 
 interface TriageSymptomsStepProps {
@@ -53,6 +53,7 @@ export function TriageSymptomsStep({
       >
         {SYMPTOM_ITEMS.map((symptom) => {
           const isSelected = selectedSymptoms.includes(symptom.id);
+          const Icon = symptom.icon;
           return (
             <button
               key={symptom.id}
@@ -64,7 +65,7 @@ export function TriageSymptomsStep({
                   : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'
               )}
             >
-              <Glyph emoji={symptom.icon} className="w-7 h-7 mb-2" />
+              <Icon className="w-7 h-7 mb-2" />
               <span className="text-xs font-medium text-center leading-tight">{t(symptom.key)}</span>
             </button>
           );

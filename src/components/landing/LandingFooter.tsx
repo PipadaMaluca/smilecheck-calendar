@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Instagram, Facebook, Linkedin } from 'lucide-react';
+import { Instagram, Facebook, Linkedin, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 
@@ -116,7 +116,7 @@ export function LandingFooter() {
 
           <div className="border-t border-[#1E3A5F] mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#94A3B8] [.light_&]:border-[#D6E4F0] [.light_&]:text-[#4A5568]">
             <span>© 2026 SmileCheck. {t('landing.footer.copyright')}.</span>
-            <span>{t('landing.footer.madeWith')}</span>
+            <span className="inline-flex items-center gap-1"><Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />{t('landing.footer.madeWith')}</span>
           </div>
         </div>
       </footer>

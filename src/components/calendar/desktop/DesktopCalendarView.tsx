@@ -368,13 +368,13 @@ export function DesktopCalendarView() {
       date: moveInfo.toDate,
       time: moveInfo.toTime,
     });
-    if (ok) toast.success(`Consulta de ${moveInfo.consultation.patient.name} movida para ${moveInfo.toTime}`);
+    if (ok) toast.success(t('sweep.calendar.movedTo', { name: moveInfo.consultation.patient.name, time: moveInfo.toTime }));
     setPendingMove(null);
   }, [rescheduleConsultation]);
 
   const confirmOverlap = useCallback(() => {
     if (pendingOverlapMove) {
-      toast.success(`Consulta agendada com sobreposição às ${pendingOverlapMove.toTime}`);
+      toast.success(t('sweep.calendar.overlapScheduled', { time: pendingOverlapMove.toTime }));
     }
     setOverlapConsultation(null);
     setPendingOverlapMove(null);
@@ -468,7 +468,7 @@ export function DesktopCalendarView() {
         onDateChange={setSelectedDate}
         onViewModeChange={(m) => setViewMode(m)}
         onStatusChange={handleStatusChange}
-        onCopy={(c) => {setClipboardConsultation(c);toast.info('Clique num slot vazio para colar a consulta');}}
+        onCopy={(c) => {setClipboardConsultation(c);toast.info(t('sweep.calendar.pasteHint'));}}
         onDragMove={handleWeekDragMove}
         onConsultationHover={setHoveredConsultation} />;
 
@@ -488,7 +488,7 @@ export function DesktopCalendarView() {
       selectedDate={selectedDate}
       workingHours={{ start: liveAgendaSettings.startHour, end: liveAgendaSettings.endHour }}
       onStatusChange={handleStatusChange}
-      onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+      onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info(t('sweep.calendar.pasteHint'));}}
       isPasteMode={!!clipboardConsultation}
       onEmptySlotClick={(time, dKey, dName) => {
         if (clipboardConsultation) {
@@ -558,7 +558,7 @@ export function DesktopCalendarView() {
 
   const toggleFavorite = useCallback((id: string) => {
     setFavorites((prev) => prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]);
-    toast.success(favorites.includes(id) ? 'Removido dos favoritos' : 'Adicionado aos favoritos');
+    toast.success(favorites.includes(id) ? t('sweep.calendar.removedFavorite') : t('sweep.calendar.addedFavorite'));
   }, [favorites]);
 
   useEffect(() => {
@@ -630,13 +630,13 @@ export function DesktopCalendarView() {
         if (nextConsultation) {
           return (
             <div className="flex-1 flex flex-col overflow-hidden">
-              {renderStandardHeader('Detalhes da Consulta')}
+              {renderStandardHeader(t('sweep.calendar.consultationDetails'))}
               <ConsultationDetailView
                 consultation={nextConsultation}
                 onClose={() => setActiveNavTab('home')}
                 onViewDossier={(patientId) => {setDossierPatientId(patientId);setActiveNavTab('home');}}
                 onNavigate={(tab) => handleNavTabChange(tab)}
-                onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+                onCopy={(c) => {setClipboardConsultation(c);setActiveNavTab('agenda');toast.info(t('sweep.calendar.pasteHint'));}}
                 userRole={activeRole}
               />
             </div>
@@ -657,13 +657,13 @@ export function DesktopCalendarView() {
     if (detailConsultation && (activeRole === 'dentist' || activeRole === 'clinic')) {
       return (
         <div className="flex-1 flex flex-col overflow-hidden">
-          {renderStandardHeader('Detalhes da Consulta')}
+          {renderStandardHeader(t('sweep.calendar.consultationDetails'))}
           <ConsultationDetailView
             consultation={detailConsultation}
             onClose={() => setDetailConsultation(null)}
             onViewDossier={(patientId) => {setDossierPatientId(patientId);setDetailConsultation(null);}}
             onNavigate={(tab) => {setDetailConsultation(null);handleNavTabChange(tab);}}
-            onCopy={(c) => {setClipboardConsultation(c);setDetailConsultation(null);setActiveNavTab('agenda');toast.info('Clique num slot vazio para colar a consulta');}}
+            onCopy={(c) => {setClipboardConsultation(c);setDetailConsultation(null);setActiveNavTab('agenda');toast.info(t('sweep.calendar.pasteHint'));}}
             userRole={activeRole} />
 
         </div>);
@@ -1233,14 +1233,14 @@ export function DesktopCalendarView() {
           onDeleteSingle={() => {
             if (deletingBlock) {
               setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
-              toast.success('Bloqueio eliminado');
+              toast.success(t('sweep.calendar.blockDeleted'));
             }
             setDeletingBlock(null);
           }}
           onDeleteAll={() => {
             if (deletingBlock) {
               setTimeBlocks((prev) => prev.filter((b) => b.id !== deletingBlock.id));
-              toast.success('Todos os bloqueios eliminados');
+              toast.success(t('timeBlock.allBlocksDeleted'));
             }
             setDeletingBlock(null);
           }}

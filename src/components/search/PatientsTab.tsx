@@ -150,9 +150,9 @@ function PatientCard({
           {getInitials(p.name)}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-sm font-bold text-foreground truncate">{p.name}</span>
-            <span className="text-xs text-muted-foreground">({p.age} {t('search.yearsShort')})</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-sm font-bold text-foreground truncate min-w-0 flex-1" title={p.name}>{p.name}</span>
+            <span className="text-xs text-muted-foreground shrink-0">({p.age} {t('search.yearsShort')})</span>
           </div>
           <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
             <span className={cn('text-[11px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
@@ -171,20 +171,20 @@ function PatientCard({
       </div>
 
       <div className="space-y-1 text-xs text-muted-foreground pl-1">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 min-w-0">
           <Calendar className="w-3 h-3 flex-shrink-0" />
-          <span className="truncate">{t('search.lastConsultation')}: {p.lastConsultationDate} — {p.lastConsultationType}</span>
+          <span className="truncate min-w-0" title={`${t('search.lastConsultation')}: ${p.lastConsultationDate} — ${p.lastConsultationType}`}>{t('search.lastConsultation')}: {p.lastConsultationDate} — {p.lastConsultationType}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <User className="w-3 h-3 flex-shrink-0" />
           <span>{t('search.totalConsultations', { count: p.totalConsultations })}</span>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 min-w-0">
           <Building2 className="w-3 h-3 flex-shrink-0" />
-          <span className="truncate">{p.clinicName}</span>
+          <span className="truncate min-w-0" title={p.clinicName}>{p.clinicName}</span>
         </div>
         {userRole === 'clinic' && p.primaryDentistName && (
-          <div className="text-[11px] text-muted-foreground/80 italic truncate">
+          <div className="text-[11px] text-muted-foreground/80 italic truncate min-w-0" title={`${t('search.primaryDentist')}: ${p.primaryDentistName}`}>
             {t('search.primaryDentist')}: {p.primaryDentistName}
           </div>
         )}

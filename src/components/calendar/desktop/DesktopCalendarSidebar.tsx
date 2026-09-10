@@ -129,7 +129,7 @@ export function DesktopCalendarSidebar({
       <div className="p-3 flex-shrink-0">
         <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
           <Search className="w-4 h-4" />
-          Encontrar Vaga
+          {t('sweep.calendarSidebar.findSlot')}
         </Button>
       </div>
 
@@ -255,7 +255,7 @@ export function DesktopCalendarSidebar({
             className="text-xs font-medium hover:text-primary"
             onClick={() => onSelectAllDentists()}
           >
-            Todas as Agendas
+            {t('sweep.calendarSidebar.allAgendas')}
           </button>
         </div>
 
@@ -336,11 +336,11 @@ export function DesktopCalendarSidebar({
                           isSelected && 'font-medium',
                           !worksOnDemo && 'text-muted-foreground/60'
                         )}>
-                          {dentist.name}{isSelfLabel ? ' (Eu)' : ''}
+                          {dentist.name}{isSelfLabel ? ` ${t('sweep.calendarSidebar.me')}` : ''}
                           {!worksOnDemo && ' •'}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
-                          {dentist.workingHours || '9h-21h'}
+                          {dentist.workingHours || t('sweep.calendarSidebar.defaultHours')}
                         </span>
                       </button>
                     </div>
@@ -358,7 +358,7 @@ export function DesktopCalendarSidebar({
           className="w-full justify-start gap-1.5 text-primary text-xs mt-1 h-7 hover:bg-[#152238]"
         >
           <Plus className="w-3 h-3" />
-          Adicionar
+          {t('sweep.calendarSidebar.add')}
         </Button>
       </div>
 

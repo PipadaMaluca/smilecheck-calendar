@@ -11,6 +11,7 @@ import { PermissionsModal } from '../shared/PermissionsModal';
 import { RemoveModal } from '../shared/RemoveModal';
 import { InviteModal } from '../shared/InviteModal';
 import { clinicTeamMembers, pendingInvites } from '../shared/teamMockData';
+import { EmptyState } from '@/components/ui/empty-state';
 
 type FilterType = 'all' | 'active' | 'paused' | 'pending';
 
@@ -67,14 +68,18 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        {filtered.map((d) => (
-          <TeamDentistCard key={d.id} dentist={d as any} showActions={d.status !== 'pending'}
-            onEditSchedule={() => onSwitchToAvailability?.(d.id)}
-            onManagePermissions={() => setPermissionsFor(d.id)}
-            onRemove={() => setRemoveFor(d.id)} />
-        ))}
-      </div>
+      {filtered.length === 0 ? (
+        <EmptyState icon={Users} title={t('team.noResultsTitle')} description={t('team.noResultsDesc')} />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {filtered.map((d) => (
+            <TeamDentistCard key={d.id} dentist={d as any} showActions={d.status !== 'pending'}
+              onEditSchedule={() => onSwitchToAvailability?.(d.id)}
+              onManagePermissions={() => setPermissionsFor(d.id)}
+              onRemove={() => setRemoveFor(d.id)} />
+          ))}
+        </div>
+      )}
 
       {pendingInvites.length > 0 && (
         <>

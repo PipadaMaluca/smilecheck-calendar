@@ -112,19 +112,23 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
         <span className="text-sm">{t('search.languages')}</span>
         <div className="flex flex-wrap gap-2">
           {LANGUAGES.map(lang => (
-            <button
+            <Button
               key={lang.code}
+              type="button"
+              variant="outline"
+              size="sm"
+              aria-pressed={selectedLanguages.includes(lang.code)}
               onClick={() => toggleLanguage(lang.code)}
               className={cn(
-                'flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium border transition-colors',
+                'flex items-center gap-1.5 h-auto px-2.5 py-1.5 rounded-full text-xs font-medium tap-target',
                 selectedLanguages.includes(lang.code)
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-secondary text-muted-foreground border-border hover:bg-accent press'
+                  ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                  : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
               )}
             >
               <span>{lang.flag}</span>
               <span>{lang.label}</span>
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -139,9 +143,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="relative z-10 p-4 md:p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <button onClick={onBack} className="p-2 rounded-lg hover:bg-accent transition-colors press">
+            <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
-            </button>
+            </Button>
             <div className="flex-1">
               <h1 className="text-lg font-bold text-foreground flex items-center gap-2">
                 <Stethoscope className="w-5 h-5 text-primary" />
@@ -210,8 +214,8 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       </div>
       {isMobile && showMobileFilters && (
         <>
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50" onClick={() => setShowMobileFilters(false)} />
-          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-50 space-y-4 max-h-[70vh] overflow-y-auto">
+          <div className="fixed inset-0 scrim z-modal" onClick={() => setShowMobileFilters(false)} />
+          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-modal space-y-4 max-h-[70vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">{t('search.advancedFilters')}</h3>
               <Button variant="ghost" size="icon" onClick={() => setShowMobileFilters(false)}>

@@ -226,7 +226,7 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
     <button
       data-notification-bell
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary press", className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary press tap-target", className)}>
 
       <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
       {unreadCount > 0 &&
@@ -296,7 +296,12 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
     markAllRead();
     // Keep dropdown open
   };
-
+  // Close on Escape (keyboard accessibility)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
 
   const handleViewAll = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -308,14 +313,15 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
     <>
       {/* Backdrop overlay — closes panel when clicked */}
       <div
+        aria-hidden="true"
         onClick={(e) => { e.stopPropagation(); onClose(); }}
-        className="fixed inset-0 bg-black/30 animate-fade-in"
-        style={{ zIndex: 9998 }}
+        className="fixed inset-0 bg-black/30 animate-fade-in z-notification"
       />
     <div
       ref={dropdownRef}
-      className="fixed right-2 sm:right-4 top-14 w-[calc(100vw-16px)] sm:w-[400px] max-w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in"
-      style={{ zIndex: 9999 }}>
+      role="dialog"
+      aria-label={t('notifications.title')}
+      className="fixed right-2 sm:right-4 top-14 w-[calc(100vw-16px)] sm:w-[400px] max-w-[400px] bg-card border border-border rounded-xl shadow-2xl overflow-hidden animate-fade-in z-notification">
 
       {/* Header */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-3 border-b border-border">

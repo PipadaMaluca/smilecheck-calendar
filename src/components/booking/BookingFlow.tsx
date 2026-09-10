@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
-import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag } from 'lucide-react';
+import { X, MapPin, Video, Building2, Check, ChevronLeft, ChevronRight, AlertTriangle, CreditCard, Smartphone, Calendar as CalendarIcon, Download, Loader2, Star, Landmark, Coins, Tag, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -253,8 +253,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       refresh();
       return true;
     } catch (e) {
-      if (e instanceof SlotTakenError) toast.error('Horário já ocupado');
-      else toast.error((e as Error)?.message ?? 'Não foi possível concluir a marcação');
+      if (e instanceof SlotTakenError) toast.error(t('booking.slotTaken'));
+      else toast.error((e as Error)?.message ?? t('booking.bookingFailed'));
       return false;
     } finally {
       setSubmitting(false);
@@ -291,11 +291,14 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <h3 className="text-lg font-semibold text-foreground">{t('booking.wherePrefer')}</h3>
       <div className="space-y-3">
         {dentist.clinics.map(c => (
-          <button
+          <Button
             key={c.id}
+            type="button"
+            variant="outline"
+            aria-pressed={data.clinic?.id === c.id}
             onClick={() => setData(d => ({ ...d, clinic: c }))}
             className={cn(
-              'w-full p-4 rounded-xl border text-left transition-colors',
+              'w-full h-auto justify-start p-4 rounded-xl text-left font-normal',
               data.clinic?.id === c.id
                 ? 'border-primary bg-primary/10 ring-1 ring-primary'
                 : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -309,7 +312,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 <p className="text-xs text-primary mt-1">{c.distance} km</p>
               </div>
             </div>
-          </button>
+          </Button>
         ))}
       </div>
     </div>
@@ -319,10 +322,13 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     <div className="space-y-4 animate-fade-in">
       <h3 className="text-lg font-semibold text-foreground">{t('booking.whatType')}</h3>
       <div className="space-y-3">
-        <button
+        <Button
+          type="button"
+          variant="outline"
+          aria-pressed={data.consultationType === 'presencial'}
           onClick={() => setData(d => ({ ...d, consultationType: 'presencial', isUrgent: false }))}
           className={cn(
-            'w-full p-4 rounded-xl border text-left transition-colors',
+            'w-full h-auto justify-start p-4 rounded-xl text-left font-normal',
             data.consultationType === 'presencial'
               ? 'border-primary bg-primary/10 ring-1 ring-primary'
               : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -336,11 +342,14 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               <p className="text-xs text-primary mt-1">{t('booking.payAtClinic')}</p>
             </div>
           </div>
-        </button>
-        <button
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          aria-pressed={data.consultationType === 'teleconsulta'}
           onClick={() => setData(d => ({ ...d, consultationType: 'teleconsulta' }))}
           className={cn(
-            'w-full p-4 rounded-xl border text-left transition-colors',
+            'w-full h-auto justify-start p-4 rounded-xl text-left font-normal',
             data.consultationType === 'teleconsulta'
               ? 'border-primary bg-primary/10 ring-1 ring-primary'
               : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -354,7 +363,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               <p className="text-xs text-primary mt-1">€{dentist.teleconsultaPrice}</p>
             </div>
           </div>
-        </button>
+        </Button>
         {data.consultationType === 'teleconsulta' && (
           <label className="flex items-center gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/20 cursor-pointer press">
             <Checkbox
@@ -375,7 +384,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
     <div className="space-y-4 animate-fade-in">
       <h3 className="text-lg font-semibold text-foreground">{t('booking.chooseDatetime')}</h3>
       <p className="text-xs text-muted-foreground">
-        Clique nos horários disponíveis (verdes) para os selecionar. Pode escolher vários.
+        {t('booking.clickSlotsHint')}
       </p>
       <AvailabilityGridStep
         consultationType={data.consultationType}
@@ -406,9 +415,9 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           bookingCase === 'B' && 'bg-amber-500/10 border-amber-500/30 text-foreground',
           bookingCase === 'C' && 'bg-emerald-500/10 border-emerald-500/30 text-foreground',
         )}>
-          {bookingCase === 'A' && `Seleccionou ${data.selectedSlots.length} horários possíveis. O dentista/clínica irá confirmar um deles.`}
-          {bookingCase === 'B' && 'Será adicionado à lista de espera. Será notificado quando houver disponibilidade.'}
-          {bookingCase === 'C' && 'Os horários selecionados serão prioritários. As preferências genéricas servem como alternativa.'}
+          {bookingCase === 'A' && t('booking.caseMultiple', { count: data.selectedSlots.length })}
+          {bookingCase === 'B' && t('booking.caseWaiting')}
+          {bookingCase === 'C' && t('booking.caseMixed')}
         </div>
       )}
 
@@ -434,7 +443,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {data.consultationType === 'teleconsulta' ? <Video className="w-5 h-5 text-primary" /> : <Building2 className="w-5 h-5 text-primary" />}
           <div>
             <p className="text-sm font-semibold text-foreground">{data.consultationType === 'teleconsulta' ? t('booking.teleconsulta') : t('booking.presencial')}</p>
-            {data.isUrgent && <p className="text-xs text-destructive"><AlertTriangle className="w-3.5 h-3.5 inline mr-1" />Urgente (+€5)</p>}
+            {data.isUrgent && <p className="text-xs text-destructive"><AlertTriangle className="w-3.5 h-3.5 inline mr-1" />{t('booking.urgentFee')}</p>}
           </div>
         </div>
         {/* Selected slots */}
@@ -443,7 +452,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="flex items-center gap-2 mb-2">
               <CalendarIcon className="w-4 h-4 text-primary" />
               <p className="text-xs font-semibold text-foreground">
-                {data.selectedSlots.length === 1 ? 'Horário selecionado' : `${data.selectedSlots.length} horários possíveis`}
+                {data.selectedSlots.length === 1 ? t('booking.slotSelected') : t('booking.slotsPossible', { count: data.selectedSlots.length })}
               </p>
             </div>
             <div className="space-y-1">
@@ -452,7 +461,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))
                 .map(s => (
                   <p key={s.key} className="text-xs text-foreground pl-6">
-                    • {s.date.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
+                    • {s.date.toLocaleDateString(i18n.language, { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
                   </p>
                 ))}
             </div>
@@ -461,16 +470,16 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         {/* Preferences */}
         {data.preferences.enabled && (data.preferences.periods.length > 0 || data.preferences.days.length > 0 || data.preferences.observation.trim()) && (
           <div className="p-3 rounded-xl bg-secondary border border-border space-y-1.5">
-            <p className="text-xs font-semibold text-foreground">Preferências (Lista de Espera)</p>
+            <p className="text-xs font-semibold text-foreground">{t('booking.waitingPrefs')}</p>
             {data.preferences.periods.length > 0 && (
-              <p className="text-xs text-muted-foreground">Período: {data.preferences.periods.map(p => p === 'morning' ? 'Manhã' : 'Tarde').join(', ')}</p>
+              <p className="text-xs text-muted-foreground">{t('booking.periodLabel')}: {data.preferences.periods.map(p => p === 'morning' ? t('availability.morning') : t('availability.afternoon')).join(', ')}</p>
             )}
             {data.preferences.days.length > 0 && (
               <p className="text-xs text-muted-foreground">
-                Dias: {data.preferences.days.sort().map(d => ['Seg','Ter','Qua','Qui','Sex','Sáb'][d-1]).join(', ')}
+                {t('booking.daysLabel')}: {data.preferences.days.sort().map(d => t(`common.weekdays.${['mon','tue','wed','thu','fri','sat'][d-1]}`)).join(', ')}
               </p>
             )}
-            <p className="text-xs text-muted-foreground">Urgência: {data.preferences.urgency === 'urgent' ? 'Urgente' : 'Normal'}</p>
+            <p className="text-xs text-muted-foreground">{t('booking.urgencyLabel')}: {data.preferences.urgency === 'urgent' ? t('waitingList.mgmt.urgent') : t('waitingList.mgmt.normal')}</p>
             {data.preferences.observation.trim() && (
               <p className="text-xs text-foreground italic">"{data.preferences.observation}"</p>
             )}
@@ -496,7 +505,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
         <p className="text-xs text-muted-foreground">
-<Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} ⏰ {data.time} (30 min)</p>
+<CalendarIcon className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} <Clock className="inline w-3.5 h-3.5 mx-1 -mt-0.5" />{data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">
 <Glyph emoji="🏥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
@@ -526,17 +535,20 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Saved cards */}
       <div className="space-y-2">
         <p className="text-xs font-medium text-muted-foreground">{t('booking.savedCards')}</p>
-        <button
+        <Button
+          type="button"
+          variant="outline"
+          aria-pressed={paymentMethod === 'card' && useSavedCard}
           onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
           className={cn(
-            'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-colors',
+            'w-full h-auto justify-start flex items-center gap-3 p-3 rounded-xl text-left font-normal',
             paymentMethod === 'card' && useSavedCard ? 'border-primary bg-primary/10 ring-1 ring-primary' : 'border-border bg-secondary hover:border-muted-foreground/40'
           )}
         >
           <CreditCard className="w-4 h-4" />
           <span className="text-sm font-medium text-foreground">Visa ****4532</span>
           <Star className="w-3 h-3 text-warning ml-auto" />
-        </button>
+        </Button>
       </div>
 
       {/* Payment methods */}
@@ -549,10 +561,13 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           { id: 'pontos', label: t('booking.pointsBalance', { balance: 850 }), icon: <Coins className="w-4 h-4" />, expandable: false },
         ].map(m => (
           <div key={m.id}>
-            <button
+            <Button
+              type="button"
+              variant="outline"
+              aria-pressed={paymentMethod === m.id}
               onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
               className={cn(
-                'w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-colors',
+                'w-full h-auto justify-start flex items-center gap-3 p-3 rounded-xl text-left font-normal',
                 paymentMethod === m.id
                   ? 'border-primary bg-primary/10 ring-1 ring-primary'
                   : 'border-border bg-secondary hover:border-muted-foreground/40'
@@ -560,7 +575,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             >
               {m.icon}
               <span className="text-sm font-medium text-foreground">{m.label}</span>
-            </button>
+            </Button>
             {/* Inline card form — expands below "Novo cartão" when selected */}
             {m.id === 'card-new' && paymentMethod === 'card-new' && (
               <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
@@ -648,12 +663,15 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 >
 <Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.confirmCard')}
                 </Button>
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
                   className="text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
                 >
                   {t('common.cancel')}
-                </button>
+                </Button>
               </div>
               </div>
             )}
@@ -762,16 +780,16 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </div>
           <div className="flex flex-col gap-2 w-full pt-2">
             {data.consultationType === 'teleconsulta' && (
-              <Button variant="outline" className="w-full gap-2" onClick={() => { generateReceipt('142', `Teleconsulta ${dentist.name}`, finalPrice, 'Visa ****4532'); toast.success('Recibo descarregado'); }}>
-                <Download className="w-4 h-4" /> Descarregar Recibo
+              <Button variant="outline" className="w-full gap-2" onClick={() => { generateReceipt('142', t('booking.teleconsultReceipt', { name: dentist.name }), finalPrice, 'Visa ****4532'); toast.success(t('booking.receiptDownloaded')); }}>
+                <Download className="w-4 h-4" /> {t('booking.downloadReceipt')}
               </Button>
             )}
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1 border-border" onClick={() => { onGoHome ? onGoHome() : onComplete(); }}>
-                Voltar ao Início
+                {t('booking.goHome')}
               </Button>
               <Button className="flex-1" onClick={onClose}>
-                Ver na Agenda
+                {t('booking.viewInAgenda')}
               </Button>
             </div>
           </div>
@@ -800,7 +818,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
         ) : (
           <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
-            <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
+            <ChevronLeft className="w-4 h-4 mr-1" /> {t('common.previous')}
           </Button>
         )}
         {step === 'confirm' ? (
@@ -808,20 +826,20 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             {bookingCase === 'D' && data.consultationType === 'teleconsulta'
               ? t('common.next')
               : bookingCase === 'B'
-                ? 'Entrar na Lista de Espera'
+                ? t('booking.joinWaitingList')
                 : bookingCase === 'D'
                   ? t('common.confirm')
-                  : 'Confirmar Marcação'}
+                  : t('booking.confirmBookingAction')}
             {!(bookingCase === 'D' && data.consultationType === 'teleconsulta') && <Check className="w-4 h-4 ml-1" />}
             {bookingCase === 'D' && data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
           </Button>
         ) : step === 'payment' ? (
           <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-            Pagar €{finalPrice.toFixed(2)}
+            {t('booking.pay')} €{finalPrice.toFixed(2)}
           </Button>
         ) : (
           <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
-            Seguinte <ChevronRight className="w-4 h-4 ml-1" />
+            {t('common.next')} <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         )}
       </div>
@@ -845,23 +863,23 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
 
   if (isMobile) {
     return (
-      <div className="fixed inset-0 z-[60] bg-background" style={{ bottom: '60px' }}>
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-base font-semibold text-foreground">Marcar Consulta</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+      <div className="fixed inset-0 z-modal bg-background flex flex-col" style={{ bottom: '64px' }}>
+        <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
+          <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
+          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
-          </button>
+          </Button>
         </div>
-        <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100% - 57px - 64px)' }}>
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <div className="p-4 pb-8">{content}</div>
         </div>
         {step !== 'success' && step !== 'processing' && (
-          <div className="flex gap-3 p-4 border-t border-border bg-background">
+          <div className="flex gap-3 p-4 border-t border-border bg-background shrink-0">
             {currentIdx === 0 ? (
               <Button variant="outline" className="flex-1 border-border" onClick={onClose}>{t('common.cancel')}</Button>
             ) : (
               <Button variant="outline" className="flex-1 border-border" onClick={goPrev}>
-                <ChevronLeft className="w-4 h-4 mr-1" /> Anterior
+                <ChevronLeft className="w-4 h-4 mr-1" /> {t('common.previous')}
               </Button>
             )}
             {step === 'confirm' ? (
@@ -869,20 +887,20 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 {bookingCase === 'D' && data.consultationType === 'teleconsulta'
                   ? t('common.next')
                   : bookingCase === 'B'
-                    ? 'Entrar na Lista de Espera'
+                    ? t('booking.joinWaitingList')
                     : bookingCase === 'D'
                       ? t('common.confirm')
-                      : 'Confirmar Marcação'}
+                      : t('booking.confirmBookingAction')}
                 {!(bookingCase === 'D' && data.consultationType === 'teleconsulta') && <Check className="w-4 h-4 ml-1" />}
                 {bookingCase === 'D' && data.consultationType === 'teleconsulta' && <ChevronRight className="w-4 h-4 ml-1" />}
               </Button>
             ) : step === 'payment' ? (
               <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-                Pagar €{finalPrice.toFixed(2)}
+                {t('booking.pay')} €{finalPrice.toFixed(2)}
               </Button>
             ) : (
               <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
-                Seguinte <ChevronRight className="w-4 h-4 ml-1" />
+                {t('common.next')} <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             )}
           </div>
@@ -892,14 +910,14 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   }
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 md:p-8">
+      <div className="absolute inset-0 scrim" onClick={onClose} />
       <div className="relative w-full max-w-[500px] max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-base font-semibold text-foreground">Marcar Consulta</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+          <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
+          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
-          </button>
+          </Button>
         </div>
         <div className="overflow-y-auto flex-1">
           <div className="p-6 pb-8">{content}</div>

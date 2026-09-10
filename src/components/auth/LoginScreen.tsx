@@ -96,18 +96,18 @@ export function LoginScreen() {
             <Input type={showPassword ? 'text' : 'password'} placeholder={t('auth.password')} value={password}
               onChange={(e) => { setPassword(e.target.value); setErrors((p) => ({ ...p, password: undefined })); }}
               className={cn('h-12 bg-secondary border-border pr-10', errors.password && 'border-destructive')} />
-            <button type="button" onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+            <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </button>
+            </Button>
           </div>
           {errors.password && <p className="text-destructive text-xs mt-1">{errors.password}</p>}
         </div>
 
         <div className="flex justify-end">
-          <button onClick={() => navigate('/forgot-password')} className="text-primary hover:underline text-sm">
+          <Button type="button" variant="link" size="sm" className="h-auto p-0 text-primary text-sm" onClick={() => navigate('/forgot-password')}>
             {t('auth.forgotPassword')}
-          </button>
+          </Button>
         </div>
 
         {errors.form && <p className="text-destructive text-sm text-center">{errors.form}</p>}
@@ -141,7 +141,7 @@ export function LoginScreen() {
 
       <p className="mt-6 text-muted-foreground text-base">
         {t('auth.noAccount')}{' '}
-        <button onClick={() => navigate('/signup')} className="text-primary hover:underline font-medium">{t('auth.createAccount')}</button>
+        <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate('/signup')}>{t('auth.createAccount')}</Button>
       </p>
 
       <div className="w-full mt-6 pt-4 border-t border-border">
@@ -180,12 +180,12 @@ export function LoginScreen() {
         <div className="space-y-6">
           {loginForm}
           <div className="border-t border-border pt-4">
-            <button onClick={() => setQrExpanded(!qrExpanded)}
-              className="flex items-center justify-center gap-2 w-full py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Button type="button" variant="ghost" onClick={() => setQrExpanded(!qrExpanded)}
+              className="flex items-center justify-center gap-2 w-full h-auto py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <QrCode className="w-4 h-4" />
               <span>{t('auth.qrCodeAlt')}</span>
               {qrExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+            </Button>
             {qrExpanded && <div className="mt-4 animate-fade-in">{qrSection}</div>}
           </div>
         </div>

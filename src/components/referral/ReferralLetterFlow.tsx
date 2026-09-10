@@ -406,7 +406,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
     <div className={cn(
       'flex flex-col bg-background',
       isMobile ?
-      'fixed inset-0 z-[55]' :
+      'fixed inset-0 z-modal' :
       'flex-1'
     )}>
     <div className={cn(
@@ -441,7 +441,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </div>
 
       <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-[30px] px-0",
-        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-[60] p-4 bg-card' : 'p-3'
+        isMobile ? 'fixed bottom-[60px] left-0 right-0 z-modal p-4 bg-card' : 'p-3'
         )}>
         <div className="flex gap-2 w-full max-w-[600px]">
           <Button variant="outline" size="sm" className="flex-1" onClick={() => step > 1 ? setStep(step - 1) : onClose()}>

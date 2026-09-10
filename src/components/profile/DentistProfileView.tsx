@@ -446,7 +446,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nascimento</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nº Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
-              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">País Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('sweep.dentistProfileView.orderCountry')}</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
             </div>
           </section>
         </>

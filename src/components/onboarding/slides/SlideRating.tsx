@@ -18,6 +18,7 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
   return (
     <div className="h-full flex flex-col items-center justify-center px-6">
       <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-8 flex items-center gap-2">
+        <Star className="w-6 h-6" />
         {isClinic ? t('onboarding.ratingTitleClinic') : t('onboarding.ratingTitleYou')}
       </h2>
 

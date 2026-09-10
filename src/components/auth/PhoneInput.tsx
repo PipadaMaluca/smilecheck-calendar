@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -27,11 +28,12 @@ export function PhoneInput({ countryCode, onCountryCodeChange, phone, onPhoneCha
     <div className={className}>
       <div className="flex gap-2">
         <div className="relative">
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => setOpen(!open)}
             className={cn(
-              'flex items-center gap-1.5 h-12 px-3 rounded-md border bg-secondary text-sm whitespace-nowrap min-w-[100px] justify-between',
+              'flex items-center gap-1.5 h-12 px-3 bg-secondary text-sm whitespace-nowrap min-w-[100px] justify-between font-normal',
               error ? 'border-destructive' : 'border-border'
             )}
           >
@@ -40,23 +42,24 @@ export function PhoneInput({ countryCode, onCountryCodeChange, phone, onPhoneCha
             <svg className="w-3 h-3 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-          </button>
+          </Button>
           {open && (
             <div className="absolute z-50 top-full left-0 mt-1 w-48 rounded-md border border-border bg-popover shadow-lg">
               {countryCodes.map(c => (
-                <button
+                <Button
                   key={c.code}
                   type="button"
+                  variant="ghost"
                   onClick={() => { onCountryCodeChange(c.code); setOpen(false); }}
                   className={cn(
-                    'flex items-center gap-2 w-full px-3 py-2.5 text-sm hover:bg-accent transition-colors',
+                    'flex items-center gap-2 w-full h-auto justify-start rounded-none px-3 py-2.5 text-sm font-normal',
                     c.code === countryCode && 'bg-accent'
                   )}
                 >
                   <span>{c.flag}</span>
                   <span className="text-foreground">{c.label}</span>
                   <span className="text-muted-foreground ml-auto">{c.code}</span>
-                </button>
+                </Button>
               ))}
             </div>
           )}

@@ -7,6 +7,7 @@ import { Copy, Check, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { RedeemHistoryItem } from '@/data/rewardsData';
 import { ListSkeleton } from '@/components/skeletons';
+import { EmptyState } from '@/components/ui/empty-state';
 
 const STATUS_KEYS: Record<string, { labelKey: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
   pendente: { labelKey: 'store.statusPending', variant: 'secondary' },
@@ -57,7 +58,7 @@ export function RewardsHistory({ items, loading = false }: RewardsHistoryProps) 
       {loading ? (
         <ListSkeleton rows={4} />
       ) : filtered.length === 0 ? (
-        <p className="text-center text-muted-foreground py-8">{t('store.noRedeems')}</p>
+        <EmptyState icon={Clock} title={t('store.noRedeems')} />
       ) : (
         <div className="space-y-2">
           {filtered.map(item => {

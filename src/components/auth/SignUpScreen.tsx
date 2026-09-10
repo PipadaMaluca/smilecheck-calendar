@@ -208,13 +208,14 @@ export function SignUpScreen() {
 
           <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
             {accountTypes.map(at => (
-              <button key={at.value} onClick={() => setAccountType(at.value)}
-                className={cn('flex flex-col items-center p-4 rounded-xl border-2 transition-colors duration-150 bg-secondary hover:bg-accent press',
+              <Button key={at.value} type="button" variant="outline" onClick={() => setAccountType(at.value)}
+                aria-pressed={accountType === at.value}
+                className={cn('flex flex-col items-center h-auto p-4 rounded-xl border-2 bg-secondary hover:bg-accent',
                   accountType === at.value ? 'border-primary shadow-[0_0_15px_hsl(207_90%_54%/0.3)]' : 'border-border')}>
                 <at.icon className={cn('w-8 h-8 mb-2', accountType === at.value ? 'text-primary' : 'text-muted-foreground')} />
                 <span className="font-semibold text-sm text-foreground">{at.title}</span>
-                <span className="text-xs text-muted-foreground text-center mt-1">{at.desc}</span>
-              </button>
+                <span className="text-xs text-muted-foreground text-center mt-1 whitespace-normal">{at.desc}</span>
+              </Button>
             ))}
           </div>
 
@@ -224,11 +225,11 @@ export function SignUpScreen() {
 
           <p className="mt-6 text-sm text-muted-foreground">
             {t('auth.hasAccount')}{' '}
-            <button onClick={() => navigate('/login')} className="text-primary hover:underline font-medium">{t('auth.login')}</button>
+            <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate('/login')}>{t('auth.login')}</Button>
           </p>
-          <button onClick={() => navigate('/login')} className="mt-2 text-xs text-muted-foreground hover:text-primary transition-colors">
+          <Button type="button" variant="link" onClick={() => navigate('/login')} className="mt-2 h-auto p-0 text-xs text-muted-foreground hover:text-primary">
             {t('auth.otherDevice')}
-          </button>
+          </Button>
         </div>
       </AuthBackground>
     );
@@ -262,11 +263,11 @@ export function SignUpScreen() {
             </Button>
 
             <div className="flex gap-4 text-sm">
-              <button onClick={() => { if (resendCountdown === 0) startResendTimer(); }}
-                className={cn('text-primary hover:underline', resendCountdown > 0 && 'text-muted-foreground pointer-events-none')}>
+              <Button type="button" variant="link" onClick={() => { if (resendCountdown === 0) startResendTimer(); }}
+                className={cn('h-auto p-0 text-primary', resendCountdown > 0 && 'text-muted-foreground pointer-events-none')}>
                 {resendCountdown > 0 ? t('auth.resendCodeCountdown', { seconds: resendCountdown }) : t('auth.resendCode')}
-              </button>
-              <button onClick={() => setStep(2)} className="text-muted-foreground hover:underline">{t('auth.changeEmail')}</button>
+              </Button>
+              <Button type="button" variant="link" onClick={() => setStep(2)} className="h-auto p-0 text-muted-foreground">{t('auth.changeEmail')}</Button>
             </div>
           </div>
         </AuthBackground>
@@ -298,10 +299,10 @@ export function SignUpScreen() {
           </Button>
 
           <div className="flex gap-4 text-sm">
-            <button onClick={() => { if (smsResendCountdown === 0) startSmsResendTimer(); }}
-              className={cn('text-primary hover:underline', smsResendCountdown > 0 && 'text-muted-foreground pointer-events-none')}>
+            <Button type="button" variant="link" onClick={() => { if (smsResendCountdown === 0) startSmsResendTimer(); }}
+              className={cn('h-auto p-0 text-primary', smsResendCountdown > 0 && 'text-muted-foreground pointer-events-none')}>
               {smsResendCountdown > 0 ? t('auth.resendSmsCountdown', { seconds: smsResendCountdown }) : t('auth.resendSms')}
-            </button>
+            </Button>
           </div>
         </div>
       </AuthBackground>
@@ -344,10 +345,10 @@ export function SignUpScreen() {
                 <Input type={showPassword ? 'text' : 'password'} placeholder={t('auth.backupPassword')} value={password}
                   onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }}
                   className={cn('h-12 bg-secondary border-border pr-10', errors.password && 'border-destructive')} />
-                <button type="button" onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+                </Button>
               </div>
               {password && (
                 <div className="mt-2 flex items-center gap-2">
@@ -423,9 +424,9 @@ export function SignUpScreen() {
   return (
     <AuthBackground>
       <div className="flex flex-col animate-fade-in">
-        <button onClick={() => setStep(1)} className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-4 self-start">
+        <Button type="button" variant="ghost" onClick={() => setStep(1)} className="flex items-center gap-2 h-auto py-1 px-2 -ml-2 text-muted-foreground hover:text-foreground mb-4 self-start">
           <ArrowLeft className="w-4 h-4" /> {t('common.back')}
-        </button>
+        </Button>
 
         <h1 className="text-xl font-bold text-foreground mb-6 text-center">
           {t('auth.createAccountOf', { type: accountType ? t(`auth.accountTypes.${accountType}`) : '' })}
@@ -485,10 +486,10 @@ export function SignUpScreen() {
               <Input type={showPassword ? 'text' : 'password'} placeholder={t('auth.password')} value={password}
                 onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }}
                 className={cn('h-12 bg-secondary border-border pr-10', errors.password && 'border-destructive')} />
-              <button type="button" onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+              <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
+              </Button>
             </div>
             {password && (
               <div className="mt-2 flex items-center gap-2">

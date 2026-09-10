@@ -5,6 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { Calendar, ClipboardList, Pill, FileText, BarChart3, Wallet, Users, Settings, Smartphone } from 'lucide-react';
 
 interface PermissionsModalProps {
   open: boolean;
@@ -16,15 +17,15 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
   const { t } = useTranslation();
 
   const permissionsList = [
-    { key: 'agenda', labelKey: 'permissions.manageAgenda', default: true },
-    { key: 'patients', labelKey: 'permissions.viewPatients', default: true },
-    { key: 'prescriptions', labelKey: 'permissions.prescribe', default: true },
-    { key: 'referrals', labelKey: 'permissions.referralLetters', default: true },
-    { key: 'stats', labelKey: 'permissions.viewStats', default: false },
-    { key: 'billing', labelKey: 'permissions.viewBilling', default: false },
-    { key: 'invite', labelKey: 'permissions.inviteDentists', default: false },
-    { key: 'settings', labelKey: 'permissions.changeSettings', default: false },
-    { key: 'teleconsulta', labelKey: 'permissions.doTeleconsults', default: true },
+    { key: 'agenda', labelKey: 'permissions.manageAgenda', default: true, icon: Calendar },
+    { key: 'patients', labelKey: 'permissions.viewPatients', default: true, icon: ClipboardList },
+    { key: 'prescriptions', labelKey: 'permissions.prescribe', default: true, icon: Pill },
+    { key: 'referrals', labelKey: 'permissions.referralLetters', default: true, icon: FileText },
+    { key: 'stats', labelKey: 'permissions.viewStats', default: false, icon: BarChart3 },
+    { key: 'billing', labelKey: 'permissions.viewBilling', default: false, icon: Wallet },
+    { key: 'invite', labelKey: 'permissions.inviteDentists', default: false, icon: Users },
+    { key: 'settings', labelKey: 'permissions.changeSettings', default: false, icon: Settings },
+    { key: 'teleconsulta', labelKey: 'permissions.doTeleconsults', default: true, icon: Smartphone },
   ];
 
   const presetKeys = ['presetDefault', 'presetAdmin', 'presetConsultOnly'] as const;
@@ -62,15 +63,21 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
         <Separator />
 
         <div className="space-y-3 py-2">
-          {permissionsList.map((p) => (
-            <div key={p.key} className="flex items-center justify-between">
-              <span className="text-sm">{t(p.labelKey)}</span>
-              <Switch
-                checked={perms[p.key]}
-                onCheckedChange={(v) => setPerms((prev) => ({ ...prev, [p.key]: v }))}
-              />
-            </div>
-          ))}
+          {permissionsList.map((p) => {
+            const Icon = p.icon;
+            return (
+              <div key={p.key} className="flex items-center justify-between">
+                <span className="text-sm flex items-center gap-2">
+                  <Icon className="w-4 h-4 text-muted-foreground" />
+                  {t(p.labelKey)}
+                </span>
+                <Switch
+                  checked={perms[p.key]}
+                  onCheckedChange={(v) => setPerms((prev) => ({ ...prev, [p.key]: v }))}
+                />
+              </div>
+            );
+          })}
         </div>
 
         <Separator />

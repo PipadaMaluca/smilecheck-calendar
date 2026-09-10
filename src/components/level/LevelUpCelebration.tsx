@@ -19,7 +19,7 @@ export function LevelUpCelebration({ levelKey, onDismiss }: LevelUpCelebrationPr
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-celebration flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
     >
       <div className="bg-card border border-border rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center space-y-4">
         <div className="flex justify-center">

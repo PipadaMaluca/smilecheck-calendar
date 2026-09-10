@@ -12,7 +12,7 @@
     "loading": "A carregar...",
     "error": "Erro",
     "success": "Sucesso",
-    "markedAs": "✓ {{name}} marcado como {{status}}",
+    "markedAs": "{{name}} marcado como {{status}}",
     "message": "Mensagem",
     "noShowLabel": "Falta",
     "confirmLabel": "Confirmar",
@@ -104,7 +104,8 @@
     "clinic": "Clínica",
     "from": "De",
     "to": "Até",
-    "weeksAgo": "Há {{n}} semanas"
+    "weeksAgo": "Há {{n}} semanas",
+    "retry": "Tentar novamente"
   },
   "nav": {
     "home": "Início",
@@ -195,7 +196,7 @@
     "completeRegistrationDesc": "Quase lá! Confirme os seus dados e preencha os campos em falta.",
     "backupPassword": "Password de backup",
     "confirmBackupPassword": "Confirmar password de backup",
-    "backupPasswordNote": "🔒 Esta password permite aceder à sua conta mesmo sem {{provider}}. Recomendamos uma password diferente.",
+    "backupPasswordNote": "Esta password permite aceder à sua conta mesmo sem {{provider}}. Recomendamos uma password diferente.",
     "finishRegistration": "Concluir Registo",
     "verificationSentTo": "Enviámos um código de verificação para",
     "smsSentTo": "Enviámos um SMS para",
@@ -312,9 +313,9 @@
     "features": {
       "title": "Tudo o que precisa para a sua saúde oral",
       "subtitle": "Uma plataforma, três experiências personalizadas",
-      "forPatients": "🦷 Pacientes",
-      "forDentists": "🦷 Dentistas",
-      "forClinics": "🏥 Clínicas",
+      "forPatients": "Pacientes",
+      "forDentists": "Dentistas",
+      "forClinics": "Clínicas",
       "patient1Title": "Agendar Consultas",
       "patient1Desc": "Marque presenciais e teleconsultas em segundos",
       "patient2Title": "Ganhar Pontos",
@@ -514,7 +515,7 @@
       "gdpr": "RGPD",
       "cookies": "Cookies",
       "copyright": "Todos os direitos reservados",
-      "madeWith": "Feito com ❤️ em Portugal"
+      "madeWith": "Feito com amor em Portugal"
     },
     "navbar": {
       "features": "Funcionalidades",
@@ -547,7 +548,7 @@
       "welcomeTitle": "SmileCheck!",
       "welcomeSubtitle": "A app que recompensa a tua saúde oral!",
       "welcomeTagline": "Ganha pontos, sobe de nível e destaca-te!",
-      "pointsTitle": "💰 GANHA XP & PONTOS",
+      "pointsTitle": "GANHA XP & PONTOS",
       "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁS PRONTO!",
       "startBonus": "+5 pts por criar conta",
@@ -559,7 +560,7 @@
       "welcomeTitle": "SmileCheck Pro!",
       "welcomeSubtitle": "A plataforma que valoriza a tua prática clínica!",
       "welcomeTagline": "Ganha pontos, sobe de nível e destaca-te!",
-      "pointsTitle": "💰 GANHA XP & PONTOS",
+      "pointsTitle": "GANHA XP & PONTOS",
       "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁS PRONTO!",
       "startBonus": "+5 pts por criar conta",
@@ -571,7 +572,7 @@
       "welcomeTitle": "SmileCheck Clínica!",
       "welcomeSubtitle": "A plataforma que destaca a sua clínica!",
       "welcomeTagline": "Acumule pontos, suba de nível e lidere o ranking!",
-      "pointsTitle": "💰 GANHE XP & PONTOS",
+      "pointsTitle": "GANHE XP & PONTOS",
       "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁ PRONTO!",
       "startBonus": "+10 pts por criar conta",
@@ -580,26 +581,26 @@
       "startStep3": "Verificar dados oficiais"
     },
     "welcomeTo": "Bem-vindo ao",
-    "levelsTitle": "🏆 SOBE DE NÍVEL",
+    "levelsTitle": "SOBE DE NÍVEL",
     "levelsBottom": "Acumula pontos e",
     "levelsBottomHighlight": "mostra o teu estatuto!",
-    "rewardsTitle": "🎁 RECOMPENSAS DIÁRIAS",
+    "rewardsTitle": "RECOMPENSAS DIÁRIAS",
     "rewardsNextIn": "Próxima recompensa em:",
-    "rewardsOpenDaily": "Abre a app todos os dias! 📱",
+    "rewardsOpenDaily": "Abre a app todos os dias!",
     "rewardsReset": "Reset às",
     "rewardsResetTime": "9h",
     "rewardsDontLose": "— não percas o teu streak!",
     "rewardsCheckin": "Check-in diário",
     "rewardsStreak7": "Streak 7 dias",
     "rewardsStreak30": "Streak 30 dias",
-    "rankingsTitle": "🏆 RANKINGS & COMPETIÇÃO",
+    "rankingsTitle": "RANKINGS & COMPETIÇÃO",
     "rankingsTypes": "Tipos de Rankings",
     "monthlyPrizes": "Prémios Mensais",
     "annualHighlights": "Destaques Anuais",
     "rankingsUpdate": "Rankings atualizam em tempo real",
     "rankingsTiebreak": "Em caso de empate: quem tem mais teleconsultas ganha",
-    "ratingTitleYou": "⭐ A TUA CLASSIFICAÇÃO",
-    "ratingTitleClinic": "⭐ A SUA CLASSIFICAÇÃO",
+    "ratingTitleYou": "A TUA CLASSIFICAÇÃO",
+    "ratingTitleClinic": "A SUA CLASSIFICAÇÃO",
     "ratingLegend": "Legenda de classificação:",
     "ratingProblematic": "Problemático",
     "ratingAttention": "Atenção",
@@ -614,8 +615,8 @@
     "xpNote": "XP nunca diminui · Pontos de recompensa podem ser gastos na Loja",
     "nextLevel": "Próximo:",
     "pointsLabels": {
-      "rating5": "Avaliação 5★",
-      "rating4": "Avaliação 4★",
+      "rating5": "Avaliação 5",
+      "rating4": "Avaliação 4",
       "confirm24h": "Confirmação 24h",
       "confirm1h": "Confirmação 1h",
       "attended": "Compareceu",
@@ -628,11 +629,11 @@
       "reply24h": "Responder mensagem em 24h",
       "prescription": "Emitir receita",
       "referralLetter": "Carta de referência",
-      "rating5FromPatient": "Avaliação 5★ de paciente",
+      "rating5FromPatient": "Avaliação 5 de paciente",
       "streak7days": "Streak 7 dias",
       "clinicConsultCompleted": "Consulta concluída na clínica",
       "clinicTeleconsult": "Teleconsulta realizada",
-      "clinicRating5": "Avaliação 5★ de paciente",
+      "clinicRating5": "Avaliação 5 de paciente",
       "newDentistActive": "Novo dentista ativo",
       "confirmRate90": "Taxa confirmação > 90%",
       "dentistTop100": "Dentista no Top 100"
@@ -1727,7 +1728,7 @@
     "availabilityDate": "Data de disponibilidade",
     "additionalNote": "Nota adicional",
     "additionalInfo": "Informações adicionais...",
-    "visibleToClinics": "⚠️ Esta informação é visível apenas para clínicas na secção Propostas de Trabalho.",
+    "visibleToClinics": "Esta informação é visível apenas para clínicas na secção Propostas de Trabalho.",
     "clinicData": "Dados da Clínica",
     "nif": "NIF/NIPC",
     "website": "Website",
@@ -1760,7 +1761,7 @@
     "startDate": "Data de início",
     "jobDescription": "Descrição da vaga",
     "jobDescPlaceholder": "Descreva a oportunidade...",
-    "visibleToDentists": "⚠️ Esta informação é visível apenas para dentistas na secção Propostas de Trabalho.",
+    "visibleToDentists": "Esta informação é visível apenas para dentistas na secção Propostas de Trabalho.",
     "changePasswordBtn": "Alterar password",
     "deleteAccountBtn": "Eliminar conta",
     "deleteAccountTitle": "Eliminar conta?",
@@ -1925,17 +1926,17 @@
     "discountNote": "Receberá um código de desconto para usar na compra.",
     "codeNote": "Receberá um código para trocar no site da marca.",
     "confirmBtn": "Confirmar Resgate",
-    "redeemConfirmed": "Resgate confirmado! 🎉",
+    "redeemConfirmed": "Resgate confirmado!",
     "yourCode": "O seu código de resgate para",
     "codeCopied": "Código copiado!",
     "insufficientPoints": "Pontos insuficientes",
     "redeemFailed": "Não foi possível concluir o resgate",
     "copyCode": "Copiar código",
     "copied": "Copiado!",
-    "emailSent": "📧 Um email foi enviado com os detalhes do resgate.",
+    "emailSent": "Um email foi enviado com os detalhes do resgate.",
     "validity": "⏱️ Validade: 30 dias a partir de hoje.",
-    "useDiscount": "🛒 Apresente este código na compra para obter o desconto.",
-    "useSite": "🌐 Use este código no site da marca para trocar o produto.",
+    "useDiscount": "Apresente este código na compra para obter o desconto.",
+    "useSite": "Use este código no site da marca para trocar o produto.",
     "redeemBtn": "Resgatar",
     "missing": "Faltam",
     "discount": "desconto",
@@ -2112,7 +2113,7 @@
       "lunchBreakDesc": "Definir período de pausa entre manhã e tarde",
       "copyMondayToWeekdays": "Copiar Segunda para dias úteis",
       "copyMon": "Copiar Seg.",
-      "copiedToWeekdays": "✅ Horário de segunda copiado para todos os dias úteis",
+      "copiedToWeekdays": "Horário de segunda copiado para todos os dias úteis",
       "nationalHolidaysFr": "Feriados nacionais franceses",
       "openDespite": "Aberta",
       "markClosed": "Fechar",
@@ -2121,7 +2122,7 @@
       "simultaneousTele": "Teleconsultas simultâneas",
       "minIntervalBetween": "Intervalo mínimo entre consultas",
       "saveSchedules": "Guardar Horários",
-      "savedSuccess": "✅ Horários atualizados com sucesso",
+      "savedSuccess": "Horários atualizados com sucesso",
       "modalTitleAdd": "Adicionar Feriado / Encerramento",
       "modalTitleEdit": "Editar Feriado / Encerramento",
       "fieldName": "Designação",
@@ -2170,7 +2171,9 @@
     "consultationsLabel": "consultas",
     "teleconsultationsLabel": "teleconsultas",
     "confirmationLabel": "confirmação",
-    "noTeleconsultations": "Sem teleconsultas"
+    "noTeleconsultations": "Sem teleconsultas",
+    "noResultsTitle": "Nenhum membro encontrado",
+    "noResultsDesc": "Tente ajustar a pesquisa ou os filtros."
   },
   "availability": {
     "selectClinic": "Selecionar clínica",
@@ -2189,7 +2192,7 @@
     "teleAvailability": "Disponibilidade Teleconsultas",
     "teleScheduleNote": "Os horários de teleconsulta (noite) são configurados na grelha semanal acima.",
     "saveChanges": "Guardar Alterações",
-    "savedSuccess": "✅ Disponibilidade atualizada com sucesso",
+    "savedSuccess": "Disponibilidade atualizada com sucesso",
     "reasonLabel": "Motivo"
   },
   "chat": {
@@ -2278,7 +2281,9 @@
     "tryAgain": "Tentar novamente",
     "errorCode": "Erro",
     "needHelp": "Precisa de ajuda?",
-    "contactUs": "Contacte-nos"
+    "contactUs": "Contacte-nos",
+    "genericTitle": "Algo correu mal",
+    "genericDesc": "Não foi possível carregar os dados. Tente novamente."
   },
   "empty": {
     "noAppointments": "Sem consultas agendadas",
@@ -2316,7 +2321,7 @@
     "good": "Bom",
     "veryGood": "Muito Bom",
     "excellent": "Excelente",
-    "scaleHint": "1★ = 0 pts · 2★ = +3 · 3★ = +6 · 4★ = +10 · 5★ = +15"
+    "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15"
   },
   "bidirectionalFeedback": {
     "rate": "Avaliar",
@@ -2581,7 +2586,24 @@
     "formatMMYY": "Formato: MM/AA",
     "receiptNumber": "Nº",
     "presencial": "Presencial",
-    "teleconsulta": "Teleconsulta"
+    "teleconsulta": "Teleconsulta",
+    "slotTaken": "Horário já ocupado",
+    "bookingFailed": "Não foi possível concluir a marcação",
+    "clickSlotsHint": "Clique nos horários disponíveis (verdes) para os selecionar. Pode escolher vários.",
+    "caseMultiple": "Seleccionou {{count}} horários possíveis. O dentista/clínica irá confirmar um deles.",
+    "caseWaiting": "Será adicionado à lista de espera. Será notificado quando houver disponibilidade.",
+    "caseMixed": "Os horários selecionados serão prioritários. As preferências genéricas servem como alternativa.",
+    "urgentFee": "Urgente (+€5)",
+    "slotSelected": "Horário selecionado",
+    "slotsPossible": "{{count}} horários possíveis",
+    "waitingPrefs": "Preferências (Lista de Espera)",
+    "periodLabel": "Período",
+    "daysLabel": "Dias",
+    "urgencyLabel": "Urgência",
+    "receiptDownloaded": "Recibo descarregado",
+    "teleconsultReceipt": "Teleconsulta {{name}}",
+    "joinWaitingList": "Entrar na Lista de Espera",
+    "confirmBookingAction": "Confirmar Marcação"
   },
   "timeBlock": {
     "editBlock": "Editar Bloqueio",
@@ -3532,15 +3554,15 @@
   "permissions": {
     "title": "Permissões",
     "description": "Configure os acessos deste dentista",
-    "manageAgenda": "📅 Gerir própria agenda",
-    "viewPatients": "📋 Ver lista de pacientes",
-    "prescribe": "💊 Prescrever receitas",
-    "referralLetters": "📄 Emitir cartas de referência",
-    "viewStats": "📊 Ver estatísticas da clínica",
-    "viewBilling": "💰 Ver tarifas e faturação",
-    "inviteDentists": "👥 Convidar dentistas",
-    "changeSettings": "⚙️ Alterar configurações da clínica",
-    "doTeleconsults": "📱 Realizar teleconsultas",
+    "manageAgenda": "Gerir própria agenda",
+    "viewPatients": "Ver lista de pacientes",
+    "prescribe": "Prescrever receitas",
+    "referralLetters": "Emitir cartas de referência",
+    "viewStats": "Ver estatísticas da clínica",
+    "viewBilling": "Ver tarifas e faturação",
+    "inviteDentists": "Convidar dentistas",
+    "changeSettings": "Alterar configurações da clínica",
+    "doTeleconsults": "Realizar teleconsultas",
     "presetDefault": "Padrão",
     "presetAdmin": "Administrador",
     "presetConsultOnly": "Apenas consultas"
@@ -3566,7 +3588,7 @@
   },
   "phoneInput": {
     "france": "França",
-    "requiredForVerification": "📱 Número obrigatório para verificação da conta"
+    "requiredForVerification": "Número obrigatório para verificação da conta"
   },
   "actions": {
     "copyFull": "Copiar Consulta",
@@ -3845,9 +3867,9 @@
     "days2": "2 dias"
   },
   "demoBanner": {
-    "label": "🔧 Modo Demonstração — Dados fictícios",
+    "label": "Modo Demonstração — Dados fictícios",
     "dismiss": "Fechar banner",
-    "disclaimer": "⚠️ Modo de demonstração — Os dados apresentados são fictícios"
+    "disclaimer": "Modo de demonstração — Os dados apresentados são fictícios"
   },
   "level": {
     "myLevelTab": "Meu Nível",
@@ -3967,5 +3989,198 @@
     },
     "unlockedAt": "Desbloqueado em {{level}}",
     "unlocksAt": "Desbloqueia em {{level}}"
+  },
+  "availabilityGrid": {
+    "lunch": "Almoço",
+    "unavailableSlot": "Horário indisponível",
+    "prevWeek": "Semana anterior",
+    "nextWeek": "Semana seguinte",
+    "legendAvailable": "Disponível",
+    "legendOccupied": "Ocupado",
+    "legendSelected": "Selecionado",
+    "legendUnavailable": "Indisponível",
+    "selectedCount_one": "<1>{{count}}</1> horário selecionado",
+    "selectedCount_other": "<1>{{count}}</1> horários selecionados",
+    "clearSelection": "Limpar seleção",
+    "waitingPrefsTitle": "Preferências adicionais (Lista de Espera)",
+    "waitingPrefsDesc": "Caso nenhum horário lhe convenha, indique preferências gerais e será contactado quando houver disponibilidade",
+    "periodPref": "Preferência de período",
+    "morningRange": "Manhã (08:00-13:00)",
+    "afternoonRange": "Tarde (14:00-20:00)",
+    "dayPref": "Preferência de dia da semana",
+    "urgency": "Urgência",
+    "urgencyNormal": "Normal (contactar quando disponível)",
+    "urgencyUrgent": "Urgente (primeira vaga possível)",
+    "observationPlaceholder": "Ex: Dor no dente 46 há 3 dias, prefiro início da manhã, tenho disponibilidade imediata..."
+  },
+  "appearance": {
+    "darkMode": "Modo Escuro",
+    "lightMode": "Modo Claro",
+    "customize": "Personalizar",
+    "premiumOnly": "Personalização disponível no plano Premium",
+    "viewPlans": "Ver planos",
+    "customizeTheme": "Personalizar Tema",
+    "primaryColor": "Cor primária",
+    "accentColor": "Cor de destaque",
+    "backgroundColor": "Cor de fundo",
+    "preview": "PRÉ-VISUALIZAÇÃO",
+    "sampleButton": "Botão",
+    "sampleAccent": "Destaque",
+    "resetDefault": "Repor Padrão",
+    "saved": "Tema personalizado guardado!"
+  },
+  "invite": {
+    "headline": "Convide amigos e ganhe pontos!",
+    "subtitle": "Ganhe 50 pontos por cada pessoa que se registar",
+    "codeLabel": "Código de convite pessoal",
+    "linkLabel": "Link de convite",
+    "copied": "Copiado",
+    "shareVia": "Partilhar via",
+    "shareMessage": "Experimenta o SmileCheck! Usa o meu código {{code}} ao registares-te e ganha pontos. {{link}}",
+    "emailSubject": "Experimenta o SmileCheck!",
+    "invited": "Convidadas",
+    "confirmed": "Confirmadas",
+    "pointsEarned": "Pontos ganhos",
+    "pointsEarnedShort": "Pts ganhos",
+    "history": "Histórico de Convites",
+    "statusConfirmed": "Confirmado",
+    "statusPending": "Pendente"
+  },
+  "sweep": {
+    "dentistProfile": {
+      "alreadyConsulted": "Já Consultou",
+      "noSlots": "Sem horários",
+      "showMoreSlots": "+ Mostrar mais horários",
+      "about": "Sobre",
+      "clinics": "Clínicas",
+      "recentReviews": "Avaliações Recentes",
+      "bookAppointment": "Marcar Consulta",
+      "sendMessage": "Enviar Mensagem",
+      "title": "Perfil do Dentista",
+      "reviewsCount": "({{count}} avaliações)",
+      "noReviews": "Sem avaliações"
+    },
+    "calendar": {
+      "movedTo": "Consulta de {{name}} movida para {{time}}",
+      "overlapScheduled": "Consulta agendada com sobreposição às {{time}}",
+      "pasteHint": "Clique num slot vazio para colar a consulta",
+      "removedFavorite": "Removido dos favoritos",
+      "addedFavorite": "Adicionado aos favoritos",
+      "blockDeleted": "Bloqueio eliminado",
+      "consultationDetails": "Detalhes da Consulta"
+    },
+    "devices": {
+      "title": "Dispositivos Conectados",
+      "connectNew": "Conectar novo dispositivo",
+      "scanTitle": "Aponte para o código QR",
+      "newDeviceDetected": "Novo dispositivo detetado",
+      "connectedTitle": "Dispositivo conectado!",
+      "scanDesc": "Mostrado no ecrã do dispositivo onde quer entrar",
+      "confirmDesc": "Verifique os detalhes antes de autorizar",
+      "authorizedDesc": "Login autorizado com sucesso",
+      "scanning": "A procurar código QR...",
+      "warningRecognize": "Apenas autorize se reconhece este dispositivo",
+      "authorizeLogin": "Autorizar Login",
+      "connectedSuccess": "Dispositivo conectado com sucesso!"
+    },
+    "appointments": {
+      "updateStatusError": "Não foi possível atualizar o estado",
+      "slotTaken": "Horário já ocupado",
+      "rescheduleError": "Não foi possível alterar a consulta",
+      "cancelError": "Não foi possível cancelar a consulta",
+      "assignError": "Não foi possível atribuir o horário",
+      "confirmedMessage": "O seu horário foi confirmado: {{slot}}",
+      "assignedTo": "Consulta atribuída a {{name}}",
+      "slotAvailable": "Horário disponível!",
+      "waitlistPreference": "{{name}} tem este horário nas preferências da lista de espera.",
+      "urgent": "Urgente",
+      "othersWaiting": "+{{count}} outro(s) paciente(s) em espera para este horário",
+      "ignore": "Ignorar",
+      "assign": "Atribuir"
+    },
+    "patientSidebar": {
+      "newConsultation": "NOVA CONSULTA",
+      "filterByMember": "Filtrar por membro:",
+      "ageYears": "({{age}} anos)"
+    },
+    "badges": {
+      "featuredAchievements": "Conquistas em Destaque",
+      "edit": "Editar",
+      "viewCollection": "Ver Coleção"
+    },
+    "appointmentsList": {
+      "paid": "Pago",
+      "pending": "Pendente",
+      "toPay": "A pagar",
+      "title": "Minhas Consultas",
+      "forPatient": "Para: {{name}}"
+    },
+    "consultationTab": {
+      "selectExistingPatientError": "Selecione um paciente existente na pesquisa",
+      "createError": "Erro ao criar consulta",
+      "referredBy": "Referenciado por: {{name}}"
+    },
+    "search": {
+      "patients": "Pacientes",
+      "dentists": "Dentistas",
+      "clinics": "Clínicas",
+      "scheduledCount_one": "{{count}} agendada",
+      "scheduledCount_other": "{{count}} agendadas",
+      "totalLabel": "{{count}} total",
+      "showAllResults": "Mostrar todos os resultados →",
+      "noResultsFor": "Nenhum resultado para \"{{query}}\"",
+      "generalist": "Generalista"
+    },
+    "history": {
+      "missed": "Falta",
+      "completed": "Concluído",
+      "expired": "Expirado",
+      "contest": "Contestar",
+      "pointsSuffix": "{{points}} pts"
+    },
+    "rankings": {
+      "title": "Classificações",
+      "subtitle": "Veja a sua posição nos rankings",
+      "global": "Ranking Global",
+      "national": "Ranking Nacional",
+      "of": "de {{total}}",
+      "you": "(Você)"
+    },
+    "regional": {
+      "language": "Idioma",
+      "currency": "Moeda",
+      "timezone": "Fuso Horário",
+      "useDeviceTimezone": "Usar fuso horário do dispositivo",
+      "currencyUSD": "$ USD - Dólar Americano",
+      "currencyGBP": "£ GBP - Libra Esterlina",
+      "currencyBRL": "R$ BRL - Real Brasileiro",
+      "currencyCHF": "CHF - Franco Suíço"
+    },
+    "clinicCalendar": {
+      "byDentist": "Por Dentista"
+    },
+    "calendarSidebar": {
+      "findSlot": "Encontrar Vaga",
+      "allAgendas": "Todas as Agendas",
+      "add": "Adicionar",
+      "me": "(Eu)",
+      "defaultHours": "9h-21h"
+    },
+    "weekView": {
+      "noSchedule": "Sem agenda"
+    },
+    "familyFilter": {
+      "memberLabel": "{{name}} ({{age}} anos) - {{relation}}"
+    },
+    "dentistProfileView": {
+      "orderCountry": "País Ordem"
+    },
+    "teleconsulta": {
+      "comingSoon": "Teleconsulta em breve...",
+      "quickCreated": "Teleconsulta rápida criada. A iniciar..."
+    },
+    "team": {
+      "noColleagues": "Nenhum colega nesta clínica"
+    }
   }
 }

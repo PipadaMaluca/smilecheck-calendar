@@ -414,7 +414,7 @@ export function ClinicCalendar() {
           {/* Per-dentist summary */}
           <div className="px-4 mt-4 mb-6">
             <div className="bg-card rounded-xl p-4">
-              <h4 className="text-xs font-semibold text-muted-foreground mb-3">Por Dentista</h4>
+              <h4 className="text-xs font-semibold text-muted-foreground mb-3">{t('sweep.clinicCalendar.byDentist')}</h4>
               <div className="space-y-2">
                 {columns.filter(col => col.worksToday).map((col, idx) => {
                   const dentistConsults = allDayConsultations.filter(

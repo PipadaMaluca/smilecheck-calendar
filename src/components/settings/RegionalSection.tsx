@@ -45,7 +45,7 @@ export function RegionalSection() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <Globe className="w-3.5 h-3.5" />
-            Idioma
+            {t('sweep.regional.language')}
           </div>
           <Select value={i18n.language} onValueChange={(val) => i18n.changeLanguage(val)}>
             <SelectTrigger className="w-full">
@@ -63,7 +63,7 @@ export function RegionalSection() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <DollarSign className="w-3.5 h-3.5" />
-            Moeda
+            {t('sweep.regional.currency')}
           </div>
           <Select value={currency} onValueChange={setCurrency}>
             <SelectTrigger className="w-full">
@@ -81,14 +81,14 @@ export function RegionalSection() {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
             <Clock className="w-3.5 h-3.5" />
-            Fuso Horário
+            {t('sweep.regional.timezone')}
           </div>
           <label className="flex items-center gap-2 cursor-pointer py-1 press">
             <Checkbox
               checked={autoTimezone}
               onCheckedChange={(v) => setAutoTimezone(!!v)}
             />
-            <span className="text-sm text-foreground">Usar fuso horário do dispositivo</span>
+            <span className="text-sm text-foreground">{t('sweep.regional.useDeviceTimezone')}</span>
           </label>
           {!autoTimezone && (
             <Select value={timezone} onValueChange={setTimezone}>

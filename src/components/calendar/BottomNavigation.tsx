@@ -47,7 +47,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
 
   return (
     <nav 
-      className="fixed bottom-0 left-0 right-0 bg-[hsl(214_50%_10%)] border-t border-border z-[70]" 
+      className="fixed bottom-0 left-0 right-0 bg-[hsl(214_50%_10%)] border-t border-border z-notification" 
       style={{ 
         boxShadow: '0 -4px 20px hsl(214 50% 5% / 0.3)',
         paddingBottom: 'env(safe-area-inset-bottom, 0px)'

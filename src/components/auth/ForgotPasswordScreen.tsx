@@ -75,9 +75,9 @@ export function ForgotPasswordScreen() {
           </Button>
         </div>
 
-        <button onClick={() => navigate('/login')} className="mt-6 text-sm text-primary hover:underline flex items-center gap-1">
+        <Button type="button" variant="link" onClick={() => navigate('/login')} className="mt-6 h-auto p-0 text-sm text-primary flex items-center gap-1">
           <ArrowLeft className="w-3 h-3" /> {t('auth.forgotPasswordBack')}
-        </button>
+        </Button>
       </div>
     </AuthBackground>
   );
