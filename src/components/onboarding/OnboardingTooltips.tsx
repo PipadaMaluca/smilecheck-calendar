@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, forwardRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { TOOLTIP_STEPS } from '@/data/onboardingData';
@@ -12,12 +12,11 @@ interface TooltipPosition {
   spotlightRect: DOMRect | null;
 }
 
-export function OnboardingTooltips() {
-  // Disabled: tutorial spotlights/tooltips only live inside the
-  // OnboardingCarousel slideshow. They must never appear on live
-  // app screens (Dashboard, Agenda, etc.) for any role.
-  return null;
-}
+// Disabled: tutorial spotlights/tooltips only live inside the
+// OnboardingCarousel slideshow. They must never appear on live
+// app screens (Dashboard, Agenda, etc.) for any role.
+export const OnboardingTooltips = forwardRef<HTMLDivElement>(() => null);
+OnboardingTooltips.displayName = 'OnboardingTooltips';
 
 function _UnusedOnboardingTooltips() {
   const { t } = useTranslation();
