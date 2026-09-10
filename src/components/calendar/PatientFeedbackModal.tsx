@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -46,12 +46,16 @@ function StarRating({ value, hovered, onRate, onHover, onLeave }: {
   );
 }
 
-export function PatientFeedbackModal({ score, isOpen, onClose, onSubmit }: {
+interface PatientFeedbackModalProps {
   score: ConsultationScore | null;
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (scoreId: string, rating: number, comment: string) => void;
-}) {
+}
+
+export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackModalProps>(function PatientFeedbackModal(
+  { score, isOpen, onClose, onSubmit },
+) {
   const { t, i18n } = useTranslation();
   const locale = dateLocales[i18n.language as keyof typeof dateLocales] || pt;
   const ratingLabels = ['', t('feedback.bad'), t('feedback.fair'), t('feedback.good'), t('feedback.veryGood'), t('feedback.excellent')];
