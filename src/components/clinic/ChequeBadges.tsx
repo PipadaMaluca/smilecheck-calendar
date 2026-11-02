@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 export function ChequeBadges({ cheques, className }: { cheques: ClinicCheques; className?: string }) {
   const { t } = useTranslation();
   if (cheques.country !== 'PT' || (!cheques.dentista && !cheques.protese)) return null;
-  const from = formatDate(CHEQUE_PROTESE_START, 'LLLL yyyy');
+  const from = formatDate(CHEQUE_PROTESE_START, { month: 'long', year: 'numeric' });
   return (
     <div className={cn('flex flex-wrap gap-1.5', className)}>
       {cheques.dentista && (

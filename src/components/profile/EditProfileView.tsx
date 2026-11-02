@@ -1,3 +1,4 @@
+import { ClinicChequesSettings } from '@/components/clinic/ClinicChequesSettings';
 import { FearScalePicker } from '@/components/fear/FearScale';
 import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
 import type { FearLevel } from '@/lib/fearScale';
