@@ -38,6 +38,17 @@ i18n
     interpolation: { escapeValue: false },
   });
 
+// PT-PT plurals: Intl 'pt' follows pt-BR (0 = "one" → "0 consulta"). Resolve 'pt'
+// with pt-PT rules (0 = plural). FR keeps 0 = singular, EN 0 = plural.
+const pluralResolver = i18n.services.pluralResolver as unknown as {
+  getRule: (code: string, options?: { ordinal?: boolean }) => Intl.PluralRules;
+  clearCache?: () => void;
+};
+const originalGetRule = pluralResolver.getRule.bind(pluralResolver);
+pluralResolver.getRule = (code, options = {}) =>
+  originalGetRule(code === 'pt' ? 'pt-PT' : code, options);
+pluralResolver.clearCache?.();
+
 // Every {{count}} is printed with the active locale's grouping ("1 850 pontos").
 i18n.services.formatter?.add('number', (value, lng) =>
   new Intl.NumberFormat(HTML_LANG[(lng || 'pt').slice(0, 2)] || 'pt-PT', { useGrouping: 'always' } as unknown as Intl.NumberFormatOptions).format(Number(value)),
