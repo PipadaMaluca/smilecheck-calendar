@@ -73,3 +73,13 @@ export function getDateFnsLocale(): Locale {
 export function capitalizeFirst(s: string): string {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }
+
+/** Wall-clock parts of an instant in an IANA time zone (e.g. the clinic's), so agenda times never depend on the viewer's zone. */
+export function zonedParts(instant: Date | string | number, timeZone: string) {
+  const d = new Date(instant);
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).formatToParts(d);
+  const get = (t: string) => Number(parts.find((p) => p.type === t)?.value ?? 0);
+  return { year: get('year'), month: get('month'), day: get('day'), hour: get('hour'), minute: get('minute') };
+}
