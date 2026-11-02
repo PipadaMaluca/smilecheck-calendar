@@ -1,8 +1,15 @@
+import type * as React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { RouteEnter } from "@/components/motion/ScreenEnter";
+
+function AnimatedRoutes({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  return <RouteEnter pathname={pathname}>{children}</RouteEnter>;
+}
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { NotificationBadgeProvider } from "@/contexts/NotificationBadgeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -37,6 +44,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <DemoModeBadge />
+          <AnimatedRoutes>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/signup" element={<SignUpScreen />} />
@@ -52,6 +60,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </AnimatedRoutes>
         </AuthProvider>
       </BrowserRouter>
       </OnboardingProvider>

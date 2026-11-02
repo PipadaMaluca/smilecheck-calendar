@@ -40,7 +40,9 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+    // Filled CTAs get the entrance pulse (see ScreenEnter); icon buttons don't.
+    const isCta = (variant ?? "default") === "default" && size !== "icon" && size !== "icon-sm";
+    return <Comp data-enter={isCta ? "button" : undefined} className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
   },
 );
 Button.displayName = "Button";

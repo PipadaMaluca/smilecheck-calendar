@@ -1,3 +1,4 @@
+import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
@@ -413,6 +414,7 @@ export function DentistCalendar() {
           onNewConsultation={() => setSlotCreation({ date: selectedDate, time: '09:00' })}
         />
 
+        <ScreenEnter className="contents" screenKey={`${activeTab}:${selectedConsultation ? 'c' : ''}:${showFullHistory ? 'h' : ''}`} clinical={isClinicalScreen(activeTab) || !!selectedConsultation}>
         {showFullHistory ? (
           <FullHistoryView userRole="dentist" onBack={() => setShowFullHistory(false)} />
         ) : selectedConsultation ? (
@@ -530,6 +532,7 @@ export function DentistCalendar() {
             <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>
         )}
+        </ScreenEnter>
 
         {/* Fixed Bottom Navigation */}
         <BottomNavigation

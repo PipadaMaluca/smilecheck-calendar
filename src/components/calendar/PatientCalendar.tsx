@@ -1,3 +1,4 @@
+import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { demoDate } from '@/lib/demoClock';
@@ -182,6 +183,7 @@ export function PatientCalendar() {
           onNewConsultation={() => { setShowTriage(true); setActiveTab('consultas'); }}
         />
 
+        <ScreenEnter className="contents" screenKey={`${activeTab}:${selectedConsultation ? 'c' : ''}:${showFullHistory ? 'h' : ''}`} clinical={isClinicalScreen(activeTab) || !!selectedConsultation}>
         {showFullHistory ? (
           <FullHistoryView userRole="patient" onBack={() => setShowFullHistory(false)} />
         ) : showTriage ? (
@@ -298,6 +300,7 @@ export function PatientCalendar() {
             <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
           </div>
         )}
+        </ScreenEnter>
 
         {/* Bottom Navigation - Fixed - Always on top */}
         <BottomNavigation
