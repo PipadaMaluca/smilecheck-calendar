@@ -71,7 +71,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               <div className="relative overflow-visible">
                 <Icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} />
                 {showBadge && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-2xs font-bold text-white bg-blue-500 border-2 border-[hsl(214_50%_10%)] z-10">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-2xs font-bold text-primary-foreground bg-primary border-2 border-card z-10">
                     {badges.conversas}
                   </span>
                 )}
