@@ -5019,5 +5019,10 @@
         "conduct": "Postpone non-urgent procedures; consider conscious sedation or referral."
       }
     }
+  },
+  "noClinic": {
+    "title": "Join a clinic",
+    "description": "Every appointment takes place at a clinic. Until you belong to one, you can't receive bookings.",
+    "invite": "Invite my clinic"
   }
 }

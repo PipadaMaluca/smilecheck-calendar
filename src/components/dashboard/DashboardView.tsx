@@ -33,6 +33,7 @@ import { LevelIcon, LEVEL_ICON_MAP } from '@/components/level/LevelIcon';
 import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 import { MobileDashboardHero } from './MobileDashboardHero';
+import { NoClinicNotice } from '@/components/clinic/NoClinicNotice';
 import { useWaitingList } from '@/data/waitingListSource';
 
 interface DashboardViewProps {
@@ -947,6 +948,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         </div>
 
         {/* Role-specific content */}
+        {userRole === 'dentist' && <NoClinicNotice onInvite={() => onNavigate('convidar')} />}
         <MobileDashboardHero userRole={userRole} onNavigate={onNavigate} onStartTriage={onStartTriage} />
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
 

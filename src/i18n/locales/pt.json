@@ -5019,5 +5019,10 @@
         "conduct": "Adiar procedimentos não urgentes; ponderar sedação consciente ou referenciação."
       }
     }
+  },
+  "noClinic": {
+    "title": "Associe-se a uma clínica",
+    "description": "Todas as consultas acontecem numa clínica. Enquanto não pertencer a uma, não pode receber marcações.",
+    "invite": "Convidar a minha clínica"
   }
 }

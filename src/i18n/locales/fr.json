@@ -5019,5 +5019,10 @@
         "conduct": "Reporter les soins non urgents ; envisager une sédation consciente ou une orientation."
       }
     }
+  },
+  "noClinic": {
+    "title": "Rejoignez un cabinet",
+    "description": "Toutes les consultations ont lieu dans un cabinet. Tant que vous n'en faites partie d'aucun, vous ne pouvez pas recevoir de rendez-vous.",
+    "invite": "Inviter mon cabinet"
   }
 }
