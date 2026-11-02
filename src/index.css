@@ -2016,3 +2016,7 @@ span.sentence-case { display: inline-block; }
 .text-primary { color: hsl(var(--primary-text)); }
 :root { --avatar-text-l: 72%; }
 .light { --avatar-text-l: 34%; }
+
+@keyframes sc-halo-pulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+.sc-halo { animation: sc-halo-pulse 8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .sc-halo { animation: none; } }

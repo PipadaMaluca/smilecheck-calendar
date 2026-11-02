@@ -8,6 +8,7 @@ import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { StoreQrCodes } from './StoreQrCodes';
+import { AppIconTile } from './AppIconTile';
 
 function useCountUp(end: number, duration = 2000) {
   const [count, setCount] = useState(0);
