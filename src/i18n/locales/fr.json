@@ -1370,7 +1370,7 @@
       },
       "q6": {
         "name": "Excellence",
-        "desc": "Note moyenne ≥ 4.8"
+        "desc": "Note moyenne ≥ 4,8"
       },
       "r1": {
         "name": "Top 100",
@@ -1480,7 +1480,7 @@
       },
       "eq4": {
         "name": "Référence",
-        "desc": "Tous les dentistes note ≥ 4.5"
+        "desc": "Tous les dentistes avec une note ≥ 4,5"
       },
       "eq5": {
         "name": "Méga Équipe",
@@ -1507,8 +1507,8 @@
         "desc": "Total cumulé"
       },
       "cq1": {
-        "name": "Note 4.5+",
-        "desc": "Moyenne ≥ 4.5"
+        "name": "Note 4,5+",
+        "desc": "Moyenne ≥ 4,5"
       },
       "cq2": {
         "name": "100 Évaluations",
@@ -1519,12 +1519,12 @@
         "desc": "0 réclamations en 6 mois"
       },
       "cq4": {
-        "name": "Note 4.8+",
-        "desc": "Moyenne ≥ 4.8"
+        "name": "Note 4,8+",
+        "desc": "Moyenne ≥ 4,8"
       },
       "cq5": {
-        "name": "Note 4.9+",
-        "desc": "Moyenne ≥ 4.9"
+        "name": "Note 4,9+",
+        "desc": "Moyenne ≥ 4,9"
       },
       "cr1": {
         "name": "Top 50",
