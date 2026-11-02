@@ -291,7 +291,7 @@
   },
   "landing": {
     "hero": {
-      "badge": "Nouveau — téléconsultations disponibles !",
+      "badge": "Téléconsultations bientôt disponibles",
       "title": "Votre sourire mérite",
       "titleHighlight": "le meilleur",
       "subtitle": "Gestion de rendez-vous, téléconsultations, points et récompenses sur une seule plateforme. Pour patients, dentistes et cabinets.",
@@ -4415,7 +4415,7 @@
     "count_other": "{{count, number}} nouveautés"
   },
   "meta": {
-    "defaultTitle": "SmileCheck — santé bucco-dentaire, rendez-vous et téléconsultations"
+    "defaultTitle": "SmileCheck — Santé bucco-dentaire, rendez-vous et téléconsultations"
   },
   "units": {
     "perMonth": "/mois",

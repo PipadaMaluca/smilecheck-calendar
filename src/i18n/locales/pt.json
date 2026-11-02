@@ -291,7 +291,7 @@
   },
   "landing": {
     "hero": {
-      "badge": "Novo — teleconsultas disponíveis!",
+      "badge": "Teleconsultas em breve",
       "title": "O seu sorriso merece",
       "titleHighlight": "o melhor",
       "subtitle": "Gestão de consultas, teleconsultas, pontos e recompensas numa só plataforma. Para pacientes, dentistas e clínicas.",
@@ -4415,7 +4415,7 @@
     "count_other": "{{count, number}} novidades"
   },
   "meta": {
-    "defaultTitle": "SmileCheck — saúde oral, consultas e teleconsultas"
+    "defaultTitle": "SmileCheck — Saúde oral, consultas e teleconsultas"
   },
   "units": {
     "perMonth": "/mês",
