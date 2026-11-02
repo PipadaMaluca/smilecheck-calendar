@@ -2009,3 +2009,8 @@ span.sentence-case { display: inline-block; }
   outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
+
+/* ───────── Contrast (WCAG AA ≥ 4.5:1): blue *text* uses a readable shade; buttons keep --primary ───────── */
+:root { --primary-text: 207 90% 66%; }
+.light { --primary-text: 210 80% 36%; }
+.text-primary { color: hsl(var(--primary-text)); }
