@@ -1,4 +1,6 @@
 import i18n from '@/i18n';
+import type { Locale } from 'date-fns';
+import { pt, fr, enGB } from 'date-fns/locale';
 
 /**
  * Locale-aware formatting helpers.
@@ -34,7 +36,35 @@ export function formatTime(d: Date | string | number): string {
 }
 
 
-/** Number with locale grouping: 1.247 (PT) / 1 247 (FR) / 1,247 (EN) */
+/** Number with locale grouping, also for 4 digits: "1 850" (PT/FR) / "1,850" (EN). */
 export function formatNumber(n: number, opts: Intl.NumberFormatOptions = {}): string {
-  return new Intl.NumberFormat(getActiveLocale(), opts).format(n);
+  return new Intl.NumberFormat(getActiveLocale(), { useGrouping: 'always', ...opts } as Intl.NumberFormatOptions).format(n);
+}
+
+/**
+ * Euro amount in the active language: "24,99 €" (PT/FR) / "€24.99" (EN).
+ * Whole amounts drop the decimals ("20 €") unless `decimals` forces them.
+ */
+export function formatCurrency(value: number, opts: { decimals?: boolean } = {}): string {
+  const v = Number(value) || 0;
+  const whole = Number.isInteger(v) && !opts.decimals;
+  return new Intl.NumberFormat(getActiveLocale(), {
+    style: 'currency',
+    currency: 'EUR',
+    useGrouping: 'always',
+    minimumFractionDigits: whole ? 0 : 2,
+    maximumFractionDigits: whole ? 0 : 2,
+  } as Intl.NumberFormatOptions).format(v);
+}
+
+const DATE_FNS_LOCALES: Record<string, Locale> = { pt, fr, en: enGB };
+
+/** date-fns locale for the active language — never hardcode `locale: pt`. */
+export function getDateFnsLocale(): Locale {
+  return DATE_FNS_LOCALES[(i18n.language || 'pt').slice(0, 2)] || pt;
+}
+
+/** Capitalises only the first letter of a sentence ("sábado, 31 de janeiro" → "Sábado, 31 de janeiro"). */
+export function capitalizeFirst(s: string): string {
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }

@@ -6,8 +6,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { formatDate } from '@/lib/formatters';
-import { formatCurrency } from '@/lib/formatters';
+import { formatCurrency, formatDate } from '@/lib/formatters';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.png';
@@ -41,7 +40,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' }) {
             <img src={logoSrc} alt="SmileCheck" className="h-8 rounded-lg" />
             <div className="flex-1">
               <h1 className="text-lg font-bold text-foreground">{t(titleKey)}</h1>
-              <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(LAST_UPDATED, 'long') })}</p>
+              <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(LAST_UPDATED) })}</p>
             </div>
           </div>
         </header>
