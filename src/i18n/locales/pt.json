@@ -5027,5 +5027,28 @@
     "title": "Associe-se a uma clínica",
     "description": "Todas as consultas acontecem numa clínica. Enquanto não pertencer a uma, não pode receber marcações.",
     "invite": "Convidar a minha clínica"
+  },
+  "ads": {
+    "title": "Anúncios",
+    "removeTitle": "Remover anúncios",
+    "removeDesc": "Veja 5 vídeos curtos (até 30 s cada) e fique 8 horas sem anúncios.",
+    "removeCta": "Ver vídeo ({{n}}/{{total}})",
+    "adFreeLeft": "Sem anúncios durante {{time}}",
+    "until": "Até às {{time}}",
+    "adFreeStarted": "8 horas sem anúncios ativadas",
+    "earnTitle": "Ganhar pontos",
+    "earnDesc": "A cada 10 anúncios vistos ganha 2 pontos de recompensa (sem XP), no máximo 1 vez por dia.",
+    "earnCta": "Ver anúncio ({{n}}/{{total}})",
+    "pointsAwarded_one": "Ganhou {{count}} ponto de recompensa",
+    "pointsAwarded_other": "Ganhou {{count}} pontos de recompensa",
+    "dailyLimit": "Já ganhou os pontos de anúncios de hoje. Volte amanhã.",
+    "phoneRequired": "Verifique o seu telemóvel para ganhar pontos.",
+    "error": "Não foi possível registar o anúncio",
+    "noAdsOnPlan": "Sem anúncios no seu plano",
+    "privacyNote": "Os anúncios nunca usam os seus dados de saúde e nunca aparecem em ecrãs clínicos.",
+    "playingTitle": "Anúncio de demonstração",
+    "playingDesc": "Ainda sem rede de anúncios real. Aguarde alguns segundos.",
+    "bannerLabel": "Anúncio",
+    "bannerPlaceholder": "Espaço publicitário (plano Free)"
   }
 }

@@ -5027,5 +5027,28 @@
     "title": "Join a clinic",
     "description": "Every appointment takes place at a clinic. Until you belong to one, you can't receive bookings.",
     "invite": "Invite my clinic"
+  },
+  "ads": {
+    "title": "Ads",
+    "removeTitle": "Remove ads",
+    "removeDesc": "Watch 5 short videos (up to 30 s each) and get 8 hours without ads.",
+    "removeCta": "Watch video ({{n}}/{{total}})",
+    "adFreeLeft": "Ad-free for {{time}}",
+    "until": "Until {{time}}",
+    "adFreeStarted": "8 ad-free hours activated",
+    "earnTitle": "Earn points",
+    "earnDesc": "Every 10 ads watched earn you 2 reward points (no XP), at most once a day.",
+    "earnCta": "Watch ad ({{n}}/{{total}})",
+    "pointsAwarded_one": "You earned {{count}} reward point",
+    "pointsAwarded_other": "You earned {{count}} reward points",
+    "dailyLimit": "You've already earned today's ad points. Come back tomorrow.",
+    "phoneRequired": "Verify your phone to earn points.",
+    "error": "Could not record the ad",
+    "noAdsOnPlan": "No ads on your plan",
+    "privacyNote": "Ads never use your health data and never appear on clinical screens.",
+    "playingTitle": "Demo ad",
+    "playingDesc": "No real ad network yet. Please wait a few seconds.",
+    "bannerLabel": "Advertisement",
+    "bannerPlaceholder": "Ad space (Free plan)"
   }
 }

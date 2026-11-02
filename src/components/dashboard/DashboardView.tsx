@@ -34,6 +34,7 @@ import { SwipeableRow } from '@/components/ui/swipeable-row';
 import { useToast } from '@/hooks/use-toast';
 import { MobileDashboardHero } from './MobileDashboardHero';
 import { NoClinicNotice } from '@/components/clinic/NoClinicNotice';
+import { AdBanner } from '@/components/ads/AdsPanel';
 import { useWaitingList } from '@/data/waitingListSource';
 
 interface DashboardViewProps {
@@ -951,6 +952,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {userRole === 'dentist' && <NoClinicNotice onInvite={() => onNavigate('convidar')} />}
         <MobileDashboardHero userRole={userRole} onNavigate={onNavigate} onStartTriage={onStartTriage} />
         {userRole === 'patient' ? renderPatientDashboard() : userRole === 'dentist' ? renderDentistDashboard() : renderClinicDashboard()}
+        <AdBanner />
 
         <CoachMark
           id={`dashboard-stats-${userRole}`}

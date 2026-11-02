@@ -5027,5 +5027,28 @@
     "title": "Rejoignez un cabinet",
     "description": "Toutes les consultations ont lieu dans un cabinet. Tant que vous n'en faites partie d'aucun, vous ne pouvez pas recevoir de rendez-vous.",
     "invite": "Inviter mon cabinet"
+  },
+  "ads": {
+    "title": "Publicités",
+    "removeTitle": "Supprimer les publicités",
+    "removeDesc": "Regardez 5 courtes vidéos (30 s max. chacune) et profitez de 8 heures sans publicités.",
+    "removeCta": "Voir une vidéo ({{n}}/{{total}})",
+    "adFreeLeft": "Sans publicités pendant {{time}}",
+    "until": "Jusqu'à {{time}}",
+    "adFreeStarted": "8 heures sans publicités activées",
+    "earnTitle": "Gagner des points",
+    "earnDesc": "Tous les 10 publicités vues, gagnez 2 points de récompense (sans XP), au maximum 1 fois par jour.",
+    "earnCta": "Voir une publicité ({{n}}/{{total}})",
+    "pointsAwarded_one": "Vous avez gagné {{count}} point de récompense",
+    "pointsAwarded_other": "Vous avez gagné {{count}} points de récompense",
+    "dailyLimit": "Vous avez déjà gagné les points publicitaires du jour. Revenez demain.",
+    "phoneRequired": "Vérifiez votre téléphone pour gagner des points.",
+    "error": "Impossible d'enregistrer la publicité",
+    "noAdsOnPlan": "Pas de publicités avec votre forfait",
+    "privacyNote": "Les publicités n'utilisent jamais vos données de santé et n'apparaissent jamais sur les écrans cliniques.",
+    "playingTitle": "Publicité de démonstration",
+    "playingDesc": "Pas encore de régie publicitaire réelle. Patientez quelques secondes.",
+    "bannerLabel": "Publicité",
+    "bannerPlaceholder": "Espace publicitaire (forfait Free)"
   }
 }
