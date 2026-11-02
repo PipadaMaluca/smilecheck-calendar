@@ -32,6 +32,7 @@ interface MapGroup {
   lng: number;
   clinicName: string;
   dentists: DentistSearchResult[];
+  clinics: ClinicMapItem[];
 }
 
 // Marker drawn with theme tokens (avoids Leaflet's default image icons, which break under Vite).
@@ -47,11 +48,20 @@ const markerIcon = (count: number) =>
 function FitBounds({ groups, focused }: { groups: MapGroup[]; focused?: MapGroup }) {
   const map = useMap();
   useEffect(() => {
-    if (focused) { map.flyTo([focused.lat, focused.lng], 14, { duration: 0.6 }); return; }
-    if (groups.length === 0) return;
-    const bounds = L.latLngBounds(groups.map(g => [g.lat, g.lng] as [number, number]));
-    map.fitBounds(bounds, { padding: [48, 48], maxZoom: 13 });
-  }, [map, groups, focused]);
+    // The container may mount hidden or at 0 size (tab switch) — measure again before fitting.
+    const fit = () => {
+      map.invalidateSize();
+      if (focused) { map.flyTo([focused.lat, focused.lng], 14, { duration: 0.6 }); return; }
+      if (groups.length === 0) return;
+      if (groups.length === 1) { map.setView([groups[0].lat, groups[0].lng], 13); return; }
+      const bounds = L.latLngBounds(groups.map(g => [g.lat, g.lng] as [number, number]));
+      map.fitBounds(bounds, { padding: [48, 48], maxZoom: 13 });
+    };
+    fit();
+    const id = window.setTimeout(fit, 250);
+    return () => window.clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, groups.map(g => g.key).join('|'), focused?.key]);
   return null;
 }
 
@@ -59,11 +69,20 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
   const { t } = useTranslation();
 
   const groups = useMemo<MapGroup[]>(() => {
-    if (clinics) return clinics.map(c => ({ key: c.id, lat: c.lat, lng: c.lng, clinicName: c.name, dentists: [] }));
     const byKey = new Map<string, MapGroup>();
+    if (clinics) {
+      // Clinics closer than ~1 km share one marker that shows the real count.
+      for (const c of clinics) {
+        const key = `${c.lat.toFixed(2)},${c.lng.toFixed(2)}`;
+        const g = byKey.get(key) ?? { key, lat: c.lat, lng: c.lng, clinicName: c.name, dentists: [], clinics: [] };
+        g.clinics.push(c);
+        byKey.set(key, g);
+      }
+      return [...byKey.values()];
+    }
     for (const d of dentists) {
       const key = `${d.lat},${d.lng}`;
-      const g = byKey.get(key) ?? { key, lat: d.lat, lng: d.lng, clinicName: d.clinics[0]?.name ?? '', dentists: [] };
+      const g = byKey.get(key) ?? { key, lat: d.lat, lng: d.lng, clinicName: d.clinics[0]?.name ?? '', dentists: [], clinics: [] };
       g.dentists.push(d);
       byKey.set(key, g);
     }
@@ -81,21 +100,25 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
           maxZoom={19}
         />
         <FitBounds groups={groups} focused={focused} />
-        {clinics && clinics.map(c => (
-          <Marker key={c.id} position={[c.lat, c.lng]} icon={markerIcon(1)} title={c.name}>
+        {clinics && groups.map(g => (
+          <Marker key={g.key} position={[g.lat, g.lng]} icon={markerIcon(g.clinics.length)} title={g.clinics.map(c => c.name).join(', ')}>
             <Popup minWidth={220} maxWidth={280}>
-              <div className="space-y-2 text-foreground">
-                <p className="text-sm font-semibold truncate">{c.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{c.address}</p>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-1 text-xs">
-                    <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
-                    {c.rating} <span className="text-muted-foreground">({c.reviewCount})</span>
-                  </span>
-                  <Button type="button" size="sm" className="min-h-11" onClick={() => onViewClinic?.(c.id)}>
-                    {t('search.viewProfileBtn')}
-                  </Button>
-                </div>
+              <div className="space-y-3 text-foreground">
+                {g.clinics.map(c => (
+                  <div key={c.id} className="space-y-1">
+                    <p className="text-sm font-semibold truncate">{c.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">{c.address}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex items-center gap-1 text-xs">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
+                        {c.rating} <span className="text-muted-foreground">({c.reviewCount})</span>
+                      </span>
+                      <Button type="button" size="sm" className="min-h-11" onClick={() => onViewClinic?.(c.id)}>
+                        {t('search.viewProfileBtn')}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Popup>
           </Marker>
