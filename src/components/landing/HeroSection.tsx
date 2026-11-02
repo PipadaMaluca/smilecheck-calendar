@@ -8,7 +8,7 @@ import { AppIconTile } from './AppIconTile';
 
 export function HeroSection() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const isDemo = new URLSearchParams(location.search).get('demo') === 'true';
 

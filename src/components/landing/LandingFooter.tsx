@@ -6,7 +6,7 @@ import { Logo } from '@/components/branding/Logo';
 
 export function LandingFooter() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const socials = [
     { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/smilecheck' },
