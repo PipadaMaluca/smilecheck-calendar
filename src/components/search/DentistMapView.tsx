@@ -7,10 +7,23 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import type { DentistSearchResult } from '@/data/mockDentistSearch';
 
+export interface ClinicMapItem {
+  id: string;
+  name: string;
+  address: string;
+  rating: number;
+  reviewCount: number;
+  lat: number;
+  lng: number;
+}
+
 interface DentistMapViewProps {
-  dentists: DentistSearchResult[];
-  onViewProfile: (dentist: DentistSearchResult) => void;
+  dentists?: DentistSearchResult[];
+  onViewProfile?: (dentist: DentistSearchResult) => void;
   focusedId?: string | null;
+  /** When provided, renders one marker per clinic instead of dentists. */
+  clinics?: ClinicMapItem[];
+  onViewClinic?: (clinicId: string) => void;
 }
 
 interface MapGroup {
@@ -42,10 +55,11 @@ function FitBounds({ groups, focused }: { groups: MapGroup[]; focused?: MapGroup
   return null;
 }
 
-export default function DentistMapView({ dentists, onViewProfile, focusedId }: DentistMapViewProps) {
+export default function DentistMapView({ dentists = [], onViewProfile, focusedId, clinics, onViewClinic }: DentistMapViewProps) {
   const { t } = useTranslation();
 
   const groups = useMemo<MapGroup[]>(() => {
+    if (clinics) return clinics.map(c => ({ key: c.id, lat: c.lat, lng: c.lng, clinicName: c.name, dentists: [] }));
     const byKey = new Map<string, MapGroup>();
     for (const d of dentists) {
       const key = `${d.lat},${d.lng}`;
@@ -54,7 +68,7 @@ export default function DentistMapView({ dentists, onViewProfile, focusedId }: D
       byKey.set(key, g);
     }
     return [...byKey.values()];
-  }, [dentists]);
+  }, [dentists, clinics]);
 
   const focused = focusedId ? groups.find(g => g.dentists.some(d => d.id === focusedId)) : undefined;
 
@@ -67,7 +81,26 @@ export default function DentistMapView({ dentists, onViewProfile, focusedId }: D
           maxZoom={19}
         />
         <FitBounds groups={groups} focused={focused} />
-        {groups.map(g => (
+        {clinics && clinics.map(c => (
+          <Marker key={c.id} position={[c.lat, c.lng]} icon={markerIcon(1)} title={c.name}>
+            <Popup minWidth={220} maxWidth={280}>
+              <div className="space-y-2 text-foreground">
+                <p className="text-sm font-semibold truncate">{c.name}</p>
+                <p className="text-xs text-muted-foreground truncate">{c.address}</p>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-1 text-xs">
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
+                    {c.rating} <span className="text-muted-foreground">({c.reviewCount})</span>
+                  </span>
+                  <Button type="button" size="sm" className="min-h-11" onClick={() => onViewClinic?.(c.id)}>
+                    {t('search.viewProfileBtn')}
+                  </Button>
+                </div>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+        {!clinics && groups.map(g => (
           <Marker key={g.key} position={[g.lat, g.lng]} icon={markerIcon(g.dentists.length)} title={g.clinicName}>
             <Popup minWidth={220} maxWidth={280}>
               <div className="space-y-3 text-foreground">
@@ -81,7 +114,7 @@ export default function DentistMapView({ dentists, onViewProfile, focusedId }: D
                         <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
                         {d.rating} <span className="text-muted-foreground">({d.reviewCount})</span>
                       </span>
-                      <Button type="button" size="sm" className="min-h-11" onClick={() => onViewProfile(d)}>
+                      <Button type="button" size="sm" className="min-h-11" onClick={() => onViewProfile?.(d)}>
                         {t('search.viewProfileBtn')}
                       </Button>
                     </div>
