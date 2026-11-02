@@ -94,7 +94,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
             // Dark theme defaults
             'bg-card border border-border shadow-[0_8px_24px_rgba(0,0,0,0.3)]',
             // Light theme overrides
-            '[.light_&]:bg-white [.light_&]:border-border [.light_&]:shadow-[0_8px_24px_rgba(0,0,0,0.12)]',
+            '[.light_&]:bg-popover [.light_&]:border-border [.light_&]:shadow-[0_8px_24px_rgba(0,0,0,0.12)]',
             isMobile
               ? 'fixed left-0 right-0 top-14 rounded-none border-x-0 border-t-0'
               : 'right-0 top-full mt-2 w-64'

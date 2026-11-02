@@ -1,3 +1,4 @@
+import { AiNotice } from '@/components/ai/AiNotice';
 import { useState } from 'react';
 import { TriageHeader } from './TriageHeader';
 import { TriageNavigation } from './TriageNavigation';
@@ -113,6 +114,7 @@ export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
   return (
     <ScrollArea className="flex-1 min-w-0">
       <div className="mx-auto w-full max-w-[1100px] p-4 md:p-6 pb-28">
+        <AiNotice className="mb-6" />
         {isCompleted ? (
           <TriageCompletion triageData={triageData} onFindDentists={handleFindDentists} />
         ) : (

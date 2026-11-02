@@ -34,7 +34,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
   const emoji = CATEGORY_PILL_EMOJIS[category];
 
   return (
-    <div className="m-3 rounded-md bg-white p-4 text-[#0F172A] shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:bg-[#1E293B] dark:text-[#E2E8F0] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+    <div className="m-3 rounded-md bg-card p-4 text-[#0F172A] shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:bg-[#1E293B] dark:text-[#E2E8F0] dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
       <div className="space-y-4 divide-y divide-[#E2E8F0] dark:divide-[rgba(255,255,255,0.08)]">
         <section className="space-y-2">
           <span

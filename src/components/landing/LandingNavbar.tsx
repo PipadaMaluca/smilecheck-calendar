@@ -85,7 +85,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         'fixed top-0 left-0 right-0 z-50 transition-colors duration-300 backdrop-blur-xl border-b',
         isDark
           ? 'bg-background/80 border-border'
-          : 'bg-white/80 border-border',
+          : 'bg-card/80 border-border',
         scrolled && 'shadow-sm'
       )}
       style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}

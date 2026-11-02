@@ -44,7 +44,7 @@ function ScrollReveal({ children, className, delay = 0 }: { children: React.Reac
 function AgendaMockup() {
   const { t } = useTranslation();
   return (
-    <div className="rounded-2xl border border-border bg-white dark:bg-card shadow-2xl shadow-primary/10 overflow-hidden">
+    <div className="rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10 overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
         <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
         <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
@@ -92,7 +92,7 @@ function BadgesMockup() {
     { e: '🚀', l: t('i18nC.fast') },
   ];
   return (
-    <div className="rounded-2xl border border-border bg-white dark:bg-card shadow-2xl shadow-primary/10 p-6">
+    <div className="rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10 p-6">
       <div className="flex items-center justify-between mb-5">
         <div>
           <div className="text-sm font-bold text-foreground">{t('i18nC.achievements')}</div>
@@ -207,7 +207,7 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section id="funcionalidades" className="px-6 md:px-10 py-8 sm:py-12 md:py-14 space-y-12 md:space-y-12 lg:space-y-14 bg-white dark:bg-background">
+    <section id="funcionalidades" className="px-6 md:px-10 py-8 sm:py-12 md:py-14 space-y-12 md:space-y-12 lg:space-y-14 bg-background">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10 sm:mb-12">
@@ -298,7 +298,7 @@ function FeatureGrid({ features }: { features: { icon: string; titleKey: string;
       {features.map((f) => (
         <div
           key={f.titleKey}
-          className="group p-7 rounded-2xl border border-border bg-white dark:bg-card hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-[transform,background-color,border-color,color,box-shadow] duration-300"
+          className="group p-7 rounded-2xl border border-border bg-card hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 transition-[transform,background-color,border-color,color,box-shadow] duration-300"
         >
           <Glyph emoji={f.icon} className="w-8 h-8 mb-4 block" />
           <h3 className="font-semibold text-foreground mb-2">{t(f.titleKey)}</h3>
