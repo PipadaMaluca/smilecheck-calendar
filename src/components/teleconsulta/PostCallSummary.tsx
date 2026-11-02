@@ -144,7 +144,7 @@ export function PostCallSummary({ isOpen, onClose, isDentist, remoteName, durati
                   value={comment}
                   onChange={e => setComment(e.target.value)}
                   placeholder={t('teleconsult.commentPlaceholder')}
-                  className="min-h-[80px] bg-secondary/50 border-border text-sm"
+                  className="min-h-20 bg-secondary/50 border-border text-sm"
                 />
               </div>
 

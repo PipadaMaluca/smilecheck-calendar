@@ -226,11 +226,11 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
     <button
       data-notification-bell
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary press tap-target", className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-2.5 pt-3 pl-1 pr-1.5 border border-secondary press tap-target", className)}>
 
-      <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
+      <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-2.5" />
       {unreadCount > 0 &&
-      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-2xs font-bold flex items-center justify-center px-1 mb-0 mt-[5px] ml-0 mr-[5px]">
+      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-2xs font-bold flex items-center justify-center px-1 mb-0 mt-1 ml-0 mr-1">
           {unreadCount}
         </span>
       }

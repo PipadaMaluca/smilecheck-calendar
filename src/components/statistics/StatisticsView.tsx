@@ -260,7 +260,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <TableCell className="text-sm text-center">{d.consultations}</TableCell>
                           <TableCell className="text-sm text-center">{d.faltas}</TableCell>
                           <TableCell className="text-center">
-                            <div className="flex items-center justify-center gap-[5px]">
+                            <div className="flex items-center justify-center gap-1">
                               <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
                               <span className="text-sm">{d.rating}</span>
                             </div>

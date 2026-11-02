@@ -395,7 +395,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
                 placeholder={t('consultationDetail.blockReasonPlaceholder')}
-                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
+                className="mt-1 min-h-20 bg-secondary/50 border-border text-sm"
               />
             </div>
             <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>

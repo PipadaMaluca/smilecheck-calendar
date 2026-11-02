@@ -634,7 +634,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                       <div key={msg.id} className={cn('flex', msg.fromMe ? 'justify-end' : 'justify-start')}>
                         <div
                           className={cn(
-                            'max-w-[75%] rounded-2xl py-2.5 px-[15px] mx-[7px] my-[5px]',
+                            'max-w-[75%] rounded-2xl py-2.5 px-3.5 mx-1.5 my-1',
                             msg.fromMe
                               ? 'bg-primary text-primary-foreground rounded-br-md'
                               : 'bg-secondary rounded-bl-md'
@@ -657,7 +657,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                   {/* Typing indicator in chat */}
                   {selectedConversation.isTyping && (
                     <div className="flex justify-start">
-                      <div className="bg-secondary rounded-2xl rounded-bl-md py-2.5 px-[15px] mx-[7px] my-[5px]">
+                      <div className="bg-secondary rounded-2xl rounded-bl-md py-2.5 px-3.5 mx-1.5 my-1">
                         <TypingDots />
                       </div>
                     </div>

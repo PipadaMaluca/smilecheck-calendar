@@ -59,11 +59,11 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
           <TableHeader>
             <TableRow className="border-b border-[#1E3A5F] hover:bg-transparent">
               <TableHead className="text-xs font-semibold text-muted-foreground w-[140px]">{t('agenda.schedule')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.time')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.time')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground w-[100px]">{t('agenda.status')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.arrivedAt')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.arrivedAt')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground w-[180px]">{t('common.patient')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.action')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.action')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground">{t('agenda.consultationReason')}</TableHead>
             </TableRow>
           </TableHeader>

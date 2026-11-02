@@ -188,13 +188,13 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Buttons */}
         <div className="flex flex-col-reverse sm:flex-row gap-3">
           <Button
-            className="flex-1 min-h-[44px]"
+            className="flex-1 min-h-11"
             disabled={!agreed || !selectedMotivo}
             onClick={() => setSubmitted(true)}
           >
             {t('contestation.submit')}
           </Button>
-          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>{t('common.cancel')}</Button>
+          <Button variant="outline" className="min-h-11 sm:w-auto" onClick={onBack}>{t('common.cancel')}</Button>
         </div>
       </div>
     </ScrollArea>

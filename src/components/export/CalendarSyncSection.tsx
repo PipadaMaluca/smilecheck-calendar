@@ -69,7 +69,7 @@ export function CalendarSyncSection() {
                   <button
                     onClick={() => togglePlatform(key)}
                     aria-expanded={isOpen}
-                    className={`w-full flex items-center justify-between gap-3 px-4 py-4 text-left transition-colors min-h-[56px] ${
+                    className={`w-full flex items-center justify-between gap-3 px-4 py-4 text-left transition-colors min-h-14 ${
                       isOpen ? 'bg-primary/10 text-primary' : 'bg-secondary/20 text-foreground hover:bg-secondary/40'
                     }`}
                   >
@@ -138,7 +138,7 @@ export function CalendarSyncSection() {
               { key: 'absences' as const, label: t('export.syncAbsences') },
               { key: 'trainings' as const, label: t('export.syncTrainings') },
             ]).map(({ key, label }) => (
-              <label key={key} className="flex items-center gap-2.5 cursor-pointer min-h-[44px] press">
+              <label key={key} className="flex items-center gap-2.5 cursor-pointer min-h-11 press">
                 <Checkbox
                   checked={syncItems[key]}
                   onCheckedChange={(v) => setSyncItems(prev => ({ ...prev, [key]: !!v }))}

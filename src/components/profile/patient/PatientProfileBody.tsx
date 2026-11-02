@@ -168,7 +168,7 @@ export function PatientProfileBody({
     if (isOwnProfile) {
       return (
         <div className={cn('flex gap-2', isMobile ? 'w-full flex-col mt-3' : 'flex-col')}>
-          <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
+          <Button variant="outline" className="flex-1 min-h-11" onClick={onEditProfile}>
             {t('profile.editProfile')}
           </Button>
         </div>);
@@ -537,7 +537,7 @@ export function PatientProfileBody({
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
                 placeholder={t('profile.blockReasonPlaceholder')}
-                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm" />
+                className="mt-1 min-h-20 bg-secondary/50 border-border text-sm" />
               
             </div>
             <p className="text-xs text-muted-foreground">{t('profile.blockNotify')}</p>

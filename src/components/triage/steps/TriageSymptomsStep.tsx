@@ -59,7 +59,7 @@ export function TriageSymptomsStep({
               key={symptom.id}
               onClick={() => toggleSymptom(symptom.id)}
               className={cn(
-                'flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-colors min-h-[80px]',
+                'flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-colors min-h-20',
                 isSelected
                   ? 'bg-primary/20 border-primary text-foreground'
                   : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'

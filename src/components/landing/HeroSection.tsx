@@ -55,7 +55,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
+    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-14 overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <div className="flex justify-center mb-4">
           <Logo variant="full" size={180} className="md:!w-[200px]" />

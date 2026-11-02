@@ -44,7 +44,7 @@ export function ConsultationTypePill({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-[2px] rounded-full whitespace-nowrap flex-shrink-0',
+        'inline-flex items-center gap-0.5 rounded-full whitespace-nowrap flex-shrink-0',
         sizeClass,
         className,
       )}

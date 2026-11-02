@@ -31,10 +31,10 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const renderToggleGroup = (size: 'sm' | 'md') => {
     const btn =
       size === 'sm'
-        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center'
-        : 'h-7 min-w-[32px] px-2 rounded-lg text-2xs font-semibold transition-colors flex items-center justify-center';
-    const containerPad = size === 'sm' ? 'px-1.5 py-[3px]' : 'px-2 py-1';
-    const dividerH = size === 'sm' ? 'h-[14px] mx-2' : 'h-5 mx-[10px]';
+        ? 'h-[26px] min-w-7 px-1.5 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center'
+        : 'h-7 min-w-8 px-2 rounded-lg text-2xs font-semibold transition-colors flex items-center justify-center';
+    const containerPad = size === 'sm' ? 'px-1.5 py-0.5' : 'px-2 py-1';
+    const dividerH = size === 'sm' ? 'h-3.5 mx-2' : 'h-5 mx-2.5';
     const iconSize = size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5';
     return (
       <div
@@ -43,7 +43,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           containerPad
         )}
       >
-        <div className="flex items-center gap-[2px]">
+        <div className="flex items-center gap-0.5">
           {langs.map((lang) => (
             <button
               key={lang}
@@ -59,7 +59,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           className={cn('w-px rounded-full bg-border', dividerH)}
           aria-hidden="true"
         />
-        <div className="flex items-center gap-[2px]">
+        <div className="flex items-center gap-0.5">
           <button
             onClick={() => { if (isDark) onToggleTheme(); }}
             className={cn(btn, !isDark ? pillActive : pillInactive)}

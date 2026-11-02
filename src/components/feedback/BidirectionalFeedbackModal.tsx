@@ -112,7 +112,7 @@ export function BidirectionalFeedbackModal({
                 onClick={() => setRating(s)}
                 onMouseEnter={() => setHover(s)}
                 onMouseLeave={() => setHover(0)}
-                className="transition-transform hover:scale-110 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="transition-transform hover:scale-110 min-h-11 min-w-11 flex items-center justify-center"
                 aria-label={`${s} stars`}
               >
                 <Star
@@ -165,11 +165,11 @@ export function BidirectionalFeedbackModal({
           </div>
 
           <div className="flex flex-col gap-2 pt-1">
-            <Button className="w-full min-h-[44px]" onClick={handleSubmit} disabled={rating === 0 || isSubmitting}>
+            <Button className="w-full min-h-11" onClick={handleSubmit} disabled={rating === 0 || isSubmitting}>
               {t('bidirectionalFeedback.send')}
             </Button>
             <button
-              className="text-xs text-muted-foreground hover:text-foreground text-center py-2 min-h-[44px]"
+              className="text-xs text-muted-foreground hover:text-foreground text-center py-2 min-h-11"
               onClick={onClose}
             >
               {t('bidirectionalFeedback.later')}

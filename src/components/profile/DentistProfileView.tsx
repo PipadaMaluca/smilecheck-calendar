@@ -201,25 +201,25 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         </div>
         {isOwnProfile ?
       <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
+            <Button variant="outline" className="flex-1 min-h-11" onClick={onEditProfile}>
               {t('profile.editProfile')}
             </Button>
           </div> :
 
-      <div className={cn("flex items-center gap-[50px]", isMobile ? 'w-full' : '')}>
+      <div className={cn("flex items-center gap-12", isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               {onReferralLetter &&
-          <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onReferralLetter}>
+          <Button variant="outline" className="flex-1 min-h-11" onClick={onReferralLetter}>
                   <FileText className="w-4 h-4 mr-1" /> {t('profile.referralLetter')}
                 </Button>
           }
-              <Button variant="outline" className="flex-1 min-h-[44px]">
+              <Button variant="outline" className="flex-1 min-h-11">
                 <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
               {canViewerRate && (
                 <Button
                   variant="outline"
-                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-warning hover:bg-amber-500/10"
+                  className="flex-1 min-h-11 relative border-amber-500/40 text-warning hover:bg-amber-500/10"
                   onClick={() => setShowRateModal(true)}
                 >
                   <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
@@ -232,7 +232,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             {onToggleFavorite &&
         <button aria-label={t('a11y.favorite')}
           onClick={onToggleFavorite}
-          className="p-1 transition-transform hover:scale-110 flex-shrink-0 text-left px-[10px] py-[5px] pr-[30px] pl-[5px]"
+          className="p-1 transition-transform hover:scale-110 flex-shrink-0 text-left px-2.5 py-1 pr-7 pl-1"
           title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}>
           
                 <Star className={cn("transition-colors h-[25px] w-[25px] text-left", isFavorite ? 'fill-amber-400 text-warning' : 'text-muted-foreground hover:text-warning')} />

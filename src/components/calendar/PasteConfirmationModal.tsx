@@ -108,7 +108,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
           </div>
           <div className="space-y-2">
             <Label>{t('common.notes')}</Label>
-            <Textarea placeholder={t('copyConsultation.notesPlaceholder')} value={notes} onChange={(e) => setNotes(e.target.value)} className="min-h-[80px] resize-none" />
+            <Textarea placeholder={t('copyConsultation.notesPlaceholder')} value={notes} onChange={(e) => setNotes(e.target.value)} className="min-h-20 resize-none" />
           </div>
         </div>
         <div className="p-4 border-t border-border">

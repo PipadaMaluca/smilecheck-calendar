@@ -63,7 +63,7 @@ export function PricingSection() {
   }, []);
 
   return (
-    <section id="planos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
+    <section id="planos" className="py-8 sm:py-12 md:py-14 px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
           <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>

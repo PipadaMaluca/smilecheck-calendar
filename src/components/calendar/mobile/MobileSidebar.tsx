@@ -97,7 +97,7 @@ export function MobileSidebar({
     return (
       <button
         onClick={onClick}
-        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-4 gap-[15px] press",
+        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-3.5 pt-2.5 pb-2.5 pr-4 gap-3.5 press",
         active && 'text-primary bg-primary/10'
         )}>
         <div className="relative">

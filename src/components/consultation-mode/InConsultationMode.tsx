@@ -91,7 +91,7 @@ export function ConsultationFAB({
             return (
               <button
                 key={action.label}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-[transform,background-color,border-color,color,box-shadow] hover:scale-105 whitespace-nowrap min-h-[44px]"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-[transform,background-color,border-color,color,box-shadow] hover:scale-105 whitespace-nowrap min-h-11"
                 style={{ backgroundColor: action.bg }}
                 onClick={() => { setIsOpen(false); action.onClick(); }}
               >

@@ -199,7 +199,7 @@ export function FeaturesSection() {
   ];
 
   return (
-    <section id="funcionalidades" className="px-6 md:px-10 py-8 sm:py-12 md:py-[60px] space-y-12 md:space-y-12 lg:space-y-[60px] bg-white dark:bg-background">
+    <section id="funcionalidades" className="px-6 md:px-10 py-8 sm:py-12 md:py-14 space-y-12 md:space-y-12 lg:space-y-14 bg-white dark:bg-background">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10 sm:mb-12">
@@ -212,7 +212,7 @@ export function FeaturesSection() {
           </div>
         </ScrollReveal>
 
-        <div className="space-y-10 md:space-y-12 lg:space-y-[60px]">
+        <div className="space-y-10 md:space-y-12 lg:space-y-14">
           <FeatureRow
             eyebrow={t('landing.features.forPatients')}
             title={t('landing.features.patient1Title')}

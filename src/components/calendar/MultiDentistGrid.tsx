@@ -94,9 +94,9 @@ export function MultiDentistGrid({
   const density: 'sm' | 'md' | 'lg' =
     columns.length >= 7 ? 'sm' : columns.length >= 4 ? 'md' : 'lg';
   const D = {
-    sm: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 3px', notes: 'text-2xs', pad: 'px-[2px] py-[2px]' },
-    md: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 4px', notes: 'text-2xs', pad: 'px-[3px] py-[2px]' },
-    lg: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 5px', notes: 'text-2xs', pad: 'px-[3px] py-[2px]' },
+    sm: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 3px', notes: 'text-2xs', pad: 'px-0.5 py-0.5' },
+    md: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 4px', notes: 'text-2xs', pad: 'px-0.5 py-0.5' },
+    lg: { time: 'text-2xs', name: 'text-2xs', age: 'text-2xs', pill: 'text-2xs', pillPad: '1px 5px', notes: 'text-2xs', pad: 'px-0.5 py-0.5' },
   }[density];
   
   return (
@@ -329,8 +329,8 @@ export function MultiDentistGrid({
                         title={isShort ? tooltip : undefined}
                         className={cn(
                           isShort && "!justify-center",
-                          "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-colors overflow-hidden appointment-card-mobile",
-                          smallMobileMulti ? "!px-[4px] !py-[3px]" : isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
+                          "appt-block rounded-md flex flex-col items-start justify-start gap-px cursor-grab active:cursor-grabbing hover:opacity-80 transition-colors overflow-hidden appointment-card-mobile",
+                          smallMobileMulti ? "!px-1 !py-0.5" : isSingleColumn ? "px-0.5 py-0.5" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
                         )}
                         style={{

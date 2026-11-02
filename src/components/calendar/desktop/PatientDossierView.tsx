@@ -500,7 +500,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               value={clinicalNotes}
               onChange={(e) => setClinicalNotes(e.target.value)}
               placeholder={t('dossier.clinicalNotesPlaceholder')}
-              className="min-h-[80px] bg-secondary/50 border-border text-sm"
+              className="min-h-20 bg-secondary/50 border-border text-sm"
             />
           </div>
         </div>

@@ -237,7 +237,7 @@ export function DentistAvailabilityTab() {
       return (
         <button
           onClick={() => togglePeriod(dayIdx, period)}
-          className="flex items-center justify-center gap-1 text-xs text-destructive/70 bg-destructive/10 rounded-md px-2 py-2 hover:bg-destructive/20 transition-colors min-h-[44px] w-full"
+          className="flex items-center justify-center gap-1 text-xs text-destructive/70 bg-destructive/10 rounded-md px-2 py-2 hover:bg-destructive/20 transition-colors min-h-11 w-full"
         >
 <Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.closed')}
         </button>
@@ -280,7 +280,7 @@ export function DentistAvailabilityTab() {
       <button
         onClick={() => setEditingCell({ day: dayIdx, period, field: 'start' })}
         className={cn(
-          'flex items-center justify-center gap-1 text-xs font-medium rounded-md px-2 py-2 transition-colors min-h-[44px] w-full',
+          'flex items-center justify-center gap-1 text-xs font-medium rounded-md px-2 py-2 transition-colors min-h-11 w-full',
           period === 'evening'
             ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
             : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'

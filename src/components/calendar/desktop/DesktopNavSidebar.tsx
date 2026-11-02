@@ -157,7 +157,7 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
-        isExpanded ? 'w-[100px]' : 'w-[64px]'
+        isExpanded ? 'w-[100px]' : 'w-16'
       )}
     >
       {/* Logo + Pro Badge */}

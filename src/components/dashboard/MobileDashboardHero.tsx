@@ -71,7 +71,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </p>
         <button
           onClick={() => onNavigate(`consulta-detalhe:${next.id}`)}
-          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-lg overflow-hidden text-left min-h-[80px] p-3 hover:bg-muted/40 transition-colors press"
+          className="proxima-consulta-card relative w-full flex items-stretch bg-card border border-border rounded-lg overflow-hidden text-left min-h-20 p-3 hover:bg-muted/40 transition-colors press"
           style={{ '--consultation-type-color': next.catColor } as CSSProperties}
         >
           <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
@@ -107,7 +107,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         </div>
       ) : (
-        <div className="md:hidden w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-sm text-muted-foreground">
+        <div className="md:hidden w-full h-16 flex items-center justify-center bg-muted/30 border border-border rounded-xl text-sm text-muted-foreground">
           {t('dashboard.noConsultations')}
         </div>
       )}
@@ -214,7 +214,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       <div className="hidden md:grid lg:hidden grid-cols-3 gap-3">
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-20"
         >
           <span className="text-2xs text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex flex-col gap-1.5 min-w-0 flex-1 justify-center">
@@ -241,7 +241,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-20"
         >
           <span className="text-2xs text-muted-foreground">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1.5">
@@ -254,7 +254,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
-          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
+          className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-20"
         >
           <span className="text-2xs text-muted-foreground">{t('i18nC.streak')}</span>
           <div className="flex items-center gap-1.5">

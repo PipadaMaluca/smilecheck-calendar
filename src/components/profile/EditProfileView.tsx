@@ -609,7 +609,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <FieldGroup label={t('editProfile.teleconsultPrice')}>
                   <Input type="number" value={teleconsultPrice} onChange={(e) => setTeleconsultPrice(e.target.value)} />
                 </FieldGroup>
-                <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 min-h-[44px]">
+                <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 min-h-11">
                   <span className="text-sm font-medium">{t('editProfile.acceptsEmergencies')}</span>
                   <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
@@ -895,8 +895,8 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           isMobile ? 'fixed bottom-[60px] left-0 right-0 bg-background z-10' : ''
         }`}
       >
-        <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onClose}>{t('common.cancel')}</Button>
-        <Button className="flex-1 min-h-[44px]" onClick={handleSave}>{t('editProfile.saveChanges')}</Button>
+        <Button variant="outline" className="flex-1 min-h-11" onClick={onClose}>{t('common.cancel')}</Button>
+        <Button className="flex-1 min-h-11" onClick={handleSave}>{t('editProfile.saveChanges')}</Button>
       </div>
     </div>;
 
