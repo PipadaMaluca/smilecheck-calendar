@@ -178,7 +178,7 @@
     "fullName": "Nom complet",
     "orderNumber": "N° d'inscription à l'Ordre",
     "orderNumberFull": "Numéro d'inscription à l'Ordre des Chirurgiens-Dentistes",
-    "clinicName": "Nom du Cabinet",
+    "clinicName": "Nom du cabinet",
     "nifNipc": "SIRET / SIREN",
     "address": "Adresse",
     "referralCode": "Code d'invitation (facultatif)",
@@ -1002,7 +1002,7 @@
     "lastConsultation": "Dernière consultation",
     "nextRecommended": "Prochaine recommandée",
     "scheduleAppointment": "Prendre rendez-vous",
-    "overdue": "ATTENTION : Rendez-vous en retard !",
+    "overdue": "ATTENTION : rendez-vous en retard !",
     "overdueDetail": "Dernière visite il y a {{months}} mois.",
     "documents": "Documents",
     "receipts": "Ordonnances",
@@ -1567,9 +1567,9 @@
     "thisMonth": "Ce mois",
     "everything": "Tout",
     "noResults": "Aucun résultat.",
-    "planFreeLabel": "Plan Free — Remise à zéro le 1er janv. 2027",
-    "planProLabel": "Plan Pro — Pas de remise à zéro annuelle",
-    "planPremiumLabel": "Plan Premium — Pas de remise à zéro + 10% bonus",
+    "planFreeLabel": "Plan Free — remise à zéro le 1er janv. 2027",
+    "planProLabel": "Plan Pro — pas de remise à zéro annuelle",
+    "planPremiumLabel": "Plan Premium — pas de remise à zéro + 10% bonus",
     "patient2x": "Patient (2x)",
     "currentStreak": "Série actuel",
     "bestStreak": "Meilleur série",
@@ -1994,8 +1994,8 @@
     "active": "Actif",
     "nextBillingDate": "Prochaine facturation",
     "method": "Méthode",
-    "businessName": "Nom / Raison Sociale",
-    "clinicName": "Nom de la Clinique",
+    "businessName": "Nom / raison sociale",
+    "clinicName": "Nom de la clinique",
     "taxId": "Numéro fiscal",
     "taxIdCorp": "SIRET / numéro fiscal",
     "fiscalAddress": "Adresse fiscale",
@@ -2116,7 +2116,7 @@
       "modalTitleAdd": "Ajouter férié / fermeture",
       "modalTitleEdit": "Modifier férié / fermeture",
       "fieldName": "Désignation",
-      "fieldNamePlaceholder": "Ex : Fermeture pour travaux",
+      "fieldNamePlaceholder": "Ex : fermeture pour travaux",
       "fieldDateStart": "Date de début",
       "fieldDateEnd": "Date de fin (optionnel)",
       "fieldReason": "Motif",
@@ -2522,7 +2522,7 @@
     "attachments": "Pièces jointes",
     "attachmentsDesc": "Joignez des radiographies, photographies ou documents pertinents",
     "dropFiles": "Glissez des fichiers ou cliquez pour sélectionner",
-    "fileTypes": "PDF, JPG, PNG, DICOM · Max 10 Mo par fichier",
+    "fileTypes": "PDF, JPG, PNG, DICOM · max 10 Mo par fichier",
     "addFile": "Ajouter un fichier",
     "previewLetter": "Aperçu de la lettre",
     "omdMissing": "N° de l'Ordre manquant",
@@ -2630,7 +2630,7 @@
       "recommended": "Rappel recommandé",
       "every": "Tous les",
       "months": "mois",
-      "overdue": "ATTENTION : Consultation en retard !",
+      "overdue": "ATTENTION : consultation en retard !",
       "lastVisit": "Dernière consultation",
       "nextRecommended": "Prochaine recommandée"
     },
@@ -2909,7 +2909,7 @@
     },
     "intensity": {
       "title": "Quelle est l'intensité de la douleur ?",
-      "scale": "Aucune (0) · Modérée (5) · Insupportable (10)",
+      "scale": "Aucune (0) · modérée (5) · insupportable (10)",
       "routineCheckup": "Je n'ai pas de douleur, c'est juste un contrôle de routine"
     },
     "photos": {
@@ -2953,7 +2953,7 @@
     }
   },
   "consultationReasons": {
-    "newAdultPatient": "Nouveau patient : Adulte",
+    "newAdultPatient": "Nouveau patient : adulte",
     "firstConsultation": "Première consultation",
     "controlVisit": "Visite de contrôle",
     "childUnder16": "Enfant de moins de 16 ans",
@@ -3717,7 +3717,7 @@
     "remove": "Retirer"
   },
   "qrCode": {
-    "authorized": "Autorisé — Connexion en cours...",
+    "authorized": "Autorisé — connexion en cours...",
     "verifying": "Vérification de l'autorisation...",
     "expired": "Code expiré",
     "generateNew": "Générer un nouveau",
@@ -4011,7 +4011,7 @@
   "demoBanner": {
     "label": "Mode démonstration — données fictives",
     "dismiss": "Fermer la bannière",
-    "disclaimer": "Mode démonstration — Les données affichées sont fictives"
+    "disclaimer": "Mode démonstration — les données affichées sont fictives"
   },
   "level": {
     "myLevelTab": "Mon Niveau",
