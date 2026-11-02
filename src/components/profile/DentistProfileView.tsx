@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
@@ -354,7 +355,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
-            <span className="font-medium">€{dentist.teleconsultaPrice}</span>
+            <span className="font-medium">{formatCurrency(dentist.teleconsultaPrice)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>

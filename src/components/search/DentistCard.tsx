@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DentistSearchResult, LEVEL_CONFIG, getAvailabilityForDentist } from '@/data/mockDentistSearch';
@@ -113,7 +114,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
         </div>
         <div className="flex items-center gap-1">
           <Video className="w-3 h-3" />
-          <span>€{dentist.teleconsultaPrice}</span>
+          <span>{formatCurrency(dentist.teleconsultaPrice)}</span>
         </div>
       </div>
       {nextSlotChips.length > 0 && (

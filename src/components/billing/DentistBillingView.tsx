@@ -1,4 +1,4 @@
-import { formatNumber } from '@/lib/formatters';
+import { formatNumber, formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,26 +57,26 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.revenue')}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">€{formatNumber(totalRevenue)}</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">{formatCurrency(totalRevenue)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.teleconsultas')}</p>
                   <p className="text-2xl font-bold text-foreground mt-1">{teleSummary.count}</p>
-                  <p className="text-xs text-muted-foreground">€{teleRevenue}</p>
+                  <p className="text-xs text-muted-foreground">{formatCurrency(teleRevenue)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.commission')} ({commissionPercent(plan)}%)</p>
-                  <p className="text-2xl font-bold text-destructive mt-1">€{commission.toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(commission, { decimals: true })}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.net')}</p>
-                  <p className="text-2xl font-bold text-primary mt-1">€{formatNumber(net, { maximumFractionDigits: 2 })}</p>
+                  <p className="text-2xl font-bold text-primary mt-1">{formatCurrency(net)}</p>
                 </CardContent>
               </Card>
             </div>
@@ -125,7 +125,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                     <div className="flex items-center justify-between">
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
-                        <p className="text-xs text-muted-foreground">{tc.duration} · €{tc.amount} · {t('billing.commissionLabel')}: €{tc.commission} · {t('billing.net')}: €{tc.net}</p>
+                        <p className="text-xs text-muted-foreground">{tc.duration} · {formatCurrency(tc.amount)} · {t('billing.commissionLabel')}: {formatCurrency(tc.commission)} · {t('billing.net')}: {formatCurrency(tc.net)}</p>
                       </div>
                       <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
@@ -138,7 +138,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
             <Card className="bg-primary/10 border-primary/20">
               <CardContent className="p-3 flex items-center justify-between text-sm">
                 <span className="font-semibold text-foreground">{dentistTeleconsultas.length} {t('billing.teleconsultas').toLowerCase()}</span>
-                <span className="text-muted-foreground">€{totalTele} · {t('billing.commissionLabel')}: €{totalComm.toFixed(2)} · <span className="text-primary font-bold">{t('billing.net')}: €{totalNet.toFixed(2)}</span></span>
+                <span className="text-muted-foreground">{formatCurrency(totalTele)} · {t('billing.commissionLabel')}: {formatCurrency(totalComm, { decimals: true })} · <span className="text-primary font-bold">{t('billing.net')}: {formatCurrency(totalNet, { decimals: true })}</span></span>
               </CardContent>
             </Card>
           </TabsContent>

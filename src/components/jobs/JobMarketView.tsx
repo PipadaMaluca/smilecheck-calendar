@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Briefcase, MapPin, Star, Clock, MessageCircle, Users, Send, ChevronRight, ChevronLeft, Check, Settings } from 'lucide-react';
@@ -688,9 +689,9 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 {proposalData.contractType && <p><span className="text-muted-foreground">{t('jobs.contractTypeLabel')}:</span> {t(`jobs.${proposalData.contractType}`)}</p>}
                 {proposalData.startDate && <p><span className="text-muted-foreground">{t('jobs.startDateLabel')}:</span> {proposalData.startDate}</p>}
                 {proposalData.duration && <p><span className="text-muted-foreground">{t('jobs.durationLabel')}:</span> {proposalData.duration === 'other' ? proposalData.durationOther : t(`jobs.${proposalData.duration === 'indefinite' ? 'indefinite' : proposalData.duration === '6months' ? 'sixMonths' : 'oneYear'}`)}</p>}
-                {proposalData.salaryMonthly && <p><span className="text-muted-foreground">{t('jobs.grossMonthlySalary')}:</span> €{proposalData.salaryMonthly}/{t('plan.month')}</p>}
+                {proposalData.salaryMonthly && <p><span className="text-muted-foreground">{t('jobs.grossMonthlySalary')}:</span> {formatCurrency(proposalData.salaryMonthly)}/{t('plan.month')}</p>}
                 {proposalData.salaryPercentage && <p><span className="text-muted-foreground">{t('jobs.percentPerConsultLabel')}:</span> {proposalData.salaryPercentage}%</p>}
-                {proposalData.salaryFixed && <p><span className="text-muted-foreground">{t('jobs.fixedPerConsultLabel')}:</span> €{proposalData.salaryFixed}</p>}
+                {proposalData.salaryFixed && <p><span className="text-muted-foreground">{t('jobs.fixedPerConsultLabel')}:</span> {formatCurrency(proposalData.salaryFixed)}</p>}
                 {proposalData.benefits.length > 0 && <p><span className="text-muted-foreground">{t('jobs.benefits')}:</span> {proposalData.benefits.map(k => t(`jobs.benefit_${k}`)).join(', ')}</p>}
               </div>
               <div>

@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -219,11 +220,11 @@ export function ManagePlanView({
     if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
     if (isAnnual) {
       return {
-        main: `€${plan.annualPrice.toFixed(2)}/${t('plan.annual').toLowerCase()}`,
-        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/${t('plan.monthly').toLowerCase()}`
+        main: `${formatCurrency(plan.annualPrice, { decimals: true })}/${t('plan.annual').toLowerCase()}`,
+        sub: `≈ ${formatCurrency((plan.annualPrice / 12), { decimals: true })}/${t('plan.monthly').toLowerCase()}`
       };
     }
-    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: `/${t('plan.monthly').toLowerCase()}` };
+    return { main: `${formatCurrency(plan.monthlyPrice, { decimals: true })}`, sub: `/${t('plan.monthly').toLowerCase()}` };
   };
 
   const handleSubscribe = () => {

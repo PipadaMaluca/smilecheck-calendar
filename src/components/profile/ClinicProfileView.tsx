@@ -1,4 +1,4 @@
-import { getActiveLocale } from '@/lib/formatters';
+import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, User, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Lock, Check } from 'lucide-react';
@@ -508,7 +508,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
-            <span className="font-medium">€{data.teleconsultaPrice}</span>
+            <span className="font-medium">{formatCurrency(data.teleconsultaPrice)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>

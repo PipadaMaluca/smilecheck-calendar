@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { ArrowLeft, Stethoscope, SlidersHorizontal, X, List, Map as MapIcon, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -111,7 +112,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-sm">{t('search.maxTeleconsultPrice')}</span>
-          <span className="text-sm font-medium text-primary">€{maxPrice}</span>
+          <span className="text-sm font-medium text-primary">{formatCurrency(maxPrice)}</span>
         </div>
         <Slider value={[maxPrice]} onValueChange={([v]) => setMaxPrice(v)} min={5} max={50} step={5} />
       </div>

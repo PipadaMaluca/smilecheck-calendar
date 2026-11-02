@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { User, Calendar, Clock, MapPin, Video, Camera, MessageCircle, FileText, RefreshCw, Copy, ArrowLeft, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock, X } from 'lucide-react';
@@ -186,7 +187,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
                   <span>
-<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
+<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: {formatCurrency(consultation.price)}</span>
                 </div>
               )}
             </div>

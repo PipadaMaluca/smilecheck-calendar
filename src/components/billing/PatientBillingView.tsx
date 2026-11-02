@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { CreditCard, Download, Star, Trash2, Plus, Smartphone, Edit2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,14 +69,14 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.totalSpent')}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">€{totalMonth.toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">{formatCurrency(totalMonth, { decimals: true })}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.teleconsultPaid')}</p>
                   <p className="text-2xl font-bold text-foreground mt-1">{teleCount}</p>
-                  <p className="text-xs text-muted-foreground">€{teleTotal}</p>
+                  <p className="text-xs text-muted-foreground">{formatCurrency(teleTotal)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
@@ -105,7 +106,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                       <p className="text-xs text-muted-foreground">{p.date} · {p.method}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-3">
-                      <span className="text-sm font-bold text-foreground">€{p.amount.toFixed(2)}</span>
+                      <span className="text-sm font-bold text-foreground">{formatCurrency(p.amount, { decimals: true })}</span>
                       <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>

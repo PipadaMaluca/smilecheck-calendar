@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -196,7 +197,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
           <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
         ) : (
           <>
-            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">€{price.toFixed(2).replace('.', ',')}</span>
+            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price.toFixed(2).replace('.', ','))}</span>
             <span className="text-sm text-[#4A5568] dark:text-[#94A3B8] ml-1">{t('landing.pricing.perMonth')}</span>
           </>
         )}

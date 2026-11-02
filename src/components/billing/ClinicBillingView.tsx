@@ -1,4 +1,4 @@
-import { getActiveLocale, formatNumber } from '@/lib/formatters';
+import { getActiveLocale, formatNumber, formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Download, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +20,7 @@ const CLINIC_TELE_SUMMARY = summarizeTeleconsults(
 );
 const CLINIC_TELE_REVENUE = CLINIC_TELE_SUMMARY.amount;
 const CLINIC_COMMISSION = CLINIC_TELE_SUMMARY.commission;
-const fmtEur = (v: number) => `€${v.toLocaleString(getActiveLocale(), { maximumFractionDigits: 2 })}`;
+const fmtEur = (v: number) => `${formatCurrency(v.toLocaleString(getActiveLocale(), { maximumFractionDigits: 2 }))}`;
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -120,7 +120,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                   <button className="w-full p-4 flex items-center justify-between text-left" onClick={() => setExpandedDentist(expandedDentist === d.id ? null : d.id)}>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{d.name}</p>
-                      <p className="text-xs text-muted-foreground">{t('billing.consultations', { count: d.consultas })} · {d.tele} {t('billing.tele')} · €{formatNumber(d.revenue)}</p>
+                      <p className="text-xs text-muted-foreground">{t('billing.consultations', { count: d.consultas })} · {d.tele} {t('billing.tele')} · {formatCurrency(d.revenue)}</p>
                     </div>
                     {expandedDentist === d.id ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                   </button>
@@ -129,7 +129,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                       {dentistTeleconsultas.slice(0, 4).map(tc => (
                         <div key={tc.id} className="flex items-center justify-between text-xs text-muted-foreground">
                           <span>{tc.date} — {tc.patient} — {tc.duration}</span>
-                          <span>€{tc.amount}</span>
+                          <span>{formatCurrency(tc.amount)}</span>
                         </div>
                       ))}
                     </div>
@@ -145,7 +145,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                 <CardContent className="p-3 flex items-center justify-between">
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
-                    <p className="text-xs text-muted-foreground">{tc.duration} · €{tc.amount} · {t('billing.commissionLabel')}: €{tc.commission} · {t('billing.net')}: €{tc.net}</p>
+                    <p className="text-xs text-muted-foreground">{tc.duration} · {formatCurrency(tc.amount)} · {t('billing.commissionLabel')}: {formatCurrency(tc.commission)} · {t('billing.net')}: {formatCurrency(tc.net)}</p>
                   </div>
                   <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                     <Download className="w-4 h-4" />

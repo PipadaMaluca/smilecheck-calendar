@@ -1,4 +1,4 @@
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
@@ -270,7 +270,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
                   <span>
-<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
+<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: {formatCurrency(consultation.price)}</span>
                 </div>
               )}
             </div>
