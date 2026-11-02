@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2, MessageSquare, Plus, X } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -507,11 +508,11 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                     const isUnread = conversation.unread > 0;
 
                     // Preview text
-                    let previewText = conversation.lastMessage;
+                    let previewText = demoText(conversation.lastMessage);
                     if (conversation.isTyping) {
                       previewText = '';
                     } else if (conversation.lastMessageFromMe) {
-                      previewText = `${t('i18nA.me')}: ${conversation.lastMessage}`;
+                      previewText = `${t('i18nA.me')}: ${demoText(conversation.lastMessage)}`;
                     }
 
                     return (
@@ -640,7 +641,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                               : 'bg-secondary rounded-bl-md'
                           )}
                         >
-                          <p className="text-sm">{msg.text}</p>
+                          <p className="text-sm">{demoText(msg.text)}</p>
                           <p
                             className={cn(
                               'text-2xs mt-1',
