@@ -444,7 +444,7 @@ export function DentistAvailabilityTab() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('team.availableForTeleconsult')}</span>
-            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} />
+            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} aria-label={t('team.availableForTeleconsult')} />
           </div>
           {teleEnabled && (
             <>

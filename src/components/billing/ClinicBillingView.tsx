@@ -171,12 +171,12 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.fiscalData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
-                <div><label className="text-xs text-muted-foreground">{t('billing.clinicName')}</label><Input defaultValue="Clínica SmileCheck" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.taxIdCorp')}</label><Input defaultValue="509 123 456" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.fiscalAddress')}</label><Input defaultValue="Rua da Saúde, 100, 1000-001 Lisboa" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">IBAN</label><Input defaultValue="PT50 0035 0000 0000 0000 0009 8" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.financialManager')}</label><Input defaultValue="Ana Gestão" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.financialEmail')}</label><Input defaultValue="financeiro@smilecheck.pt" className="mt-1" /></div>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.clinicName')}</span><Input defaultValue="Clínica SmileCheck" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.taxIdCorp')}</span><Input defaultValue="509 123 456" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.fiscalAddress')}</span><Input defaultValue="Rua da Saúde, 100, 1000-001 Lisboa" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">IBAN</span><Input defaultValue="PT50 0035 0000 0000 0000 0009 8" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.financialManager')}</span><Input defaultValue="Ana Gestão" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.financialEmail')}</span><Input defaultValue="financeiro@smilecheck.pt" className="mt-1" /></label>
                 <Button className="w-full" onClick={() => toast.success(t('billing.dataSaved'))}>{t('common.save')}</Button>
               </CardContent>
             </Card>
