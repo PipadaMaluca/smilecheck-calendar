@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { dentistTeleconsultas, dentistRevenueMonths, generateReceipt } from './billingMockData';
+import { getDentistTeleconsultas, dentistRevenueMonths, generateReceipt } from './billingMockData';
+import { DEMO_CURRENT_PLAN, commissionPercent } from '@/lib/planRules';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -23,14 +24,15 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
   const [chartToggle, setChartToggle] = useState<'total' | 'presencial' | 'teleconsulta'>('total');
   const [filter, setFilter] = useState('mes');
 
+  const plan = DEMO_CURRENT_PLAN.dentist;
+  const dentistTeleconsultas = getDentistTeleconsultas(plan);
   const totalRevenue = 2450;
   const teleRevenue = 240;
-  const commission = 36;
-  const net = 2414;
-
   const totalTele = dentistTeleconsultas.reduce((s, t) => s + t.amount, 0);
   const totalComm = dentistTeleconsultas.reduce((s, t) => s + t.commission, 0);
   const totalNet = dentistTeleconsultas.reduce((s, t) => s + t.net, 0);
+  const commission = totalComm;
+  const net = totalRevenue - commission;
 
   return (
     <ScrollArea className="flex-1">
@@ -65,14 +67,14 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
-                  <p className="text-xs text-muted-foreground">{t('billing.commission')} (15%)</p>
-                  <p className="text-2xl font-bold text-destructive mt-1">€{commission}</p>
+                  <p className="text-xs text-muted-foreground">{t('billing.commission')} ({commissionPercent(plan)}%)</p>
+                  <p className="text-2xl font-bold text-destructive mt-1">€{commission.toFixed(2)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.net')}</p>
-                  <p className="text-2xl font-bold text-primary mt-1">€{net.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-primary mt-1">€{net.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
                 </CardContent>
               </Card>
             </div>
