@@ -8,6 +8,13 @@
       "when": 1793632422062,
       "tag": "0000_security_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793632437249,
+      "tag": "0001_check_achievements_trusted_write",
+      "breakpoints": true
     }
   ]
 }
