@@ -247,6 +247,7 @@ export type Database = {
           postal_code: string | null
           rating: number | null
           updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
           address?: string | null
@@ -263,6 +264,7 @@ export type Database = {
           postal_code?: string | null
           rating?: number | null
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
           address?: string | null
@@ -279,6 +281,7 @@ export type Database = {
           postal_code?: string | null
           rating?: number | null
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Relationships: [
           {
@@ -328,6 +331,7 @@ export type Database = {
           rpps_number: string | null
           specialties: Json
           updated_at: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
           bio?: string | null
@@ -337,6 +341,7 @@ export type Database = {
           rpps_number?: string | null
           specialties?: Json
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
           bio?: string | null
@@ -346,6 +351,7 @@ export type Database = {
           rpps_number?: string | null
           specialties?: Json
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Relationships: [
           {
@@ -629,6 +635,7 @@ export type Database = {
           id: string
           language: Database["public"]["Enums"]["app_language"]
           phone: string | null
+          phone_verified_at: string | null
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
         }
@@ -641,6 +648,7 @@ export type Database = {
           id: string
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
+          phone_verified_at?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
@@ -653,6 +661,7 @@ export type Database = {
           id?: string
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
+          phone_verified_at?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
@@ -756,6 +765,24 @@ export type Database = {
           sponsored?: boolean
           subcategory?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      triage_ai_usage: {
+        Row: {
+          created_at: string
+          id: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          profile_id?: string
         }
         Relationships: []
       }
@@ -896,12 +923,17 @@ export type Database = {
         }
         Returns: Json
       }
+      can_edit_patient: { Args: { _patient_id: string }; Returns: boolean }
       can_notify_profile: { Args: { _profile_id: string }; Returns: boolean }
       can_rate_appointment: {
         Args: { _appointment_id: string; _to_profile_id: string }
         Returns: boolean
       }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
+      confirm_phone_verification: {
+        Args: { _profile_id: string }
+        Returns: undefined
+      }
       create_notification: {
         Args: {
           _action_url?: string
@@ -918,6 +950,7 @@ export type Database = {
       }
       generate_redemption_code: { Args: never; Returns: string }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
+      is_untrusted_caller: { Args: never; Returns: boolean }
       level_for_xp: {
         Args: { _xp: number }
         Returns: Database["public"]["Enums"]["level_tier"]
@@ -934,6 +967,10 @@ export type Database = {
       redeem_reward: {
         Args: { _profile_id: string; _reward_key: string }
         Returns: Json
+      }
+      request_reschedule: {
+        Args: { _appointment_id: string; _new_time: string }
+        Returns: undefined
       }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
     }
@@ -972,6 +1009,7 @@ export type Database = {
       payment_status: "a_pagar" | "pago" | "nao_aplicavel"
       points_type: "xp" | "reward_points"
       redemption_status: "pendente" | "usado" | "expirado"
+      verification_status: "pendente" | "aprovado" | "rejeitado"
       waiting_status: "em_espera" | "notificado" | "confirmado"
       waiting_urgency: "normal" | "urgente"
     }
@@ -1138,6 +1176,7 @@ export const Constants = {
       payment_status: ["a_pagar", "pago", "nao_aplicavel"],
       points_type: ["xp", "reward_points"],
       redemption_status: ["pendente", "usado", "expirado"],
+      verification_status: ["pendente", "aprovado", "rejeitado"],
       waiting_status: ["em_espera", "notificado", "confirmado"],
       waiting_urgency: ["normal", "urgente"],
     },
