@@ -145,7 +145,7 @@
     "login": "Se connecter",
     "signup": "Créer un compte",
     "logout": "Se déconnecter",
-    "email": "Email",
+    "email": "E-mail",
     "password": "Mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "forgotPassword": "Mot de passe oublié ?",
@@ -156,14 +156,14 @@
     "continueWithApple": "Continuer avec Apple",
     "continueWithFacebook": "Continuer avec Facebook",
     "phone": "Numéro de téléphone",
-    "verifyEmail": "Vérifiez votre email",
+    "verifyEmail": "Vérifiez votre e-mail",
     "verifySms": "Vérifiez votre téléphone",
     "demo": "Démo",
-    "qrLogin": "Se connecter avec QR code",
+    "qrLogin": "Se connecter avec un code QR",
     "scanQr": "Pointez la caméra vers ce code",
     "tagline": "Votre sourire, notre priorité",
-    "emailRequired": "L'email est obligatoire",
-    "emailInvalid": "Email invalide",
+    "emailRequired": "L'e-mail est obligatoire",
+    "emailInvalid": "E-mail invalide",
     "passwordRequired": "Le mot de passe est obligatoire",
     "nameRequired": "Le nom est obligatoire",
     "phoneRequired": "Le numéro de téléphone est obligatoire",
@@ -178,7 +178,7 @@
     "fullName": "Nom complet",
     "orderNumber": "N° d'inscription à l'Ordre",
     "orderNumberFull": "Numéro d'inscription à l'Ordre des Chirurgiens-Dentistes",
-    "clinicName": "Nom du Cabinet",
+    "clinicName": "Nom du cabinet",
     "nifNipc": "SIRET / SIREN",
     "address": "Adresse",
     "referralCode": "Code d'invitation (facultatif)",
@@ -189,9 +189,9 @@
     "privacyPolicy": "Politique de confidentialité",
     "chooseAccountType": "Choisissez votre type de compte",
     "createAccountOf": "Créer un compte {{type}}",
-    "qrCodeAlt": "Ou connectez-vous avec un QR code",
+    "qrCodeAlt": "Ou connectez-vous avec un code QR",
     "qrFast": "Rapide et sans mot de passe",
-    "otherDevice": "Déjà un compte sur un autre appareil ? Se connecter avec QR code →",
+    "otherDevice": "Déjà un compte sur un autre appareil ? Se connecter avec un code QR →",
     "completeRegistration": "Compléter l'inscription",
     "completeRegistrationDesc": "Presque terminé ! Confirmez vos informations et remplissez les champs manquants.",
     "backupPassword": "Mot de passe de secours",
@@ -202,13 +202,13 @@
     "smsSentTo": "Nous avons envoyé un SMS à",
     "step1of2": "Étape 1 sur 2",
     "step2of2": "Étape 2 sur 2",
-    "verifyEmailBtn": "Vérifier l'email",
+    "verifyEmailBtn": "Vérifier l'e-mail",
     "verifyPhoneBtn": "Vérifier le téléphone",
     "resendCode": "Renvoyer le code",
     "resendCodeCountdown": "Renvoyer le code ({{seconds}}s)",
     "resendSms": "Renvoyer le SMS",
     "resendSmsCountdown": "Renvoyer le SMS ({{seconds}}s)",
-    "changeEmail": "Modifier l'email",
+    "changeEmail": "Modifier l'e-mail",
     "passwordLeaked": "Ce mot de passe est apparu dans une fuite de données connue et n'est pas sûr. Veuillez en choisir un autre.",
     "passwordHint": "Astuce : utilisez une combinaison unique de mots, de chiffres et de symboles.",
     "resetTitle": "Définir un nouveau mot de passe",
@@ -223,10 +223,10 @@
     "passwordStrengthMedium": "Moyen",
     "passwordStrengthStrong": "Fort",
     "forgotPasswordTitle": "Réinitialiser le mot de passe",
-    "forgotPasswordDesc": "Entrez votre email pour recevoir les instructions de récupération",
-    "forgotPasswordEmailInvalid": "Veuillez entrer un email valide",
-    "forgotPasswordSent": "Email envoyé",
-    "forgotPasswordSentDesc": "Vérifiez votre email pour les instructions de récupération",
+    "forgotPasswordDesc": "Entrez votre e-mail pour recevoir les instructions de récupération",
+    "forgotPasswordEmailInvalid": "Veuillez entrer un e-mail valide",
+    "forgotPasswordSent": "E-mail envoyé",
+    "forgotPasswordSentDesc": "Vérifiez votre e-mail pour les instructions de récupération",
     "forgotPasswordBack": "Retour à la connexion",
     "send": "Envoyer",
     "accountTypes": {
@@ -518,7 +518,7 @@
       "startBonus": "+5 pts pour la création du compte",
       "startStep1": "Compléter le profil",
       "startStep2": "Premier rendez-vous réalisé",
-      "startStep3": "Vérifier email/téléphone"
+      "startStep3": "Vérifier e-mail/téléphone"
     },
     "clinic": {
       "welcomeTitle": "SmileCheck cabinet !",
@@ -675,7 +675,8 @@
     "patients_one": "{{count, number}} patient",
     "patients_other": "{{count, number}} patients",
     "consultations_one": "{{count, number}} rendez-vous",
-    "consultations_other": "{{count, number}} rendez-vous"
+    "consultations_other": "{{count, number}} rendez-vous",
+    "noMoreToday": "Plus de rendez-vous aujourd'hui"
   },
   "agenda": {
     "today": "Aujourd'hui",
@@ -1002,7 +1003,7 @@
     "lastConsultation": "Dernière consultation",
     "nextRecommended": "Prochaine recommandée",
     "scheduleAppointment": "Prendre rendez-vous",
-    "overdue": "ATTENTION : Rendez-vous en retard !",
+    "overdue": "ATTENTION : rendez-vous en retard !",
     "overdueDetail": "Dernière visite il y a {{months}} mois.",
     "documents": "Documents",
     "receipts": "Ordonnances",
@@ -1067,12 +1068,12 @@
     "addedToShowcase": "ajouté à la vitrine !",
     "removedFromShowcase": "retiré de la vitrine",
     "categories": {
-      "firstSteps": "Premiers Pas",
+      "firstSteps": "Premiers pas",
       "consultations": "Rendez-vous",
       "health": "Santé",
       "social": "Social",
       "loyalty": "Fidélité",
-      "workVolume": "Volume de Travail",
+      "workVolume": "Volume de travail",
       "quality": "Qualité",
       "rankings": "Classements",
       "consistency": "Régularité",
@@ -1082,13 +1083,13 @@
       "volume": "Volume"
     },
     "cat": {
-      "firstSteps": "Premiers Pas",
+      "firstSteps": "Premiers pas",
       "consultations": "Consultations",
       "health": "Santé",
       "social": "Social",
       "loyalty": "Fidélité",
       "secrets": "Secrètes",
-      "workVolume": "Volume de Travail",
+      "workVolume": "Volume de travail",
       "quality": "Qualité",
       "rankings": "Classements",
       "consistency": "Régularité",
@@ -1101,7 +1102,7 @@
     "patient": {
       "p1": {
         "name": "Vérifié",
-        "desc": "Vérifier email/téléphone"
+        "desc": "Vérifier e-mail/téléphone"
       },
       "p2": {
         "name": "Étudiant",
@@ -1243,7 +1244,7 @@
     "dentist": {
       "dp1": {
         "name": "Vérifié",
-        "desc": "Vérifier email/téléphone"
+        "desc": "Vérifier e-mail/téléphone"
       },
       "dp2": {
         "name": "Bienvenue",
@@ -1378,7 +1379,7 @@
         "desc": "500 téléconsultations"
       },
       "dsec3": {
-        "name": "Série Annuel",
+        "name": "Série annuelle",
         "desc": "365 jours consécutifs"
       }
     },
@@ -1554,7 +1555,7 @@
     "action": "Action",
     "penalties": "Pénalités",
     "penaltyNote": "Note : L'XP ne diminue jamais — seuls les points de récompense sont pénalisés.",
-    "antiFraud": "Règles Anti-Fraude",
+    "antiFraud": "Règles antifraude",
     "antiFraudPhone": "Vérification téléphonique obligatoire pour tous les comptes",
     "antiFraudLimit": "Limite de 40 évaluations par jour",
     "antiFraudContest": "Contestation toujours disponible pour les évaluations injustes",
@@ -1567,9 +1568,9 @@
     "thisMonth": "Ce mois",
     "everything": "Tout",
     "noResults": "Aucun résultat.",
-    "planFreeLabel": "Plan Free — Remise à zéro le 1er janv. 2027",
-    "planProLabel": "Plan Pro — Pas de remise à zéro annuelle",
-    "planPremiumLabel": "Plan Premium — Pas de remise à zéro + 10% bonus",
+    "planFreeLabel": "Plan Free — remise à zéro le {{date}}",
+    "planProLabel": "Plan Pro — pas de remise à zéro annuelle",
+    "planPremiumLabel": "Plan Premium — pas de remise à zéro + 10% bonus",
     "patient2x": "Patient (2x)",
     "currentStreak": "Série actuel",
     "bestStreak": "Meilleur série",
@@ -1635,7 +1636,7 @@
     "changeLogo": "Changer le logo",
     "personalData": "Données personnelles",
     "fullName": "Nom complet",
-    "email": "Email",
+    "email": "E-mail",
     "phone": "Téléphone",
     "birthDate": "Date de naissance",
     "gender": "Genre",
@@ -1658,7 +1659,7 @@
     "age": "Âge",
     "relation": "Relation",
     "notifications": "Notifications",
-    "emailNotifications": "Notifications par email",
+    "emailNotifications": "Notifications par e-mail",
     "pushNotifications": "Notifications push",
     "smsNotifications": "Notifications par SMS",
     "appointmentReminders": "Rappels de rendez-vous",
@@ -1968,7 +1969,7 @@
     "receipt": "Reçu",
     "download": "Télécharger",
     "print": "Imprimer",
-    "sendByEmail": "Envoyer par email",
+    "sendByEmail": "Envoyer par e-mail",
     "exportHistory": "Exporter l'historique",
     "fiscalData": "Données fiscales",
     "promoCode": "Code promotionnel",
@@ -1994,15 +1995,15 @@
     "active": "Actif",
     "nextBillingDate": "Prochaine facturation",
     "method": "Méthode",
-    "businessName": "Nom / Raison Sociale",
-    "clinicName": "Nom de la Clinique",
+    "businessName": "Nom / raison sociale",
+    "clinicName": "Nom de la clinique",
     "taxId": "Numéro fiscal",
     "taxIdCorp": "SIRET / numéro fiscal",
     "fiscalAddress": "Adresse fiscale",
     "billingAddress": "Adresse de facturation",
     "ibanLabel": "IBAN (paiements téléconsultations)",
     "financialManager": "Responsable financier",
-    "financialEmail": "Email financier",
+    "financialEmail": "E-mail financier",
     "fullName": "Nom complet",
     "taxIdOptional": "Numéro fiscal (facultatif)",
     "totalSpent": "Total dépensé ce mois",
@@ -2116,7 +2117,7 @@
       "modalTitleAdd": "Ajouter férié / fermeture",
       "modalTitleEdit": "Modifier férié / fermeture",
       "fieldName": "Désignation",
-      "fieldNamePlaceholder": "Ex : Fermeture pour travaux",
+      "fieldNamePlaceholder": "Ex : fermeture pour travaux",
       "fieldDateStart": "Date de début",
       "fieldDateEnd": "Date de fin (optionnel)",
       "fieldReason": "Motif",
@@ -2494,7 +2495,9 @@
       "systemError": "Il y a eu une erreur système",
       "emergency": "Urgence médicale/personnelle",
       "other": "Autre motif"
-    }
+    },
+    "pointsReason_one": "{{count}} point · {{reason}}",
+    "pointsReason_other": "{{count}} points · {{reason}}"
   },
   "blocking": {
     "blockPatient": "Bloquer le patient",
@@ -2522,7 +2525,7 @@
     "attachments": "Pièces jointes",
     "attachmentsDesc": "Joignez des radiographies, photographies ou documents pertinents",
     "dropFiles": "Glissez des fichiers ou cliquez pour sélectionner",
-    "fileTypes": "PDF, JPG, PNG, DICOM · Max 10 Mo par fichier",
+    "fileTypes": "PDF, JPG, PNG, DICOM · max 10 Mo par fichier",
     "addFile": "Ajouter un fichier",
     "previewLetter": "Aperçu de la lettre",
     "omdMissing": "N° de l'Ordre manquant",
@@ -2536,7 +2539,7 @@
     "signature": "Signature",
     "sendOptions": "Options d'envoi",
     "sendToHealth": "Envoyer vers l'espace santé du patient",
-    "sendByEmail": "Envoyer par email",
+    "sendByEmail": "Envoyer par e-mail",
     "downloadPdf": "Télécharger le PDF",
     "previous": "Précédent",
     "cancel": "Annuler",
@@ -2630,7 +2633,7 @@
       "recommended": "Rappel recommandé",
       "every": "Tous les",
       "months": "mois",
-      "overdue": "ATTENTION : Consultation en retard !",
+      "overdue": "ATTENTION : consultation en retard !",
       "lastVisit": "Dernière consultation",
       "nextRecommended": "Prochaine recommandée"
     },
@@ -2683,7 +2686,7 @@
     "processing": "Traitement du paiement...",
     "paymentConfirmed": "Paiement confirmé !",
     "appointmentBooked": "Rendez-vous confirmé !",
-    "confirmationEmail": "Vous recevrez une confirmation par email",
+    "confirmationEmail": "Vous recevrez une confirmation par e-mail",
     "receipt": "Reçu",
     "method": "Méthode",
     "downloadReceipt": "Télécharger le reçu",
@@ -2839,13 +2842,13 @@
     "total": "Total"
   },
   "achievementData": {
-    "firstSteps": "Premiers Pas",
+    "firstSteps": "Premiers pas",
     "consultations": "Consultations",
     "health": "Santé",
     "social": "Social",
     "loyalty": "Fidélité",
     "secrets": "Secrètes",
-    "workVolume": "Volume de Travail",
+    "workVolume": "Volume de travail",
     "quality": "Qualité",
     "rankings": "Classements",
     "consistency": "Régularité",
@@ -2856,7 +2859,7 @@
     "secretAchievement": "Réalisation secrète",
     "removeFirst": "Retirez une réalisation d'abord (max 8)",
     "showcaseUpdated": "Réalisations en vitrine mises à jour !",
-    "chooseShowcase": "Choisir les Réalisations en Vitrine",
+    "chooseShowcase": "Choisir les succès en vitrine",
     "selectUpTo8": "Sélectionnez jusqu'à 8 réalisations pour votre profil"
   },
   "triage": {
@@ -2909,7 +2912,7 @@
     },
     "intensity": {
       "title": "Quelle est l'intensité de la douleur ?",
-      "scale": "Aucune (0) · Modérée (5) · Insupportable (10)",
+      "scale": "Aucune (0) · modérée (5) · insupportable (10)",
       "routineCheckup": "Je n'ai pas de douleur, c'est juste un contrôle de routine"
     },
     "photos": {
@@ -2923,7 +2926,8 @@
       "tip1": "Prenez des photos avec un bon éclairage",
       "tip2": "Concentrez-vous sur la zone affectée",
       "tip3": "Incluez différents angles si possible",
-      "photosAttached": "photo(s)"
+      "photosAttached_one": "{{count}} photo jointe",
+      "photosAttached_other": "{{count}} photos jointes"
     },
     "completionLabels": {
       "symptoms": "Symptômes",
@@ -2953,7 +2957,7 @@
     }
   },
   "consultationReasons": {
-    "newAdultPatient": "Nouveau patient : Adulte",
+    "newAdultPatient": "Nouveau patient : adulte",
     "firstConsultation": "Première consultation",
     "controlVisit": "Visite de contrôle",
     "childUnder16": "Enfant de moins de 16 ans",
@@ -3016,7 +3020,7 @@
     "birthCity": "Ville de naissance",
     "mobile": "Téléphone portable",
     "landline": "Téléphone fixe",
-    "email": "Email",
+    "email": "E-mail",
     "referrer": "Adresseur",
     "referrerPlaceholder": "Rechercher un dentiste...",
     "referrerNote": "Si vous sélectionnez un dentiste de la plateforme, il recevra une notification + 10 points",
@@ -3105,7 +3109,7 @@
     "bookAppointments": "Prendre rendez-vous",
     "teleconsult1": "1 téléconsultation/mois",
     "basicPoints": "Système de points basique",
-    "notifAppPushEmail": "Notifications : App, push, email",
+    "notifAppPushEmail": "Notifications : app, push et e-mail",
     "lightDarkTheme": "Thème clair/sombre",
     "fixedColors10": "10 couleurs de consultation (fixes)",
     "annualReset": "Réinitialisation annuelle des points",
@@ -3155,7 +3159,7 @@
       "bookAppointments": "Prendre rendez-vous",
       "1teleconsultMonth": "1 téléconsultation/mois",
       "basicPointsSystem": "Système de points basique",
-      "notifAppPushEmail": "Notifications : App, push, email",
+      "notifAppPushEmail": "Notifications : app, push et e-mail",
       "lightDarkTheme": "Thème clair/sombre",
       "10fixedColors": "10 couleurs de consultation (fixes)",
       "annualPointsReset": "Réinitialisation annuelle des points",
@@ -3255,7 +3259,7 @@
     "uploadDocument": "Télécharger un document",
     "medicalPrescriptions": "Ordonnances médicales",
     "noPrescriptions": "Aucune ordonnance",
-    "viewPdf": "Voir PDF",
+    "viewPdf": "Voir le PDF",
     "referralLetters": "Lettres de référence",
     "noReferralLetters": "Aucune lettre de référence",
     "addFamilyMember": "Ajouter un membre de la famille",
@@ -3411,7 +3415,7 @@
     "dentistSignature": "Signature du Chirurgien-Dentiste",
     "sendOptions": "Options d'envoi",
     "sendToHealth": "Envoyer vers l'espace santé du patient",
-    "sendByEmail": "Envoyer par email",
+    "sendByEmail": "Envoyer par e-mail",
     "downloadPdf": "Télécharger le PDF",
     "success": "Ordonnance envoyée avec succès !",
     "patientNotified": "Le patient {{name}} a été notifié",
@@ -3612,7 +3616,7 @@
     "googleStep2": "Cliquez sur \"+\" à côté de \"Autres agendas\"",
     "googleStep3": "Sélectionnez \"À partir de l'URL\"",
     "googleStep4": "Collez le lien ci-dessus",
-    "appleStep1": "Ouvrez Calendrier",
+    "appleStep1": "Ouvrez l'app Calendrier",
     "appleStep2": "Fichier → Nouvel abonnement de Calendrier",
     "appleStep3": "Collez le lien ci-dessus",
     "outlookStep1": "Ouvrez Outlook",
@@ -3717,7 +3721,7 @@
     "remove": "Retirer"
   },
   "qrCode": {
-    "authorized": "Autorisé — Connexion en cours...",
+    "authorized": "Autorisé — connexion en cours...",
     "verifying": "Vérification de l'autorisation...",
     "expired": "Code expiré",
     "generateNew": "Générer un nouveau",
@@ -3726,7 +3730,8 @@
     "step2": "Allez dans Paramètres → Connecter un appareil",
     "step3": "Pointez la caméra vers ce code",
     "autoRefresh": "Le code se rafraîchit automatiquement toutes les 60 secondes",
-    "simulateDemo": "Simuler l'autorisation (démo)"
+    "simulateDemo": "Simuler l'autorisation (démo)",
+    "label": "Code QR"
   },
   "phoneInput": {
     "france": "France",
@@ -4011,12 +4016,12 @@
   "demoBanner": {
     "label": "Mode démonstration — données fictives",
     "dismiss": "Fermer la bannière",
-    "disclaimer": "Mode démonstration — Les données affichées sont fictives"
+    "disclaimer": "Mode démonstration — les données affichées sont fictives"
   },
   "level": {
-    "myLevelTab": "Mon Niveau",
+    "myLevelTab": "Mon niveau",
     "current": "Actuel",
-    "allLevels": "Tous les Niveaux",
+    "allLevels": "Tous les niveaux",
     "multiplier": "multiplicateur",
     "visibility": "Visibilité",
     "featured": "En vedette",
@@ -4627,7 +4632,9 @@
     "today": "Aujourd’hui",
     "goToSlide": "Aller à l'écran {{n}}",
     "freeSlotAt": "Créneau libre à {{time}} — {{name}}",
-    "copyCode": "Copier le code"
+    "copyCode": "Copier le code",
+    "previousSlide": "Diapositive précédente",
+    "nextSlide": "Diapositive suivante"
   },
   "demoText": {
     "abcesso": "Abcès",
@@ -4788,7 +4795,7 @@
     "bom_dia_maria_como_se_sente_apos_o_tratamento": "Bonjour Maria, comment vous sentez-vous après le traitement ?",
     "bom_dia_doutor_infelizmente_surgiu_um_imprevisto": "Bonjour Docteur, j'ai malheureusement un imprévu.",
     "bom_dia_a_sua_consulta_esta_confirmada_para_amanha_as_10h": "Bonjour ! Votre rendez-vous est confirmé pour demain à 10h.",
-    "cbct_scanner_3d": "CBCT (Scanner 3D)",
+    "cbct_scanner_3d": "CBCT (scanner 3D)",
     "cabecas_de_substituicao_x2": "Brossettes de rechange (x2)",
     "cabecas_de_substituicao_x4": "Brossettes de rechange (x4)",
     "cancelamento_de_consulta_tardio": "Annulation tardive de rendez-vous",
@@ -4852,7 +4859,7 @@
     "fio_dentario_para_aparelho_implantes": "Fil dentaire pour appareils/implants",
     "gel_bioadhesivo_lacer": "Gel bioadhésif Lacer",
     "gostaria_de_agendar_uma_consulta_para_o_meu_filho": "Je souhaiterais prendre un rendez-vous pour mon fils.",
-    "implantes_maquinas": "Implants (Moteurs)",
+    "implantes_maquinas": "Implants (moteurs)",
     "irrigador_oral_aquacare": "Hydropulseur oral Aquacare",
     "irrigador_oral_basico": "Hydropulseur oral basique",
     "irrigador_oral_premium": "Hydropulseur oral haut de gamme",
@@ -4940,7 +4947,19 @@
     "streakDate_24_Nov_2025": "24 nov. 2025",
     "streakDate_25_Jan_2026": "25 janv. 2026",
     "streakDate_28_Nov_2025": "28 nov. 2025",
-    "streakDate_5_Nov_2025": "5 nov. 2025"
+    "streakDate_5_Nov_2025": "5 nov. 2025",
+    "cat_consultas": "Consultations",
+    "cat_higiene_oral": "Hygiène bucco-dentaire",
+    "cat_marcas": "Marques",
+    "cat_formacao": "Formation",
+    "cat_subscricao": "Abonnement",
+    "cat_equipamento": "Équipement",
+    "cat_software": "Logiciel",
+    "alergia_penicilina": "Pénicilline",
+    "alergia_latex": "Latex",
+    "local_lisboa_portugal": "Lisbonne, Portugal",
+    "local_lisboa": "Lisbonne",
+    "device_pc_windows_chrome": "PC Windows — Chrome"
   },
   "plans": {
     "f": {
@@ -5067,5 +5086,44 @@
     "playingDesc": "Pas encore de régie publicitaire réelle. Patientez quelques secondes.",
     "bannerLabel": "Publicité",
     "bannerPlaceholder": "Espace publicitaire (forfait Free)"
+  },
+  "pointsRules": {
+    "anuncios_10": "10 publicités vues",
+    "avaliacao_1": "Évaluation 1★",
+    "avaliacao_2": "Évaluation 2★",
+    "avaliacao_3": "Évaluation 3★",
+    "avaliacao_4": "Évaluation 4★",
+    "avaliacao_5": "Évaluation 5★",
+    "deixar_avaliacao": "Laisser une évaluation",
+    "cancelamento_tardio": "Annulation tardive",
+    "cancelamento_tardio_dentista": "Annulation tardive de rendez-vous",
+    "carta_referencia": "Lettre d'adressage",
+    "checkin_diario": "Check-in quotidien",
+    "chegou_a_horas": "Arrivé à l’heure",
+    "colaborou": "A collaboré pendant le rendez-vous",
+    "compareceu": "Présent au rendez-vous",
+    "confirmacao_1h": "Confirmation 1 h avant",
+    "confirmacao_24h": "Confirmation 24 h avant",
+    "consulta_concluida": "Rendez-vous terminé",
+    "consulta_clinica": "Rendez-vous au cabinet",
+    "convidar_amigo": "Inviter un ami",
+    "convite_nivel2": "Invitation d'un invité",
+    "emitir_receita": "Émettre une ordonnance",
+    "falta": "Absence non justifiée",
+    "falta_base": "Absence non justifiée (base)",
+    "higiene_oral": "Hygiène bucco-dentaire adéquate",
+    "mensagem_24h": "Répondre à un message en 24 h",
+    "mensagem_48h_sem_resposta": "Message sans réponse en 48 h",
+    "novo_dentista_ativo": "Nouveau dentiste actif",
+    "penalizacao_confirmacao": "Pénalité de confirmation",
+    "reclamacao_nao_resolvida": "Réclamation non résolue",
+    "seguiu_recomendacoes": "A suivi les recommandations",
+    "streak_30": "Série de 30 jours",
+    "streak_7": "Série de 7 jours",
+    "taxa_confirmacao_90": "Taux de confirmation >90 % (hebdomadaire)",
+    "teleconsulta": "Téléconsultation",
+    "achievement": "Succès débloqué",
+    "suffixDentist": "(dentiste)",
+    "suffixClinic": "(clinique)"
   }
 }

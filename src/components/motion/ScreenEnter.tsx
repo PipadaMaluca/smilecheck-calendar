@@ -21,6 +21,8 @@ export function ScreenEnter({
     const root = ref.current;
     if (disabled || !root || typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Hidden tab (rAF paused) or app still behind its splash: show the final state directly.
+    if (document.visibilityState === 'hidden' || document.querySelector('[data-splash-active]')) return;
 
     const k = clinical ? 0.5 : 1;          // amplitude
     const speed = clinical ? 0.7 : 1;      // ~30% faster
@@ -68,11 +70,21 @@ export function ScreenEnter({
       }));
     });
 
-    // Background tabs pause rAF: jump everything to the final state.
-    const fallback = window.setTimeout(() => tweens.forEach((t) => t.progress(1)), 1500);
+    // Background tabs pause rAF and busy first loads stretch GSAP's clock:
+    // after 1.5 s (or as soon as the tab is hidden) jump to the final state and
+    // strip any leftover inline opacity/transform so nothing stays faded.
+    const all = [...textTargets, ...buttons];
+    const finish = () => {
+      tweens.forEach((t) => t.progress(1).kill());
+      all.forEach((el) => { el.style.removeProperty('opacity'); el.style.removeProperty('transform'); });
+    };
+    const fallback = window.setTimeout(finish, 1500);
+    const onHide = () => { if (document.visibilityState === 'hidden') finish(); };
+    document.addEventListener('visibilitychange', onHide);
     return () => {
       window.clearTimeout(fallback);
-      tweens.forEach((t) => t.progress(1).kill());
+      document.removeEventListener('visibilitychange', onHide);
+      finish();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [screenKey]);

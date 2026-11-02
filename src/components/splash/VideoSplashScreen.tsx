@@ -65,7 +65,7 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
 
 
   return (
-    <div
+    <div data-splash-active=""
       className={cn(
         'fixed inset-0 z-celebration bg-background transition-opacity duration-300',
         fadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'

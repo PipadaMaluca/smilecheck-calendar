@@ -8,6 +8,8 @@ export interface RewardProduct {
   brand?: string;
   discount?: string;
   emoji?: string;
+  /** Not redeemable yet (feature doesn't exist) — shown with "Em breve". */
+  soon?: boolean;
 }
 
 export interface Brand {
@@ -39,36 +41,36 @@ export interface RedeemHistoryItem {
 // ═══════════════════════════════════════
 
 const patientConsultas: RewardProduct[] = [
-  { id: 'pc1', name: 'Teleconsulta com 50% desconto', points: 150, category: 'Consultas', emoji: '📱', discount: '50%' },
-  { id: 'pc2', name: 'Teleconsulta grátis', points: 300, category: 'Consultas', emoji: '📱' },
+  { id: 'pc1', name: 'Teleconsulta com 50% desconto', points: 150, category: 'Consultas', emoji: '📱', discount: '50%', soon: true },
+  { id: 'pc2', name: 'Teleconsulta grátis', points: 300, category: 'Consultas', emoji: '📱', soon: true },
 ];
 
 const patientHigieneOral: RewardProduct[] = [
   // Fio Dentário
-  { id: 'ph1', name: 'Fio dentário clássico', points: 50, category: 'Higiene Oral', subcategory: 'Fio Dentário', emoji: '🧵' },
-  { id: 'ph2', name: 'Fio dentário com cera', points: 60, category: 'Higiene Oral', subcategory: 'Fio Dentário', emoji: '🧵' },
-  { id: 'ph3', name: 'Raspador de língua', points: 60, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '👅' },
-  { id: 'ph4', name: 'Fio dentário para aparelho/implantes', points: 80, category: 'Higiene Oral', subcategory: 'Fio Dentário', emoji: '🧵' },
+  { id: 'ph1', name: 'Fio dentário clássico', points: 50, category: 'Higiene oral', subcategory: 'Fio dentário', emoji: '🧵' },
+  { id: 'ph2', name: 'Fio dentário com cera', points: 60, category: 'Higiene oral', subcategory: 'Fio dentário', emoji: '🧵' },
+  { id: 'ph3', name: 'Raspador de língua', points: 60, category: 'Higiene oral', subcategory: 'Outros acessórios', emoji: '👅' },
+  { id: 'ph4', name: 'Fio dentário para aparelho/implantes', points: 80, category: 'Higiene oral', subcategory: 'Fio dentário', emoji: '🧵' },
   // Escovas + Pastas
-  { id: 'ph5', name: 'Escova manual básica', points: 80, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph6', name: 'Pasta anti-cáries', points: 80, category: 'Higiene Oral', subcategory: 'Pastas de Dentes', emoji: '🧴' },
-  { id: 'ph7', name: 'Escovilhões interdentários (pack)', points: 100, category: 'Higiene Oral', subcategory: 'Fio Dentário', emoji: '🪥' },
-  { id: 'ph8', name: 'Elixir anti-cáries', points: 100, category: 'Higiene Oral', subcategory: 'Elixires/Bochechos', emoji: '🫗' },
-  { id: 'ph9', name: 'Elixir sem álcool', points: 100, category: 'Higiene Oral', subcategory: 'Elixires/Bochechos', emoji: '🫗' },
-  { id: 'ph10', name: 'Pasta branqueadora', points: 100, category: 'Higiene Oral', subcategory: 'Pastas de Dentes', emoji: '🧴' },
-  { id: 'ph11', name: 'Pasta para sensibilidade', points: 100, category: 'Higiene Oral', subcategory: 'Pastas de Dentes', emoji: '🧴' },
-  { id: 'ph12', name: 'Elixir para gengivas sensíveis', points: 120, category: 'Higiene Oral', subcategory: 'Elixires/Bochechos', emoji: '🫗' },
-  { id: 'ph13', name: 'Escova manual premium', points: 120, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph14', name: 'Pasta para gengivas', points: 120, category: 'Higiene Oral', subcategory: 'Pastas de Dentes', emoji: '🧴' },
-  { id: 'ph15', name: 'Cabeças de substituição (x2)', points: 150, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph16', name: 'Elixir branqueador', points: 150, category: 'Higiene Oral', subcategory: 'Elixires/Bochechos', emoji: '🫗' },
-  { id: 'ph17', name: 'Kit de viagem', points: 200, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '🧳' },
-  { id: 'ph18', name: 'Cabeças de substituição (x4)', points: 280, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph19', name: 'Protetor bucal (bruxismo)', points: 400, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '🦷' },
-  { id: 'ph20', name: 'Escova eléctrica básica', points: 1500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph21', name: 'Irrigador oral básico', points: 2000, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '💧' },
-  { id: 'ph22', name: 'Escova eléctrica premium', points: 3500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
-  { id: 'ph23', name: 'Irrigador oral premium', points: 3500, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '💧' },
+  { id: 'ph5', name: 'Escova manual básica', points: 80, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph6', name: 'Pasta anti-cáries', points: 80, category: 'Higiene oral', subcategory: 'Pastas de dentes', emoji: '🧴' },
+  { id: 'ph7', name: 'Escovilhões interdentários (pack)', points: 100, category: 'Higiene oral', subcategory: 'Fio dentário', emoji: '🪥' },
+  { id: 'ph8', name: 'Elixir anti-cáries', points: 100, category: 'Higiene oral', subcategory: 'Elixires/bochechos', emoji: '🫗' },
+  { id: 'ph9', name: 'Elixir sem álcool', points: 100, category: 'Higiene oral', subcategory: 'Elixires/bochechos', emoji: '🫗' },
+  { id: 'ph10', name: 'Pasta branqueadora', points: 100, category: 'Higiene oral', subcategory: 'Pastas de dentes', emoji: '🧴' },
+  { id: 'ph11', name: 'Pasta para sensibilidade', points: 100, category: 'Higiene oral', subcategory: 'Pastas de dentes', emoji: '🧴' },
+  { id: 'ph12', name: 'Elixir para gengivas sensíveis', points: 120, category: 'Higiene oral', subcategory: 'Elixires/bochechos', emoji: '🫗' },
+  { id: 'ph13', name: 'Escova manual premium', points: 120, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph14', name: 'Pasta para gengivas', points: 120, category: 'Higiene oral', subcategory: 'Pastas de dentes', emoji: '🧴' },
+  { id: 'ph15', name: 'Cabeças de substituição (x2)', points: 150, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph16', name: 'Elixir branqueador', points: 150, category: 'Higiene oral', subcategory: 'Elixires/bochechos', emoji: '🫗' },
+  { id: 'ph17', name: 'Kit de viagem', points: 200, category: 'Higiene oral', subcategory: 'Outros acessórios', emoji: '🧳' },
+  { id: 'ph18', name: 'Cabeças de substituição (x4)', points: 280, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph19', name: 'Protetor bucal (bruxismo)', points: 400, category: 'Higiene oral', subcategory: 'Outros acessórios', emoji: '🦷' },
+  { id: 'ph20', name: 'Escova elétrica básica', points: 1500, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph21', name: 'Irrigador oral básico', points: 2000, category: 'Higiene oral', subcategory: 'Outros acessórios', emoji: '💧' },
+  { id: 'ph22', name: 'Escova elétrica premium', points: 3500, category: 'Higiene oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph23', name: 'Irrigador oral premium', points: 3500, category: 'Higiene oral', subcategory: 'Outros acessórios', emoji: '💧' },
 ];
 
 const patientBrands: Brand[] = [
@@ -96,7 +98,7 @@ const patientBrands: Brand[] = [
       { id: 'la1', name: 'Pasta Lacer', points: 90, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
       { id: 'la2', name: 'Elixir Lacer', points: 100, category: 'Marcas', brand: 'LACER', emoji: '🫗' },
       { id: 'la3', name: 'Pasta Lacer Oros', points: 120, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
-      { id: 'la4', name: 'Gel Bioadhesivo Lacer', points: 150, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
+      { id: 'la4', name: 'Gel bioadesivo Lacer', points: 150, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
     ],
   },
   {
@@ -144,24 +146,24 @@ const dentistSubscricao: RewardProduct[] = [
 
 const dentistEquipamento: RewardProduct[] = [
   // Curetas e Instrumentos
-  { id: 'de1', name: 'Espátulas Resinas Compostas 7pcs (Hu-Friedy)', points: 500, category: 'Equipamento', subcategory: 'Curetas e Instrumentos', discount: '10%', emoji: '🔧' },
-  { id: 'de2', name: 'Conjunto 7 Curetas Gracey (LM-Instruments)', points: 700, category: 'Equipamento', subcategory: 'Curetas e Instrumentos', discount: '10%', emoji: '🔧' },
-  { id: 'de3', name: 'Conjunto 7 Curetas Gracey (Hu-Friedy)', points: 800, category: 'Equipamento', subcategory: 'Curetas e Instrumentos', discount: '10%', emoji: '🔧' },
+  { id: 'de1', name: 'Espátulas Resinas Compostas 7pcs (Hu-Friedy)', points: 500, category: 'Equipamento', subcategory: 'Curetas e instrumentos', discount: '10%', emoji: '🔧' },
+  { id: 'de2', name: 'Conjunto 7 Curetas Gracey (LM-Instruments)', points: 700, category: 'Equipamento', subcategory: 'Curetas e instrumentos', discount: '10%', emoji: '🔧' },
+  { id: 'de3', name: 'Conjunto 7 Curetas Gracey (Hu-Friedy)', points: 800, category: 'Equipamento', subcategory: 'Curetas e instrumentos', discount: '10%', emoji: '🔧' },
   // Turbinas e Peças de Mão
-  { id: 'de4', name: 'NSK Ti-Max Z45L (45° com luz)', points: 1500, category: 'Equipamento', subcategory: 'Turbinas e Peças de Mão', discount: '10%', emoji: '⚙️' },
-  { id: 'de5', name: 'W&H Alegra TE-98 LQ', points: 1800, category: 'Equipamento', subcategory: 'Turbinas e Peças de Mão', discount: '10%', emoji: '⚙️' },
-  { id: 'de6', name: 'KaVo MASTERtorque M8900L', points: 2000, category: 'Equipamento', subcategory: 'Turbinas e Peças de Mão', discount: '10%', emoji: '⚙️' },
+  { id: 'de4', name: 'NSK Ti-Max Z45L (45° com luz)', points: 1500, category: 'Equipamento', subcategory: 'Turbinas e peças de mão', discount: '10%', emoji: '⚙️' },
+  { id: 'de5', name: 'W&H Alegra TE-98 LQ', points: 1800, category: 'Equipamento', subcategory: 'Turbinas e peças de mão', discount: '10%', emoji: '⚙️' },
+  { id: 'de6', name: 'KaVo MASTERtorque M8900L', points: 2000, category: 'Equipamento', subcategory: 'Turbinas e peças de mão', discount: '10%', emoji: '⚙️' },
   // Lupas Dentárias
-  { id: 'de7', name: 'ExamVision Lupas 2.5x', points: 2000, category: 'Equipamento', subcategory: 'Lupas Dentárias com Luz', discount: '10%', emoji: '🔍' },
-  { id: 'de8', name: 'Orascoptic Lupas 3.0x', points: 2500, category: 'Equipamento', subcategory: 'Lupas Dentárias com Luz', discount: '10%', emoji: '🔍' },
+  { id: 'de7', name: 'ExamVision Lupas 2.5x', points: 2000, category: 'Equipamento', subcategory: 'Lupas dentárias com luz', discount: '10%', emoji: '🔍' },
+  { id: 'de8', name: 'Orascoptic Lupas 3.0x', points: 2500, category: 'Equipamento', subcategory: 'Lupas dentárias com luz', discount: '10%', emoji: '🔍' },
   // Destartarização
   { id: 'de9', name: 'EMS Airflow One', points: 2500, category: 'Equipamento', subcategory: 'Destartarização (Airflow)', discount: '10%', emoji: '💨' },
-  { id: 'de10', name: 'Zeiss EyeMag Pro', points: 3500, category: 'Equipamento', subcategory: 'Lupas Dentárias com Luz', discount: '10%', emoji: '🔍' },
+  { id: 'de10', name: 'Zeiss EyeMag Pro', points: 3500, category: 'Equipamento', subcategory: 'Lupas dentárias com luz', discount: '10%', emoji: '🔍' },
   { id: 'de11', name: 'EMS Airflow Prophylaxis Master', points: 4000, category: 'Equipamento', subcategory: 'Destartarização (Airflow)', discount: '10%', emoji: '💨' },
   // Implantes
-  { id: 'de12', name: 'NSK Surgic Pro2', points: 4500, category: 'Equipamento', subcategory: 'Implantes (Máquinas)', discount: '10%', emoji: '🦷' },
-  { id: 'de13', name: 'W&H Implantmed SI-1023', points: 5000, category: 'Equipamento', subcategory: 'Implantes (Máquinas)', discount: '10%', emoji: '🦷' },
-  { id: 'de14', name: 'Bien-Air Chiropro', points: 5500, category: 'Equipamento', subcategory: 'Implantes (Máquinas)', discount: '10%', emoji: '🦷' },
+  { id: 'de12', name: 'NSK Surgic Pro2', points: 4500, category: 'Equipamento', subcategory: 'Implantes (máquinas)', discount: '10%', emoji: '🦷' },
+  { id: 'de13', name: 'W&H Implantmed SI-1023', points: 5000, category: 'Equipamento', subcategory: 'Implantes (máquinas)', discount: '10%', emoji: '🦷' },
+  { id: 'de14', name: 'Bien-Air Chiropro', points: 5500, category: 'Equipamento', subcategory: 'Implantes (máquinas)', discount: '10%', emoji: '🦷' },
 ];
 
 const dentistFormacao: RewardProduct[] = [
@@ -173,12 +175,12 @@ const dentistFormacao: RewardProduct[] = [
   { id: 'df5', name: 'Bilhete Congresso SPPO — grátis', points: 2400, category: 'Formação', subcategory: 'Congressos Portugal', emoji: '🎓' },
   { id: 'df6', name: 'Bilhete Congresso OMD — grátis', points: 3000, category: 'Formação', subcategory: 'Congressos Portugal', emoji: '🎓' },
   // Congressos Internacionais
-  { id: 'df7', name: 'Bilhete Expodental Madrid — 50% desconto', points: 1800, category: 'Formação', subcategory: 'Congressos Internacionais', discount: '50%', emoji: '🌍' },
-  { id: 'df8', name: 'Bilhete ADF Paris — 50% desconto', points: 2000, category: 'Formação', subcategory: 'Congressos Internacionais', discount: '50%', emoji: '🌍' },
-  { id: 'df9', name: 'Bilhete IDS Cologne — 50% desconto', points: 2500, category: 'Formação', subcategory: 'Congressos Internacionais', discount: '50%', emoji: '🌍' },
-  { id: 'df10', name: 'Bilhete Expodental Madrid — grátis', points: 3600, category: 'Formação', subcategory: 'Congressos Internacionais', emoji: '🌍' },
-  { id: 'df11', name: 'Bilhete ADF Paris — grátis', points: 4000, category: 'Formação', subcategory: 'Congressos Internacionais', emoji: '🌍' },
-  { id: 'df12', name: 'Bilhete IDS Cologne — grátis', points: 5000, category: 'Formação', subcategory: 'Congressos Internacionais', emoji: '🌍' },
+  { id: 'df7', name: 'Bilhete Expodental Madrid — 50% desconto', points: 1800, category: 'Formação', subcategory: 'Congressos internacionais', discount: '50%', emoji: '🌍' },
+  { id: 'df8', name: 'Bilhete ADF Paris — 50% desconto', points: 2000, category: 'Formação', subcategory: 'Congressos internacionais', discount: '50%', emoji: '🌍' },
+  { id: 'df9', name: 'Bilhete IDS Cologne — 50% desconto', points: 2500, category: 'Formação', subcategory: 'Congressos internacionais', discount: '50%', emoji: '🌍' },
+  { id: 'df10', name: 'Bilhete Expodental Madrid — grátis', points: 3600, category: 'Formação', subcategory: 'Congressos internacionais', emoji: '🌍' },
+  { id: 'df11', name: 'Bilhete ADF Paris — grátis', points: 4000, category: 'Formação', subcategory: 'Congressos internacionais', emoji: '🌍' },
+  { id: 'df12', name: 'Bilhete IDS Cologne — grátis', points: 5000, category: 'Formação', subcategory: 'Congressos internacionais', emoji: '🌍' },
 ];
 
 // ═══════════════════════════════════════
@@ -194,15 +196,15 @@ const clinicSubscricao: RewardProduct[] = [
 
 const clinicEquipamento: RewardProduct[] = [
   // Material em Bulk
-  { id: 'ce1', name: 'Vale €50 em material (Promodentaire)', points: 500, category: 'Equipamento', subcategory: 'Material em Bulk', emoji: '📦' },
-  { id: 'ce2', name: 'Vale €100 em material (Promodentaire)', points: 1000, category: 'Equipamento', subcategory: 'Material em Bulk', emoji: '📦' },
+  { id: 'ce1', name: 'Vale €50 em material (Promodentaire)', points: 500, category: 'Equipamento', subcategory: 'Material em bulk', emoji: '📦' },
+  { id: 'ce2', name: 'Vale €100 em material (Promodentaire)', points: 1000, category: 'Equipamento', subcategory: 'Material em bulk', emoji: '📦' },
   { id: 'ce3', name: 'Seladora Melag MELAseal 200', points: 2000, category: 'Equipamento', subcategory: 'Esterilização', discount: '5%', emoji: '🔒' },
-  { id: 'ce4', name: 'Vale €250 em material (Promodentaire)', points: 2500, category: 'Equipamento', subcategory: 'Material em Bulk', emoji: '📦' },
-  { id: 'ce5', name: 'Bellus3D Face Camera', points: 3000, category: 'Equipamento', subcategory: 'Scanner Facial 3D', discount: '5%', emoji: '📸' },
+  { id: 'ce4', name: 'Vale €250 em material (Promodentaire)', points: 2500, category: 'Equipamento', subcategory: 'Material em bulk', emoji: '📦' },
+  { id: 'ce5', name: 'Bellus3D Face Camera', points: 3000, category: 'Equipamento', subcategory: 'Scanner facial 3D', discount: '5%', emoji: '📸' },
   // Raio-X
-  { id: 'ce6', name: 'Vatech EzSensor', points: 4500, category: 'Equipamento', subcategory: 'Raio-X Periapical', discount: '5%', emoji: '📡' },
-  { id: 'ce7', name: 'Carestream RVG 6200', points: 5000, category: 'Equipamento', subcategory: 'Raio-X Periapical', discount: '5%', emoji: '📡' },
-  { id: 'ce8', name: 'Planmeca ProSensor HD', points: 5500, category: 'Equipamento', subcategory: 'Raio-X Periapical', discount: '5%', emoji: '📡' },
+  { id: 'ce6', name: 'Vatech EzSensor', points: 4500, category: 'Equipamento', subcategory: 'Raio-X periapical', discount: '5%', emoji: '📡' },
+  { id: 'ce7', name: 'Carestream RVG 6200', points: 5000, category: 'Equipamento', subcategory: 'Raio-X periapical', discount: '5%', emoji: '📡' },
+  { id: 'ce8', name: 'Planmeca ProSensor HD', points: 5500, category: 'Equipamento', subcategory: 'Raio-X periapical', discount: '5%', emoji: '📡' },
   // Esterilização
   { id: 'ce9', name: 'Mocom Exacta', points: 6000, category: 'Equipamento', subcategory: 'Esterilização', discount: '5%', emoji: '🔒' },
   { id: 'ce10', name: 'W&H Lara', points: 7000, category: 'Equipamento', subcategory: 'Esterilização', discount: '5%', emoji: '🔒' },
@@ -213,11 +215,11 @@ const clinicEquipamento: RewardProduct[] = [
   { id: 'ce14', name: 'Carestream CS 8100', points: 16000, category: 'Equipamento', subcategory: 'Ortopantomógrafo', discount: '5%', emoji: '🏥' },
   { id: 'ce15', name: 'Planmeca ProOne', points: 18000, category: 'Equipamento', subcategory: 'Ortopantomógrafo', discount: '5%', emoji: '🏥' },
   // Scanner Facial
-  { id: 'ce16', name: 'Artec Leo', points: 20000, category: 'Equipamento', subcategory: 'Scanner Facial 3D', discount: '5%', emoji: '📸' },
+  { id: 'ce16', name: 'Artec Leo', points: 20000, category: 'Equipamento', subcategory: 'Scanner facial 3D', discount: '5%', emoji: '📸' },
   // CBCT
-  { id: 'ce17', name: 'Vatech PaX-i3D Green', points: 25000, category: 'Equipamento', subcategory: 'CBCT (Scanner 3D)', discount: '5%', emoji: '🖥️' },
-  { id: 'ce18', name: 'Carestream CS 9600', points: 30000, category: 'Equipamento', subcategory: 'CBCT (Scanner 3D)', discount: '5%', emoji: '🖥️' },
-  { id: 'ce19', name: 'Planmeca Viso G5', points: 35000, category: 'Equipamento', subcategory: 'CBCT (Scanner 3D)', discount: '5%', emoji: '🖥️' },
+  { id: 'ce17', name: 'Vatech PaX-i3D Green', points: 25000, category: 'Equipamento', subcategory: 'CBCT (scanner 3D)', discount: '5%', emoji: '🖥️' },
+  { id: 'ce18', name: 'Carestream CS 9600', points: 30000, category: 'Equipamento', subcategory: 'CBCT (scanner 3D)', discount: '5%', emoji: '🖥️' },
+  { id: 'ce19', name: 'Planmeca Viso G5', points: 35000, category: 'Equipamento', subcategory: 'CBCT (scanner 3D)', discount: '5%', emoji: '🖥️' },
 ];
 
 const clinicSoftware: RewardProduct[] = [
@@ -245,7 +247,7 @@ const patientSubscricao: RewardProduct[] = [
 export const REWARD_TABS: Record<string, RewardsTabConfig[]> = {
   patient: [
     { key: 'consultas', label: 'Consultas', type: 'products', products: patientConsultas },
-    { key: 'higiene', label: 'Higiene Oral', type: 'products', products: patientHigieneOral },
+    { key: 'higiene', label: 'Higiene oral', type: 'products', products: patientHigieneOral },
     { key: 'marcas', label: 'Marcas', type: 'brands', brands: patientBrands },
     { key: 'subscricao', label: 'Subscrição', type: 'products', products: patientSubscricao },
   ],

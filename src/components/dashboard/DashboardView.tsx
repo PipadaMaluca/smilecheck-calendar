@@ -1,6 +1,6 @@
 import { demoText } from '@/lib/demoText';
 import { onActivateKey } from '@/lib/a11y';
-import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
+import { getDateFnsLocale, getActiveLocale, formatNumber, formatDate } from '@/lib/formatters';
 import { demoDate, pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -171,7 +171,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
-      format(nextPatientCon.date, "d 'de' MMMM", { locale: getDateFnsLocale() }) :
+      formatDate(nextPatientCon.date, { day: 'numeric', month: 'long' }) :
       t('dashboard.bookConsultation');
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [
@@ -185,7 +185,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const next = pickNextAppointment(mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id));
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
-      { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: next?.category, primaryName: next?.patient.name || '' },
+      { label: t('dashboard.nextConsultation'), value: next ? (isSameDay(next.date, new Date()) ? next.time : `${formatDate(next.date, { weekday: 'short', day: 'numeric', month: 'short' })} · ${next.time}`) : '', subtitle: next ? next.patient.name : t('dashboard.noMoreToday'), extraLine: nextCatLabel, icon: Calendar, clickTab: next ? 'consulta-detalhe' : undefined, isHero: true, category: next?.category, primaryName: next?.patient.name || '', isEmpty: !next },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
@@ -275,13 +275,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 </div>
               )}
 
-              <Button
+              {!heroStat.isEmpty && <Button
                 size="sm"
                 className="mt-auto self-start rounded-full px-4"
                 onClick={(e) => { e.stopPropagation(); goHero(); }}
               >
                 {userRole === 'clinic' ? t('dashboard.viewFullAgenda') : t('common.details')}
-              </Button>
+              </Button>}
             </CardContent>
           </Card>
 
@@ -893,7 +893,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       "consultation-row flex items-center gap-3 py-1.5",
                       !isLast && "border-b border-border"
                     )}>
-                      <span className="text-xs tabular-nums text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
+                      <span className="text-xs tabular-nums text-muted-foreground min-w-10 flex-shrink-0 flex flex-col leading-tight">{!isSameDay(item.date, new Date()) && <span>{formatDate(item.date, { day: 'numeric', month: 'short' })}</span>}<span>{item.time}</span></span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">

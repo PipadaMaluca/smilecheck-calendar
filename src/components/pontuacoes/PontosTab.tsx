@@ -1,4 +1,5 @@
-import { demoText } from '@/lib/demoText';
+import { formatDate } from '@/lib/formatters';
+import { pointsRuleLabel } from '@/lib/pointsRuleLabels';
 import { formatDecimal1 } from '@/lib/formatters';
 import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
@@ -44,7 +45,8 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const multiplier = LEVEL_MULTIPLIERS[level.key];
   const boost = getVisibilityBoost(level.key, data.plan);
 
-  const planLabel = data.plan === 'free' ? t('scores.planFreeLabel') :
+  const nextReset = new Date(DEMO_DATE.getFullYear() + 1, 0, 1);
+  const planLabel = data.plan === 'free' ? t('scores.planFreeLabel', { date: formatDate(nextReset) }) :
     data.plan === 'pro' ? t('scores.planProLabel') :
     t('scores.planPremiumLabel');
 
@@ -170,7 +172,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   </div>
                   {earnActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 px-2 sm:px-3 py-1.5 text-xs border-b border-border/50 last:border-0 min-w-[280px]">
-                      <span className="text-foreground truncate">{a.action}</span>
+                      <span className="text-foreground truncate">{pointsRuleLabel(a.action)}</span>
                       <span className="text-center text-primary font-medium">+{a.xp}</span>
                       <span className="text-center text-primary font-medium">+{a.points}</span>
                     </div>
@@ -188,7 +190,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   </div>
                   {penaltyActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_60px_60px] gap-0 px-3 py-1.5 text-xs border-b border-border/50 last:border-0">
-                      <span className="text-foreground">{a.action}</span>
+                      <span className="text-foreground">{pointsRuleLabel(a.action)}</span>
                       <span className="text-center text-muted-foreground">0</span>
                       <span className="text-center text-destructive font-medium">{a.points}</span>
                     </div>
@@ -255,7 +257,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   <p className="text-xs text-foreground">
                     <span className="text-muted-foreground">{dateLabel}, {entry.time}</span>
                     {' — '}
-                    {demoText(entry.description)}
+                    {pointsRuleLabel(entry.description)}
                     {entry.relatedName && <span className="text-muted-foreground"> ({entry.relatedName})</span>}
                   </p>
                 </div>

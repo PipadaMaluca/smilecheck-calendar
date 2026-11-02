@@ -368,7 +368,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <div className="flex justify-between items-end">
                 <p className="text-xs text-muted-foreground">{t('referral.signature')}: _______________</p>
                 <div className="w-16 h-16 border border-dashed border-muted-foreground rounded flex items-center justify-center">
-                  <span className="text-2xs text-muted-foreground">QR Code</span>
+                  <span className="text-2xs text-muted-foreground">{t('qrCode.label')}</span>
                 </div>
               </div>
             </div>

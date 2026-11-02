@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { useState } from 'react';
 import { Monitor, Tablet, Smartphone, X, Link2, Camera, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -59,7 +60,7 @@ export function ConnectedDevicesSection() {
           type: 'desktop',
           name: 'PC Windows',
           browser: 'Chrome',
-          location: 'Lisboa, Portugal',
+          location: demoText('Lisboa, Portugal'),
           lastActive: 'i18nA.activeNow',
           ip: '192.168.XXX.XXX',
         },
@@ -92,7 +93,7 @@ export function ConnectedDevicesSection() {
                     <div className="flex items-center gap-3">
                       <Icon className="w-5 h-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-foreground">{device.name} — {device.location}</p>
+                        <p className="text-sm font-medium text-foreground">{device.name} — {demoText(device.location)}</p>
                         <p className="text-xs text-muted-foreground">{t(device.lastActive)}</p>
                       </div>
                     </div>
@@ -152,9 +153,9 @@ export function ConnectedDevicesSection() {
               <div className="space-y-2 p-3 rounded-lg bg-secondary/50 border border-border/50">
                 <div className="flex items-center gap-2">
                   <Monitor className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">PC Windows — Chrome</span>
+                  <span className="text-sm font-medium text-foreground">{demoText('PC Windows — Chrome')}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">Lisboa, Portugal</p>
+                <p className="text-xs text-muted-foreground">{demoText('Lisboa, Portugal')}</p>
                 <p className="text-xs text-muted-foreground font-mono">IP: 192.168.XXX.XXX</p>
               </div>
 

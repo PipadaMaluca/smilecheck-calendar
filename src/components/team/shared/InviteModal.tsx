@@ -37,7 +37,7 @@ export function InviteModal({ open, onClose }: InviteModalProps) {
         <Tabs defaultValue="search" className="w-full">
           <TabsList className="w-full">
             <TabsTrigger value="search" className="flex-1">{t('common.search')}</TabsTrigger>
-            <TabsTrigger value="email" className="flex-1">Email</TabsTrigger>
+            <TabsTrigger value="email" className="flex-1">{t('editProfile.email')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="search" className="space-y-3 mt-3">

@@ -106,6 +106,12 @@ export const mockFamilyMembers = [
 
 // Demo date - January 31, 2026
 const DEMO_DATE = demoDate(2026, 0, 31);
+/** `days` after `base`, pushed to Monday when it lands on a Sunday (clinics closed). */
+function nextWeekday(base: Date, days: number): Date {
+  const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + days);
+  if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+  return d;
+}
 // Free-text demo fields kept in the active language (see src/lib/demoText.ts).
 const DEMO_TEXT_FIELDS = ['notes', 'triage.symptom', 'triage.duration'];
 
@@ -195,6 +201,36 @@ export const mockPatientConsultations: Consultation[] = localizeDemoObjects(([
     price: 60,
     isPaid: false,
     notes: 'Dente 15, face oclusal',
+  },
+  // Always-future demo appointments (relative to the real clock, never on a Sunday)
+  // so the patient's "Próxima consulta" / "Próximas consultas" are never empty.
+  {
+    id: 'pat-7',
+    type: 'presencial',
+    category: 'restauracao',
+    date: nextWeekday(DEMO_DATE, 2),
+    time: '10:00',
+    duration: 30,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
+    dentist: mockDentists[0],
+    clinic: mockClinics[0],
+    price: 60,
+    isPaid: false,
+    notes: 'Avaliação inicial',
+  },
+  {
+    id: 'pat-8',
+    type: 'presencial',
+    category: 'destartarizacao',
+    date: nextWeekday(DEMO_DATE, 9),
+    time: '16:30',
+    duration: 30,
+    patient: createPatient('fm1', 'João Silva', '+351 912 000 001', 4.8, 'Gold', 45),
+    dentist: mockDentists[2],
+    clinic: mockClinics[0],
+    price: 50,
+    isPaid: false,
+    notes: 'Destartarização de controlo',
   },
  ] as Consultation[]).map(withRequiredConsultationFields), DEMO_TEXT_FIELDS);
 

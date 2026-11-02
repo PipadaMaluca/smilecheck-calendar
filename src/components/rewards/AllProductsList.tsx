@@ -37,7 +37,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
         const tier = getTier(product.points);
         const showSeparator = showTierSeparators && tier !== lastTier;
         lastTier = tier;
-        const canAfford = userPoints >= product.points;
+        const canAfford = !product.soon && userPoints >= product.points;
         const missing = product.points - userPoints;
 
         return (
@@ -67,7 +67,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{demoText(product.name)}</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {product.category}
+                  {product.soon ? t('plans.soon') : demoText(product.category)}
                   {product.discount && (
                     <span className="ml-2 text-warning font-medium">{product.discount} {t('store.discount')}</span>
                   )}
@@ -81,7 +81,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
                   'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap min-w-[90px] text-center',
                   canAfford ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-muted text-muted-foreground',
                 )}>
-                  {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
+                  {product.soon ? t('plans.soon') : canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
                 </span>
               </div>
             </button>
