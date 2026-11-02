@@ -12,3 +12,5 @@
 - Seed records are appointments whose patient and dentist emails end in `@seed.smilecheck.app`; only `refresh_seed_appointments()` (daily cron) moves them, keeping a −14/+14-day window in 4-week steps so weekdays (Sunday rule) are preserved.
 - Landing sections without real content stay behind flags in `src/lib/landingFlags.ts`; never show invented numbers, testimonials or certifications.
 - Images in `public/` ship as WebP with a small PNG fallback at ≤2× display size; `Logo` serves the WebP via `<picture>`.
+- Demo free text (mock notes, triage answers, waiting-list observations) is authored in PT and localised via `demoText`/`localizeDemoObjects` (`src/lib/demoText.ts`) from i18n `demoText.*` — so demo data follows the active language while real user text passes through untouched.
+- Landing `data-reveal` animations never start above-the-fold content at opacity 0 and jump to the end after 1.5 s; `data-reveal="words"` elements need `key={i18n.language}` — so the hero is always readable and re-renders on language change.
