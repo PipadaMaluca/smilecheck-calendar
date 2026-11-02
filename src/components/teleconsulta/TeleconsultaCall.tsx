@@ -205,7 +205,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
               <h3 className="text-sm font-semibold text-white">
                 {activePanel === 'chat' ? t('teleconsult.chat') : t('teleconsult.notesTitle')}
               </h3>
-              <Button variant="ghost" size="icon-sm" className="text-white/50 hover:text-white" onClick={() => setActivePanel(null)}>
+              <Button aria-label={t('a11y.close')} variant="ghost" size="icon-sm" className="text-white/50 hover:text-white" onClick={() => setActivePanel(null)}>
                 <X className="w-4 h-4" />
               </Button>
             </div>
@@ -237,7 +237,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
                     className="flex-1 bg-white/5 border-white/10 text-white text-sm"
                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
                   />
-                  <Button size="icon" className="shrink-0" onClick={sendMessage}>
+                  <Button aria-label={t('a11y.send')} size="icon" className="shrink-0" onClick={sendMessage}>
                     <Send className="w-4 h-4" />
                   </Button>
                 </div>

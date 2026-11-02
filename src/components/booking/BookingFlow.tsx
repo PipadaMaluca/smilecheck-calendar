@@ -869,7 +869,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="fixed inset-0 z-modal bg-background flex flex-col" style={{ bottom: '64px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.close')} type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         </div>
@@ -918,7 +918,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="relative w-full max-w-[500px] max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.close')} type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         </div>

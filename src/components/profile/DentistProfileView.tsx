@@ -230,7 +230,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
               )}
             </div>
             {onToggleFavorite &&
-        <button
+        <button aria-label={t('a11y.favorite')}
           onClick={onToggleFavorite}
           className="p-1 transition-transform hover:scale-110 flex-shrink-0 text-left px-[10px] py-[5px] pr-[30px] pl-[5px]"
           title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}>
@@ -474,7 +474,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   return (
     <FullScreenMobileOverlay className="overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{t('profile.dentistProfile')}</h2>
         <div className="w-10" />
       </div>

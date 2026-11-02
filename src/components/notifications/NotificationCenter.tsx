@@ -437,7 +437,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
     <div className={cn('flex-1 overflow-y-auto', inline ? '' : 'px-4 py-4')}>
       {onBack && !inline &&
       <div className="flex items-center gap-3 mb-4">
-          <Button variant="ghost" size="icon" onClick={onBack}>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <h2 className="text-lg font-bold">{t('notifications.title')}</h2>

@@ -410,7 +410,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
           <div className="p-4 border-b border-border space-y-3">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-bold">{t('chat.title')}</h2>
-              <Button
+              <Button aria-label={t('a11y.add')}
                 variant="ghost"
                 size="icon-sm"
                 onClick={handleNewConversation}
@@ -436,7 +436,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
               <div className="p-4 border-b border-border space-y-3">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold">{t('chat.newConversation')}</h2>
-                  <Button variant="ghost" size="icon-sm" onClick={() => setShowNewConversation(false)}>
+                  <Button aria-label={t('a11y.close')} variant="ghost" size="icon-sm" onClick={() => setShowNewConversation(false)}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
@@ -591,7 +591,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
               {/* Chat header */}
               <div className="h-14 flex items-center gap-3 px-4 border-b border-border flex-shrink-0">
                 {!showSplit && (
-                  <Button variant="ghost" size="icon" onClick={handleBack} className="flex-shrink-0">
+                  <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={handleBack} className="flex-shrink-0">
                     <ArrowLeft className="w-5 h-5" />
                   </Button>
                 )}
@@ -675,7 +675,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                   onChange={(e) => setMessageInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 />
-                <Button size="icon" onClick={handleSend} disabled={!messageInput.trim()}>
+                <Button aria-label={t('a11y.send')} size="icon" onClick={handleSend} disabled={!messageInput.trim()}>
                   <Send className="w-4 h-4" />
                 </Button>
               </div>

@@ -197,7 +197,7 @@ export function QuickRatingPrompt({
         <p className="text-sm text-muted-foreground">{consultation.patient.name}</p>
         <div className="flex items-center justify-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
-            <button
+            <button aria-label={t('a11y.favorite')}
               key={star}
               className={cn(
                 'text-3xl transition-transform duration-150',

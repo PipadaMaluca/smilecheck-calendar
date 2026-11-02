@@ -93,7 +93,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
                   alt={t('triage.photos.photoAlt', { index: index + 1 })}
                   className="w-full h-full object-cover"
                 />
-                <button
+                <button aria-label={t('a11y.close')}
                   onClick={(e) => { e.stopPropagation(); removePhoto(index); }}
                   className="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 >

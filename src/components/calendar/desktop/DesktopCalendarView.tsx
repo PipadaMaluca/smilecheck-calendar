@@ -755,14 +755,14 @@ export function DesktopCalendarView() {
               {/* Agenda keeps original header height */}
               <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-[5px] pr-[15px] relative z-20">
                 <div className="flex items-center gap-3">
-                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+                  <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
                   </Button>
                   <div className="h-6 w-px bg-border" />
                   <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">{t('i18nB.today')}</Button>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
+                    <Button aria-label={t('a11y.previous')} variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
+                    <Button aria-label={t('a11y.next')} variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
                   <span className="text-sm font-medium sentence-case text-foreground">
                     {getHeaderDateLabel()}

@@ -118,7 +118,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
         <div className="max-w-3xl mx-auto p-6 space-y-6">
           {/* Header */}
           <div className="flex items-start gap-3">
-            <Button variant="ghost" size="icon" onClick={onClose} className="shrink-0 mt-1">
+            <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose} className="shrink-0 mt-1">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex items-start gap-4 flex-1">

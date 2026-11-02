@@ -94,11 +94,11 @@ export function StreakTab({ userRole }: StreakTabProps) {
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-3">
           <div className="flex items-center justify-between">
-            <Button variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m - 1)} disabled={calendarMonth <= -6}>
+            <Button aria-label={t('a11y.previous')} variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m - 1)} disabled={calendarMonth <= -6}>
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <h3 className="text-sm font-bold text-foreground sentence-case">{monthName}</h3>
-            <Button variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m + 1)} disabled={calendarMonth >= 0}>
+            <Button aria-label={t('a11y.next')} variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m + 1)} disabled={calendarMonth >= 0}>
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>

@@ -400,7 +400,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
                         {interactions.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />}
                         <span className="text-sm font-medium">{med.name} {med.dosage}</span>
                       </div>
-                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeMedication(med.id)}>
+                      <Button aria-label={t('a11y.close')} variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeMedication(med.id)}>
                         <X className="w-3.5 h-3.5" />
                       </Button>
                     </div>

@@ -127,7 +127,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                         <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
                         <p className="text-xs text-muted-foreground">{tc.duration} · {formatCurrency(tc.amount)} · {t('billing.commissionLabel')}: {formatCurrency(tc.commission)} · {t('billing.net')}: {formatCurrency(tc.net)}</p>
                       </div>
-                      <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
+                      <Button aria-label={t('a11y.download')} size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>

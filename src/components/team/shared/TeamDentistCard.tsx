@@ -112,7 +112,7 @@ export function TeamDentistCard({
               {showActions && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 flex-shrink-0">
+                    <Button aria-label={t('a11y.moreOptions')} variant="ghost" size="icon" className="h-7 w-7 flex-shrink-0">
                       <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>

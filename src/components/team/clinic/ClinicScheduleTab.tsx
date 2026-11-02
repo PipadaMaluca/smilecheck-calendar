@@ -272,7 +272,7 @@ export function ClinicScheduleTab() {
                   <Badge variant="outline" className="text-[11px] bg-amber-500/10 text-amber-500 border-amber-500/30">
                     {t('team.encerrada')}
                   </Badge>
-                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeCustomClosure(c.id)}>
+                  <Button aria-label={t('a11y.remove')} variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeCustomClosure(c.id)}>
                     <Trash2 className="w-3 h-3" />
                   </Button>
                 </div>

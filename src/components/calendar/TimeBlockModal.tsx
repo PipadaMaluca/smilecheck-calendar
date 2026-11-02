@@ -102,7 +102,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
             <h2 className="text-lg font-bold text-foreground">
               {isEditing ? t('timeBlock.editBlock') : t('timeBlock.newBlock')}
             </h2>
-            <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
+            <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">

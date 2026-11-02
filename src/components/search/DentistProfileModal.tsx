@@ -217,7 +217,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="fixed inset-0 z-modal bg-background" style={{ bottom: '64px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+          <button aria-label={t('a11y.close')} onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
@@ -234,7 +234,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+          <button aria-label={t('a11y.close')} onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>

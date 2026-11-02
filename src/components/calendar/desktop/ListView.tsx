@@ -122,7 +122,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
 
                   {/* Action */}
                   <TableCell className="py-2">
-                    <Button
+                    <Button aria-label={t('a11y.moreOptions')}
                       variant="ghost"
                       size="icon"
                       className="h-7 w-7"

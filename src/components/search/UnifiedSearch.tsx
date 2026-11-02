@@ -99,7 +99,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             autoFocus
           />
           {query && (
-            <Button type="button" variant="ghost" size="icon-sm" onClick={() => setQuery('')} className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6">
+            <Button aria-label={t('a11y.close')} type="button" variant="ghost" size="icon-sm" onClick={() => setQuery('')} className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6">
               <X className="w-4 h-4 text-muted-foreground" />
             </Button>
           )}
@@ -226,7 +226,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                           {d.specialties.join(', ')} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{d.rating}
                         </p>
                       </div>
-                      <Button
+                      <Button aria-label={t('a11y.favorite')}
                         type="button"
                         variant="ghost"
                         size="icon-sm"
@@ -302,7 +302,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
       <FullScreenMobileOverlay>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-base font-semibold">{t('search.searchTitle')}</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={onClose}>
             <X className="w-5 h-5" />
           </Button>
         </div>

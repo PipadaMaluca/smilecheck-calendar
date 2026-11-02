@@ -191,7 +191,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     return (
       <FullScreenMobileOverlay>
         <div className="flex items-center gap-3 p-4 border-b border-border flex-shrink-0">
-          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
           <h2 className="text-base font-semibold">{t('nav.inviteFriends')}</h2>
         </div>
         <ScrollArea className="flex-1">{inviteContent}</ScrollArea>
@@ -204,7 +204,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     <div className="fixed inset-0 scrim z-modal flex items-center justify-center" onClick={onClose}>
       <div className="bg-card rounded-xl border border-border shadow-2xl w-full max-w-[500px] max-h-[90vh] flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="flex items-center gap-3 p-4 border-b border-border flex-shrink-0">
-          <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
           <h2 className="text-base font-semibold">{t('nav.inviteFriends')}</h2>
         </div>
         <ScrollArea className="flex-1">{inviteContent}</ScrollArea>

@@ -322,7 +322,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
       <div className="p-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
+            <Button aria-label={t('a11y.back')} type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Button>
             <div>
@@ -433,7 +433,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     <div className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.back')} type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
           </Button>
           <div>

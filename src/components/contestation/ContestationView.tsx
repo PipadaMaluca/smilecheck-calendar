@@ -69,7 +69,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5 pb-32">
         {/* Header */}
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack}>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <h1 className="text-lg font-bold text-foreground">{t('contestation.title')}</h1>
@@ -155,7 +155,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                     <span className="text-xs text-foreground">{f.name}</span>
                     <span className="text-[11px] text-muted-foreground">— {f.size}</span>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
+                  <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>

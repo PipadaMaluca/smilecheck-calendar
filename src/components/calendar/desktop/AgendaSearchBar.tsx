@@ -219,7 +219,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
           )}
         />
         {query && (
-          <button
+          <button aria-label={t('a11y.close')}
             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             onClick={() => { setQuery(''); setIsOpen(false); inputRef.current?.focus(); }}
           >

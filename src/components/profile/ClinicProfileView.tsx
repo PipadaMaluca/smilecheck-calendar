@@ -331,7 +331,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               )}
             </div>
             {onToggleFavorite && (
-              <button
+              <button aria-label={t('a11y.favorite')}
                 onClick={onToggleFavorite}
                 className="p-1 transition-transform hover:scale-110 flex-shrink-0"
                 title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
@@ -626,7 +626,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   return (
     <FullScreenMobileOverlay className="overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{isOwnProfile ? t('profile.ownProfile') : t('profile.clinicProfile')}</h2>
         <div className="w-10" />
       </div>

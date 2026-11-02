@@ -151,7 +151,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="relative z-10 p-4 md:p-6 border-b border-border bg-background/80 backdrop-blur-sm">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
-            <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
+            <Button aria-label={t('a11y.back')} type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Button>
             <div className="flex-1">
@@ -293,7 +293,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-modal space-y-4 max-h-[70vh] overflow-y-auto md:left-auto md:right-6 md:bottom-6 md:w-96 md:rounded-2xl md:border">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">{t('search.advancedFilters')}</h3>
-              <Button variant="ghost" size="icon" onClick={() => setShowMobileFilters(false)}>
+              <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={() => setShowMobileFilters(false)}>
                 <X className="w-5 h-5" />
               </Button>
             </div>

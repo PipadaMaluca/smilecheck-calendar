@@ -253,7 +253,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
-                      <button onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
+                      <button aria-label={t('a11y.favorite')} onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
                         <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
                       </button>
                     </div>
@@ -295,7 +295,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                       <Paperclip className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="text-sm flex-1 truncate">{file.name}</span>
                       <span className="text-xs text-muted-foreground">{file.size}</span>
-                      <button
+                      <button aria-label={t('a11y.close')}
                     onClick={() => setAttachments((prev) => prev.filter((a) => a.id !== file.id))}
                     className="text-muted-foreground hover:text-destructive transition-colors p-1">
                         <X className="w-3.5 h-3.5" />

@@ -237,7 +237,7 @@ function HistoryShell({ title, onBack, inline, children }: { title: string; onBa
   return (
     <FullScreenMobileOverlay>
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onBack}><ArrowLeft className="w-5 h-5" /></Button>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onBack}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{title}</h2>
         <div className="w-10" />
       </div>

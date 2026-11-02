@@ -287,7 +287,7 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewProfile(d)}
               >
-                <Button
+                <Button aria-label={t('a11y.favorite')}
                   type="button"
                   variant="ghost"
                   size="icon-sm"
@@ -347,7 +347,7 @@ export function FavoritesView({
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >
-                <Button
+                <Button aria-label={t('a11y.favorite')}
                   type="button"
                   variant="ghost"
                   size="icon-sm"

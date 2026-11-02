@@ -88,7 +88,7 @@ export function PatientSidebar({
       <div className="px-5 pb-4 border-b border-[#1E3A5F] flex-shrink-0">
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-3">
-          <Button
+          <Button aria-label={t('a11y.previous')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -98,7 +98,7 @@ export function PatientSidebar({
           <span className="text-sm font-semibold sentence-case">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
-          <Button
+          <Button aria-label={t('a11y.next')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}

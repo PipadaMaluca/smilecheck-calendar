@@ -134,7 +134,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   };
 
   const RemoveButton = ({ onClick }: { onClick: () => void }) => (
-    <button onClick={onClick} className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">
+    <button aria-label={t('a11y.close')} onClick={onClick} className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">
       <X className="w-3.5 h-3.5" />
     </button>
   );

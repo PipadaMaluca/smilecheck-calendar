@@ -419,7 +419,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   <div className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onClose}>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <h2 className="text-base font-semibold">{t('editProfile.title')}</h2>
@@ -434,7 +434,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                 {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
               </div>
-              <button className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
+              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
                 <Camera className="w-4 h-4" />
               </button>
             </div>
@@ -516,7 +516,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                     <div className="flex gap-2">
                       <Input placeholder={t('editProfile.age')} value={fm.age} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], age: e.target.value };setFamilyMembers(u);}} className="w-20" />
                       <Input placeholder={t('editProfile.relation')} value={fm.relation} onChange={(e) => {const u = [...familyMembers];u[idx] = { ...u[idx], relation: e.target.value };setFamilyMembers(u);}} className="flex-1 sm:w-28" />
-                      <Button variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)} className="flex-shrink-0"><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                      <Button aria-label={t('a11y.remove')} variant="ghost" size="icon" onClick={() => removeFamilyMember(idx)} className="flex-shrink-0"><Trash2 className="w-4 h-4 text-destructive" /></Button>
                     </div>
                   </div>
             )}
@@ -740,7 +740,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   {clinicServices.map((s) =>
               <Badge key={s} variant="secondary" className="gap-1">
                       {s}
-                      <button onClick={() => setClinicServices(clinicServices.filter((x) => x !== s))} className="ml-1 hover:text-destructive">
+                      <button aria-label={t('a11y.close')} onClick={() => setClinicServices(clinicServices.filter((x) => x !== s))} className="ml-1 hover:text-destructive">
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
@@ -750,7 +750,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <Input placeholder={t('editProfile.newService')} value={newService} onChange={(e) => setNewService(e.target.value)}
               onKeyDown={(e) => {if (e.key === 'Enter' && newService.trim()) {setClinicServices([...clinicServices, newService.trim()]);setNewService('');}}}
               className="flex-1" />
-                  <Button variant="outline" size="icon" onClick={() => {if (newService.trim()) {setClinicServices([...clinicServices, newService.trim()]);setNewService('');}}}>
+                  <Button aria-label={t('a11y.add')} variant="outline" size="icon" onClick={() => {if (newService.trim()) {setClinicServices([...clinicServices, newService.trim()]);setNewService('');}}}>
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>

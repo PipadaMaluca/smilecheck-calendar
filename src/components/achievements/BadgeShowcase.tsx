@@ -55,7 +55,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
 
           if (!ach && isOwnProfile) {
             return (
-              <button
+              <button aria-label={t('a11y.add')}
                 key={`empty-${i}`}
                 onClick={() => setShowModal(true)}
                 className="aspect-square rounded-xl border-2 border-dashed border-border/40 flex items-center justify-center hover:border-primary/40 hover:bg-primary/5 transition-colors group"

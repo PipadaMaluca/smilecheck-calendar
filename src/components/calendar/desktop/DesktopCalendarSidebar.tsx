@@ -138,7 +138,7 @@ export function DesktopCalendarSidebar({
       <div className="px-3 pb-3 border-b border-[#1E3A5F] flex-shrink-0">
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-2">
-          <Button
+          <Button aria-label={t('a11y.previous')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -149,7 +149,7 @@ export function DesktopCalendarSidebar({
           <span className="text-xs font-medium sentence-case">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
-          <Button
+          <Button aria-label={t('a11y.next')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
@@ -299,7 +299,7 @@ export function DesktopCalendarSidebar({
                   <span className="text-xs text-muted-foreground flex-1 truncate hover:text-primary">{clinic.name}</span>
                 </button>
                 <CollapsibleTrigger asChild>
-                  <button className="p-0.5 hover:bg-[#152238] rounded" onClick={(e) => e.stopPropagation()}>
+                  <button aria-label={t('a11y.expand')} className="p-0.5 hover:bg-[#152238] rounded" onClick={(e) => e.stopPropagation()}>
                     <ChevronDown
                       className={cn(
                         'w-3 h-3 text-muted-foreground transition-transform',

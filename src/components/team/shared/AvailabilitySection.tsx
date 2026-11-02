@@ -185,7 +185,7 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
             </span>
             <div className="flex gap-1">
               <Button variant="ghost" size="sm" className="h-7 text-xs">{t('common.edit')}</Button>
-              <Button variant="ghost" size="sm" className="h-7 text-xs text-destructive"><Trash2 className="w-3 h-3" /></Button>
+              <Button aria-label={t('a11y.remove')} variant="ghost" size="sm" className="h-7 text-xs text-destructive"><Trash2 className="w-3 h-3" /></Button>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">{t('team.autoReschedule')}</p>

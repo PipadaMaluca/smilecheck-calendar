@@ -265,10 +265,10 @@ export function DentistAvailabilityTab() {
             />
           </div>
           <div className="flex gap-1">
-            <Button size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
+            <Button aria-label={t('a11y.confirm')} size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
               <Check className="w-3.5 h-3.5" />
             </Button>
-            <Button size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
+            <Button aria-label={t('a11y.close')} size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
               <X className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -425,7 +425,7 @@ export function DentistAvailabilityTab() {
                 </div>
                 <div className="flex gap-1">
                   <Button variant="ghost" size="sm" className="h-8 text-xs" onClick={() => openEditException(ex)}>{t('common.edit')}</Button>
-                  <Button variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
+                  <Button aria-label={t('a11y.remove')} variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </Button>
                 </div>

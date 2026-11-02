@@ -1,3 +1,4 @@
+import i18n from '@/i18n';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -46,7 +47,7 @@ export function MonthlyCalendar({
     <div className="px-4">
       {/* Month Navigation */}
       <div className="flex items-center justify-between mb-4">
-        <Button
+        <Button aria-label={i18n.t('a11y.previous')}
           variant="ghost"
           size="icon"
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -57,7 +58,7 @@ export function MonthlyCalendar({
         <span className="text-sm font-semibold sentence-case">
           {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
         </span>
-        <Button
+        <Button aria-label={i18n.t('a11y.next')}
           variant="ghost"
           size="icon"
           onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
