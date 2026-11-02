@@ -1,5 +1,6 @@
 import { getActiveLocale } from '@/lib/formatters';
 import { supabase } from '@/integrations/supabase/client';
+import { fetchDisplayNames } from '@/data/displayNames';
 import { awardPoints, type AwardResult } from '@/data/pointsWrites';
 import { checkAchievementsSilently } from '@/data/achievementsSource';
 import { SEED_CLINIC_UUID_BY_ID, SEED_DENTIST_UUID_BY_ID } from '@/data/seedIds';
@@ -85,18 +86,19 @@ export async function fetchReceivedFeedback(
 ): Promise<ReceivedFeedbackRow[]> {
   const { data, error } = await supabase
     .from('feedback')
-    .select('id, rating, comment, created_at, from_profile_id, profiles!feedback_from_profile_id_fkey(full_name)')
+    .select('id, rating, comment, created_at, from_profile_id')
     .eq('to_profile_id', profileId)
     .order('created_at', { ascending: false })
     .limit(limit);
   if (error || !data) return [];
+  const names = await fetchDisplayNames(data.map((r) => r.from_profile_id));
   return data.map((row) => ({
     id: row.id,
     rating: row.rating,
     comment: row.comment,
     createdAt: row.created_at,
     fromProfileId: row.from_profile_id,
-    fromName: (row as { profiles?: { full_name: string | null } | null }).profiles?.full_name ?? null,
+    fromName: names.get(row.from_profile_id) ?? null,
   }));
 }
 
@@ -190,14 +192,12 @@ export async function fetchPendingFeedback(
     new Set(appointments.map((a) => a.clinic_id).filter((c): c is string => !!c))
   );
 
-  const [{ data: clinics }, { data: profiles }] = await Promise.all([
+  const [{ data: clinics }, nameById] = await Promise.all([
     clinicIds.length
       ? supabase.from('clinics').select('id, name, owner_profile_id').in('id', clinicIds)
       : Promise.resolve({ data: [] as { id: string; name: string; owner_profile_id: string | null }[] }),
-    supabase.from('profiles').select('id, full_name').in('id', Array.from(profileIds)),
+    fetchDisplayNames(Array.from(profileIds)),
   ]);
-
-  const nameById = new Map((profiles ?? []).map((p) => [p.id, p.full_name ?? '—']));
   const clinicById = new Map((clinics ?? []).map((c) => [c.id, c]));
 
   const items: PendingFeedbackItem[] = [];
