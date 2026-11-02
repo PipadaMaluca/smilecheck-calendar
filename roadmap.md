@@ -1,12 +1,18 @@
-# Premium polish roadmap
+# Auditoria premium — Pedido 1/4
 
-- [ ] Phase 1 — i18n parity (PT/EN/FR) + remove hardcoded PT strings
-- [ ] Phase 2 — Touch targets ≥44px
-- [ ] Phase 3 — Clinical data truncation (PatientsTab & similar)
-- [ ] Phase 4 — Emoji → Lucide icons (achievements + triage + strings)
-- [ ] Phase 5 — Button consistency (central flows)
-- [ ] Phase 6 — Overlay / z-index scale
-- [ ] Phase 7 — Empty / loading / error primitives
-- [ ] Final: typecheck + build + sampled screens, per-phase report
+- [ ] 1 Loja usa pontos de recompensa, não XP
+- [ ] 2 Comissões coerentes via planRules + teste resumo = soma
+- [ ] 3 Lista/Mapa no UnifiedSearch (Clínicas + Dentistas)
+- [ ] 4 Próxima consulta = primeira ≥ agora e agendada/confirmada (3 perfis)
+- [ ] 5 Enums crus traduzidos
+- [ ] 6 Convidar amigos: valor de points_rules, "Em breve", código do utilizador
+- [ ] 7 Estatísticas coerentes entre ecrãs
+- [ ] 8 Pluralização i18next
+- [ ] 9 Demo com data/hora reais (mock + seed BD)
+- [ ] 10 Login: olho dentro do campo, botões demo <button>
+- [ ] 11 Badge DEMO mobile sem sobrepor
+- [ ] 12 Agenda multi-dentista: blocos curtos sem sobreposição
+- [ ] 13 "Dar Feedback" → "Avaliar"
+- [ ] 14 Badges "!" na sidebar → ponto discreto com aria-label
 
-Deferred (do not do): ref warning, design-token refactor. Never touch agenda/dashboard consultation colors.
+Nunca tocar nas cores da agenda/dashboard.
