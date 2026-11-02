@@ -26,21 +26,21 @@ const MOCK_CLINIC_OFFERS = [
     id: 'co1', clinicId: '1', clinicName: 'Clínica SmileCheck', rating: 4.9, level: 'ouro' as const,
     location: 'Av. da Liberdade 123, Lisboa', distance: 2.5,
     contractType: 'fullTime', schedule: 'Seg-Qua-Sex 09:00-13:00',
-    salary: '35% por consulta + Bónus teleconsulta €5', specialties: ['generalDentistry', 'cosmeticDentistry'],
+    salary: '35% por consulta + Bónus teleconsulta 5 €', specialties: ['generalDentistry', 'cosmeticDentistry'],
     benefits: ['continuousTraining', 'materialIncluded'], publishedAgo: '2days',
   },
   {
     id: 'co2', clinicId: '2', clinicName: 'Clínica Mitry-Mory', rating: 4.6, level: 'prata' as const,
     location: 'Rue de Paris 45, Mitry-Mory', distance: 4.2,
     contractType: 'fullTime', schedule: 'Seg-Sex 09:00-19:00',
-    salary: '€3.200/mês', specialties: ['oralSurgery', 'endodontics'],
+    salary: '3200 €/mês', specialties: ['oralSurgery', 'endodontics'],
     benefits: ['healthInsurance', 'parking', 'conferences'], publishedAgo: '5days',
   },
   {
     id: 'co3', clinicId: '3', clinicName: 'Clínica Montfermeil', rating: 4.8, level: 'ouro' as const,
     location: 'Avenue Jean Moulin 12, Montfermeil', distance: 6.0,
     contractType: 'freelancer', schedule: 'Sáb 09:00-14:00',
-    salary: '€30/consulta', specialties: ['orthodontics', 'implantology'],
+    salary: '30 €/consulta', specialties: ['orthodontics', 'implantology'],
     benefits: ['materialIncluded'], publishedAgo: '1week',
   },
 ];
@@ -52,7 +52,7 @@ const MOCK_DENTIST_AVAILABILITY = [
     specialties: ['oralSurgery', 'prosthodontics', 'implantology'],
     availability: 'partTime', availabilityDetail: 'afternoons_mon_thu',
     schedule: 'Seg-Qui 14:00-20:00', experience: 12,
-    teleconsultas: true, salary: 'A partir de €2.800/mês', publishedAgo: '3days',
+    teleconsultas: true, salary: 'A partir de 2800 €/mês', publishedAgo: '3days',
     availableDate: '1 Mar 2026',
   },
   {
@@ -60,7 +60,7 @@ const MOCK_DENTIST_AVAILABILITY = [
     specialties: ['orthodontics', 'pediatricDentistry'],
     availability: 'freelancer', availabilityDetail: 'saturdays_full',
     schedule: 'Sáb 09:00-18:00', experience: 6,
-    teleconsultas: true, salary: '€28/consulta', publishedAgo: '1week',
+    teleconsultas: true, salary: '28 €/consulta', publishedAgo: '1week',
     availableDate: '15 Mar 2026',
   },
   {
@@ -68,7 +68,7 @@ const MOCK_DENTIST_AVAILABILITY = [
     specialties: ['oralSurgery', 'prosthodontics'],
     availability: 'fullTime', availabilityDetail: 'mon_fri_available',
     schedule: 'Seg-Sex 09:00-19:00', experience: 15,
-    teleconsultas: false, salary: 'Negociável (mín. €3.000/mês)', publishedAgo: '2days',
+    teleconsultas: false, salary: 'Negociável (mín. 3000 €/mês)', publishedAgo: '2days',
     availableDate: '1 Abr 2026',
   },
 ];
