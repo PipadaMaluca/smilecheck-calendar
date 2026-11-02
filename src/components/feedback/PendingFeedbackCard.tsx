@@ -144,7 +144,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
         onClose={() => setActiveItem(null)}
         targetName={activeItem?.targetName || ''}
         targetRole={activeItem?.targetRole || 'patient'}
-        contextLabel={activeItem?.contextLabel || activeItem?.dentistName || activeItem?.consultationType}
+        contextLabel={activeItem?.contextLabel || activeItem?.dentistName || translateRawValue(t, activeItem?.consultationType)}
         onSubmit={handleSubmit}
       />
     </>
