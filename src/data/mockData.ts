@@ -1,4 +1,4 @@
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, liveDemoStatus } from '@/lib/demoClock';
 import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
 
 // ===== CLINICS =====
@@ -76,7 +76,8 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
 
 const withRequiredConsultationFields = (consultation: Consultation): Consultation => ({
   ...consultation,
-  status: consultation.status || ('agendada' as ConsultationStatus),
+  // Demo statuses follow the real clock (past → visto, ongoing → em_consulta, future → agendada).
+  status: liveDemoStatus(consultation.date, consultation.time, consultation.duration, consultation.status || ('agendada' as ConsultationStatus)),
   notes: consultation.notes || 'Observação clínica',
   patient: {
     ...consultation.patient,
@@ -1735,7 +1736,10 @@ export const mockConsultations: Consultation[] = ([
     });
     return out;
   })(),
-] as Consultation[]).map(withRequiredConsultationFields);
+] as Consultation[])
+  // Physical clinics are closed on Sundays: shifted demo days never place in-person visits there.
+  .filter(c => c.date.getDay() !== 0 || c.type === 'teleconsulta')
+  .map(withRequiredConsultationFields);
 
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {
