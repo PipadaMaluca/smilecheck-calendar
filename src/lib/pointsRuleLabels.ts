@@ -58,7 +58,7 @@ export function pointsRuleLabel(label: string | null | undefined): string {
   const action = LABEL_TO_ACTION[label];
   if (action) return i18n.t(`pointsRules.${action}`);
   const ach = /^Conquista: (.+)$/.exec(label);
-  if (ach) return i18n.t('pointsRules.achievement', { key: ach[1] });
+  if (ach) return i18n.t('pointsRules.achievement');
   const suffix = /^(.*) (\((?:Dentista|Clínica)\))$/.exec(label);
   if (suffix && LABEL_TO_ACTION[suffix[1]]) {
     return `${i18n.t(`pointsRules.${LABEL_TO_ACTION[suffix[1]]}`)} ${i18n.t(SUFFIX_KEYS[suffix[2]])}`;
