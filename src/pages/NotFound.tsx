@@ -30,9 +30,6 @@ const NotFound = () => {
   const { t } = useTranslation();
   const watermarkSrc = useWatermarkSrc();
 
-  useEffect(() => {
-  }, [location.pathname]);
-
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
       {/* Watermark */}
