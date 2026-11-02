@@ -1136,7 +1136,7 @@ export function DesktopCalendarView() {
           userRole={activeRole} />
 
 
-      <ScreenEnter className="contents" screenKey={`${activeRole}:${activeNavTab}:${dossierPatientId ?? ''}:${showTriage ? 'triagem' : ''}:${showEditProfile ? 'edit' : ''}:${viewDentistProfile?.id ?? ''}:${viewClinicProfile ?? ''}:${selectedConsultation ? 'c' : ''}`} clinical={isClinicalScreen(activeNavTab) || !!dossierPatientId || showTriage}>
+      <ScreenEnter className="contents" screenKey={`${activeRole}:${activeNavTab}:${dossierPatientId ?? ''}:${showTriage ? 'triagem' : ''}:${showEditProfile ? 'edit' : ''}:${viewDentistProfile?.id ?? ''}:${viewClinicProfile ?? ''}`} clinical={isClinicalScreen(activeNavTab) || !!dossierPatientId || showTriage}>
         {renderMainArea()}
       </ScreenEnter>
 

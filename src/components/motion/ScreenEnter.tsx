@@ -13,13 +13,13 @@ import { gsap } from 'gsap';
  * Above-the-fold content never starts invisible; a 1.5 s fallback jumps to the end.
  */
 export function ScreenEnter({
-  screenKey, clinical = false, blocks = true, className, children,
-}: { screenKey: string; clinical?: boolean; blocks?: boolean; className?: string; children: ReactNode }) {
+  screenKey, clinical = false, blocks = true, disabled = false, className = 'contents', children,
+}: { screenKey: string; clinical?: boolean; blocks?: boolean; disabled?: boolean; className?: string; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const root = ref.current;
-    if (!root || typeof window === 'undefined') return;
+    if (disabled || !root || typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const k = clinical ? 0.5 : 1;          // amplitude
@@ -82,3 +82,15 @@ export function ScreenEnter({
 
 const CLINICAL = ['agenda', 'consultas', 'dossier', 'paciente', 'teleconsulta', 'receitas', 'cartas', 'triagem', 'saude'];
 export const isClinicalScreen = (key: string) => CLINICAL.some((c) => key.startsWith(c));
+
+/** Route-level entrance for standalone pages (login, sign-up, demo, legal, 404).
+ *  The app shell and triage manage their own screens; the landing only gets the button pulse. */
+export function RouteEnter({ pathname, children }: { pathname: string; children: ReactNode }) {
+  const own = pathname.startsWith('/app');
+  const landing = pathname === '/' || pathname === '/landing';
+  return (
+    <ScreenEnter screenKey={pathname} disabled={own} blocks={!landing} clinical={pathname.startsWith('/triagem')}>
+      {children}
+    </ScreenEnter>
+  );
+}
