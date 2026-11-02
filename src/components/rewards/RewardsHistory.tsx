@@ -81,7 +81,7 @@ export function RewardsHistory({ items, loading = false }: RewardsHistoryProps) 
                     <Badge variant={status.variant} className="text-xs">{t(status.labelKey)}</Badge>
                     <span className="text-sm font-bold text-destructive">−{item.points}</span>
                     {item.status === 'pendente' && (
-                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleCopy(item)}>
+                      <Button variant="ghost" size="icon" className="h-7 w-7" aria-label={t('a11y.copyCode')} onClick={() => handleCopy(item)}>
                         {copiedId === item.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       </Button>
                     )}
