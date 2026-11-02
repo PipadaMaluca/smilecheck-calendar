@@ -3521,7 +3521,8 @@
     "performance": "Performance",
     "topPatients": "Top Patients",
     "consultations_one": "{{count, number}} appointment",
-    "consultations_other": "{{count, number}} appointments"
+    "consultations_other": "{{count, number}} appointments",
+    "colConsultations": "Appointments"
   },
   "waitingList": {
     "patients": "patients",

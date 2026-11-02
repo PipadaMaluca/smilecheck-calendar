@@ -247,7 +247,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="text-xs">{t('statistics.dentist')}</TableHead>
-                        <TableHead className="text-xs text-center">{t('statistics.consultations')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('statistics.colConsultations')}</TableHead>
                         <TableHead className="text-xs text-center">{t('statistics.absences')}</TableHead>
                         <TableHead className="text-xs text-center">{t('statistics.rating')}</TableHead>
                         <TableHead className="text-xs hidden sm:table-cell">{t('statistics.performance')}</TableHead>
