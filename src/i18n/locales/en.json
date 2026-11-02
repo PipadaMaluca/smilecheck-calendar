@@ -708,7 +708,12 @@
     "noConsultations": "No appointments",
     "bookConsultation": "Book appointment",
     "pres": "In-p.",
-    "tele": "Tele."
+    "tele": "Tele.",
+    "nowBadge": "NOW",
+    "inMinutes_one": "in {{count}} min",
+    "inMinutes_other": "in {{count}} min",
+    "inHours_one": "in {{count}} h",
+    "inHours_other": "in {{count}} h"
   },
   "agenda": {
     "today": "Today",
@@ -4077,7 +4082,13 @@
     "pointsEarnedShort": "Pts earned",
     "history": "Invite History",
     "statusConfirmed": "Confirmed",
-    "statusPending": "Pending"
+    "statusPending": "Pending",
+    "headlineNoPoints": "Invite friends to SmileCheck",
+    "comingSoon": "Reward coming soon",
+    "subtitleComingSoon": "The referral reward will be available soon. You can already share your code.",
+    "subtitlePoints_one": "Earn {{count}} point for every person who signs up",
+    "subtitlePoints_other": "Earn {{count}} points for every person who signs up",
+    "pointsShort": "+{{count}} pts"
   },
   "sweep": {
     "dentistProfile": {

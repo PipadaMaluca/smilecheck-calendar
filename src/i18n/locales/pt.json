@@ -708,7 +708,12 @@
     "noConsultations": "Sem consultas",
     "bookConsultation": "Marcar consulta",
     "pres": "Pres.",
-    "tele": "Tele."
+    "tele": "Tele.",
+    "nowBadge": "AGORA",
+    "inMinutes_one": "em {{count}} min",
+    "inMinutes_other": "em {{count}} min",
+    "inHours_one": "em {{count}} h",
+    "inHours_other": "em {{count}} h"
   },
   "agenda": {
     "today": "Hoje",
@@ -4077,7 +4082,13 @@
     "pointsEarnedShort": "Pts ganhos",
     "history": "Histórico de Convites",
     "statusConfirmed": "Confirmado",
-    "statusPending": "Pendente"
+    "statusPending": "Pendente",
+    "headlineNoPoints": "Convide amigos para o SmileCheck",
+    "comingSoon": "Recompensa em breve",
+    "subtitleComingSoon": "A recompensa por convite estará disponível em breve. Já pode partilhar o seu código.",
+    "subtitlePoints_one": "Ganhe {{count}} ponto por cada pessoa que se registar",
+    "subtitlePoints_other": "Ganhe {{count}} pontos por cada pessoa que se registar",
+    "pointsShort": "+{{count}} pts"
   },
   "sweep": {
     "dentistProfile": {
