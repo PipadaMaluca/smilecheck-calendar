@@ -514,7 +514,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           {typeDot(c.category as ConsultationCategory)}
                           {c.notes && (
                             <span className="text-2xs text-muted-foreground truncate min-w-0 flex-shrink">
-                              {c.notes}
+                              {demoText(c.notes)}
                             </span>
                           )}
                         </div>
@@ -554,7 +554,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           className="text-xs text-muted-foreground truncate min-w-0"
                           style={{ gridColumn: 2, gridRow: 2 }}
                         >
-                          {c.notes || '\u00A0'}
+                          {demoText(c.notes) || '\u00A0'}
                         </span>
                         <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 2 }}>
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
