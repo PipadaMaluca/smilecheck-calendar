@@ -18,6 +18,8 @@ const SOURCES: Record<LogoVariant, { dark: string; light: string }> = {
   },
 };
 
+const ASPECT: Record<LogoVariant, number> = { icon: 1, full: 1, horizontal: 3 };
+
 const RADIUS: Record<LogoVariant, number> = {
   icon: 16,
   full: 20,
@@ -31,6 +33,8 @@ interface LogoProps {
   alt?: string;
   /** Force a specific theme variant (useful when container theme is fixed). */
   theme?: 'dark' | 'light';
+  /** Lazy-load when rendered below the fold. */
+  lazy?: boolean;
   /** Deprecated, kept for backward-compat. No-op. */
   withWordmark?: boolean;
   /** Deprecated, kept for backward-compat. No-op. */
@@ -56,6 +60,7 @@ export function Logo({
   className,
   alt = 'SmileCheck',
   theme,
+  lazy = false,
 }: LogoProps) {
   const [dark, setDark] = useState<boolean>(getDark);
 
@@ -77,13 +82,19 @@ export function Logo({
   const borderRadius = RADIUS[v];
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={size}
-      className={cn('select-none', className)}
-      style={{ width: size, height: 'auto', borderRadius, display: 'block' }}
-      draggable={false}
-    />
+    <picture>
+      <source srcSet={src.replace(/\.png$/, '.webp')} type="image/webp" />
+      <img
+        src={src}
+        alt={alt}
+        width={size}
+        height={Math.round(size / ASPECT[v])}
+        loading={lazy ? 'lazy' : 'eager'}
+        decoding="async"
+        className={cn('select-none', className)}
+        style={{ width: size, height: 'auto', borderRadius, display: 'block' }}
+        draggable={false}
+      />
+    </picture>
   );
 }
