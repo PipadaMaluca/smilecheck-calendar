@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
-import { getStripe, getStripeEnvironment } from '@/lib/stripe';
+import { getStripe } from '@/lib/stripe';
 import { supabase } from '@/integrations/supabase/client';
 
 export function StripeEmbeddedCheckout({ priceId, returnUrl }: { priceId: string; returnUrl: string }) {
