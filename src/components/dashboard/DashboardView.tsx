@@ -1,6 +1,6 @@
 import { demoText } from '@/lib/demoText';
 import { onActivateKey } from '@/lib/a11y';
-import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
+import { getDateFnsLocale, getActiveLocale, formatNumber, formatDate } from '@/lib/formatters';
 import { demoDate, pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -171,7 +171,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
-      format(nextPatientCon.date, "d 'de' MMMM", { locale: getDateFnsLocale() }) :
+      formatDate(nextPatientCon.date, { day: 'numeric', month: 'long' }) :
       t('dashboard.bookConsultation');
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [

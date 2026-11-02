@@ -1,4 +1,4 @@
-import { formatDecimal1 } from '@/lib/formatters';
+import { formatDecimal1, formatDate } from '@/lib/formatters';
 import { pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -47,6 +47,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       catColor: n.category ? CATEGORY_COLORS[n.category]?.hex : 'hsl(var(--primary))',
       countdownMin,
       isToday: isSameDay(n.date, now),
+      dayLabel: isSameDay(n.date, now) ? '' : formatDate(n.date, { weekday: 'short', day: 'numeric', month: 'short' }),
     };
   }, [userRole, t]);
 
@@ -78,7 +79,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           <div className="flex-1 min-w-0 pl-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-sm font-bold text-foreground tabular-nums flex-shrink-0">
-                {next.time}
+                {next.dayLabel ? `${next.dayLabel} · ` : ''}{next.time}
               </span>
               <span className="text-sm text-foreground truncate min-w-0">
                 · {next.name}
@@ -108,7 +109,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </div>
       ) : (
         <div className="md:hidden w-full h-16 flex items-center justify-center bg-muted/30 border border-border rounded-xl text-sm text-muted-foreground">
-          {t('dashboard.noConsultations')}
+          {userRole === 'patient' ? t('dashboard.noConsultations') : t('dashboard.noMoreToday')}
         </div>
       )}
 
