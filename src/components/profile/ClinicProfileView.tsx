@@ -61,7 +61,7 @@ const CLINIC_DATA: Record<string, {
   }[];
   specialties: string[];
   teleconsultaPrice: number;
-  presencialPrice: string;
+  presencialPrice: number | null;
   paymentMethods: string[];
   insurances: string[];
 }> = {
@@ -98,7 +98,7 @@ const CLINIC_DATA: Record<string, {
     ],
     specialties: ['Implantologia', 'Ortodontia', 'Endodontia', 'Cirurgia Oral', 'Estética Dentária', 'Odontopediatria'],
     teleconsultaPrice: 20,
-    presencialPrice: 'Variável conforme tratamento',
+    presencialPrice: null,
     paymentMethods: ['Cartão', 'MB WAY', 'Multibanco'],
     insurances: ['Médis', 'Multicare', 'AdvanceCare', 'ADSE'],
   },
@@ -133,7 +133,7 @@ const CLINIC_DATA: Record<string, {
     ],
     specialties: ['Cirurgia', 'Prótese', 'Endodontia', 'Restauração'],
     teleconsultaPrice: 20,
-    presencialPrice: 25 as number | string,
+    presencialPrice: 25,
     paymentMethods: ['Cartão', 'Espèces'],
     insurances: ['Mutuelle générale'],
   },
@@ -171,7 +171,7 @@ const CLINIC_DATA: Record<string, {
     ],
     specialties: ['Implantologia', 'Cirurgia Avançada', 'Prótese', 'Ortodontia', 'Estética'],
     teleconsultaPrice: 20,
-    presencialPrice: 30 as number | string,
+    presencialPrice: 30,
     paymentMethods: ['Cartão', 'CB', 'Chèque'],
     insurances: ['Mutuelle', 'MGEN', 'Harmonie'],
   },
@@ -512,7 +512,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
-            <span className="font-medium">{data.presencialPrice}</span>
+            <span className="font-medium">{data.presencialPrice == null ? t('clinicProfileExtra.variablePrice') : t('units.from', { price: formatCurrency(data.presencialPrice) })}</span>
           </div>
           <div className="flex justify-between items-start">
             <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
