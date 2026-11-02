@@ -2806,6 +2806,8 @@
       "title": "Analyse intelligente",
       "analyzing": "Analyse de vos symptômes…",
       "error": "Analyse indisponible pour le moment. Vous pouvez continuer la réservation.",
+      "errorAuth": "Connectez-vous pour obtenir l'analyse intelligente.",
+      "errorLimit": "Vous avez atteint la limite de 10 analyses par jour. Réessayez demain.",
       "tips": "En attendant votre rendez-vous :",
       "disclaimer": "Orientation préliminaire générée par IA. Elle ne remplace pas l'avis du dentiste.",
       "emergency": "Ces signes indiquent de consulter en urgence aujourd'hui.",
