@@ -15,6 +15,13 @@
       "when": 1793632437249,
       "tag": "0001_check_achievements_trusted_write",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793632549743,
+      "tag": "0002_award_points_reset_trusted_flag",
+      "breakpoints": true
     }
   ]
 }
