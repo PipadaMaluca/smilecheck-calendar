@@ -333,13 +333,13 @@
       "patient2Title": "Ganhar pontos",
       "patient2Desc": "Cada consulta e bom comportamento dão pontos. 100 pts = 10 €",
       "patient3Title": "Conquistas",
-      "patient3Desc": "35 conquistas para desbloquear e subir de nível",
+      "patient3Desc": "{{count}} conquistas para desbloquear e subir de nível",
       "patient4Title": "Recompensas",
       "patient4Desc": "Troque pontos por descontos e produtos",
       "patient5Title": "Saúde oral",
       "patient5Desc": "Alergias, medicação, vacinas e documentos num só lugar",
       "patient6Title": "Teleconsultas",
-      "patient6Desc": "Consulte o seu dentista sem sair de casa por 20 €",
+      "patient6Desc": "Em breve: consulte o seu dentista por videochamada, sem sair de casa",
       "dentist1Title": "Agenda inteligente",
       "dentist1Desc": "Dia, semana, mês com drag-and-drop e filtros",
       "dentist2Title": "Confirmações",
@@ -351,7 +351,7 @@
       "dentist5Title": "Estatísticas",
       "dentist5Desc": "Desempenho detalhado com exportação de relatórios",
       "dentist6Title": "Classificações",
-      "dentist6Desc": "Compita no classificação nacional e ganhe prémios",
+      "dentist6Desc": "Compita na classificação nacional e ganhe prémios",
       "clinic1Title": "Gestão de equipa",
       "clinic1Desc": "Acompanhe cada dentista da sua clínica",
       "clinic2Title": "Dashboard central",
@@ -359,14 +359,15 @@
       "clinic3Title": "Relatórios",
       "clinic3Desc": "Estatísticas avançadas com exportação PDF/Excel",
       "clinic4Title": "Classificações de clínica",
-      "clinic4Desc": "Destaque-se no classificação nacional de clínicas",
+      "clinic4Desc": "Destaque-se na classificação nacional de clínicas",
       "clinic5Title": "Reputação",
       "clinic5Desc": "Avaliações e classificação pública da clínica",
       "clinic6Title": "Teleconsultas",
       "clinic6Desc": "Monitorize teleconsultas de toda a equipa",
       "teleEyebrow": "TELECONSULTAS",
-      "teleTitle": "Consultas à distância por apenas 20 €",
-      "teleDesc": "Fale com o seu dentista por videochamada, sem sair de casa. Pagamento seguro, receita digital incluída."
+      "teleTitle": "Em breve: consultas por videochamada",
+      "teleDesc": "Em breve: consulte o seu dentista por videochamada, sem sair de casa. A receita digital estará incluída.",
+      "teleSoon": "Em breve"
     },
     "howItWorks": {
       "title": "Simples como sorrir",
@@ -413,7 +414,7 @@
         "Tudo do Pro",
         "RGB completo (todas as cores)",
         "Bónus +10% em pontos",
-        "Badge exclusivo Premium",
+        "Distintivo exclusivo Premium",
         "Suporte prioritário",
         "Teleconsultas com desconto"
       ],
@@ -490,7 +491,7 @@
       "q2": "Como funcionam os pontos?",
       "a2": "Ganhe pontos ao confirmar consultas, chegar a horas, manter boa higiene oral e muito mais. 100 pontos = 10 € que pode trocar na Loja de Recompensas.",
       "q3": "As teleconsultas são seguras?",
-      "a3": "Sim. As teleconsultas são realizadas através de videochamada encriptada diretamente na plataforma. Custa apenas 20 € por consulta.",
+      "a3": "Em breve. As teleconsultas serão feitas por videochamada encriptada diretamente na plataforma, por 20 € cada.",
       "q4": "Posso usar o SmileCheck em vários dispositivos?",
       "a4": "Sim! O SmileCheck funciona em qualquer dispositivo — computador, tablet ou telemóvel.",
       "q5": "Como funciona o sistema de níveis?",
@@ -588,7 +589,7 @@
     "clinic": {
       "welcomeTitle": "SmileCheck clínica!",
       "welcomeSubtitle": "A plataforma que destaca a sua clínica!",
-      "welcomeTagline": "Acumule pontos, suba de nível e lidere o classificação!",
+      "welcomeTagline": "Acumule pontos, suba de nível e lidere a classificação!",
       "pointsTitle": "GANHE XP & PONTOS",
       "pointsBottom": "Ganhe XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁ PRONTO!",
@@ -673,13 +674,13 @@
       "clinicDesc": "Dentro da sua clínica",
       "regional": "Regional",
       "regionalDesc": "Na sua região",
-      "prize1": "200 € + badge exclusivo",
-      "prize2": "100 € + badge",
-      "prize3": "50 € + badge",
+      "prize1": "200 € + distintivo exclusivo",
+      "prize2": "100 € + distintivo",
+      "prize3": "50 € + distintivo",
       "annualGlobal": "Top 1 global anual",
-      "annualGlobalPrize": "2000 € + Bilhete de Congresso + 10% Desconto Pós-Graduação + Badge",
+      "annualGlobalPrize": "2000 € + Bilhete de Congresso + 10% Desconto Pós-Graduação + Distintivo",
       "annualNational": "Top 1 nacional anual",
-      "annualNationalPrize": "1000 € + Bilhete de Congresso + Badge"
+      "annualNationalPrize": "1000 € + Bilhete de Congresso + Distintivo"
     }
   },
   "dashboard": {
@@ -1599,7 +1600,7 @@
       },
       "csec5": {
         "name": "Nº 1 Nacional",
-        "desc": "1º lugar no classificação nacional"
+        "desc": "1º lugar na classificação nacional"
       }
     }
   },
@@ -3202,7 +3203,7 @@
     "maxEmergencyPriority": "Prioridade máxima nas urgências",
     "prioritySupport": "Suporte prioritário",
     "fullCustomColors": "Cores 100% personalizáveis (tema + consultas)",
-    "premiumBadge": "Badge Premium no perfil",
+    "premiumBadge": "Distintivo Premium no perfil",
     "exclusiveRewards": "Recompensas exclusivas",
     "teleconsult10": "10 teleconsultas/mês",
     "oneClinic": "1 clínica",
@@ -3252,7 +3253,7 @@
       "maxUrgencyPriority": "Prioridade máxima nas urgências",
       "prioritySupport": "Suporte prioritário",
       "fullCustomColors": "Cores 100% personalizáveis (tema + consultas)",
-      "premiumBadge": "Badge Premium no perfil",
+      "premiumBadge": "Distintivo Premium no perfil",
       "exclusiveRewards": "Recompensas exclusivas",
       "10teleconsultsMonth": "10 teleconsultas/mês",
       "1clinic": "1 clínica",
@@ -4107,7 +4108,7 @@
     "celebration": {
       "congrats": "Parabéns!",
       "reachedLevel": "Subiu para {{level}}!",
-      "exclusiveBadge": "Badge exclusivo",
+      "exclusiveBadge": "Distintivo exclusivo",
       "bonusPoints": "+{{n}} pontos bónus",
       "newFrame": "Nova moldura de avatar"
     },
@@ -4140,9 +4141,9 @@
         "badges2": "2 badges em destaque",
         "clinicRanking": "Classificação de clínica",
         "badges3": "3 badges em destaque",
-        "nationalRankingView": "Acesso ao classificação nacional",
+        "nationalRankingView": "Acesso à classificação nacional",
         "badges4": "4 badges em destaque",
-        "nationalRankingPosition": "Ver posição no classificação nacional",
+        "nationalRankingPosition": "Ver posição na classificação nacional",
         "basicStats": "Estatísticas básicas de desempenho",
         "badges6": "6 badges em destaque",
         "sealRecommended": "Selo \"Dentista Recomendado\"",
@@ -4183,7 +4184,7 @@
         "animatedSeal": "Selo animado exclusivo",
         "goldenFrame": "Moldura dourada de perfil",
         "vipSupport": "Canal de suporte VIP",
-        "consultancyBadge": "Badge de consultoria de otimização"
+        "consultancyBadge": "Distintivo de consultoria de otimização"
       }
     },
     "seal": {
