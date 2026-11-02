@@ -54,7 +54,7 @@ export function MonthlyCalendar({
         >
           <ChevronLeft className="w-4 h-4" />
         </Button>
-        <span className="text-sm font-semibold capitalize">
+        <span className="text-sm font-semibold sentence-case">
           {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
         </span>
         <Button

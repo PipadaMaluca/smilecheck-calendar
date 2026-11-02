@@ -95,7 +95,7 @@ export function PatientSidebar({
             className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <span className="text-sm font-semibold capitalize">
+          <span className="text-sm font-semibold sentence-case">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
           <Button

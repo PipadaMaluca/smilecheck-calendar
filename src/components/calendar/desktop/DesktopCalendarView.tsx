@@ -734,7 +734,7 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-[50px] border border-secondary pb-[50px] px-[30px]">
-              <span className="text-sm font-medium capitalize text-foreground">
+              <span className="text-sm font-medium sentence-case text-foreground">
                 {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
@@ -764,7 +764,7 @@ export function DesktopCalendarView() {
                     <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
                     <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
-                  <span className="text-sm font-medium capitalize text-foreground">
+                  <span className="text-sm font-medium sentence-case text-foreground">
                     {getHeaderDateLabel()}
                   </span>
                 </div>

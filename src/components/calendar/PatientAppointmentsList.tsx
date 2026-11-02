@@ -132,7 +132,7 @@ export function PatientAppointmentsList({
                       {/* Date & Time */}
                       <div className={cn("flex items-center gap-2 text-muted-foreground mb-2", compact ? "text-xs" : "text-sm")}>
                         <Calendar className="w-4 h-4 flex-shrink-0" />
-                        <span className="capitalize truncate">
+                        <span className="sentence-case truncate">
                           {format(consultation.date, compact ? "d MMM" : "EEEE, d 'de' MMMM", { locale: getDateFnsLocale() })}
                         </span>
                         <span>•</span>

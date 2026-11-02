@@ -35,7 +35,7 @@ export function DateNavigator({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base max-[499px]:text-[15px] font-semibold capitalize text-center flex-1 px-2">
+        <h2 className="text-base max-[499px]:text-[15px] font-semibold sentence-case text-center flex-1 px-2">
           {format(date, "EEEE, d MMMM", { locale })}
         </h2>
         <Button
@@ -56,7 +56,7 @@ export function DateNavigator({
               variant={viewMode === mode ? 'secondary' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange(mode)}
-              className="flex-1 text-xs capitalize"
+              className="flex-1 text-xs sentence-case"
             >
               {mode === 'day' ? t('agenda.day') : mode === 'week' ? t('agenda.week') : t('agenda.month')}
             </Button>

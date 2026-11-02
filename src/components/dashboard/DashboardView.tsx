@@ -935,7 +935,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-[18px] max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
+            <p className="text-sm text-muted-foreground mt-1 sentence-case text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
               {DEMO_DATE.toLocaleDateString(getActiveLocale(), {
                 weekday: 'long',
                 day: 'numeric',

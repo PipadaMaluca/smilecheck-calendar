@@ -243,7 +243,7 @@ export function PatientCalendar() {
                   <div className="space-y-3">
                     {upcomingConsultations.slice(0, 5).map((consultation) => (
                       <div key={consultation.id}>
-                        <p className="text-xs text-muted-foreground mb-1 capitalize">
+                        <p className="text-xs text-muted-foreground mb-1 sentence-case">
                           {format(consultation.date, "EEEE, d 'de' MMMM", { locale: getDateFnsLocale() })}
                         </p>
                         <ConsultationCard

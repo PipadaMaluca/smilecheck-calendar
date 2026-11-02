@@ -146,7 +146,7 @@ export function DesktopCalendarSidebar({
           >
             <ChevronLeft className="w-3 h-3" />
           </Button>
-          <span className="text-xs font-medium capitalize">
+          <span className="text-xs font-medium sentence-case">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
           <Button
