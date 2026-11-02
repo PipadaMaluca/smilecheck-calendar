@@ -19,7 +19,7 @@ export function StoreQrCodes() {
             aria-label={it.aria}
             className="inline-flex rounded-lg transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
-            <img src={it.src} alt={it.alt} className="h-11 md:h-13 w-auto" draggable={false} />
+            <img src={it.src} alt={it.alt} className="h-11 md:h-12 w-auto" draggable={false} />
           </a>
         ))}
       </div>

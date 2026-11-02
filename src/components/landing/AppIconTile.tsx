@@ -16,7 +16,7 @@ export function AppIconTile() {
       >
         <div className="grid grid-cols-7 gap-4 md:gap-6">
           {cells.map((_, i) => (
-            <div key={i} className="w-20 h-20 md:w-28 md:h-28 rounded-3xl md:rounded-4xl border border-border/60 bg-muted/40 dark:bg-muted/10 dark:border-border/30" />
+            <div key={i} className="w-20 h-20 md:w-28 md:h-28 rounded-3xl md:rounded-3xl border border-border/60 bg-muted/40 dark:bg-muted/10 dark:border-border/30" />
           ))}
         </div>
       </div>

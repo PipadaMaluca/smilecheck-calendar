@@ -4,9 +4,7 @@ import { formatNumber } from '@/lib/formatters';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Logo } from '@/components/branding/Logo';
 import { StoreQrCodes } from './StoreQrCodes';
 import { AppIconTile } from './AppIconTile';
 
