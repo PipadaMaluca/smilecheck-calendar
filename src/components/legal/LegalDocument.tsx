@@ -39,7 +39,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibili
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)} aria-label={t('legal.back')}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <Logo variant="horizontal" size={32} />
+            <Logo variant="horizontal" size={96} />
             <div className="flex-1">
               <h1 className="text-lg font-bold text-foreground">{t(titleKey)}</h1>
               <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(updated) })}</p>
