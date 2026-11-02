@@ -189,7 +189,7 @@
 
     /* === Sidebar (blue-tinted) === */
     --sidebar-background: 213 100% 96%; /* #EBF4FF */
-    --sidebar-foreground: 207 33% 54%;  /* #5B8DB8 muted blue */
+    --sidebar-foreground: 207 40% 38%;  /* muted blue, AA */
     --sidebar-primary: 207 90% 54%;     /* #2196F3 */
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 213 100% 92%;     /* #D6E8FF active */
@@ -1069,7 +1069,7 @@ html, body, #root {
 /* --- 4. SIDEBAR — blue identity & active state --- */
 .light aside .text-sidebar-foreground\/70,
 .light aside .text-sidebar-foreground {
-  color: hsl(207 33% 54%) !important;                     /* #5B8DB8 */
+  color: hsl(207 40% 38%) !important;                     /* AA on light sidebar */
 }
 /* Active sidebar item: stronger blue + left border accent */
 .light aside button.bg-sidebar-primary {
