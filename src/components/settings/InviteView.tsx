@@ -102,7 +102,11 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   const shareTargets: { id: string; label: string; Icon: (p: { className?: string }) => JSX.Element; onClick: () => void; copyOnly?: boolean }[] = [
     { id: 'whatsapp', label: 'WhatsApp', Icon: WhatsAppIcon, onClick: () => open(`https://wa.me/?text=${enc(shareMessage)}`) },
     { id: 'telegram', label: 'Telegram', Icon: TelegramIcon, onClick: () => open(`https://t.me/share/url?url=${enc(link)}&text=${enc(t('invite.shareMessage', { code, link: '' }).trim())}`) },
-    { id: 'messenger', label: 'Messenger', Icon: MessengerIcon, onClick: () => open(`https://www.facebook.com/dialog/send?link=${enc(link)}&app_id=0&redirect_uri=${enc(link)}`) },
+    { id: 'messenger', label: 'Messenger', Icon: MessengerIcon, onClick: () => {
+      // Messenger has no public web share URL: the app link opens the native composer; on desktop we copy and open Messenger.
+      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) { window.location.href = `fb-messenger://share/?link=${enc(link)}`; return; }
+      navigator.clipboard.writeText(shareMessage); toast.success(t('invite.copiedForMessenger')); open('https://www.messenger.com/');
+    } },
     { id: 'facebook', label: 'Facebook', Icon: FacebookIcon, onClick: () => open(`https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`) },
     { id: 'x', label: 'X', Icon: XIcon, onClick: () => open(`https://twitter.com/intent/tweet?text=${enc(shareMessage)}`) },
     { id: 'linkedin', label: 'LinkedIn', Icon: LinkedInIcon, onClick: () => open(`https://www.linkedin.com/sharing/share-offsite/?url=${enc(link)}`) },

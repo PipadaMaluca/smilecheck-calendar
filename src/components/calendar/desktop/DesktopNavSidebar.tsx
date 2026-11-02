@@ -165,6 +165,7 @@ export function DesktopNavSidebar({
         <Logo
           variant="icon"
           size={isExpanded ? 48 : 40}
+          enter="app"
           className="transition-colors duration-300"
         />
         {userRole !== 'patient' && (

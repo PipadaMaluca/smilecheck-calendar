@@ -4221,7 +4221,8 @@
     "qrTitle": "Invite QR code",
     "qrDesc": "Show this code to someone next to you so they can sign up.",
     "qrAlt": "QR code of your invite link",
-    "qrDownload": "Download image"
+    "qrDownload": "Download image",
+    "copiedForMessenger": "Message copied — paste it in your Messenger chat"
   },
   "sweep": {
     "dentistProfile": {

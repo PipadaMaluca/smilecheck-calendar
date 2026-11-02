@@ -4221,7 +4221,8 @@
     "qrTitle": "Código QR do convite",
     "qrDesc": "Mostre este código para quem estiver consigo se registar.",
     "qrAlt": "Código QR do seu link de convite",
-    "qrDownload": "Descarregar imagem"
+    "qrDownload": "Descarregar imagem",
+    "copiedForMessenger": "Mensagem copiada — cole-a na conversa do Messenger"
   },
   "sweep": {
     "dentistProfile": {

@@ -4221,7 +4221,8 @@
     "qrTitle": "QR code de l’invitation",
     "qrDesc": "Montrez ce code à la personne à côté de vous pour qu’elle s’inscrive.",
     "qrAlt": "QR code de votre lien d’invitation",
-    "qrDownload": "Télécharger l’image"
+    "qrDownload": "Télécharger l’image",
+    "copiedForMessenger": "Message copié — collez-le dans la conversation Messenger"
   },
   "sweep": {
     "dentistProfile": {
