@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { Video, MapPin, Lock } from 'lucide-react';
 import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +83,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
           : consultation?.patient.name;
 
         return (
-          <div
+          <div role="button" tabIndex={0} onKeyDown={onActivateKey}
             key={`${slot.time}-${idx}`}
             onClick={() => isOcupado && onSlotClick?.(slot)}
             className={cn(

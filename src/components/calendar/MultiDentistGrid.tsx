@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useEffect, useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -250,7 +251,7 @@ export function MultiDentistGrid({
                     
                     const slotId = `${col.clinic.id}-${col.dentist.id}-${time}`;
                     return (
-                      <div
+                      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                         key={time}
                         className={cn(
                           "bg-muted/20 border border-dashed border-muted-foreground/10 rounded flex items-center justify-center transition-colors cursor-pointer hover:bg-primary/10 press",
@@ -313,7 +314,7 @@ export function MultiDentistGrid({
                     const tooltip = [`${slot.time} · ${patientName}`, getCategoryLabel(t, category), consultation.notes].filter(Boolean).join('\n');
 
                     return (
-                      <div
+                      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                         key={consultation.id}
                         data-cat={category}
                         draggable

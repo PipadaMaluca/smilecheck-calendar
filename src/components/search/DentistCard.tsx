@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { formatCurrency } from '@/lib/formatters';
 import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -39,7 +40,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
   })();
 
   return (
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       className={cn(
         'bg-card rounded-lg border border-border p-4 space-y-3 flex flex-col h-full min-h-[200px] interactive-lift cursor-pointer press'
       )}

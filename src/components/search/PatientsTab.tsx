@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, Star, Calendar, MessageCircle, FolderOpen, AlertTriangle, Building2, User } from 'lucide-react';
@@ -144,7 +145,7 @@ function PatientCard({
   const levelCfg = LEVEL_CONFIG[p.level];
   const isMobile = useIsMobile();
   return (
-    <div className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press" onClick={onViewDossier}>
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey} className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press" onClick={onViewDossier}>
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-base font-bold text-primary flex-shrink-0">
           {getInitials(p.name)}

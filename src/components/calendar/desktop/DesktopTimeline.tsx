@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Ban } from 'lucide-react';
@@ -285,7 +286,7 @@ export function DesktopTimeline({
                     if (isOccupied) return null;
                     const slotId = `${key}-${time}`;
                     return (
-                      <div
+                      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                         key={`empty-${time}`}
                         className={cn(
                           "appt-slot-free transition-colors border rounded-full mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30 press",
@@ -341,7 +342,7 @@ export function DesktopTimeline({
                     const pillEmoji = CATEGORY_PILL_EMOJIS[consultation.category || 'restauracao'];
                     
                       return (
-                        <div
+                        <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                           key={consultation.id}
                           data-cat={consultation.category || 'restauracao'}
                           draggable

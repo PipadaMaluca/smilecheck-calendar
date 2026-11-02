@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -202,7 +203,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   const displayName = lastName ? `${firstName} ${lastName}` : firstName;
 
                   return (
-                    <div
+                    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                       key={consultation.id}
                       data-cat={category}
                       draggable

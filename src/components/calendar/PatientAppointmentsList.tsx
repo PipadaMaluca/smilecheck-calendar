@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
@@ -115,7 +116,7 @@ export function PatientAppointmentsList({
                   }
                 }]}
               >
-              <div
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                 className={cn(
                   'bg-card rounded-xl cursor-pointer transition-[transform,background-color,border-color,color,box-shadow] duration-150 press',
                   'border-l-4',

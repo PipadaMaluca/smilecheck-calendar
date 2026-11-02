@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
 import { demoDate, pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
@@ -493,7 +494,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         }
                       ]}
                     >
-                    <div
+                    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                       className={cn(
                         "consultation-row cursor-pointer hover:bg-muted/30 hover:brightness-110 rounded transition-colors py-1.5 press",
                         !isLast && "border-b border-border",
@@ -589,7 +590,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {dentistConfirmations.map((c, idx) => {
                   const isLastConf = idx === dentistConfirmations.length - 1;
                   return (
-                    <div
+                    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                       key={c.consultationId}
                       className={cn(
                         "flex items-center gap-2 rounded-md cursor-pointer hover:bg-muted/30 transition-colors py-1.5 press",
@@ -723,7 +724,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {clinicTodayConsultations.map((c, index) => {
                   const isLast = index === clinicTodayConsultations.length - 1;
                   return (
-                    <div
+                    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                       key={c.id}
                       className={cn(
                         'consultation-row grid grid-cols-[42px_minmax(0,1fr)_auto] sm:grid-cols-[48px_minmax(100px,1fr)_minmax(100px,1fr)_auto] items-center gap-2 py-1.5 rounded cursor-pointer hover:bg-muted/30 transition-colors press',
@@ -781,7 +782,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           rowIndex++;
                           const isLast = rowIndex === totalRows;
                           return (
-                            <div
+                            <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                               key={c.consultationId}
                               className={cn(
                                 "flex items-center gap-1.5 py-1.5 rounded-md cursor-pointer hover:bg-muted/30 transition-colors press",

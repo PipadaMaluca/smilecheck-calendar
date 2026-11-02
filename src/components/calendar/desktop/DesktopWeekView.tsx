@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
@@ -133,7 +134,7 @@ export function DesktopWeekView({
   const dayMinW = subColMinW > 0 ? subColMinW * dentists.length : 0;
 
   return (
-    <div className="flex-1 overflow-auto bg-[#1A2F3D]" onClick={() => setContextMenu(null)}>
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey} className="flex-1 overflow-auto bg-[#1A2F3D]" onClick={() => setContextMenu(null)}>
       <div
         className="min-w-full"
         style={ isScroll ? { width: 'max-content' } : undefined }
@@ -154,7 +155,7 @@ export function DesktopWeekView({
                 )}
                 style={ dayMinW ? { minWidth: dayMinW } : undefined }
               >
-                <div
+                <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                   className="text-center py-1.5 cursor-pointer hover:bg-secondary/30 transition-colors press"
                   onClick={() => { onDateChange(day); onViewModeChange('day'); }}
                 >
@@ -312,7 +313,7 @@ export function DesktopWeekView({
                         const displayName = scaleCfg.firstNameOnly ? fullName.split(' ')[0] : fullName;
 
                         return (
-                          <div
+                          <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                             key={c.id}
                             data-cat={category}
                             draggable

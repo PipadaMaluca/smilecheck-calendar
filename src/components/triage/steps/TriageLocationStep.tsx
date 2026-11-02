@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -266,7 +267,7 @@ export function TriageLocationStep({
         </div>
       </div>
 
-      <div
+      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
         className="flex items-center gap-3 p-3 bg-[#1E3A5F] rounded-lg cursor-pointer press"
         onClick={() => handleUnknownToggle(!unknownLocation)}
       >

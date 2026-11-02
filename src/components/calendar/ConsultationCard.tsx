@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +54,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
 
   return (
     <>
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       onClick={onClick}
       onContextMenu={handleContextMenu}
       className={cn(

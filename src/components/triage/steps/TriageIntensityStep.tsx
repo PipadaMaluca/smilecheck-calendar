@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useTranslation } from 'react-i18next';
 import { Smile, Meh, Frown, Angry, Skull } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
@@ -92,7 +93,7 @@ export function TriageIntensityStep({
         </div>
       </div>
 
-      <div
+      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
         className="flex items-center gap-3 p-4 bg-[#1E3A5F] rounded-xl cursor-pointer press"
         onClick={() => handleRoutineToggle(!isRoutineCheckup)}
       >

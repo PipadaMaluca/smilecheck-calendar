@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
@@ -283,7 +284,7 @@ export function FavoritesView({
             const isFav = favorites.includes(d.id);
 
             return (
-              <div key={d.id}
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={d.id}
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewProfile(d)}
               >
@@ -343,7 +344,7 @@ export function FavoritesView({
             const isFav = clinicFavorites.includes(c.id);
             const initials = getClinicInitials(c.name);
             return (
-              <div key={`c-${c.id}`}
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={`c-${c.id}`}
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >

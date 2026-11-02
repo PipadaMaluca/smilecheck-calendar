@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Camera, X, Lightbulb } from 'lucide-react';
@@ -48,7 +49,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
         </p>
       </div>
 
-      <div
+      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
         onClick={() => fileInputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}

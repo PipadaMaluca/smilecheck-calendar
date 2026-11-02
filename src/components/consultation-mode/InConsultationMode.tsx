@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -23,7 +24,7 @@ export function InConsultationBar({
   const elapsed = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
   return (
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       className="h-10 flex items-center justify-between px-4 cursor-pointer animate-fade-in flex-shrink-0 press"
       style={{ backgroundColor: 'rgba(27, 94, 32, 0.9)' }}
       onClick={() => onOpenDossier(consultation.patient.id)}

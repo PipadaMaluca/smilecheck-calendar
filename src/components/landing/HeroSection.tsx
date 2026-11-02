@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { formatDecimal1 } from '@/lib/formatters';
 import { formatNumber } from '@/lib/formatters';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -103,7 +104,7 @@ export function HeroSection() {
 
         <p className="text-sm text-[#4A5568] dark:text-[#94A3B8] animate-fade-in text-center" style={{ marginBottom: 32 }}>
           {t('landing.hero.hasAccount')}{' '}
-          <a onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
+          <a role="button" tabIndex={0} onKeyDown={onActivateKey} onClick={() => navigate('/login')} className="text-[#2196F3] hover:underline cursor-pointer font-medium">
             {t('auth.login')}
           </a>
         </p>

@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { cn } from '@/lib/utils';
 import { HelpCircle, Trophy } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
@@ -24,7 +25,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
   };
 
   const badge = (
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       className={cn(
         'flex flex-col items-center gap-1 group cursor-pointer press',
         className
