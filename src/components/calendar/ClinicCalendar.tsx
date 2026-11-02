@@ -1,3 +1,4 @@
+import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
@@ -324,6 +325,7 @@ export function ClinicCalendar() {
         userRole="clinic"
       />
 
+      <ScreenEnter className="contents" screenKey={`${activeTab}:${selectedConsultation ? 'c' : ''}:${showFullHistory ? 'h' : ''}`} clinical={isClinicalScreen(activeTab) || !!selectedConsultation}>
       {showFullHistory ? (
         <FullHistoryView userRole="clinic" onBack={() => setShowFullHistory(false)} />
       ) : selectedConsultation ? (
@@ -482,6 +484,7 @@ export function ClinicCalendar() {
           <p className="text-lg">{t('agenda.sectionUnderConstruction')}</p>
         </div>
       )}
+      </ScreenEnter>
 
       <BottomNavigation userRole="clinic" activeTab={activeTab} onTabChange={handleTabChange} />
 

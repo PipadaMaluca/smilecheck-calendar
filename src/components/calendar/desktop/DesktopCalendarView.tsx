@@ -1,3 +1,4 @@
+import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
@@ -1135,7 +1136,9 @@ export function DesktopCalendarView() {
           userRole={activeRole} />
 
 
-      {renderMainArea()}
+      <ScreenEnter className="contents" screenKey={`${activeRole}:${activeNavTab}:${dossierPatientId ?? ''}:${showTriage ? 'triagem' : ''}:${showEditProfile ? 'edit' : ''}:${viewDentistProfile?.id ?? ''}:${viewClinicProfile ?? ''}:${selectedConsultation ? 'c' : ''}`} clinical={isClinicalScreen(activeNavTab) || !!dossierPatientId || showTriage}>
+        {renderMainArea()}
+      </ScreenEnter>
 
       {/* Notification Dropdown - rendered at root level to avoid z-index/stacking context issues from backdrop-blur */}
       {showNotificationDropdown &&
