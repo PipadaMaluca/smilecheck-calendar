@@ -1,4 +1,4 @@
-import { teleconsultSplit, DEMO_CURRENT_PLAN, type PlanTier } from '@/lib/planRules';
+import { teleconsultSplit, DEMO_CURRENT_PLAN, TELECONSULT_PRICE, type PlanTier } from '@/lib/planRules';
 export const patientPayments = [
   { id: '1', date: '15 Jan 2026', description: 'Teleconsulta Dr. Gonçalo Pipo', amount: 20, method: 'Visa ****4532', type: 'teleconsulta' },
   { id: '2', date: '1 Jan 2026', description: 'Plano Pro (mensal)', amount: 4.99, method: 'Visa ****4532', type: 'plano' },
@@ -8,18 +8,18 @@ export const patientPayments = [
 ];
 
 const dentistTeleconsultasBase = [
-  { id: '1', date: '15 Jan', patient: 'João Silva', duration: '30min', amount: 20 },
-  { id: '2', date: '12 Jan', patient: 'Maria Silva', duration: '30min', amount: 20 },
-  { id: '3', date: '10 Jan', patient: 'Ana Costa', duration: '30min', amount: 20 },
-  { id: '4', date: '8 Jan', patient: 'Pedro Santos', duration: '45min', amount: 25 },
-  { id: '5', date: '5 Jan', patient: 'Sofia Mendes', duration: '30min', amount: 20 },
-  { id: '6', date: '3 Jan', patient: 'Ricardo Oliveira', duration: '30min', amount: 20 },
-  { id: '7', date: '28 Dez', patient: 'Carla Rodrigues', duration: '30min', amount: 20 },
-  { id: '8', date: '25 Dez', patient: 'Tiago Ferreira', duration: '30min', amount: 20 },
-  { id: '9', date: '22 Dez', patient: 'Inês Pereira', duration: '45min', amount: 25 },
-  { id: '10', date: '20 Dez', patient: 'Miguel Alves', duration: '30min', amount: 20 },
-  { id: '11', date: '18 Dez', patient: 'Beatriz Sousa', duration: '30min', amount: 20 },
-  { id: '12', date: '15 Dez', patient: 'Hugo Martins', duration: '30min', amount: 20 },
+  { id: '1', date: '15 Jan', patient: 'João Silva', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '2', date: '12 Jan', patient: 'Maria Silva', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '3', date: '10 Jan', patient: 'Ana Costa', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '4', date: '8 Jan', patient: 'Pedro Santos', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '5', date: '5 Jan', patient: 'Sofia Mendes', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '6', date: '3 Jan', patient: 'Ricardo Oliveira', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '7', date: '28 Dez', patient: 'Carla Rodrigues', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '8', date: '25 Dez', patient: 'Tiago Ferreira', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '9', date: '22 Dez', patient: 'Inês Pereira', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '10', date: '20 Dez', patient: 'Miguel Alves', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '11', date: '18 Dez', patient: 'Beatriz Sousa', duration: '30min', amount: TELECONSULT_PRICE },
+  { id: '12', date: '15 Dez', patient: 'Hugo Martins', duration: '30min', amount: TELECONSULT_PRICE },
 ];
 
 /** Teleconsultations with commission derived from the dentist's plan (see planRules). */
