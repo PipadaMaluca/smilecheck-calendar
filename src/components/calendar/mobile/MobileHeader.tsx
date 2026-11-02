@@ -3,6 +3,7 @@ import { Menu, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ViewMode, UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
+import { DemoModeBadge } from '@/components/demo/DemoModeBadge';
 
 interface MobileHeaderProps {
   onMenuClick: () => void;
@@ -72,6 +73,12 @@ export function MobileHeader({
             <Plus className="w-5 h-5" />
           </Button>
         }
+
+        {/* Demo indicator: part of the header so it never covers page content */}
+        <DemoModeBadge
+          inline
+          className={cn('absolute', showNewConsultation && onNewConsultation && onViewModeChange ? 'right-16' : 'right-4')}
+        />
       </div>
     </div>;
 }

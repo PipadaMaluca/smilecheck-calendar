@@ -243,7 +243,8 @@
     "invalidCredentials": "Incorrect email or password.",
     "enterDemoMode": "Enter Demo mode",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "demoModeActive": "Demo mode active"
   },
   "roles": {
     "patient": "Patient",
