@@ -17,7 +17,7 @@ Executado em 5 lotes, por esta ordem. PT/FR/EN em tudo; formatters, tokens, alvo
 5. Manifest completo e ícones 192/512 e maskable gerados a partir do logótipo atual. Service worker com `vite-plugin-pwa` que guarda só a casca da app e as imagens/ficheiros fixos, com navegação sempre pela rede primeiro e nunca respostas do servidor nem dados de saúde. Só se ativa na app publicada (nunca na pré-visualização). Página offline simples. Botão "Instalar a app": no Android/computador abre o pedido de instalação; no iPhone mostra "Partilhar → Adicionar ao ecrã principal". Os badges das lojas continuam "Em breve".
 
 ## Lote 4 — Pagamentos (Stripe, modo de teste)
-8. **Decisão necessária:** o Lovable tem pagamentos Stripe incluídos. O Stripe fica gerido pelo Lovable, sem conta Stripe própria nem chave para colar, e tem modo de teste. Não consigo ativar isto nesta sessão. Para avançar, peça no chat do editor Lovable "ativa os pagamentos Stripe" (é preciso plano Pro ou superior). Proponho esse caminho em vez de colar uma chave própria. Depois de ativado:
+8. Pagamentos incluídos do Lovable já ativos em modo de teste (sem conta Stripe própria nem chave). Checkout dentro da app; compliance fiscal tratada pelo Stripe (+3,5% por transação, desativável).
    - criar produtos e preços de teste Pro/Premium × 3 perfis × mensal/anual, com valores de `planRules.ts` (anual −15%);
    - Checkout (cartão, Apple Pay, Google Pay; MB WAY se a conta o permitir) e Portal do Cliente para gerir/cancelar;
    - webhook com assinatura verificada que atualiza `profiles.plan` só pelo servidor (trusted write). Um cancelamento ou downgrade volta a Free no fim do período;
