@@ -144,14 +144,14 @@
        whether it uses a shadcn class or reads var(--page-bg) directly —
        stays visually consistent. */
     --page-bg: #F5F9FF;
-    --card-bg: #FFFFFF;
-    --card-border: #D6E4F0;
+    --card-bg: #DEEFFD;               /* #2196F3 @15% on white */
+    --card-border: #B9DAF5;
     --card-shadow: 0 2px 8px rgba(33, 150, 243, 0.06);
     --section-bg: #F0F7FF;
     --input-bg: #F5F9FF;
     --input-border: #D6E4F0;
     --hover-bg: #EBF4FF;
-    --sidebar-bg: #EBF4FF;
+    --sidebar-bg: #DEEFFD;
     --sidebar-active: #D6E8FF;
     --sidebar-text: #5B8DB8;
     --sidebar-active-text: #1565C0;
@@ -162,10 +162,10 @@
     --background: 213 100% 98%;         /* #F5F9FF subtle blue tint */
     --foreground: 220 26% 14%;          /* #1A202C */
 
-    --card: 0 0% 100%;
+    --card: 207 91% 93%;                /* #DEEFFD = #2196F3 @15% on white */
     --card-foreground: 220 26% 14%;
 
-    --popover: 0 0% 100%;
+    --popover: 207 91% 93%;
     --popover-foreground: 220 26% 14%;
 
     --primary: 207 90% 54%;
@@ -198,23 +198,23 @@
     --fear-3: 22 90% 36%;
     --fear-4: 0 72% 42%;
 
-    --border: 210 60% 89%;              /* #D6E4F0 blue-gray */
+    --border: 207 70% 84%;              /* #B9DAF5 bluer, separates tinted cards */
     --input: 210 100% 98%;              /* #F5F9FF */
     --ring: 207 90% 54%;
 
     /* === Sidebar (blue-tinted) === */
-    --sidebar-background: 213 100% 96%; /* #EBF4FF */
+    --sidebar-background: 207 91% 93%; /* #DEEFFD */
     --sidebar-foreground: 207 40% 38%;  /* muted blue, AA */
     --sidebar-primary: 207 90% 54%;     /* #2196F3 */
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 213 100% 92%;     /* #D6E8FF active */
     --sidebar-accent-foreground: 210 78% 42%;
-    --sidebar-border: 210 60% 89%;
+    --sidebar-border: 207 70% 84%;
     --sidebar-ring: 207 90% 54%;
 
     /* === Gradients & Shadows tuned for light bg === */
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 97%));
-    --gradient-modal: linear-gradient(180deg, hsl(0 0% 100%), hsl(214 22% 96%));
+    --gradient-card: linear-gradient(180deg, hsl(207 91% 93%), hsl(207 85% 91%));
+    --gradient-modal: linear-gradient(180deg, hsl(207 91% 93%), hsl(207 85% 91%));
     --shadow-card: 0 2px 8px rgba(33, 150, 243, 0.06);
     --shadow-modal: 0 25px 50px -12px hsl(220 26% 14% / 0.18);
     --shadow-glow: 0 0 30px hsl(207 90% 54% / 0.18);
@@ -222,7 +222,7 @@
 
   /* === Light-mode component overrides === */
   .light .bottom-nav {
-    background: hsl(0 0% 100%);
+    background: hsl(var(--card));
     border-top: 1px solid hsl(214 32% 91%);
     box-shadow: 0 -2px 8px hsl(220 26% 14% / 0.06);
   }
@@ -246,7 +246,7 @@
   /* Glass cards: in light mode, use white with subtle border instead of dark glass */
   .light .glass-card,
   .light .glass-card-strong {
-    background: hsl(0 0% 100% / 0.92);
+    background: hsl(var(--card) / 0.92);
     border-color: hsl(214 32% 91%);
     box-shadow: 0 1px 3px hsl(220 26% 14% / 0.08);
   }
@@ -264,7 +264,7 @@
 
   /* === Override hardcoded dark hex utilities in light mode === */
   /* Map legacy dark blues to light-mode equivalents */
-  .light .bg-\[\#0A1929\] { background-color: hsl(0 0% 100%) !important; }
+  .light .bg-\[\#0A1929\] { background-color: hsl(var(--card)) !important; }
   .light .bg-\[\#0D2137\] { background-color: hsl(210 38% 97%) !important; }   /* #F7FAFC */
   .light .bg-\[\#1A2F3D\] { background-color: hsl(214 27% 97%) !important; }   /* #F5F7FA */
   .light .bg-\[\#1E3A5F\] { background-color: hsl(214 32% 91%) !important; }   /* #E2E8F0 */
@@ -950,7 +950,7 @@ html, body, #root {
 
 /* 28. Light-mode: force popovers/dropdowns/tooltips/menus white */
 .light [data-radix-popper-content-wrapper] > * {
-  background-color: hsl(0 0% 100%) !important;
+  background-color: hsl(var(--popover)) !important;
   color: hsl(220 26% 14%) !important;
   border-color: hsl(214 32% 91%) !important;
   box-shadow: 0 4px 12px hsl(220 26% 14% / 0.12) !important;
@@ -1132,8 +1132,8 @@ html, body, #root {
 }
 
 /* --- 7. TABLES & LIST ROWS — alternating blue tint --- */
-.light tbody tr:nth-child(even) { background-color: hsl(213 100% 98%); }   /* #F5F9FF */
-.light tbody tr:nth-child(odd)  { background-color: hsl(0 0% 100%); }
+.light tbody tr:nth-child(even) { background-color: hsl(207 85% 90%); }
+.light tbody tr:nth-child(odd)  { background-color: hsl(var(--card)); }
 .light tbody tr:hover           { background-color: hsl(213 100% 96%) !important; } /* #EBF4FF */
 .light thead th {
   background-color: hsl(213 100% 97%) !important;         /* #F0F7FF */
@@ -1228,7 +1228,7 @@ html, body, #root {
 
 /* Calendar grid surfaces in light mode */
 .light .calendar-grid-surface,
-.light [data-calendar-grid] { background-color: #FFFFFF !important; }
+.light [data-calendar-grid] { background-color: hsl(var(--card)) !important; }
 .light [data-time-column] {
   background-color: #F8FAFC !important;
   border-right: 1px solid #E2E8F0 !important;
