@@ -241,7 +241,9 @@
     },
     "emailInUse": "This email is already registered.",
     "invalidCredentials": "Incorrect email or password.",
-    "enterDemoMode": "Enter Demo mode"
+    "enterDemoMode": "Enter Demo mode",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "roles": {
     "patient": "Patient",
