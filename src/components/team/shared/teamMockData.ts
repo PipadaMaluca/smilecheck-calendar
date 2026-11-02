@@ -31,6 +31,12 @@ const clinicTeamBase: DentistInfo[] = [
   },
 ];
 
+// Month counts and confirmation rates are derived from the same consultations as Estatísticas.
+export const clinicTeamMembers: DentistInfo[] = clinicTeamBase.map((d) => {
+  const k = dentistMonthKpis(d.id, '1');
+  return { ...d, consultationsThisMonth: k.total, teleconsultationsThisMonth: k.tele, confirmationRate: k.confirmRate };
+});
+
 export const pendingInvites = [
   { id: 'inv1', name: 'Dra. Sofia Mendes', email: 'sofia.mendes@email.com', sentAt: '28 Jan 2026', status: 'pending' as const },
 ];
