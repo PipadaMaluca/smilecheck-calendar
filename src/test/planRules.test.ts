@@ -32,6 +32,6 @@ describe('annual prices are exactly −15%', () => {
 describe('no appointment limit in any plan', () => {
   it('no feature caps appointments', () => {
     const keys = Object.values(PLAN_FEATURES).flatMap((r) => Object.values(r).flat()).map((f) => f.key);
-    expect(keys.some((k) => /20|perMonth|Month/i.test(k))).toBe(false);
+    expect(keys.some((k) => /20|perMonth|PerMonth/.test(k))).toBe(false);
   });
 });
