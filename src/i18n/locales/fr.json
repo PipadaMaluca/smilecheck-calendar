@@ -4670,7 +4670,8 @@
     "skipTutorial": "Passer le tutoriel",
     "mainContent": "Contenu principal",
     "newConsultation": "Nouvelle consultation",
-    "today": "Aujourd’hui"
+    "today": "Aujourd’hui",
+    "goToSlide": "Aller à l'écran {{n}}"
   },
   "demoText": {
     "abcesso": "Abcès",

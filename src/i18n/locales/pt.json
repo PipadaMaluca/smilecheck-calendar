@@ -4670,7 +4670,8 @@
     "skipTutorial": "Saltar tutorial",
     "mainContent": "Conteúdo principal",
     "newConsultation": "Nova consulta",
-    "today": "Hoje"
+    "today": "Hoje",
+    "goToSlide": "Ir para o ecrã {{n}}"
   },
   "demoText": {
     "abcesso": "Abcesso",

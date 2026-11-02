@@ -4670,7 +4670,8 @@
     "skipTutorial": "Skip tutorial",
     "mainContent": "Main content",
     "newConsultation": "New appointment",
-    "today": "Today"
+    "today": "Today",
+    "goToSlide": "Go to screen {{n}}"
   },
   "demoText": {
     "abcesso": "Abscess",
