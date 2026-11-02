@@ -394,73 +394,7 @@
       "patient": "Patient",
       "dentist": "Dentiste",
       "clinic": "Cabinet",
-      "patientFree": [
-        "Prendre rendez-vous",
-        "Gagner des points",
-        "Boutique de récompenses",
-        "Profil de santé basique",
-        "Avec publicités"
-      ],
-      "patientFreeWarning": "Remise à zéro annuelle des points",
-      "patientPro": [
-        "Tout du Free",
-        "Sans publicités",
-        "Conserve les points accumulés",
-        "13 couleurs de thème modifiables",
-        "Succès exclusifs",
-        "Historique complet"
-      ],
-      "patientPremium": [
-        "Tout du Pro",
-        "RGB complet (toutes les couleurs)",
-        "Bonus +10% de points",
-        "Badge exclusif Premium",
-        "Support prioritaire",
-        "Téléconsultations à prix réduit"
-      ],
-      "dentistFree": [
-        "Agenda basique",
-        "Jusqu'à 20 rendez-vous/mois",
-        "Confirmations manuelles",
-        "Profil public basique"
-      ],
-      "dentistFreeWarning": "Remise à zéro annuelle des points",
-      "dentistPro": [
-        "Rendez-vous illimités",
-        "Confirmations automatiques",
-        "Ordonnances numériques",
-        "Lettres de référence",
-        "Statistiques détaillées",
-        "Classements et succès"
-      ],
-      "dentistPremium": [
-        "Tout du Pro",
-        "Téléconsultations intégrées",
-        "Export avancé",
-        "Intégration API",
-        "Support prioritaire",
-        "Personnalisation complète"
-      ],
-      "clinicFree": [
-        "Tableau de bord basique",
-        "Rapports mensuels",
-        "Gestion d'équipe basique"
-      ],
-      "clinicFreeWarning": "Remise à zéro annuelle des points",
-      "clinicPro": [
-        "Tableau de bord complet",
-        "Rapports hebdomadaires",
-        "Statistiques avancées",
-        "Classement du cabinet",
-        "Export PDF/Excel"
-      ],
-      "clinicPremium": [
-        "Tout du Pro",
-        "Téléconsultations d'équipe",
-        "Intégration API",
-        "Support dédié",
-        "Multi-localisation"
-      ]
+      "highlight": "Moins de rendez-vous manqués : les patients gagnent des points en venant."
     },
     "testimonials": {
       "title": "Ce qu'on dit de nous",
@@ -4987,5 +4921,53 @@
     "streakDate_25_Jan_2026": "25 janv. 2026",
     "streakDate_28_Nov_2025": "28 nov. 2025",
     "streakDate_5_Nov_2025": "5 nov. 2025"
+  },
+  "plans": {
+    "f": {
+      "bookAppointments": "Prendre rendez-vous",
+      "earnPointsLevels": "Gagner des points et monter de niveau",
+      "rewardsShop": "Boutique de récompenses",
+      "healthFearProfile": "Profil de santé et échelle de peur",
+      "withAds": "Avec publicités",
+      "allFromFree": "Tout le Free",
+      "allFromPro": "Tout le Pro",
+      "noAds": "Sans publicités",
+      "pointsNeverLost": "Vos points ne sont jamais perdus",
+      "theme13": "Personnalisation du thème (13 couleurs)",
+      "exclusiveAchievements": "Succès exclusifs",
+      "fullHistory": "Historique complet des consultations",
+      "fullVisual": "Personnalisation visuelle complète (toutes les couleurs)",
+      "appIconColor": "Icône de l’app dans la couleur de votre choix (apps iOS et Android)",
+      "pointsBonus10": "Bonus de +10 % de points",
+      "premiumBadge": "Badge Premium",
+      "prioritySupport": "Support prioritaire",
+      "onlineAgenda": "Agenda et prise de rendez-vous en ligne",
+      "unlimitedAppointments": "Consultations illimitées",
+      "dossierFear": "Dossier clinique et échelle de peur",
+      "waitingList": "Liste d’attente",
+      "publicProfile": "Profil public",
+      "teleCommission": "Téléconsultations : commission de {{pct}} %",
+      "autoReminders": "Confirmations et rappels automatiques",
+      "multiClinicAgenda": "Agenda multi-cabinets",
+      "detailedStats": "Statistiques détaillées",
+      "rankingsAchievements": "Classements et succès",
+      "themeCustom": "Personnalisation du thème",
+      "prescriptionsLetters": "Ordonnances et courriers numériques",
+      "fullVisualAppIcon": "Personnalisation visuelle complète et icône de l’app",
+      "dentistLimit": "Jusqu’à {{count, number}} dentistes",
+      "unlimitedDentists": "Dentistes illimités",
+      "clinicDashboard": "Tableau de bord du cabinet",
+      "sharedAgenda": "Agenda partagé de l’équipe",
+      "monthlyReports": "Rapports mensuels",
+      "teamSchedules": "Gestion de l’équipe et des horaires",
+      "advancedStatsWeekly": "Statistiques avancées et rapports hebdomadaires",
+      "clinicRankings": "Classements des cabinets",
+      "exportPdfExcel": "Export PDF/Excel",
+      "teamTeleconsults": "Téléconsultations de l’équipe",
+      "dedicatedSupport": "Support dédié"
+    },
+    "soon": "Bientôt",
+    "pointsResetWarning": "Les points de récompense sont réinitialisés chaque année",
+    "billedAnnually": "{{total}} par an"
   }
 }

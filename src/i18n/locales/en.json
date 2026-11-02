@@ -394,73 +394,7 @@
       "patient": "Patient",
       "dentist": "Dentist",
       "clinic": "Clinic",
-      "patientFree": [
-        "Book appointments",
-        "Earn points",
-        "Rewards store",
-        "Basic health profile",
-        "With ads"
-      ],
-      "patientFreeWarning": "Annual points reset",
-      "patientPro": [
-        "Everything in Free",
-        "No ads",
-        "Keep accumulated points",
-        "13 editable theme colours",
-        "Exclusive achievements",
-        "Full history"
-      ],
-      "patientPremium": [
-        "Everything in Pro",
-        "Full RGB (all colours)",
-        "+10% points bonus",
-        "Exclusive Premium badge",
-        "Priority support",
-        "Discounted teleconsultations"
-      ],
-      "dentistFree": [
-        "Basic schedule",
-        "Up to 20 appointments/month",
-        "Manual confirmations",
-        "Basic public profile"
-      ],
-      "dentistFreeWarning": "Annual points reset",
-      "dentistPro": [
-        "Unlimited appointments",
-        "Automatic confirmations",
-        "Digital prescriptions",
-        "Referral letters",
-        "Detailed statistics",
-        "Rankings & achievements"
-      ],
-      "dentistPremium": [
-        "Everything in Pro",
-        "Integrated teleconsultations",
-        "Advanced exports",
-        "API integration",
-        "Priority support",
-        "Full customisation"
-      ],
-      "clinicFree": [
-        "Basic dashboard",
-        "Monthly reports",
-        "Basic team management"
-      ],
-      "clinicFreeWarning": "Annual points reset",
-      "clinicPro": [
-        "Full dashboard",
-        "Weekly reports",
-        "Advanced statistics",
-        "Clinic rankings",
-        "PDF/Excel exports"
-      ],
-      "clinicPremium": [
-        "Everything in Pro",
-        "Team teleconsultations",
-        "API integration",
-        "Dedicated support",
-        "Multi-location"
-      ]
+      "highlight": "Fewer no-shows: patients earn points for showing up."
     },
     "testimonials": {
       "title": "What people say about us",
@@ -4987,5 +4921,53 @@
     "streakDate_25_Jan_2026": "Jan 25, 2026",
     "streakDate_28_Nov_2025": "Nov 28, 2025",
     "streakDate_5_Nov_2025": "Nov 5, 2025"
+  },
+  "plans": {
+    "f": {
+      "bookAppointments": "Book appointments",
+      "earnPointsLevels": "Earn points and level up",
+      "rewardsShop": "Rewards shop",
+      "healthFearProfile": "Health profile and fear scale",
+      "withAds": "With ads",
+      "allFromFree": "Everything in Free",
+      "allFromPro": "Everything in Pro",
+      "noAds": "No ads",
+      "pointsNeverLost": "Your points never expire",
+      "theme13": "Theme customisation (13 colours)",
+      "exclusiveAchievements": "Exclusive achievements",
+      "fullHistory": "Full appointment history",
+      "fullVisual": "Full visual customisation (all colours)",
+      "appIconColor": "App icon in the colour of your choice (iOS and Android apps)",
+      "pointsBonus10": "+10% points bonus",
+      "premiumBadge": "Premium badge",
+      "prioritySupport": "Priority support",
+      "onlineAgenda": "Agenda and online booking",
+      "unlimitedAppointments": "Unlimited appointments",
+      "dossierFear": "Clinical record and fear scale",
+      "waitingList": "Waiting list",
+      "publicProfile": "Public profile",
+      "teleCommission": "Teleconsultations: {{pct}}% commission",
+      "autoReminders": "Automatic confirmations and reminders",
+      "multiClinicAgenda": "Agenda across several clinics",
+      "detailedStats": "Detailed statistics",
+      "rankingsAchievements": "Rankings and achievements",
+      "themeCustom": "Theme customisation",
+      "prescriptionsLetters": "Digital prescriptions and letters",
+      "fullVisualAppIcon": "Full visual customisation and app icon",
+      "dentistLimit": "Up to {{count, number}} dentists",
+      "unlimitedDentists": "Unlimited dentists",
+      "clinicDashboard": "Clinic dashboard",
+      "sharedAgenda": "Shared team agenda",
+      "monthlyReports": "Monthly reports",
+      "teamSchedules": "Team and schedule management",
+      "advancedStatsWeekly": "Advanced statistics and weekly reports",
+      "clinicRankings": "Clinic rankings",
+      "exportPdfExcel": "PDF/Excel export",
+      "teamTeleconsults": "Team teleconsultations",
+      "dedicatedSupport": "Dedicated support"
+    },
+    "soon": "Coming soon",
+    "pointsResetWarning": "Reward points are reset every year",
+    "billedAnnually": "{{total}} per year"
   }
 }
