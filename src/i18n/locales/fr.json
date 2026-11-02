@@ -4197,14 +4197,17 @@
     "pointsEarned": "Points gagnés",
     "pointsEarnedShort": "Pts gagnés",
     "history": "Historique des invitations",
-    "statusConfirmed": "Confirmé",
+    "statusConfirmed": "Validé",
     "statusPending": "En attente",
     "headlineNoPoints": "Invitez des amis sur SmileCheck",
     "comingSoon": "Récompense bientôt",
     "subtitleComingSoon": "La récompense de parrainage sera bientôt disponible. Vous pouvez déjà partager votre code.",
     "subtitlePoints_one": "Gagnez {{count, number}} point pour chaque personne inscrite",
     "subtitlePoints_other": "Gagnez {{count, number}} points pour chaque personne inscrite",
-    "pointsShort": "+{{count, number}} pts"
+    "pointsShort": "+{{count, number}} pts",
+    "invitedPerson": "Personne invitée n° {{n}}",
+    "noInvitesYet": "Vous n'avez encore invité personne.",
+    "rulesDetail": "Vous pouvez inviter des patients, des dentistes et des cabinets. Chaque invitation compte une fois, lorsque la personne vérifie son téléphone et termine sa 1re consultation (dentistes et cabinets : lorsque le profil est approuvé). Gagnez aussi 1 point pour chaque personne amenée par vos invités."
   },
   "sweep": {
     "dentistProfile": {

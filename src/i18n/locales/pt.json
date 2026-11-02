@@ -4197,14 +4197,17 @@
     "pointsEarned": "Pontos ganhos",
     "pointsEarnedShort": "Pts ganhos",
     "history": "Histórico de convites",
-    "statusConfirmed": "Confirmado",
+    "statusConfirmed": "Validado",
     "statusPending": "Pendente",
     "headlineNoPoints": "Convide amigos para o SmileCheck",
     "comingSoon": "Recompensa em breve",
     "subtitleComingSoon": "A recompensa por convite estará disponível em breve. Já pode partilhar o seu código.",
     "subtitlePoints_one": "Ganhe {{count, number}} ponto por cada pessoa que se registar",
     "subtitlePoints_other": "Ganhe {{count, number}} pontos por cada pessoa que se registar",
-    "pointsShort": "+{{count, number}} pts"
+    "pointsShort": "+{{count, number}} pts",
+    "invitedPerson": "Pessoa convidada n.º {{n}}",
+    "noInvitesYet": "Ainda não convidou ninguém.",
+    "rulesDetail": "Pode convidar pacientes, dentistas e clínicas. Cada convite conta uma vez, quando a pessoa verifica o telemóvel e conclui a 1.ª consulta (dentistas e clínicas: quando o perfil é aprovado). Ganhe também 1 ponto por cada pessoa trazida pelos seus convidados."
   },
   "sweep": {
     "dentistProfile": {

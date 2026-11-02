@@ -98,8 +98,10 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         {suspended ? (
           <Badge variant="secondary" className="mx-auto">{t('invite.comingSoon')}</Badge>
         ) : rulePoints !== null ? (
-          <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>}
-        {!suspended && rulePoints !== null && <p className="text-xs text-muted-foreground px-4 leading-snug">{t('invite.rulesDetail')}</p>
+          <>
+            <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
+            <p className="text-xs text-muted-foreground px-4 leading-snug">{t('invite.rulesDetail')}</p>
+          </>
         ) : null}
         {suspended && <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitleComingSoon')}</p>}
       </div>

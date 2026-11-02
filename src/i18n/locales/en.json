@@ -4197,14 +4197,17 @@
     "pointsEarned": "Points earned",
     "pointsEarnedShort": "Pts earned",
     "history": "Invite History",
-    "statusConfirmed": "Confirmed",
+    "statusConfirmed": "Validated",
     "statusPending": "Pending",
     "headlineNoPoints": "Invite friends to SmileCheck",
     "comingSoon": "Reward coming soon",
     "subtitleComingSoon": "The referral reward will be available soon. You can already share your code.",
     "subtitlePoints_one": "Earn {{count, number}} point for every person who signs up",
     "subtitlePoints_other": "Earn {{count, number}} points for every person who signs up",
-    "pointsShort": "+{{count, number}} pts"
+    "pointsShort": "+{{count, number}} pts",
+    "invitedPerson": "Invited person #{{n}}",
+    "noInvitesYet": "You haven't invited anyone yet.",
+    "rulesDetail": "You can invite patients, dentists and clinics. Each invite counts once, when the person verifies their phone and completes their first appointment (dentists and clinics: when the profile is approved). You also earn 1 point for each person your invitees bring."
   },
   "sweep": {
     "dentistProfile": {
