@@ -386,7 +386,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted, onToggleS
               aria-label={t(isShowcased ? 'achievements.removeFromShowcaseA11y' : 'achievements.addToShowcaseA11y')}
               onClick={(e) => { e.stopPropagation(); onToggleShowcase(); }}
               onKeyDown={(e) => e.stopPropagation()}
-              className="tap-target -m-1.5 p-1.5 rounded-md flex-shrink-0 text-amber-500 hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="no-touch-target h-11 w-11 -m-3 flex items-center justify-center rounded-md flex-shrink-0 text-amber-500 hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <StarIcon className={cn('w-4 h-4', isShowcased ? 'fill-amber-500' : 'fill-none')} />
             </button>
