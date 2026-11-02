@@ -35,7 +35,7 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-consultas-hoje', title: 'Consultas de Hoje', description: 'Resumo de consultas de toda a equipa.' },
     { targetId: 'onboarding-confirmacoes', title: 'Confirmações', description: 'Confirmações agrupadas por dentista.' },
     { targetId: 'onboarding-lista-espera', title: 'Lista de Espera', description: 'Pacientes prioritários de cada dentista.' },
-    { targetId: 'onboarding-dentistas-hoje', title: 'Dentistas a Trabalhar Hoje', description: 'Visão rápida da equipa e volume de trabalho.' },
+    { targetId: 'onboarding-dentistas-hoje', title: 'Dentistas a trabalhar hoje', description: 'Visão rápida da equipa e volume de trabalho.' },
     { targetId: 'onboarding-nav-team', title: 'Equipa', description: 'Gerir dentistas, horários e disponibilidades.' },
     { targetId: 'onboarding-nav-estatisticas', title: 'Estatísticas', description: 'Relatórios completos da clínica.' },
     { targetId: 'onboarding-nav-configuracoes', title: 'Configurações', description: 'Personalizar a clínica, planos e preferências.' },
