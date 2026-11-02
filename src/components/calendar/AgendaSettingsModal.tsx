@@ -174,11 +174,11 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
               </div>
               <div className="flex items-center justify-between">
                 <Label>{t('agendaSettings.showFreeSlots')}</Label>
-                <Switch checked={live.showFreeSlots} onCheckedChange={v => update('showFreeSlots', v)} />
+                <Switch aria-label={t('agendaSettings.showFreeSlots')} checked={live.showFreeSlots} onCheckedChange={v => update('showFreeSlots', v)} />
               </div>
               <div className="flex items-center justify-between">
                 <Label>{t('agendaSettings.showBlocks')}</Label>
-                <Switch checked={live.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
+                <Switch aria-label={t('agendaSettings.showBlocks')} checked={live.showBlocks} onCheckedChange={v => update('showBlocks', v)} />
               </div>
 
               {/* Lunch hours */}

@@ -107,7 +107,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <span className="text-sm">{t('search.acceptsNew')}</span>
-        <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+        <Switch aria-label={t('search.acceptsNew')} checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
       </div>
       <div className="space-y-2">
         <div className="flex items-center justify-between">

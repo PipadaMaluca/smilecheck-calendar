@@ -174,7 +174,7 @@ export function ClinicScheduleTab() {
                 h.open && 'bg-accent/5'
               )}>
                 <span className="text-sm font-medium">{t(dayKeys[i])}</span>
-                <Switch checked={h.open} onCheckedChange={() => toggleDay(i)} />
+                <Switch aria-label={t('team.closing')} checked={h.open} onCheckedChange={() => toggleDay(i)} />
                 {h.open ? (
                   <>
                     <Input type="time" value={h.start} onChange={e => updateTime(i, 'start', e.target.value)} className="h-8 text-xs px-2" />
@@ -202,7 +202,7 @@ export function ClinicScheduleTab() {
 <Glyph emoji="🍽️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.schedule.lunchBreak')}</span>
                 <p className="text-xs text-muted-foreground">{t('team.schedule.lunchBreakDesc')}</p>
               </div>
-              <Switch checked={lunchBreak} onCheckedChange={setLunchBreak} />
+              <Switch aria-label={t('team.schedule.lunchBreakDesc')} checked={lunchBreak} onCheckedChange={setLunchBreak} />
             </div>
             {lunchBreak && (
               <div className="flex items-center gap-2 pl-2">
@@ -224,7 +224,7 @@ export function ClinicScheduleTab() {
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('team.schedule.nationalHolidaysFr')}</span>
-            <Switch checked={nationalHolidaysEnabled} onCheckedChange={setNationalHolidaysEnabled} />
+            <Switch aria-label={t('team.schedule.nationalHolidaysFr')} checked={nationalHolidaysEnabled} onCheckedChange={setNationalHolidaysEnabled} />
           </div>
 
           {nationalHolidaysEnabled && (
