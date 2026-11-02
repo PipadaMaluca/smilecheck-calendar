@@ -1176,7 +1176,6 @@ export function DesktopCalendarView() {
           isOpen={!!pasteTarget && !!clipboardConsultation}
           onClose={() => setPasteTarget(null)}
           onConfirm={(pasted) => {
-            console.log('Pasted consultation:', pasted);
             setPasteTarget(null);
             setClipboardConsultation(null);
           }} />
@@ -1188,7 +1187,6 @@ export function DesktopCalendarView() {
           isOpen={!!feedbackConsultation}
           onClose={() => setFeedbackConsultation(null)}
           onSubmit={(id, checked, points) => {
-            console.log('Feedback submitted:', { id, checked, points });
             setFeedbackConsultation(null);
           }} />
 
@@ -1199,7 +1197,6 @@ export function DesktopCalendarView() {
           isOpen={!!patientFeedbackScore}
           onClose={() => setPatientFeedbackScore(null)}
           onSubmit={(scoreId, rating, comment) => {
-            console.log('Patient feedback:', { scoreId, rating, comment });
             setPatientFeedbackScore(null);
           }} />
 
