@@ -9,7 +9,7 @@ export function StripeEmbeddedCheckout({ priceId, returnUrl }: { priceId: string
   const locale = (['pt', 'fr', 'en'].includes(i18n.language?.slice(0, 2)) ? i18n.language.slice(0, 2) : 'pt');
   const fetchClientSecret = useCallback(async (): Promise<string> => {
     const { data, error } = await supabase.functions.invoke('create-checkout', {
-      body: { priceId, returnUrl, environment: getStripeEnvironment(), locale },
+      body: { priceId, returnUrl, locale },
     });
     if (error || !data?.clientSecret) throw new Error(error?.message || 'checkout_failed');
     return data.clientSecret;

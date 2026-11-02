@@ -35,7 +35,7 @@ export function safeReturnUrl(url: string | undefined, fallbackPath = "/"): stri
   if (url) {
     try {
       const u = new URL(url);
-      if (allowedOrigin(u.origin) && !u.username && !u.password) return u.toString();
+      if (allowedOrigin(u.origin) && !u.username && !u.password) return url; // keep verbatim (Stripe's {CHECKOUT_SESSION_ID} placeholder)
     } catch { /* fall through */ }
   }
   return `${fallbackOrigin}${fallbackPath}`;
@@ -49,4 +49,9 @@ export function timingSafeEqual(a: string, b: string): boolean {
   const n = Math.max(ea.length, eb.length);
   for (let i = 0; i < n; i++) diff |= (ea[i] ?? 0) ^ (eb[i] ?? 0);
   return diff === 0;
+}
+
+/** Only events from the active environment may change profiles.plan. */
+export function shouldSyncPlan(env: string): boolean {
+  return env === activeEnv();
 }

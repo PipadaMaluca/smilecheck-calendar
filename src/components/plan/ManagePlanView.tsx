@@ -121,7 +121,7 @@ export function ManagePlanView({
     setPortalBusy(true);
     const win = window.open('', '_blank');
     const { data, error } = await supabase.functions.invoke('create-portal-session', {
-      body: { returnUrl: window.location.href, environment: getStripeEnvironment() },
+      body: { returnUrl: window.location.href },
     });
     setPortalBusy(false);
     if (error || !data?.url) { win?.close(); toast.error(t('payments.portalError')); return; }
