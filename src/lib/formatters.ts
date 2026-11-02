@@ -38,7 +38,7 @@ export function formatTime(d: Date | string | number): string {
 
 /** Number with locale grouping, also for 4 digits: "1 850" (PT/FR) / "1,850" (EN). */
 export function formatNumber(n: number, opts: Intl.NumberFormatOptions = {}): string {
-  return new Intl.NumberFormat(getActiveLocale(), { useGrouping: 'always', ...opts } as Intl.NumberFormatOptions).format(n);
+  return new Intl.NumberFormat(getActiveLocale(), { useGrouping: 'always', ...opts } as unknown as Intl.NumberFormatOptions).format(n);
 }
 
 /**
@@ -54,7 +54,7 @@ export function formatCurrency(value: number, opts: { decimals?: boolean } = {})
     useGrouping: 'always',
     minimumFractionDigits: whole ? 0 : 2,
     maximumFractionDigits: whole ? 0 : 2,
-  } as Intl.NumberFormatOptions).format(v);
+  } as unknown as Intl.NumberFormatOptions).format(v);
 }
 
 const DATE_FNS_LOCALES: Record<string, Locale> = { pt, fr, en: enGB };
