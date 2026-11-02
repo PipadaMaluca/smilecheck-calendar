@@ -36,8 +36,8 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
         'bg-gradient-to-br from-[hsl(220,40%,8%)] via-[hsl(220,30%,12%)] to-[hsl(220,40%,8%)]'
       )}
     >
-      <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-sm max-h-full overflow-y-auto py-6">
-        <div className="w-screen max-w-3xl -my-6 md:-my-10 pointer-events-none">
+      <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-3xl max-h-full overflow-y-auto overflow-x-hidden py-6">
+        <div className="w-full -my-6 md:-my-10 pointer-events-none">
           <AppIconTile forceDark />
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[hsl(220,15%,95%)]">SmileCheck</h1>
@@ -52,7 +52,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-3 w-full">
+        <div className="flex flex-col gap-3 w-full max-w-sm">
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -65,7 +65,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >
-              <img src={lang.flag} alt="" width={24} height={16} className="w-6 h-4 rounded-sm object-cover shrink-0 shadow-sm" />
+              <img src={lang.flag} alt="" width={24} height={16} className="w-6 h-4 rounded-[2px] object-cover shrink-0 shadow-sm" />
               <span className="text-[hsl(220,15%,85%)] font-semibold text-lg group-hover:text-white transition-colors">
                 {lang.label}
               </span>
