@@ -629,7 +629,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                     {sched.days.map((d, di) =>
               <div key={OPTION_LABEL_KEYS[d.day] ? t(OPTION_LABEL_KEYS[d.day]) : d.day} className="flex items-center gap-2 text-sm">
                         <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
-                        <Switch checked={d.active} onCheckedChange={(checked) => {
+                        <Switch aria-label={d.day} checked={d.active} onCheckedChange={(checked) => {
                   const updated = [...dentistSchedules];
                   updated[si].days[di] = { ...d, active: checked };
                   setDentistSchedules(updated);

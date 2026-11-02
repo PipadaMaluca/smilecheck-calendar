@@ -71,7 +71,7 @@ export function PermissionsModal({ open, onClose, dentistName }: PermissionsModa
                   <Icon className="w-4 h-4 text-muted-foreground" />
                   {t(p.labelKey)}
                 </span>
-                <Switch
+                <Switch aria-label={t(p.labelKey)}
                   checked={perms[p.key]}
                   onCheckedChange={(v) => setPerms((prev) => ({ ...prev, [p.key]: v }))}
                 />
