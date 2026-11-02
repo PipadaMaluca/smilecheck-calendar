@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { formatDate } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
@@ -702,7 +703,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Points */}
       {paymentMethod === 'pontos' && (
         <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
-          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: finalPrice.toFixed(2) })}</p>
+          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: formatCurrency(finalPrice) })}</p>
           <p className="text-xs text-muted-foreground">{t('booking.balanceAfter', { balance: 850 - Math.round(finalPrice * 10) })}</p>
         </div>
       )}
@@ -715,7 +716,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
         {promoApplied === true && <p className="text-xs text-success">
-<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.promoApplied', { total: formatCurrency(finalPrice) })}</p>}
         {promoApplied === false && <p className="text-xs text-destructive">
 <Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.invalidCode')}</p>}
       </div>

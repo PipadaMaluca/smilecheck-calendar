@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Glyph } from '@/components/ui/glyph';
 import { User, Star, Award, MoreVertical, Calendar, BarChart3, Key, Pause, Play, X, Phone } from 'lucide-react';
@@ -98,7 +99,7 @@ export function TeamDentistCard({
                         className={cn('w-3 h-3', i <= Math.round(dentist.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')}
                       />
                     ))}
-                    <span className="text-xs text-muted-foreground ml-0.5">{dentist.rating.toFixed(1)}</span>
+                    <span className="text-xs text-muted-foreground ml-0.5">{formatDecimal1(dentist.rating)}</span>
                   </div>
                   <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', levelColors[dentist.level] || levelColors['Lata'])}>
                     <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[dentist.level] || dentist.level)}

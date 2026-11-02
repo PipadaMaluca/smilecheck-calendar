@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { formatNumber } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Zap } from 'lucide-react';
@@ -41,7 +42,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                 {t(LEVEL_TRANSLATION_KEYS[current.key])}
               </h2>
               <p className="text-sm text-muted-foreground">
-                {formatNumber(data.xp)} / {formatNumber(MAX_XP)} XP · ×{multiplier.toFixed(1)} {t('level.multiplier')}
+                {formatNumber(data.xp)} / {formatNumber(MAX_XP)} XP · ×{formatDecimal1(multiplier)} {t('level.multiplier')}
               </p>
             </div>
             <Badge variant="secondary" className="shrink-0"><Zap className="w-3 h-3 inline mr-1" />+{boost}%</Badge>
@@ -67,7 +68,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="text-sm font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[lvl.key])}</h4>
                       <span className="text-xs text-muted-foreground">{formatNumber(lvl.minXP)} XP</span>
-                      <Badge variant="outline" className="text-[11px]">×{LEVEL_MULTIPLIERS[lvl.key].toFixed(1)}</Badge>
+                      <Badge variant="outline" className="text-[11px]">×{formatDecimal1(LEVEL_MULTIPLIERS[lvl.key])}</Badge>
                       {isCurrent && <Badge className="text-[11px]">{t('level.current')}</Badge>}
                     </div>
                     {reward && (

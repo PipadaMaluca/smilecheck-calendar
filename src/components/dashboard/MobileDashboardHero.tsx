@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -180,7 +181,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           </div>
           <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums leading-none">
             <span>{points.xp} XP</span>
-            <span>×{multiplier.toFixed(1)}</span>
+            <span>×{formatDecimal1(multiplier)}</span>
           </div>
         </button>
         <button
@@ -225,7 +226,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                 </span>
               </div>
               <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{points.xp} XP</span>
-              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{multiplier.toFixed(1)}</span>
+              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{formatDecimal1(multiplier)}</span>
             </div>
             <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
               <div

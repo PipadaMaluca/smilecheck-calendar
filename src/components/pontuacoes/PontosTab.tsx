@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
@@ -70,7 +71,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
               <p className="text-2xl font-bold text-primary">{formatNumber(data.xp)} XP</p>
               <p className="text-xs text-muted-foreground mt-1">
-                <span className="font-semibold text-primary">×{multiplier.toFixed(1)} {t('level.multiplier')}</span>
+                <span className="font-semibold text-primary">×{formatDecimal1(multiplier)} {t('level.multiplier')}</span>
                 {' · '}
                 <span>
 <Glyph emoji="⚡" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('level.visibility')}: +{boost}%</span>

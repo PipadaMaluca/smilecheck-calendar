@@ -41,6 +41,11 @@ export function formatNumber(n: number, opts: Intl.NumberFormatOptions = {}): st
   return new Intl.NumberFormat(getActiveLocale(), { useGrouping: 'always', ...opts } as unknown as Intl.NumberFormatOptions).format(n);
 }
 
+/** One-decimal number in the active language ("4,1" PT/FR, "4.1" EN). */
+export function formatDecimal1(n: number): string {
+  return formatNumber(Number(n) || 0, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+}
+
 /**
  * Euro amount in the active language: "24,99 €" (PT/FR) / "€24.99" (EN).
  * Single rule: whole amounts drop the cents ("20 €"); any other amount always shows 2 decimals.

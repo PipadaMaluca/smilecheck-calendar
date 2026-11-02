@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { computeKpis, inPeriod } from '@/data/kpis';
@@ -78,7 +79,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
       const dTele = dK.tele;
       const dPres = dK.presencial;
       const clinicName = dCons[0]?.clinic?.name?.replace('Clínica ', '') ?? '';
-      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: (4 + (Number(d.id) || 1) * 0.13 % 0.9).toFixed(1) };
+      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: formatDecimal1(4 + (Number(d.id) || 1) * 0.13 % 0.9) };
     }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
   }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
@@ -331,7 +332,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
-                          <span className="text-xs">{p.rating.toFixed(1)}</span>
+                          <span className="text-xs">{formatDecimal1(p.rating)}</span>
                         </div>
                       </div>
                     )}
