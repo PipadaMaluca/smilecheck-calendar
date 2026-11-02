@@ -34,6 +34,9 @@ function maskPhone(countryCode: string, phone: string) {
 export function SignUpScreen() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const rawNext = searchParams.get('next');
+  const nextPath = rawNext && oauthReturnPath(rawNext) !== '/' ? oauthReturnPath(rawNext) : null;
   const [step, setStep] = useState(1);
 
   const [accountType, setAccountType] = useState<AccountType>(null);
