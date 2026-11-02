@@ -3675,7 +3675,7 @@
     "searchTitle": "No results found",
     "searchDesc": "Try searching with different terms.",
     "inviteTitle": "Invite your friends!",
-    "inviteDesc": "Share your code and earn 50 points for each registration.",
+    "inviteDesc": "Share your invite code. The referral reward is coming soon.",
     "inviteAction": "Share Code",
     "waitlistTitle": "No patients waiting",
     "waitlistDesc": "No patients want to reschedule earlier at the moment.",
@@ -3700,7 +3700,7 @@
     "agendaDentistTitle": "Filter by dentist",
     "agendaDentistDesc": "Use the filters to view individual or team schedules.",
     "inviteTitle": "Earn extra points!",
-    "inviteDesc": "Share your code. 50 points for each friend who signs up.",
+    "inviteDesc": "Share your invite code. The referral reward is coming soon.",
     "gotIt": "Got it!"
   },
   "consultationMode": {

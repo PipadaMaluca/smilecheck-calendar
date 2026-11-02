@@ -3675,7 +3675,7 @@
     "searchTitle": "Nenhum resultado encontrado",
     "searchDesc": "Tente pesquisar com outros termos.",
     "inviteTitle": "Convide os seus amigos!",
-    "inviteDesc": "Partilhe o seu código e ganhe 50 pontos por cada registo.",
+    "inviteDesc": "Partilhe o seu código de convite. A recompensa por convite chega em breve.",
     "inviteAction": "Partilhar Código",
     "waitlistTitle": "Sem pacientes em espera",
     "waitlistDesc": "Nenhum paciente quer antecipar consulta de momento.",
@@ -3700,7 +3700,7 @@
     "agendaDentistTitle": "Filtre por dentista",
     "agendaDentistDesc": "Use os filtros para ver agendas individuais ou de toda a equipa.",
     "inviteTitle": "Ganhe pontos extra!",
-    "inviteDesc": "Partilhe o seu código. 50 pontos por cada amigo que se registar.",
+    "inviteDesc": "Partilhe o seu código de convite. A recompensa por convite chega em breve.",
     "gotIt": "Percebi!"
   },
   "consultationMode": {

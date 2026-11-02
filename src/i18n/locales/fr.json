@@ -3659,7 +3659,7 @@
     "searchTitle": "Aucun résultat trouvé",
     "searchDesc": "Essayez de rechercher avec d'autres termes.",
     "inviteTitle": "Invitez vos amis !",
-    "inviteDesc": "Partagez votre code et gagnez 50 points par inscription.",
+    "inviteDesc": "Partagez votre code d’invitation. La récompense de parrainage arrive bientôt.",
     "inviteAction": "Partager le Code",
     "waitlistTitle": "Aucun patient en attente",
     "waitlistDesc": "Aucun patient ne souhaite avancer son rendez-vous pour le moment.",
@@ -3684,7 +3684,7 @@
     "agendaDentistTitle": "Filtrer par dentiste",
     "agendaDentistDesc": "Utilisez les filtres pour voir les agendas individuels ou d'équipe.",
     "inviteTitle": "Gagnez des points bonus !",
-    "inviteDesc": "Partagez votre code. 50 points pour chaque ami qui s'inscrit.",
+    "inviteDesc": "Partagez votre code d’invitation. La récompense de parrainage arrive bientôt.",
     "gotIt": "Compris !"
   },
   "consultationMode": {
