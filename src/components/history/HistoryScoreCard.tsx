@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Star, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { Scale } from 'lucide-react';
@@ -97,6 +98,10 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
         isPending && 'border-amber-500/20'
       )}
       onClick={onToggle}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isExpanded}
+      onKeyDown={onActivateKey}
     >
       <CardContent className="p-4">
         <div className="flex items-center gap-3">

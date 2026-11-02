@@ -230,6 +230,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             )}
             style={{ '--consultation-type-color': heroBorderHex } as CSSProperties}
             onClick={heroStat.clickTab ? goHero : undefined}
+            {...(heroStat.clickTab ? { role: 'button', tabIndex: 0, onKeyDown: onActivateKey } : {})}
           >
             <CardContent className="p-6 flex flex-col gap-3 min-w-0 min-h-[148px]">
               <div className="flex items-center gap-2 min-w-0">
