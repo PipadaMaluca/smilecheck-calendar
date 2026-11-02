@@ -127,7 +127,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 text-xs flex-shrink-0 border-amber-500/40 text-warning hover:bg-amber-500/10 min-h-[36px]"
+                    className="h-8 text-xs flex-shrink-0 border-warning/30 text-warning hover:bg-warning-surface/10 hover:text-warning"
                     onClick={() => setActiveItem(item)}
                   >
                     {t('bidirectionalFeedback.rate')}
