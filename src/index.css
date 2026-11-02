@@ -32,7 +32,7 @@
     --popover-foreground: 210 40% 98%;
 
     /* Changed from green to blue #2196F3 */
-    --primary: 207 90% 54%;
+    --primary: 210 85% 44%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 214 40% 18%;
@@ -160,7 +160,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 26% 14%;
 
-    --primary: 207 90% 54%;
+    --primary: 210 85% 44%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 100% 97%;          /* #F0F7FF blue-tinted surface */
@@ -172,12 +172,12 @@
     --accent: 213 100% 92%;             /* #D6E8FF (sidebar active tint) */
     --accent-foreground: 210 78% 42%;   /* #1565C0 */
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
     /* Semantic status tokens (light) — deeper, print-safe values so text
        keeps AA contrast on white surfaces. */
-    --warning: 32 85% 42%;
+    --warning: 30 90% 32%;
     --warning-foreground: 0 0% 100%;
     --warning-surface: 38 92% 50%;
     --success: 152 55% 33%;
@@ -189,7 +189,7 @@
 
     /* === Sidebar (blue-tinted) === */
     --sidebar-background: 213 100% 96%; /* #EBF4FF */
-    --sidebar-foreground: 207 33% 54%;  /* #5B8DB8 muted blue */
+    --sidebar-foreground: 207 40% 38%;  /* muted blue, AA */
     --sidebar-primary: 207 90% 54%;     /* #2196F3 */
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 213 100% 92%;     /* #D6E8FF active */
@@ -1062,14 +1062,14 @@ html, body, #root {
 
 /* Active tabs — blue underline */
 .light [data-state="active"][role="tab"] {
-  color: hsl(207 90% 54%) !important;
+  color: hsl(var(--primary-text)) !important;
   border-bottom-color: hsl(207 90% 54%) !important;
 }
 
 /* --- 4. SIDEBAR — blue identity & active state --- */
 .light aside .text-sidebar-foreground\/70,
 .light aside .text-sidebar-foreground {
-  color: hsl(207 33% 54%) !important;                     /* #5B8DB8 */
+  color: hsl(207 40% 38%) !important;                     /* AA on light sidebar */
 }
 /* Active sidebar item: stronger blue + left border accent */
 .light aside button.bg-sidebar-primary {
@@ -1588,7 +1588,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .light .btn-outline,
 .light button.border-input {
   border-color: #2196F3 !important;
-  color: #2196F3 !important;
+  color: hsl(var(--primary-text)) !important;
 }
 .light button[data-variant="outline"]:hover,
 .light .btn-outline:hover,
@@ -2020,3 +2020,10 @@ span.sentence-case { display: inline-block; }
 @keyframes sc-halo-pulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
 .sc-halo { animation: sc-halo-pulse 8s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .sc-halo { animation: none; } }
+
+/* Light theme: green points text needs a deeper shade for WCAG AA (fills keep the bright gaming green). */
+.light .text-gaming-green { color: hsl(162 100% 23%); }
+.light .text-emerald-500 { color: hsl(160 84% 25%); }
+
+/* Dark theme: red *text* uses a lighter shade for AA; red fills keep --destructive. */
+:root:not(.light) .text-destructive { color: hsl(0 90% 72%); }

@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { SlideFrame } from '../SlideFrame';
 import { Star, Sparkles } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
@@ -25,7 +26,7 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
       <div className={"glass-card-strong p-8 mb-8 glow-green"}>
         <div className="flex items-center gap-3">
           <Star className="w-10 h-10 text-gaming-gold fill-current" style={{ color: 'hsl(45, 100%, 50%)' }} />
-          <span className="font-gaming text-5xl" style={{ color: '#4CAF50' }}>4.7</span>
+          <span className="font-gaming text-5xl" style={{ color: '#4CAF50' }}>{formatDecimal1(4.7)}</span>
         </div>
         <div className="flex gap-1 mt-2 justify-center">
           {[1, 2, 3, 4, 5].map((star) => (

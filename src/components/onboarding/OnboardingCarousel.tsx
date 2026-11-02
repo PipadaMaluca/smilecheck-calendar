@@ -82,7 +82,7 @@ export function OnboardingCarousel() {
 
         <div className="flex justify-center items-center gap-2 py-3">
           {slides.map((_, index) => (
-            <button key={index} onClick={() => scrollTo(index)}
+            <button key={index} type="button" onClick={() => scrollTo(index)} aria-label={t('a11y.goToSlide', { n: index + 1 })} aria-current={index === currentSlide ? 'step' : undefined}
               className={`h-2 rounded-full transition-colors duration-300 ${index === currentSlide ? 'w-6' : 'w-2 bg-muted hover:bg-muted-foreground/50'}`}
               style={index === currentSlide ? { backgroundColor: '#2196F3', boxShadow: '0 0 12px rgba(33, 150, 243, 0.5)' } : {}} />
           ))}

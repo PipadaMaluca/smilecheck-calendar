@@ -73,22 +73,22 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
         </CardHeader>
         <CardContent>
           <div className="hidden lg:grid grid-cols-8 gap-1 text-2xs font-medium text-muted-foreground px-1 mb-1">
-            <span>{t('team.day')}</span><span>{t('team.active') || 'Active'}</span><span>{t('team.morningStart')}</span><span>{t('team.morningEnd')}</span>
+            <span>{t('team.day')}</span><span>{t('team.active')}</span><span>{t('team.morningStart')}</span><span>{t('team.morningEnd')}</span>
             <span>{t('team.breakStart')}</span><span>{t('team.breakEnd')}</span><span>{t('team.afternoonStart')}</span><span>{t('team.afternoonEnd')}</span>
           </div>
           <div className="space-y-2">
             {schedule.map((s, i) => (
               <div key={s.day} className={cn('grid grid-cols-2 lg:grid-cols-8 gap-1 items-center p-2 rounded-md', !s.active && 'opacity-40')}>
                 <span className="text-sm font-medium">{t(s.dayKey)}</span>
-                <Switch checked={s.active} onCheckedChange={() => toggleDay(i)} />
+                <Switch checked={s.active} onCheckedChange={() => toggleDay(i)} aria-label={`${t(s.dayKey)} — ${t('team.active')}`} />
                 {s.active ? (
                   <>
-                    <Input type="time" value={s.morningStart} className="h-7 text-xs px-1 col-span-1" readOnly />
-                    <Input type="time" value={s.morningEnd} className="h-7 text-xs px-1" readOnly />
-                    <Input type="time" value={s.breakStart} className="h-7 text-xs px-1" readOnly placeholder="—" />
-                    <Input type="time" value={s.breakEnd} className="h-7 text-xs px-1" readOnly placeholder="—" />
-                    <Input type="time" value={s.afternoonStart} className="h-7 text-xs px-1" readOnly placeholder="—" />
-                    <Input type="time" value={s.afternoonEnd} className="h-7 text-xs px-1" readOnly placeholder="—" />
+                    <Input type="time" value={s.morningStart} aria-label={`${t(s.dayKey)} — ${t('team.morningStart')}`} className="h-7 text-xs px-1 col-span-1" readOnly />
+                    <Input type="time" value={s.morningEnd} aria-label={`${t(s.dayKey)} — ${t('team.morningEnd')}`} className="h-7 text-xs px-1" readOnly />
+                    <Input type="time" value={s.breakStart} aria-label={`${t(s.dayKey)} — ${t('team.breakStart')}`} className="h-7 text-xs px-1" readOnly placeholder="—" />
+                    <Input type="time" value={s.breakEnd} aria-label={`${t(s.dayKey)} — ${t('team.breakEnd')}`} className="h-7 text-xs px-1" readOnly placeholder="—" />
+                    <Input type="time" value={s.afternoonStart} aria-label={`${t(s.dayKey)} — ${t('team.afternoonStart')}`} className="h-7 text-xs px-1" readOnly placeholder="—" />
+                    <Input type="time" value={s.afternoonEnd} aria-label={`${t(s.dayKey)} — ${t('team.afternoonEnd')}`} className="h-7 text-xs px-1" readOnly placeholder="—" />
                   </>
                 ) : (
                   <span className="col-span-6 text-xs text-muted-foreground">—</span>
@@ -136,21 +136,21 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('team.availableForTeleconsult')}</span>
-            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} />
+            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} aria-label={t('team.availableForTeleconsult')} />
           </div>
           {teleEnabled && (
             <>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('team.outsideClinicHours')}</span>
-                <Switch checked={teleOutsideHours} onCheckedChange={setTeleOutsideHours} />
+                <Switch checked={teleOutsideHours} onCheckedChange={setTeleOutsideHours} aria-label={t('team.outsideClinicHours')} />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('team.teleconsultOnSunday')}</span>
-                <Switch checked={teleSunday} onCheckedChange={setTeleSunday} />
+                <Switch checked={teleSunday} onCheckedChange={setTeleSunday} aria-label={t('team.teleconsultOnSunday')} />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('team.maxTeleconsultPerDay')}</span>
-                <Input type="number" min={1} max={20} value={maxTelePerDay} onChange={(e) => setMaxTelePerDay(+e.target.value)} className="w-20 h-8 text-center px-2" />
+                <Input type="number" aria-label={t('team.maxTeleconsultPerDay')} min={1} max={20} value={maxTelePerDay} onChange={(e) => setMaxTelePerDay(+e.target.value)} className="w-20 h-8 text-center px-2" />
               </div>
             </>
           )}

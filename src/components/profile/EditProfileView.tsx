@@ -122,7 +122,7 @@ function DentistJobToggles() {
           <SearchIcon className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm font-medium">{t('editProfile.availableForOpportunities')}</span>
         </div>
-        <Switch checked={enabled} onCheckedChange={setEnabled} />
+        <Switch aria-label={t('editProfile.availableForOpportunities')} checked={enabled} onCheckedChange={setEnabled} />
       </div>
       {enabled &&
       <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
@@ -148,11 +148,11 @@ function DentistJobToggles() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('editProfile.teleconsultAvailableLabel')}</span>
-            <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
+            <Switch aria-label={t('editProfile.teleconsultAvailableLabel')} checked={teleconsultas} onCheckedChange={setTeleconsultas} />
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('editProfile.showSalary')}</span>
-            <Switch checked={showSalary} onCheckedChange={setShowSalary} />
+            <Switch aria-label={t('editProfile.showSalary')} checked={showSalary} onCheckedChange={setShowSalary} />
           </div>
           {showSalary &&
         <div className="grid grid-cols-2 gap-3">
@@ -206,7 +206,7 @@ function ClinicJobToggles() {
           <SearchIcon className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm font-medium">{t('editProfile.lookingForDentists')}</span>
         </div>
-        <Switch checked={enabled} onCheckedChange={setEnabled} />
+        <Switch aria-label={t('editProfile.lookingForDentists')} checked={enabled} onCheckedChange={setEnabled} />
       </div>
       {enabled &&
       <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
@@ -526,10 +526,10 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={notifEmail} onCheckedChange={setNotifEmail} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.pushNotifications')}</span><Switch checked={notifPush} onCheckedChange={setNotifPush} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.smsNotifications')}</span><Switch checked={notifSms} onCheckedChange={setNotifSms} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.appointmentReminders')}</span><Switch checked={notifReminders} onCheckedChange={setNotifReminders} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch aria-label={t('editProfile.emailNotifications')} checked={notifEmail} onCheckedChange={setNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.pushNotifications')}</span><Switch aria-label={t('editProfile.pushNotifications')} checked={notifPush} onCheckedChange={setNotifPush} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.smsNotifications')}</span><Switch aria-label={t('editProfile.smsNotifications')} checked={notifSms} onCheckedChange={setNotifSms} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.appointmentReminders')}</span><Switch aria-label={t('editProfile.appointmentReminders')} checked={notifReminders} onCheckedChange={setNotifReminders} /></div>
               </div>
             </>
         }
@@ -596,11 +596,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{t('editProfile.acceptsNewPatients')}</span>
-                  <Switch checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+                  <Switch aria-label={t('editProfile.acceptsNewPatients')} checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{t('editProfile.teleconsultAvailable')}</span>
-                  <Switch checked={teleconsultaAvailable} onCheckedChange={setTeleconsultaAvailable} />
+                  <Switch aria-label={t('editProfile.teleconsultAvailable')} checked={teleconsultaAvailable} onCheckedChange={setTeleconsultaAvailable} />
                 </div>
               </div>
 
@@ -611,7 +611,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 </FieldGroup>
                 <div className="flex items-center justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2 min-h-11">
                   <span className="text-sm font-medium">{t('editProfile.acceptsEmergencies')}</span>
-                  <Switch checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
+                  <Switch aria-label={t('editProfile.acceptsEmergencies')} checked={acceptsUrgencies} onCheckedChange={setAcceptsUrgencies} />
                 </div>
                 {acceptsUrgencies && (
                   <FieldGroup label={t('editProfile.emergencyPrice')}>
@@ -629,20 +629,20 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                     {sched.days.map((d, di) =>
               <div key={OPTION_LABEL_KEYS[d.day] ? t(OPTION_LABEL_KEYS[d.day]) : d.day} className="flex items-center gap-2 text-sm">
                         <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
-                        <Switch checked={d.active} onCheckedChange={(checked) => {
+                        <Switch aria-label={d.day} checked={d.active} onCheckedChange={(checked) => {
                   const updated = [...dentistSchedules];
                   updated[si].days[di] = { ...d, active: checked };
                   setDentistSchedules(updated);
                 }} />
                         {d.active ?
                 <>
-                            <Input type="time" value={d.start} onChange={(e) => {
+                            <Input type="time" aria-label={`${d.day} — ${t('team.morningStart')}`} value={d.start} onChange={(e) => {
                     const updated = [...dentistSchedules];
                     updated[si].days[di] = { ...d, start: e.target.value };
                     setDentistSchedules(updated);
                   }} className="w-24 h-7 text-xs" />
                             <span className="text-muted-foreground">-</span>
-                            <Input type="time" value={d.end} onChange={(e) => {
+                            <Input type="time" aria-label={`${d.day} — ${t('team.afternoonEnd')}`} value={d.end} onChange={(e) => {
                     const updated = [...dentistSchedules];
                     updated[si].days[di] = { ...d, end: e.target.value };
                     setDentistSchedules(updated);
@@ -660,9 +660,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('i18nB.smsNotifications')}</span><Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.bookingAlerts')}</span><Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch aria-label={t('editProfile.emailNotifications')} checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('i18nB.smsNotifications')}</span><Switch aria-label={t('i18nB.smsNotifications')} checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.bookingAlerts')}</span><Switch aria-label={t('editProfile.bookingAlerts')} checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} /></div>
               </div>
 
               <Separator />
@@ -761,11 +761,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{t('editProfile.acceptsNewPatients')}</span>
-                  <Switch checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
+                  <Switch aria-label={t('editProfile.acceptsNewPatients')} checked={clinicAcceptsNewPatients} onCheckedChange={setClinicAcceptsNewPatients} />
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{t('editProfile.teleconsultationsAvailable')}</span>
-                  <Switch checked={clinicTeleconsultas} onCheckedChange={setClinicTeleconsultas} />
+                  <Switch aria-label={t('editProfile.teleconsultationsAvailable')} checked={clinicTeleconsultas} onCheckedChange={setClinicTeleconsultas} />
                 </div>
               </div>
 
@@ -825,16 +825,16 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               {clinicHours.map((h, i) =>
             <div key={OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
                     <span className="w-20 text-muted-foreground flex-shrink-0">{h.day}</span>
-                    <Switch checked={h.open} onCheckedChange={(checked) => {
+                    <Switch aria-label={OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} checked={h.open} onCheckedChange={(checked) => {
                 const updated = [...clinicHours];
                 updated[i] = { ...updated[i], open: checked };
                 setClinicHours(updated);
               }} />
                     {h.open ?
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                        <Input type="time" aria-label={`${OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} — ${t('team.morningStart')}`} value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                        <Input type="time" aria-label={`${OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} — ${t('team.afternoonEnd')}`} value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                       </div> :
 
               <span className="text-destructive text-xs">{t('editProfile.closed')}</span>
@@ -846,9 +846,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <Separator />
               <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.weeklyReports')}</span><Switch checked={clinicWeeklyReports} onCheckedChange={setClinicWeeklyReports} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.onlineBookings')}</span><Switch checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch aria-label={t('editProfile.emailNotifications')} checked={clinicNotifEmail} onCheckedChange={setClinicNotifEmail} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.weeklyReports')}</span><Switch aria-label={t('editProfile.weeklyReports')} checked={clinicWeeklyReports} onCheckedChange={setClinicWeeklyReports} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.onlineBookings')}</span><Switch aria-label={t('editProfile.onlineBookings')} checked={clinicOnlineBookings} onCheckedChange={setClinicOnlineBookings} /></div>
               </div>
 
               <Separator />

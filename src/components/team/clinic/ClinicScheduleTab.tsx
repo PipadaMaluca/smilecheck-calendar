@@ -174,11 +174,11 @@ export function ClinicScheduleTab() {
                 h.open && 'bg-accent/5'
               )}>
                 <span className="text-sm font-medium">{t(dayKeys[i])}</span>
-                <Switch checked={h.open} onCheckedChange={() => toggleDay(i)} />
+                <Switch aria-label={t(dayKeys[i])} checked={h.open} onCheckedChange={() => toggleDay(i)} />
                 {h.open ? (
                   <>
-                    <Input type="time" value={h.start} onChange={e => updateTime(i, 'start', e.target.value)} className="h-8 text-xs px-2" />
-                    <Input type="time" value={h.end} onChange={e => updateTime(i, 'end', e.target.value)} className="h-8 text-xs px-2" />
+                    <Input type="time" aria-label={`${t(dayKeys[i])} — ${t('team.morningStart')}`} value={h.start} onChange={e => updateTime(i, 'start', e.target.value)} className="h-8 text-xs px-2" />
+                    <Input type="time" aria-label={`${t(dayKeys[i])} — ${t('team.afternoonEnd')}`} value={h.end} onChange={e => updateTime(i, 'end', e.target.value)} className="h-8 text-xs px-2" />
                   </>
                 ) : (
                   <span className="col-span-2 text-xs text-destructive font-medium">
@@ -202,13 +202,13 @@ export function ClinicScheduleTab() {
 <Glyph emoji="🍽️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.schedule.lunchBreak')}</span>
                 <p className="text-xs text-muted-foreground">{t('team.schedule.lunchBreakDesc')}</p>
               </div>
-              <Switch checked={lunchBreak} onCheckedChange={setLunchBreak} />
+              <Switch aria-label={t('team.schedule.lunchBreak')} checked={lunchBreak} onCheckedChange={setLunchBreak} />
             </div>
             {lunchBreak && (
               <div className="flex items-center gap-2 pl-2">
-                <Input type="time" value={lunchStart} onChange={e => setLunchStart(e.target.value)} className="h-8 text-xs px-2 w-28" />
+                <Input type="time" aria-label={`${t('team.schedule.lunchBreak')} — ${t('team.breakStart')}`} value={lunchStart} onChange={e => setLunchStart(e.target.value)} className="h-8 text-xs px-2 w-28" />
                 <span className="text-xs text-muted-foreground">—</span>
-                <Input type="time" value={lunchEnd} onChange={e => setLunchEnd(e.target.value)} className="h-8 text-xs px-2 w-28" />
+                <Input type="time" aria-label={`${t('team.schedule.lunchBreak')} — ${t('team.breakEnd')}`} value={lunchEnd} onChange={e => setLunchEnd(e.target.value)} className="h-8 text-xs px-2 w-28" />
               </div>
             )}
           </div>
@@ -224,7 +224,7 @@ export function ClinicScheduleTab() {
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('team.schedule.nationalHolidaysFr')}</span>
-            <Switch checked={nationalHolidaysEnabled} onCheckedChange={setNationalHolidaysEnabled} />
+            <Switch aria-label={t('team.schedule.nationalHolidaysFr')} checked={nationalHolidaysEnabled} onCheckedChange={setNationalHolidaysEnabled} />
           </div>
 
           {nationalHolidaysEnabled && (
@@ -294,11 +294,11 @@ export function ClinicScheduleTab() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <span className="text-sm">{t('team.simultaneousConsults')}</span>
-            <Input type="number" min={1} max={10} value={simultaneous} onChange={e => setSimultaneous(+e.target.value)} className="w-20 h-8 text-center px-2" />
+            <Input type="number" aria-label={t('team.simultaneousConsults')} min={1} max={10} value={simultaneous} onChange={e => setSimultaneous(+e.target.value)} className="w-20 h-8 text-center px-2" />
           </div>
           <div className="flex items-center justify-between gap-4">
             <span className="text-sm">{t('team.schedule.simultaneousTele')}</span>
-            <Input type="number" min={1} max={10} value={simultaneousTele} onChange={e => setSimultaneousTele(+e.target.value)} className="w-20 h-8 text-center px-2" />
+            <Input type="number" aria-label={t('team.schedule.simultaneousTele')} min={1} max={10} value={simultaneousTele} onChange={e => setSimultaneousTele(+e.target.value)} className="w-20 h-8 text-center px-2" />
           </div>
           <div className="flex items-center justify-between gap-4">
             <span className="text-sm">{t('team.schedule.minIntervalBetween')}</span>

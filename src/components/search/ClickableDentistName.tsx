@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { cn } from '@/lib/utils';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
@@ -25,7 +26,10 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
   }
 
   return (
-    <button
+    <span
+      role="button"
+      tabIndex={0}
+      onKeyDown={onActivateKey}
       onClick={(e) => {
         e.stopPropagation();
         nav.openDentistProfile(dentist);
@@ -36,6 +40,6 @@ export function ClickableDentistName({ name, className, children, onGoHome }: Cl
       )}>
 
       {children || name}
-    </button>);
+    </span>);
 
 }

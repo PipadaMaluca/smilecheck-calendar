@@ -4670,7 +4670,10 @@
     "skipTutorial": "Skip tutorial",
     "mainContent": "Main content",
     "newConsultation": "New appointment",
-    "today": "Today"
+    "today": "Today",
+    "goToSlide": "Go to screen {{n}}",
+    "freeSlotAt": "Free slot at {{time}} — {{name}}",
+    "copyCode": "Copy code"
   },
   "demoText": {
     "abcesso": "Abscess",
@@ -4967,6 +4970,22 @@
     "vale_100_em_material_promodentaire": "€100 supplies voucher (Promodentaire)",
     "vale_250_em_material_promodentaire": "€250 supplies voucher (Promodentaire)",
     "vale_50_em_material_promodentaire": "€50 supplies voucher (Promodentaire)",
-    "otimo_lembro_lhe_da_consulta_amanha_as_09_30": "Great! A reminder of your appointment tomorrow at 09:30."
+    "otimo_lembro_lhe_da_consulta_amanha_as_09_30": "Great! A reminder of your appointment tomorrow at 09:30.",
+    "streakCurrent": "Current",
+    "streakBest": "Best",
+    "streakPrevious": "Previous",
+    "streakToday": "today",
+    "streakDate_1_Dez_2025": "Dec 1, 2025",
+    "streakDate_1_Jan_2026": "Jan 1, 2026",
+    "streakDate_10_Nov_2025": "Nov 10, 2025",
+    "streakDate_15_Out_2025": "Oct 15, 2025",
+    "streakDate_18_Jan_2026": "Jan 18, 2026",
+    "streakDate_2_Jan_2026": "Jan 2, 2026",
+    "streakDate_21_Dez_2025": "Dec 21, 2025",
+    "streakDate_23_Nov_2025": "Nov 23, 2025",
+    "streakDate_24_Nov_2025": "Nov 24, 2025",
+    "streakDate_25_Jan_2026": "Jan 25, 2026",
+    "streakDate_28_Nov_2025": "Nov 28, 2025",
+    "streakDate_5_Nov_2025": "Nov 5, 2025"
   }
 }

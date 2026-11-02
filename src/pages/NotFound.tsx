@@ -1,6 +1,5 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Glyph } from '@/components/ui/glyph';
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { Logo } from "@/components/branding/Logo";
@@ -25,14 +24,9 @@ const ToothSearchSVG = () => (
 );
 
 const NotFound = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const watermarkSrc = useWatermarkSrc();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">

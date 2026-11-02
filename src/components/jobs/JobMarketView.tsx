@@ -118,7 +118,7 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">{t('jobs.availableForWork')}</span>
-            <Switch checked={enabled} onCheckedChange={setEnabled} />
+            <Switch aria-label={t('jobs.availableForWork')} checked={enabled} onCheckedChange={setEnabled} />
           </div>
           {enabled && (
             <div className="space-y-4 pl-2 border-l-2 border-primary/20 ml-2">
@@ -136,11 +136,11 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('agenda.teleconsultation')}</span>
-                <Switch checked={teleconsultas} onCheckedChange={setTeleconsultas} />
+                <Switch aria-label={t('agenda.teleconsultation')} checked={teleconsultas} onCheckedChange={setTeleconsultas} />
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('jobs.showSalaryExpectation')}</span>
-                <Switch checked={showSalary} onCheckedChange={setShowSalary} />
+                <Switch aria-label={t('jobs.showSalaryExpectation')} checked={showSalary} onCheckedChange={setShowSalary} />
               </div>
               {showSalary && (
                 <div>
@@ -624,7 +624,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('jobs.includesTeleconsult')}</span>
-                <Switch checked={proposalData.includesTeleconsultas} onCheckedChange={v => setProposalData(p => ({ ...p, includesTeleconsultas: v }))} />
+                <Switch aria-label={t('jobs.includesTeleconsult')} checked={proposalData.includesTeleconsultas} onCheckedChange={v => setProposalData(p => ({ ...p, includesTeleconsultas: v }))} />
               </div>
               <div>
                 <Label className="text-xs">{t('jobs.estimatedConsultsDay')}</Label>

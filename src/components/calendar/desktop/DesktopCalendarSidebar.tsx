@@ -249,6 +249,7 @@ export function DesktopCalendarSidebar({
           <Checkbox
             checked={isTodosSelected}
             onCheckedChange={() => onToggleTodos?.()}
+            aria-label={t('sweep.calendarSidebar.allAgendas')}
             className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             onClick={(e) => e.stopPropagation()}
           />
@@ -282,6 +283,7 @@ export function DesktopCalendarSidebar({
                 <Checkbox
                   checked={isFullySelected}
                   onCheckedChange={() => onClinicToggle?.(clinic.id, true)}
+                  aria-label={clinic.name}
                   className={cn(
                     "border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary",
                     hasAnySelected && !isFullySelected && "data-[state=unchecked]:bg-primary/40"
@@ -325,6 +327,7 @@ export function DesktopCalendarSidebar({
                       <Checkbox
                         checked={isSelected}
                         onCheckedChange={() => onDentistToggle(dentist.id, true, clinic.id)}
+                        aria-label={dentist.name}
                         className="border-muted-foreground h-6 w-6 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                         onClick={(e) => e.stopPropagation()}
                       />

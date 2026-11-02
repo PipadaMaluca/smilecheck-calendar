@@ -12,8 +12,12 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
   const isAllSelected = selectedMembers.includes('all');
 
   // Custom checkbox with larger size (24px x 24px)
-  const CustomCheckbox = ({ checked, onChange }: { checked: boolean; onChange: () => void }) => (
+  const CustomCheckbox = ({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) => (
     <button
+      type="button"
+      role="checkbox"
+      aria-checked={checked}
+      aria-label={label}
       onClick={(e) => {
         e.stopPropagation();
         onChange();
@@ -41,6 +45,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
           <CustomCheckbox
             checked={isAllSelected}
             onChange={() => onMemberToggle('all', true)}
+            label={t('common.all')}
           />
           <button 
             className={cn(
@@ -61,6 +66,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
               <CustomCheckbox
                 checked={isSelected}
                 onChange={() => onMemberToggle(member.id, true)}
+                label={member.name}
               />
               <button 
                 className={cn(

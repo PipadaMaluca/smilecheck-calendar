@@ -287,6 +287,7 @@ export function DesktopTimeline({
                     const slotId = `${key}-${time}`;
                     return (
                       <div role="button" tabIndex={0} onKeyDown={onActivateKey}
+                        aria-label={t('a11y.freeSlotAt', { time, name: dentist.name })}
                         key={`empty-${time}`}
                         className={cn(
                           "appt-slot-free transition-colors border rounded-full mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30 press",

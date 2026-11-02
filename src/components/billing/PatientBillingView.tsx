@@ -205,9 +205,9 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
             <Card className="bg-card/80 backdrop-blur border-border">
               <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.billingData')}</CardTitle></CardHeader>
               <CardContent className="space-y-3">
-                <div><label className="text-xs text-muted-foreground">{t('billing.fullName')}</label><Input defaultValue="João Silva" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.taxIdOptional')}</label><Input defaultValue="123 456 789" className="mt-1" /></div>
-                <div><label className="text-xs text-muted-foreground">{t('billing.billingAddress')}</label><Input defaultValue="Rua da Saúde, 50, 1000-001 Lisboa" className="mt-1" /></div>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.fullName')}</span><Input defaultValue="João Silva" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.taxIdOptional')}</span><Input defaultValue="123 456 789" className="mt-1" /></label>
+                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.billingAddress')}</span><Input defaultValue="Rua da Saúde, 50, 1000-001 Lisboa" className="mt-1" /></label>
                 <Button className="w-full" onClick={() => toast.success(t('billing.dataSaved'))}>{t('common.save')}</Button>
               </CardContent>
             </Card>

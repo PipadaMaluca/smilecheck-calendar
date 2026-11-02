@@ -255,11 +255,11 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
             <h3 className="text-xs font-semibold text-muted-foreground mb-1">{t('creationTabs.waitList')}</h3>
             <div className="flex items-center justify-between">
               <Label className="text-xs">{t('creationTabs.waitListNotify')}</Label>
-              <Switch checked={waitListAuto} onCheckedChange={setWaitListAuto} />
+              <Switch aria-label={t('creationTabs.waitListNotify')} checked={waitListAuto} onCheckedChange={setWaitListAuto} />
             </div>
             <div className="flex items-center justify-between">
               <Label className="text-xs">{t('creationTabs.waitListTop')}</Label>
-              <Switch checked={waitListTop} onCheckedChange={setWaitListTop} />
+              <Switch aria-label={t('creationTabs.waitListTop')} checked={waitListTop} onCheckedChange={setWaitListTop} />
             </div>
             <TooltipProvider>
               <Tooltip>

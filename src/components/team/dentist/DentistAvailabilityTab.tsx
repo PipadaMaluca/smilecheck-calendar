@@ -252,6 +252,7 @@ export function DentistAvailabilityTab() {
           <div className="flex items-center gap-1">
             <input
               type="time"
+              aria-label={t('team.morningStart')}
               value={slot.start}
               onChange={(e) => updateTime(dayIdx, period, 'start', e.target.value)}
               className="h-7 text-xs bg-background border border-input rounded px-1 w-full"
@@ -259,6 +260,7 @@ export function DentistAvailabilityTab() {
             <span className="text-xs text-muted-foreground">-</span>
             <input
               type="time"
+              aria-label={t('team.afternoonEnd')}
               value={slot.end}
               onChange={(e) => updateTime(dayIdx, period, 'end', e.target.value)}
               className="h-7 text-xs bg-background border border-input rounded px-1 w-full"
@@ -444,7 +446,7 @@ export function DentistAvailabilityTab() {
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-sm">{t('team.availableForTeleconsult')}</span>
-            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} />
+            <Switch checked={teleEnabled} onCheckedChange={setTeleEnabled} aria-label={t('team.availableForTeleconsult')} />
           </div>
           {teleEnabled && (
             <>
@@ -457,6 +459,7 @@ export function DentistAvailabilityTab() {
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('team.maxTeleconsultPerDay')}</span>
                 <Input
+                  aria-label={t('team.maxTeleconsultPerDay')}
                   type="number"
                   min={1}
                   max={20}

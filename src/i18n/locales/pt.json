@@ -4670,7 +4670,10 @@
     "skipTutorial": "Saltar tutorial",
     "mainContent": "Conteúdo principal",
     "newConsultation": "Nova consulta",
-    "today": "Hoje"
+    "today": "Hoje",
+    "goToSlide": "Ir para o ecrã {{n}}",
+    "freeSlotAt": "Vaga livre às {{time}} — {{name}}",
+    "copyCode": "Copiar código"
   },
   "demoText": {
     "abcesso": "Abcesso",
@@ -4967,6 +4970,22 @@
     "vale_100_em_material_promodentaire": "Vale €100 em material (Promodentaire)",
     "vale_250_em_material_promodentaire": "Vale €250 em material (Promodentaire)",
     "vale_50_em_material_promodentaire": "Vale €50 em material (Promodentaire)",
-    "otimo_lembro_lhe_da_consulta_amanha_as_09_30": "Ótimo! Lembro-lhe da consulta amanhã às 09:30."
+    "otimo_lembro_lhe_da_consulta_amanha_as_09_30": "Ótimo! Lembro-lhe da consulta amanhã às 09:30.",
+    "streakCurrent": "Atual",
+    "streakBest": "Melhor",
+    "streakPrevious": "Anterior",
+    "streakToday": "hoje",
+    "streakDate_1_Dez_2025": "1 dez 2025",
+    "streakDate_1_Jan_2026": "1 jan 2026",
+    "streakDate_10_Nov_2025": "10 nov 2025",
+    "streakDate_15_Out_2025": "15 out 2025",
+    "streakDate_18_Jan_2026": "18 jan 2026",
+    "streakDate_2_Jan_2026": "2 jan 2026",
+    "streakDate_21_Dez_2025": "21 dez 2025",
+    "streakDate_23_Nov_2025": "23 nov 2025",
+    "streakDate_24_Nov_2025": "24 nov 2025",
+    "streakDate_25_Jan_2026": "25 jan 2026",
+    "streakDate_28_Nov_2025": "28 nov 2025",
+    "streakDate_5_Nov_2025": "5 nov 2025"
   }
 }

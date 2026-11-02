@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { cn } from '@/lib/utils';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
@@ -20,7 +21,10 @@ export function ClickablePatientName({ name, patientId, className, children }: C
   }
 
   return (
-    <button
+    <span
+      role="button"
+      tabIndex={0}
+      onKeyDown={onActivateKey}
       onClick={(e) => {
         e.stopPropagation();
         nav.openPatientProfile(patientId || 'default');
@@ -31,6 +35,6 @@ export function ClickablePatientName({ name, patientId, className, children }: C
       )}>
       
       {children || name}
-    </button>);
+    </span>);
 
 }

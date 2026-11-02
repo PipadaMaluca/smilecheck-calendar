@@ -176,7 +176,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                   <Label className="text-xs font-medium">{t('timeBlock.clinicWide')}</Label>
                   <p className="text-2xs text-muted-foreground">{t('timeBlock.appliesToAll')}</p>
                 </div>
-                <Switch checked={isClinicWide} onCheckedChange={setIsClinicWide} />
+                <Switch aria-label={t('timeBlock.clinicWide')} checked={isClinicWide} onCheckedChange={setIsClinicWide} />
               </div>
             )}
 
@@ -186,7 +186,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                   <Repeat className="w-4 h-4 text-muted-foreground" />
                   <Label>{t('common.repeat')}</Label>
                 </div>
-                <Switch checked={isRepeat} onCheckedChange={setIsRepeat} />
+                <Switch aria-label={t('common.repeat')} checked={isRepeat} onCheckedChange={setIsRepeat} />
               </div>
               {isRepeat && (
                 <div className="ml-6 space-y-3 border-l-2 border-primary/20 pl-3">
