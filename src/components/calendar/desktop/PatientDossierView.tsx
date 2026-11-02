@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CATEGORY_COLORS, getCategoryBadgeStyle } from '@/types/calendar';
+import { CATEGORY_COLORS, getCategoryBadgeStyle, translateRawValue } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -387,7 +387,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             <span
                               className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
                               style={{ ...getCategoryBadgeStyle(catColor?.hex || '#9E9E9E'), padding: '2px 10px' }}
-                            >{translateRawValue(t, c.type)}</span>
+                            >{c.category ? translateRawValue(t, c.category) : c.type}</span>
                             {userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>}
                             • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" />
                           </p>
