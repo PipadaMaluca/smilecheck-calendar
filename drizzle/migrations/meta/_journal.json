@@ -29,6 +29,13 @@
       "when": 1793639856827,
       "tag": "0003_perf_privacy_seed_window",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793649669824,
+      "tag": "0004_pedido5_security_data",
+      "breakpoints": true
     }
   ]
 }
