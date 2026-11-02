@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { Star, Sparkles } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -16,11 +17,10 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
   ];
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6">
-      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-8 flex items-center gap-2">
+    <SlideFrame title={<h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold flex items-center gap-2">
         <Star className="w-6 h-6" />
         {isClinic ? t('onboarding.ratingTitleClinic') : t('onboarding.ratingTitleYou')}
-      </h2>
+      </h2>}>
 
       <div className={"glass-card-strong p-8 mb-8 glow-green"}>
         <div className="flex items-center gap-3">
@@ -55,6 +55,6 @@ export const SlideRating = ({ isActive, userRole }: SlideRatingProps) => {
         <span className="text-gaming-diamond font-semibold underline">{isClinic ? t('onboarding.ratingPriorityClinic') : t('onboarding.ratingPriority')}</span>{' '}
         {t('onboarding.ratingInSearches')}
       </p>
-    </div>
+    </SlideFrame>
   );
 };

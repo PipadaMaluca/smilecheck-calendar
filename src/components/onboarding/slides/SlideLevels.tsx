@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { useTranslation } from 'react-i18next';
 import { Trophy } from 'lucide-react';
 import { LevelIcon } from '@/components/level/LevelIcon';
@@ -18,11 +19,10 @@ export const SlideLevels = ({ isActive }: SlideLevelsProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6">
-      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2">
+    <SlideFrame title={<h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold flex items-center gap-2">
         <Trophy className="w-6 h-6" />
         {t('onboarding.levelsTitle')}
-      </h2>
+      </h2>}>
       <div className="glass-card p-4 w-full max-w-sm space-y-2">
         {levelsData.map((level, index) => (
           <div key={index} className={`flex items-center justify-between p-3 rounded-xl border transition-colors duration-300 ${level.bgColor} ${level.borderColor}`}>
@@ -37,6 +37,6 @@ export const SlideLevels = ({ isActive }: SlideLevelsProps) => {
       <p className="mt-6 text-muted-foreground text-center max-w-xs">
         {t('onboarding.levelsBottom')} <span className="text-gaming-gold font-semibold">{t('onboarding.levelsBottomHighlight')}</span>
       </p>
-    </div>
+    </SlideFrame>
   );
 };

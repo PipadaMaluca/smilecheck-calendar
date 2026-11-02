@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { UserRole } from '@/types/calendar';
 import { Trophy, Medal, Globe, Flag, Building2, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -14,12 +15,11 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
   const sectionTitle = "text-xs font-bold text-center text-foreground mt-2 mb-1";
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center px-4 py-2 overflow-hidden">
+    <SlideFrame title={<h2 className="w-full text-base font-bold text-center text-gaming-gold px-12">
+<Trophy className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('onboarding.rankingsTitle')}
+        </h2>}>
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
         {/* Title */}
-        <h2 className="w-full text-base font-bold text-center text-gaming-gold mb-2 px-12">
-<Trophy className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('onboarding.rankingsTitle')}
-        </h2>
 
         {/* Podium */}
         <div className="grid grid-cols-3 gap-1 w-full max-w-[280px] items-end mb-1">
@@ -110,6 +110,6 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
           </p>
         </div>
       </div>
-    </div>
+    </SlideFrame>
   );
 };
