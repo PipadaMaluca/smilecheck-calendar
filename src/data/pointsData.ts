@@ -347,18 +347,18 @@ export interface StreakHistory {
 
 export const MOCK_STREAK_HISTORY: Record<UserRole, StreakHistory[]> = {
   patient: [
-    { label: 'Atual', days: 7, startDate: '25 Jan 2026', endDate: 'hoje', isCurrent: true },
-    { label: 'Melhor', days: 21, startDate: '1 Dez 2025', endDate: '21 Dez 2025', isCurrent: false },
-    { label: 'Anterior', days: 14, startDate: '10 Nov 2025', endDate: '23 Nov 2025', isCurrent: false },
+    { label: 'Atual', days: 7, startDate: '25 jan 2026', endDate: 'hoje', isCurrent: true },
+    { label: 'Melhor', days: 21, startDate: '1 dez 2025', endDate: '21 dez 2025', isCurrent: false },
+    { label: 'Anterior', days: 14, startDate: '10 nov 2025', endDate: '23 nov 2025', isCurrent: false },
   ],
   dentist: [
-    { label: 'Atual', days: 14, startDate: '18 Jan 2026', endDate: 'hoje', isCurrent: true },
-    { label: 'Melhor', days: 32, startDate: '1 Dez 2025', endDate: '1 Jan 2026', isCurrent: false },
-    { label: 'Anterior', days: 20, startDate: '5 Nov 2025', endDate: '24 Nov 2025', isCurrent: false },
+    { label: 'Atual', days: 14, startDate: '18 jan 2026', endDate: 'hoje', isCurrent: true },
+    { label: 'Melhor', days: 32, startDate: '1 dez 2025', endDate: '1 jan 2026', isCurrent: false },
+    { label: 'Anterior', days: 20, startDate: '5 nov 2025', endDate: '24 nov 2025', isCurrent: false },
   ],
   clinic: [
-    { label: 'Atual', days: 30, startDate: '2 Jan 2026', endDate: 'hoje', isCurrent: true },
-    { label: 'Melhor', days: 45, startDate: '15 Out 2025', endDate: '28 Nov 2025', isCurrent: false },
+    { label: 'Atual', days: 30, startDate: '2 jan 2026', endDate: 'hoje', isCurrent: true },
+    { label: 'Melhor', days: 45, startDate: '15 out 2025', endDate: '28 nov 2025', isCurrent: false },
   ],
 };
 

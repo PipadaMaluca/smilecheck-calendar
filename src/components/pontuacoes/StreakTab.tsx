@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { getActiveLocale } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -139,9 +140,9 @@ export function StreakTab({ userRole }: StreakTabProps) {
               <div key={i} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    {s.isCurrent && <Flame className="w-3.5 h-3.5 inline mr-1 text-warning" />}{s.label}: {t('scores.days', { count: s.days })}
+                    {s.isCurrent && <Flame className="w-3.5 h-3.5 inline mr-1 text-warning" />}{demoText(s.label)}: {t('scores.days', { count: s.days })}
                   </p>
-                  <p className="text-2xs text-muted-foreground">{s.startDate} — {s.endDate}</p>
+                  <p className="text-2xs text-muted-foreground">{demoText(s.startDate)} — {demoText(s.endDate)}</p>
                 </div>
                 {s.isCurrent && <Badge className="bg-primary/20 text-primary border-primary/30 text-2xs">{t('scores.active')}</Badge>}
               </div>
