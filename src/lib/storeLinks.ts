@@ -8,9 +8,14 @@ export const webAppUrl = () =>
 export const appStoreTarget = () => APP_STORE_URL ?? webAppUrl();
 export const playStoreTarget = () => PLAY_STORE_URL ?? webAppUrl();
 
-// Official badges available locally (others fall back to English).
-const APPLE_BADGES: Record<string, string> = { en: '/badges/app-store-en-us.svg' };
+// Official badges available locally (one per supported language).
+const APPLE_BADGES: Record<string, string> = {
+  pt: '/badges/app-store-pt-pt.svg',
+  fr: '/badges/app-store-fr-fr.svg',
+  en: '/badges/app-store-en-us.svg',
+};
 const PLAY_BADGES: Record<string, string> = {
+  pt: '/badges/google-play-pt.png',
   en: '/badges/google-play-en.png',
   fr: '/badges/google-play-fr.png',
 };
