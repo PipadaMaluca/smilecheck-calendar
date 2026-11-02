@@ -422,7 +422,7 @@ export function DesktopCalendarView() {
     if (viewMode === 'month') {
       return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
-    if (short) return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'short', day: 'numeric', month: 'short' });
+    if (short) return format(selectedDate, 'EEE, d MMM', { locale: getDateFnsLocale() });
     return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
 
