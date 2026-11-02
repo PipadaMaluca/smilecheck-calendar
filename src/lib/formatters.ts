@@ -43,11 +43,11 @@ export function formatNumber(n: number, opts: Intl.NumberFormatOptions = {}): st
 
 /**
  * Euro amount in the active language: "24,99 €" (PT/FR) / "€24.99" (EN).
- * Whole amounts drop the decimals ("20 €") unless `decimals` forces them.
+ * Single rule: whole amounts drop the cents ("20 €"); any other amount always shows 2 decimals.
  */
-export function formatCurrency(value: number, opts: { decimals?: boolean } = {}): string {
-  const v = Number(value) || 0;
-  const whole = Number.isInteger(v) && !opts.decimals;
+export function formatCurrency(value: number): string {
+  const v = Math.round((Number(value) || 0) * 100) / 100;
+  const whole = Number.isInteger(v);
   return new Intl.NumberFormat(getActiveLocale(), {
     style: 'currency',
     currency: 'EUR',

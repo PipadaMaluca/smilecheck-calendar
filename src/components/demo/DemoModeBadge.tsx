@@ -1,11 +1,15 @@
 import { FlaskConical } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 export function DemoModeBadge({ inline, className }: { inline?: boolean; className?: string } = {}) {
   const { demoMode } = useAuth();
   const { t } = useTranslation();
-  if (!demoMode) return null;
+  const { pathname } = useLocation();
+  // Only inside the app — never on the public landing, auth or legal pages.
+  const inApp = pathname.startsWith('/app') || pathname.startsWith('/triagem');
+  if (!demoMode || !inApp) return null;
 
   // Mobile: compact pill integrated in the header, never floating over content.
   if (inline) {
