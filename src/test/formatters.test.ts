@@ -26,9 +26,9 @@ describe('counts in translations are grouped', () => {
   });
 
   it('drops cents only for whole amounts, else always 2 decimals', () => {
-    expect(clean(formatCurrency(24))).toMatch(/^24 ?€|€24$/);
+    expect(clean(formatCurrency(24))).toBe('24 €');
     expect(formatCurrency(24)).not.toMatch(/[.,]00/);
-    expect(formatCurrency(24.5)).toMatch(/24[.,]50/);
-    expect(formatCurrency(2426)).not.toMatch(/[.,]\d{2}\D*$/);
+    expect(clean(formatCurrency(24.5))).toBe('24,50 €');
+    expect(clean(formatCurrency(2426))).toBe('2 426 €');
   });
 });
