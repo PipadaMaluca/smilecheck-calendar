@@ -154,7 +154,7 @@ function FeatureRow({
         <div data-reveal="left" className="inline-block px-3 py-1 rounded-full bg-accent dark:bg-accent/60 text-primary border border-border text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
-        <h3 data-reveal="words" className="text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
+        <h3 key={i18n.language} data-reveal="words" className="text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
           {title}
         </h3>
         <p data-reveal="up" className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
