@@ -636,13 +636,13 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 }} />
                         {d.active ?
                 <>
-                            <Input type="time" value={d.start} onChange={(e) => {
+                            <Input type="time" aria-label={`${d.day} — ${t('team.morningStart')}`} value={d.start} onChange={(e) => {
                     const updated = [...dentistSchedules];
                     updated[si].days[di] = { ...d, start: e.target.value };
                     setDentistSchedules(updated);
                   }} className="w-24 h-7 text-xs" />
                             <span className="text-muted-foreground">-</span>
-                            <Input type="time" value={d.end} onChange={(e) => {
+                            <Input type="time" aria-label={`${d.day} — ${t('team.afternoonEnd')}`} value={d.end} onChange={(e) => {
                     const updated = [...dentistSchedules];
                     updated[si].days[di] = { ...d, end: e.target.value };
                     setDentistSchedules(updated);
@@ -832,9 +832,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               }} />
                     {h.open ?
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <Input type="time" value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                        <Input type="time" aria-label={`${OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} — ${t('team.morningStart')}`} value={h.start} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], start: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                         <span className="text-muted-foreground">-</span>
-                        <Input type="time" value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
+                        <Input type="time" aria-label={`${OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} — ${t('team.afternoonEnd')}`} value={h.end} onChange={(e) => {const u = [...clinicHours];u[i] = { ...u[i], end: e.target.value };setClinicHours(u);}} className="w-24 sm:w-28 h-8 text-xs" />
                       </div> :
 
               <span className="text-destructive text-xs">{t('editProfile.closed')}</span>
