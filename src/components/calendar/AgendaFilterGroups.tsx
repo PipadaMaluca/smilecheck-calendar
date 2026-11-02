@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
@@ -205,11 +206,14 @@ function FilterRow({
   itemPadding,
 }: FilterRowProps) {
   return (
-    <button
-      type="button"
+    <div
+      role="checkbox"
+      tabIndex={0}
+      aria-checked={indeterminate ? 'mixed' : checked}
       onClick={onToggle}
+      onKeyDown={onActivateKey(onToggle)}
       className={cn(
-        'w-full flex items-center gap-2 transition-colors hover:bg-[#F5F9FF] dark:hover:bg-[#1E3A5F] text-left',
+        'w-full flex items-center gap-2 transition-colors hover:bg-[#F5F9FF] dark:hover:bg-[#1E3A5F] text-left cursor-pointer',
         itemPadding,
       )}
     >
@@ -217,6 +221,8 @@ function FilterRow({
         checked={indeterminate ? 'indeterminate' : checked}
         onCheckedChange={() => onToggle()}
         onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
+        aria-hidden="true"
         className="h-4 w-4 data-[state=checked]:bg-[#2196F3] data-[state=checked]:border-[#2196F3] border-[#D6E4F0]"
       />
       {colorDot && (
@@ -228,6 +234,6 @@ function FilterRow({
       <span className={cn(labelSize, 'truncate flex-1', bold && 'font-semibold')}>
         {label}
       </span>
-    </button>
+    </div>
   );
 }
