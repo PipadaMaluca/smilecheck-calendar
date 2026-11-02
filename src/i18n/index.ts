@@ -48,9 +48,12 @@ const syncHtmlLang = (lng: string) => {
   document.documentElement.lang = HTML_LANG[lng] || 'pt-PT';
 };
 syncHtmlLang(savedLang);
+document.title = i18n.t('meta.defaultTitle');
 i18n.on('languageChanged', (lng) => {
   localStorage.setItem(STORAGE_KEY, lng);
   syncHtmlLang(lng);
+  // Screens with useDocumentTitle re-apply their own title right after.
+  document.title = i18n.t('meta.defaultTitle');
 });
 
 export default i18n;
