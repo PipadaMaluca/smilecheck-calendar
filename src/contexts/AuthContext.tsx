@@ -5,6 +5,8 @@ import type { UserRole } from '@/types/calendar';
 
 const DEMO_KEY = 'sc:demo-role';
 
+export const PENDING_REFERRAL_KEY = 'smilecheck.pendingReferral';
+
 export interface AuthProfile {
   id: string;
   role: UserRole;
@@ -12,6 +14,8 @@ export interface AuthProfile {
   email: string | null;
   avatar_url: string | null;
   language: string;
+  plan?: 'free' | 'pro' | 'premium';
+  referral_code?: string | null;
 }
 
 interface AuthContextValue {
@@ -64,12 +68,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     supabase
       .from('profiles')
-      .select('id, role, full_name, email, avatar_url, language')
+      .select('id, role, full_name, email, avatar_url, language, plan, referral_code')
       .eq('id', userId)
       .maybeSingle()
       .then(({ data }) => {
         if (!cancelled && data) setProfile(data as AuthProfile);
       });
+    // Referral code typed at sign-up is registered server-side once the account has a session.
+    const pendingCode = localStorage.getItem(PENDING_REFERRAL_KEY);
+    if (pendingCode) {
+      void supabase.rpc('register_referral', { _code: pendingCode }).then(() => localStorage.removeItem(PENDING_REFERRAL_KEY));
+    }
     return () => {
       cancelled = true;
     };

@@ -1,3 +1,4 @@
+import { PENDING_REFERRAL_KEY } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useNavigate, Link } from 'react-router-dom';
@@ -68,7 +69,7 @@ export function SignUpScreen() {
 
   const validateReferralCode = (code: string) => {
     if (!code.trim()) { setReferralStatus('idle'); return; }
-    if (code.toUpperCase().startsWith('SMILE-')) { setReferralStatus('valid'); } else { setReferralStatus('invalid'); }
+    if (/^SMILE-[A-Z0-9-]{4,}$/.test(code.trim().toUpperCase())) { setReferralStatus('valid'); } else { setReferralStatus('invalid'); }
   };
 
   const validateStep2 = () => {
@@ -119,6 +120,7 @@ export function SignUpScreen() {
       setErrors({ [mapped.field === 'general' ? 'email' : mapped.field]: mapped.message });
       return;
     }
+    if (referralCode.trim()) localStorage.setItem(PENDING_REFERRAL_KEY, referralCode.trim().toUpperCase());
     navigate(`/app?role=${role}`);
   };
 

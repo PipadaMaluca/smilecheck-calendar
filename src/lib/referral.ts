@@ -1,8 +1,11 @@
 /** Referral action key in `points_rules`. */
 export const REFERRAL_ACTION_KEY = 'convidar_amigo';
 
-/** Actions the server (`award_points`) currently refuses with `action_suspended`. Keep in sync. */
-export const SUSPENDED_ACTIONS: string[] = ['convidar_amigo'];
+/** Level-2 referral action: 1 point per person brought by my invitees. */
+export const REFERRAL_L2_ACTION_KEY = 'convite_nivel2';
+
+/** Referral points are awarded only by the server (referrals + try_validate_referral), never by the client. Nothing suspended. */
+export const SUSPENDED_ACTIONS: string[] = [];
 
 /** Personal referral code derived from the current user: SMILE-<FIRSTNAME>-<4 chars of id hash>. */
 export function buildReferralCode(name: string, userId: string): string {
