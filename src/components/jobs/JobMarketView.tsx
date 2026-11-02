@@ -1,3 +1,4 @@
+import { Check as CheckIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo } from 'react';
@@ -612,7 +613,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                               setProposalData(p => ({ ...p, weekSchedule: updated }));
                             }} className={cn('w-8 h-8 rounded-lg',
                               ws[period] ? 'bg-primary text-primary-foreground border-primary hover:bg-primary' : 'border-border hover:bg-accent')}>
-                              {ws[period] ? '✓' : ''}
+                              {ws[period] ? <CheckIcon className="w-3.5 h-3.5 mx-auto" aria-hidden /> : null}
                             </Button>
                           </td>
                         ))}

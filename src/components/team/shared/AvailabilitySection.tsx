@@ -1,3 +1,4 @@
+import { X as XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -164,7 +165,7 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span>25 Dez 2026 — {t('team.unavailable')}</span>
-            <Badge variant="outline" className="text-2xs bg-destructive/10 text-destructive border-destructive/30">❌</Badge>
+            <Badge variant="outline" className="text-2xs bg-destructive/10 text-destructive border-destructive/30"><XIcon className="w-3 h-3" aria-label={t('a11y.close')} /></Badge>
           </div>
           <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
             <Plus className="w-3 h-3" />{t('team.addException')}

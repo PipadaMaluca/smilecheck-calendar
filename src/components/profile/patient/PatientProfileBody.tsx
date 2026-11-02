@@ -1,3 +1,4 @@
+import { Star as StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -465,7 +466,7 @@ export function PatientProfileBody({
             <div className="flex-1 space-y-2">
               {breakdown.map((b) =>
               <div key={b.stars} className="flex items-center gap-3 text-xs">
-                  <span className="w-10 text-muted-foreground">{b.stars}★</span>
+                  <span className="w-10 text-muted-foreground">{b.stars}<StarIcon className="inline w-3 h-3 ml-0.5 -mt-0.5 fill-current" aria-hidden /></span>
                   <Progress value={b.pct} className="h-2 flex-1" />
                   <span className="w-10 text-right text-muted-foreground">{b.pct}%</span>
                 </div>

@@ -1,3 +1,4 @@
+import { Star as StarIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
@@ -394,7 +395,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           <div className="flex-1 space-y-1">
             {breakdown.map((b) =>
           <div key={b.stars} className="flex items-center gap-2 text-xs">
-                <span className="w-3">{b.stars}★</span>
+                <span className="w-3">{b.stars}<StarIcon className="inline w-3 h-3 ml-0.5 -mt-0.5 fill-current" aria-hidden /></span>
                 <Progress value={b.pct} className="h-2 flex-1" />
                 <span className="w-8 text-right text-muted-foreground">{b.pct}%</span>
               </div>
