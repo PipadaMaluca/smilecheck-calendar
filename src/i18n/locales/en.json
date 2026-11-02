@@ -4672,7 +4672,8 @@
     "newConsultation": "New appointment",
     "today": "Today",
     "goToSlide": "Go to screen {{n}}",
-    "freeSlotAt": "Free slot at {{time}} — {{name}}"
+    "freeSlotAt": "Free slot at {{time}} — {{name}}",
+    "copyCode": "Copy code"
   },
   "demoText": {
     "abcesso": "Abscess",

@@ -4672,7 +4672,8 @@
     "newConsultation": "Nouvelle consultation",
     "today": "Aujourd’hui",
     "goToSlide": "Aller à l'écran {{n}}",
-    "freeSlotAt": "Créneau libre à {{time}} — {{name}}"
+    "freeSlotAt": "Créneau libre à {{time}} — {{name}}",
+    "copyCode": "Copier le code"
   },
   "demoText": {
     "abcesso": "Abcès",

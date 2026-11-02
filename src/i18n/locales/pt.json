@@ -4672,7 +4672,8 @@
     "newConsultation": "Nova consulta",
     "today": "Hoje",
     "goToSlide": "Ir para o ecrã {{n}}",
-    "freeSlotAt": "Vaga livre às {{time}} — {{name}}"
+    "freeSlotAt": "Vaga livre às {{time}} — {{name}}",
+    "copyCode": "Copiar código"
   },
   "demoText": {
     "abcesso": "Abcesso",
