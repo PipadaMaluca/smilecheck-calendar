@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Sparkles, AlertTriangle, Stethoscope } from 'lucide-react';
@@ -26,11 +27,17 @@ export function TriageAiAnalysisCard({ triageData, symptomLabels, durationLabel 
   durationLabel: string;
 }) {
   const { t, i18n } = useTranslation();
+  const { demoMode, user } = useAuth();
   const [result, setResult] = useState<AiResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    // Demo mode and signed-out visitors never call the AI.
+    if (demoMode || !user) {
+      setError(t(demoMode ? 'triage.ai.error' : 'triage.ai.errorAuth'));
+      return;
+    }
     const lang = (['pt', 'en', 'fr'].includes(i18n.language?.slice(0, 2)) ? i18n.language.slice(0, 2) : 'pt');
     supabase.functions.invoke('triage-ai', {
       body: {
@@ -43,9 +50,12 @@ export function TriageAiAnalysisCard({ triageData, symptomLabels, durationLabel 
         painIntensity: triageData.painIntensity,
         isRoutineCheckup: triageData.isRoutineCheckup,
       },
-    }).then(({ data, error }) => {
+    }).then(async ({ data, error }) => {
       if (cancelled) return;
-      if (error || data?.error) setError(t('triage.ai.error'));
+      const status = (error as { context?: Response } | null)?.context?.status;
+      if (status === 401) setError(t('triage.ai.errorAuth'));
+      else if (status === 429) setError(t('triage.ai.errorLimit'));
+      else if (error || data?.error) setError(t('triage.ai.error'));
       else setResult(data as AiResult);
     });
     return () => { cancelled = true; };

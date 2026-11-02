@@ -19,6 +19,7 @@ import {
   findWaitingMatches,
   toUtcTimestamp,
   updateAppointment,
+  requestReschedule,
   updateAppointmentStatus,
 } from '@/data/agendaWrites';
 import {
@@ -114,6 +115,12 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         const date = input.date ?? consultation.date;
         const time = input.time ?? consultation.time;
         const category = input.category ?? consultation.category;
+        if (role === 'patient') {
+          // Patients can only move the time, and only through the server check.
+          await requestReschedule(consultation.id, toUtcTimestamp(date, time));
+          refresh();
+          return true;
+        }
         await updateAppointment({
           id: consultation.id,
           scheduledAt: toUtcTimestamp(date, time),
@@ -133,7 +140,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
         setPending(false);
       }
     },
-    [isDemo, refresh]
+    [isDemo, refresh, role]
   );
 
   const cancelConsultation = useCallback<AppointmentActionsValue['cancelConsultation']>(
