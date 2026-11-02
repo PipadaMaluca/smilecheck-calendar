@@ -23,6 +23,9 @@ import Landing from "./pages/Landing";
 import Triagem from "./pages/Triagem";
 import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
+import Acessibilidade from "./pages/Acessibilidade";
+import { ConsentBanner } from "@/components/consent/ConsentBanner";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
@@ -44,6 +47,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <DemoModeBadge />
+          <ConsentBanner />
           <AnimatedRoutes>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />
@@ -53,6 +57,7 @@ const App = () => (
             <Route path="/demo" element={<DemoSelector />} />
             <Route path="/termos" element={<Termos />} />
             <Route path="/privacidade" element={<Privacidade />} />
+            <Route path="/acessibilidade" element={<Acessibilidade />} />
             <Route path="/" element={<Index />} />
             <Route path="/landing" element={<Landing />} />
             <Route path="/app" element={<ProtectedRoute><AppPage /></ProtectedRoute>} />

@@ -8,6 +8,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
+import { ACCESSIBILITY_REVIEWED_AT, SUPPORT_EMAIL } from '@/lib/support';
 
 const logoSrc = '/assets/smilecheck-logo-horizontal.webp';
 const LAST_UPDATED = new Date(2026, 0, 1);
@@ -15,13 +16,14 @@ const LAST_UPDATED = new Date(2026, 0, 1);
 interface Section { id: string; title: string; content: string }
 
 /** Terms / Privacy page. All text lives in i18n (legal.<doc>.sections) for PT, EN and FR. */
-export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' }) {
+export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibility' }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const watermarkSrc = useWatermarkSrc();
-  const titleKey = doc === 'terms' ? 'legal.termsTitle' : 'legal.privacyTitle';
+  const titleKey = doc === 'terms' ? 'legal.termsTitle' : doc === 'privacy' ? 'legal.privacyTitle' : 'legal.accessibilityTitle';
+  const updated = doc === 'accessibility' ? ACCESSIBILITY_REVIEWED_AT : LAST_UPDATED;
   useDocumentTitle(titleKey);
-  const sections = t(`legal.${doc}.sections`, { returnObjects: true, price: formatCurrency(TELECONSULT_PRICE) }) as Section[];
+  const sections = t(`legal.${doc}.sections`, { returnObjects: true, price: formatCurrency(TELECONSULT_PRICE), email: SUPPORT_EMAIL, date: formatDate(ACCESSIBILITY_REVIEWED_AT) }) as Section[];
   const list = Array.isArray(sections) ? sections : [];
 
   const scrollToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -40,7 +42,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' }) {
             <img src={logoSrc} alt="SmileCheck" className="h-8 rounded-lg" />
             <div className="flex-1">
               <h1 className="text-lg font-bold text-foreground">{t(titleKey)}</h1>
-              <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(LAST_UPDATED) })}</p>
+              <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(updated) })}</p>
             </div>
           </div>
         </header>

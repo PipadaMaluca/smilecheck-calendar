@@ -1,3 +1,4 @@
+import { adsArePersonalised, readLocalConsent } from '@/lib/consent';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Clapperboard, Gift, ShieldCheck, Timer } from 'lucide-react';
@@ -120,7 +121,7 @@ export function AdsPanel() {
             </>
           )}
         </div>
-        <p className="text-2xs text-muted-foreground md:col-span-2">{t('ads.privacyNote')}</p>
+        <p className="text-2xs text-muted-foreground md:col-span-2">{t('ads.privacyNote')} {t(adsArePersonalised(readLocalConsent()) ? 'ads.personalised' : 'ads.nonPersonalised')}</p>
       </CardContent>
 
       <Dialog open={!!playing} onOpenChange={() => {}}>

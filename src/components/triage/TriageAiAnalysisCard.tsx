@@ -5,6 +5,7 @@ import { Sparkles, AlertTriangle, Stethoscope } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { AiLabel, AiNotice } from '@/components/ai/AiNotice';
 import { TriageData } from '@/types/triage';
 
 interface AiResult {
@@ -66,8 +67,10 @@ export function TriageAiAnalysisCard({ triageData, symptomLabels, durationLabel 
     <div className="w-full max-w-md bg-card border border-border rounded-xl p-4 text-left space-y-3">
       <div className="flex items-center gap-2 border-b border-border pb-2">
         <Sparkles className="w-4 h-4 text-primary" />
-        <h3 className="text-sm font-semibold text-foreground">{t('triage.ai.title')}</h3>
+        <h3 className="text-sm font-semibold text-foreground flex-1">{t('triage.ai.title')}</h3>
+        <AiLabel />
       </div>
+      <AiNotice />
 
       {!result && !error && (
         <div className="space-y-2" aria-busy="true">
