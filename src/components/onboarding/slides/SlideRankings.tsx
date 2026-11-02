@@ -15,11 +15,10 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
   const sectionTitle = "text-xs font-bold text-center text-foreground mt-2 mb-1";
 
   return (
-    <SlideFrame title={<h2 className="w-full text-base font-bold text-center text-gaming-gold px-12">
-<Trophy className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('onboarding.rankingsTitle')}
+    <SlideFrame title={<h2 className="font-gaming text-xl md:text-2xl text-gaming-gold flex items-center justify-center gap-2 text-center">
+<Trophy className="w-6 h-6 shrink-0" />{t('onboarding.rankingsTitle')}
         </h2>}>
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
-        {/* Title */}
 
         {/* Podium */}
         <div className="grid grid-cols-3 gap-1 w-full max-w-[280px] items-end mb-1">
