@@ -4969,5 +4969,55 @@
     "soon": "Em breve",
     "pointsResetWarning": "Os pontos de recompensa são repostos todos os anos",
     "billedAnnually": "{{total}} por ano"
+  },
+  "fear": {
+    "title": "Escala de medo",
+    "selfTitle": "Como se sente no dentista?",
+    "selfHint": "Pode alterar quando quiser. Ajuda a equipa a adaptar a consulta.",
+    "chip": "Medo {{level}} · {{label}}",
+    "shortValues": "P {{p}} · C {{c}}",
+    "mismatch": "A autoavaliação do paciente e a avaliação clínica diferem 2 ou mais níveis.",
+    "panelTitle": "Escala de medo",
+    "panelSubtitle": "P = autoavaliação do paciente · C = avaliação clínica",
+    "patientValue": "Paciente",
+    "professionalValue": "Clínica",
+    "suggestedApproach": "Conduta sugerida",
+    "scaleTitle": "Níveis",
+    "history": "Histórico de avaliações",
+    "noHistory": "Ainda sem avaliações clínicas.",
+    "noData": "Sem nível de medo registado.",
+    "lastAssessed": "Avaliado a {{date}}",
+    "updateTitle": "Atualizar nível de medo (opcional)",
+    "updateHint": "O último valor já está selecionado; toque para confirmar ou escolha outro.",
+    "saved": "Nível de medo guardado",
+    "saveError": "Não foi possível guardar o nível de medo",
+    "yourLevel": "O seu nível",
+    "levels": {
+      "0": {
+        "label": "Tranquilo",
+        "desc": "Relaxado e colaborante; compreende o procedimento.",
+        "conduct": "Abordagem habitual."
+      },
+      "1": {
+        "label": "Ligeira apreensão",
+        "desc": "Ligeira ansiedade; faz perguntas e colabora.",
+        "conduct": "Explicar cada passo e esclarecer dúvidas."
+      },
+      "2": {
+        "label": "Ansiedade moderada",
+        "desc": "Tensão visível; podem surgir sinais físicos ligeiros (p. ex., taquicardia).",
+        "conduct": "Ambiente calmo, pausas combinadas e verificação frequente do conforto."
+      },
+      "3": {
+        "label": "Medo intenso",
+        "desc": "Medo evidente; risco de resistência ao tratamento.",
+        "conduct": "Técnica dizer-mostrar-fazer e sinal de paragem combinado; ponderar ansiólise ou pré-medicação."
+      },
+      "4": {
+        "label": "Pânico",
+        "desc": "Crise de ansiedade ou recusa do tratamento.",
+        "conduct": "Adiar procedimentos não urgentes; ponderar sedação consciente ou referenciação."
+      }
+    }
   }
 }

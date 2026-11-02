@@ -4969,5 +4969,55 @@
     "soon": "Coming soon",
     "pointsResetWarning": "Reward points are reset every year",
     "billedAnnually": "{{total}} per year"
+  },
+  "fear": {
+    "title": "Fear scale",
+    "selfTitle": "How do you feel at the dentist?",
+    "selfHint": "You can change it at any time. It helps the team adapt your appointment.",
+    "chip": "Fear {{level}} · {{label}}",
+    "shortValues": "P {{p}} · C {{c}}",
+    "mismatch": "The patient's self-assessment and the clinical assessment differ by 2 or more levels.",
+    "panelTitle": "Fear scale",
+    "panelSubtitle": "P = patient's self-assessment · C = clinical assessment",
+    "patientValue": "Patient",
+    "professionalValue": "Clinical",
+    "suggestedApproach": "Suggested approach",
+    "scaleTitle": "Levels",
+    "history": "Assessment history",
+    "noHistory": "No clinical assessments yet.",
+    "noData": "No fear level recorded.",
+    "lastAssessed": "Assessed on {{date}}",
+    "updateTitle": "Update fear level (optional)",
+    "updateHint": "The last value is preselected; tap to confirm or pick another.",
+    "saved": "Fear level saved",
+    "saveError": "Could not save the fear level",
+    "yourLevel": "Your level",
+    "levels": {
+      "0": {
+        "label": "Calm",
+        "desc": "Relaxed and cooperative; understands the procedure.",
+        "conduct": "Usual approach."
+      },
+      "1": {
+        "label": "Mild apprehension",
+        "desc": "Mild anxiety; asks questions and cooperates.",
+        "conduct": "Explain each step and answer questions."
+      },
+      "2": {
+        "label": "Moderate anxiety",
+        "desc": "Visible tension; mild physical signs may appear (e.g. tachycardia).",
+        "conduct": "Calm environment, agreed breaks and frequent comfort checks."
+      },
+      "3": {
+        "label": "Intense fear",
+        "desc": "Obvious fear; risk of resisting treatment.",
+        "conduct": "Tell-show-do technique and an agreed stop signal; consider anxiolysis or premedication."
+      },
+      "4": {
+        "label": "Panic",
+        "desc": "Anxiety attack or refusal of treatment.",
+        "conduct": "Postpone non-urgent procedures; consider conscious sedation or referral."
+      }
+    }
   }
 }

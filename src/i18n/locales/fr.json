@@ -4969,5 +4969,55 @@
     "soon": "Bientôt",
     "pointsResetWarning": "Les points de récompense sont réinitialisés chaque année",
     "billedAnnually": "{{total}} par an"
+  },
+  "fear": {
+    "title": "Échelle de peur",
+    "selfTitle": "Comment vous sentez-vous chez le dentiste ?",
+    "selfHint": "Vous pouvez le modifier à tout moment. Cela aide l'équipe à adapter la consultation.",
+    "chip": "Peur {{level}} · {{label}}",
+    "shortValues": "P {{p}} · C {{c}}",
+    "mismatch": "L'auto-évaluation du patient et l'évaluation clinique diffèrent de 2 niveaux ou plus.",
+    "panelTitle": "Échelle de peur",
+    "panelSubtitle": "P = auto-évaluation du patient · C = évaluation clinique",
+    "patientValue": "Patient",
+    "professionalValue": "Clinique",
+    "suggestedApproach": "Conduite suggérée",
+    "scaleTitle": "Niveaux",
+    "history": "Historique des évaluations",
+    "noHistory": "Pas encore d'évaluation clinique.",
+    "noData": "Aucun niveau de peur enregistré.",
+    "lastAssessed": "Évalué le {{date}}",
+    "updateTitle": "Mettre à jour le niveau de peur (facultatif)",
+    "updateHint": "La dernière valeur est déjà sélectionnée ; touchez pour confirmer ou choisissez-en une autre.",
+    "saved": "Niveau de peur enregistré",
+    "saveError": "Impossible d'enregistrer le niveau de peur",
+    "yourLevel": "Votre niveau",
+    "levels": {
+      "0": {
+        "label": "Serein",
+        "desc": "Détendu et coopératif ; comprend le soin.",
+        "conduct": "Approche habituelle."
+      },
+      "1": {
+        "label": "Légère appréhension",
+        "desc": "Légère anxiété ; pose des questions et coopère.",
+        "conduct": "Expliquer chaque étape et répondre aux questions."
+      },
+      "2": {
+        "label": "Anxiété modérée",
+        "desc": "Tension visible ; de légers signes physiques peuvent apparaître (p. ex., tachycardie).",
+        "conduct": "Environnement calme, pauses convenues et vérification régulière du confort."
+      },
+      "3": {
+        "label": "Peur intense",
+        "desc": "Peur évidente ; risque de résistance au traitement.",
+        "conduct": "Technique dire-montrer-faire et signal d'arrêt convenu ; envisager une anxiolyse ou une prémédication."
+      },
+      "4": {
+        "label": "Panique",
+        "desc": "Crise d'anxiété ou refus du traitement.",
+        "conduct": "Reporter les soins non urgents ; envisager une sédation consciente ou une orientation."
+      }
+    }
   }
 }
