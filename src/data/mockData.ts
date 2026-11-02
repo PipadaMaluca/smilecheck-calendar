@@ -1,3 +1,4 @@
+import { localizeDemoObjects } from '@/lib/demoText';
 import { demoDate, liveDemoStatus } from '@/lib/demoClock';
 import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
 
@@ -103,10 +104,12 @@ export const mockFamilyMembers = [
 
 // Demo date - January 31, 2026
 const DEMO_DATE = demoDate(2026, 0, 31);
+// Free-text demo fields kept in the active language (see src/lib/demoText.ts).
+const DEMO_TEXT_FIELDS = ['notes', 'triage.symptom', 'triage.duration'];
 
 // Patient consultations - one Jan 31, 2026 demo-day source for every viewport.
 // Dashboard, Agenda, desktop, tablet, and mobile must all render this same data.
-export const mockPatientConsultations: Consultation[] = ([
+export const mockPatientConsultations: Consultation[] = localizeDemoObjects(([
   {
     id: 'pat-1',
     type: 'presencial',
@@ -191,10 +194,10 @@ export const mockPatientConsultations: Consultation[] = ([
     isPaid: false,
     notes: 'Dente 15, face oclusal',
   },
- ] as Consultation[]).map(withRequiredConsultationFields);
+ ] as Consultation[]).map(withRequiredConsultationFields), DEMO_TEXT_FIELDS);
 
 // ===== JANUARY 31 - Full Day Demo for ALL Dentists =====
-export const mockConsultations: Consultation[] = ([
+export const mockConsultations: Consultation[] = localizeDemoObjects(([
   // ==========================================
   // DR. GONÇALO PIPO - CLÍNICA SMILECHECK (Generalista)
   // ==========================================
@@ -1748,7 +1751,7 @@ export const mockConsultations: Consultation[] = ([
 ] as Consultation[])
   // Physical clinics are closed on Sundays: shifted demo days never place in-person visits there.
   .filter(c => c.date.getDay() !== 0 || c.type === 'teleconsulta')
-  .map(withRequiredConsultationFields);
+  .map(withRequiredConsultationFields), DEMO_TEXT_FIELDS);
 
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {

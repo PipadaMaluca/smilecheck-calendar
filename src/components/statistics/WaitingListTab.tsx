@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { getActiveLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
 import { AlertTriangle, BellRing, CalendarCheck, Loader2, Trash2, Users, Zap } from 'lucide-react';
@@ -558,7 +559,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                           <span className="not-italic font-semibold text-foreground">
                             {t('waitingList.mgmt.observation')}:
                           </span>{' '}
-                          {entry.observation}
+                          {demoText(entry.observation)}
                         </div>
 
                         {/* Actions */}
