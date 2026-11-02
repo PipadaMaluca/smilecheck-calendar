@@ -20,7 +20,7 @@ const CLINIC_TELE_SUMMARY = summarizeTeleconsults(
 );
 const CLINIC_TELE_REVENUE = CLINIC_TELE_SUMMARY.amount;
 const CLINIC_COMMISSION = CLINIC_TELE_SUMMARY.commission;
-const fmtEur = (v: number) => `${formatCurrency(v.toLocaleString(getActiveLocale(), { maximumFractionDigits: 2 }))}`;
+const fmtEur = (v: number) => formatCurrency(v);
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +70,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                 { label: t('billing.totalRevenue'), value: fmtEur(CLINIC_TOTAL_REVENUE), color: '' },
                 { label: t('billing.teleconsultas'), value: `${CLINIC_TELE_COUNT} (${fmtEur(CLINIC_TELE_REVENUE)})`, color: '' },
                 { label: `${t('billing.commission')} (${commissionPercent(DENTIST_PLAN)}%)`, value: fmtEur(CLINIC_COMMISSION), color: 'text-destructive' },
-                { label: t('billing.plan'), value: 'Pro €39,99/' + t('billing.monthly').toLowerCase(), color: '' },
+                { label: t('billing.plan'), value: `Pro ${formatCurrency(39.99)}${t('units.perMonth')}`, color: '' },
                 { label: t('billing.net'), value: fmtEur(CLINIC_TOTAL_REVENUE - CLINIC_COMMISSION), color: 'text-primary' },
               ].map((s, i) => (
                 <Card key={i} className="bg-card/80 backdrop-blur border-border">
@@ -160,7 +160,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
               <ManagePlanView
                 userRole="clinic"
                 currentPlanName="Pro"
-                currentPriceLabel={`€39,99/${t('billing.monthly').toLowerCase()}`}
+                currentPriceLabel={`${formatCurrency(39.99)}${t('units.perMonth')}`}
                 nextBilling="1 Fev 2026"
                 paymentMethodLabel="Visa ****4532"
               />

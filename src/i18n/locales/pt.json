@@ -4396,5 +4396,11 @@
   },
   "meta": {
     "defaultTitle": "SmileCheck — Saúde oral, consultas e teleconsultas"
+  },
+  "units": {
+    "perMonth": "/mês",
+    "perYear": "/ano",
+    "from": "Desde {{price}}",
+    "perConsult": "/consulta"
   }
 }

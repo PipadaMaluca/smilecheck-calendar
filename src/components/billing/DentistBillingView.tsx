@@ -148,7 +148,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <ManagePlanView
                 userRole="dentist"
                 currentPlanName="Pro"
-                currentPriceLabel={`€19,99/${t('billing.monthly').toLowerCase()}`}
+                currentPriceLabel={`${formatCurrency(19.99)}${t('units.perMonth')}`}
                 nextBilling="1 Fev 2026"
                 paymentMethodLabel="Visa ****4532"
               />

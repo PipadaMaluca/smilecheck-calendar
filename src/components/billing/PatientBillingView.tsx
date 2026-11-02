@@ -57,7 +57,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
               <ManagePlanView
                 userRole="patient"
                 currentPlanName="Pro"
-                currentPriceLabel={`€4,99/${t('billing.monthly').toLowerCase()}`}
+                currentPriceLabel={`${formatCurrency(4.99)}${t('units.perMonth')}`}
                 nextBilling="1 Fev 2026"
                 paymentMethodLabel="Visa ****4532"
               />
@@ -83,7 +83,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.currentPlan')}</p>
                   <p className="text-lg font-bold text-foreground mt-1">Pro</p>
-                  <p className="text-xs text-muted-foreground">€4,99/{t('billing.monthly').toLowerCase()}</p>
+                  <p className="text-xs text-muted-foreground">{formatCurrency(4.99)}{t('units.perMonth')}</p>
                 </CardContent>
               </Card>
             </div>

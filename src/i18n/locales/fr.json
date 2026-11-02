@@ -4396,5 +4396,11 @@
   },
   "meta": {
     "defaultTitle": "SmileCheck — Santé bucco-dentaire, rendez-vous et téléconsultations"
+  },
+  "units": {
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "from": "À partir de {{price}}",
+    "perConsult": "/consultation"
   }
 }

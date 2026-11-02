@@ -232,7 +232,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     <TrendingUp className="w-4 h-4" />
                     <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue.toLocaleString(getActiveLocale()))}</span>
+                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
                 </CardContent>
               </Card>
             </div>

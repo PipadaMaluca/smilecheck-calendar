@@ -373,7 +373,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             />
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-destructive" />
-              <span className="text-sm text-foreground">{t('booking.isUrgent')} (+€5)</span>
+              <span className="text-sm text-foreground">{t('booking.isUrgent')} (+{formatCurrency(5)})</span>
             </div>
           </label>
         )}
@@ -517,7 +517,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {data.isUrgent && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">{t('booking.urgencyFee')}</span>
-              <span className="text-foreground">€5</span>
+              <span className="text-foreground">{formatCurrency(5)}</span>
             </div>
           )}
           {discount > 0 && (
