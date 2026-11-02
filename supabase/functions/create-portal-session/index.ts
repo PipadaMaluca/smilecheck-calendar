@@ -2,6 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { createStripeClient } from "../_shared/stripe.ts";
+import { resolveEnv, safeReturnUrl } from "../_shared/paymentsGuard.ts";
 
 const ROLE_PRICES = (role: string) => ["pro_monthly", "pro_yearly", "premium_monthly", "premium_yearly"].map((p) => `${role}_${p}`);
 
@@ -34,7 +35,7 @@ async function portalConfigFor(stripe: ReturnType<typeof createStripeClient>, ro
   return cfg.id;
 }
 
-const Body = z.object({ returnUrl: z.string().url().max(500), environment: z.enum(["sandbox", "live"]) });
+const Body = z.object({ returnUrl: z.string().max(500).optional(), environment: z.enum(["sandbox", "live"]).optional() });
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
@@ -49,19 +50,21 @@ Deno.serve(async (req) => {
     if (!user) return json({ error: "Unauthorized" }, 401);
     const parsed = Body.safeParse(await req.json());
     if (!parsed.success) return json({ error: parsed.error.flatten().fieldErrors }, 400);
+    const environment = resolveEnv(parsed.data.environment);
+    if (!environment) return json({ error: "environment_not_active" }, 403);
 
     const { data: sub } = await admin.from("subscriptions").select("stripe_customer_id")
-      .eq("user_id", user.id).eq("environment", parsed.data.environment)
+      .eq("user_id", user.id).eq("environment", environment)
       .order("created_at", { ascending: false }).limit(1).maybeSingle();
     if (!sub?.stripe_customer_id) return json({ error: "No subscription found" }, 404);
 
     const { data: profile } = await admin.from("profiles").select("role").eq("id", user.id).maybeSingle();
-    const stripe = createStripeClient(parsed.data.environment);
+    const stripe = createStripeClient(environment);
     const configuration = await portalConfigFor(stripe, profile?.role ?? "patient");
     const portal = await stripe.billingPortal.sessions.create({
       customer: sub.stripe_customer_id,
       configuration,
-      return_url: parsed.data.returnUrl,
+      return_url: safeReturnUrl(parsed.data.returnUrl),
     });
     return json({ url: portal.url });
   } catch (e) {

@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { type StripeEnv, verifyWebhook } from "../_shared/stripe.ts";
+import { activeEnv } from "../_shared/paymentsGuard.ts";
 
 let _supabase: ReturnType<typeof createClient> | null = null;
 function db() {
@@ -36,6 +37,9 @@ async function upsertSubscription(sub: any, env: StripeEnv) {
   }, { onConflict: "stripe_subscription_id" });
 
   // profiles.plan is only ever written here, by the server (trusted write inside the RPC).
+  // Events from a non-active environment are recorded but never change the plan
+  // (sync_profile_plan re-checks this against payment_settings).
+  if (env !== activeEnv()) return;
   await db().rpc("sync_profile_plan", { _user_id: userId, _env: env });
 }
 

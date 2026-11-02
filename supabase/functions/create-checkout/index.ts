@@ -2,6 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { createStripeClient } from "../_shared/stripe.ts";
+import { resolveEnv, safeReturnUrl } from "../_shared/paymentsGuard.ts";
 
 const PRICE_IDS = [
   "patient_pro_monthly", "patient_pro_yearly", "patient_premium_monthly", "patient_premium_yearly",
@@ -11,8 +12,8 @@ const PRICE_IDS = [
 
 const Body = z.object({
   priceId: z.enum(PRICE_IDS),
-  returnUrl: z.string().url().max(500),
-  environment: z.enum(["sandbox", "live"]),
+  returnUrl: z.string().max(500).optional(),
+  environment: z.enum(["sandbox", "live"]).optional(),
   locale: z.enum(["pt", "fr", "en"]).optional(),
 });
 
@@ -57,7 +58,11 @@ Deno.serve(async (req) => {
 
     const parsed = Body.safeParse(await req.json());
     if (!parsed.success) return json({ error: parsed.error.flatten().fieldErrors }, 400);
-    const { priceId, returnUrl, environment, locale } = parsed.data;
+    const { priceId, locale } = parsed.data;
+    // Server decides the environment; a client asking for another one is refused.
+    const environment = resolveEnv(parsed.data.environment);
+    if (!environment) return json({ error: "environment_not_active" }, 403);
+    const returnUrl = safeReturnUrl(parsed.data.returnUrl);
 
     // A user can only buy plans of their own role (patient/dentist/clinic).
     const { data: profile } = await admin.from("profiles").select("role").eq("id", user.id).maybeSingle();
