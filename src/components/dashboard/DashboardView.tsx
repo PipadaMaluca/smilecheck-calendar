@@ -187,7 +187,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     }
     if (userRole === 'clinic') {
       return [
-      { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
+      { label: t('dashboard.todayConsultations'), value: String(todayConsultations.length), subtitle: `${todayConsultations.filter((c) => c.type !== 'teleconsulta').length} ${t('dashboard.presential')} · ${todayConsultations.filter((c) => c.type === 'teleconsulta').length} ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
