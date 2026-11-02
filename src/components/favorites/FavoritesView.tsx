@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
-import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase } from 'lucide-react';
+import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,6 +33,15 @@ interface FavoritesViewProps {
   userRole?: UserRole;
 }
 
+const DentistMapView = lazy(() => import('@/components/search/DentistMapView'));
+
+/** Mock coordinates for demo clinics (map view). */
+const CLINIC_COORDS: Record<string, { lat: number; lng: number; rating: number; reviewCount: number }> = {
+  '1': { lat: 38.7197, lng: -9.1458, rating: 4.9, reviewCount: 312 },
+  '2': { lat: 48.9833, lng: 2.6167, rating: 4.7, reviewCount: 185 },
+  '3': { lat: 48.8983, lng: 2.5667, rating: 4.6, reviewCount: 143 },
+};
+
 const CLINIC_PHONES: Record<string, string> = {
   '1': '+351 213 456 789',
   '2': '+33 1 64 27 33 00',
@@ -54,6 +64,7 @@ export function FavoritesView({
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
   const [inviteMessage, setInviteMessage] = useState('');
   const [showJobs, setShowJobs] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   const filteredResults = useMemo(() => {
     let dentists = [...MOCK_DENTIST_RESULTS];
@@ -218,11 +229,46 @@ export function FavoritesView({
         />
       ) : (
         <>
-      <p className="text-xs text-muted-foreground">
-        {t('search.resultsFound', { count: totalResults })}
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-xs text-muted-foreground">
+          {t('search.resultsFound', { count: totalResults })}
+        </p>
+        <div role="tablist" aria-label={t('search.viewModeLabel')} className="inline-flex rounded-lg border border-border bg-secondary p-1">
+          {([
+            { key: 'list', icon: List, label: t('search.viewList') },
+            { key: 'map', icon: MapIcon, label: t('search.viewMap') },
+          ] as const).map(opt => (
+            <Button
+              key={opt.key}
+              type="button"
+              role="tab"
+              aria-selected={viewMode === opt.key}
+              variant={viewMode === opt.key ? 'default' : 'ghost'}
+              size="sm"
+              className="gap-2 min-h-11 px-4"
+              onClick={() => setViewMode(opt.key)}
+            >
+              <opt.icon className="w-4 h-4" aria-hidden />
+              {opt.label}
+            </Button>
+          ))}
+        </div>
+      </div>
 
-      {totalResults === 0 ? (
+      {viewMode === 'map' && totalResults > 0 ? (
+        <div className="h-[60vh] min-h-96 rounded-xl overflow-hidden border border-border">
+          <Suspense fallback={<Skeleton className="h-full w-full" />}>
+            {typeFilter === 'clinics' ? (
+              <DentistMapView
+                clinics={filteredResults.clinics.filter(c => CLINIC_COORDS[c.id]).map(c => ({ id: c.id, name: c.name, address: c.address, ...CLINIC_COORDS[c.id] }))}
+                onViewClinic={id => onViewClinicProfile?.(id)}
+              />
+            ) : (
+              <DentistMapView dentists={filteredResults.dentists} onViewProfile={d => onViewProfile(d)} />
+            )}
+          </Suspense>
+        </div>
+      ) : totalResults === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Search className="w-10 h-10 mx-auto mb-3 opacity-30" />
           <p className="text-sm">{t('search.noResults')}</p>
