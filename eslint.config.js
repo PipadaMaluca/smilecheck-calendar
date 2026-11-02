@@ -21,6 +21,8 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": "off",
+      // Legacy mock screens still use `any`; type them when each module leaves mock data.
+      "@typescript-eslint/no-explicit-any": "warn",
     },
   },
 );
