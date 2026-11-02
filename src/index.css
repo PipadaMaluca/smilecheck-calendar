@@ -177,7 +177,7 @@
 
     /* Semantic status tokens (light) — deeper, print-safe values so text
        keeps AA contrast on white surfaces. */
-    --warning: 32 85% 42%;
+    --warning: 30 90% 32%;
     --warning-foreground: 0 0% 100%;
     --warning-surface: 38 92% 50%;
     --success: 152 55% 33%;
