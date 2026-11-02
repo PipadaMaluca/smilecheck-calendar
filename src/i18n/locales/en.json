@@ -536,6 +536,13 @@
         "GDPR Compliant",
         "ISO 9001"
       ]
+    },
+    "stores": {
+      "soon": "Coming soon",
+      "appStoreAria": "Download on the App Store — coming soon",
+      "playAria": "Get it on Google Play — coming soon",
+      "appStoreAlt": "Download on the App Store",
+      "playAlt": "Get it on Google Play"
     }
   },
   "onboarding": {

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { StoreQrCodes } from './StoreQrCodes';
 
 function useCountUp(end: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -54,8 +55,12 @@ export function HeroSection() {
   return (
     <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-[60px] overflow-hidden bg-gradient-to-b from-[#F5F9FF] to-white dark:from-background dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center" style={{ marginBottom: 16 }}>
-          <Logo variant="full" size={250} className="md:!w-[270px] lg:!w-[290px]" />
+        <div className="flex justify-center mb-4">
+          <Logo variant="full" size={180} className="md:!w-[200px]" />
+        </div>
+
+        <div className="mb-8">
+          <StoreQrCodes />
         </div>
 
         {/* Visible pill — clear blue tint per design spec */}
