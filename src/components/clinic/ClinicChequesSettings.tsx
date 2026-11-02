@@ -31,7 +31,7 @@ export function ClinicChequesSettings() {
     const prev = clinic;
     setClinic({ ...clinic, [field]: value });
     if (clinic.id === 'demo') return;
-    const { error } = await supabase.from('clinics').update({ [field]: value }).eq('id', clinic.id);
+    const { error } = await supabase.from('clinics').update(field === 'accepts_cheque_dentista' ? { accepts_cheque_dentista: value } : { accepts_cheque_protese: value }).eq('id', clinic.id);
     if (error) { setClinic(prev); toast.error(t('cheques.saveError')); }
   };
 
