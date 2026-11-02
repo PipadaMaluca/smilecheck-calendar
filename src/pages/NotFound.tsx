@@ -56,7 +56,7 @@ const NotFound = () => {
         <ToothSearchSVG />
 
         {/* 404 number */}
-        <p className="text-[64px] font-extrabold leading-none text-foreground/90 tracking-tight">
+        <p className="text-display-sm font-extrabold leading-none text-foreground/90 tracking-tight">
           404
         </p>
 
@@ -68,10 +68,10 @@ const NotFound = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-          <Button onClick={() => navigate("/")} className="gap-2 min-h-[44px]">
+          <Button onClick={() => navigate("/")} className="gap-2 min-h-11">
 <Glyph emoji="🏠" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('errors.goHome')}
           </Button>
-          <Button variant="outline" onClick={() => navigate(-1)} className="gap-2 min-h-[44px]">
+          <Button variant="outline" onClick={() => navigate(-1)} className="gap-2 min-h-11">
             ← {t('errors.goBack')}
           </Button>
         </div>

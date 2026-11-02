@@ -412,15 +412,17 @@ export function DesktopCalendarView() {
   };
   const goToToday = () => {setSelectedDate(new Date());};
 
-  const getHeaderDateLabel = () => {
+  const getHeaderDateLabel = (short = false) => {
     if (viewMode === 'week') {
       const ws = startOfWeek(selectedDate, { weekStartsOn: 1 });
       const we = addDays(ws, 5);
-      return `Semana de ${format(ws, 'd', { locale: getDateFnsLocale() })} - ${format(we, 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
+      const range = `${format(ws, 'd', { locale: getDateFnsLocale() })}–${format(we, short ? 'd MMM' : 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
+      return short ? range : t('agenda.weekOf', { range });
     }
     if (viewMode === 'month') {
       return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
+    if (short) return format(selectedDate, 'EEE, d MMM', { locale: getDateFnsLocale() });
     return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
 
@@ -733,7 +735,7 @@ export function DesktopCalendarView() {
       case 'home':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-[50px] border border-secondary pb-[50px] px-[30px]">
+            <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-12 border border-secondary pb-12 px-7">
               <span className="text-sm font-medium sentence-case text-foreground">
                 {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
@@ -749,23 +751,25 @@ export function DesktopCalendarView() {
       case 'agenda':
         return (
           <>
-            {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+            {isNavExpanded && <div className="w-px bg-accent flex-shrink-0" />}
             {renderSidebar()}
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Agenda keeps original header height */}
-              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-[5px] pr-[15px] relative z-20">
+              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-1 pr-3.5 relative z-20">
                 <div className="flex items-center gap-3">
-                  <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
+                  <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
                   </Button>
                   <div className="h-6 w-px bg-border" />
                   <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">{t('i18nB.today')}</Button>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
+                    <Button aria-label={t('a11y.previous')} variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
+                    <Button aria-label={t('a11y.next')} variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
-                  <span className="text-sm font-medium sentence-case text-foreground">
-                    {getHeaderDateLabel()}
+                  {/* One line always: short date on narrower screens ("seg., 2 nov."), long on wide ones. */}
+                  <span className="text-sm font-medium sentence-case text-foreground whitespace-nowrap">
+                    <span className="xl:hidden">{getHeaderDateLabel(true)}</span>
+                    <span className="hidden xl:inline">{getHeaderDateLabel()}</span>
                   </span>
                 </div>
                 <div className="items-center gap-4 flex flex-row">

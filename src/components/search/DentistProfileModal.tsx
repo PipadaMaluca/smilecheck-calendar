@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -49,13 +50,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
     <div className="space-y-6">
       {/* Header with avatar */}
       <div className="flex flex-col items-center text-center space-y-3 pt-2">
-        {photo ? (
-          <img src={photo} alt={dentist.name} className="w-24 h-24 rounded-full object-cover" />
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary">
-            {initials}
-          </div>
-        )}
+        <PersonAvatar name={dentist.name} photo={photo} size="xl" />
         <div>
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
           <div className="flex items-center justify-center gap-2 mt-1">
@@ -137,14 +132,14 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                   {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
                 </p>
                 {isSunday && (
-                  <p className="text-[11px] text-primary mb-1">
+                  <p className="text-2xs text-primary mb-1">
 <Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('search.sundayTeleconsultOnly')}</p>
                 )}
                 <div className="flex flex-wrap gap-1">
                   {day.slots.map((slot) => (
                     <button
                       key={slot}
-                      className="text-[11px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
+                      className="text-2xs px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
                       onClick={(e) => {
                         e.stopPropagation();
                         if (onQuickBook) {
@@ -158,7 +153,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                     </button>
                   ))}
                   {day.slots.length === 0 && (
-                    <span className="text-[11px] text-muted-foreground">{t('sweep.dentistProfile.noSlots')}</span>
+                    <span className="text-2xs text-muted-foreground">{t('sweep.dentistProfile.noSlots')}</span>
                   )}
                 </div>
               </div>
@@ -192,7 +187,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{review.comment}</p>
-              <p className="text-[11px] text-muted-foreground/60 mt-1">{review.date}</p>
+              <p className="text-2xs text-muted-foreground/60 mt-1">{review.date}</p>
             </div>
           ))}
         </div>
@@ -217,7 +212,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="fixed inset-0 z-modal bg-background" style={{ bottom: '64px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+          <button aria-label={t('a11y.close')} onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
@@ -234,7 +229,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="relative w-full max-w-2xl max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('sweep.dentistProfile.title')}</h2>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
+          <button aria-label={t('a11y.close')} onClick={onClose} className="p-2 rounded-lg hover:bg-accent press">
             <X className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>

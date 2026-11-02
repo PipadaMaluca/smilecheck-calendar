@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +61,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                 )}
               >
                 <p className={cn(
-                  'text-[11px]',
+                  'text-2xs',
                   isToday ? 'text-primary font-semibold' : 'text-muted-foreground'
                 )}>
                   {format(day, 'EEE', { locale: getDateFnsLocale() })}
@@ -72,7 +73,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   {format(day, 'd')}
                 </p>
                 <p className={cn(
-                  'text-[11px]',
+                  'text-2xs',
                   isToday ? 'text-primary' : 'text-muted-foreground'
                 )}>
                   {format(day, 'MMM', { locale: getDateFnsLocale() })}
@@ -95,7 +96,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
             {timeSlots.map((time) => (
               <div 
                 key={time} 
-                className="flex items-center justify-end pr-1 text-[11px] text-muted-foreground font-mono"
+                className="flex items-center justify-end pr-1 text-2xs text-muted-foreground font-mono"
               >
                 {time}
               </div>
@@ -185,7 +186,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         className="bg-[#607D8B]/30 rounded flex items-center justify-center"
                         style={{ gridRow: `${startIdx + 1} / span 1` }}
                       >
-                        <span className="text-muted-foreground/60 text-[11px]">{t('i18nB.break')}</span>
+                        <span className="text-muted-foreground/60 text-2xs">{t('i18nB.break')}</span>
                       </div>
                     );
                   }
@@ -202,7 +203,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   const displayName = lastName ? `${firstName} ${lastName}` : firstName;
 
                   return (
-                    <div
+                    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                       key={consultation.id}
                       data-cat={category}
                       draggable
@@ -225,24 +226,24 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                       <div className="flex flex-col leading-tight py-0.5">
                         {/* Line 1: First + Last Name (age anos) */}
                         <div className="flex items-center gap-0.5 truncate">
-                          <span className="truncate font-bold text-[11px] text-white">
+                          <span className="truncate font-bold text-2xs text-white">
                             {displayName}
                           </span>
-                          <span className="text-[11px] text-muted-foreground whitespace-nowrap">
+                          <span className="text-2xs text-muted-foreground whitespace-nowrap">
                             ({t('i18nB.age', { count: consultation.patient.age })})
                           </span>
                         </div>
                         {/* Line 2: TYPE pill + notes */}
                         <div data-line="type-row" className="flex flex-wrap items-center gap-1 min-w-0">
                           <span
-                            className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                            className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                             style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 6px' }}
                           >
                             {getCategoryLabel(t, category)}
                             {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                           </span>
                           {consultation.notes && (
-                            <span data-notes className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                            <span data-notes className="text-2xs text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                               {consultation.notes}
                             </span>
                           )}

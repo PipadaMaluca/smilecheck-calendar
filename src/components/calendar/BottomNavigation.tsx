@@ -64,19 +64,19 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               key={item.id}
               onClick={() => handleTabChange(item.id)}
               className={cn(
-                'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-[44px] min-h-[44px] transition-[transform,background-color,border-color,color,box-shadow] duration-150 relative overflow-visible active:scale-[0.98]',
-                isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
+                'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-11 min-h-11 transition-[transform,background-color,border-color,color,box-shadow] duration-150 relative overflow-visible active:scale-[0.98]',
+                isActive ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               <div className="relative overflow-visible">
                 <Icon className={cn('w-5 h-5 transition-transform', isActive && 'scale-110')} />
                 {showBadge && (
-                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-[11px] font-bold text-white bg-blue-500 border-2 border-[hsl(214_50%_10%)] z-10">
+                  <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center text-2xs font-bold text-white bg-blue-500 border-2 border-[hsl(214_50%_10%)] z-10">
                     {badges.conversas}
                   </span>
                 )}
               </div>
-              <span className="text-[11px] font-medium leading-none">{item.label}</span>
+              <span className="text-2xs font-medium leading-none">{item.label}</span>
               {isActive && (
                 <span className="absolute top-0 w-8 h-[3px] bg-primary rounded-sm" />
               )}

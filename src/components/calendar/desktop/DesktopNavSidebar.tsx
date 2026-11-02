@@ -128,10 +128,10 @@ export function DesktopNavSidebar({
         )}
       >
         <div className="relative">
-          <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-[#2196F3]')} />
+          <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-primary')} />
           {badge && (
             badge.type === 'count' ? (
-            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
               {badge.value}
             </span>
           ) : (
@@ -141,8 +141,8 @@ export function DesktopNavSidebar({
         </div>
         {isExpanded && (
           <span className={cn(
-            'text-[11px] font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
-            isActive && 'text-[#2196F3]'
+            'text-2xs font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
+            isActive && 'text-primary'
           )}>
             {twoLine && twoLine[1]
               ? <>{twoLine[0]}<br />{twoLine[1]}</>
@@ -157,7 +157,7 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
-        isExpanded ? 'w-[100px]' : 'w-[64px]'
+        isExpanded ? 'w-[100px]' : 'w-16'
       )}
     >
       {/* Logo + Pro Badge */}
@@ -170,7 +170,7 @@ export function DesktopNavSidebar({
         {userRole !== 'patient' && (
           <span className={cn(
             'font-bold rounded-full bg-amber-500/20 text-warning border border-amber-500/30 text-center',
-            isExpanded ? 'text-[11px] px-2.5 py-0.5' : 'text-[11px] px-1.5 py-0'
+            isExpanded ? 'text-2xs px-2.5 py-0.5' : 'text-2xs px-1.5 py-0'
           )}>
             Pro
           </span>

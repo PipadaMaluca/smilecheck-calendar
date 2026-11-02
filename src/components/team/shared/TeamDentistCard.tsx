@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Glyph } from '@/components/ui/glyph';
 import { User, Star, Award, MoreVertical, Calendar, BarChart3, Key, Pause, Play, X, Phone } from 'lucide-react';
@@ -98,12 +99,12 @@ export function TeamDentistCard({
                         className={cn('w-3 h-3', i <= Math.round(dentist.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')}
                       />
                     ))}
-                    <span className="text-xs text-muted-foreground ml-0.5">{dentist.rating.toFixed(1)}</span>
+                    <span className="text-xs text-muted-foreground ml-0.5">{formatDecimal1(dentist.rating)}</span>
                   </div>
-                  <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', levelColors[dentist.level] || levelColors['Lata'])}>
+                  <Badge variant="outline" className={cn('text-2xs px-1.5 py-0', levelColors[dentist.level] || levelColors['Lata'])}>
                     <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[dentist.level] || dentist.level)}
                   </Badge>
-                  <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', status.className)}>
+                  <Badge variant="outline" className={cn('text-2xs px-1.5 py-0', status.className)}>
                     <Glyph emoji={status.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {t(STATUS_KEY_MAP[dentist.status])}
                   </Badge>
                 </div>
@@ -111,7 +112,7 @@ export function TeamDentistCard({
               {showActions && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-7 w-7 flex-shrink-0">
+                    <Button aria-label={t('a11y.moreOptions')} variant="ghost" size="icon" className="h-7 w-7 flex-shrink-0">
                       <MoreVertical className="w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -138,7 +139,7 @@ export function TeamDentistCard({
             {dentist.specialties && dentist.specialties.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {dentist.specialties.map((s) => (
-                  <Badge key={s} variant="secondary" className="text-[11px] px-1.5 py-0">{s}</Badge>
+                  <Badge key={s} variant="secondary" className="text-2xs px-1.5 py-0">{s}</Badge>
                 ))}
               </div>
             )}
@@ -148,7 +149,7 @@ export function TeamDentistCard({
               {dentist.scheduleSummary && <p>
 <Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{dentist.scheduleSummary}</p>}
               {dentist.teleconsultas !== undefined && (
-                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? t('team.teleconsultations') : `❌ ${t('team.noTeleconsultations')}`}</p>
+                <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? t('team.teleconsultations') : t('team.noTeleconsultations')}</p>
               )}
               <p>
                 {t('team.consultationsLabel', { count: dentist.consultationsThisMonth })}

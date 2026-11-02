@@ -118,7 +118,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
         <div className="max-w-3xl mx-auto p-6 space-y-6">
           {/* Header */}
           <div className="flex items-start gap-3">
-            <Button variant="ghost" size="icon" onClick={onClose} className="shrink-0 mt-1">
+            <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose} className="shrink-0 mt-1">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div className="flex items-start gap-4 flex-1">
@@ -137,7 +137,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <div className="flex items-center gap-3 mt-1">
                   {categoryColor && (
                     <span
-                      className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                      className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap"
                       style={{ ...getCategoryBadgeStyle(categoryColor.hex), padding: '2px 10px' }}
                     >
                       {categoryLabel}
@@ -381,7 +381,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
                 placeholder={t('consultationDetail.blockReasonPlaceholder')}
-                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm"
+                className="mt-1 min-h-20 bg-secondary/50 border-border text-sm"
               />
             </div>
             <p className="text-xs text-muted-foreground">{t('consultationDetail.blockNotify')}</p>

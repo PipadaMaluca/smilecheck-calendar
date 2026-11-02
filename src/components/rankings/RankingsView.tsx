@@ -192,7 +192,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   <TrendIcon trend={card.trend} change={card.change} />
                 </div>
                 <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
+                <p className="text-2xs text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
                 <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
               </CardContent>
             </Card>
@@ -225,7 +225,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                     <TrendIcon trend={card.trend} change={card.change} />
                   </div>
                   <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                  <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
+                  <p className="text-2xs text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
                   <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
                 </CardContent>
               </Card>

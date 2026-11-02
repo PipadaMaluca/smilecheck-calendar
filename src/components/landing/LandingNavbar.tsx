@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Menu, LogIn, Check } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -30,10 +31,10 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const renderToggleGroup = (size: 'sm' | 'md') => {
     const btn =
       size === 'sm'
-        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center'
-        : 'h-7 min-w-[32px] px-2 rounded-lg text-[11px] font-semibold transition-colors flex items-center justify-center';
-    const containerPad = size === 'sm' ? 'px-1.5 py-[3px]' : 'px-2 py-1';
-    const dividerH = size === 'sm' ? 'h-[14px] mx-2' : 'h-5 mx-[10px]';
+        ? 'h-[26px] min-w-7 px-1.5 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center'
+        : 'h-7 min-w-8 px-2 rounded-lg text-2xs font-semibold transition-colors flex items-center justify-center';
+    const containerPad = size === 'sm' ? 'px-1.5 py-0.5' : 'px-2 py-1';
+    const dividerH = size === 'sm' ? 'h-3.5 mx-2' : 'h-5 mx-2.5';
     const iconSize = size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5';
     return (
       <div
@@ -42,7 +43,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           containerPad
         )}
       >
-        <div className="flex items-center gap-[2px]">
+        <div className="flex items-center gap-0.5">
           {langs.map((lang) => (
             <button
               key={lang}
@@ -58,7 +59,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           className={cn('w-px rounded-full bg-border', dividerH)}
           aria-hidden="true"
         />
-        <div className="flex items-center gap-[2px]">
+        <div className="flex items-center gap-0.5">
           <button
             onClick={() => { if (isDark) onToggleTheme(); }}
             className={cn(btn, !isDark ? pillActive : pillInactive)}
@@ -83,35 +84,48 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-colors duration-300 backdrop-blur-xl border-b',
         isDark
-          ? 'bg-[#0A1929]/80 border-[#1E3A5F]'
-          : 'bg-white/80 border-[#E2E8F0]',
+          ? 'bg-background/80 border-border'
+          : 'bg-white/80 border-border',
         scrolled && 'shadow-sm'
       )}
       style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mobile (<768): 2-row layout */}
+        {/* Mobile (<768): logo + sign-up + compact menu (language, theme, login). Fits at 360px. */}
         <div className="md:hidden">
-          {/* Single row: toggles (left-center) + auth (right) — 44px */}
-          <div className="flex items-center justify-between h-11 gap-2">
-            <div className="flex-shrink-0">{renderToggleGroup('sm')}</div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={() => navigate('/login')}
-                className={cn(
-                  'text-[12px] font-medium transition-colors whitespace-nowrap',
-                  isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
-                )}
-              >
-                {t('landing.navbar.login')}
-              </button>
-              <button
-                onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[12px] font-semibold whitespace-nowrap shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-colors"
-                style={{ padding: '5px 10px' }}
-              >
+          <div className="flex items-center justify-between h-14 gap-2 min-w-0">
+            <a href="#" className="flex-shrink min-w-0 flex items-center min-h-11" aria-label="SmileCheck">
+              <Logo variant="icon" size={32} />
+            </a>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <Button size="sm" onClick={() => navigate('/signup')} className="rounded-full min-h-11 px-4 text-sm font-semibold whitespace-nowrap">
                 {t('landing.navbar.signup')}
-              </button>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="min-h-11 min-w-11" aria-label={t('a11y.openMenu')}>
+                    <Menu className="w-5 h-5" aria-hidden />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="min-h-11" onSelect={() => navigate('/login')}>
+                    <LogIn className="w-4 h-4 mr-2" aria-hidden />{t('landing.navbar.login')}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  {langs.map((lang) => (
+                    <DropdownMenuItem key={lang} className="min-h-11" onSelect={() => i18n.changeLanguage(lang)}>
+                      <span className="w-6 text-xs font-semibold text-muted-foreground">{lang.toUpperCase()}</span>
+                      {t(`i18nC.lang_${lang}`, { defaultValue: { pt: 'Português', fr: 'Français', en: 'English' }[lang] })}
+                      {i18n.language?.startsWith(lang) && <Check className="w-4 h-4 ml-auto" aria-hidden />}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="min-h-11" onSelect={onToggleTheme}>
+                    {isDark ? <Sun className="w-4 h-4 mr-2" aria-hidden /> : <Moon className="w-4 h-4 mr-2" aria-hidden />}
+                    {isDark ? t('i18nC.lightMode') : t('i18nC.darkMode')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
@@ -132,8 +146,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <button
                 onClick={() => navigate('/login')}
                 className={cn(
-                  'text-[13px] font-medium transition-colors whitespace-nowrap',
-                  isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
+                  'text-sm font-medium transition-colors whitespace-nowrap',
+                  isDark ? 'text-primary hover:text-white' : 'text-primary hover:text-primary'
                 )}
               >
                 {t('landing.navbar.login')}
@@ -141,7 +155,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <Button
                 size="sm"
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[13px] font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
+                className="rounded-full bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
               >
                 {t('landing.navbar.signup')}
               </Button>

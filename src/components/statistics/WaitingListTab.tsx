@@ -490,7 +490,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                     <ClickableDentistName name={group.dentistName} className="text-sm font-semibold text-foreground truncate block" />
                   </div>
                 </div>
-                <Badge variant="outline" className="text-[11px] self-start sm:self-auto">
+                <Badge variant="outline" className="text-2xs self-start sm:self-auto">
                   {t('waitingList.patients', { count: list.length })}
                 </Badge>
               </div>
@@ -510,7 +510,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                           <ConsultationTypePill category={entry.category} />
                           <span
                             className={cn(
-                              'text-[11px] px-2 py-0.5 rounded-full border font-medium',
+                              'text-2xs px-2 py-0.5 rounded-full border font-medium',
                               entry.urgency === 'urgent'
                                 ? 'bg-red-500/15 text-red-500 border-red-500/30'
                                 : 'bg-muted text-muted-foreground border-border',
@@ -522,13 +522,13 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                           </span>
                           <span
                             className={cn(
-                              'text-[11px] px-2 py-0.5 rounded-full border font-medium',
+                              'text-2xs px-2 py-0.5 rounded-full border font-medium',
                               STATUS_STYLES[status],
                             )}
                           >
                             {t(`waitingList.mgmt.status${status.charAt(0).toUpperCase() + status.slice(1)}`)}
                           </span>
-                          <span className="text-[11px] text-muted-foreground ml-auto">
+                          <span className="text-2xs text-muted-foreground ml-auto">
                             {t('waitingList.mgmt.added')}: {formatAdded(entry.addedDaysAgo)}
                           </span>
                         </div>
@@ -622,7 +622,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
               <div className="space-y-3 max-h-[50vh] overflow-y-auto">
                 {assignTarget.entry.preferredSlots.length > 0 && (
                   <div>
-                    <p className="text-[11px] font-semibold text-muted-foreground uppercase mb-1.5">
+                    <p className="text-2xs font-semibold text-muted-foreground uppercase mb-1.5">
                       {t('waitingList.mgmt.suggestedSlots')}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -640,7 +640,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   </div>
                 )}
                 <div>
-                  <p className="text-[11px] font-semibold text-muted-foreground uppercase mb-1.5">
+                  <p className="text-2xs font-semibold text-muted-foreground uppercase mb-1.5">
                     {t('waitingList.mgmt.otherSlots')}
                   </p>
                   <div className="grid grid-cols-2 gap-2">

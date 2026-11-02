@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
@@ -46,12 +47,12 @@ export function PatientAppointmentsList({
   const getPaymentStatus = (consultation: Consultation) => {
     if (consultation.type === 'teleconsulta') {
       return consultation.isPaid ?
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-green-500/20 text-green-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs bg-green-500/20 text-green-400">
           <Check className="w-3 h-3" />
           {t('sweep.appointmentsList.paid')}
         </span> :
 
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-yellow-500/20 text-yellow-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs bg-yellow-500/20 text-yellow-400">
           <AlertCircle className="w-3 h-3" />
           {t('sweep.appointmentsList.pending')}
         </span>;
@@ -59,7 +60,7 @@ export function PatientAppointmentsList({
     }
     // Presencial always shows "A pagar"
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] bg-blue-500/20 text-blue-400">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs bg-blue-500/20 text-blue-400">
         <Clock className="w-3 h-3" />
         {t('sweep.appointmentsList.toPay')}
       </span>);
@@ -115,7 +116,7 @@ export function PatientAppointmentsList({
                   }
                 }]}
               >
-              <div
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                 className={cn(
                   'bg-card rounded-xl cursor-pointer transition-[transform,background-color,border-color,color,box-shadow] duration-150 press',
                   'border-l-4',
@@ -143,7 +144,7 @@ export function PatientAppointmentsList({
                       {/* Category */}
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
-                          className="inline-flex items-center gap-1 text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                          className="inline-flex items-center gap-1 text-2xs font-bold leading-none rounded-full whitespace-nowrap"
                           style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                         >
                           {isTeleconsulta && <Video className="w-3 h-3" />}

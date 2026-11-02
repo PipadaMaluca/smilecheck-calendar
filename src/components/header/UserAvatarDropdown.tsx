@@ -92,33 +92,33 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
           className={cn(
             'absolute z-celebration rounded-lg overflow-hidden',
             // Dark theme defaults
-            'bg-[#0D2137] border border-[#1E3A5F] shadow-[0_8px_24px_rgba(0,0,0,0.3)]',
+            'bg-card border border-border shadow-[0_8px_24px_rgba(0,0,0,0.3)]',
             // Light theme overrides
-            '[.light_&]:bg-white [.light_&]:border-[#D6E4F0] [.light_&]:shadow-[0_8px_24px_rgba(0,0,0,0.12)]',
+            '[.light_&]:bg-white [.light_&]:border-border [.light_&]:shadow-[0_8px_24px_rgba(0,0,0,0.12)]',
             isMobile
               ? 'fixed left-0 right-0 top-14 rounded-none border-x-0 border-t-0'
               : 'right-0 top-full mt-2 w-64'
           )}
         >
           {/* User info header */}
-          <div className="px-4 py-3 border-b border-[#1E3A5F] [.light_&]:border-[#E2E8F0]">
-            <p className="text-sm font-bold text-white [.light_&]:text-[#1A202C]">{userInfo.name}</p>
-            <p className="text-xs text-[#94A3B8] [.light_&]:text-[#4A5568]">{userInfo.subtitle}</p>
+          <div className="px-4 py-3 border-b border-border [.light_&]:border-border">
+            <p className="text-sm font-bold text-white [.light_&]:text-foreground">{userInfo.name}</p>
+            <p className="text-xs text-muted-foreground [.light_&]:text-muted-foreground">{userInfo.subtitle}</p>
           </div>
 
           {/* Menu items */}
           <div className="py-1">
             <button
               onClick={() => handleItemClick('perfil')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1565C0] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-primary hover:bg-secondary/40 [.light_&]:hover:bg-muted transition-colors"
             >
-              <User className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#1565C0]" />
+              <User className="w-4 h-4 text-muted-foreground [.light_&]:text-primary" />
               {t('profile.viewProfile')}
             </button>
 
             {/* Display-only status: Level */}
-            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
-              <Gem className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-muted-foreground [.light_&]:text-muted-foreground cursor-default select-none">
+              <Gem className="w-4 h-4 text-muted-foreground [.light_&]:text-muted-foreground" />
               <span className="flex-1">{t('profile.myLevel')}</span>
               <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border inline-flex items-center gap-1', levelCfg.bg, levelCfg.color)}>
                 <LevelIcon levelKey={userInfo.level} size={12} inheritColor /> {t(levelCfg.labelKey)}
@@ -126,27 +126,27 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
             </div>
 
             {/* Display-only status: Points */}
-            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
-              <Star className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-muted-foreground [.light_&]:text-muted-foreground cursor-default select-none">
+              <Star className="w-4 h-4 text-muted-foreground [.light_&]:text-muted-foreground" />
               <span className="flex-1">{t('scores.points', { defaultValue: 'Pontos' })}</span>
-              <span className="text-xs font-semibold text-white [.light_&]:text-[#1A202C]">{stats.rewardPoints} pts</span>
+              <span className="text-xs font-semibold text-white [.light_&]:text-foreground">{stats.rewardPoints} pts</span>
             </div>
 
             {/* Display-only status: Streak */}
-            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-[#94A3B8] [.light_&]:text-[#4A5568] cursor-default select-none">
+            <div className="flex items-center gap-3 px-4 py-2 text-sm font-normal text-muted-foreground [.light_&]:text-muted-foreground cursor-default select-none">
               <Flame className="w-4 h-4 text-orange-400" />
               <span className="flex-1">{t('scores.streak', { defaultValue: 'Streak' })}</span>
-              <span className="text-xs font-semibold text-white [.light_&]:text-[#1A202C]">{stats.streak} {t('scores.days', { defaultValue: 'dias' })}</span>
+              <span className="text-xs font-semibold text-white [.light_&]:text-foreground">{stats.streak} {t('scores.days', { defaultValue: 'dias' })}</span>
             </div>
 
             {/* Separator */}
-            <div className="border-t border-[#1E3A5F] [.light_&]:border-[#E2E8F0] my-1" />
+            <div className="border-t border-border [.light_&]:border-border my-1" />
 
             <button
               onClick={() => handleItemClick('configuracoes')}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-[#1A202C] hover:bg-secondary/40 [.light_&]:hover:bg-[#F1F5F9] transition-colors"
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-white [.light_&]:text-foreground hover:bg-secondary/40 [.light_&]:hover:bg-muted transition-colors"
             >
-              <Settings className="w-4 h-4 text-[#94A3B8] [.light_&]:text-[#4A5568]" />
+              <Settings className="w-4 h-4 text-muted-foreground [.light_&]:text-muted-foreground" />
               {t('nav.settings')}
             </button>
             <button

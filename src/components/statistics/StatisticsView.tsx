@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { computeKpis, inPeriod } from '@/data/kpis';
@@ -78,7 +79,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
       const dTele = dK.tele;
       const dPres = dK.presencial;
       const clinicName = dCons[0]?.clinic?.name?.replace('Clínica ', '') ?? '';
-      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: (4 + (Number(d.id) || 1) * 0.13 % 0.9).toFixed(1) };
+      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: formatDecimal1(4 + (Number(d.id) || 1) * 0.13 % 0.9) };
     }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
   }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
@@ -197,19 +198,19 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.totalConsultations')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.totalConsultations')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{totalConsultations}</span>
+                  <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{totalConsultations}</span>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.confirmationRate')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.confirmationRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{confirmRate}%</span>
+                    <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{confirmRate}%</span>
                     <Progress value={confirmRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -218,10 +219,10 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <XCircle className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.absenceRate')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.absenceRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{faltaRate}%</span>
+                    <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{faltaRate}%</span>
                     <Progress value={faltaRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -230,9 +231,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
+                  <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
                 </CardContent>
               </Card>
             </div>
@@ -246,7 +247,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="text-xs">{t('statistics.dentist')}</TableHead>
-                        <TableHead className="text-xs text-center">{t('statistics.consultations')}</TableHead>
+                        <TableHead className="text-xs text-center">{t('statistics.colConsultations')}</TableHead>
                         <TableHead className="text-xs text-center">{t('statistics.absences')}</TableHead>
                         <TableHead className="text-xs text-center">{t('statistics.rating')}</TableHead>
                         <TableHead className="text-xs hidden sm:table-cell">{t('statistics.performance')}</TableHead>
@@ -259,7 +260,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                           <TableCell className="text-sm text-center">{d.consultations}</TableCell>
                           <TableCell className="text-sm text-center">{d.faltas}</TableCell>
                           <TableCell className="text-center">
-                            <div className="flex items-center justify-center gap-[5px]">
+                            <div className="flex items-center justify-center gap-1">
                               <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
                               <span className="text-sm">{d.rating}</span>
                             </div>
@@ -293,22 +294,22 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         )}
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-[11px] font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
-                            <ClickableDentistName name={shortName} className="text-[11px] font-bold" />
+                          <p className="text-2xs font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                            <ClickableDentistName name={shortName} className="text-2xs font-bold" />
                             {d.clinicName && (
-                              <span className="ml-1 text-[11px] font-normal text-muted-foreground">
+                              <span className="ml-1 text-2xs font-normal text-muted-foreground">
                                 ({d.clinicName})
                               </span>
                             )}
                           </p>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
-                          <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
+                          <div className="text-2xs font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
+                          <div className="text-2xs text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
-                          <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
+                          <div className="text-2xs font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
+                          <div className="text-2xs text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
                         </div>
                       </li>
                     );
@@ -331,7 +332,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
-                          <span className="text-xs">{p.rating.toFixed(1)}</span>
+                          <span className="text-xs">{formatDecimal1(p.rating)}</span>
                         </div>
                       </div>
                     )}

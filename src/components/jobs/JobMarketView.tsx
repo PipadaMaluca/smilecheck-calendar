@@ -1,3 +1,5 @@
+import { Check as CheckIcon } from 'lucide-react';
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -322,7 +324,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
       <div className="p-4 md:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
+            <Button aria-label={t('a11y.back')} type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
               <ArrowLeft className="w-5 h-5 text-muted-foreground" />
             </Button>
             <div>
@@ -369,7 +371,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{offer.rating}</span>
-                      <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
+                      <span className={cn('text-2xs font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                     </div>
                     <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <MapPin className="w-3 h-3" /><span className="truncate">{offer.location}</span>
@@ -385,14 +387,14 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                   </div>
                   <p className="text-sm font-semibold text-primary">{offer.salary}</p>
                   <div className="flex flex-wrap gap-1">
-                    {offer.specialties.map(s => <span key={s} className="text-[11px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
+                    {offer.specialties.map(s => <span key={s} className="text-2xs px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                   </div>
                   {offer.benefits.length > 0 && (
                     <div className="flex flex-wrap gap-1">
-                      {offer.benefits.map(b => <span key={b} className="text-[11px] px-1.5 py-0.5 rounded bg-primary/10 text-primary">{t(`jobs.benefit_${b}`)}</span>)}
+                      {offer.benefits.map(b => <span key={b} className="text-2xs px-1.5 py-0.5 rounded bg-primary/10 text-primary">{t(`jobs.benefit_${b}`)}</span>)}
                     </div>
                   )}
-                  <p className="text-[11px] text-muted-foreground">{t(`jobs.published_${offer.publishedAgo}`)}</p>
+                  <p className="text-2xs text-muted-foreground">{t(`jobs.published_${offer.publishedAgo}`)}</p>
                 </div>
 
                 <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
@@ -433,7 +435,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
     <div className="p-4 md:p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.back')} type="button" variant="ghost" size="icon" onClick={onBack} className="h-9 w-9 rounded-lg">
             <ArrowLeft className="w-5 h-5 text-muted-foreground" />
           </Button>
           <div>
@@ -473,26 +475,20 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           return (
             <div key={d.id} className="bg-card border border-border rounded-xl p-4 space-y-3">
               <div className="flex items-start gap-3">
-                {photo ? (
-                  <img src={photo} alt={d.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
-                    {initials}
-                  </div>
-                )}
+                <PersonAvatar name={d.name} photo={photo} size="md" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
                   <div className="flex items-center gap-1 mt-0.5">
                     <Star className="w-3 h-3 fill-amber-400 text-warning" />
                     <span className="text-xs font-medium">{d.rating}</span>
-                    <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
+                    <span className={cn('text-2xs font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>{t(levelCfg.labelKey)}</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex flex-wrap gap-1">
-                  {d.specialties.map(s => <span key={s} className="text-[11px] px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
+                  {d.specialties.map(s => <span key={s} className="text-2xs px-1.5 py-0.5 rounded bg-accent text-muted-foreground">{t(`specialties.${s}`)}</span>)}
                 </div>
                 <Badge variant="secondary" className="text-xs">{t(`jobs.${d.availability}`)} — {t(`jobs.avail_${d.availabilityDetail}`)}</Badge>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -500,16 +496,16 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 </div>
                 <p className="text-xs text-muted-foreground">{t('jobs.yearsExperience', { count: d.experience })}</p>
                 {d.teleconsultas ? (
-                  <p className="text-[11px] text-primary font-medium">
+                  <p className="text-2xs text-primary font-medium">
 <Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.availableForTeleconsultas')} ✅</p>
                 ) : (
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-2xs text-muted-foreground">
 <Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('agenda.teleconsultation')} ❌</p>
                 )}
                 {d.salary && <p className="text-sm font-semibold text-primary">{d.salary}</p>}
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-2xs text-muted-foreground">
 <Glyph emoji="📅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.availableSince')}: {d.availableDate}</p>
-                <p className="text-[11px] text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
+                <p className="text-2xs text-muted-foreground">{t(`jobs.published_${d.publishedAgo}`)}</p>
               </div>
 
               <div className={cn('gap-2', isMobile ? 'flex flex-col' : 'flex')}>
@@ -617,7 +613,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                               setProposalData(p => ({ ...p, weekSchedule: updated }));
                             }} className={cn('w-8 h-8 rounded-lg',
                               ws[period] ? 'bg-primary text-primary-foreground border-primary hover:bg-primary' : 'border-border hover:bg-accent')}>
-                              {ws[period] ? '✓' : ''}
+                              {ws[period] ? <CheckIcon className="w-3.5 h-3.5 mx-auto" aria-hidden /> : null}
                             </Button>
                           </td>
                         ))}
@@ -698,7 +694,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
                 <Label className="text-xs">{t('jobs.personalMessage')}</Label>
                 <Textarea value={proposalData.message} onChange={e => setProposalData(p => ({ ...p, message: e.target.value }))} rows={3} />
               </div>
-              <p className="text-[11px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+              <p className="text-2xs text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
 <Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('jobs.proposalWarning')}
               </p>
             </div>

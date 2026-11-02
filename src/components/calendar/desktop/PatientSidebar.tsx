@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronLeft, ChevronRight, Plus, User } from 'lucide-react';
@@ -75,7 +76,7 @@ export function PatientSidebar({
   const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
 
   return (
-    <aside className="h-full w-[400px] bg-[#0D2137] border-l border-[#1E3A5F] flex-col overflow-hidden flex-shrink-0 flex">
+    <aside className="h-full w-[400px] bg-card border-l border-border flex-col overflow-hidden flex-shrink-0 flex">
       {/* Find Slot Button */}
       <div className="px-5 pt-4 pb-3 flex-shrink-0">
         <Button onClick={onNewConsultation} className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-sm h-10">
@@ -85,24 +86,24 @@ export function PatientSidebar({
       </div>
 
       {/* Mini Calendar */}
-      <div className="px-5 pb-4 border-b border-[#1E3A5F] flex-shrink-0">
+      <div className="px-5 pb-4 border-b border-border flex-shrink-0">
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-3">
-          <Button
+          <Button aria-label={t('a11y.previous')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-secondary">
             <ChevronLeft className="w-4 h-4" />
           </Button>
           <span className="text-sm font-semibold sentence-case">
             {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
-          <Button
+          <Button aria-label={t('a11y.next')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-[#152238]">
+            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-secondary">
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
@@ -133,7 +134,7 @@ export function PatientSidebar({
                 className={cn(
                   'relative flex flex-col items-center justify-center aspect-square w-full rounded-md text-sm transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
-                  isCurrentMonth && 'text-foreground hover:bg-[#152238]',
+                  isCurrentMonth && 'text-foreground hover:bg-secondary',
                   isToday && 'bg-primary text-primary-foreground font-semibold',
                   isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
                 )}>
@@ -147,7 +148,7 @@ export function PatientSidebar({
       </div>
 
       {/* Family Section */}
-      <div className="px-5 py-3 border-b border-[#1E3A5F] flex-shrink-0">
+      <div className="px-5 py-3 border-b border-border flex-shrink-0">
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-muted-foreground">
             {t('sweep.patientSidebar.filterByMember')}
@@ -163,15 +164,15 @@ export function PatientSidebar({
             placeholder={t('common.search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 h-9 text-sm bg-[#152238] border-[#1E3A5F]" />
+            className="pl-9 h-9 text-sm bg-secondary border-border" />
         </div>
       </div>
 
       {/* Family Members List */}
       <div className="flex-1 overflow-y-auto px-5 pb-4 scrollbar-hide">
         {/* All checkbox */}
-        <div
-          className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#152238] rounded-md px-2 -mx-2 press"
+        <div role="button" tabIndex={0} onKeyDown={onActivateKey}
+          className="flex items-center gap-3 py-2 cursor-pointer hover:bg-secondary rounded-md px-2 -mx-2 press"
           onClick={onSelectAllMembers}>
           <Checkbox
             checked={allSelected}
@@ -194,9 +195,9 @@ export function PatientSidebar({
               const isSelected = selectedMemberIds.includes(member.id);
 
               return (
-                <div
+                <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                   key={member.id}
-                  className="flex items-center gap-3 py-2 cursor-pointer hover:bg-[#152238] rounded-md px-2 -mx-2 press"
+                  className="flex items-center gap-3 py-2 cursor-pointer hover:bg-secondary rounded-md px-2 -mx-2 press"
                   onClick={() => onMemberToggle(member.id, false)}>
                   <Checkbox
                     checked={isSelected}
@@ -218,8 +219,8 @@ export function PatientSidebar({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
-        <p className="text-[11px] text-muted-foreground">SmileCheck © 2026</p>
+      <div className="border-t border-border p-2 text-center flex-shrink-0">
+        <p className="text-2xs text-muted-foreground">SmileCheck © 2026</p>
       </div>
     </aside>);
 

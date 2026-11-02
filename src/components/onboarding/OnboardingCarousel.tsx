@@ -66,7 +66,7 @@ export function OnboardingCarousel() {
 
       <div className="relative h-full max-w-lg mx-auto flex flex-col">
         {!isLast && (
-          <button onClick={handleComplete} className="absolute top-2 right-4 z-20 text-muted-foreground hover:text-foreground text-[11px] transition-colors">
+          <button onClick={handleComplete} className="absolute top-2 right-4 z-20 text-muted-foreground hover:text-foreground text-2xs transition-colors">
             <span className="hidden sm:inline">{t('onboarding.skip')}</span>
             <span className="sm:hidden">{t('onboarding.skipShort')}</span>
           </button>
@@ -91,14 +91,14 @@ export function OnboardingCarousel() {
         {!isLast && (
           <div className="flex flex-col items-center gap-2 px-4 pb-4 safe-area-pb">
             <button onClick={scrollNext}
-              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-[transform,background-color,border-color,color,box-shadow] duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-[48px]"
+              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-[transform,background-color,border-color,color,box-shadow] duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-12"
               style={{ backgroundColor: '#2196F3', boxShadow: '0 0 20px rgba(33, 150, 243, 0.3)' }}>
               {t('onboarding.next')}
               <ChevronRight className="w-4 h-4" />
             </button>
             {currentSlide > 0 && (
               <button onClick={scrollPrev}
-                className="flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors">
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
                 <ChevronLeft className="w-3 h-3" />
                 {t('onboarding.previous')}
               </button>

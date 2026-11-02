@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +54,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
 
   return (
     <>
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       onClick={onClick}
       onContextMenu={handleContextMenu}
       className={cn(
@@ -64,7 +65,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
     >
       {/* Status Badge */}
       <div className="flex items-center justify-between mb-2">
-        <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium', statusConfig.bg, statusConfig.color)}>
+        <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-2xs font-medium', statusConfig.bg, statusConfig.color)}>
           <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
         </span>
       </div>
@@ -103,7 +104,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
           </div>
         </div>
         <span
-          className="text-[11px] font-bold rounded-full inline-flex items-center"
+          className="text-2xs font-bold rounded-full inline-flex items-center"
           style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
         >
           {consultation.duration} min

@@ -37,14 +37,14 @@ export function ConsultationTypePill({
   const emoji = CATEGORY_PILL_EMOJIS[category];
   const sizeClass =
     size === 'sm'
-      ? 'text-[11px] font-bold leading-none'
-      : 'text-[11px] font-bold leading-none';
+      ? 'text-2xs font-bold leading-none'
+      : 'text-2xs font-bold leading-none';
   const padStyle: CSSProperties =
     size === 'sm' ? { padding: '2px 6px' } : { padding: '2px 10px' };
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-[2px] rounded-full whitespace-nowrap flex-shrink-0',
+        'inline-flex items-center gap-0.5 rounded-full whitespace-nowrap flex-shrink-0',
         sizeClass,
         className,
       )}

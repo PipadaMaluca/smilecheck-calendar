@@ -72,26 +72,26 @@ export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
         <div className="min-w-[580px] mx-auto space-y-1">
           {/* Upper jaw */}
           <div className="flex items-end justify-center">
-            <span className="text-[11px] text-muted-foreground/50 mr-1 mb-4">R</span>
+            <span className="text-2xs text-muted-foreground/50 mr-1 mb-4">R</span>
             <div className="flex items-end">
               {renderRow(UPPER_RIGHT, 'UR')}
               <div className="w-px h-12 bg-border/40 mx-1 mb-4" />
               {renderRow(UPPER_LEFT, 'UL')}
             </div>
-            <span className="text-[11px] text-muted-foreground/50 ml-1 mb-4">L</span>
+            <span className="text-2xs text-muted-foreground/50 ml-1 mb-4">L</span>
           </div>
 
           <div className="w-full h-px bg-border/30" />
 
           {/* Lower jaw */}
           <div className="flex items-start justify-center">
-            <span className="text-[11px] text-muted-foreground/50 mr-1 mt-4">R</span>
+            <span className="text-2xs text-muted-foreground/50 mr-1 mt-4">R</span>
             <div className="flex items-start">
               {renderRow(LOWER_RIGHT, 'LR')}
               <div className="w-px h-12 bg-border/40 mx-1 mt-4" />
               {renderRow(LOWER_LEFT, 'LL')}
             </div>
-            <span className="text-[11px] text-muted-foreground/50 ml-1 mt-4">L</span>
+            <span className="text-2xs text-muted-foreground/50 ml-1 mt-4">L</span>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
                   borderStyle: c.dashed ? 'dashed' : 'solid',
                 }}
               />
-              <span className="text-[11px] text-muted-foreground">{t(`odontogram.status.${key}`)}</span>
+              <span className="text-2xs text-muted-foreground">{t(`odontogram.status.${key}`)}</span>
             </div>
           );
         })}
@@ -121,7 +121,7 @@ export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
         <>
           <Separator />
           <div className="space-y-2">
-            <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">
+            <h4 className="text-2xs font-semibold text-muted-foreground uppercase">
               {t('odontogram.historyTitle')}
             </h4>
             <div className="space-y-1.5">

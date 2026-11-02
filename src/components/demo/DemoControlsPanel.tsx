@@ -56,12 +56,12 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-[26px] rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
+    'flex-1 h-[26px] rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
   const active = 'bg-card text-foreground shadow-sm';
   const inactive = 'bg-transparent text-muted-foreground hover:text-foreground';
 
   const Row = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-[2px]">{children}</div>
+    <div className="flex items-center gap-0.5">{children}</div>
   );
 
   const roles: { id: UserRole; label: string; Icon: typeof Building2 }[] = [
@@ -77,7 +77,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
 
   const Divider = () => (
     <div
-      className="h-[1px] my-1 rounded-full bg-border" 
+      className="h-px my-1 rounded-full bg-border" 
       aria-hidden="true"
     />
   );

@@ -234,21 +234,21 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                 <RadioGroupItem value="compact" id="density-compact" className="mt-0.5" />
                 <Label htmlFor="density-compact" className="leading-snug">
                   <span className="font-medium">{t('i18nB.compact')}</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.compactDescription')}</span>
+                  <span className="block text-2xs text-muted-foreground font-normal">{t('i18nB.compactDescription')}</span>
                 </Label>
               </div>
               <div className="flex items-start gap-2">
                 <RadioGroupItem value="normal" id="density-normal" className="mt-0.5" />
                 <Label htmlFor="density-normal" className="leading-snug">
                   <span className="font-medium">{t('i18nB.normal')}</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.normalDescription')}</span>
+                  <span className="block text-2xs text-muted-foreground font-normal">{t('i18nB.normalDescription')}</span>
                 </Label>
               </div>
               <div className="flex items-start gap-2">
                 <RadioGroupItem value="expanded" id="density-expanded" className="mt-0.5" />
                 <Label htmlFor="density-expanded" className="leading-snug">
                   <span className="font-medium">{t('i18nB.expanded')}</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.expandedDescription')}</span>
+                  <span className="block text-2xs text-muted-foreground font-normal">{t('i18nB.expandedDescription')}</span>
                 </Label>
               </div>
             </RadioGroup>
@@ -259,7 +259,7 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
             <h3 className="text-sm font-semibold text-foreground mb-1 uppercase tracking-wide">
               {tr(t, 'agendaSettings.defaultDurationByType', 'Duração padrão por tipo')}
             </h3>
-            <p className="text-[11px] text-muted-foreground mb-3">
+            <p className="text-2xs text-muted-foreground mb-3">
               {tr(t, 'agendaSettings.defaultDurationByTypeHint', 'Duração predefinida ao criar uma nova consulta deste tipo')}
             </p>
             <div className="space-y-2">

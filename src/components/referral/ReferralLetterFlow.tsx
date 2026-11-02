@@ -163,7 +163,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <button
                 key={p.id}
                 onClick={() => setSelectedPatient(p)}
-                className={cn("w-full flex items-center p-3 rounded-lg border transition-colors hover:border-primary hover:bg-primary/5 px-[10px] py-[5px] gap-[10px]",
+                className={cn("w-full flex items-center p-3 rounded-lg border transition-colors hover:border-primary hover:bg-primary/5 px-2.5 py-1 gap-2.5",
                 selectedPatient?.id === p.id ? 'border-primary bg-primary/10' : 'border-border'
                 )}>
                   <Avatar className="h-10 w-10">
@@ -249,11 +249,11 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                         <span className="text-xs text-muted-foreground">· {d.clinics[0]?.name}</span>
                         <span className="text-xs text-muted-foreground">· {d.distance} km</span>
                       </div>
-                      <Badge variant="outline" className="text-[11px] mt-1 h-4">{t('profile.acceptsNewPatients')}</Badge>
+                      <Badge variant="outline" className="text-2xs mt-1 h-4">{t('profile.acceptsNewPatients')}</Badge>
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       {selectedDentist?.id === d.id && <Check className="w-5 h-5 text-primary" />}
-                      <button onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
+                      <button aria-label={t('a11y.favorite')} onClick={(e) => {e.stopPropagation();onToggleFavorite?.(d.id);}} className="p-1">
                         <Star className={cn('w-4 h-4', isFav ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
                       </button>
                     </div>
@@ -295,7 +295,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                       <Paperclip className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                       <span className="text-sm flex-1 truncate">{file.name}</span>
                       <span className="text-xs text-muted-foreground">{file.size}</span>
-                      <button
+                      <button aria-label={t('a11y.close')}
                     onClick={() => setAttachments((prev) => prev.filter((a) => a.id !== file.id))}
                     className="text-muted-foreground hover:text-destructive transition-colors p-1">
                         <X className="w-3.5 h-3.5" />
@@ -368,7 +368,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <div className="flex justify-between items-end">
                 <p className="text-xs text-muted-foreground">{t('referral.signature')}: _______________</p>
                 <div className="w-16 h-16 border border-dashed border-muted-foreground rounded flex items-center justify-center">
-                  <span className="text-[11px] text-muted-foreground">QR Code</span>
+                  <span className="text-2xs text-muted-foreground">QR Code</span>
                 </div>
               </div>
             </div>
@@ -413,7 +413,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
     <div className={cn(
         'flex flex-col bg-background overflow-hidden gap-0',
         isMobile ?
-        'w-full h-full pb-[60px]' :
+        'w-full h-full pb-14' :
         'w-full h-full max-w-2xl mx-auto'
       )}>
       <div className="flex items-center justify-center p-4 border-b border-border flex-shrink-0">
@@ -423,7 +423,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
       </div>
 
       <div className="max-w-[600px] mx-auto w-full">
-        <div className="space-y-2 py-[10px] px-[15px]">
+        <div className="space-y-2 py-2.5 px-3.5">
           <p className="text-xs text-muted-foreground text-center">{t('referral.step', { step })}</p>
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4, 5].map((s) =>
@@ -435,13 +435,13 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-0 pl-[20px]">
-        <div className="p-4 md:p-6 max-w-[600px] pb-[5px] px-0 mx-0 pt-0 py-[5px]">
+      <div className="flex-1 overflow-y-auto px-0 pl-5">
+        <div className="p-4 md:p-6 max-w-[600px] pb-1 px-0 mx-0 pt-0 py-1">
           {renderStep()}
         </div>
       </div>
 
-      <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-[30px] px-0",
+      <div className={cn("border-t border-border flex-shrink-0 flex items-start justify-center border mr-7 px-0",
         isMobile ? 'fixed bottom-[60px] left-0 right-0 z-modal p-4 bg-card' : 'p-3'
         )}>
         <div className="flex gap-2 w-full max-w-[600px]">

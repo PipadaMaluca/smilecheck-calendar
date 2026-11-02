@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -23,7 +24,7 @@ export function InConsultationBar({
   const elapsed = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
   return (
-    <div
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey}
       className="h-10 flex items-center justify-between px-4 cursor-pointer animate-fade-in flex-shrink-0 press"
       style={{ backgroundColor: 'rgba(27, 94, 32, 0.9)' }}
       onClick={() => onOpenDossier(consultation.patient.id)}
@@ -77,7 +78,7 @@ export function ConsultationFAB({
   // Flush bottom-right corner. On mobile/tablet sit above bottom nav (~64px + 8px); on desktop, 8px from edge.
   return (
     <div
-      className="fixed z-[45] right-3 bottom-16 lg:bottom-2"
+      className="fixed z-floating right-3 bottom-16 lg:bottom-2"
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
@@ -90,7 +91,7 @@ export function ConsultationFAB({
             return (
               <button
                 key={action.label}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-[transform,background-color,border-color,color,box-shadow] hover:scale-105 whitespace-nowrap min-h-[44px]"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium shadow-lg transition-[transform,background-color,border-color,color,box-shadow] hover:scale-105 whitespace-nowrap min-h-11"
                 style={{ backgroundColor: action.bg }}
                 onClick={() => { setIsOpen(false); action.onClick(); }}
               >
@@ -197,7 +198,7 @@ export function QuickRatingPrompt({
         <p className="text-sm text-muted-foreground">{consultation.patient.name}</p>
         <div className="flex items-center justify-center gap-2">
           {[1, 2, 3, 4, 5].map((star) => (
-            <button
+            <button aria-label={t('a11y.favorite')}
               key={star}
               className={cn(
                 'text-3xl transition-transform duration-150',

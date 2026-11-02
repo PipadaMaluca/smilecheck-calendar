@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { Video, MapPin, Lock } from 'lucide-react';
 import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +83,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
           : consultation?.patient.name;
 
         return (
-          <div
+          <div role="button" tabIndex={0} onKeyDown={onActivateKey}
             key={`${slot.time}-${idx}`}
             onClick={() => isOcupado && onSlotClick?.(slot)}
             className={cn(
@@ -128,18 +129,18 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
                 {/* Line 2: Category (colored) + Notes (gray) + Duration */}
                 <div className="flex flex-wrap items-center gap-1 ml-4 min-w-0">
                   <span
-                    className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                    className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                     style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                   >
                     {getCategoryLabel(t, category)}
                     {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                   </span>
                   {showNotes && consultation.notes && (
-                    <span className="text-[11px] text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
+                    <span className="text-2xs text-[#8B9CB6] min-w-0 flex-shrink flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
                       {consultation.notes}
                     </span>
                   )}
-                  <span className="text-[11px] text-muted-foreground ml-auto flex-shrink-0">
+                  <span className="text-2xs text-muted-foreground ml-auto flex-shrink-0">
                     {consultation.duration}min
                   </span>
                 </div>

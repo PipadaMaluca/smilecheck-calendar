@@ -97,7 +97,7 @@ export function MobileSidebar({
     return (
       <button
         onClick={onClick}
-        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-[15px] pt-[10px] pb-[10px] pr-4 gap-[15px] press",
+        className={cn("w-full px-4 py-2.5 text-sm hover:bg-muted/50 transition-colors flex items-center justify-start pl-3.5 pt-2.5 pb-2.5 pr-4 gap-3.5 press",
         active && 'text-primary bg-primary/10'
         )}>
         <div className="relative">
@@ -106,7 +106,7 @@ export function MobileSidebar({
         <span className="flex-1 text-left">{label}</span>
         {badge && (
           badge.type === 'count' ? (
-            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground">
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary text-primary-foreground">
               {badge.value}
             </span>
           ) : (
@@ -123,7 +123,7 @@ export function MobileSidebar({
         <SheetHeader className="p-4 border-b border-border">
           <div className="flex items-center justify-between">
             <SheetTitle className="sr-only">{t('i18nB.menu')}</SheetTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
+            <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={onClose}>
               <X className="w-5 h-5" />
             </Button>
           </div>

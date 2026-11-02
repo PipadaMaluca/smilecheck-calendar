@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getDentistTeleconsultas, dentistRevenueMonths, generateReceipt } from './billingMockData';
+import { getDentistTeleconsultas, getDentistRevenueMonths, generateReceipt } from './billingMockData';
 import { DEMO_CURRENT_PLAN, commissionPercent, summarizeTeleconsults } from '@/lib/planRules';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -70,7 +70,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.commission')} ({commissionPercent(plan)}%)</p>
-                  <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(commission, { decimals: true })}</p>
+                  <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(commission)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
@@ -97,7 +97,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <CardContent>
                 <div className="h-48">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={dentistRevenueMonths}>
+                    <BarChart data={getDentistRevenueMonths()}>
                       <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
                       <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
                       <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, color: 'hsl(var(--foreground))' }} />
@@ -127,7 +127,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                         <p className="text-sm font-medium text-foreground">{tc.date} — {tc.patient}</p>
                         <p className="text-xs text-muted-foreground">{tc.duration} · {formatCurrency(tc.amount)} · {t('billing.commissionLabel')}: {formatCurrency(tc.commission)} · {t('billing.net')}: {formatCurrency(tc.net)}</p>
                       </div>
-                      <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
+                      <Button aria-label={t('a11y.download')} size="icon-sm" variant="ghost" onClick={() => { generateReceipt(tc.id, `${t('billing.teleconsultas')} ${tc.patient}`, tc.amount, 'Transferência'); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>
@@ -138,7 +138,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
             <Card className="bg-primary/10 border-primary/20">
               <CardContent className="p-3 flex items-center justify-between text-sm">
                 <span className="font-semibold text-foreground">{dentistTeleconsultas.length} {t('billing.teleconsultas').toLowerCase()}</span>
-                <span className="text-muted-foreground">{formatCurrency(totalTele)} · {t('billing.commissionLabel')}: {formatCurrency(totalComm, { decimals: true })} · <span className="text-primary font-bold">{t('billing.net')}: {formatCurrency(totalNet, { decimals: true })}</span></span>
+                <span className="text-muted-foreground">{formatCurrency(totalTele)} · {t('billing.commissionLabel')}: {formatCurrency(totalComm)} · <span className="text-primary font-bold">{t('billing.net')}: {formatCurrency(totalNet)}</span></span>
               </CardContent>
             </Card>
           </TabsContent>

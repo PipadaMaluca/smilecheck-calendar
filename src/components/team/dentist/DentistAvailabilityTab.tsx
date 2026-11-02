@@ -237,7 +237,7 @@ export function DentistAvailabilityTab() {
       return (
         <button
           onClick={() => togglePeriod(dayIdx, period)}
-          className="flex items-center justify-center gap-1 text-xs text-destructive/70 bg-destructive/10 rounded-md px-2 py-2 hover:bg-destructive/20 transition-colors min-h-[44px] w-full"
+          className="flex items-center justify-center gap-1 text-xs text-destructive/70 bg-destructive/10 rounded-md px-2 py-2 hover:bg-destructive/20 transition-colors min-h-11 w-full"
         >
 <Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.closed')}
         </button>
@@ -265,10 +265,10 @@ export function DentistAvailabilityTab() {
             />
           </div>
           <div className="flex gap-1">
-            <Button size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
+            <Button aria-label={t('a11y.confirm')} size="sm" variant="ghost" className="h-6 text-2xs flex-1" onClick={() => setEditingCell(null)}>
               <Check className="w-3.5 h-3.5" />
             </Button>
-            <Button size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
+            <Button aria-label={t('a11y.close')} size="sm" variant="ghost" className="h-6 text-2xs text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
               <X className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -280,7 +280,7 @@ export function DentistAvailabilityTab() {
       <button
         onClick={() => setEditingCell({ day: dayIdx, period, field: 'start' })}
         className={cn(
-          'flex items-center justify-center gap-1 text-xs font-medium rounded-md px-2 py-2 transition-colors min-h-[44px] w-full',
+          'flex items-center justify-center gap-1 text-xs font-medium rounded-md px-2 py-2 transition-colors min-h-11 w-full',
           period === 'evening'
             ? 'bg-orange-500/10 text-orange-400 hover:bg-orange-500/20'
             : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
@@ -333,7 +333,7 @@ export function DentistAvailabilityTab() {
         </CardHeader>
         <CardContent>
           {/* Desktop header */}
-          <div className="hidden sm:grid grid-cols-4 gap-2 text-[11px] font-medium text-muted-foreground mb-2 px-1">
+          <div className="hidden sm:grid grid-cols-4 gap-2 text-2xs font-medium text-muted-foreground mb-2 px-1">
             <span>{t('team.day')}</span>
             <span className="text-center">
 <Glyph emoji="☀️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.morning')}</span>
@@ -360,7 +360,7 @@ export function DentistAvailabilityTab() {
                       {t(day.dayKey)}
                     </span>
                     {off && (
-                      <Badge variant="outline" className="text-[11px] bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
+                      <Badge variant="outline" className="text-2xs bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
                         {t('team.closed')}
                       </Badge>
                     )}
@@ -370,7 +370,7 @@ export function DentistAvailabilityTab() {
                   <div className="sm:hidden space-y-2">
                     {(['morning', 'afternoon', 'evening'] as const).map(period => (
                       <div key={period} className="flex items-center gap-2">
-                        <span className="text-[11px] text-muted-foreground w-16 flex-shrink-0">
+                        <span className="text-2xs text-muted-foreground w-16 flex-shrink-0">
                           {period === 'morning' ? t('availability.morning') :
                            period === 'afternoon' ? t('availability.afternoon') :
                            t('availability.eveningShort')}
@@ -425,7 +425,7 @@ export function DentistAvailabilityTab() {
                 </div>
                 <div className="flex gap-1">
                   <Button variant="ghost" size="sm" className="h-8 text-xs" onClick={() => openEditException(ex)}>{t('common.edit')}</Button>
-                  <Button variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
+                  <Button aria-label={t('a11y.remove')} variant="ghost" size="sm" className="h-8 text-xs text-destructive" onClick={() => deleteException(ex.id)}>
                     <Trash2 className="w-3.5 h-3.5" />
                   </Button>
                 </div>

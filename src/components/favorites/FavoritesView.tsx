@@ -1,6 +1,9 @@
-import { useState, useMemo } from 'react';
+import { PersonAvatar } from '@/components/ui/person-avatar';
+import { onActivateKey } from '@/lib/a11y';
+import { useState, useMemo, lazy, Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
-import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase } from 'lucide-react';
+import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,6 +35,15 @@ interface FavoritesViewProps {
   userRole?: UserRole;
 }
 
+const DentistMapView = lazy(() => import('@/components/search/DentistMapView'));
+
+/** Mock coordinates for demo clinics (map view). */
+const CLINIC_COORDS: Record<string, { lat: number; lng: number; rating: number; reviewCount: number }> = {
+  '1': { lat: 38.7197, lng: -9.1458, rating: 4.9, reviewCount: 312 },
+  '2': { lat: 48.9833, lng: 2.6167, rating: 4.7, reviewCount: 185 },
+  '3': { lat: 48.8983, lng: 2.5667, rating: 4.6, reviewCount: 143 },
+};
+
 const CLINIC_PHONES: Record<string, string> = {
   '1': '+351 213 456 789',
   '2': '+33 1 64 27 33 00',
@@ -54,6 +66,7 @@ export function FavoritesView({
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
   const [inviteMessage, setInviteMessage] = useState('');
   const [showJobs, setShowJobs] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   const filteredResults = useMemo(() => {
     let dentists = [...MOCK_DENTIST_RESULTS];
@@ -218,11 +231,46 @@ export function FavoritesView({
         />
       ) : (
         <>
-      <p className="text-xs text-muted-foreground">
-        {t('search.resultsFound', { count: totalResults })}
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-xs text-muted-foreground">
+          {t('search.resultsFound', { count: totalResults })}
+        </p>
+        <div role="tablist" aria-label={t('search.viewModeLabel')} className="inline-flex rounded-lg border border-border bg-secondary p-1">
+          {([
+            { key: 'list', icon: List, label: t('search.viewList') },
+            { key: 'map', icon: MapIcon, label: t('search.viewMap') },
+          ] as const).map(opt => (
+            <Button
+              key={opt.key}
+              type="button"
+              role="tab"
+              aria-selected={viewMode === opt.key}
+              variant={viewMode === opt.key ? 'default' : 'ghost'}
+              size="sm"
+              className="gap-2 min-h-11 px-4"
+              onClick={() => setViewMode(opt.key)}
+            >
+              <opt.icon className="w-4 h-4" aria-hidden />
+              {opt.label}
+            </Button>
+          ))}
+        </div>
+      </div>
 
-      {totalResults === 0 ? (
+      {viewMode === 'map' && totalResults > 0 ? (
+        <div className="h-[60vh] min-h-96 rounded-xl overflow-hidden border border-border">
+          <Suspense fallback={<Skeleton className="h-full w-full" />}>
+            {typeFilter === 'clinics' ? (
+              <DentistMapView
+                clinics={filteredResults.clinics.filter(c => CLINIC_COORDS[c.id]).map(c => ({ id: c.id, name: c.name, address: c.address, ...CLINIC_COORDS[c.id] }))}
+                onViewClinic={id => onViewClinicProfile?.(id)}
+              />
+            ) : (
+              <DentistMapView dentists={filteredResults.dentists} onViewProfile={d => onViewProfile(d)} />
+            )}
+          </Suspense>
+        </div>
+      ) : totalResults === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Search className="w-10 h-10 mx-auto mb-3 opacity-30" />
           <p className="text-sm">{t('search.noResults')}</p>
@@ -237,11 +285,11 @@ export function FavoritesView({
             const isFav = favorites.includes(d.id);
 
             return (
-              <div key={d.id}
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={d.id}
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewProfile(d)}
               >
-                <Button
+                <Button aria-label={t('a11y.favorite')}
                   type="button"
                   variant="ghost"
                   size="icon-sm"
@@ -253,19 +301,13 @@ export function FavoritesView({
                 </Button>
 
                 <div className="flex items-start gap-3 pr-10">
-                  {photo ? (
-                    <img src={photo} alt={d.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
-                      {initials}
-                    </div>
-                  )}
+                  <PersonAvatar name={d.name} photo={photo} size="md" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate" title={d.name}>{d.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
-                      <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
+                      <span className={cn('text-2xs font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
                         {t(levelCfg.labelKey)}
                       </span>
                     </div>
@@ -297,11 +339,11 @@ export function FavoritesView({
             const isFav = clinicFavorites.includes(c.id);
             const initials = getClinicInitials(c.name);
             return (
-              <div key={`c-${c.id}`}
+              <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={`c-${c.id}`}
                 className="bg-card border border-border rounded-xl p-4 space-y-2 relative cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press"
                 onClick={() => onViewClinicProfile?.(c.id)}
               >
-                <Button
+                <Button aria-label={t('a11y.favorite')}
                   type="button"
                   variant="ghost"
                   size="icon-sm"

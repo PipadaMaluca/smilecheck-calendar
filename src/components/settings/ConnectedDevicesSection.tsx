@@ -96,7 +96,7 @@ export function ConnectedDevicesSection() {
                         <p className="text-xs text-muted-foreground">{t(device.lastActive)}</p>
                       </div>
                     </div>
-                    <button
+                    <button aria-label={t('a11y.close')}
                       onClick={() => disconnectDevice(device.id)}
                       className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
                       title={t('devices.disconnect')}

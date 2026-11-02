@@ -76,7 +76,7 @@ export function generateReceiptPdf(data: ReceiptData): jsPDF {
     startY: y,
     head: [['Descrição', 'Qtd', 'Valor Unit.', 'IVA', 'Total']],
     body: [
-      [data.description, '1', `${formatCurrency(subtotal, { decimals: true })}`, `23% (${formatCurrency(iva, { decimals: true })})`, `${formatCurrency(data.amount, { decimals: true })}`],
+      [data.description, '1', `${formatCurrency(subtotal)}`, `23% (${formatCurrency(iva)})`, `${formatCurrency(data.amount)}`],
     ],
     theme: 'striped',
     headStyles: {
@@ -106,16 +106,16 @@ export function generateReceiptPdf(data: ReceiptData): jsPDF {
   doc.setFontSize(10);
   doc.setTextColor(80, 80, 80);
   doc.text('Subtotal (s/ IVA):', pageWidth - margin - 40, ty);
-  doc.text(`${formatCurrency(subtotal, { decimals: true })}`, pageWidth - margin, ty, { align: 'right' });
+  doc.text(`${formatCurrency(subtotal)}`, pageWidth - margin, ty, { align: 'right' });
   ty += 6;
   doc.text('IVA (23%):', pageWidth - margin - 40, ty);
-  doc.text(`${formatCurrency(iva, { decimals: true })}`, pageWidth - margin, ty, { align: 'right' });
+  doc.text(`${formatCurrency(iva)}`, pageWidth - margin, ty, { align: 'right' });
   ty += 8;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(30, 30, 30);
   doc.text('Total:', pageWidth - margin - 40, ty);
-  doc.text(`${formatCurrency(data.amount, { decimals: true })}`, pageWidth - margin, ty, { align: 'right' });
+  doc.text(`${formatCurrency(data.amount)}`, pageWidth - margin, ty, { align: 'right' });
 
   // Payment info
   ty += 15;

@@ -74,7 +74,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
       <div className={cn('bg-card flex flex-col z-modal', isMobile ? 'fixed inset-x-0 bottom-0 rounded-t-2xl max-h-[90vh] animate-slide-up-modal' : 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-[95%] max-w-lg max-h-[90vh]')}>
         <div className="flex items-center justify-between p-4 border-b border-border">
           <h2 className="text-lg font-bold">{t('pasteConsultation.title')}</h2>
-          <Button variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
+          <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={onClose}><X className="w-5 h-5" /></Button>
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           <div className="bg-secondary/30 rounded-lg p-3">
@@ -108,7 +108,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
           </div>
           <div className="space-y-2">
             <Label>{t('common.notes')}</Label>
-            <Textarea placeholder={t('copyConsultation.notesPlaceholder')} value={notes} onChange={(e) => setNotes(e.target.value)} className="min-h-[80px] resize-none" />
+            <Textarea placeholder={t('copyConsultation.notesPlaceholder')} value={notes} onChange={(e) => setNotes(e.target.value)} className="min-h-20 resize-none" />
           </div>
         </div>
         <div className="p-4 border-t border-border">

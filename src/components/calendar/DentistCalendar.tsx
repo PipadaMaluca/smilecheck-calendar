@@ -405,6 +405,7 @@ export function DentistCalendar() {
       <div className="relative z-10 w-full max-w-full">
         {/* Mobile Header with View Mode Selector - hide filters when viewing consultation detail */}
         <MobileHeader 
+          activeTab={activeTab}
           onMenuClick={() => setSidebarOpen(true)}
           {...(activeTab === 'agenda' && !selectedConsultation ? { viewMode, onViewModeChange: handleViewModeChange } : {})}
           userRole="dentist"

@@ -175,6 +175,7 @@ export function PatientCalendar() {
       <div className="relative z-10">
         {/* Mobile Header - hide "Nova Consulta" button when viewing detail */}
         <MobileHeader 
+          activeTab={activeTab}
           onMenuClick={() => setSidebarOpen(true)}
           userRole="patient"
           showNewConsultation={activeTab === 'consultas' && !selectedConsultation}

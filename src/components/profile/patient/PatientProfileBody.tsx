@@ -1,3 +1,4 @@
+import { Star as StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -168,7 +169,7 @@ export function PatientProfileBody({
     if (isOwnProfile) {
       return (
         <div className={cn('flex gap-2', isMobile ? 'w-full flex-col mt-3' : 'flex-col')}>
-          <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>
+          <Button variant="outline" className="flex-1 min-h-11" onClick={onEditProfile}>
             {t('profile.editProfile')}
           </Button>
         </div>);
@@ -324,7 +325,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.allergies')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.allergies.map((a) =>
-                    <Badge key={a} variant="destructive" className="text-[11px]">
+                    <Badge key={a} variant="destructive" className="text-2xs">
                         {a}
                       </Badge>
                     )}
@@ -340,7 +341,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.conditions')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.conditions.map((c) =>
-                    <Badge key={c} variant="secondary" className="text-[11px]">
+                    <Badge key={c} variant="secondary" className="text-2xs">
                         {c}
                       </Badge>
                     )}
@@ -354,7 +355,7 @@ export function PatientProfileBody({
                   <div className="text-muted-foreground">{t('profile.medication')}:</div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {data.health.medications.map((m) =>
-                    <Badge key={m} variant="outline" className="text-[11px]">
+                    <Badge key={m} variant="outline" className="text-2xs">
                         {m}
                       </Badge>
                     )}
@@ -364,7 +365,7 @@ export function PatientProfileBody({
             </div>
           </div>
 
-          <p className="mt-4 text-[11px] text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
+          <p className="mt-4 text-2xs text-muted-foreground bg-secondary/40 border border-border rounded-lg p-3">
             ℹ️ {t('profile.healthInfoNote')}
           </p>
         </SectionCard>
@@ -383,10 +384,10 @@ export function PatientProfileBody({
             <div
               key={stat.label}
               className="bg-secondary/40 border border-border/60 rounded-xl px-1.5 py-2.5 sm:px-2 sm:py-3 flex flex-col items-center justify-center text-center min-h-[88px]">
-                <span className="text-[11px] text-muted-foreground mb-1 leading-tight">{stat.label}</span>
-                <span className="text-[18px] sm:text-[20px] font-bold text-foreground leading-none">{stat.value}</span>
+                <span className="text-2xs text-muted-foreground mb-1 leading-tight">{stat.label}</span>
+                <span className="text-lg sm:text-xl font-bold text-foreground leading-none">{stat.value}</span>
                 {display && display.text && (
-                  <p className={cn('text-[11px] mt-1 leading-none', display.color)}>
+                  <p className={cn('text-2xs mt-1 leading-none', display.color)}>
                     {display.arrow} {display.text}
                   </p>
                 )}
@@ -418,11 +419,11 @@ export function PatientProfileBody({
                   <div className="flex items-center gap-1.5 mt-1">
                     <Star className="w-3 h-3 fill-amber-400 text-warning" />
                     <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
-                    <span className="text-[11px] text-muted-foreground">· {t('profile.consultations', { count: data.mainDentist.consultations })}</span>
+                    <span className="text-2xs text-muted-foreground">· {t('profile.consultations', { count: data.mainDentist.consultations })}</span>
                   </div>
                 </div>
               </div>
-              <Badge variant="secondary" className="text-[11px]">{t('profile.main')}</Badge>
+              <Badge variant="secondary" className="text-2xs">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-center justify-between bg-secondary/40 border border-border/60 rounded-lg p-4">
@@ -430,7 +431,7 @@ export function PatientProfileBody({
                 <Building2 className="w-4 h-4 text-primary" />
                 <ClickableClinicName clinicId={data.mainClinic.id} name={data.mainClinic.name} className="text-sm font-medium" />
               </div>
-              <Badge variant="secondary" className="text-[11px]">{t('profile.main')}</Badge>
+              <Badge variant="secondary" className="text-2xs">{t('profile.main')}</Badge>
             </div>
 
             <div className="flex items-start gap-3 bg-secondary/30 border border-border/60 rounded-lg p-4">
@@ -465,7 +466,7 @@ export function PatientProfileBody({
             <div className="flex-1 space-y-2">
               {breakdown.map((b) =>
               <div key={b.stars} className="flex items-center gap-3 text-xs">
-                  <span className="w-10 text-muted-foreground">{b.stars}★</span>
+                  <span className="w-10 text-muted-foreground">{b.stars}<StarIcon className="inline w-3 h-3 ml-0.5 -mt-0.5 fill-current" aria-hidden /></span>
                   <Progress value={b.pct} className="h-2 flex-1" />
                   <span className="w-10 text-right text-muted-foreground">{b.pct}%</span>
                 </div>
@@ -485,7 +486,7 @@ export function PatientProfileBody({
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground">{r.comment}</p>
-                <p className="text-[11px] text-muted-foreground/70 mt-2">{formatRelativeDate(r.date)}</p>
+                <p className="text-2xs text-muted-foreground/70 mt-2">{formatRelativeDate(r.date)}</p>
               </div>
             )}
           </div>
@@ -537,7 +538,7 @@ export function PatientProfileBody({
                 value={blockReason}
                 onChange={(e) => setBlockReason(e.target.value)}
                 placeholder={t('profile.blockReasonPlaceholder')}
-                className="mt-1 min-h-[80px] bg-secondary/50 border-border text-sm" />
+                className="mt-1 min-h-20 bg-secondary/50 border-border text-sm" />
               
             </div>
             <p className="text-xs text-muted-foreground">{t('profile.blockNotify')}</p>

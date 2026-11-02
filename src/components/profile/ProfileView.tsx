@@ -64,7 +64,7 @@ export function ProfileView(props: ProfileViewProps) {
   return (
     <FullScreenMobileOverlay>
       <div className="flex items-center justify-between px-6 md:px-10 py-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onClose}>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <h2 className="text-base font-semibold">{t('profile.myProfile')}</h2>

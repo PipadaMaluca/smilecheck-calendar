@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
@@ -61,11 +62,11 @@ const SCALE_STYLES: Record<ScaleLevel, {
   cardPad: string; timeFs: string; nameFs: string; pillFs: string; pillPad: string;
   notes: boolean; pillTextHidden: boolean; firstNameOnly: boolean; minColW: number;
 }> = {
-  normal:  { cardPad: 'px-1.5 py-1', timeFs: 'text-[11px]', nameFs: 'text-[11px]', pillFs: 'text-[11px]', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
-  compact: { cardPad: 'px-1.5 py-1', timeFs: 'text-[11px]', nameFs: 'text-[11px]', pillFs: 'text-[11px]', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
-  dense:   { cardPad: 'px-1 py-0.5', timeFs: 'text-[11px]', nameFs: 'text-[11px]', pillFs: 'text-[11px]', pillPad: '1px 5px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 120 },
-  ultra:   { cardPad: 'px-1 py-0.5', timeFs: 'text-[11px]',  nameFs: 'text-[11px]',  pillFs: 'text-[11px]',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
-  scroll:  { cardPad: 'px-1 py-0.5', timeFs: 'text-[11px]',  nameFs: 'text-[11px]',  pillFs: 'text-[11px]',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
+  normal:  { cardPad: 'px-1.5 py-1', timeFs: 'text-2xs', nameFs: 'text-2xs', pillFs: 'text-2xs', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
+  compact: { cardPad: 'px-1.5 py-1', timeFs: 'text-2xs', nameFs: 'text-2xs', pillFs: 'text-2xs', pillPad: '2px 6px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 0 },
+  dense:   { cardPad: 'px-1 py-0.5', timeFs: 'text-2xs', nameFs: 'text-2xs', pillFs: 'text-2xs', pillPad: '1px 5px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 120 },
+  ultra:   { cardPad: 'px-1 py-0.5', timeFs: 'text-2xs',  nameFs: 'text-2xs',  pillFs: 'text-2xs',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
+  scroll:  { cardPad: 'px-1 py-0.5', timeFs: 'text-2xs',  nameFs: 'text-2xs',  pillFs: 'text-2xs',  pillPad: '1px 4px', notes: false, pillTextHidden: false, firstNameOnly: true, minColW: 100 },
 };
 
 export function DesktopWeekView({
@@ -133,7 +134,7 @@ export function DesktopWeekView({
   const dayMinW = subColMinW > 0 ? subColMinW * dentists.length : 0;
 
   return (
-    <div className="flex-1 overflow-auto bg-[#1A2F3D]" onClick={() => setContextMenu(null)}>
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey} className="flex-1 overflow-auto bg-[#1A2F3D]" onClick={() => setContextMenu(null)}>
       <div
         className="min-w-full"
         style={ isScroll ? { width: 'max-content' } : undefined }
@@ -154,11 +155,11 @@ export function DesktopWeekView({
                 )}
                 style={ dayMinW ? { minWidth: dayMinW } : undefined }
               >
-                <div
+                <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                   className="text-center py-1.5 cursor-pointer hover:bg-secondary/30 transition-colors press"
                   onClick={() => { onDateChange(day); onViewModeChange('day'); }}
                 >
-                  <div className={cn('text-[11px] uppercase font-medium', isToday ? 'text-primary' : 'text-muted-foreground')}>
+                  <div className={cn('text-2xs uppercase font-medium', isToday ? 'text-primary' : 'text-muted-foreground')}>
                     {format(day, 'EEE', { locale: getDateFnsLocale() })}
                   </div>
                   <div className={cn('text-xs font-semibold', isToday && 'text-primary')}>
@@ -173,7 +174,7 @@ export function DesktopWeekView({
                         className="flex-1 min-w-0 px-1 py-0.5 text-center border-l border-border/40 first:border-l-0"
                         title={dentist.name}
                       >
-                        <span className="text-[11px] font-bold text-primary">
+                        <span className="text-2xs font-bold text-primary">
                           {getDentistInitials(dentist.name)}
                         </span>
                       </div>
@@ -188,10 +189,10 @@ export function DesktopWeekView({
         {/* Time grid */}
         <div className="relative flex">
           {/* Time labels */}
-          <div className="w-14 flex-shrink-0 sticky left-0 z-[5] bg-[#1A2F3D] border-r border-[#1E3A5F]">
+          <div className="w-14 flex-shrink-0 sticky left-0 z-raised bg-[#1A2F3D] border-r border-[#1E3A5F]">
             {HOURS.map(hour => (
               <div key={hour} className="flex items-start justify-end pr-2" style={{ height: SLOT_HEIGHT * 2 }}>
-                <span className="text-[11px] text-muted-foreground -mt-1.5 font-mono">
+                <span className="text-2xs text-muted-foreground -mt-1.5 font-mono">
                   {String(hour).padStart(2, '0')}:00
                 </span>
               </div>
@@ -254,7 +255,7 @@ export function DesktopWeekView({
                       ))}
 
                       {isSunday && (
-                        <div className="absolute inset-0 flex items-center justify-center text-[11px] text-muted-foreground px-2 text-center">
+                        <div className="absolute inset-0 flex items-center justify-center text-2xs text-muted-foreground px-2 text-center">
                           {t('sweep.weekView.noSchedule')}
                         </div>
                       )}
@@ -298,7 +299,7 @@ export function DesktopWeekView({
                               className="absolute left-0.5 right-0.5 rounded bg-[#9E9E9E]/30 border-l-2 border-l-[#9E9E9E] flex items-center justify-center"
                               style={{ top: startIdx * SLOT_HEIGHT + 1, height: SLOT_HEIGHT - 2 }}
                             >
-                              <span className="text-[11px] font-medium text-muted-foreground">
+                              <span className="text-2xs font-medium text-muted-foreground">
                                 {slot.blockReason}
                               </span>
                             </div>
@@ -312,7 +313,7 @@ export function DesktopWeekView({
                         const displayName = scaleCfg.firstNameOnly ? fullName.split(' ')[0] : fullName;
 
                         return (
-                          <div
+                          <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                             key={c.id}
                             data-cat={category}
                             draggable

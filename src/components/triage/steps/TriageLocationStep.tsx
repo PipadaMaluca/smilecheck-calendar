@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -172,10 +173,10 @@ export function TriageLocationStep({
         <p className="text-sm text-muted-foreground mt-1">{t('triage.location.subtitle')}</p>
       </div>
 
-      <div className="bg-[#1E3A5F]/40 rounded-xl p-2 md:p-4 mx-auto max-w-[540px]">
+      <div className="bg-accent/40 rounded-xl p-2 md:p-4 mx-auto max-w-[540px]">
         <div className="flex justify-between px-2 mb-0">
-          <span className="text-[11px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperRight')}</span>
-          <span className="text-[11px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperLeft')}</span>
+          <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperRight')}</span>
+          <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperLeft')}</span>
         </div>
 
         <svg viewBox="0 0 400 300" className="w-full h-auto" style={{ maxHeight: 360 }}>
@@ -250,8 +251,8 @@ export function TriageLocationStep({
         </svg>
 
         <div className="flex justify-between px-2 -mt-1">
-          <span className="text-[11px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.lowerRight')}</span>
-          <span className="text-[11px] md:text-[11px] text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.lowerLeft')}</span>
+          <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.lowerRight')}</span>
+          <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.lowerLeft')}</span>
         </div>
       </div>
 
@@ -266,8 +267,8 @@ export function TriageLocationStep({
         </div>
       </div>
 
-      <div
-        className="flex items-center gap-3 p-3 bg-[#1E3A5F] rounded-lg cursor-pointer press"
+      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
+        className="flex items-center gap-3 p-3 bg-accent rounded-lg cursor-pointer press"
         onClick={() => handleUnknownToggle(!unknownLocation)}
       >
         <Checkbox

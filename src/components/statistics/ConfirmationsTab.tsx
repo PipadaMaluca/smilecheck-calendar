@@ -58,7 +58,7 @@ function StatusBadge({ status, label }: { status: BadgeStatus; label: string }) 
           <Icon className={cn('w-3.5 h-3.5', status === 'pending' && 'fill-current')} strokeWidth={2.5} />
         </span>
       </TooltipTrigger>
-      <TooltipContent side="top" className="text-[11px]">{label}</TooltipContent>
+      <TooltipContent side="top" className="text-2xs">{label}</TooltipContent>
     </Tooltip>
   );
 }
@@ -109,13 +109,13 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
     <div className="space-y-4">
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-1">
-        <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+        <span className="text-2xs font-semibold uppercase tracking-wide text-muted-foreground">
           {t('confirmations.legend')}
         </span>
         {LEGEND_ORDER.map(status => {
           const Icon = STATUS_ICONS[status];
           return (
-            <span key={status} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+            <span key={status} className="flex items-center gap-1.5 text-2xs text-muted-foreground">
               <span className={cn('inline-flex items-center justify-center w-5 h-5 rounded-md border', STATUS_STYLES[status])}>
                 <Icon className={cn('w-3 h-3', status === 'pending' && 'fill-current')} strokeWidth={2.5} />
               </span>
@@ -184,7 +184,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
                             </TableCell>
                             <TableCell>
                               <span
-                                className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                                className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap"
                                 style={{ ...getCategoryBadgeStyle(catColor?.hex || ''), padding: '2px 10px' }}
                               >
                                 {catLabel}

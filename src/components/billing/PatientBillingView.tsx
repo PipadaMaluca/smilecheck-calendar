@@ -69,7 +69,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.totalSpent')}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">{formatCurrency(totalMonth, { decimals: true })}</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">{formatCurrency(totalMonth)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
@@ -106,8 +106,8 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                       <p className="text-xs text-muted-foreground">{p.date} · {p.method}</p>
                     </div>
                     <div className="flex items-center gap-2 ml-3">
-                      <span className="text-sm font-bold text-foreground">{formatCurrency(p.amount, { decimals: true })}</span>
-                      <Button size="icon-sm" variant="ghost" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
+                      <span className="text-sm font-bold text-foreground">{formatCurrency(p.amount)}</span>
+                      <Button aria-label={t('a11y.download')} size="icon-sm" variant="ghost" onClick={() => { generateReceipt(p.id, p.description, p.amount, p.method); toast.success(t('billing.receiptDownloaded')); }}>
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>
@@ -129,11 +129,11 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     <div className="flex items-center gap-3">
                       <CreditCard className="w-4 h-4 text-muted-foreground" />
                       <span className="text-sm text-foreground">{c.type} ****{c.last4}</span>
-                      {c.isDefault && <Badge variant="secondary" className="text-[11px]"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
+                      {c.isDefault && <Badge variant="secondary" className="text-2xs"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
                     </div>
                     <div className="flex gap-1">
-                      <Button size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
-                      <Button size="icon-sm" variant="ghost" className="text-destructive"><Trash2 className="w-3 h-3" /></Button>
+                      <Button aria-label={t('a11y.edit')} size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
+                      <Button aria-label={t('a11y.remove')} size="icon-sm" variant="ghost" className="text-destructive"><Trash2 className="w-3 h-3" /></Button>
                     </div>
                   </div>
                 ))}
@@ -195,7 +195,7 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                     <Smartphone className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm text-foreground">+351 912 000 001</span>
                   </div>
-                  <Button size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
+                  <Button aria-label={t('a11y.edit')} size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
                 </div>
               </CardContent>
             </Card>

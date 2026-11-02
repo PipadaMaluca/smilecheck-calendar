@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Ban } from 'lucide-react';
@@ -130,7 +131,7 @@ export function DesktopTimeline({
     <>
     <div className="flex-1 flex flex-col bg-[#1A2F3D] overflow-hidden relative z-0">
       {/* Dentist Headers */}
-      <div className="flex border-b border-border bg-card/50 sticky top-0 z-[1] overflow-hidden">
+      <div className="flex border-b border-border bg-card/50 sticky top-0 z-base overflow-hidden">
           <div className="w-16 flex-shrink-0 border-r border-[#1E3A5F]" />
         <div className="flex flex-1 min-w-[640px]">
         {dentistColumns.map(({ dentist, clinicId, key }) => {
@@ -142,13 +143,13 @@ export function DesktopTimeline({
             >
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                  <span className="text-[11px] font-bold text-primary">
+                  <span className="text-2xs font-bold text-primary">
                     {getDentistInitials(dentist.name)}
                   </span>
                 </div>
                 <div>
                   <p className="text-xs font-medium truncate">{dentist.name}</p>
-                  <p className="text-[11px] text-muted-foreground truncate">
+                  <p className="text-2xs text-muted-foreground truncate">
                     {clinic?.name || ''} • {dentist.workingHours || '9h-21h'}
                   </p>
                 </div>
@@ -177,7 +178,7 @@ export function DesktopTimeline({
               >
                 {/* Only show hour labels, not :30 */}
                 {time.endsWith(':00') && (
-                  <span className="text-[11px] font-mono text-muted-foreground">
+                  <span className="text-2xs font-mono text-muted-foreground">
                     {time}
                   </span>
                 )}
@@ -285,7 +286,7 @@ export function DesktopTimeline({
                     if (isOccupied) return null;
                     const slotId = `${key}-${time}`;
                     return (
-                      <div
+                      <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                         key={`empty-${time}`}
                         className={cn(
                           "appt-slot-free transition-colors border rounded-full mx-0.5 cursor-pointer hover:bg-primary/10 hover:border-primary/30 press",
@@ -326,7 +327,7 @@ export function DesktopTimeline({
                             gridRow: `${startIdx + 1} / span 1`,
                           }}
                         >
-                          <span className="text-[11px] font-medium text-muted-foreground">
+                          <span className="text-2xs font-medium text-muted-foreground">
                             {slot.blockReason}
                           </span>
                         </div>
@@ -341,7 +342,7 @@ export function DesktopTimeline({
                     const pillEmoji = CATEGORY_PILL_EMOJIS[consultation.category || 'restauracao'];
                     
                       return (
-                        <div
+                        <div role="button" tabIndex={0} onKeyDown={onActivateKey}
                           key={consultation.id}
                           data-cat={consultation.category || 'restauracao'}
                           draggable
@@ -373,10 +374,10 @@ export function DesktopTimeline({
                           <div className="flex-1 min-w-0 overflow-hidden">
                             {/* Line 1: time + name (age) */}
                             <div className="flex items-center gap-1 flex-wrap">
-                              <span className="text-[11px] font-mono text-muted-foreground">
+                              <span className="text-2xs font-mono text-muted-foreground">
                                 {slot.time}
                               </span>
-                              <span className="text-[11px] font-bold truncate text-white leading-tight">
+                              <span className="text-2xs font-bold truncate text-white leading-tight">
                                 {consultation.patient.name}
                                 {consultation.patient.age && (
                                   <span className="font-normal ml-0.5">({t('i18nB.age', { count: consultation.patient.age })})</span>
@@ -386,14 +387,14 @@ export function DesktopTimeline({
                             {/* Line 2: type pill + notes */}
                             <div data-line="type-row" className="mt-0.5 flex flex-wrap items-center gap-1 min-w-0">
                               <span
-                                className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                                className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                                 style={{ ...getCategoryBadgeStyle(styles.borderColor), padding: '2px 6px' }}
                               >
                                 {getConsultationLabel(t, consultation)}
                                 {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                               </span>
                               {consultation.notes && (
-                                <span data-notes className="text-[11px] text-[#8B9CB6]">
+                                <span data-notes className="text-2xs text-[#8B9CB6]">
                                   {consultation.notes}
                                 </span>
                               )}
@@ -402,7 +403,7 @@ export function DesktopTimeline({
                           
                           {/* Status indicator */}
                           <div className="flex-shrink-0">
-                            <span className={cn('text-[11px] font-medium', statusCfg.color)}>
+                            <span className={cn('text-2xs font-medium', statusCfg.color)}>
                               <Glyph emoji={statusCfg.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />
                             </span>
                           </div>

@@ -69,7 +69,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
       <div className="p-4 md:p-6 max-w-2xl mx-auto space-y-5 pb-32">
         {/* Header */}
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack}>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <h1 className="text-lg font-bold text-foreground">{t('contestation.title')}</h1>
@@ -132,7 +132,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
             maxLength={500}
             className="min-h-[100px]"
           />
-          <p className="text-[11px] text-muted-foreground text-right">{explanation.length}/500 {t('contestation.characters')}</p>
+          <p className="text-2xs text-muted-foreground text-right">{explanation.length}/500 {t('contestation.characters')}</p>
         </div>
 
         {/* Documentos */}
@@ -144,7 +144,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
               <span className="hidden sm:inline">{t('contestation.dragFiles')}</span>
               <span className="sm:hidden">{t('contestation.dragFilesMobile')}</span>
             </p>
-            <p className="text-[11px] text-muted-foreground mt-1">{t('contestation.maxFiles')}</p>
+            <p className="text-2xs text-muted-foreground mt-1">{t('contestation.maxFiles')}</p>
           </div>
           {files.length > 0 && (
             <div className="space-y-1.5">
@@ -153,9 +153,9 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                   <div className="flex items-center gap-2">
                     <FileText className="w-4 h-4 text-muted-foreground" />
                     <span className="text-xs text-foreground">{f.name}</span>
-                    <span className="text-[11px] text-muted-foreground">— {f.size}</span>
+                    <span className="text-2xs text-muted-foreground">— {f.size}</span>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
+                  <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
@@ -171,7 +171,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
             <p className="text-xs text-blue-400">
               {t('contestation.infoReview')}
             </p>
-            <p className="text-[11px] text-blue-400/70">
+            <p className="text-2xs text-blue-400/70">
               {t('contestation.infoRejected')}
             </p>
           </div>
@@ -188,13 +188,13 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
         {/* Buttons */}
         <div className="flex flex-col-reverse sm:flex-row gap-3">
           <Button
-            className="flex-1 min-h-[44px]"
+            className="flex-1 min-h-11"
             disabled={!agreed || !selectedMotivo}
             onClick={() => setSubmitted(true)}
           >
             {t('contestation.submit')}
           </Button>
-          <Button variant="outline" className="min-h-[44px] sm:w-auto" onClick={onBack}>{t('common.cancel')}</Button>
+          <Button variant="outline" className="min-h-11 sm:w-auto" onClick={onBack}>{t('common.cancel')}</Button>
         </div>
       </div>
     </ScrollArea>

@@ -134,7 +134,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   };
 
   const RemoveButton = ({ onClick }: { onClick: () => void }) => (
-    <button onClick={onClick} className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">
+    <button aria-label={t('a11y.close')} onClick={onClick} className="p-1 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors">
       <X className="w-3.5 h-3.5" />
     </button>
   );
@@ -181,9 +181,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               >
                 <span className="text-sm font-medium whitespace-nowrap">{member.name}</span>
                 <div className="flex items-center gap-1 mt-0.5">
-                  <span className="text-[11px] text-muted-foreground">{t('health.years', { count: member.age })}</span>
+                  <span className="text-2xs text-muted-foreground">{t('health.years', { count: member.age })}</span>
                   {member.age < 18 && (
-                    <Badge variant="secondary" className="text-[11px] px-1 py-0 h-3.5 bg-amber-500/20 text-warning border-amber-500/30">
+                    <Badge variant="secondary" className="text-2xs px-1 py-0 h-3.5 bg-amber-500/20 text-warning border-amber-500/30">
                       {t('health.minor')}
                     </Badge>
                   )}

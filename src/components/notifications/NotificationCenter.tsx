@@ -226,11 +226,11 @@ export function NotificationBell({ onClick, className, userRole = 'patient' }: N
     <button
       data-notification-bell
       onClick={(e) => { e.stopPropagation(); onClick(); }}
-      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-[10px] pt-[13px] pl-[5px] pr-[7px] border border-secondary press tap-target", className)}>
+      className={cn("relative p-2 rounded-lg hover:bg-accent/50 transition-colors pb-2.5 pt-3 pl-1 pr-1.5 border border-secondary press tap-target", className)}>
 
-      <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-[10px]" />
+      <Bell className="w-5 h-5 text-muted-foreground ml-0 mr-2.5" />
       {unreadCount > 0 &&
-      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-[11px] font-bold flex items-center justify-center px-1 mb-0 mt-[5px] ml-0 mr-[5px]">
+      <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-destructive text-destructive-foreground text-2xs font-bold flex items-center justify-center px-1 mb-0 mt-1 ml-0 mr-1">
           {unreadCount}
         </span>
       }
@@ -377,9 +377,9 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
                     {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-muted-foreground truncate">{notification.description}</p>
-                  <p className="text-[11px] text-muted-foreground/60 mt-0.5">{notification.time}</p>
+                  <p className="text-2xs text-muted-foreground/60 mt-0.5">{notification.time}</p>
                   {notification.actionLabel && !notification.read &&
-                <Badge className="mt-1.5 text-[11px] h-5">{notification.actionLabel}</Badge>
+                <Badge className="mt-1.5 text-2xs h-5">{notification.actionLabel}</Badge>
                 }
                 </div>
               </div>);
@@ -437,7 +437,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
     <div className={cn('flex-1 overflow-y-auto', inline ? '' : 'px-4 py-4')}>
       {onBack && !inline &&
       <div className="flex items-center gap-3 mb-4">
-          <Button variant="ghost" size="icon" onClick={onBack}>
+          <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <h2 className="text-lg font-bold">{t('notifications.title')}</h2>
@@ -492,9 +492,9 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
                     {!notification.read && <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />}
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">{notification.description}</p>
-                  <p className="text-[11px] text-muted-foreground/60 mt-1">{notification.time}</p>
+                  <p className="text-2xs text-muted-foreground/60 mt-1">{notification.time}</p>
                   {notification.actionLabel && !notification.read &&
-                <Badge className="mt-1.5 text-[11px] h-5 cursor-pointer press">{notification.actionLabel}</Badge>
+                <Badge className="mt-1.5 text-2xs h-5 cursor-pointer press">{notification.actionLabel}</Badge>
                 }
                 </div>
               </div>);

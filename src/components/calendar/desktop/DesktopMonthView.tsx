@@ -87,7 +87,7 @@ export function DesktopMonthView({
               key={idx}
               onClick={() => onSwitchToDay(date)}
               className={cn(
-                'relative rounded-lg p-2 min-h-[80px] text-left transition-colors border',
+                'relative rounded-lg p-2 min-h-20 text-left transition-colors border',
                 !isCurrentMonth && 'opacity-40 border-transparent',
                 isCurrentMonth && count > 0 && 'bg-primary/5 border-primary/20 hover:bg-primary/10',
                 isCurrentMonth && count === 0 && 'bg-secondary/20 border-transparent hover:bg-secondary/40',
@@ -104,7 +104,7 @@ export function DesktopMonthView({
               
               {count > 0 && isCurrentMonth && (
                 <div className="space-y-0.5">
-                  <div className="text-[11px] text-muted-foreground font-medium">
+                  <div className="text-2xs text-muted-foreground font-medium">
                     {count} consulta{count !== 1 ? 's' : ''}
                   </div>
                   {/* Mini category dots */}
@@ -120,11 +120,11 @@ export function DesktopMonthView({
                       );
                     })}
                     {count > 5 && (
-                      <span className="text-[11px] text-muted-foreground">+{count - 5}</span>
+                      <span className="text-2xs text-muted-foreground">+{count - 5}</span>
                     )}
                   </div>
                   {hasUrgent && (
-                    <div className="text-[11px] text-destructive font-medium">
+                    <div className="text-2xs text-destructive font-medium">
 <Glyph emoji="⚠" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('agenda.urgency')}</div>
                   )}
                 </div>

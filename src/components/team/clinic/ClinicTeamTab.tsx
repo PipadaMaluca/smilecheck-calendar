@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, Users, Send, X, Lock } from 'lucide-react';
@@ -122,7 +123,7 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
           { label: t('team.totalDentists'), value: clinicTeamMembers.length.toString() },
           { label: t('team.consultationsThisMonth'), value: clinicTeamMembers.reduce((s, d) => s + d.consultationsThisMonth, 0).toString() },
           { label: t('team.confirmationRate'), value: `${Math.round(clinicTeamMembers.reduce((s, d) => s + (d.confirmationRate || 0), 0) / clinicTeamMembers.length)}%` },
-          { label: t('team.averageRating'), value: `${(clinicTeamMembers.reduce((s, d) => s + d.rating, 0) / clinicTeamMembers.length).toFixed(1)}` },
+          { label: t('team.averageRating'), value: formatDecimal1(clinicTeamMembers.reduce((s, d) => s + d.rating, 0) / clinicTeamMembers.length) },
         ].map((stat) => (
           <Card key={stat.label} className="border-border/50">
             <CardContent className="p-3 text-center">

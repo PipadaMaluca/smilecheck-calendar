@@ -32,7 +32,7 @@ export function MiniBadges({ achievements, maxVisible = 3, className }: MiniBadg
                 <Glyph emoji={ach.emoji} fallback={Trophy} className="w-3.5 h-3.5" />
               </div>
             </TooltipTrigger>
-            <TooltipContent side="top" className="text-[11px]">
+            <TooltipContent side="top" className="text-2xs">
               <p className="font-medium">{ach.name}</p>
               <p className="text-warning">+{ach.points} pts</p>
             </TooltipContent>
@@ -40,7 +40,7 @@ export function MiniBadges({ achievements, maxVisible = 3, className }: MiniBadg
         );
       })}
       {remaining > 0 && (
-        <span className="text-[11px] text-muted-foreground font-medium ml-0.5">+{remaining}</span>
+        <span className="text-2xs text-muted-foreground font-medium ml-0.5">+{remaining}</span>
       )}
     </div>
   );

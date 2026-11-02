@@ -365,7 +365,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
               value={Math.min((achievement.progress.current / achievement.progress.target) * 100, 100)}
               className={cn('h-1.5', achievement.unlocked && 'bg-emerald-900/30 [&>div]:bg-emerald-500')}
             />
-            <p className="text-[11px] text-muted-foreground mt-0.5">
+            <p className="text-2xs text-muted-foreground mt-0.5">
               {achievement.progress.current}/{achievement.progress.target}
             </p>
           </div>
@@ -373,7 +373,7 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-1">
           <span className={cn(
-            'text-[11px] font-bold whitespace-nowrap',
+            'text-2xs font-bold whitespace-nowrap',
             achievement.unlocked ? 'text-amber-500' : 'text-muted-foreground'
           )}>
             +{achievement.points} pts

@@ -24,4 +24,11 @@ describe('counts in translations are grouped', () => {
     await i18n.changeLanguage('pt');
     expect(clean(i18n.t('store.points', { count: 1850 }))).toBe('1 850 pontos');
   });
+
+  it('drops cents only for whole amounts, else always 2 decimals', () => {
+    expect(clean(formatCurrency(24))).toBe('24 €');
+    expect(formatCurrency(24)).not.toMatch(/[.,]00/);
+    expect(clean(formatCurrency(24.5))).toBe('24,50 €');
+    expect(clean(formatCurrency(2426))).toBe('2 426 €');
+  });
 });

@@ -1,3 +1,5 @@
+import { Star as StarIcon } from 'lucide-react';
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -307,20 +309,20 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         </div>
         {isOwnProfile ? (
           <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>
-            <Button variant="outline" className="flex-1 min-h-[44px]" onClick={onEditProfile}>{t('profile.editProfile')}</Button>
+            <Button variant="outline" className="flex-1 min-h-11" onClick={onEditProfile}>{t('profile.editProfile')}</Button>
           </div>
         ) : (
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
-              <Button className="flex-1 min-h-[44px]"><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
-              <Button variant="outline" className="flex-1 min-h-[44px]"><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
-              <Button variant="outline" className="flex-1 min-h-[44px]" onClick={() => window.open(`tel:${data.phone}`)}>
+              <Button className="flex-1 min-h-11"><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
+              <Button variant="outline" className="flex-1 min-h-11"><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
+              <Button variant="outline" className="flex-1 min-h-11" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
               {canViewerRate && (
                 <Button
                   variant="outline"
-                  className="flex-1 min-h-[44px] relative border-amber-500/40 text-warning hover:bg-amber-500/10"
+                  className="flex-1 min-h-11 relative border-amber-500/40 text-warning hover:bg-amber-500/10"
                   onClick={() => setShowRateModal(true)}
                 >
                   <Star className="w-4 h-4 mr-1" /> {t('bidirectionalFeedback.rateAction')}
@@ -331,7 +333,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               )}
             </div>
             {onToggleFavorite && (
-              <button
+              <button aria-label={t('a11y.favorite')}
                 onClick={onToggleFavorite}
                 className="p-1 transition-transform hover:scale-110 flex-shrink-0"
                 title={isFavorite ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos'}
@@ -407,7 +409,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               </div>
               <div className="flex flex-wrap gap-1">
                 {loc.accessibility.map(a => (
-                  <Badge key={a} variant="outline" className="text-[11px]">
+                  <Badge key={a} variant="outline" className="text-2xs">
 <Glyph emoji="♿" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{a}</Badge>
                 ))}
               </div>
@@ -432,10 +434,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             const specs = DENTIST_SPECIALTIES[d.id]?.join(', ') || d.specialty;
             return (
               <div key={d.id} className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-                <Avatar className="w-10 h-10">
-                  {photo && <AvatarImage src={photo} alt={d.name} />}
-                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">{dInitials}</AvatarFallback>
-                </Avatar>
+                <PersonAvatar name={d.name} photo={photo} size="sm" />
                 <div className="flex-1">
                   <ClickableDentistName name={d.name} className="text-sm font-medium" />
                   <p className="text-xs text-muted-foreground">{specs}</p>
@@ -486,11 +485,11 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <div key={stat.label} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center gap-1.5 mb-1">
                 <stat.icon className="w-3.5 h-3.5 text-primary" />
-                <span className="text-[11px] text-muted-foreground">{stat.label}</span>
+                <span className="text-2xs text-muted-foreground">{stat.label}</span>
               </div>
               <span className="text-lg font-bold">{stat.value}</span>
               {display && (
-                <p className={cn('text-[11px] mt-0.5', display.color)}>
+                <p className={cn('text-2xs mt-0.5', display.color)}>
                   {display.arrow} {display.text}
                 </p>
               )}
@@ -518,7 +517,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
             <div className="flex flex-wrap gap-1 justify-end">
               {data.paymentMethods.map(m => (
-                <Badge key={m} variant="outline" className="text-[11px]">{m}</Badge>
+                <Badge key={m} variant="outline" className="text-2xs">{m}</Badge>
               ))}
             </div>
           </div>
@@ -527,7 +526,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
               <span className="text-muted-foreground">{t('profile.conventions')}</span>
               <div className="flex flex-wrap gap-1 justify-end">
                 {data.insurances.map(s => (
-                  <Badge key={s} variant="outline" className="text-[11px]">{s}</Badge>
+                  <Badge key={s} variant="outline" className="text-2xs">{s}</Badge>
                 ))}
               </div>
             </div>
@@ -553,7 +552,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           <div className="flex-1 space-y-1">
             {breakdown.map(b => (
               <div key={b.stars} className="flex items-center gap-2 text-xs">
-                <span className="w-3">{b.stars}★</span>
+                <span className="w-3">{b.stars}<StarIcon className="inline w-3 h-3 ml-0.5 -mt-0.5 fill-current" aria-hidden /></span>
                 <Progress value={b.pct} className="h-2 flex-1" />
                 <span className="w-8 text-right text-muted-foreground">{b.pct}%</span>
               </div>
@@ -573,7 +572,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <div key={r.id} className="bg-secondary/50 rounded-lg p-3">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[11px] font-bold text-primary">
+                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-2xs font-bold text-primary">
                     {r.patientName[0]}
                   </div>
                   <span className="text-xs font-semibold">{r.patientName}</span>
@@ -585,7 +584,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{r.comment}</p>
-              <p className="text-[11px] text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
+              <p className="text-2xs text-muted-foreground/60 mt-1">{formatRelativeDate(r.date)}</p>
             </div>
           ))}
         </div>
@@ -626,7 +625,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   return (
     <FullScreenMobileOverlay className="overflow-hidden">
       <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{isOwnProfile ? t('profile.ownProfile') : t('profile.clinicProfile')}</h2>
         <div className="w-10" />
       </div>

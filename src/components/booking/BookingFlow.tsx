@@ -1,3 +1,4 @@
+import { formatDecimal1 } from '@/lib/formatters';
 import { formatDate } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
@@ -524,12 +525,12 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           {discount > 0 && (
             <div className="flex justify-between text-sm text-success">
               <span>{t('booking.discount')} (-20%)</span>
-              <span>-{formatCurrency(discount, { decimals: true })}</span>
+              <span>-{formatCurrency(discount)}</span>
             </div>
           )}
           <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold">
             <span className="text-foreground">{t('i18nC.total')}</span>
-            <span className="text-primary">{formatCurrency(finalPrice, { decimals: true })}</span>
+            <span className="text-primary">{formatCurrency(finalPrice)}</span>
           </div>
         </div>
       </div>
@@ -694,7 +695,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">{formatCurrency(finalPrice, { decimals: true })}</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">{formatCurrency(finalPrice)}</span></div>
           <p className="text-xs text-muted-foreground">{t('booking.validFor24h')}</p>
         </div>
       )}
@@ -702,7 +703,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       {/* Points */}
       {paymentMethod === 'pontos' && (
         <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
-          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: finalPrice.toFixed(2) })}</p>
+          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: formatCurrency(finalPrice) })}</p>
           <p className="text-xs text-muted-foreground">{t('booking.balanceAfter', { balance: 850 - Math.round(finalPrice * 10) })}</p>
         </div>
       )}
@@ -715,7 +716,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <Button size="sm" variant="outline" onClick={handleApplyPromo}>{t('common.apply')}</Button>
         </div>
         {promoApplied === true && <p className="text-xs text-success">
-<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.promoApplied', { total: finalPrice.toFixed(2) })}</p>}
+<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.promoApplied', { total: formatCurrency(finalPrice) })}</p>}
         {promoApplied === false && <p className="text-xs text-destructive">
 <Glyph emoji="❌" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.invalidCode')}</p>}
       </div>
@@ -764,7 +765,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>{t('booking.receiptNumber')} {receiptId}</p>
-              <p>{data.date?.toLocaleDateString(getActiveLocale())} — {formatCurrency(finalPrice, { decimals: true })}</p>
+              <p>{data.date?.toLocaleDateString(getActiveLocale())} — {formatCurrency(finalPrice)}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
@@ -837,7 +838,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </Button>
         ) : step === 'payment' ? (
           <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-            {t('booking.pay')} {formatCurrency(finalPrice, { decimals: true })}
+            {t('booking.pay')} {formatCurrency(finalPrice)}
           </Button>
         ) : (
           <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
@@ -868,7 +869,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="fixed inset-0 z-modal bg-background flex flex-col" style={{ bottom: '64px' }}>
         <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.close')} type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         </div>
@@ -898,7 +899,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             ) : step === 'payment' ? (
               <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-                {t('booking.pay')} {formatCurrency(finalPrice, { decimals: true })}
+                {t('booking.pay')} {formatCurrency(finalPrice)}
               </Button>
             ) : (
               <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
@@ -917,7 +918,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="relative w-full max-w-[500px] max-h-[90vh] bg-card rounded-2xl border border-border shadow-2xl overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-base font-semibold text-foreground">{t('booking.title')}</h2>
-          <Button type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
+          <Button aria-label={t('a11y.close')} type="button" variant="ghost" size="icon" onClick={onClose} className="h-9 w-9 rounded-lg">
             <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         </div>

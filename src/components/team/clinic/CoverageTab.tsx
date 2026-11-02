@@ -68,7 +68,7 @@ export function CoverageTab() {
         <div className="md:overflow-visible" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', touchAction: 'pan-x pan-y' }}>
           <div className="md:min-w-0" style={{ minWidth: '700px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: `max-content repeat(${colCount}, 1fr)`, gap: '4px' }} className="mb-2">
-              <div className="text-xs font-medium text-muted-foreground sticky left-0 z-[5] md:static pr-2" style={{ background: 'hsl(var(--card))' }}>
+              <div className="text-xs font-medium text-muted-foreground sticky left-0 z-raised md:static pr-2" style={{ background: 'hsl(var(--card))' }}>
                 {t('team.hour')}
               </div>
               {activeDayIndices.map((d) => (
@@ -80,7 +80,7 @@ export function CoverageTab() {
             </div>
             {hours.map((hour) => (
               <div key={hour} style={{ display: 'grid', gridTemplateColumns: `max-content repeat(${colCount}, 1fr)`, gap: '4px' }} className="mb-0.5">
-                <div className="text-[11px] text-muted-foreground py-1 sticky left-0 z-[5] md:static pr-2 whitespace-nowrap" style={{ background: 'hsl(var(--card))' }}>
+                <div className="text-2xs text-muted-foreground py-1 sticky left-0 z-raised md:static pr-2 whitespace-nowrap" style={{ background: 'hsl(var(--card))' }}>
                   {hour}
                 </div>
                 {activeDayIndices.map((day) => {

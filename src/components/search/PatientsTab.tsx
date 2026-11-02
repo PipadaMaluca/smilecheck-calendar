@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, Star, Calendar, MessageCircle, FolderOpen, AlertTriangle, Building2, User } from 'lucide-react';
@@ -66,7 +67,7 @@ export function PatientsTab({ userRole, onSendMessage, onViewDossier }: Patients
             key={f}
             onClick={() => setStatusFilter(f)}
             className={cn(
-              'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors min-h-[32px]',
+              'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors min-h-8',
               statusFilter === f
                 ? 'bg-primary text-primary-foreground border-primary'
                 : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
@@ -144,7 +145,7 @@ function PatientCard({
   const levelCfg = LEVEL_CONFIG[p.level];
   const isMobile = useIsMobile();
   return (
-    <div className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press" onClick={onViewDossier}>
+    <div role="button" tabIndex={0} onKeyDown={onActivateKey} className="bg-card border border-border rounded-xl p-4 space-y-2 cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-150 press" onClick={onViewDossier}>
       <div className="flex items-start gap-3">
         <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-base font-bold text-primary flex-shrink-0">
           {getInitials(p.name)}
@@ -155,7 +156,7 @@ function PatientCard({
             <span className="text-xs text-muted-foreground shrink-0">({p.age} {t('search.yearsShort')})</span>
           </div>
           <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-            <span className={cn('text-[11px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('text-2xs font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
               {t(levelCfg.labelKey)}
             </span>
             {p.rating !== null ? (
@@ -184,7 +185,7 @@ function PatientCard({
           <span className="truncate min-w-0" title={p.clinicName}>{p.clinicName}</span>
         </div>
         {userRole === 'clinic' && p.primaryDentistName && (
-          <div className="text-[11px] text-muted-foreground/80 italic truncate min-w-0" title={`${t('search.primaryDentist')}: ${p.primaryDentistName}`}>
+          <div className="text-2xs text-muted-foreground/80 italic truncate min-w-0" title={`${t('search.primaryDentist')}: ${p.primaryDentistName}`}>
             {t('search.primaryDentist')}: {p.primaryDentistName}
           </div>
         )}
@@ -193,7 +194,7 @@ function PatientCard({
       {p.alerts && p.alerts.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {p.alerts.map(a => (
-            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-destructive/15 text-destructive border border-destructive/30">
+            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-2xs font-semibold bg-destructive/15 text-destructive border border-destructive/30">
               <AlertTriangle className="w-2.5 h-2.5" /> {a}
             </span>
           ))}

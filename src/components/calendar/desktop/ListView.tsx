@@ -59,11 +59,11 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
           <TableHeader>
             <TableRow className="border-b border-[#1E3A5F] hover:bg-transparent">
               <TableHead className="text-xs font-semibold text-muted-foreground w-[140px]">{t('agenda.schedule')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.time')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.time')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground w-[100px]">{t('agenda.status')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.arrivedAt')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.arrivedAt')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground w-[180px]">{t('common.patient')}</TableHead>
-              <TableHead className="text-xs font-semibold text-muted-foreground w-[80px]">{t('agenda.action')}</TableHead>
+              <TableHead className="text-xs font-semibold text-muted-foreground w-20">{t('agenda.action')}</TableHead>
               <TableHead className="text-xs font-semibold text-muted-foreground">{t('agenda.consultationReason')}</TableHead>
             </TableRow>
           </TableHeader>
@@ -122,7 +122,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
 
                   {/* Action */}
                   <TableCell className="py-2">
-                    <Button
+                    <Button aria-label={t('a11y.moreOptions')}
                       variant="ghost"
                       size="icon"
                       className="h-7 w-7"
@@ -139,7 +139,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                        className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
                         {getCategoryLabel(t, category)}

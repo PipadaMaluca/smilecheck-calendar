@@ -148,11 +148,11 @@ function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: 
           style={{ animationDuration: '200ms' }}
         >
           <div className="mx-3 mb-[max(env(safe-area-inset-bottom),16px)] rounded-2xl p-4 bg-popover border border-border shadow-[0_4px_16px_rgba(33,150,243,0.18)]">
-            <h4 className="text-[15px] font-bold text-primary mb-1">{title}</h4>
-            <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{description}</p>
+            <h4 className="text-base font-bold text-primary mb-1">{title}</h4>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3">{description}</p>
             <button
               onClick={dismiss}
-              className="w-full h-10 rounded-lg bg-primary/10 text-primary font-semibold text-[14px] hover:bg-primary/20 transition-colors"
+              className="w-full h-10 rounded-lg bg-primary/10 text-primary font-semibold text-sm hover:bg-primary/20 transition-colors"
             >
               {t('coachmarks.gotIt')}
             </button>
@@ -177,11 +177,11 @@ function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: 
             pos.arrowSide === 'bottom' && '-bottom-[5px] left-1/2 -translate-x-1/2 border-r border-b',
           )}
         />
-        <h4 className="text-[14px] font-bold text-primary mb-1">{title}</h4>
-        <p className="text-[12px] text-muted-foreground leading-relaxed mb-3">{description}</p>
+        <h4 className="text-sm font-bold text-primary mb-1">{title}</h4>
+        <p className="text-xs text-muted-foreground leading-relaxed mb-3">{description}</p>
         <button
           onClick={dismiss}
-          className="text-[12px] text-primary hover:text-primary/80 font-medium transition-colors"
+          className="text-xs text-primary hover:text-primary/80 font-medium transition-colors"
         >
           {t('coachmarks.gotIt')}
         </button>

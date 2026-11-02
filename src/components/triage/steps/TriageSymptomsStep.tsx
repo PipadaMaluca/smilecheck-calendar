@@ -59,10 +59,10 @@ export function TriageSymptomsStep({
               key={symptom.id}
               onClick={() => toggleSymptom(symptom.id)}
               className={cn(
-                'flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-colors min-h-[80px]',
+                'flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-colors min-h-20',
                 isSelected
                   ? 'bg-primary/20 border-primary text-foreground'
-                  : 'bg-[#1E3A5F] border-[#1E3A5F] hover:border-primary/50 text-foreground'
+                  : 'bg-accent border-border hover:border-primary/50 text-foreground'
               )}
             >
               <Icon className="w-7 h-7 mb-2" />
@@ -78,7 +78,7 @@ export function TriageSymptomsStep({
             placeholder={t('triage.symptoms.describePlaceholder')}
             value={otherSymptom}
             onChange={(e) => onOtherSymptomChange(e.target.value)}
-            className="bg-[#1E3A5F] border-[#1E3A5F] focus:border-primary"
+            className="bg-accent border-border focus:border-primary"
           />
         </div>
       )}

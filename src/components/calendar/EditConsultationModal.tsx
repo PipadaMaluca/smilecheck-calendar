@@ -81,7 +81,7 @@ export function EditConsultationModal({ consultation, isOpen, onClose, onSave, o
   return (
     <div className="bg-background">
       <div className="flex items-center justify-between p-4 border-b border-border">
-        <Button variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
+        <Button aria-label={t('a11y.back')} variant="ghost" size="icon" onClick={onClose}><ArrowLeft className="w-5 h-5" /></Button>
         <h2 className="text-base font-semibold">{t('editConsultation.consultationDetails')}</h2>
         <div className="w-10" />
       </div>
