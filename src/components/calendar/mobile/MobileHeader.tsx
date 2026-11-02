@@ -55,7 +55,7 @@ export function MobileHeader({
     label: t('agenda.list')
   }];
 
-  return <div className="sticky top-0 z-40 pt-[env(safe-area-inset-top)] bg-background/95 backdrop-blur-sm border-b border-border w-full border-slate-700 border-0 py-1">
+  return <div className="sticky top-0 z-40 pt-[env(safe-area-inset-top)] bg-card/95 backdrop-blur-sm border-b border-border w-full border-slate-700 border-0 py-1">
       <div className="relative w-full max-w-full px-5 pl-0 pr-0 gap-0 flex-row flex items-center justify-center my-0.5 mx-1.5 py-2.5">
         {/* Menu button - absolute left */}
         <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" onClick={onMenuClick} className="absolute left-2 text-muted-foreground hover:text-foreground hover:bg-transparent flex-shrink-0 border-0 shadow-none h-11 w-11 max-[499px]:[&_svg]:size-6">
