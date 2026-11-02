@@ -54,7 +54,7 @@ export function RewardsFilters({ value, max, onChange, onClear, isDirty }: Rewar
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-semibold text-foreground">{t('store.pointsRange')}</p>
           <span className="text-sm text-muted-foreground tabular-nums">
-            {formatNumber(value.range[0])} – {t('store.points', { count: formatNumber(value.range[1]) })}
+            {formatNumber(value.range[0])} – {t('store.points', { count: value.range[1] })}
           </span>
         </div>
         <div className="py-3">

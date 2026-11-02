@@ -713,14 +713,14 @@
     "pres": "Pres.",
     "tele": "Tele.",
     "nowBadge": "AGORA",
-    "inMinutes_one": "em {{count}} min",
-    "inMinutes_other": "em {{count}} min",
-    "inHours_one": "em {{count}} h",
-    "inHours_other": "em {{count}} h",
-    "patients_one": "{{count}} paciente",
-    "patients_other": "{{count}} pacientes",
-    "consultations_one": "{{count}} consulta",
-    "consultations_other": "{{count}} consultas"
+    "inMinutes_one": "em {{count, number}} min",
+    "inMinutes_other": "em {{count, number}} min",
+    "inHours_one": "em {{count, number}} h",
+    "inHours_other": "em {{count, number}} h",
+    "patients_one": "{{count, number}} paciente",
+    "patients_other": "{{count, number}} pacientes",
+    "consultations_one": "{{count, number}} consulta",
+    "consultations_other": "{{count, number}} consultas"
   },
   "agenda": {
     "today": "Hoje",
@@ -939,8 +939,8 @@
     "blockPatient": "Bloquear",
     "blockConfirm": "Bloquear",
     "statusChanged": "Estado alterado",
-    "triagePhotos_one": "{{count}} foto",
-    "triagePhotos_other": "{{count}} fotos"
+    "triagePhotos_one": "{{count, number}} foto",
+    "triagePhotos_other": "{{count, number}} fotos"
   },
   "confirmationStates": {
     "confirmed24h": "Confirmado 24h",
@@ -1029,14 +1029,14 @@
     "blockNotify": "A clínica será notificada deste bloqueio.",
     "information": "Informação",
     "consultations": "consultas",
-    "years_one": "{{count}} ano",
-    "years_other": "{{count}} anos",
-    "reviews_one": "{{count}} avaliação",
-    "reviews_other": "{{count}} avaliações",
-    "consultations_one": "{{count}} consulta",
-    "consultations_other": "{{count}} consultas",
-    "experience_one": "{{count}} ano de experiência",
-    "experience_other": "{{count}} anos de experiência"
+    "years_one": "{{count, number}} ano",
+    "years_other": "{{count, number}} anos",
+    "reviews_one": "{{count, number}} avaliação",
+    "reviews_other": "{{count, number}} avaliações",
+    "consultations_one": "{{count, number}} consulta",
+    "consultations_other": "{{count, number}} consultas",
+    "experience_one": "{{count, number}} ano de experiência",
+    "experience_other": "{{count, number}} anos de experiência"
   },
   "dossier": {
     "title": "Dossier do Paciente",
@@ -1653,8 +1653,8 @@
     "levelXp": "Nível e XP",
     "points": "Pontos",
     "streak": "Sequência",
-    "days_one": "{{count}} dia",
-    "days_other": "{{count}} dias"
+    "days_one": "{{count, number}} dia",
+    "days_other": "{{count, number}} dias"
   },
   "settings": {
     "title": "Configurações",
@@ -1872,7 +1872,7 @@
     "dentistsTab": "Dentistas",
     "clinicsTab": "Clínicas",
     "jobOffersShort": "Propostas",
-    "resultsFound": "{{count}} resultado(s) encontrado(s)",
+    "resultsFound": "{{count, number}} resultado(s) encontrado(s)",
     "noResultsFor": "Nenhum resultado para \"{{query}}\"",
     "viewAll": "Ver todos",
     "all": "Todos",
@@ -1902,9 +1902,9 @@
     "allDentists": "Todos os dentistas",
     "primaryDentist": "Principal",
     "yearsShort": "anos",
-    "reviewsCount": "{{count}} avaliações",
+    "reviewsCount": "{{count, number}} avaliações",
     "noReviews": "Sem avaliações",
-    "totalConsultations": "Total: {{count}} consultas",
+    "totalConsultations": "Total: {{count, number}} consultas",
     "viewDossier": "Ver Dossier",
     "noPatientsFound": "Nenhum paciente encontrado",
     "tryOtherTerms": "Tente pesquisar com outros termos.",
@@ -1914,10 +1914,10 @@
     "viewModeLabel": "Modo de visualização",
     "mapAria": "Mapa de dentistas",
     "viewProfileBtn": "Ver perfil",
-    "dentistsFound_one": "{{count}} dentista encontrado",
-    "dentistsFound_other": "{{count}} dentistas encontrados",
-    "yearsOld_one": "{{count}} ano",
-    "yearsOld_other": "{{count}} anos"
+    "dentistsFound_one": "{{count, number}} dentista encontrado",
+    "dentistsFound_other": "{{count, number}} dentistas encontrados",
+    "yearsOld_one": "{{count, number}} ano",
+    "yearsOld_other": "{{count, number}} anos"
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",
@@ -1996,13 +1996,13 @@
     "pointsRange": "Intervalo de pontos",
     "affordableOnly": "Só o que posso resgatar",
     "clearFilters": "Limpar filtros",
-    "resultsCount_one": "{{count}} resultado",
-    "resultsCount_other": "{{count}} resultados",
-    "showResults": "Ver {{count}} resultados",
+    "resultsCount_one": "{{count, number}} resultado",
+    "resultsCount_other": "{{count, number}} resultados",
+    "showResults": "Ver {{count, number}} resultados",
     "noResultsTitle": "Nenhuma recompensa encontrada",
     "noResultsDesc": "Ajuste os filtros para ver mais recompensas.",
-    "points_one": "{{count}} ponto",
-    "points_other": "{{count}} pontos"
+    "points_one": "{{count, number}} ponto",
+    "points_other": "{{count, number}} pontos"
   },
   "billing": {
     "title": "Faturação",
@@ -2080,8 +2080,8 @@
     "myPlan": "Meu Plano",
     "paymentsAndBilling": "Pagamentos e Faturação",
     "clinicBilling": "Faturação da Clínica",
-    "consultations_one": "{{count}} consulta",
-    "consultations_other": "{{count}} consultas"
+    "consultations_one": "{{count, number}} consulta",
+    "consultations_other": "{{count, number}} consultas"
   },
   "team": {
     "title": "Gestão de Equipa",
@@ -2221,9 +2221,9 @@
     "noTeleconsultations": "Sem teleconsultas",
     "noResultsTitle": "Nenhum membro encontrado",
     "noResultsDesc": "Tente ajustar a pesquisa ou os filtros.",
-    "inviteLimitReached": "Atingiu o limite de {{count}} dentistas do seu plano. Suba de plano para convidar mais dentistas.",
-    "consultationsLabel_one": "{{count}} consulta",
-    "consultationsLabel_other": "{{count}} consultas"
+    "inviteLimitReached": "Atingiu o limite de {{count, number}} dentistas do seu plano. Suba de plano para convidar mais dentistas.",
+    "consultationsLabel_one": "{{count, number}} consulta",
+    "consultationsLabel_other": "{{count, number}} consultas"
   },
   "availability": {
     "selectClinic": "Selecionar clínica",
@@ -2494,8 +2494,8 @@
     "veryGood": "Muito Bom",
     "excellent": "Excelente",
     "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15",
-    "points_one": "{{count}} ponto",
-    "points_other": "{{count}} pontos"
+    "points_one": "{{count, number}} ponto",
+    "points_other": "{{count, number}} pontos"
   },
   "bidirectionalFeedback": {
     "rate": "Avaliar",
@@ -2764,12 +2764,12 @@
     "slotTaken": "Horário já ocupado",
     "bookingFailed": "Não foi possível concluir a marcação",
     "clickSlotsHint": "Clique nos horários disponíveis (verdes) para os selecionar. Pode escolher vários.",
-    "caseMultiple": "Seleccionou {{count}} horários possíveis. O dentista/clínica irá confirmar um deles.",
+    "caseMultiple": "Seleccionou {{count, number}} horários possíveis. O dentista/clínica irá confirmar um deles.",
     "caseWaiting": "Será adicionado à lista de espera. Será notificado quando houver disponibilidade.",
     "caseMixed": "Os horários selecionados serão prioritários. As preferências genéricas servem como alternativa.",
     "urgentFee": "Urgente (+€5)",
     "slotSelected": "Horário selecionado",
-    "slotsPossible": "{{count}} horários possíveis",
+    "slotsPossible": "{{count, number}} horários possíveis",
     "waitingPrefs": "Preferências (Lista de Espera)",
     "periodLabel": "Período",
     "daysLabel": "Dias",
@@ -2974,7 +2974,7 @@
       "maxPhotos": "Máximo {{max}} fotos, {{size}}MB cada",
       "dragOrClick": "Arraste fotos ou clique para selecionar",
       "maxInfo": "Máx. {{max}} fotos, {{size}}MB cada (JPG, PNG)",
-      "count": "{{count}}/{{max}} fotos",
+      "count": "{{count, number}}/{{max}} fotos",
       "photoAlt": "Foto {{index}}",
       "tips": "Dicas",
       "tip1": "Tire fotos com boa iluminação",
@@ -2990,7 +2990,7 @@
       "type": "Tipo",
       "routineCheckup": "Consulta de rotina",
       "photosAttached": "Fotos anexadas",
-      "photoCount": "{{count}} foto(s)"
+      "photoCount": "{{count, number}} foto(s)"
     },
     "ai": {
       "title": "Análise inteligente",
@@ -3256,7 +3256,7 @@
       "realtimeConfirmations": "Dashboard confirmações em tempo real",
       "unlimitedDentists": "Dentistas ilimitados",
       "teleCommission": "Comissão de {{pct}}% por teleconsulta",
-      "dentistLimit": "Até {{count}} dentistas"
+      "dentistLimit": "Até {{count, number}} dentistas"
     },
     "badges": {
       "popular": "Popular",
@@ -3273,7 +3273,7 @@
     "confirmChange": "Confirmar Alteração",
     "confirmChangeTitle": "Confirmar alteração",
     "changeEffectImmediate": "A alteração será efetiva imediatamente.",
-    "showAllFeatures": "Ver todas (+{{count}})",
+    "showAllFeatures": "Ver todas (+{{count, number}})",
     "showLess": "Ver menos"
   },
   "health": {
@@ -3325,8 +3325,8 @@
     "father": "Pai",
     "mother": "Mãe",
     "other": "Outro",
-    "years_one": "{{count}} ano",
-    "years_other": "{{count}} anos"
+    "years_one": "{{count, number}} ano",
+    "years_other": "{{count, number}} anos"
   },
   "jobs": {
     "title": "Propostas de Trabalho",
@@ -3425,7 +3425,7 @@
     "meals": "Alimentação",
     "acceptsNewPatients": "Aceita novos pacientes",
     "onlyFavorites": "Só Favoritos",
-    "yearsExperience": "{{count}} anos de experiência",
+    "yearsExperience": "{{count, number}} anos de experiência",
     "availableForTeleconsultas": "Disponível para teleconsultas",
     "published_2days": "há 2 dias",
     "published_3days": "há 3 dias",
@@ -3513,8 +3513,8 @@
     "rating": "Rating",
     "performance": "Desempenho",
     "topPatients": "Top Pacientes",
-    "consultations_one": "{{count}} consulta",
-    "consultations_other": "{{count}} consultas"
+    "consultations_one": "{{count, number}} consulta",
+    "consultations_other": "{{count, number}} consultas"
   },
   "waitingList": {
     "patients": "pacientes",
@@ -3554,7 +3554,7 @@
       "added": "Adicionado",
       "today": "hoje",
       "yesterday": "ontem",
-      "daysAgo": "há {{count}} dias",
+      "daysAgo": "há {{count, number}} dias",
       "assign": "Atribuir Horário",
       "notify": "Notificar Disponibilidade",
       "remove": "Remover",
@@ -3581,10 +3581,10 @@
       "autoMatchDesc": "{{name}} tem este horário nas preferências da lista de espera.",
       "ignore": "Ignorar",
       "empty": "Sem pacientes em lista de espera",
-      "addedDays": "há {{count}}d"
+      "addedDays": "há {{count, number}}d"
     },
-    "patients_one": "{{count}} paciente",
-    "patients_other": "{{count}} pacientes"
+    "patients_one": "{{count, number}} paciente",
+    "patients_other": "{{count, number}} pacientes"
   },
   "confirmations": {
     "time": "Hora",
@@ -4196,8 +4196,8 @@
     "legendOccupied": "Ocupado",
     "legendSelected": "Selecionado",
     "legendUnavailable": "Indisponível",
-    "selectedCount_one": "<1>{{count}}</1> horário selecionado",
-    "selectedCount_other": "<1>{{count}}</1> horários selecionados",
+    "selectedCount_one": "<1>{{count, number}}</1> horário selecionado",
+    "selectedCount_other": "<1>{{count, number}}</1> horários selecionados",
     "clearSelection": "Limpar seleção",
     "waitingPrefsTitle": "Preferências adicionais (Lista de Espera)",
     "waitingPrefsDesc": "Caso nenhum horário lhe convenha, indique preferências gerais e será contactado quando houver disponibilidade",
@@ -4245,9 +4245,9 @@
     "headlineNoPoints": "Convide amigos para o SmileCheck",
     "comingSoon": "Recompensa em breve",
     "subtitleComingSoon": "A recompensa por convite estará disponível em breve. Já pode partilhar o seu código.",
-    "subtitlePoints_one": "Ganhe {{count}} ponto por cada pessoa que se registar",
-    "subtitlePoints_other": "Ganhe {{count}} pontos por cada pessoa que se registar",
-    "pointsShort": "+{{count}} pts"
+    "subtitlePoints_one": "Ganhe {{count, number}} ponto por cada pessoa que se registar",
+    "subtitlePoints_other": "Ganhe {{count, number}} pontos por cada pessoa que se registar",
+    "pointsShort": "+{{count, number}} pts"
   },
   "sweep": {
     "dentistProfile": {
@@ -4260,7 +4260,7 @@
       "bookAppointment": "Marcar Consulta",
       "sendMessage": "Enviar Mensagem",
       "title": "Perfil do Dentista",
-      "reviewsCount": "({{count}} avaliações)",
+      "reviewsCount": "({{count, number}} avaliações)",
       "noReviews": "Sem avaliações"
     },
     "calendar": {
@@ -4297,7 +4297,7 @@
       "slotAvailable": "Horário disponível!",
       "waitlistPreference": "{{name}} tem este horário nas preferências da lista de espera.",
       "urgent": "Urgente",
-      "othersWaiting": "+{{count}} outro(s) paciente(s) em espera para este horário",
+      "othersWaiting": "+{{count, number}} outro(s) paciente(s) em espera para este horário",
       "ignore": "Ignorar",
       "assign": "Atribuir"
     },
@@ -4327,9 +4327,9 @@
       "patients": "Pacientes",
       "dentists": "Dentistas",
       "clinics": "Clínicas",
-      "scheduledCount_one": "{{count}} agendada",
-      "scheduledCount_other": "{{count}} agendadas",
-      "totalLabel": "{{count}} total",
+      "scheduledCount_one": "{{count, number}} agendada",
+      "scheduledCount_other": "{{count, number}} agendadas",
+      "totalLabel": "{{count, number}} total",
       "showAllResults": "Mostrar todos os resultados →",
       "noResultsFor": "Nenhum resultado para \"{{query}}\"",
       "generalist": "Generalista"
@@ -4391,8 +4391,8 @@
     "conquistas": "Nova conquista desbloqueada",
     "pontuacoes": "Novos pontos recebidos",
     "faturacao": "Há um pagamento pendente",
-    "count_one": "{{count}} novidade",
-    "count_other": "{{count}} novidades"
+    "count_one": "{{count, number}} novidade",
+    "count_other": "{{count, number}} novidades"
   },
   "meta": {
     "defaultTitle": "SmileCheck — Saúde oral, consultas e teleconsultas"

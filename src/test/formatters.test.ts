@@ -18,3 +18,10 @@ describe('formatCurrency / formatNumber follow the active language', () => {
     expect(formatCurrency(24.99)).toBe('€24.99');
   });
 });
+
+describe('counts in translations are grouped', () => {
+  it('PT: 1 850 pontos', async () => {
+    await i18n.changeLanguage('pt');
+    expect(clean(i18n.t('store.points', { count: 1850 }))).toBe('1 850 pontos');
+  });
+});

@@ -38,6 +38,11 @@ i18n
     interpolation: { escapeValue: false },
   });
 
+// Every {{count}} is printed with the active locale's grouping ("1 850 pontos").
+i18n.services.formatter?.add('number', (value, lng) =>
+  new Intl.NumberFormat(HTML_LANG[(lng || 'pt').slice(0, 2)] || 'pt-PT', { useGrouping: 'always' } as Intl.NumberFormatOptions).format(Number(value)),
+);
+
 // Persist language changes
 const syncHtmlLang = (lng: string) => {
   document.documentElement.lang = HTML_LANG[lng] || 'pt-PT';
