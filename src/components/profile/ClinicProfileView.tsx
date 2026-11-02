@@ -1,3 +1,5 @@
+import { ChequeBadges } from '@/components/clinic/ChequeBadges';
+import { chequesForClinic } from '@/lib/cheques';
 import { Star as StarIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
@@ -306,6 +308,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 <Glyph emoji="✓" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('profile.acceptsNewPatients')}</Badge>
             )}
           </div>
+          <ChequeBadges cheques={chequesForClinic(clinic.id)} className="justify-center md:justify-start mt-2" />
         </div>
         {isOwnProfile ? (
           <div className={cn('flex gap-2', isMobile ? 'w-full flex-col' : 'flex-col')}>

@@ -1,5 +1,6 @@
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo, lazy, Suspense } from 'react';
+import { chequesForClinic } from '@/lib/cheques';
 import { ArrowLeft, Stethoscope, SlidersHorizontal, X, List, Map as MapIcon, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getDentistInitials } from '@/lib/avatarUtils';
@@ -48,6 +49,8 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [sortBy, setSortBy] = useState('recommended');
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
   const [acceptsNewPatients, setAcceptsNewPatients] = useState(false);
+  const [chequeDentista, setChequeDentista] = useState(false);
+  const [chequeProtese, setChequeProtese] = useState(false);
   const [maxPrice, setMaxPrice] = useState(50);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -83,6 +86,8 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     if (maxPrice < 50) {
       results = results.filter(d => d.teleconsultaPrice <= maxPrice);
     }
+    if (chequeDentista) results = results.filter(d => d.clinics.some(c => chequesForClinic(c.id).dentista));
+    if (chequeProtese) results = results.filter(d => d.clinics.some(c => chequesForClinic(c.id).protese));
     // Recommended order = priority score (level + plan boost), then distance
     results.sort((a, b) => {
       const ba = 1 + getVisibilityBoost(a.level, a.plan) / 100;
@@ -97,7 +102,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     else if (sortBy === 'rating') results.sort((a, b) => b.rating - a.rating);
     else if (sortBy === 'price') results.sort((a, b) => a.teleconsultaPrice - b.teleconsultaPrice);
     return results;
-  }, [searchQuery, specialty, distance, sortBy, maxPrice, acceptsNewPatients, selectedLanguages]);
+  }, [searchQuery, specialty, distance, sortBy, maxPrice, acceptsNewPatients, selectedLanguages, chequeDentista, chequeProtese]);
+  // Cheque filters only make sense when the search covers clinics in Portugal.
+  const searchIncludesPortugal = MOCK_DENTIST_RESULTS.some(d => d.clinics.some(c => chequesForClinic(c.id).country === 'PT'));
 
   const toggleLanguage = (code: string) => {
     setSelectedLanguages(prev => prev.includes(code) ? prev.filter(l => l !== code) : [...prev, code]);
@@ -108,6 +115,20 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="flex items-center justify-between">
         <span className="text-sm">{t('search.acceptsNew')}</span>
         <Switch aria-label={t('search.acceptsNew')} checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
+      </div>
+      {searchIncludesPortugal && (
+        <>
+          <div className="flex items-center justify-between">
+            <span className="text-sm">{t('cheques.filterDentista')}</span>
+            <Switch aria-label={t('cheques.filterDentista')} checked={chequeDentista} onCheckedChange={setChequeDentista} />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm">{t('cheques.filterProtese')}</span>
+            <Switch aria-label={t('cheques.filterProtese')} checked={chequeProtese} onCheckedChange={setChequeProtese} />
+          </div>
+        </>
+      )}
+      <div className="hidden">
       </div>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
