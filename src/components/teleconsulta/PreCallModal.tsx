@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { User, AlertTriangle, Pill, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';

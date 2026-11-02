@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { useState } from 'react';
 import { Monitor, Tablet, Smartphone, X, Link2, Camera, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -92,7 +93,7 @@ export function ConnectedDevicesSection() {
                     <div className="flex items-center gap-3">
                       <Icon className="w-5 h-5 text-muted-foreground" />
                       <div>
-                        <p className="text-sm font-medium text-foreground">{device.name} — {device.location}</p>
+                        <p className="text-sm font-medium text-foreground">{device.name} — {demoText(device.location)}</p>
                         <p className="text-xs text-muted-foreground">{t(device.lastActive)}</p>
                       </div>
                     </div>
