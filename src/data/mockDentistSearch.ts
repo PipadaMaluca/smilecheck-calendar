@@ -15,6 +15,9 @@ export interface DentistSearchResult {
   bio: string;
   previousPatient: boolean;
   plan: 'premium' | 'pro' | 'free';
+  /** WGS84 coordinates of the dentist's main clinic (mock). */
+  lat: number;
+  lng: number;
 }
 
 export interface DentistReview {
@@ -50,6 +53,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Médico dentista com mais de 15 anos de experiência em clínica geral e estética dentária. Focado no conforto do paciente e nas técnicas mais recentes.',
     previousPatient: true,
     plan: 'premium',
+    lat: 38.7104,
+    lng: -9.1368,
   },
   {
     id: '2',
@@ -66,6 +71,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Especialista multidisciplinar com formação em ortodontia e implantologia. Atende todas as áreas da medicina dentária com excelência.',
     previousPatient: true,
     plan: 'premium',
+    lat: 38.7104,
+    lng: -9.1368,
   },
   {
     id: '3',
@@ -82,6 +89,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Dentista generalista dedicado à prevenção e tratamentos conservadores. Ambiente calmo e acolhedor.',
     previousPatient: false,
     plan: 'pro',
+    lat: 38.7104,
+    lng: -9.1368,
   },
   {
     id: '4',
@@ -97,6 +106,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Cirurgião oral especializado em extrações complexas e reabilitação protética. Formação avançada em cirurgia minimamente invasiva.',
     previousPatient: false,
     plan: 'pro',
+    lat: 48.9836,
+    lng: 2.6167,
   },
   {
     id: '5',
@@ -112,6 +123,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Endodontista com vasta experiência em tratamentos de canal e retratamentos. Utiliza microscopia operatória para máxima precisão.',
     previousPatient: false,
     plan: 'free',
+    lat: 48.9836,
+    lng: 2.6167,
   },
   {
     id: '6',
@@ -127,6 +140,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Especialista em implantes dentários e reabilitação oral completa. Mais de 2000 implantes colocados com sucesso.',
     previousPatient: false,
     plan: 'premium',
+    lat: 48.8986,
+    lng: 2.5669,
   },
   {
     id: '7',
@@ -142,6 +157,8 @@ export const MOCK_DENTIST_RESULTS: DentistSearchResult[] = [
     bio: 'Ortodontista com especialização em alinhadores invisíveis e ortodontia lingual. Apaixonada por criar sorrisos perfeitos.',
     previousPatient: false,
     plan: 'pro',
+    lat: 48.8986,
+    lng: 2.5669,
   },
 ];
 
