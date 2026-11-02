@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PatientDossierView } from '@/components/calendar/desktop/PatientDossierView';
@@ -18,6 +19,7 @@ interface MobilePatientDossierProps {
  * Shows back arrow, bottom nav padding, and scrollable content.
  */
 export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate, userRole }: MobilePatientDossierProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
