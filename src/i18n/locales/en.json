@@ -2778,7 +2778,8 @@
     "receiptDownloaded": "Receipt downloaded",
     "teleconsultReceipt": "Teleconsultation {{name}}",
     "joinWaitingList": "Join the waiting list",
-    "confirmBookingAction": "Confirm booking"
+    "confirmBookingAction": "Confirm booking",
+    "paymentSoon": "Teleconsultation payment coming soon"
   },
   "timeBlock": {
     "editBlock": "Edit block",
@@ -5234,6 +5235,7 @@
     "checkoutTitle": "Complete subscription",
     "checkoutDesc": "Secure payment. Cancel any time.",
     "portalError": "Couldn’t open subscription management.",
-    "endsOn": "Your subscription ends on {{date}}; you’ll then move to the Free plan."
+    "endsOn": "Your subscription ends on {{date}}; you’ll then move to the Free plan.",
+    "demoNoPayment": "Demo — no payment"
   }
 }

@@ -1,3 +1,4 @@
+import { SUPPORT_EMAIL } from '@/lib/support';
 import { useNavigate } from "react-router-dom";
 import { Glyph } from '@/components/ui/glyph';
 import { Button } from "@/components/ui/button";
@@ -73,7 +74,7 @@ const NotFound = () => {
         <p className="text-xs text-muted-foreground">
           {t('errors.needHelp')}{" "}
           <button
-            onClick={() => window.open("mailto:suporte@smilecheck.pt")}
+            onClick={() => window.open(`mailto:${SUPPORT_EMAIL}`)}
             className="text-primary hover:underline"
           >
             {t('errors.contactUs')}

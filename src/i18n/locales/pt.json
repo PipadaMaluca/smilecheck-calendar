@@ -342,7 +342,7 @@
       "patient6Title": "Teleconsultas",
       "patient6Desc": "Em breve: consulte o seu dentista por videochamada, sem sair de casa",
       "dentist1Title": "Agenda inteligente",
-      "dentist1Desc": "Dia, semana, mês com drag-and-drop e filtros",
+      "dentist1Desc": "Dia, semana, mês com arrastar e largar e filtros",
       "dentist2Title": "Confirmações",
       "dentist2Desc": "Acompanhe confirmações a 24h e 1h em tempo real",
       "dentist3Title": "Receitas digitais",
@@ -2778,7 +2778,8 @@
     "receiptDownloaded": "Recibo descarregado",
     "teleconsultReceipt": "Teleconsulta {{name}}",
     "joinWaitingList": "Entrar na lista de espera",
-    "confirmBookingAction": "Confirmar marcação"
+    "confirmBookingAction": "Confirmar marcação",
+    "paymentSoon": "O pagamento da teleconsulta estará disponível em breve"
   },
   "timeBlock": {
     "editBlock": "Editar bloqueio",
@@ -5234,6 +5235,7 @@
     "checkoutTitle": "Concluir subscrição",
     "checkoutDesc": "Pagamento seguro. Pode cancelar quando quiser.",
     "portalError": "Não foi possível abrir a gestão da subscrição.",
-    "endsOn": "A subscrição termina a {{date}}; depois passa ao plano Free."
+    "endsOn": "A subscrição termina a {{date}}; depois passa ao plano Free.",
+    "demoNoPayment": "Demonstração — sem pagamento"
   }
 }

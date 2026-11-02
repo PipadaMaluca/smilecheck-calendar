@@ -95,16 +95,9 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   });
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [saveCard, setSaveCard] = useState(true);
-  const [mbwayPhone, setMbwayPhone] = useState('+351 912 000 001');
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState<boolean | null>(null);
   const [discount, setDiscount] = useState(0);
-  const [useSavedCard, setUseSavedCard] = useState(true);
   const [paymentFailed, setPaymentFailed] = useState(false);
   const receiptId = `SC-2026-00${Math.floor(Math.random() * 900 + 100)}`;
 
@@ -172,13 +165,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       }
       case 'confirm': return true;
       case 'payment': {
-        if (!acceptTerms || !paymentMethod) return false;
-        if (paymentMethod === 'card-new' && !useSavedCard) {
-          const rawNum = cardNumber.replace(/\s/g, '');
-          return rawNum.length === 16 && cardExpiry.length === 5 && cardCvv.length === 3 && cardName.trim().length > 0;
-        }
-        if (paymentMethod === 'mbway') return mbwayPhone.length >= 9;
-        return true;
+        return acceptTerms;
       }
       default: return true;
     }
@@ -535,178 +522,11 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         </div>
       </div>
 
-      {/* Saved cards */}
-      <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">{t('booking.savedCards')}</p>
-        <Button
-          type="button"
-          variant="outline"
-          aria-pressed={paymentMethod === 'card' && useSavedCard}
-          onClick={() => { setPaymentMethod('card'); setUseSavedCard(true); }}
-          className={cn(
-            'w-full h-auto justify-start flex items-center gap-3 p-3 rounded-xl text-left font-normal',
-            paymentMethod === 'card' && useSavedCard ? 'border-primary bg-primary/10 ring-1 ring-primary' : 'border-border bg-secondary hover:border-muted-foreground/40'
-          )}
-        >
-          <CreditCard className="w-4 h-4" />
-          <span className="text-sm font-medium text-foreground">Visa ****4532</span>
-          <Star className="w-3 h-3 text-warning ml-auto" />
-        </Button>
+      {/* No in-app card fields (PCI): teleconsultation payment is not available yet */}
+      <div role="note" className="p-3 rounded-xl bg-secondary border border-border space-y-1">
+        <p className="text-sm font-medium text-foreground">{t('booking.paymentSoon')}</p>
+        <p className="text-xs text-muted-foreground">{t('payments.demoNoPayment')}</p>
       </div>
-
-      {/* Payment methods */}
-      <div className="space-y-2">
-        <p className="text-xs font-medium text-muted-foreground">{t('booking.otherMethod')}</p>
-        {[
-          { id: 'card-new', label: t('booking.newCard'), icon: <CreditCard className="w-4 h-4" />, expandable: true },
-          { id: 'mbway', label: 'MB WAY', icon: <Smartphone className="w-4 h-4" />, expandable: false },
-          { id: 'multibanco', label: 'Multibanco', icon: <Landmark className="w-4 h-4" />, expandable: false },
-          { id: 'pontos', label: t('booking.pointsBalance', { balance: 850 }), icon: <Coins className="w-4 h-4" />, expandable: false },
-        ].map(m => (
-          <div key={m.id}>
-            <Button
-              type="button"
-              variant="outline"
-              aria-pressed={paymentMethod === m.id}
-              onClick={() => { setPaymentMethod(m.id); if (m.id === 'card-new') setUseSavedCard(false); }}
-              className={cn(
-                'w-full h-auto justify-start flex items-center gap-3 p-3 rounded-xl text-left font-normal',
-                paymentMethod === m.id
-                  ? 'border-primary bg-primary/10 ring-1 ring-primary'
-                  : 'border-border bg-secondary hover:border-muted-foreground/40'
-              )}
-            >
-              {m.icon}
-              <span className="text-sm font-medium text-foreground">{m.label}</span>
-            </Button>
-            {/* Inline card form — expands below "Novo cartão" when selected */}
-            {m.id === 'card-new' && paymentMethod === 'card-new' && (
-              <div className="space-y-3 animate-fade-in border border-border rounded-xl p-4 bg-secondary/30 mt-2">
-          <div className="relative">
-            <Input
-              placeholder={t('booking.cardNumber')}
-              value={cardNumber}
-              onChange={e => {
-                const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
-                const formatted = raw.replace(/(.{4})/g, '$1 ').trim();
-                setCardNumber(formatted);
-              }}
-              maxLength={19}
-              className="pr-12"
-            />
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-              {cardNumber.replace(/\s/g, '').startsWith('4') ? (
-                <span className="text-xs font-bold text-blue-400">VISA</span>
-              ) : cardNumber.replace(/\s/g, '').startsWith('5') ? (
-                <span className="text-xs font-bold text-orange-400">MC</span>
-              ) : cardNumber.replace(/\s/g, '').startsWith('3') ? (
-                <span className="text-xs font-bold text-blue-300">AMEX</span>
-              ) : (
-                <CreditCard className="w-4 h-4" />
-              )}
-            </div>
-          </div>
-          {cardNumber.length > 0 && cardNumber.replace(/\s/g, '').length < 16 && (
-            <p className="text-xs text-destructive">{t('booking.cardNumberDigits')}</p>
-          )}
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Input
-                placeholder={t('i18nC.expiry')}
-                value={cardExpiry}
-                onChange={e => {
-                  let val = e.target.value.replace(/\D/g, '').slice(0, 4);
-                  if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
-                  setCardExpiry(val);
-                }}
-                maxLength={5}
-              />
-              {cardExpiry.length > 0 && cardExpiry.length < 5 && (
-                <p className="text-xs text-destructive mt-1">{t('booking.formatMMYY')}</p>
-              )}
-            </div>
-            <div className="w-24">
-              <Input
-                placeholder={t('i18nC.cvv')}
-                value={cardCvv}
-                onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
-                maxLength={3}
-                type="password"
-              />
-              {cardCvv.length > 0 && cardCvv.length < 3 && (
-                <p className="text-xs text-destructive mt-1">{t('booking.digits3')}</p>
-              )}
-            </div>
-          </div>
-          <Input
-            placeholder={t('booking.cardName')}
-            value={cardName}
-            onChange={e => setCardName(e.target.value)}
-          />
-          {cardName.length === 0 && cardNumber.length > 0 && (
-            <p className="text-xs text-destructive">{t('booking.nameRequired')}</p>
-          )}
-          <label className="flex items-center gap-2 cursor-pointer press">
-            <Checkbox checked={saveCard} onCheckedChange={(v) => setSaveCard(!!v)} />
-            <span className="text-xs text-muted-foreground">{t('booking.saveCardFuture')}</span>
-          </label>
-              <div className="flex gap-2 pt-1">
-                <Button
-                  size="sm"
-                  disabled={(() => {
-                    const rawNum = cardNumber.replace(/\s/g, '');
-                    return rawNum.length !== 16 || cardExpiry.length !== 5 || cardCvv.length !== 3 || cardName.trim().length === 0;
-                  })()}
-                  onClick={() => {
-                    setPaymentMethod('card');
-                    setUseSavedCard(true);
-                    toast.success(t('booking.cardAdded'));
-                  }}
-                  className="text-xs"
-                >
-<Glyph emoji="✅" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('booking.confirmCard')}
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="text-xs text-muted-foreground hover:text-foreground"
-                  onClick={() => { setPaymentMethod(null); setCardNumber(''); setCardExpiry(''); setCardCvv(''); setCardName(''); }}
-                >
-                  {t('common.cancel')}
-                </Button>
-              </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* MB WAY */}
-      {paymentMethod === 'mbway' && (
-        <div className="animate-fade-in space-y-2">
-          <Input placeholder={t('booking.phoneNumber')} value={mbwayPhone} onChange={e => setMbwayPhone(e.target.value)} maxLength={16} />
-          <p className="text-xs text-muted-foreground">{t('booking.confirmOnPhone')}</p>
-        </div>
-      )}
-
-      {/* Multibanco */}
-      {paymentMethod === 'multibanco' && (
-        <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">{formatCurrency(finalPrice)}</span></div>
-          <p className="text-xs text-muted-foreground">{t('booking.validFor24h')}</p>
-        </div>
-      )}
-
-      {/* Points */}
-      {paymentMethod === 'pontos' && (
-        <div className="animate-fade-in p-3 rounded-xl bg-primary/10 border border-primary/20 space-y-1">
-          <p className="text-sm text-foreground">{t('booking.usePoints', { points: Math.round(finalPrice * 10), price: formatCurrency(finalPrice) })}</p>
-          <p className="text-xs text-muted-foreground">{t('booking.balanceAfter', { balance: 850 - Math.round(finalPrice * 10) })}</p>
-        </div>
-      )}
 
       {/* Promo code */}
       <div className="space-y-2">
