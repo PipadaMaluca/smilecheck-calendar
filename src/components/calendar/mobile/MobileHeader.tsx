@@ -4,6 +4,15 @@ import { Button } from '@/components/ui/button';
 import { ViewMode, UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { DemoModeBadge } from '@/components/demo/DemoModeBadge';
+import { Logo } from '@/components/branding/Logo';
+
+/** Screen titles for the mobile header, keyed by nav tab id. */
+const TAB_TITLE_KEYS: Record<string, string> = {
+  agenda: 'nav.agenda', consultas: 'nav.consultations', team: 'nav.team', estatisticas: 'nav.statistics',
+  conquistas: 'nav.achievements', pontuacoes: 'nav.scores', loja: 'nav.rewardsStore', faturacao: 'nav.billing',
+  pesquisa: 'nav.search', conversas: 'nav.conversations', convidar: 'nav.invite', definicoes: 'nav.settings',
+  settings: 'nav.settings', historico: 'nav.fullHistory', saude: 'nav.health', notificacoes: 'nav.notifications',
+};
 
 interface MobileHeaderProps {
   onMenuClick: () => void;
@@ -12,6 +21,8 @@ interface MobileHeaderProps {
   userRole?: UserRole;
   showNewConsultation?: boolean;
   onNewConsultation?: () => void;
+  /** Current nav tab — shows its title (or the logo on Home) when nothing else fills the header. */
+  activeTab?: string;
 }
 
 export function MobileHeader({
@@ -20,7 +31,8 @@ export function MobileHeader({
   onViewModeChange,
   userRole = 'dentist',
   showNewConsultation,
-  onNewConsultation
+  onNewConsultation,
+  activeTab
 }: MobileHeaderProps) {
   const { t } = useTranslation();
   const modes: {
@@ -43,7 +55,7 @@ export function MobileHeader({
     label: t('agenda.list')
   }];
 
-  return <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border w-full border-slate-700 border-0 py-1">
+  return <div className="sticky top-0 z-40 pt-[env(safe-area-inset-top)] bg-background/95 backdrop-blur-sm border-b border-border w-full border-slate-700 border-0 py-1">
       <div className="relative w-full max-w-full px-5 pl-0 pr-0 gap-0 flex-row flex items-center justify-center my-0.5 mx-1.5 py-2.5">
         {/* Menu button - absolute left */}
         <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" onClick={onMenuClick} className="absolute left-2 text-muted-foreground hover:text-foreground hover:bg-transparent flex-shrink-0 border-0 shadow-none h-11 w-11 max-[499px]:[&_svg]:size-6">
@@ -66,6 +78,19 @@ export function MobileHeader({
             </Button>
           </div>
       }
+
+        {/* Screen context: logo on Home, otherwise the current screen title */}
+        {!onViewModeChange && !(showNewConsultation && onNewConsultation) && (
+          <div className="flex items-center justify-center w-full min-h-11 px-16">
+            {!activeTab || activeTab === 'home' ? (
+              <Logo variant="full" size={120} />
+            ) : (
+              <h1 className="text-base font-semibold text-foreground truncate">
+                {t(TAB_TITLE_KEYS[activeTab] ?? `nav.${activeTab}`, { defaultValue: '' })}
+              </h1>
+            )}
+          </div>
+        )}
 
         {/* New Consultation button - right side (dentist/clinic agenda with view mode) */}
         {showNewConsultation && onNewConsultation && onViewModeChange &&
