@@ -536,6 +536,13 @@
         "RGPD Compliant",
         "ISO 9001"
       ]
+    },
+    "stores": {
+      "soon": "Bientôt disponible",
+      "appStoreAria": "Télécharger dans l'App Store — bientôt disponible",
+      "playAria": "Disponible sur Google Play — bientôt disponible",
+      "appStoreAlt": "Télécharger dans l'App Store",
+      "playAlt": "Disponible sur Google Play"
     }
   },
   "onboarding": {
