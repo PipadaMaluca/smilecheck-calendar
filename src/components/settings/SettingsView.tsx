@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Accessibility, Cookie, Download, HelpCircle, FileText, Shield, LogOut, ChevronRight, Lock, Trash2, BookOpen, Mail, HelpCircle as FAQ, Bell, ChevronDown } from 'lucide-react';
+import { Accessibility, Cookie, HelpCircle, FileText, Shield, LogOut, ChevronRight, Lock, Trash2, BookOpen, Mail, HelpCircle as FAQ, Bell, ChevronDown } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';

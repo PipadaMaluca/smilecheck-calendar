@@ -25,7 +25,6 @@ import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
 import Acessibilidade from "./pages/Acessibilidade";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
-import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
