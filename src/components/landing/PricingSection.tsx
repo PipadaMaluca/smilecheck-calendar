@@ -89,7 +89,7 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   !annual
-                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    ? 'bg-primary-solid text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
@@ -103,14 +103,14 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   annual
-                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    ? 'bg-primary-solid text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
                 {t('landing.pricing.annual')}
               </button>
             </div>
-            {annual && <Badge className="text-xs bg-primary text-white border-0">{t('landing.pricing.discount')}</Badge>}
+            {annual && <Badge className="text-xs bg-primary-solid text-white border-0">{t('landing.pricing.discount')}</Badge>}
           </div>
         </div>
 
@@ -181,7 +181,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
               : 'border border-border hover:shadow-xl hover:shadow-primary/5'
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-primary text-white shadow-md">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-primary-solid text-white shadow-md">
                 {plan.badge}
               </Badge>
             )}
