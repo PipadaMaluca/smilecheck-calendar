@@ -1,4 +1,4 @@
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, pickNextAppointment } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -163,9 +163,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
-      const nextPatientCon = [...mockPatientConsultations].
-      filter((c) => c.date >= DEMO_DATE).
-      sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
       format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
@@ -178,8 +176,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'dentist') {
-      const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
-      const next = dentistCons[0];
+      // "Next" = first appointment at/after now that is still agendada/confirmada.
+      const next = pickNextAppointment(mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id));
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: next?.category, primaryName: next?.patient.name || '' },
