@@ -164,7 +164,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[11px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
                     <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
-                    <span className="text-center">Pts</span>
+                    <span className="text-center">{t('i18nC.points')}</span>
                   </div>
                   {earnActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 px-2 sm:px-3 py-1.5 text-xs border-b border-border/50 last:border-0 min-w-[280px]">

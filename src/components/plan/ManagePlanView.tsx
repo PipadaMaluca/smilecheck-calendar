@@ -498,7 +498,7 @@ export function ManagePlanView({
             <div className="space-y-3">
                 <div><Label className="text-xs">{t('plan.cardNumber')}</Label><Input placeholder="4242 4242 4242 4242" /></div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder="MM/AA" /></div>
+                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder={t('i18nC.expiry')} /></div>
                   <div><Label className="text-xs">{t('plan.cvc')}</Label><Input placeholder="123" /></div>
                 </div>
               </div>
@@ -512,7 +512,7 @@ export function ManagePlanView({
                 <span className="font-medium text-foreground">{checkoutPlan && formatPrice(checkoutPlan).main}</span>
               </div>
               <div className="flex justify-between text-sm font-bold border-t border-border pt-1">
-                <span>Total</span>
+                <span>{t('i18nC.total')}</span>
                 <span>{checkoutPlan && formatPrice(checkoutPlan).main}</span>
               </div>
             </div>

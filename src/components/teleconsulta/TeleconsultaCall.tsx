@@ -129,7 +129,7 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
             {/* Live indicator */}
             <div className="absolute top-4 left-4 flex items-center gap-1.5 px-2 py-1 rounded-full bg-red-600/20 border border-red-500/30">
               <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="text-[11px] font-medium text-red-400">LIVE</span>
+              <span className="text-[11px] font-medium text-red-400">{t('i18nC.live')}</span>
             </div>
           </div>
 

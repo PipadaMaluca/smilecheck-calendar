@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -527,7 +528,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
           )}
           <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold">
-            <span className="text-foreground">Total</span>
+            <span className="text-foreground">{t('i18nC.total')}</span>
             <span className="text-primary">{formatCurrency(finalPrice, { decimals: true })}</span>
           </div>
         </div>
@@ -610,7 +611,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex gap-3">
             <div className="flex-1">
               <Input
-                placeholder="MM/YY"
+                placeholder={t('i18nC.expiry')}
                 value={cardExpiry}
                 onChange={e => {
                   let val = e.target.value.replace(/\D/g, '').slice(0, 4);
@@ -625,7 +626,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
             <div className="w-24">
               <Input
-                placeholder="CVV"
+                placeholder={t('i18nC.cvv')}
                 value={cardCvv}
                 onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
                 maxLength={3}
@@ -775,7 +776,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
               <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
               <span className="text-sm text-foreground">
-                {data.date?.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
+                {t('i18nC.dateTime', { date: data.date ? formatDate(data.date, { weekday: 'long', day: 'numeric', month: 'long' }) : '', time: data.time })}
               </span>
             </div>
           </div>

@@ -1,3 +1,5 @@
+import { TELECONSULT_PRICE } from '@/lib/planRules';
+import { formatCurrency, formatDate } from '@/lib/formatters';
 import { useRef, useState, useEffect } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -33,16 +35,17 @@ function ScrollReveal({ children, className, delay = 0 }: { children: React.Reac
 
 /* ───────── Visual mockups ───────── */
 function AgendaMockup() {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] shadow-2xl shadow-[#2196F3]/10 overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-[#E2E8F0] dark:border-[#1E3A5F]">
         <div className="w-2.5 h-2.5 rounded-full bg-red-400/60" />
         <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
         <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/60" />
-        <span className="ml-2 text-xs text-[#4A5568] dark:text-[#94A3B8]">Agenda • Janeiro</span>
+        <span className="ml-2 text-xs text-[#4A5568] dark:text-[#94A3B8]">{t('i18nC.agenda', { month: formatDate(new Date(), { month: 'long' }) })}</span>
       </div>
       <div className="p-5 grid grid-cols-5 gap-2">
-        {['Seg', 'Ter', 'Qua', 'Qui', 'Sex'].map((d, i) => (
+        {Array.from({ length: 5 }, (_, i) => formatDate(new Date(2026, 0, 5 + i), { weekday: 'short' })).map((d, i) => (
           <div key={d} className="text-center">
             <div className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8] mb-2">{d}</div>
             <div className="space-y-1.5">
@@ -61,10 +64,10 @@ function AgendaMockup() {
             <Calendar className="w-4 h-4 text-[#2196F3]" />
           </div>
           <div className="flex-1">
-            <div className="text-xs font-semibold text-[#1A202C] dark:text-white">10:30 — Limpeza</div>
+            <div className="text-xs font-semibold text-[#1A202C] dark:text-white">{t('i18nC.cleaning')}</div>
             <div className="text-[11px] text-[#4A5568] dark:text-[#94A3B8]">Dr. Gonçalo Pipo</div>
           </div>
-          <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">Confirmada</span>
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">{t('i18nC.confirmed')}</span>
         </div>
       </div>
     </div>
@@ -72,20 +75,21 @@ function AgendaMockup() {
 }
 
 function BadgesMockup() {
+  const { t } = useTranslation();
   const items = [
-    { e: '🏆', l: 'Top 100' },
-    { e: '🔥', l: 'Streak 30' },
-    { e: '⭐', l: 'VIP' },
-    { e: '💎', l: 'Premium' },
-    { e: '🎯', l: 'Preciso' },
-    { e: '🚀', l: 'Rápido' },
+    { e: '🏆', l: t('i18nC.top', { count: 100 }) },
+    { e: '🔥', l: t('i18nC.streak30', { count: 30 }) },
+    { e: '⭐', l: t('i18nC.vip') },
+    { e: '💎', l: t('i18nC.premium') },
+    { e: '🎯', l: t('i18nC.precise') },
+    { e: '🚀', l: t('i18nC.fast') },
   ];
   return (
     <div className="rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-white dark:bg-[#0D2137] shadow-2xl shadow-[#2196F3]/10 p-6">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <div className="text-sm font-bold text-[#1A202C] dark:text-white">Conquistas</div>
-          <div className="text-xs text-[#4A5568] dark:text-[#94A3B8]">22 de 40 desbloqueadas</div>
+          <div className="text-sm font-bold text-[#1A202C] dark:text-white">{t('i18nC.achievements')}</div>
+          <div className="text-xs text-[#4A5568] dark:text-[#94A3B8]">{t('i18nC.unlocked', { unlocked: 22, total: 40 })}</div>
         </div>
         <Glyph emoji="🏅" className="w-7 h-7" />
       </div>
@@ -99,13 +103,14 @@ function BadgesMockup() {
       </div>
       <div className="rounded-lg bg-[#F5F9FF] dark:bg-[#1E3A5F]/30 p-3 flex items-center gap-2">
         <Star className="w-4 h-4 text-warning fill-amber-400" />
-        <div className="text-xs text-[#1A202C] dark:text-white"><span className="font-semibold">450 XP</span> — Nível Prata</div>
+        <div className="text-xs text-[#1A202C] dark:text-white"><span className="font-semibold">{t('i18nC.xp', { count: 450 })}</span>{t('i18nC.silverLevel')}</div>
       </div>
     </div>
   );
 }
 
 function TeleconsultaMockup() {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-[#0D2137] shadow-2xl shadow-[#2196F3]/20 overflow-hidden">
       <div className="aspect-video bg-gradient-to-br from-[#1E3A5F] via-[#0D2137] to-[#0A1929] relative flex items-center justify-center">
@@ -113,14 +118,14 @@ function TeleconsultaMockup() {
           GP
         </div>
         <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-[11px] font-bold flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> AO VIVO
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> {t('i18nC.live')}
         </div>
-        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-[11px] text-white/50">Você</div>
+        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-[11px] text-white/50">{t('i18nC.you')}</div>
       </div>
       <div className="px-5 py-4 flex items-center justify-between bg-[#0A1929]">
         <div>
           <div className="text-sm font-semibold text-white">Dr. Gonçalo Pipo</div>
-          <div className="text-[11px] text-[#94A3B8]">12:34 • €20 fixo</div>
+          <div className="text-[11px] text-[#94A3B8]">{t('i18nC.fixedPrice', { price: formatCurrency(TELECONSULT_PRICE) })}</div>
         </div>
         <div className="flex gap-2">
           <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center"><Video className="w-4 h-4 text-white" /></div>

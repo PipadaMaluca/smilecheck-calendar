@@ -163,12 +163,12 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                       </div>
                     </div>
                     <div className="flex gap-3">
-                      <Input placeholder="MM/AA" value={newCardExpiry} onChange={e => {
+                      <Input placeholder={t('i18nC.expiry')} value={newCardExpiry} onChange={e => {
                         let val = e.target.value.replace(/\D/g, '').slice(0, 4);
                         if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
                         setNewCardExpiry(val);
                       }} maxLength={5} className="flex-1" />
-                      <Input placeholder="CVV" value={newCardCvv} onChange={e => setNewCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} maxLength={3} className="w-24" type="password" />
+                      <Input placeholder={t('i18nC.cvv')} value={newCardCvv} onChange={e => setNewCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} maxLength={3} className="w-24" type="password" />
                     </div>
                     <Input placeholder={t('billing.nameOnCard')} value={newCardName} onChange={e => setNewCardName(e.target.value)} />
                     <div className="flex gap-2">

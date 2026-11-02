@@ -887,7 +887,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       "consultation-row flex items-center gap-3 py-1.5",
                       !isLast && "border-b border-border"
                     )}>
-                      <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
+                      <span className="text-xs tabular-nums text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">
