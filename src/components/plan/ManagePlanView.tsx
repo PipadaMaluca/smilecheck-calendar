@@ -220,11 +220,11 @@ export function ManagePlanView({
     if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
     if (isAnnual) {
       return {
-        main: `${formatCurrency(plan.annualPrice, { decimals: true })}${t('units.perYear')}`,
-        sub: `≈ ${formatCurrency((plan.annualPrice / 12), { decimals: true })}${t('units.perMonth')}`
+        main: `${formatCurrency(plan.annualPrice)}${t('units.perYear')}`,
+        sub: `≈ ${formatCurrency((plan.annualPrice / 12))}${t('units.perMonth')}`
       };
     }
-    return { main: `${formatCurrency(plan.monthlyPrice, { decimals: true })}`, sub: t('units.perMonth') };
+    return { main: `${formatCurrency(plan.monthlyPrice)}`, sub: t('units.perMonth') };
   };
 
   const handleSubscribe = () => {

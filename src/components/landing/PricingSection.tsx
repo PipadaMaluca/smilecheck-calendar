@@ -197,7 +197,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
           <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
         ) : (
           <>
-            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price, { decimals: true })}</span>
+            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price)}</span>
             <span className="text-sm text-[#4A5568] dark:text-[#94A3B8] ml-1">{t('landing.pricing.perMonth')}</span>
           </>
         )}

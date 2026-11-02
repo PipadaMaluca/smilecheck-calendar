@@ -70,7 +70,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.commission')} ({commissionPercent(plan)}%)</p>
-                  <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(commission, { decimals: true })}</p>
+                  <p className="text-2xl font-bold text-destructive mt-1">{formatCurrency(commission)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
@@ -138,7 +138,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
             <Card className="bg-primary/10 border-primary/20">
               <CardContent className="p-3 flex items-center justify-between text-sm">
                 <span className="font-semibold text-foreground">{dentistTeleconsultas.length} {t('billing.teleconsultas').toLowerCase()}</span>
-                <span className="text-muted-foreground">{formatCurrency(totalTele)} · {t('billing.commissionLabel')}: {formatCurrency(totalComm, { decimals: true })} · <span className="text-primary font-bold">{t('billing.net')}: {formatCurrency(totalNet, { decimals: true })}</span></span>
+                <span className="text-muted-foreground">{formatCurrency(totalTele)} · {t('billing.commissionLabel')}: {formatCurrency(totalComm)} · <span className="text-primary font-bold">{t('billing.net')}: {formatCurrency(totalNet)}</span></span>
               </CardContent>
             </Card>
           </TabsContent>
