@@ -2990,7 +2990,7 @@
       "painIntensity": "Intensité de la douleur",
       "type": "Type",
       "routineCheckup": "Contrôle de routine",
-      "photosAttached": "Photos jointes",
+      "photosAttached": "Photos",
       "photoCount_one": "{{count, number}} photo",
       "photoCount_other": "{{count, number}} photos"
     },
@@ -3087,7 +3087,7 @@
     "patientNameError": "Veuillez indiquer le nom du patient",
     "consultationCreated": "Consultation créée avec succès !",
     "searchPlaceholder": "Rechercher...",
-    "agendas": "Agenda(s)",
+    "agendas": "Agendas",
     "fullDay": "Journée complète",
     "startDate": "Début - date",
     "startTime": "Début - heure",

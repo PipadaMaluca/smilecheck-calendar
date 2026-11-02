@@ -3006,7 +3006,7 @@
       "painIntensity": "Intensidade da dor",
       "type": "Tipo",
       "routineCheckup": "Consulta de rotina",
-      "photosAttached": "Fotos anexadas",
+      "photosAttached": "Fotos",
       "photoCount_one": "{{count, number}} foto",
       "photoCount_other": "{{count, number}} fotos"
     },
@@ -3103,7 +3103,7 @@
     "patientNameError": "Indique o nome do paciente",
     "consultationCreated": "Consulta criada com sucesso!",
     "searchPlaceholder": "Pesquisar...",
-    "agendas": "Agenda(s)",
+    "agendas": "Agendas",
     "fullDay": "Dia completo",
     "startDate": "Início - data",
     "startTime": "Início - hora",

@@ -1,44 +1,10 @@
 import { onActivateKey } from '@/lib/a11y';
-import { formatDecimal1 } from '@/lib/formatters';
-import { formatNumber } from '@/lib/formatters';
+import { Users, Languages, MapPin, Gift } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { StoreQrCodes } from './StoreQrCodes';
 import { AppIconTile } from './AppIconTile';
-
-function useCountUp(end: number, duration = 2000) {
-  const [count, setCount] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
-    let t = 0;
-    const step = 16;
-    const inc = end / (duration / step);
-    const timer = setInterval(() => {
-      t += inc;
-      if (t >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(t));
-    }, step);
-    return () => clearInterval(timer);
-  }, [started, end, duration]);
-
-  return { count, ref };
-}
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -46,11 +12,11 @@ export function HeroSection() {
   const location = useLocation();
   const isDemo = new URLSearchParams(location.search).get('demo') === 'true';
 
-  const stats = [
-    { end: 5000, prefix: '+', labelKey: 'landing.stats.patients' },
-    { end: 500, prefix: '+', labelKey: 'landing.stats.dentists' },
-    { end: 50, prefix: '+', labelKey: 'landing.stats.clinics' },
-    { end: 48, prefix: '', labelKey: 'landing.stats.avgRating', isDecimal: true },
+  const facts = [
+    { icon: Users, title: 'landing.stats.profiles', desc: 'landing.stats.profilesDesc' },
+    { icon: Languages, title: 'landing.stats.languages', desc: 'landing.stats.languagesDesc' },
+    { icon: MapPin, title: 'landing.stats.countries', desc: 'landing.stats.countriesDesc' },
+    { icon: Gift, title: 'landing.stats.rewards', desc: 'landing.stats.rewardsDesc' },
   ];
 
   return (
@@ -105,24 +71,16 @@ export function HeroSection() {
         )}
       </div>
 
-      {/* Stats bar */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-        {stats.map((s) => (
-          <StatItem key={s.labelKey} end={s.end} prefix={s.prefix} label={t(s.labelKey)} isDecimal={s.isDecimal} />
+      {/* Product facts — only verifiable statements, no invented numbers */}
+      <ul className="relative z-10 w-full max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+        {facts.map(({ icon: Icon, title, desc }) => (
+          <li key={title} className="flex flex-col items-center text-center gap-1">
+            <Icon className="w-6 h-6 text-primary mb-1" aria-hidden="true" />
+            <p className="text-base sm:text-lg font-bold text-foreground">{t(title)}</p>
+            <p className="text-sm text-muted-foreground">{t(desc)}</p>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
-  );
-}
-
-function StatItem({ end, prefix, label, isDecimal }: { end: number; prefix: string; label: string; isDecimal?: boolean }) {
-  const { count, ref } = useCountUp(end);
-  const display = isDecimal ? formatDecimal1(count / 10) : formatNumber(count);
-
-  return (
-    <div ref={ref} className="text-center">
-      <p className="text-3xl sm:text-4xl font-bold text-foreground">{prefix}{display}</p>
-      <p className="text-sm text-muted-foreground mt-1">{label}</p>
-    </div>
   );
 }

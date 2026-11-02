@@ -3006,7 +3006,7 @@
       "painIntensity": "Pain intensity",
       "type": "Type",
       "routineCheckup": "Routine check-up",
-      "photosAttached": "Photos attached",
+      "photosAttached": "Photos",
       "photoCount_one": "{{count, number}} photo",
       "photoCount_other": "{{count, number}} photos"
     },
@@ -3103,7 +3103,7 @@
     "patientNameError": "Please enter the patient name",
     "consultationCreated": "Consultation created successfully!",
     "searchPlaceholder": "Search...",
-    "agendas": "Agenda(s)",
+    "agendas": "Calendars",
     "fullDay": "Full Day",
     "startDate": "Start - Date",
     "startTime": "Start - Time",
