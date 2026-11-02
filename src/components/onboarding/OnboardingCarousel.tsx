@@ -91,18 +91,17 @@ export function OnboardingCarousel() {
         {!isLast && (
           <div className="flex flex-col items-center gap-2 px-4 pb-4 safe-area-pb">
             <button onClick={scrollNext}
-              className="w-full flex items-center justify-center gap-1 px-6 py-3 rounded-xl font-bold uppercase tracking-wider transition-[transform,background-color,border-color,color,box-shadow] duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-12"
+              className="relative w-full flex items-center justify-center px-10 py-3 rounded-xl font-bold uppercase tracking-wider transition-[transform,background-color,border-color,color,box-shadow] duration-300 text-white hover:scale-[1.02] active:scale-95 min-h-12"
               style={{ backgroundColor: '#2196F3', boxShadow: '0 0 20px rgba(33, 150, 243, 0.3)' }}>
-              {t('onboarding.next')}
-              <ChevronRight className="w-4 h-4" />
+              <span>{t('onboarding.next')}</span>
+              <ChevronRight aria-hidden="true" className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4" />
             </button>
-            {currentSlide > 0 && (
-              <button onClick={scrollPrev}
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                <ChevronLeft className="w-3 h-3" />
-                {t('onboarding.previous')}
-              </button>
-            )}
+            <button onClick={scrollPrev} disabled={currentSlide === 0} aria-hidden={currentSlide === 0}
+              tabIndex={currentSlide === 0 ? -1 : 0}
+              className={`relative inline-flex items-center justify-center px-5 min-h-8 text-xs text-muted-foreground hover:text-foreground transition-colors ${currentSlide === 0 ? 'invisible' : ''}`}>
+              <ChevronLeft aria-hidden="true" className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3" />
+              <span>{t('onboarding.previous')}</span>
+            </button>
           </div>
         )}
       </div>
