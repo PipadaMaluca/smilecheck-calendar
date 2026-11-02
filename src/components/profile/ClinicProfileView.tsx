@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -432,10 +433,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             const specs = DENTIST_SPECIALTIES[d.id]?.join(', ') || d.specialty;
             return (
               <div key={d.id} className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-                <Avatar className="w-10 h-10">
-                  {photo && <AvatarImage src={photo} alt={d.name} />}
-                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">{dInitials}</AvatarFallback>
-                </Avatar>
+                <PersonAvatar name={d.name} photo={photo} size="sm" />
                 <div className="flex-1">
                   <ClickableDentistName name={d.name} className="text-sm font-medium" />
                   <p className="text-xs text-muted-foreground">{specs}</p>

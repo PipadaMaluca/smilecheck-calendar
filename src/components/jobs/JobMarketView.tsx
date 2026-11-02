@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -473,13 +474,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
           return (
             <div key={d.id} className="bg-card border border-border rounded-xl p-4 space-y-3">
               <div className="flex items-start gap-3">
-                {photo ? (
-                  <img src={photo} alt={d.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                ) : (
-                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
-                    {initials}
-                  </div>
-                )}
+                <PersonAvatar name={d.name} photo={photo} size="md" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-foreground truncate">{d.name}</p>
                   <div className="flex items-center gap-1 mt-0.5">

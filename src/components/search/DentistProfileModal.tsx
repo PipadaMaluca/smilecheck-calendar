@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -49,13 +50,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
     <div className="space-y-6">
       {/* Header with avatar */}
       <div className="flex flex-col items-center text-center space-y-3 pt-2">
-        {photo ? (
-          <img src={photo} alt={dentist.name} className="w-24 h-24 rounded-full object-cover" />
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-secondary flex items-center justify-center text-3xl font-bold text-primary">
-            {initials}
-          </div>
-        )}
+        <PersonAvatar name={dentist.name} photo={photo} size="xl" />
         <div>
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
           <div className="flex items-center justify-center gap-2 mt-1">

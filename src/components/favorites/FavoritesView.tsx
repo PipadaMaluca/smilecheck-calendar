@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -300,13 +301,7 @@ export function FavoritesView({
                 </Button>
 
                 <div className="flex items-start gap-3 pr-10">
-                  {photo ? (
-                    <img src={photo} alt={d.name} className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary flex-shrink-0">
-                      {initials}
-                    </div>
-                  )}
+                  <PersonAvatar name={d.name} photo={photo} size="md" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate" title={d.name}>{d.name}</p>
                     <div className="flex items-center gap-1 mt-0.5">

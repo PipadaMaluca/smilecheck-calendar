@@ -2014,3 +2014,5 @@ span.sentence-case { display: inline-block; }
 :root { --primary-text: 207 90% 66%; }
 .light { --primary-text: 210 80% 36%; }
 .text-primary { color: hsl(var(--primary-text)); }
+:root { --avatar-text-l: 72%; }
+.light { --avatar-text-l: 34%; }
