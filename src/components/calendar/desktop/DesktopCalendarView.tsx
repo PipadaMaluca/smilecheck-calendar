@@ -412,15 +412,17 @@ export function DesktopCalendarView() {
   };
   const goToToday = () => {setSelectedDate(new Date());};
 
-  const getHeaderDateLabel = () => {
+  const getHeaderDateLabel = (short = false) => {
     if (viewMode === 'week') {
       const ws = startOfWeek(selectedDate, { weekStartsOn: 1 });
       const we = addDays(ws, 5);
-      return `Semana de ${format(ws, 'd', { locale: getDateFnsLocale() })} - ${format(we, 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
+      const range = `${format(ws, 'd', { locale: getDateFnsLocale() })}–${format(we, short ? 'd MMM' : 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
+      return short ? range : t('agenda.weekOf', { range });
     }
     if (viewMode === 'month') {
       return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
+    if (short) return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'short', day: 'numeric', month: 'short' });
     return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
 
@@ -764,8 +766,10 @@ export function DesktopCalendarView() {
                     <Button aria-label={t('a11y.previous')} variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
                     <Button aria-label={t('a11y.next')} variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
-                  <span className="text-sm font-medium sentence-case text-foreground">
-                    {getHeaderDateLabel()}
+                  {/* One line always: short date on narrower screens ("seg., 2 nov."), long on wide ones. */}
+                  <span className="text-sm font-medium sentence-case text-foreground whitespace-nowrap">
+                    <span className="xl:hidden">{getHeaderDateLabel(true)}</span>
+                    <span className="hidden xl:inline">{getHeaderDateLabel()}</span>
                   </span>
                 </div>
                 <div className="items-center gap-4 flex flex-row">

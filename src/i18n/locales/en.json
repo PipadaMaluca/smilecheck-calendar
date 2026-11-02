@@ -801,7 +801,8 @@
     "dentalClinic": "Dental Clinic",
     "generalDentist": "General Dentist",
     "dentists": "Dentists",
-    "teleconsultation": "Teleconsultation"
+    "teleconsultation": "Teleconsultation",
+    "weekOf": "Week of {{range}}"
   },
   "consultationTypes": {
     "firstConsultation": "First Consultation",

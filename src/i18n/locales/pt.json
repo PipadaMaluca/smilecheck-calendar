@@ -801,7 +801,8 @@
     "dentalClinic": "Clínica dentária",
     "generalDentist": "Médico dentista",
     "dentists": "Dentistas",
-    "teleconsultation": "Teleconsulta"
+    "teleconsultation": "Teleconsulta",
+    "weekOf": "Semana de {{range}}"
   },
   "consultationTypes": {
     "firstConsultation": "1ª consulta",
