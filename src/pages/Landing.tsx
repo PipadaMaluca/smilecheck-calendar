@@ -1,3 +1,4 @@
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useState, useEffect } from 'react';
 import { LANGUAGE_CHOSEN_KEY } from '@/i18n';
 import { LanguageSelector } from '@/components/landing/LanguageSelector';
@@ -17,6 +18,7 @@ import { useGsapReveals } from '@/hooks/useGsapReveal';
 import { applyTheme, getInitialTheme, useTheme } from '@/hooks/useTheme';
 
 export default function Landing() {
+  useDocumentTitle(null);
   const [langSelected, setLangSelected] = useState(
     () => localStorage.getItem(LANGUAGE_CHOSEN_KEY) === '1' || localStorage.getItem('smilecheck-language') !== null
   );

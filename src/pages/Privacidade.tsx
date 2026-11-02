@@ -1,3 +1,4 @@
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigate } from 'react-router-dom';
 import { Printer } from 'lucide-react';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
@@ -49,6 +50,7 @@ Contacto DPO: dpo@smilecheck.pt` },
 ];
 
 export default function Privacidade() {
+  useDocumentTitle('legal.privacyTitle');
   const navigate = useNavigate();
   const watermarkSrc = useWatermarkSrc();
 

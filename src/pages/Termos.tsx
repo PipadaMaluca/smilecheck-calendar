@@ -1,3 +1,4 @@
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useNavigate } from 'react-router-dom';
 import { Printer } from 'lucide-react';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
@@ -50,6 +51,7 @@ Morada: Av. da Liberdade 123, Lisboa, Portugal` },
 ];
 
 export default function Termos() {
+  useDocumentTitle('legal.termsTitle');
   const navigate = useNavigate();
   const watermarkSrc = useWatermarkSrc();
 

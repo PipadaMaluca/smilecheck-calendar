@@ -1,3 +1,4 @@
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { demoDate } from '@/lib/demoClock';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -47,6 +48,7 @@ export function PatientCalendar() {
   const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
+  useDocumentTitle(activeTab);
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
