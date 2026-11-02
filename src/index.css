@@ -952,12 +952,12 @@ html, body, #root {
 .light [data-radix-popper-content-wrapper] > * {
   background-color: hsl(var(--popover)) !important;
   color: hsl(220 26% 14%) !important;
-  border-color: hsl(214 32% 91%) !important;
+  border-color: hsl(var(--border)) !important;
   box-shadow: 0 4px 12px hsl(220 26% 14% / 0.12) !important;
 }
 /* Tooltip-specific (smaller shadow) */
 .light [role="tooltip"] {
-  background-color: hsl(0 0% 100%) !important;
+  background-color: hsl(var(--popover)) !important;
   color: hsl(220 26% 14%) !important;
   border: 1px solid hsl(214 32% 91%) !important;
   box-shadow: 0 2px 8px hsl(220 26% 14% / 0.10) !important;
@@ -965,7 +965,7 @@ html, body, #root {
 /* Toasts in light mode */
 .light [data-sonner-toast],
 .light [role="status"].toast {
-  background-color: hsl(0 0% 100%) !important;
+  background-color: hsl(var(--popover)) !important;
   color: hsl(220 26% 14%) !important;
   border: 1px solid hsl(214 32% 91%) !important;
   border-left-width: 4px !important;
@@ -1745,13 +1745,13 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 /* --- LIGHT MODE OVERRIDES --- */
 .light .appt-block,
 .light .consultation-card {
-  background-color: #FFFFFF !important;
+  background-color: hsl(var(--card)) !important;
   color: #1A202C !important;
   border-bottom: 1px solid #E2E8F0 !important;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
 }
 .light .appt-block:hover,
-.light .consultation-card:hover { background-color: #F8FAFC !important; }
+.light .consultation-card:hover { background-color: hsl(207 85% 90%) !important; }
 .light .appt-block .text-white { color: #1A202C !important; }
 .light .appt-block [data-notes],
 .light .appt-block .text-\[\#8B9CB6\] { color: #4A5568 !important; }
