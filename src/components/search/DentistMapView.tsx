@@ -45,6 +45,8 @@ const markerIcon = (count: number) =>
     popupAnchor: [0, -18],
   });
 
+const areaKey = (lat: number, lng: number) => `${Math.round(lat * 4)},${Math.round(lng * 4)}`;
+
 function FitBounds({ groups, focused }: { groups: MapGroup[]; focused?: MapGroup }) {
   const map = useMap();
   useEffect(() => {
@@ -71,9 +73,9 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
   const groups = useMemo<MapGroup[]>(() => {
     const byKey = new Map<string, MapGroup>();
     if (clinics) {
-      // Clinics closer than ~1 km share one marker that shows the real count.
+      // Results in the same area (~25 km) share one marker that shows the real count.
       for (const c of clinics) {
-        const key = `${c.lat.toFixed(2)},${c.lng.toFixed(2)}`;
+        const key = areaKey(c.lat, c.lng);
         const g = byKey.get(key) ?? { key, lat: c.lat, lng: c.lng, clinicName: c.name, dentists: [], clinics: [] };
         g.clinics.push(c);
         byKey.set(key, g);
@@ -81,7 +83,7 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
       return [...byKey.values()];
     }
     for (const d of dentists) {
-      const key = `${d.lat},${d.lng}`;
+      const key = areaKey(d.lat, d.lng);
       const g = byKey.get(key) ?? { key, lat: d.lat, lng: d.lng, clinicName: d.clinics[0]?.name ?? '', dentists: [], clinics: [] };
       g.dentists.push(d);
       byKey.set(key, g);
