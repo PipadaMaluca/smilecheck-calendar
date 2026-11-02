@@ -37,7 +37,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
       )}
     >
       <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-3xl max-h-full overflow-y-auto overflow-x-hidden py-6">
-        <div className="w-full -my-6 md:-my-10 pointer-events-none">
+        <div className="w-full pointer-events-none">
           <AppIconTile forceDark />
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[hsl(220,15%,95%)]">SmileCheck</h1>
