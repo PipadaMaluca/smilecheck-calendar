@@ -84,11 +84,11 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t('store.cost')}:</span>
-                <span className="font-bold text-foreground">{product.points.toLocaleString()} {t('store.points')}</span>
+                <span className="font-bold text-foreground">{t('store.points', { count: product.points.toLocaleString() })}</span>
               </div>
               <div className="bg-secondary/50 rounded-lg p-3 text-center">
                 <p className="text-xs text-muted-foreground">{t('store.balanceAfter')}</p>
-                <p className="text-lg font-bold text-foreground">{(userPoints - product.points).toLocaleString()} {t('store.points')}</p>
+                <p className="text-lg font-bold text-foreground">{t('store.points', { count: (userPoints - product.points).toLocaleString() })}</p>
               </div>
               <p className="text-xs text-muted-foreground italic">
                 {product.discount ? t('store.discountNote') : t('store.codeNote')}

@@ -321,7 +321,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         <span className="text-xs font-bold text-muted-foreground w-6">#{i + 1}</span>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-foreground"><ClickablePatientName name={p.name} className="text-sm font-medium text-foreground" /></p>
-                          <p className="text-xs text-muted-foreground">{p.count} {t('statistics.consultations').toLowerCase()}</p>
+                          <p className="text-xs text-muted-foreground">{t('statistics.consultations', { count: p.count })}</p>
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />

@@ -119,7 +119,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                   <button className="w-full p-4 flex items-center justify-between text-left" onClick={() => setExpandedDentist(expandedDentist === d.id ? null : d.id)}>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{d.name}</p>
-                      <p className="text-xs text-muted-foreground">{d.consultas} {t('billing.consultations')} · {d.tele} {t('billing.tele')} · €{d.revenue.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">{t('billing.consultations', { count: d.consultas })} · {d.tele} {t('billing.tele')} · €{d.revenue.toLocaleString()}</p>
                     </div>
                     {expandedDentist === d.id ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                   </button>

@@ -53,7 +53,7 @@ export function RewardsFilters({ value, max, onChange, onClear, isDirty }: Rewar
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-semibold text-foreground">{t('store.pointsRange')}</p>
           <span className="text-sm text-muted-foreground tabular-nums">
-            {value.range[0].toLocaleString()} – {value.range[1].toLocaleString()} {t('store.points')}
+            {value.range[0].toLocaleString()} – {t('store.points', { count: value.range[1].toLocaleString() })}
           </span>
         </div>
         <div className="py-3">

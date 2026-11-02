@@ -183,7 +183,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate" title={p.name}>{p.name}</p>
-                      <p className="text-xs text-muted-foreground truncate" title={`${p.age} ${t('search.yearsOld')} · ${t('search.lastConsultation')}: ${p.lastConsultation}`}>{p.age} {t('search.yearsOld')} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
+                      <p className="text-xs text-muted-foreground truncate" title={`${p.age} ${t('search.yearsOld')} · ${t('search.lastConsultation')}: ${p.lastConsultation}`}>{t('search.yearsOld', { count: p.age })} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
                     </div>
                   </Button>
                 ))}

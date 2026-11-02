@@ -203,7 +203,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           <div className="flex items-center gap-1 flex-1">
             <Flame className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
             <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
-              {points.streak} {t('scores.days')}
+              {t('scores.days', { count: points.streak })}
             </span>
           </div>
         </button>
@@ -259,7 +259,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           <div className="flex items-center gap-1.5">
             <Flame className="w-[18px] h-[18px] text-orange-500" />
             <span className="text-[16px] font-bold text-foreground tabular-nums">
-              {points.streak} {t('scores.days')}
+              {t('scores.days', { count: points.streak })}
             </span>
           </div>
           <span className="text-[11px] text-muted-foreground">{t('scores.bestStreak')}: {points.bestStreak}</span>

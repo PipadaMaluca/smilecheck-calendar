@@ -202,7 +202,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           {!isMobile && (
             <div className="w-80 shrink-0 border-r border-border flex flex-col min-h-0">
               <div className="flex items-center justify-between gap-2 p-4 border-b border-border">
-                <p className="text-xs text-muted-foreground">{filteredDentists.length} {t('search.dentistsFound')}</p>
+                <p className="text-xs text-muted-foreground">{t('search.dentistsFound', { count: filteredDentists.length })}</p>
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs min-h-11" onClick={() => setShowMobileFilters(true)}>
                   <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')}
                 </Button>
@@ -254,7 +254,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           <div className="max-w-4xl mx-auto p-4 md:p-6 pb-28">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs text-muted-foreground">
-                {filteredDentists.length} {t('search.dentistsFound')}
+                {t('search.dentistsFound', { count: filteredDentists.length })}
               </p>
               {isMobile && (
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowMobileFilters(true)}>

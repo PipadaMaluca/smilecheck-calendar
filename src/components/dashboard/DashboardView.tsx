@@ -816,7 +816,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="clinic:lista-espera"
-              badge={<Badge variant="outline" className="text-[11px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+              badge={<Badge variant="outline" className="text-[11px]">{t('dashboard.patients', { count: totalWaitlist })}</Badge>}
             >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
@@ -875,7 +875,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
-                <Badge variant="outline" className="text-[11px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
+                <Badge variant="outline" className="text-[11px]">{t('dashboard.consultations', { count: upcomingItems.length })}</Badge>
               </div>
               <div className="">
                 {upcomingItems.map((item, index) => {

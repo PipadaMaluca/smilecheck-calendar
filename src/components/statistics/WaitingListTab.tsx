@@ -490,7 +490,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
                   </div>
                 </div>
                 <Badge variant="outline" className="text-[11px] self-start sm:self-auto">
-                  {list.length} {t('waitingList.patients')}
+                  {t('waitingList.patients', { count: list.length })}
                 </Badge>
               </div>
 

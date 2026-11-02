@@ -713,7 +713,11 @@
     "inMinutes_one": "em {{count}} min",
     "inMinutes_other": "em {{count}} min",
     "inHours_one": "em {{count}} h",
-    "inHours_other": "em {{count}} h"
+    "inHours_other": "em {{count}} h",
+    "patients_one": "{{count}} paciente",
+    "patients_other": "{{count}} pacientes",
+    "consultations_one": "{{count}} consulta",
+    "consultations_other": "{{count}} consultas"
   },
   "agenda": {
     "today": "Hoje",
@@ -931,7 +935,9 @@
     "unblocked": "Paciente desbloqueado",
     "blockPatient": "Bloquear",
     "blockConfirm": "Bloquear",
-    "statusChanged": "Estado alterado"
+    "statusChanged": "Estado alterado",
+    "triagePhotos_one": "{{count}} foto",
+    "triagePhotos_other": "{{count}} fotos"
   },
   "confirmationStates": {
     "confirmed24h": "Confirmado 24h",
@@ -1019,7 +1025,15 @@
     "blockReasonPlaceholder": "Indique o motivo do bloqueio...",
     "blockNotify": "A clínica será notificada deste bloqueio.",
     "information": "Informação",
-    "consultations": "consultas"
+    "consultations": "consultas",
+    "years_one": "{{count}} ano",
+    "years_other": "{{count}} anos",
+    "reviews_one": "{{count}} avaliação",
+    "reviews_other": "{{count}} avaliações",
+    "consultations_one": "{{count}} consulta",
+    "consultations_other": "{{count}} consultas",
+    "experience_one": "{{count}} ano de experiência",
+    "experience_other": "{{count}} anos de experiência"
   },
   "dossier": {
     "title": "Dossier do Paciente",
@@ -1635,7 +1649,9 @@
     ],
     "levelXp": "Nível e XP",
     "points": "Pontos",
-    "streak": "Sequência"
+    "streak": "Sequência",
+    "days_one": "{{count}} dia",
+    "days_other": "{{count}} dias"
   },
   "settings": {
     "title": "Configurações",
@@ -1894,7 +1910,11 @@
     "viewMap": "Mapa",
     "viewModeLabel": "Modo de visualização",
     "mapAria": "Mapa de dentistas",
-    "viewProfileBtn": "Ver perfil"
+    "viewProfileBtn": "Ver perfil",
+    "dentistsFound_one": "{{count}} dentista encontrado",
+    "dentistsFound_other": "{{count}} dentistas encontrados",
+    "yearsOld_one": "{{count}} ano",
+    "yearsOld_other": "{{count}} anos"
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",
@@ -1977,7 +1997,9 @@
     "resultsCount_other": "{{count}} resultados",
     "showResults": "Ver {{count}} resultados",
     "noResultsTitle": "Nenhuma recompensa encontrada",
-    "noResultsDesc": "Ajuste os filtros para ver mais recompensas."
+    "noResultsDesc": "Ajuste os filtros para ver mais recompensas.",
+    "points_one": "{{count}} ponto",
+    "points_other": "{{count}} pontos"
   },
   "billing": {
     "title": "Faturação",
@@ -2054,7 +2076,9 @@
     "tele": "tele",
     "myPlan": "Meu Plano",
     "paymentsAndBilling": "Pagamentos e Faturação",
-    "clinicBilling": "Faturação da Clínica"
+    "clinicBilling": "Faturação da Clínica",
+    "consultations_one": "{{count}} consulta",
+    "consultations_other": "{{count}} consultas"
   },
   "team": {
     "title": "Gestão de Equipa",
@@ -2194,7 +2218,9 @@
     "noTeleconsultations": "Sem teleconsultas",
     "noResultsTitle": "Nenhum membro encontrado",
     "noResultsDesc": "Tente ajustar a pesquisa ou os filtros.",
-    "inviteLimitReached": "Atingiu o limite de {{count}} dentistas do seu plano. Suba de plano para convidar mais dentistas."
+    "inviteLimitReached": "Atingiu o limite de {{count}} dentistas do seu plano. Suba de plano para convidar mais dentistas.",
+    "consultationsLabel_one": "{{count}} consulta",
+    "consultationsLabel_other": "{{count}} consultas"
   },
   "availability": {
     "selectClinic": "Selecionar clínica",
@@ -2342,7 +2368,9 @@
     "good": "Bom",
     "veryGood": "Muito Bom",
     "excellent": "Excelente",
-    "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15"
+    "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15",
+    "points_one": "{{count}} ponto",
+    "points_other": "{{count}} pontos"
   },
   "bidirectionalFeedback": {
     "rate": "Avaliar",
@@ -3171,7 +3199,9 @@
     "spouse": "Cônjuge",
     "father": "Pai",
     "mother": "Mãe",
-    "other": "Outro"
+    "other": "Outro",
+    "years_one": "{{count}} ano",
+    "years_other": "{{count}} anos"
   },
   "jobs": {
     "title": "Propostas de Trabalho",
@@ -3357,7 +3387,9 @@
     "absences": "Faltas",
     "rating": "Rating",
     "performance": "Desempenho",
-    "topPatients": "Top Pacientes"
+    "topPatients": "Top Pacientes",
+    "consultations_one": "{{count}} consulta",
+    "consultations_other": "{{count}} consultas"
   },
   "waitingList": {
     "patients": "pacientes",
@@ -3425,7 +3457,9 @@
       "ignore": "Ignorar",
       "empty": "Sem pacientes em lista de espera",
       "addedDays": "há {{count}}d"
-    }
+    },
+    "patients_one": "{{count}} paciente",
+    "patients_other": "{{count}} pacientes"
   },
   "confirmations": {
     "time": "Hora",

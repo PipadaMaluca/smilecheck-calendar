@@ -54,8 +54,8 @@ export function StreakTab({ userRole }: StreakTabProps) {
       <Card className="bg-card/80 border-border">
         <CardContent className="p-5 text-center space-y-3">
           <Glyph emoji="🔥" className="w-14 h-14" />
-          <p className="text-4xl font-bold text-foreground">{data.streak} {t('scores.days')}</p>
-          <p className="text-sm text-muted-foreground">{t('scores.bestStreak')}: {data.bestStreak} {t('scores.days')}</p>
+          <p className="text-4xl font-bold text-foreground">{t('scores.days', { count: data.streak })}</p>
+          <p className="text-sm text-muted-foreground">{t('scores.bestStreak')}: {t('scores.days', { count: data.bestStreak })}</p>
           <p className="text-xs text-warning">{t('scores.resetAt')}</p>
         </CardContent>
       </Card>
@@ -138,7 +138,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
               <div key={i} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">
                 <div>
                   <p className="text-sm font-medium text-foreground">
-                    {s.isCurrent && <Flame className="w-3.5 h-3.5 inline mr-1 text-warning" />}{s.label}: {s.days} {t('scores.days')}
+                    {s.isCurrent && <Flame className="w-3.5 h-3.5 inline mr-1 text-warning" />}{s.label}: {t('scores.days', { count: s.days })}
                   </p>
                   <p className="text-[11px] text-muted-foreground">{s.startDate} — {s.endDate}</p>
                 </div>
