@@ -1,5 +1,5 @@
 import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
-import { demoDate, pickNextAppointment } from '@/lib/demoClock';
+import { demoDate, pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -852,7 +852,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     // Use the SAME source + ordering on every viewport (mobile / tablet / desktop).
     // Non-mutating copy, future-only, sorted by full date+time.
     const upcomingItems = [...mockPatientConsultations]
-      .filter((c) => c.date >= DEMO_DATE)
+      // Only truly upcoming: starts at/after now and still scheduled/confirmed (never "Visto").
+      .filter((c) => atTime(c.date, c.time) >= new Date() && (!c.status || c.status === 'agendada' || c.status === 'confirmada'))
       .sort((a, b) => {
         const d = a.date.getTime() - b.date.getTime();
         return d !== 0 ? d : a.time.localeCompare(b.time);
@@ -935,14 +936,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-[18px] max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 sentence-case text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
-              {DEMO_DATE.toLocaleDateString(getActiveLocale(), {
-                weekday: 'long',
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-              })}
-            </p>
+            {/* Date lives only in the top bar — not repeated under the greeting. */}
           </div>
         </div>
 
