@@ -105,9 +105,13 @@ export function MobileSidebar({
         </div>
         <span className="flex-1 text-left">{label}</span>
         {badge && (
-          <span className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground">
-            {badge.type === 'count' ? badge.value : '!'}
-          </span>
+          badge.type === 'count' ? (
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground">
+              {badge.value}
+            </span>
+          ) : (
+            <span role="status" aria-label={t(`sidebarBadges.${itemId}`, { defaultValue: t('sidebarBadges.generic') })} className="w-2.5 h-2.5 rounded-full bg-primary" />
+          )
         )}
       </button>
     );
