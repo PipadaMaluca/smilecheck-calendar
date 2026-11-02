@@ -5236,6 +5236,7 @@
     "checkoutDesc": "Paiement sécurisé. Vous pouvez résilier à tout moment.",
     "portalError": "Impossible d’ouvrir la gestion de l’abonnement.",
     "endsOn": "L’abonnement se termine le {{date}} ; vous passerez ensuite à l’offre Free.",
-    "demoNoPayment": "Démonstration — sans paiement"
+    "demoNoPayment": "Démonstration — sans paiement",
+    "methodsManagedSecurely": "Les données de paiement ne sont jamais saisies dans cette app : elles sont gérées dans l'environnement sécurisé de Stripe lors de l'abonnement ou de la gestion du forfait."
   }
 }

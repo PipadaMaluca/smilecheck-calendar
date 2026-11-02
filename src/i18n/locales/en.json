@@ -5236,6 +5236,7 @@
     "checkoutDesc": "Secure payment. Cancel any time.",
     "portalError": "Couldn’t open subscription management.",
     "endsOn": "Your subscription ends on {{date}}; you’ll then move to the Free plan.",
-    "demoNoPayment": "Demo — no payment"
+    "demoNoPayment": "Demo — no payment",
+    "methodsManagedSecurely": "Payment details are never entered in this app: they are handled in Stripe's secure environment when you subscribe or manage your plan."
   }
 }

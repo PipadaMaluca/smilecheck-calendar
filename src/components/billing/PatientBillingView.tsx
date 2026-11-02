@@ -1,13 +1,12 @@
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
-import { CreditCard, Download, Star, Trash2, Plus, Smartphone, Edit2 } from 'lucide-react';
+import { CreditCard, Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { patientPayments, savedCards, generateReceipt } from './billingMockData';
+import { patientPayments, generateReceipt } from './billingMockData';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 
@@ -22,11 +21,6 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(initialTab || 'resumo');
   const [filter, setFilter] = useState('todos');
-  const [showNewCard, setShowNewCard] = useState(false);
-  const [newCardNumber, setNewCardNumber] = useState('');
-  const [newCardExpiry, setNewCardExpiry] = useState('');
-  const [newCardCvv, setNewCardCvv] = useState('');
-  const [newCardName, setNewCardName] = useState('');
 
   const filtered = filter === 'todos' ? patientPayments
     : patientPayments.filter(p => p.type === filter.replace('teleconsultas', 'teleconsulta').replace('planos', 'plano'));
@@ -59,7 +53,6 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
                 currentPlanName="Pro"
                 currentPriceLabel={`${formatCurrency(4.99)}${t('units.perMonth')}`}
                 nextBilling="1 Fev 2026"
-                paymentMethodLabel="Visa ****4532"
               />
             </div>
           </TabsContent>
@@ -122,81 +115,9 @@ export function PatientBillingView({ initialTab, onNavigate }: PatientBillingVie
 
           <TabsContent value="metodos" className="space-y-4 mt-4">
             <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle size="compact">{t('billing.savedCards')}</CardTitle></CardHeader>
-              <CardContent className="space-y-3">
-                {savedCards.map(c => (
-                  <div key={c.id} className="flex items-center justify-between py-2">
-                    <div className="flex items-center gap-3">
-                      <CreditCard className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm text-foreground">{c.type} ****{c.last4}</span>
-                      {c.isDefault && <Badge variant="secondary" className="text-2xs"><Star className="w-3 h-3 mr-1" /> {t('billing.default')}</Badge>}
-                    </div>
-                    <div className="flex gap-1">
-                      <Button aria-label={t('a11y.edit')} size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
-                      <Button aria-label={t('a11y.remove')} size="icon-sm" variant="ghost" className="text-destructive"><Trash2 className="w-3 h-3" /></Button>
-                    </div>
-                  </div>
-                ))}
-                {showNewCard ? (
-                  <div className="space-y-3 border border-border rounded-xl p-4 bg-secondary/30 animate-in slide-in-from-top-2">
-                    <div className="relative">
-                      <Input
-                        placeholder={t('billing.cardNumber')}
-                        value={newCardNumber}
-                        onChange={e => {
-                          const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
-                          setNewCardNumber(raw.replace(/(.{4})/g, '$1 ').trim());
-                        }}
-                        maxLength={19}
-                        className="pr-12"
-                      />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                        {newCardNumber.replace(/\s/g, '').startsWith('4') ? (
-                          <span className="text-xs font-bold text-blue-400">VISA</span>
-                        ) : newCardNumber.replace(/\s/g, '').startsWith('5') ? (
-                          <span className="text-xs font-bold text-orange-400">MC</span>
-                        ) : newCardNumber.replace(/\s/g, '').startsWith('3') ? (
-                          <span className="text-xs font-bold text-blue-300">AMEX</span>
-                        ) : (
-                          <CreditCard className="w-4 h-4" />
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex gap-3">
-                      <Input placeholder={t('i18nC.expiry')} value={newCardExpiry} onChange={e => {
-                        let val = e.target.value.replace(/\D/g, '').slice(0, 4);
-                        if (val.length >= 3) val = val.slice(0, 2) + '/' + val.slice(2);
-                        setNewCardExpiry(val);
-                      }} maxLength={5} className="flex-1" />
-                      <Input placeholder={t('i18nC.cvv')} value={newCardCvv} onChange={e => setNewCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))} maxLength={3} className="w-24" type="password" />
-                    </div>
-                    <Input placeholder={t('billing.nameOnCard')} value={newCardName} onChange={e => setNewCardName(e.target.value)} />
-                    <div className="flex gap-2">
-                      <Button
-                        className="flex-1"
-                        disabled={newCardNumber.replace(/\s/g, '').length < 16 || newCardExpiry.length < 5 || newCardCvv.length < 3 || !newCardName.trim()}
-                        onClick={() => { toast.success(t('billing.cardAdded')); setShowNewCard(false); setNewCardNumber(''); setNewCardExpiry(''); setNewCardCvv(''); setNewCardName(''); }}
-                      >
-                        {t('common.continue')}
-                      </Button>
-                      <button className="text-xs text-muted-foreground hover:text-foreground px-3" onClick={() => setShowNewCard(false)}>{t('common.cancel')}</button>
-                    </div>
-                  </div>
-                ) : (
-                  <Button variant="outline" className="w-full gap-2" onClick={() => setShowNewCard(true)}><Plus className="w-4 h-4" /> {t('billing.addCardBtn')}</Button>
-                )}
-              </CardContent>
-            </Card>
-            <Card className="bg-card/80 backdrop-blur border-border">
-              <CardHeader className="pb-2"><CardTitle size="compact">MB WAY</CardTitle></CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Smartphone className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm text-foreground">+351 912 000 001</span>
-                  </div>
-                  <Button aria-label={t('a11y.edit')} size="icon-sm" variant="ghost"><Edit2 className="w-3 h-3" /></Button>
-                </div>
+              <CardContent className="p-4 flex items-start gap-3">
+                <CreditCard className="w-4 h-4 text-muted-foreground mt-0.5" />
+                <p className="text-sm text-muted-foreground">{t('payments.methodsManagedSecurely')}</p>
               </CardContent>
             </Card>
           </TabsContent>

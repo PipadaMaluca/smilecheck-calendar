@@ -150,7 +150,6 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                 currentPlanName="Pro"
                 currentPriceLabel={`${formatCurrency(19.99)}${t('units.perMonth')}`}
                 nextBilling="1 Fev 2026"
-                paymentMethodLabel="Visa ****4532"
               />
             </div>
           </TabsContent>
@@ -162,7 +161,6 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
                 <label className="block"><span className="text-xs text-muted-foreground">{t('billing.businessName')}</span><Input defaultValue="Dr. Gonçalo Pipo" className="mt-1" /></label>
                 <label className="block"><span className="text-xs text-muted-foreground">{t('billing.taxId')}</span><Input defaultValue="234 567 890" className="mt-1" /></label>
                 <label className="block"><span className="text-xs text-muted-foreground">{t('billing.fiscalAddress')}</span><Input defaultValue="Rua dos Dentistas, 25, 1200-100 Lisboa" className="mt-1" /></label>
-                <label className="block"><span className="text-xs text-muted-foreground">{t('billing.ibanLabel')}</span><Input defaultValue="PT50 0035 0000 0000 0000 0001 2" className="mt-1" /></label>
                 <Button className="w-full" onClick={() => toast.success(t('billing.dataSaved'))}>{t('common.save')}</Button>
               </CardContent>
             </Card>

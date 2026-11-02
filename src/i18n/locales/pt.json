@@ -5236,6 +5236,7 @@
     "checkoutDesc": "Pagamento seguro. Pode cancelar quando quiser.",
     "portalError": "Não foi possível abrir a gestão da subscrição.",
     "endsOn": "A subscrição termina a {{date}}; depois passa ao plano Free.",
-    "demoNoPayment": "Demonstração — sem pagamento"
+    "demoNoPayment": "Demonstração — sem pagamento",
+    "methodsManagedSecurely": "Os dados de pagamento nunca são introduzidos nesta app: são geridos no ambiente seguro do Stripe ao subscrever ou gerir o plano."
   }
 }

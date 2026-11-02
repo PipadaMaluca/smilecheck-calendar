@@ -602,7 +602,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </div>
           <div className="flex flex-col gap-2 w-full pt-2">
             {data.consultationType === 'teleconsulta' && (
-              <Button variant="outline" className="w-full gap-2" onClick={() => { generateReceipt('142', t('booking.teleconsultReceipt', { name: dentist.name }), finalPrice, 'Visa ****4532'); toast.success(t('booking.receiptDownloaded')); }}>
+              <Button variant="outline" className="w-full gap-2" onClick={() => { generateReceipt('142', t('booking.teleconsultReceipt', { name: dentist.name }), finalPrice, t('payments.demoNoPayment')); toast.success(t('booking.receiptDownloaded')); }}>
                 <Download className="w-4 h-4" /> {t('booking.downloadReceipt')}
               </Button>
             )}
