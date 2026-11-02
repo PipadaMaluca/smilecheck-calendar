@@ -105,7 +105,8 @@
     "from": "De",
     "to": "À",
     "weeksAgo": "Il y a {{n}} semaines",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "comingSoon": "Bientôt"
   },
   "nav": {
     "home": "Accueil",
@@ -459,7 +460,8 @@
       "gdpr": "RGPD",
       "cookies": "Cookies",
       "copyright": "Tous droits réservés",
-      "madeWith": "Fait avec amour au Portugal"
+      "madeWith": "Fait avec amour au Portugal",
+      "accessibility": "Accessibilité"
     },
     "navbar": {
       "features": "Fonctionnalités",
@@ -1628,7 +1630,9 @@
     "deleteAccountTitle": "Supprimer le compte ?",
     "deleteAccountDesc": "Cette action est irréversible. Toutes vos données seront définitivement supprimées.",
     "accountDeleted": "Compte supprimé (simulation)",
-    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "accessibilityStatement": "Déclaration d’accessibilité",
+    "privacy": "Confidentialité"
   },
   "editProfile": {
     "title": "Modifier le profil",
@@ -2385,7 +2389,42 @@
     "toc": "Sommaire",
     "draftNotice": "Version provisoire — sous réserve de validation juridique",
     "print": "Imprimer le document",
-    "back": "Retour"
+    "back": "Retour",
+    "accessibilityTitle": "Déclaration d’accessibilité",
+    "accessibility": {
+      "sections": [
+        {
+          "id": "norma",
+          "title": "1. Engagement et norme de référence",
+          "content": "SmileCheck souhaite que l’app soit utilisable par toutes et tous, conformément à l’Acte européen sur l’accessibilité. La norme de référence est le WCAG 2.1, niveau AA, via la norme européenne EN 301 549."
+        },
+        {
+          "id": "estado",
+          "title": "2. État de conformité",
+          "content": "Partiellement conforme. Certaines parties ne respectent pas encore toutes les exigences du WCAG 2.1 AA (voir limites connues). Cette déclaration n’affirme pas une conformité totale."
+        },
+        {
+          "id": "feito",
+          "title": "3. Ce qui a déjà été fait",
+          "content": "• Zones tactiles d’au moins 44 × 44 px sur mobile et tablette.\n• Contraste du texte AA en thème clair et sombre, sur la plupart des écrans.\n• Noms accessibles sur les boutons à icône seule, traduits en portugais, français et anglais.\n• Navigation au clavier avec focus visible sur les commandes principales.\n• Respect de l’option système « réduire les animations ».\n• Langue de la page et titres d’écran mis à jour pour les lecteurs d’écran."
+        },
+        {
+          "id": "limitacoes",
+          "title": "4. Limites connues",
+          "content": "• Les couleurs des types de rendez-vous et de certains niveaux sont des couleurs d’identification protégées et peuvent avoir un contraste inférieur à 4,5:1 sur du petit texte.\n• Certaines cartes et certains éléments de l’agenda ne sont pas encore entièrement utilisables au clavier.\n• La carte de recherche a une accessibilité limitée ; la vue en liste offre les mêmes informations.\n• Les vidéos d’exemple n’ont pas de sous-titres."
+        },
+        {
+          "id": "contacto",
+          "title": "5. Signaler un problème",
+          "content": "Si vous rencontrez un obstacle d’accessibilité, écrivez à {{email}}. Indiquez l’écran, l’appareil et ce qui s’est passé. Nous répondons sous 30 jours maximum."
+        },
+        {
+          "id": "revisao",
+          "title": "6. Dernière révision",
+          "content": "Cette déclaration a été révisée le {{date}}."
+        }
+      ]
+    }
   },
   "errors": {
     "404title": "Page introuvable",
@@ -5085,7 +5124,9 @@
     "playingTitle": "Publicité de démonstration",
     "playingDesc": "Pas encore de régie publicitaire réelle. Patientez quelques secondes.",
     "bannerLabel": "Publicité",
-    "bannerPlaceholder": "Espace publicitaire (forfait Free)"
+    "bannerPlaceholder": "Espace publicitaire (forfait Free)",
+    "personalised": "Publicités personnalisées avec votre consentement.",
+    "nonPersonalised": "Publicités non personnalisées."
   },
   "pointsRules": {
     "anuncios_10": "10 publicités vues",
@@ -5125,5 +5166,74 @@
     "achievement": "Succès débloqué",
     "suffixDentist": "(dentiste)",
     "suffixClinic": "(clinique)"
+  },
+  "reviews": {
+    "verified": "Avis vérifié"
+  },
+  "ai": {
+    "notice": "Vous échangez avec un assistant IA. Ses conseils ne remplacent pas l’évaluation d’un chirurgien-dentiste.",
+    "label": "IA",
+    "labelA11y": "Réponse générée par intelligence artificielle"
+  },
+  "cheques": {
+    "dentista": "Accepte le chèque-dentiste",
+    "proteseFrom": "Accepte le chèque-prothèse (à partir de {{date}})",
+    "filterDentista": "Accepte le chèque-dentiste",
+    "filterProtese": "Accepte le chèque-prothèse",
+    "acceptsDentista": "Accepte le chèque-dentiste",
+    "acceptsProtese": "Accepte le chèque-prothèse",
+    "proteseFromHint": "À partir de {{date}}",
+    "saveError": "Impossible d’enregistrer. Veuillez réessayer."
+  },
+  "consent": {
+    "title": "Votre vie privée",
+    "body": "Nous utilisons des cookies nécessaires au fonctionnement de l’app. Avec votre accord, nous utilisons aussi des statistiques d’utilisation et des publicités personnalisées dans l’offre Free. Nous n’utilisons jamais de données de santé dans les publicités.",
+    "necessary": "Nécessaires",
+    "necessaryDesc": "Session, langue et sécurité. Toujours actifs.",
+    "statistics": "Statistiques",
+    "statisticsDesc": "Nous aident à améliorer l’app, sans données cliniques identifiantes.",
+    "ads": "Publicités personnalisées",
+    "adsDesc": "Sans cette option, les publicités de l’offre Free ne sont pas personnalisées.",
+    "decline": "Refuser",
+    "accept": "Accepter",
+    "customise": "Personnaliser",
+    "save": "Enregistrer mon choix",
+    "learnMore": "En savoir plus sur les cookies",
+    "manage": "Gérer les cookies et le consentement"
+  },
+  "notifPrefs": {
+    "title": "Préférences de notification",
+    "subtitle": "Choisissez comment être prévenu pour chaque type de notification.",
+    "type": "Type",
+    "types": {
+      "reminders": "Rappels de rendez-vous",
+      "confirmations": "Confirmations",
+      "points": "Points",
+      "news": "Nouveautés"
+    },
+    "channels": {
+      "email": "E-mail",
+      "push": "Push",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "cellA11y": "{{type}} par {{channel}}",
+    "saveError": "Impossible d’enregistrer la préférence."
+  },
+  "pwa": {
+    "title": "L’app sur votre appareil",
+    "install": "Installer l’app",
+    "installed": "L’app est déjà installée sur cet appareil.",
+    "unavailable": "L’installation est disponible dans l’app publiée, sur un navigateur compatible.",
+    "iosStep1": "Touchez Partager",
+    "iosStep2": "Choisissez « Sur l’écran d’accueil »"
+  },
+  "payments": {
+    "testMode": "Mode test — aucun paiement réel",
+    "notConfigured": "Les paiements ne sont pas encore actifs dans cette version.",
+    "checkoutTitle": "Finaliser l’abonnement",
+    "checkoutDesc": "Paiement sécurisé. Vous pouvez résilier à tout moment.",
+    "portalError": "Impossible d’ouvrir la gestion de l’abonnement.",
+    "endsOn": "L’abonnement se termine le {{date}} ; vous passerez ensuite à l’offre Free."
   }
 }

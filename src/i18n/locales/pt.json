@@ -105,7 +105,8 @@
     "from": "De",
     "to": "Até",
     "weeksAgo": "Há {{n}} semanas",
-    "retry": "Tentar novamente"
+    "retry": "Tentar novamente",
+    "comingSoon": "Em breve"
   },
   "nav": {
     "home": "Início",
@@ -459,7 +460,8 @@
       "gdpr": "RGPD",
       "cookies": "Cookies",
       "copyright": "Todos os direitos reservados",
-      "madeWith": "Feito com amor em Portugal"
+      "madeWith": "Feito com amor em Portugal",
+      "accessibility": "Acessibilidade"
     },
     "navbar": {
       "features": "Funcionalidades",
@@ -1644,7 +1646,9 @@
     "deleteAccountTitle": "Eliminar conta?",
     "deleteAccountDesc": "Esta ação é irreversível. Todos os seus dados serão permanentemente eliminados.",
     "accountDeleted": "Conta eliminada (simulação)",
-    "logoutConfirm": "Tem a certeza que deseja terminar sessão?"
+    "logoutConfirm": "Tem a certeza que deseja terminar sessão?",
+    "accessibilityStatement": "Declaração de acessibilidade",
+    "privacy": "Privacidade"
   },
   "editProfile": {
     "title": "Editar perfil",
@@ -2401,7 +2405,42 @@
     "toc": "Índice",
     "draftNotice": "Versão provisória — sujeita a validação jurídica",
     "print": "Imprimir documento",
-    "back": "Voltar"
+    "back": "Voltar",
+    "accessibilityTitle": "Declaração de acessibilidade",
+    "accessibility": {
+      "sections": [
+        {
+          "id": "norma",
+          "title": "1. Compromisso e norma de referência",
+          "content": "A SmileCheck pretende que a app seja utilizável por todas as pessoas, em conformidade com o European Accessibility Act. A norma de referência é a WCAG 2.1, nível AA, através da norma europeia EN 301 549."
+        },
+        {
+          "id": "estado",
+          "title": "2. Estado de conformidade",
+          "content": "Parcialmente conforme. Algumas partes ainda não cumprem todos os requisitos da WCAG 2.1 AA (ver limitações conhecidas). Esta declaração não afirma conformidade total."
+        },
+        {
+          "id": "feito",
+          "title": "3. O que já foi feito",
+          "content": "• Áreas de toque de pelo menos 44 × 44 px no telemóvel e no tablet.\n• Contraste de texto AA nos temas claro e escuro, na maioria dos ecrãs.\n• Nomes acessíveis em botões só com ícone, traduzidos em português, francês e inglês.\n• Navegação por teclado com foco visível nos controlos principais.\n• Respeito pela opção do sistema «reduzir movimento».\n• Língua da página e títulos de ecrã atualizados para leitores de ecrã."
+        },
+        {
+          "id": "limitacoes",
+          "title": "4. Limitações conhecidas",
+          "content": "• As cores dos tipos de consulta e de alguns níveis são cores de identificação protegidas e podem ter contraste inferior a 4,5:1 em texto pequeno.\n• Alguns cartões e elementos da agenda ainda não são totalmente operáveis por teclado.\n• O mapa da pesquisa tem acessibilidade limitada; a vista em lista oferece a mesma informação.\n• Os vídeos de exemplo não têm legendas."
+        },
+        {
+          "id": "contacto",
+          "title": "5. Reportar um problema",
+          "content": "Se encontrar uma barreira de acessibilidade, escreva para {{email}}. Indique o ecrã, o dispositivo e o que aconteceu. Respondemos no prazo máximo de 30 dias."
+        },
+        {
+          "id": "revisao",
+          "title": "6. Última revisão",
+          "content": "Esta declaração foi revista a {{date}}."
+        }
+      ]
+    }
   },
   "errors": {
     "404title": "Página não encontrada",
@@ -5085,7 +5124,9 @@
     "playingTitle": "Anúncio de demonstração",
     "playingDesc": "Ainda sem rede de anúncios real. Aguarde alguns segundos.",
     "bannerLabel": "Anúncio",
-    "bannerPlaceholder": "Espaço publicitário (plano Free)"
+    "bannerPlaceholder": "Espaço publicitário (plano Free)",
+    "personalised": "Anúncios personalizados com o seu consentimento.",
+    "nonPersonalised": "Anúncios não personalizados."
   },
   "pointsRules": {
     "anuncios_10": "10 anúncios vistos",
@@ -5125,5 +5166,74 @@
     "achievement": "Conquista desbloqueada",
     "suffixDentist": "(dentista)",
     "suffixClinic": "(clínica)"
+  },
+  "reviews": {
+    "verified": "Avaliação verificada"
+  },
+  "ai": {
+    "notice": "Está a falar com um assistente de IA. A orientação não substitui a avaliação de um médico dentista.",
+    "label": "IA",
+    "labelA11y": "Resposta gerada por inteligência artificial"
+  },
+  "cheques": {
+    "dentista": "Aceita cheque-dentista",
+    "proteseFrom": "Aceita cheque-prótese (a partir de {{date}})",
+    "filterDentista": "Aceita cheque-dentista",
+    "filterProtese": "Aceita cheque-prótese",
+    "acceptsDentista": "Aceita cheque-dentista",
+    "acceptsProtese": "Aceita cheque-prótese",
+    "proteseFromHint": "A partir de {{date}}",
+    "saveError": "Não foi possível guardar. Tente novamente."
+  },
+  "consent": {
+    "title": "A sua privacidade",
+    "body": "Usamos cookies necessários para a app funcionar. Com a sua autorização, usamos também estatísticas de utilização e anúncios personalizados no plano Free. Nunca usamos dados de saúde em anúncios.",
+    "necessary": "Necessários",
+    "necessaryDesc": "Sessão, idioma e segurança. Sempre ativos.",
+    "statistics": "Estatísticas",
+    "statisticsDesc": "Ajudam-nos a melhorar a app, sem identificar dados clínicos.",
+    "ads": "Anúncios personalizados",
+    "adsDesc": "Sem esta opção, os anúncios do plano Free não são personalizados.",
+    "decline": "Recusar",
+    "accept": "Aceitar",
+    "customise": "Personalizar",
+    "save": "Guardar escolha",
+    "learnMore": "Saber mais sobre cookies",
+    "manage": "Gerir cookies e consentimento"
+  },
+  "notifPrefs": {
+    "title": "Preferências de notificação",
+    "subtitle": "Escolha como quer ser avisado em cada tipo de notificação.",
+    "type": "Tipo",
+    "types": {
+      "reminders": "Lembretes de consulta",
+      "confirmations": "Confirmações",
+      "points": "Pontos",
+      "news": "Novidades"
+    },
+    "channels": {
+      "email": "E-mail",
+      "push": "Push",
+      "sms": "SMS",
+      "whatsapp": "WhatsApp"
+    },
+    "cellA11y": "{{type}} por {{channel}}",
+    "saveError": "Não foi possível guardar a preferência."
+  },
+  "pwa": {
+    "title": "App no seu dispositivo",
+    "install": "Instalar a app",
+    "installed": "A app já está instalada neste dispositivo.",
+    "unavailable": "A instalação fica disponível na app publicada, num navegador compatível.",
+    "iosStep1": "Toque em Partilhar",
+    "iosStep2": "Escolha «Adicionar ao ecrã principal»"
+  },
+  "payments": {
+    "testMode": "Modo de teste — nenhum pagamento real",
+    "notConfigured": "Os pagamentos ainda não estão ativos nesta versão.",
+    "checkoutTitle": "Concluir subscrição",
+    "checkoutDesc": "Pagamento seguro. Pode cancelar quando quiser.",
+    "portalError": "Não foi possível abrir a gestão da subscrição.",
+    "endsOn": "A subscrição termina a {{date}}; depois passa ao plano Free."
   }
 }
