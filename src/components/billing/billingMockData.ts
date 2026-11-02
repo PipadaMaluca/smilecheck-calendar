@@ -45,7 +45,7 @@ const REVENUE_SERIES = [
 export function getDentistRevenueMonths(now: Date = new Date()) {
   return REVENUE_SERIES.map((v, i) => {
     const d = new Date(now.getFullYear(), now.getMonth() - (REVENUE_SERIES.length - 1 - i), 1);
-    const label = formatDate(d, 'LLL').replace('.', '');
+    const label = formatDate(d, { month: 'short' }).replace('.', '');
     return { month: label.charAt(0).toUpperCase() + label.slice(1), monthIndex: d.getMonth(), year: d.getFullYear(), ...v };
   });
 }
