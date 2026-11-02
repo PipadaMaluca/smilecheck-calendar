@@ -666,21 +666,24 @@
       "adamantine": "Adamantin"
     },
     "rankings": {
-      "global": "Global",
-      "globalDesc": "Top 25 mondial",
+      "global": "Général",
+      "globalDesc": "Top 25 de tous les pays de l'app",
       "national": "National",
       "nationalDesc": "Top 25 de votre pays",
       "clinic": "Cabinet",
       "clinicDesc": "Au sein de votre cabinet",
       "regional": "Régional",
       "regionalDesc": "Dans votre région",
-      "prize1": "200 € + badge exclusif",
-      "prize2": "100 € + badge",
-      "prize3": "50 € + badge",
-      "annualGlobal": "Top 1 global annuel",
-      "annualGlobalPrize": "2000 € + billet de congrès + 10% réduction post-universitaire + badge",
+      "prize1": "Récompenses à venir",
+      "prize2": "Récompenses à venir",
+      "prize3": "Récompenses à venir",
+      "annualGlobal": "Top 1 général annuel",
+      "annualGlobalPrize": "Récompenses à venir",
       "annualNational": "Top 1 national annuel",
-      "annualNationalPrize": "1000 € + billet de congrès + badge"
+      "annualNationalPrize": "Récompenses à venir",
+      "ord1": "1er",
+      "ord2": "2e",
+      "ord3": "3e"
     }
   },
   "dashboard": {
