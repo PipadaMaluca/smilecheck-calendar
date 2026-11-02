@@ -129,7 +129,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               </div>
               <div className="min-w-0">
                 <h1 className="text-xl font-bold text-foreground">{data.name}</h1>
-                <p className="text-sm text-muted-foreground mt-0.5">{data.age} anos</p>
+                <p className="text-sm text-muted-foreground mt-0.5">{t('i18nB.age', { count: data.age })}</p>
                 <div className="flex flex-col gap-1 mt-2 text-sm">
                   <a href={`tel:${data.phone}`} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                     <Phone className="w-3.5 h-3.5" /> {data.phone}

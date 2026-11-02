@@ -512,7 +512,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
-            <span className="font-medium">{data.presencialPrice == null ? t('clinicProfileExtra.variablePrice') : t('units.from', { price: formatCurrency(data.presencialPrice) })}</span>
+            <span className="font-medium">{data.presencialPrice == null ? t('i18nB.variablePrice') : t('units.from', { price: formatCurrency(data.presencialPrice) })}</span>
           </div>
           <div className="flex justify-between items-start">
             <span className="text-muted-foreground">{t('profile.paymentMethods')}</span>
@@ -597,11 +597,11 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
       <section className="space-y-3">
         <h4 className="text-sm font-semibold">{t('profile.information')}</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{data.email}</span></div>
-          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><a href={`tel:${data.phone}`} className="text-primary hover:underline">{data.phone}</a></div>
-          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">NIF</span><span>{data.nif}</span></div>
-          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Website</span><span>{data.website}</span></div>
-          <div className="flex justify-between py-1.5 border-b border-border/30 md:col-span-2"><span className="text-muted-foreground">Morada</span><span>{clinic.address}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.email')}</span><span>{data.email}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.phone')}</span><a href={`tel:${data.phone}`} className="text-primary hover:underline">{data.phone}</a></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.taxId')}</span><span>{data.nif}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.website')}</span><span>{data.website}</span></div>
+          <div className="flex justify-between py-1.5 border-b border-border/30 md:col-span-2"><span className="text-muted-foreground">{t('i18nB.address')}</span><span>{clinic.address}</span></div>
         </div>
       </section>
     </div>

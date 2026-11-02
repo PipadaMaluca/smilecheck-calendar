@@ -143,7 +143,7 @@ function DentistManagePanel({ open, onClose }: { open: boolean; onClose: () => v
               {showSalary && (
                 <div>
                   <Label className="text-xs">{t('jobs.salaryExpectation')}</Label>
-                  <Input type="number" placeholder="Ex: 2500" value={salary} onChange={e => setSalary(e.target.value)} />
+                  <Input type="number" placeholder={t('i18nA.salaryExample')} value={salary} onChange={e => setSalary(e.target.value)} />
                 </div>
               )}
               <div>
@@ -632,7 +632,7 @@ export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketView
               </div>
               <div>
                 <Label className="text-xs">{t('jobs.estimatedConsultsDay')}</Label>
-                <Input type="number" value={proposalData.consultasPerDay} onChange={e => setProposalData(p => ({ ...p, consultasPerDay: e.target.value }))} placeholder="Ex: 8" />
+                <Input type="number" value={proposalData.consultasPerDay} onChange={e => setProposalData(p => ({ ...p, consultasPerDay: e.target.value }))} placeholder={t('i18nA.countExample')} />
               </div>
             </div>
           )}

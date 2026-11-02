@@ -379,7 +379,7 @@ export function DesktopTimeline({
                               <span className="text-[11px] font-bold truncate text-white leading-tight">
                                 {consultation.patient.name}
                                 {consultation.patient.age && (
-                                  <span className="font-normal ml-0.5">({consultation.patient.age} anos)</span>
+                                  <span className="font-normal ml-0.5">({t('i18nB.age', { count: consultation.patient.age })})</span>
                                 )}
                               </span>
                             </div>
@@ -426,12 +426,12 @@ export function DesktopTimeline({
           onClose={() => setContextMenu(null)}
           onStatusChange={(c, s) => {
             onStatusChange?.(c, s);
-            toast.success(`Estado alterado para "${STATUS_CONFIG[s].label}"`);
+            toast.success(t('i18nB.statusChanged'));
             setContextMenu(null);
           }}
           onCopy={(c) => { onCopy?.(c); setContextMenu(null); }}
           onViewProfile={() => setContextMenu(null)}
-          onSendMessage={() => { toast.info('Abrir conversa...'); setContextMenu(null); }}
+          onSendMessage={() => { toast.info(t('i18nB.openConversation')); setContextMenu(null); }}
         />
       )}
     </>

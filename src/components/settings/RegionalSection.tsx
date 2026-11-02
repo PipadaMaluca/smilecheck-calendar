@@ -6,27 +6,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 
 const LANGUAGES = [
-  { value: 'pt', label: '🇵🇹 Português' },
-  { value: 'fr', label: '🇫🇷 Français' },
-  { value: 'en', label: '🇬🇧 English' },
+  { value: 'pt', label: 'i18nA.portuguese' },
+  { value: 'fr', label: 'i18nA.french' },
+  { value: 'en', label: 'i18nA.english' },
 ];
 
 const CURRENCIES = [
-  { value: 'EUR', label: '€ EUR - Euro' },
-  { value: 'USD', label: '$ USD - Dólar Americano' },
-  { value: 'GBP', label: '£ GBP - Libra Esterlina' },
-  { value: 'BRL', label: 'R$ BRL - Real Brasileiro' },
-  { value: 'CHF', label: 'CHF - Franco Suíço' },
+  { value: 'EUR', label: 'i18nA.eur' },
+  { value: 'USD', label: 'i18nA.usd' },
+  { value: 'GBP', label: 'i18nA.gbp' },
+  { value: 'BRL', label: 'i18nA.brl' },
+  { value: 'CHF', label: 'i18nA.chf' },
 ];
 
 const TIMEZONES = [
-  { value: 'UTC', label: 'UTC' },
-  { value: 'Europe/Lisbon', label: 'Europe/Lisbon (WET)' },
-  { value: 'Europe/Paris', label: 'Europe/Paris (CET)' },
-  { value: 'Europe/London', label: 'Europe/London (GMT)' },
-  { value: 'America/New_York', label: 'America/New_York (EST)' },
-  { value: 'America/Sao_Paulo', label: 'America/São_Paulo (BRT)' },
-  { value: 'Asia/Tokyo', label: 'Asia/Tokyo (JST)' },
+  { value: 'UTC', label: 'i18nA.utc' },
+  { value: 'Europe/Lisbon', label: 'i18nA.lisbon' },
+  { value: 'Europe/Paris', label: 'i18nA.paris' },
+  { value: 'Europe/London', label: 'i18nA.london' },
+  { value: 'America/New_York', label: 'i18nA.newYork' },
+  { value: 'America/Sao_Paulo', label: 'i18nA.saoPaulo' },
+  { value: 'Asia/Tokyo', label: 'i18nA.tokyo' },
 ];
 
 export function RegionalSection() {
@@ -53,7 +53,7 @@ export function RegionalSection() {
             </SelectTrigger>
             <SelectContent>
               {LANGUAGES.map(l => (
-                <SelectItem key={l.value} value={l.value}>{l.label}</SelectItem>
+                <SelectItem key={l.value} value={l.value}>{t(l.label)}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -71,7 +71,7 @@ export function RegionalSection() {
             </SelectTrigger>
             <SelectContent>
               {CURRENCIES.map(c => (
-                <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>
+                <SelectItem key={c.value} value={c.value}>{t(c.label)}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -97,7 +97,7 @@ export function RegionalSection() {
               </SelectTrigger>
               <SelectContent>
                 {TIMEZONES.map(tz => (
-                  <SelectItem key={tz.value} value={tz.value}>{tz.label}</SelectItem>
+                  <SelectItem key={tz.value} value={tz.value}>{t(tz.label)}</SelectItem>
                 ))}
               </SelectContent>
             </Select>

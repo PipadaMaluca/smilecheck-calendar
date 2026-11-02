@@ -495,13 +495,13 @@ export function PatientProfileBody({
         <SectionCard title={t('profile.personalInfo')}>
           <div className="space-y-3 text-sm">
             {[
-            { icon: Mail, label: 'Email', value: data.email },
-            { icon: Phone, label: 'Telefone', value: data.phone },
-            { icon: Calendar, label: 'Nascimento', value: `${data.birthDate} (${data.age} anos)` },
-            { icon: User, label: 'Género', value: data.gender },
+            { icon: Mail, label: t('i18nB.email'), value: data.email },
+            { icon: Phone, label: t('i18nB.phone'), value: data.phone },
+            { icon: Calendar, label: t('i18nB.birth'), value: `${data.birthDate} (${t('i18nB.age', { count: data.age })})` },
+            { icon: User, label: t('i18nB.gender'), value: data.gender },
             {
               icon: MapPin,
-              label: 'Morada',
+              label: t('i18nB.address'),
               value: `${data.address}, ${data.postalCode} ${data.city}`
             }].
             map((item) =>

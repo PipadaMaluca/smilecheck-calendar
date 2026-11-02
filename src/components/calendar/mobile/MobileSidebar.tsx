@@ -122,7 +122,7 @@ export function MobileSidebar({
       <SheetContent side="left" className="w-[300px] p-0 bg-card overflow-y-auto">
         <SheetHeader className="p-4 border-b border-border">
           <div className="flex items-center justify-between">
-            <SheetTitle className="sr-only">Menu</SheetTitle>
+            <SheetTitle className="sr-only">{t('i18nB.menu')}</SheetTitle>
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="w-5 h-5" />
             </Button>

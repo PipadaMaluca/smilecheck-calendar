@@ -44,6 +44,60 @@ const INSURANCE_OPTIONS = ['Médis', 'Multicare', 'AdvanceCare', 'ADSE', 'Mutuel
 const ACCESSIBILITY_OPTIONS = ['Acesso a cadeira de rodas', 'Elevador', 'WC adaptado', 'Estacionamento reservado', 'Estacionamento gratuito', 'Próximo de transportes públicos'];
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
+const OPTION_LABEL_KEYS: Record<string, string> = {
+  "Generalista": "i18nB.option1",
+  "Ortodontia": "i18nB.option2",
+  "Implantologia": "i18nB.option3",
+  "Endodontia": "i18nB.option4",
+  "Periodontia": "i18nB.option5",
+  "Odontopediatria": "i18nB.option6",
+  "Cirurgia Oral": "i18nB.option7",
+  "Prostodontia": "i18nB.option8",
+  "Estética Dentária": "i18nB.option9",
+  "Português": "i18nB.option10",
+  "Inglês": "i18nB.option11",
+  "Francês": "i18nB.option12",
+  "Espanhol": "i18nB.option13",
+  "Alemão": "i18nB.option14",
+  "Italiano": "i18nB.option15",
+  "Tempo Inteiro": "i18nB.option16",
+  "Tempo Parcial": "i18nB.option17",
+  "Freelancer": "i18nB.option18",
+  "Substituição": "i18nB.option19",
+  "Manhãs": "i18nB.option20",
+  "Tardes": "i18nB.option21",
+  "Noites": "i18nB.option22",
+  "Fins de semana": "i18nB.option23",
+  "Seguro de saúde": "i18nB.option24",
+  "Formação contínua paga": "i18nB.option25",
+  "Participação em congressos": "i18nB.option26",
+  "Material clínico incluído": "i18nB.option27",
+  "Estacionamento": "i18nB.option28",
+  "Alimentação": "i18nB.option29",
+  "Cartão": "i18nB.option30",
+  "Espèces": "i18nB.option31",
+  "CB": "i18nB.option32",
+  "Chèque": "i18nB.option33",
+  "Transferência": "i18nB.option34",
+  "Acesso a cadeira de rodas": "i18nB.option35",
+  "Elevador": "i18nB.option36",
+  "WC adaptado": "i18nB.option37",
+  "Estacionamento reservado": "i18nB.option38",
+  "Estacionamento gratuito": "i18nB.option39",
+  "Próximo de transportes públicos": "i18nB.option40",
+  "Raio-X Panorâmico": "i18nB.option41",
+  "Raio-X Periapical": "i18nB.option42",
+  "Raio-X Cefalométrico": "i18nB.option43",
+  "TAC Dentário": "i18nB.option44",
+  "Segunda": "i18nB.option45",
+  "Terça": "i18nB.option46",
+  "Quarta": "i18nB.option47",
+  "Quinta": "i18nB.option48",
+  "Sexta": "i18nB.option49",
+  "Sábado": "i18nB.option50",
+  "Domingo": "i18nB.option51"
+};
+
 function DentistJobToggles() {
   const { t } = useTranslation();
   const [enabled, setEnabled] = useState(false);
@@ -76,7 +130,7 @@ function DentistJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.typeWanted')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_TYPES.map((jt) =>
-            <Badge key={jt} variant={jobTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(jobTypes, setJobTypes, jt)}>{jt}</Badge>
+            <Badge key={OPTION_LABEL_KEYS[jt] ? t(OPTION_LABEL_KEYS[jt]) : jt} variant={jobTypes.includes(jt) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(jobTypes, setJobTypes, jt)}>{jt}</Badge>
             )}
             </div>
           </div>
@@ -84,7 +138,7 @@ function DentistJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.scheduleAvailability')}</Label>
             <div className="flex flex-wrap gap-2">
               {JOB_PERIODS.map((p) =>
-            <Badge key={p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
+            <Badge key={OPTION_LABEL_KEYS[p] ? t(OPTION_LABEL_KEYS[p]) : p} variant={periods.includes(p) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(periods, setPeriods, p)}>{p}</Badge>
             )}
             </div>
           </div>
@@ -168,7 +222,7 @@ function ClinicJobToggles() {
             <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.specialtiesSought')}</Label>
             <div className="flex flex-wrap gap-2">
               {SPECIALTIES.map((s) =>
-            <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(specialties, setSpecialties, s)}>{s}</Badge>
+            <Badge key={s} variant={specialties.includes(s) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggle(specialties, setSpecialties, s)}>{OPTION_LABEL_KEYS[s] ? t(OPTION_LABEL_KEYS[s]) : s}</Badge>
             )}
             </div>
           </div>
@@ -197,7 +251,7 @@ function ClinicJobToggles() {
             <Label className="text-xs mb-2 block">{t('editProfile.benefitsOffered')}</Label>
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BENEFITS_OPTIONS.map((b) =>
-            <label key={b} className="flex items-center gap-2 text-xs cursor-pointer press">
+            <label key={OPTION_LABEL_KEYS[b] ? t(OPTION_LABEL_KEYS[b]) : b} className="flex items-center gap-2 text-xs cursor-pointer press">
                   <Checkbox checked={benefits.includes(b)} onCheckedChange={() => toggle(benefits, setBenefits, b)} />
                   {b}
                 </label>
@@ -410,7 +464,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                     <SelectContent>
                       <SelectItem value="masculino">{t('editProfile.male')}</SelectItem>
                       <SelectItem value="feminino">{t('editProfile.female')}</SelectItem>
-                      <SelectItem value="outro">Outro</SelectItem>
+                      <SelectItem value="outro">{t('i18nB.other')}</SelectItem>
                       <SelectItem value="prefiro_nao_dizer">{t('editProfile.preferNotToSay')}</SelectItem>
                     </SelectContent>
                   </Select>
@@ -449,7 +503,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.languages')}</SectionTitle>
               <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((l) =>
-            <Badge key={l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
+            <Badge key={OPTION_LABEL_KEYS[l] ? t(OPTION_LABEL_KEYS[l]) : l} variant={patientLanguages.includes(l) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(patientLanguages, setPatientLanguages, l)}>{l}</Badge>
             )}
               </div>
 
@@ -483,18 +537,18 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           {/* ===== DENTIST FIELDS ===== */}
           {userRole === 'dentist' &&
         <>
-              <SectionTitle>Dados Pessoais</SectionTitle>
+              <SectionTitle>{t('i18nB.personalData')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Nome completo">
+                <FieldGroup label={t('i18nB.fullName')}>
                   <Input value={dentistName} onChange={(e) => setDentistName(e.target.value)} />
                 </FieldGroup>
-                <PrivacyField label="Email">
+                <PrivacyField label={t('i18nB.email')}>
                   <Input type="email" value={dentistEmail} onChange={(e) => setDentistEmail(e.target.value)} />
                 </PrivacyField>
-                <PrivacyField label="Telefone">
+                <PrivacyField label={t('i18nB.phone')}>
                   <Input value={dentistPhone} onChange={(e) => setDentistPhone(e.target.value)} />
                 </PrivacyField>
-                <PrivacyField label="Data de nascimento">
+                <PrivacyField label={t('i18nB.birthDate')}>
                   <Input type="date" value={dentistBirthDate} onChange={(e) => setDentistBirthDate(e.target.value)} />
                 </PrivacyField>
               </div>
@@ -573,7 +627,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <p className="text-xs font-semibold text-muted-foreground mb-2">{sched.clinic}</p>
                   <div className="space-y-1.5">
                     {sched.days.map((d, di) =>
-              <div key={d.day} className="flex items-center gap-2 text-sm">
+              <div key={OPTION_LABEL_KEYS[d.day] ? t(OPTION_LABEL_KEYS[d.day]) : d.day} className="flex items-center gap-2 text-sm">
                         <span className="w-16 text-xs text-muted-foreground">{d.day.slice(0, 3)}</span>
                         <Switch checked={d.active} onCheckedChange={(checked) => {
                   const updated = [...dentistSchedules];
@@ -607,7 +661,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.notifications')}</SectionTitle>
               <div className="space-y-3">
                 <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.emailNotifications')}</span><Switch checked={dentistNotifEmail} onCheckedChange={setDentistNotifEmail} /></div>
-                <div className="flex items-center justify-between"><span className="text-sm">Notificações por SMS</span><Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
+                <div className="flex items-center justify-between"><span className="text-sm">{t('i18nB.smsNotifications')}</span><Switch checked={dentistNotifSms} onCheckedChange={setDentistNotifSms} /></div>
                 <div className="flex items-center justify-between"><span className="text-sm">{t('editProfile.bookingAlerts')}</span><Switch checked={dentistNotifBookings} onCheckedChange={setDentistNotifBookings} /></div>
               </div>
 
@@ -643,16 +697,16 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
               <SectionTitle>{t('editProfile.addressSection')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FieldGroup label="Morada" className="md:col-span-2">
+                <FieldGroup label={t('i18nB.address')} className="md:col-span-2">
                   <Input value={clinicAddress} onChange={(e) => setClinicAddress(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Código postal">
+                <FieldGroup label={t('i18nB.postalCode')}>
                   <Input value={clinicPostalCode} onChange={(e) => setClinicPostalCode(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Cidade">
+                <FieldGroup label={t('i18nB.city')}>
                   <Input value={clinicCity} onChange={(e) => setClinicCity(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="País">
+                <FieldGroup label={t('i18nB.country')}>
                   <Input value={clinicCountry} onChange={(e) => setClinicCountry(e.target.value)} />
                 </FieldGroup>
               </div>
@@ -726,7 +780,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <Label className="text-xs text-muted-foreground mb-2 block">{t('editProfile.paymentMethods')}</Label>
                 <div className="flex flex-wrap gap-2">
                   {PAYMENT_METHODS.map((m) =>
-              <Badge key={m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
+              <Badge key={OPTION_LABEL_KEYS[m] ? t(OPTION_LABEL_KEYS[m]) : m} variant={clinicPaymentMethods.includes(m) ? 'default' : 'outline'} className="cursor-pointer press" onClick={() => toggleMultiSelect(clinicPaymentMethods, setClinicPaymentMethods, m)}>{m}</Badge>
               )}
                 </div>
               </div>
@@ -744,7 +798,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.xrayTypes')}</SectionTitle>
               <div className="space-y-2">
                 {['Raio-X Panorâmico', 'Raio-X Periapical', 'Raio-X Cefalométrico', 'TAC Dentário'].map((xray) =>
-            <label key={xray} className="flex items-center gap-2 text-sm cursor-pointer press">
+            <label key={OPTION_LABEL_KEYS[xray] ? t(OPTION_LABEL_KEYS[xray]) : xray} className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={clinicXrayServices.includes(xray)} onCheckedChange={() => {
                 setClinicXrayServices((prev) => prev.includes(xray) ? prev.filter((x) => x !== xray) : [...prev, xray]);
               }} />
@@ -756,7 +810,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.accessibilitySection')}</SectionTitle>
               <div className="space-y-2">
                 {ACCESSIBILITY_OPTIONS.map((acc) =>
-            <label key={acc} className="flex items-center gap-2 text-sm cursor-pointer press">
+            <label key={OPTION_LABEL_KEYS[acc] ? t(OPTION_LABEL_KEYS[acc]) : acc} className="flex items-center gap-2 text-sm cursor-pointer press">
                     <Checkbox checked={clinicAccessibility.includes(acc)} onCheckedChange={() => {
                 setClinicAccessibility((prev) => prev.includes(acc) ? prev.filter((x) => x !== acc) : [...prev, acc]);
               }} />
@@ -769,7 +823,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <SectionTitle>{t('editProfile.operatingHours')}</SectionTitle>
               <div className="space-y-2">
               {clinicHours.map((h, i) =>
-            <div key={h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
+            <div key={OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
                     <span className="w-20 text-muted-foreground flex-shrink-0">{h.day}</span>
                     <Switch checked={h.open} onCheckedChange={(checked) => {
                 const updated = [...clinicHours];

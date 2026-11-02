@@ -341,11 +341,11 @@ export function MultiDentistGrid({
                         {/* Line 1: Time + Name (Age) — bold, top-aligned */}
                         <div className="flex items-baseline gap-1 w-full" style={{ lineHeight: 1 }}>
                           <span className={cn("text-white font-bold font-mono flex-shrink-0", smallMobileMulti ? "text-[11px]" : isSingleColumn ? "text-[11px]" : D.time)}>{slot.time}</span>
-                          <span className={cn("font-medium text-white truncate min-w-0", smallMobileMulti ? "text-[11px]" : isSingleColumn ? "text-[11px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
+                          <span className={cn("font-medium text-white truncate min-w-0", smallMobileMulti ? "text-[11px]" : isSingleColumn ? "text-[11px]" : D.name)} title={`${displayName}${patientAge ? ` (${t('i18nB.age', { count: patientAge })})` : ''}`}>
                             {smallMobileMulti ? patientName.split(' ')[0] : displayName}
                           </span>
                           {!smallMobileMulti && !isShort && patientAge != null && (
-                            <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[11px]" : D.age)}>({patientAge} anos)</span>
+                            <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[11px]" : D.age)}>({t('i18nB.age', { count: patientAge })})</span>
                           )}
                         </div>
                         {/* Line 2: Type pill + description (hidden on short blocks) */}

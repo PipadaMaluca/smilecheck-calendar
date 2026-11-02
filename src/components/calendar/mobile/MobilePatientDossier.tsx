@@ -26,7 +26,7 @@ export function MobilePatientDossier({ patientId, isOpen, onClose, onNavigate, u
         <Button variant="ghost" size="icon" onClick={onClose}>
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base font-semibold">Dossier do Paciente</h2>
+        <h2 className="text-base font-semibold">{t('i18nB.patientDossier')}</h2>
         <div className="w-10" />
       </div>
       <PatientDossierView

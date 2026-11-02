@@ -218,9 +218,9 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
                   }}
                   className="flex gap-3"
                 >
-                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-fri" id="wd-mf" /><Label htmlFor="wd-mf" className="text-xs">Seg - Sex</Label></div>
-                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sat" id="wd-ms" /><Label htmlFor="wd-ms" className="text-xs">Seg - Sáb</Label></div>
-                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sun" id="wd-md" /><Label htmlFor="wd-md" className="text-xs">Seg - Dom</Label></div>
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-fri" id="wd-mf" /><Label htmlFor="wd-mf" className="text-xs">{t('i18nB.monFri')}</Label></div>
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sat" id="wd-ms" /><Label htmlFor="wd-ms" className="text-xs">{t('i18nB.monSat')}</Label></div>
+                  <div className="flex items-center gap-1.5"><RadioGroupItem value="mon-sun" id="wd-md" /><Label htmlFor="wd-md" className="text-xs">{t('i18nB.monSun')}</Label></div>
                 </RadioGroup>
               </div>
             </div>
@@ -233,22 +233,22 @@ export function AgendaSettingsModal({ isOpen, onClose }: AgendaSettingsModalProp
               <div className="flex items-start gap-2">
                 <RadioGroupItem value="compact" id="density-compact" className="mt-0.5" />
                 <Label htmlFor="density-compact" className="leading-snug">
-                  <span className="font-medium">Compacto</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">Dia completo visível sem scroll</span>
+                  <span className="font-medium">{t('i18nB.compact')}</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.compactDescription')}</span>
                 </Label>
               </div>
               <div className="flex items-start gap-2">
                 <RadioGroupItem value="normal" id="density-normal" className="mt-0.5" />
                 <Label htmlFor="density-normal" className="leading-snug">
-                  <span className="font-medium">Normal</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">Padrão — scroll para ver o dia inteiro</span>
+                  <span className="font-medium">{t('i18nB.normal')}</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.normalDescription')}</span>
                 </Label>
               </div>
               <div className="flex items-start gap-2">
                 <RadioGroupItem value="expanded" id="density-expanded" className="mt-0.5" />
                 <Label htmlFor="density-expanded" className="leading-snug">
-                  <span className="font-medium">Expandido</span>
-                  <span className="block text-[11px] text-muted-foreground font-normal">Manhã ou tarde — mais detalhe por consulta</span>
+                  <span className="font-medium">{t('i18nB.expanded')}</span>
+                  <span className="block text-[11px] text-muted-foreground font-normal">{t('i18nB.expandedDescription')}</span>
                 </Label>
               </div>
             </RadioGroup>

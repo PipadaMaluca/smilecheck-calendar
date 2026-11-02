@@ -135,7 +135,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
               )}
             >
               <span>{lang.flag}</span>
-              <span>{lang.label}</span>
+              <span>{t(`i18nB.language_${lang.code}`)}</span>
             </Button>
           ))}
         </div>

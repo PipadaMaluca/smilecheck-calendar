@@ -96,7 +96,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
             <Label>{t('common.duration')}</Label>
             <Select value={duration} onValueChange={setDuration}>
               <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-              <SelectContent className="bg-card border-border">{DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
+              <SelectContent className="bg-card border-border">{DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{t('i18nB.duration', { count: Number(o.value) })}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-2">

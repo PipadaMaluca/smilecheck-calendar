@@ -304,11 +304,11 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">tele</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">pres</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
                         </div>
                       </li>
                     );

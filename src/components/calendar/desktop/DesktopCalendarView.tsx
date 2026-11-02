@@ -759,7 +759,7 @@ export function DesktopCalendarView() {
                     <Menu className="w-5 h-5" />
                   </Button>
                   <div className="h-6 w-px bg-border" />
-                  <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">Hoje</Button>
+                  <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">{t('i18nB.today')}</Button>
                   <div className="flex items-center gap-1">
                     <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
                     <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>

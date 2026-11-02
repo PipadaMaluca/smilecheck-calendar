@@ -511,7 +511,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                     if (conversation.isTyping) {
                       previewText = '';
                     } else if (conversation.lastMessageFromMe) {
-                      previewText = `${t('chat.you')}: ${conversation.lastMessage}`;
+                      previewText = `${t('i18nA.me')}: ${conversation.lastMessage}`;
                     }
 
                     return (

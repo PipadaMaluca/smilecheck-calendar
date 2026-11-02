@@ -59,15 +59,15 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
           </div>
           <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">{consultation.patient.phone}</div>
           <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">
-            {consultation.patient.dateOfBirth || '—'}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}
+            {consultation.patient.dateOfBirth || '—'}{consultation.patient.age ? ` (${t('i18nB.age', { count: consultation.patient.age })})` : ''}
           </div>
         </section>
 
         <section className="pt-4 text-[13px] font-semibold">
           {isConfirmed ? (
-            <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Confirmada</span>
+            <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> {t('i18nB.confirmed')}</span>
           ) : (
-            <span className="text-amber-500">⏳ Pendente</span>
+            <span className="text-amber-500">⏳ {t('i18nB.pending')}</span>
           )}
         </section>
 

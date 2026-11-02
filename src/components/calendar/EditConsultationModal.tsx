@@ -140,7 +140,7 @@ export function EditConsultationModal({ consultation, isOpen, onClose, onSave, o
           <Select value={duration} onValueChange={setDuration}>
             <SelectTrigger className="w-full"><SelectValue placeholder={t('editConsultation.selectDuration')} /></SelectTrigger>
             <SelectContent className="bg-card border-border">
-              {DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+              {DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{t('i18nB.duration', { count: Number(o.value) })}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>

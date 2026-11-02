@@ -181,7 +181,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="excel" id="modal-fmt-excel" />
-                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer press">Excel (.csv)</Label>
+                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer press">{t('i18nA.excelCsv')}</Label>
                 </div>
               </RadioGroup>
             </div>

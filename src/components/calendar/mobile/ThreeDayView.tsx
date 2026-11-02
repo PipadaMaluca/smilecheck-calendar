@@ -185,7 +185,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         className="bg-[#607D8B]/30 rounded flex items-center justify-center"
                         style={{ gridRow: `${startIdx + 1} / span 1` }}
                       >
-                        <span className="text-muted-foreground/60 text-[11px]">Pausa</span>
+                        <span className="text-muted-foreground/60 text-[11px]">{t('i18nB.break')}</span>
                       </div>
                     );
                   }
@@ -229,7 +229,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                             {displayName}
                           </span>
                           <span className="text-[11px] text-muted-foreground whitespace-nowrap">
-                            ({consultation.patient.age} anos)
+                            ({t('i18nB.age', { count: consultation.patient.age })})
                           </span>
                         </div>
                         {/* Line 2: TYPE pill + notes */}
