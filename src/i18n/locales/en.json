@@ -2817,6 +2817,19 @@
       "routineCheckup": "Routine check-up",
       "photosAttached": "Photos attached",
       "photoCount": "{{count}} photo(s)"
+    },
+    "ai": {
+      "title": "Smart analysis",
+      "analyzing": "Analyzing your symptoms…",
+      "error": "Couldn't get the analysis right now. You can continue booking.",
+      "tips": "Until your appointment:",
+      "disclaimer": "Preliminary AI-generated guidance. It does not replace your dentist's assessment.",
+      "emergency": "These signs suggest you should seek urgent care today.",
+      "urgency": {
+        "low": "Low urgency",
+        "moderate": "Moderate urgency",
+        "urgent": "Urgent"
+      }
     }
   },
   "consultationReasons": {

@@ -2801,6 +2801,19 @@
       "routineCheckup": "Contrôle de routine",
       "photosAttached": "Photos jointes",
       "photoCount": "{{count}} photo(s)"
+    },
+    "ai": {
+      "title": "Analyse intelligente",
+      "analyzing": "Analyse de vos symptômes…",
+      "error": "Analyse indisponible pour le moment. Vous pouvez continuer la réservation.",
+      "tips": "En attendant votre rendez-vous :",
+      "disclaimer": "Orientation préliminaire générée par IA. Elle ne remplace pas l'avis du dentiste.",
+      "emergency": "Ces signes indiquent de consulter en urgence aujourd'hui.",
+      "urgency": {
+        "low": "Urgence faible",
+        "moderate": "Urgence modérée",
+        "urgent": "Urgent"
+      }
     }
   },
   "consultationReasons": {

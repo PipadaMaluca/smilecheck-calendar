@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TriageData } from '@/types/triage';
+import { TriageAiAnalysisCard } from './TriageAiAnalysisCard';
 
 interface TriageCompletionProps {
   triageData: TriageData;
@@ -114,6 +115,8 @@ export function TriageCompletion({ triageData, onFindDentists }: TriageCompletio
           </div>
         )}
       </div>
+
+      <TriageAiAnalysisCard triageData={triageData} symptomLabels={selectedSymptomLabels} durationLabel={durationLabel} />
 
       <Button
         onClick={onFindDentists}
