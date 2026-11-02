@@ -1,3 +1,5 @@
+import { zonedParts } from '@/lib/formatters';
+import { effectiveFear } from '@/lib/fearScale';
 import { demoDate } from '@/lib/demoClock';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
@@ -77,6 +79,7 @@ interface PatientInfo {
   dateOfBirth?: string;
   rating: number;
   level: string;
+  fearLevel?: number;
 }
 
 function ageFrom(dob?: string, reference = demoDate(2026, 0, 31)) {
@@ -93,10 +96,12 @@ function toDisplayDob(iso: string | null) {
   return `${d}/${m}/${y}`;
 }
 
-function mapRow(row: AppointmentRow, patients: Map<string, PatientInfo>): Consultation {
-  const scheduled = new Date(row.scheduled_at);
-  const time = `${String(scheduled.getUTCHours()).padStart(2, '0')}:${String(scheduled.getUTCMinutes()).padStart(2, '0')}`;
-  const date = new Date(scheduled.getUTCFullYear(), scheduled.getUTCMonth(), scheduled.getUTCDate());
+function mapRow(row: AppointmentRow, patients: Map<string, PatientInfo>, zones: Map<string, string>): Consultation {
+  // Wall-clock time in the clinic's own time zone (Europe/Lisbon, Europe/Paris…), never the viewer's.
+  const tz = (row.clinic_id && zones.get(row.clinic_id)) || 'Europe/Lisbon';
+  const z = zonedParts(row.scheduled_at, tz);
+  const time = `${String(z.hour).padStart(2, '0')}:${String(z.minute).padStart(2, '0')}`;
+  const date = new Date(z.year, z.month - 1, z.day);
 
   const dentistMockId = row.dentist_id ? SEED_DENTIST_ID_BY_UUID[row.dentist_id] : undefined;
   const dentist = mockDentists.find((d) => d.id === dentistMockId) ?? {
@@ -131,6 +136,7 @@ function mapRow(row: AppointmentRow, patients: Map<string, PatientInfo>): Consul
       level: patient?.level ?? 'Lata',
       age: ageFrom(patient?.dateOfBirth),
       dateOfBirth: patient?.dateOfBirth,
+      fearLevel: patient?.fearLevel,
     },
     dentist,
     clinic,
@@ -157,11 +163,18 @@ async function fetchConsultations(): Promise<Consultation[]> {
   if (!rows.length) return [];
 
   const patientIds = [...new Set(rows.map((r) => r.patient_id))];
-  const [profilesRes, patientsRes, levelsRes] = await Promise.all([
+  const clinicIds = [...new Set(rows.map((r) => r.clinic_id).filter((c): c is string => !!c))];
+  const [profilesRes, patientsRes, levelsRes, clinicsRes, fearRes] = await Promise.all([
     supabase.from('profiles').select('id, full_name, phone, date_of_birth').in('id', patientIds),
-    supabase.from('patients').select('id, rating').in('id', patientIds),
+    supabase.from('patients').select('id, rating, fear_level').in('id', patientIds),
     supabase.from('user_levels').select('id, level').in('id', patientIds),
+    clinicIds.length ? supabase.from('clinics').select('id, timezone').in('id', clinicIds) : Promise.resolve({ data: [] as { id: string; timezone: string }[] }),
+    supabase.from('fear_assessments').select('patient_id, level, created_at').in('patient_id', patientIds).order('created_at', { ascending: false }),
   ]);
+  const zones = new Map((clinicsRes.data ?? []).map((c) => [c.id, c.timezone]));
+  const proFear = new Map<string, number>();
+  for (const f of fearRes.data ?? []) if (!proFear.has(f.patient_id)) proFear.set(f.patient_id, f.level);
+  const selfFear = new Map((patientsRes.data ?? []).map((p) => [p.id, p.fear_level as number | null]));
 
   const ratings = new Map((patientsRes.data ?? []).map((p) => [p.id, Number(p.rating ?? 0)]));
   const levels = new Map((levelsRes.data ?? []).map((l) => [l.id, DB_LEVEL_TO_LABEL[l.level] ?? l.level]));
@@ -174,11 +187,12 @@ async function fetchConsultations(): Promise<Consultation[]> {
         dateOfBirth: toDisplayDob(p.date_of_birth),
         rating: ratings.get(p.id) ?? 0,
         level: levels.get(p.id) ?? 'Lata',
+        fearLevel: effectiveFear(selfFear.get(p.id), proFear.get(p.id)) ?? undefined,
       },
     ])
   );
 
-  return rows.map((row) => mapRow(row, patients));
+  return rows.map((row) => mapRow(row, patients, zones));
 }
 
 interface AgendaDataValue {

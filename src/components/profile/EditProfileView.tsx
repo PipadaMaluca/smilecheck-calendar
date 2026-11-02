@@ -1,5 +1,5 @@
 import { FearScalePicker } from '@/components/fear/FearScale';
-import { fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
+import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
 import type { FearLevel } from '@/lib/fearScale';
 import { useState, useEffect } from 'react';
 import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase, Lock } from 'lucide-react';
@@ -312,7 +312,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   const { t } = useTranslation();
   const [fearLevel, setFearLevel] = useState<number | null>(null);
   useEffect(() => {
-    if (userRole === 'patient') fetchOwnFearLevel().then((v) => setFearLevel(v ?? 0)).catch(() => setFearLevel(0));
+    if (userRole === 'patient') fetchOwnFearLevel().then((v) => setFearLevel(v ?? DEMO_FEAR.patientLevel)).catch(() => setFearLevel(null));
   }, [userRole]);
   const handleFearChange = (lvl: FearLevel) => {
     setFearLevel(lvl);
