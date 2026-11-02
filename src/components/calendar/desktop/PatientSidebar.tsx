@@ -176,6 +176,7 @@ export function PatientSidebar({
           onClick={onSelectAllMembers}>
           <Checkbox
             checked={allSelected}
+            aria-label={t('common.all')}
             className="border-muted-foreground h-5 w-5 rounded-full data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
           <span className="text-sm font-medium">{t('common.all')}</span>
         </div>
@@ -201,6 +202,7 @@ export function PatientSidebar({
                   onClick={() => onMemberToggle(member.id, false)}>
                   <Checkbox
                     checked={isSelected}
+                    aria-label={member.name}
                     className="border-muted-foreground h-5 w-5 rounded-full data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     onClick={(e) => {e.stopPropagation();onMemberToggle(member.id, true);}} />
                   <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
