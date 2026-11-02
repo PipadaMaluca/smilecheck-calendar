@@ -1,3 +1,4 @@
+import { onActivateKey } from '@/lib/a11y';
 import { cn } from '@/lib/utils';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 import { mockClinics } from '@/data/mockData';
@@ -25,7 +26,10 @@ export function ClickableClinicName({ name, clinicId, className, children }: Cli
   }
 
   return (
-    <button
+    <span
+      role="button"
+      tabIndex={0}
+      onKeyDown={onActivateKey}
       onClick={(e) => {
         e.stopPropagation();
         nav.openClinicProfile(clinic.id);
@@ -36,6 +40,6 @@ export function ClickableClinicName({ name, clinicId, className, children }: Cli
       )}
     >
       {children || name}
-    </button>
+    </span>
   );
 }
