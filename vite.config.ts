@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => ({
             options: {
               cacheName: "sc-pages",
               networkTimeoutSeconds: 4,
-              plugins: [{ handlerDidError: async () => (await caches.match("/offline.html")) ?? Response.error() }],
+              plugins: [{ handlerDidError: async () => (await (globalThis as any).caches.match("/offline.html")) ?? Response.error() }],
             },
           },
           {
