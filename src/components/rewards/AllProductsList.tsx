@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { formatNumber } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Glyph } from '@/components/ui/glyph';
@@ -64,7 +65,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
                 <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-foreground truncate">{product.name}</p>
+                <p className="text-sm font-semibold text-foreground truncate">{demoText(product.name)}</p>
                 <p className="text-xs text-muted-foreground truncate">
                   {product.category}
                   {product.discount && (

@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { formatNumber } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -72,7 +73,7 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
                 <div className="flex items-center gap-3">
                   <Glyph emoji={product.emoji} fallback={Gift} className="w-7 h-7 text-primary" />
                   <div>
-                    <p className="text-sm font-medium text-foreground">{product.name}</p>
+                    <p className="text-sm font-medium text-foreground">{demoText(product.name)}</p>
                     {product.discount && (
                       <Badge variant="outline" className="text-xs border-amber-500/50 text-warning mt-1">
                         {product.discount} {t('store.discount')}
@@ -111,7 +112,7 @@ export function RedeemModal({ product, userPoints, onClose, onConfirm }: RedeemM
                 {t('store.redeemConfirmed')}
               </DialogTitle>
               <DialogDescription>
-                {t('store.yourCode')} "{product.name}":
+                {t('store.yourCode')} "{demoText(product.name)}":
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">

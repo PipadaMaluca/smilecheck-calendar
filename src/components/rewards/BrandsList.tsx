@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { formatNumber } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -38,7 +39,7 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
                     <Glyph emoji={product.emoji} fallback={Gift} className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
+                    <p className="text-sm font-medium text-foreground truncate">{demoText(product.name)}</p>
                   </div>
                   <Badge variant="secondary" className="text-xs font-bold shrink-0">
                     {formatNumber(product.points)} pts
@@ -65,7 +66,7 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-foreground">{brand.name}</p>
-              <p className="text-xs text-muted-foreground">{brand.description}</p>
+              <p className="text-xs text-muted-foreground">{demoText(brand.description)}</p>
             </div>
             <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
           </CardContent>
