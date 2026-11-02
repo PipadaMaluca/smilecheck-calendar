@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { logoEnterClass, type LogoEnter } from '@/components/motion/logoEnter';
 
 type LogoVariant = 'icon' | 'full' | 'horizontal';
 
@@ -35,6 +36,8 @@ interface LogoProps {
   theme?: 'dark' | 'light';
   /** Lazy-load when rendered below the fold. */
   lazy?: boolean;
+  /** Entrance swell: 'mount' every mount (default), 'app' only when the app opens (persistent shell), false off. */
+  enter?: LogoEnter;
   /** Deprecated, kept for backward-compat. No-op. */
   withWordmark?: boolean;
   /** Deprecated, kept for backward-compat. No-op. */
@@ -61,7 +64,9 @@ export function Logo({
   alt = 'SmileCheck',
   theme,
   lazy = false,
+  enter = 'mount',
 }: LogoProps) {
+  const [enterClass] = useState(() => logoEnterClass(enter));
   const [dark, setDark] = useState<boolean>(getDark);
 
   useEffect(() => {
@@ -91,7 +96,7 @@ export function Logo({
         height={Math.round(size / ASPECT[v])}
         loading={lazy ? 'lazy' : 'eager'}
         decoding="async"
-        className={cn('select-none', className)}
+        className={cn('select-none', enterClass, className)}
         style={{ width: size, height: 'auto', borderRadius, display: 'block' }}
         draggable={false}
       />

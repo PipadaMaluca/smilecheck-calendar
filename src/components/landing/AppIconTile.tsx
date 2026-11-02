@@ -41,7 +41,7 @@ export function AppIconTile({ forceDark = false }: { forceDark?: boolean } = {})
           height={200}
           decoding="async"
           draggable={false}
-          className="relative z-raised w-36 h-36 md:w-52 md:h-52 shadow-xl select-none"
+          className="sc-logo-enter relative z-raised w-36 h-36 md:w-52 md:h-52 shadow-xl select-none"
           style={{ borderRadius: '22%' }}
         />
       </picture>

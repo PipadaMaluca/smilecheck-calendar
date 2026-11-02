@@ -1777,7 +1777,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
   100% { transform: translateY(-120px) scale(1); opacity: 0; }
 }
 @keyframes sc-logo-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(33,150,243,0); }
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--brand-glow) / 0); }
   50% { box-shadow: 0 0 40px 4px rgba(33,150,243,0.18); }
 }
 @keyframes sc-grad-wipe {
@@ -1824,8 +1824,8 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .sc-logo-spring { animation: sc-logo-spring 800ms cubic-bezier(0.34, 1.56, 0.64, 1) both; will-change: transform; }
 
 @keyframes sc-footer-glow {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(33,150,243,0)); }
-  50% { filter: drop-shadow(0 0 18px rgba(33,150,243,0.55)); }
+  0%, 100% { filter: drop-shadow(0 0 0 hsl(var(--brand-glow) / 0)); }
+  50% { filter: drop-shadow(0 0 18px hsl(var(--brand-glow) / 0.5)); }
 }
 .sc-footer-glow { animation: sc-footer-glow 3s ease-in-out infinite; }
 
@@ -2042,3 +2042,11 @@ span.sentence-case { display: inline-block; }
 
 /* Dark theme: red *text* uses a lighter shade for AA; red fills keep --destructive. */
 :root:not(.light) .text-destructive { color: hsl(0 90% 72%); }
+
+/* Logo entrance: one soft 1 → 1.10 → 1 swell (~750 ms). Uses `scale` so it never fights transform-based entrances. */
+@keyframes sc-logo-enter { 0%, 100% { scale: 1; } 50% { scale: 1.1; } }
+.sc-logo-enter { animation: sc-logo-enter 750ms cubic-bezier(0.45, 0, 0.55, 1) 1 both; }
+/* Brand glow (#2196F3 with transparency) shared by every logo pulse, readable on light and dark. */
+:root { --brand-glow: 207 90% 54%; }
+@media (prefers-reduced-motion: reduce) { .sc-logo-enter, .sc-halo, .sc-footer-glow { animation: none !important; } }
+.sc-brand-glow { filter: drop-shadow(0 0 24px hsl(var(--brand-glow) / 0.35)); }

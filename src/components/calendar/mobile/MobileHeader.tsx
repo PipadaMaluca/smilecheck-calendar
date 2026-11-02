@@ -83,7 +83,7 @@ export function MobileHeader({
         {!onViewModeChange && !(showNewConsultation && onNewConsultation) && (
           <div className="flex items-center justify-center w-full min-h-11 px-16">
             {!activeTab || activeTab === 'home' ? (
-              <Logo variant="icon" size={36} />
+              <Logo variant="icon" size={36} enter="app" />
             ) : (
               <h1 className="text-base font-semibold text-foreground truncate">
                 {t(TAB_TITLE_KEYS[activeTab] ?? `nav.${activeTab}`, { defaultValue: '' })}

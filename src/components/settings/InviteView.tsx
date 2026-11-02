@@ -1,6 +1,9 @@
+import type * as React from "react";
 import { formatDate } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, Gift, Users } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Mail, Smartphone, Gift, Users, Share2, Download, QrCode } from 'lucide-react';
+import { QRCodeCanvas } from 'qrcode.react';
+import { WhatsAppIcon, TelegramIcon, MessengerIcon, FacebookIcon, XIcon, LinkedInIcon, InstagramIcon, TikTokIcon } from './SocialIcons';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -83,9 +86,36 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     toast.success(t('common.copied'));
   };
 
-  const shareWhatsApp = () => window.open(`https://wa.me/?text=${encodeURIComponent(shareMessage)}`, '_blank');
-  const shareEmail = () => window.open(`mailto:?subject=${encodeURIComponent(t('invite.emailSubject'))}&body=${encodeURIComponent(shareMessage)}`, '_blank');
-  const shareSMS = () => window.open(`sms:?body=${encodeURIComponent(shareMessage)}`, '_blank');
+  // Only the app/invite is shared — never a dentist or clinic. Points come only from the referral rule, never from sharing.
+  const enc = encodeURIComponent;
+  const open = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
+  const canNativeShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+  const shareNative = async () => {
+    try { await navigator.share({ title: t('invite.emailSubject'), text: shareMessage, url: link }); } catch { /* cancelled */ }
+  };
+  const copyForStory = () => { navigator.clipboard.writeText(link); toast.success(t('invite.copiedForStory')); };
+  const downloadQr = () => {
+    const canvas = document.getElementById('invite-qr') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png'); a.download = `smilecheck-${code}.png`; a.click();
+  };
+  const shareTargets: { id: string; label: string; Icon: React.ComponentType<{ className?: string }>; onClick: () => void; copyOnly?: boolean }[] = [
+    { id: 'whatsapp', label: 'WhatsApp', Icon: WhatsAppIcon, onClick: () => open(`https://wa.me/?text=${enc(shareMessage)}`) },
+    { id: 'telegram', label: 'Telegram', Icon: TelegramIcon, onClick: () => open(`https://t.me/share/url?url=${enc(link)}&text=${enc(t('invite.shareMessage', { code, link: '' }).trim())}`) },
+    { id: 'messenger', label: 'Messenger', Icon: MessengerIcon, onClick: () => {
+      // Messenger has no public web share URL: the app link opens the native composer; on desktop we copy and open Messenger.
+      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) { window.location.href = `fb-messenger://share/?link=${enc(link)}`; return; }
+      navigator.clipboard.writeText(shareMessage); toast.success(t('invite.copiedForMessenger')); open('https://www.messenger.com/');
+    } },
+    { id: 'facebook', label: 'Facebook', Icon: FacebookIcon, onClick: () => open(`https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`) },
+    { id: 'x', label: 'X', Icon: XIcon, onClick: () => open(`https://twitter.com/intent/tweet?text=${enc(shareMessage)}`) },
+    { id: 'linkedin', label: 'LinkedIn', Icon: LinkedInIcon, onClick: () => open(`https://www.linkedin.com/sharing/share-offsite/?url=${enc(link)}`) },
+    { id: 'email', label: t('invite.channelEmail'), Icon: Mail, onClick: () => { window.location.href = `mailto:?subject=${enc(t('invite.emailSubject'))}&body=${enc(shareMessage)}`; } },
+    { id: 'sms', label: 'SMS', Icon: Smartphone, onClick: () => { window.location.href = `sms:?&body=${enc(shareMessage)}`; } },
+    { id: 'instagram', label: 'Instagram', Icon: InstagramIcon, onClick: copyForStory, copyOnly: true },
+    { id: 'tiktok', label: 'TikTok', Icon: TikTokIcon, onClick: copyForStory, copyOnly: true },
+  ];
 
   const inviteContent = (
     <div className="px-4 py-5 md:p-6 max-w-lg mx-auto space-y-5 md:space-y-6 pb-32 w-full overflow-x-hidden">
@@ -133,23 +163,44 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       </Card>
 
       {/* Share Options */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <p className="text-xs font-semibold text-muted-foreground uppercase">{t('invite.shareVia')}</p>
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareWhatsApp}>
-            <MessageCircle className="w-5 h-5 text-emerald-500" />
-            <span className="text-2xs md:text-xs">WhatsApp</span>
+        {canNativeShare && (
+          <Button className="w-full h-11 gap-2" onClick={shareNative}>
+            <Share2 className="w-4 h-4" /> {t('invite.shareNative')}
           </Button>
-          <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareEmail}>
-            <Mail className="w-5 h-5 text-primary" />
-            <span className="text-2xs md:text-xs">Email</span>
-          </Button>
-          <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareSMS}>
-            <Smartphone className="w-5 h-5 text-primary" />
-            <span className="text-2xs md:text-xs">SMS</span>
-          </Button>
+        )}
+        <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
+          {shareTargets.map(({ id, label, Icon, onClick, copyOnly }) => (
+            <Button
+              key={id}
+              variant="outline"
+              className="flex-col h-16 px-1 gap-1"
+              onClick={onClick}
+              aria-label={copyOnly ? t('invite.copyForA11y', { network: label }) : t('invite.shareOnA11y', { network: label })}
+            >
+              <Icon className="w-5 h-5 text-foreground" />
+              <span className="text-2xs truncate max-w-full">{label}</span>
+            </Button>
+          ))}
         </div>
+        <p className="text-xs text-muted-foreground">{t('invite.storyHint')}</p>
       </div>
+
+      {/* QR code */}
+      <Card className="bg-card/80 backdrop-blur border-border">
+        <CardContent className="pt-4 px-3 md:px-6 flex flex-col items-center gap-3 text-center">
+          <p className="text-sm font-semibold text-foreground flex items-center gap-1.5"><QrCode className="w-4 h-4 text-primary" /> {t('invite.qrTitle')}</p>
+          <p className="text-xs text-muted-foreground">{t('invite.qrDesc')}</p>
+          <div className="rounded-xl bg-background p-3 border border-border">
+            {/* QR must stay dark-on-light in both themes so every camera reads it */}
+            <QRCodeCanvas id="invite-qr" value={link} size={176} marginSize={2} bgColor="#ffffff" fgColor="#000000" level="M" title={t('invite.qrAlt')} />
+          </div>
+          <Button variant="outline" className="h-11 gap-2" onClick={downloadQr}>
+            <Download className="w-4 h-4" /> {t('invite.qrDownload')}
+          </Button>
+        </CardContent>
+      </Card>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-2 md:gap-3">

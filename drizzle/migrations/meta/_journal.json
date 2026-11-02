@@ -43,6 +43,13 @@
       "when": 1793650052694,
       "tag": "0005_dentist_must_belong_to_clinic",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793653638418,
+      "tag": "0006_showcased_achievements",
+      "breakpoints": true
     }
   ]
 }

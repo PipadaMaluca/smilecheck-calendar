@@ -1523,7 +1523,11 @@
         "name": "N°1 National",
         "desc": "1ère place au classement national"
       }
-    }
+    },
+    "addToShowcaseA11y": "Ajouter à la vitrine",
+    "removeFromShowcaseA11y": "Retirer de la vitrine",
+    "showcaseFull": "Vous avez déjà 8 succès en vitrine. Retirez-en un pour en ajouter un autre.",
+    "showcaseSaveError": "Impossible d’enregistrer la vitrine. Veuillez réessayer."
   },
   "scores": {
     "title": "Scores",
@@ -4190,8 +4194,8 @@
     "linkLabel": "Lien d’invitation",
     "copied": "Copié",
     "shareVia": "Partager via",
-    "shareMessage": "Essaie SmileCheck ! Utilise mon code {{code}} à l’inscription et gagne des points. {{link}}",
-    "emailSubject": "Essaie SmileCheck !",
+    "shareMessage": "Essayez SmileCheck ! Utilisez mon code {{code}} lors de votre inscription. {{link}}",
+    "emailSubject": "Essayez SmileCheck !",
     "invited": "Invités",
     "confirmed": "Confirmés",
     "pointsEarned": "Points gagnés",
@@ -4207,7 +4211,18 @@
     "pointsShort": "+{{count, number}} pts",
     "invitedPerson": "Personne invitée n° {{n}}",
     "noInvitesYet": "Vous n'avez encore invité personne.",
-    "rulesDetail": "Vous pouvez inviter des patients, des dentistes et des cabinets. Chaque invitation compte une fois, lorsque la personne vérifie son téléphone et termine sa 1re consultation (dentistes et cabinets : lorsque le profil est approuvé). Gagnez aussi 1 point pour chaque personne amenée par vos invités."
+    "rulesDetail": "Vous pouvez inviter des patients, des dentistes et des cabinets. Chaque invitation compte une fois, lorsque la personne vérifie son téléphone et termine sa 1re consultation (dentistes et cabinets : lorsque le profil est approuvé). Gagnez aussi 1 point pour chaque personne amenée par vos invités.",
+    "shareNative": "Partager…",
+    "channelEmail": "E-mail",
+    "shareOnA11y": "Partager l’invitation sur {{network}}",
+    "copyForA11y": "Copier le lien pour {{network}}",
+    "copiedForStory": "Lien copié — collez-le dans votre story ou votre bio",
+    "storyHint": "Instagram et TikTok ne permettent pas de partager un lien directement : nous copions le lien pour que vous le colliez dans votre story ou votre bio.",
+    "qrTitle": "QR code de l’invitation",
+    "qrDesc": "Montrez ce code à la personne à côté de vous pour qu’elle s’inscrive.",
+    "qrAlt": "QR code de votre lien d’invitation",
+    "qrDownload": "Télécharger l’image",
+    "copiedForMessenger": "Message copié — collez-le dans la conversation Messenger"
   },
   "sweep": {
     "dentistProfile": {

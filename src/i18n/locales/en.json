@@ -1073,7 +1073,7 @@
     "overallProgress": "Overall progress",
     "all": "All",
     "completed": "Completed",
-    "manageShowcase": "Manage Showcase",
+    "manageShowcase": "Manage highlights",
     "addToShowcase": "Add to Showcase?",
     "secret": "Secret achievement",
     "secrets": "Secrets",
@@ -1539,7 +1539,11 @@
         "name": "#1 National",
         "desc": "1st place in national ranking"
       }
-    }
+    },
+    "addToShowcaseA11y": "Add to highlights",
+    "removeFromShowcaseA11y": "Remove from highlights",
+    "showcaseFull": "You already have 8 highlights. Remove one to add another.",
+    "showcaseSaveError": "Couldn't save your highlights. Please try again."
   },
   "scores": {
     "title": "Scores",
@@ -4190,7 +4194,7 @@
     "linkLabel": "Invite link",
     "copied": "Copied",
     "shareVia": "Share via",
-    "shareMessage": "Try SmileCheck! Use my code {{code}} when you sign up and earn points. {{link}}",
+    "shareMessage": "Try SmileCheck! Use my code {{code}} when you sign up. {{link}}",
     "emailSubject": "Try SmileCheck!",
     "invited": "Invited",
     "confirmed": "Confirmed",
@@ -4207,7 +4211,18 @@
     "pointsShort": "+{{count, number}} pts",
     "invitedPerson": "Invited person #{{n}}",
     "noInvitesYet": "You haven't invited anyone yet.",
-    "rulesDetail": "You can invite patients, dentists and clinics. Each invite counts once, when the person verifies their phone and completes their first appointment (dentists and clinics: when the profile is approved). You also earn 1 point for each person your invitees bring."
+    "rulesDetail": "You can invite patients, dentists and clinics. Each invite counts once, when the person verifies their phone and completes their first appointment (dentists and clinics: when the profile is approved). You also earn 1 point for each person your invitees bring.",
+    "shareNative": "Share…",
+    "channelEmail": "Email",
+    "shareOnA11y": "Share the invite on {{network}}",
+    "copyForA11y": "Copy the link for {{network}}",
+    "copiedForStory": "Link copied — paste it in your story or bio",
+    "storyHint": "Instagram and TikTok don't allow sharing links directly: we copy the link so you can paste it in your story or bio.",
+    "qrTitle": "Invite QR code",
+    "qrDesc": "Show this code to someone next to you so they can sign up.",
+    "qrAlt": "QR code of your invite link",
+    "qrDownload": "Download image",
+    "copiedForMessenger": "Message copied — paste it in your Messenger chat"
   },
   "sweep": {
     "dentistProfile": {

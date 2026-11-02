@@ -931,6 +931,7 @@ export type Database = {
           plan: string
           referral_code: string | null
           role: Database["public"]["Enums"]["app_role"]
+          showcased_achievements: string[]
           updated_at: string
         }
         Insert: {
@@ -947,6 +948,7 @@ export type Database = {
           plan?: string
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          showcased_achievements?: string[]
           updated_at?: string
         }
         Update: {
@@ -963,6 +965,7 @@ export type Database = {
           plan?: string
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          showcased_achievements?: string[]
           updated_at?: string
         }
         Relationships: []
@@ -1290,6 +1293,7 @@ export type Database = {
           id: string | null
           language: Database["public"]["Enums"]["app_language"] | null
           role: Database["public"]["Enums"]["app_role"] | null
+          showcased_achievements: string[] | null
         }
         Insert: {
           avatar_url?: string | null
@@ -1297,6 +1301,7 @@ export type Database = {
           id?: string | null
           language?: Database["public"]["Enums"]["app_language"] | null
           role?: Database["public"]["Enums"]["app_role"] | null
+          showcased_achievements?: string[] | null
         }
         Update: {
           avatar_url?: string | null
@@ -1304,6 +1309,7 @@ export type Database = {
           id?: string | null
           language?: Database["public"]["Enums"]["app_language"] | null
           role?: Database["public"]["Enums"]["app_role"] | null
+          showcased_achievements?: string[] | null
         }
         Relationships: []
       }
