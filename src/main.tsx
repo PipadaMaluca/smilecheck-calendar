@@ -3,6 +3,8 @@ import App from "./App.tsx";
 import "./index.css";
 import "./i18n";
 import { initThemeAtBoot } from "./hooks/useTheme";
+import { registerAppServiceWorker } from "./lib/pwa";
 
 initThemeAtBoot();
+registerAppServiceWorker();
 createRoot(document.getElementById("root")!).render(<App />);
