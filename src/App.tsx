@@ -15,7 +15,6 @@ import AppPage from "./pages/AppPage";
 import Landing from "./pages/Landing";
 import Triagem from "./pages/Triagem";
 import Termos from "./pages/Termos";
-import OAuthConsent from "./pages/OAuthConsent";
 import Privacidade from "./pages/Privacidade";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
@@ -43,7 +42,6 @@ const App = () => (
             <Route path="/signup" element={<SignUpScreen />} />
             <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             <Route path="/demo" element={<DemoSelector />} />
             <Route path="/termos" element={<Termos />} />
             <Route path="/privacidade" element={<Privacidade />} />
