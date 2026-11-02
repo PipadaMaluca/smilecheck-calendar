@@ -128,8 +128,6 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           </div>
         </>
       )}
-      <div className="hidden">
-      </div>
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-sm">{t('search.maxTeleconsultPrice')}</span>

@@ -1,3 +1,5 @@
+import { ChequeBadges } from '@/components/clinic/ChequeBadges';
+import { chequesForClinic } from '@/lib/cheques';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { formatCurrency } from '@/lib/formatters';
@@ -139,6 +141,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
           </span>
         ))}
       </div>
+      <ChequeBadges cheques={{ country: 'PT', dentista: dentist.clinics.some(c => chequesForClinic(c.id).dentista), protese: dentist.clinics.some(c => chequesForClinic(c.id).protese) }} />
     </div>
   );
 }
