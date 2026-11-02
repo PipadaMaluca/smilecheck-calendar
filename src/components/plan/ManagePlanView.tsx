@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { CLINIC_DENTIST_LIMIT, commissionPercent } from '@/lib/planRules';
 
 interface ManagePlanViewProps {
   userRole: UserRole;
@@ -27,6 +28,7 @@ type PlanTier = 'free' | 'pro' | 'premium';
 
 interface PlanFeature {
   textKey: string;
+  params?: Record<string, unknown>;
   included: boolean;
   isInherited?: boolean;
   isWarning?: boolean;
@@ -99,6 +101,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
   {
     id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
     features: [
+    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('free') }, included: true },
     { textKey: 'plan.features.10teleconsultsMonth', included: true },
     { textKey: 'plan.features.1clinic', included: true },
     { textKey: 'plan.features.basicPointsSystem', included: true },
@@ -115,6 +118,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     id: 'pro', nameKey: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
     features: [
     { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
+    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('pro') }, included: true },
     { textKey: 'plan.features.unlimitedTeleconsults', included: true },
     { textKey: 'plan.features.upTo3clinics', included: true },
     { textKey: 'plan.features.keepPoints', included: true },
@@ -130,6 +134,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     id: 'premium', nameKey: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badgeKey: 'plan.badges.best',
     features: [
     { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
+    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('premium') }, included: true },
     { textKey: 'plan.features.unlimitedClinics', included: true },
     { textKey: 'plan.features.pointsBonus10', included: true },
     { textKey: 'plan.features.maxSearchPriority', included: true },
@@ -146,7 +151,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
   {
     id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
     features: [
-    { textKey: 'plan.features.upTo3dentists', included: true },
+    { textKey: 'plan.features.dentistLimit', params: { count: CLINIC_DENTIST_LIMIT.free }, included: true },
     { textKey: 'plan.features.basicFeatures', included: true },
     { textKey: 'plan.features.basicPointsSystem', included: true },
     { textKey: 'plan.features.10fixedColors', included: true },
@@ -159,7 +164,7 @@ const PLANS_BY_ROLE: Record<string, Plan[]> = {
     id: 'pro', nameKey: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
     features: [
     { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
-    { textKey: 'plan.features.upTo5dentists', included: true },
+    { textKey: 'plan.features.dentistLimit', params: { count: CLINIC_DENTIST_LIMIT.pro }, included: true },
     { textKey: 'plan.features.keepPoints', included: true },
     { textKey: 'plan.features.statistics', included: true },
     { textKey: 'plan.features.monthlyReports', included: true },
@@ -396,10 +401,10 @@ export function ManagePlanView({
                   {visibleIncluded.map((feat, i) =>
                   <div key={i} className={cn('flex items-start gap-1.5 text-[12px] leading-[1.4]', feat.isInherited && 'mb-0.5')}>
                       {feat.isInherited ?
-                    <span className="text-muted-foreground text-xs italic">{t(feat.textKey)}</span> :
+                    <span className="text-muted-foreground text-xs italic">{t(feat.textKey, feat.params)}</span> :
                     <>
                           <Check className="w-3.5 h-3.5 text-[#4CAF50] flex-shrink-0 mt-0.5" strokeWidth={3} />
-                          <span className="text-foreground">{t(feat.textKey)}</span>
+                          <span className="text-foreground">{t(feat.textKey, feat.params)}</span>
                         </>
                     }
                     </div>
@@ -422,7 +427,7 @@ export function ManagePlanView({
                         {warningFeatures.map((feat, i) =>
                         <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
                           <AlertTriangle className="w-3.5 h-3.5 text-warning flex-shrink-0 mt-0.5" />
-                          <span className="text-warning font-medium">{t(feat.textKey)}</span>
+                          <span className="text-warning font-medium">{t(feat.textKey, feat.params)}</span>
                         </div>
                         )}
                       </div>
@@ -435,7 +440,7 @@ export function ManagePlanView({
                       {excludedFeatures.map((feat, i) =>
                     <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
                           <X className="w-3.5 h-3.5 text-[#EF5350] flex-shrink-0 mt-0.5" />
-                          <span className="text-muted-foreground line-through">{t(feat.textKey)}</span>
+                          <span className="text-muted-foreground line-through">{t(feat.textKey, feat.params)}</span>
                         </div>
                     )}
                     </div>
