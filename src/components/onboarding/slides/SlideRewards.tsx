@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { useState, useEffect } from 'react';
 import { Gift, Calendar, Flame, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -30,8 +31,7 @@ export const SlideRewards = ({ isActive }: SlideRewardsProps) => {
   ];
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6">
-      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2"><Gift className="w-6 h-6" />{t('onboarding.rewardsTitle')}</h2>
+    <SlideFrame title={<h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold flex items-center gap-2"><Gift className="w-6 h-6" />{t('onboarding.rewardsTitle')}</h2>}>
       <div className="glass-card-strong p-6 w-full max-w-sm text-center mb-6">
         <p className="text-muted-foreground mb-4 text-sm">{t('onboarding.rewardsNextIn')}</p>
         <div className="flex justify-center gap-2 mb-6">
@@ -64,6 +64,6 @@ export const SlideRewards = ({ isActive }: SlideRewardsProps) => {
       <p className="text-muted-foreground text-center text-sm max-w-xs">
         {t('onboarding.rewardsReset')} <span className="text-gaming-gold font-semibold">{t('onboarding.rewardsResetTime')}</span> {t('onboarding.rewardsDontLose')}
       </p>
-    </div>
+    </SlideFrame>
   );
 };

@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { UserRole } from '@/types/calendar';
 import { Wallet, Star, CheckCircle2, Footprints, AlarmClock, Handshake, Brush, ClipboardList, Smartphone, MessageCircle, FileText, Flame, Stethoscope, BarChart3, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -25,11 +26,10 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
   const pts = userRole === 'patient' ? PATIENT_PTS : userRole === 'dentist' ? DENTIST_PTS : CLINIC_PTS;
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6 overflow-y-auto py-8">
-      <h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold mb-6 flex items-center gap-2">
+    <SlideFrame title={<h2 className="font-gaming text-2xl md:text-3xl text-gaming-gold flex items-center gap-2">
         <Wallet className="w-6 h-6" />
         {t(`onboarding.${roleKey}.pointsTitle`)}
-      </h2>
+      </h2>}>
       <div className="glass-card p-4 w-full max-w-sm space-y-2">
         {keys.map((key, index) => {
           const Icon = icons[index];
@@ -46,6 +46,6 @@ export const SlidePoints = ({ isActive, userRole }: SlidePointsProps) => {
       </div>
       <p className="mt-6 text-muted-foreground text-center max-w-xs text-sm">{t(`onboarding.${roleKey}.pointsBottom`)}</p>
       <p className="text-2xs text-muted-foreground text-center max-w-xs mt-2">{t('onboarding.xpNote')}</p>
-    </div>
+    </SlideFrame>
   );
 };

@@ -666,21 +666,24 @@
       "adamantine": "Adamantino"
     },
     "rankings": {
-      "global": "Global",
-      "globalDesc": "Top 25 mundial",
+      "global": "Geral",
+      "globalDesc": "Top 25 de todos os países da app",
       "national": "Nacional",
       "nationalDesc": "Top 25 do seu país",
       "clinic": "Clínica",
       "clinicDesc": "Dentro da sua clínica",
       "regional": "Regional",
       "regionalDesc": "Na sua região",
-      "prize1": "200 € + distintivo exclusivo",
-      "prize2": "100 € + distintivo",
-      "prize3": "50 € + distintivo",
-      "annualGlobal": "Top 1 global anual",
-      "annualGlobalPrize": "2000 € + Bilhete de Congresso + 10% Desconto Pós-Graduação + Distintivo",
+      "prize1": "Prémios a anunciar",
+      "prize2": "Prémios a anunciar",
+      "prize3": "Prémios a anunciar",
+      "annualGlobal": "Top 1 geral anual",
+      "annualGlobalPrize": "Prémios a anunciar",
       "annualNational": "Top 1 nacional anual",
-      "annualNationalPrize": "1000 € + Bilhete de Congresso + Distintivo"
+      "annualNationalPrize": "Prémios a anunciar",
+      "ord1": "1.º",
+      "ord2": "2.º",
+      "ord3": "3.º"
     }
   },
   "dashboard": {
@@ -1280,7 +1283,7 @@
       },
       "so2": {
         "name": "Primeiro Favorito",
-        "desc": "Adicionar 1º favorito"
+        "desc": "Adicionar 1.º favorito"
       },
       "so3": {
         "name": "Rede",
@@ -1394,7 +1397,7 @@
       },
       "r2": {
         "name": "Nº 1 Clínica",
-        "desc": "1º lugar numa clínica"
+        "desc": "1.º lugar numa clínica"
       },
       "r3": {
         "name": "Top 10",
@@ -1402,7 +1405,7 @@
       },
       "r4": {
         "name": "Nº 1 Nacional",
-        "desc": "1º lugar nacional"
+        "desc": "1.º lugar nacional"
       },
       "cs1": {
         "name": "Sequência 7",
@@ -1556,7 +1559,7 @@
       },
       "cr4": {
         "name": "Nº 1",
-        "desc": "1º lugar nacional"
+        "desc": "1.º lugar nacional"
       },
       "ccs1": {
         "name": "Sequência 30",
@@ -1600,7 +1603,7 @@
       },
       "csec5": {
         "name": "Nº 1 Nacional",
-        "desc": "1º lugar na classificação nacional"
+        "desc": "1.º lugar na classificação nacional"
       }
     }
   },
@@ -4115,17 +4118,17 @@
     "unlocks": {
       "patient": {
         "basicProfile": "Perfil básico",
-        "badges2": "2 badges em destaque",
+        "badges2": "2 distintivos em destaque",
         "basicSearch": "Pesquisa básica",
-        "badges3": "3 badges em destaque",
+        "badges3": "3 distintivos em destaque",
         "fullHistory": "Histórico completo de consultas",
-        "badges4": "4 badges em destaque",
+        "badges4": "4 distintivos em destaque",
         "rateClinics": "Avaliar clínicas",
         "personalStats": "Estatísticas pessoais",
-        "badges6": "6 badges em destaque",
+        "badges6": "6 distintivos em destaque",
         "sealLoyal": "Selo \"Paciente Fiel\"",
         "higherWaitingPriority": "Prioridade superior em listas de espera",
-        "badges8": "8 badges em destaque",
+        "badges8": "8 distintivos em destaque",
         "sealExemplary": "Selo \"Paciente Exemplar\"",
         "priorityBooking": "Reserva prioritária em horários ocupados",
         "earlyVacancy": "Notificações antecipadas de vagas",
@@ -4138,17 +4141,17 @@
       },
       "dentist": {
         "basicProfile": "Perfil básico",
-        "badges2": "2 badges em destaque",
+        "badges2": "2 distintivos em destaque",
         "clinicRanking": "Classificação de clínica",
-        "badges3": "3 badges em destaque",
+        "badges3": "3 distintivos em destaque",
         "nationalRankingView": "Acesso à classificação nacional",
-        "badges4": "4 badges em destaque",
+        "badges4": "4 distintivos em destaque",
         "nationalRankingPosition": "Ver posição na classificação nacional",
         "basicStats": "Estatísticas básicas de desempenho",
-        "badges6": "6 badges em destaque",
+        "badges6": "6 distintivos em destaque",
         "sealRecommended": "Selo \"Dentista Recomendado\"",
         "searchHighlight": "Destaque na pesquisa de pacientes",
-        "badges8": "8 badges em destaque",
+        "badges8": "8 distintivos em destaque",
         "sealTop": "Selo \"Top Dentista\"",
         "searchPriority": "Prioridade nos resultados de pesquisa",
         "advancedStats": "Estatísticas avançadas",
@@ -4163,17 +4166,17 @@
       },
       "clinic": {
         "basicProfile": "Perfil básico",
-        "badges2": "2 badges em destaque",
+        "badges2": "2 distintivos em destaque",
         "basicTeam": "Gestão básica de equipa",
-        "badges3": "3 badges em destaque",
+        "badges3": "3 distintivos em destaque",
         "basicStats": "Estatísticas básicas da clínica",
-        "badges4": "4 badges em destaque",
+        "badges4": "4 distintivos em destaque",
         "anonComparison": "Comparação anonimizada com outras clínicas",
         "monthlyReports": "Relatórios mensais",
-        "badges6": "6 badges em destaque",
+        "badges6": "6 distintivos em destaque",
         "sealRecommended": "Selo \"Clínica Recomendada\"",
         "searchHighlight": "Destaque na pesquisa",
-        "badges8": "8 badges em destaque",
+        "badges8": "8 distintivos em destaque",
         "sealTop": "Selo \"Clínica Top\"",
         "advancedReports": "Relatórios avançados",
         "maxSearchPriority": "Prioridade máxima na pesquisa",

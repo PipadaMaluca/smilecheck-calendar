@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { Sparkles } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,7 @@ export const SlideWelcome = ({ isActive, userRole }: SlideWelcomeProps) => {
   const tagline = t(`onboarding.${roleKey}.welcomeTagline`);
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6 text-center">
+    <SlideFrame>
       <div className={"relative mb-8"}>
         <div className="flex items-center justify-center">
           <span className="block sm:hidden"><Logo variant="full" size={260} className="drop-shadow-[0_0_20px_rgba(100,180,255,0.4)]" /></span>
@@ -33,6 +34,6 @@ export const SlideWelcome = ({ isActive, userRole }: SlideWelcomeProps) => {
           {tagline.includes(',') && <>, <span className="text-gaming-diamond font-semibold">{tagline.split(',').slice(1).join(',').trim()}</span></>}
         </p>
       </div>
-    </div>
+    </SlideFrame>
   );
 };

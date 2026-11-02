@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { Check, Square, PartyPopper, Rocket, Package, Medal } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,7 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
   const progressPercentage = (bonusPoints / maxPoints) * 100;
 
   return (
-    <div className="h-full flex flex-col items-center justify-center px-6">
+    <SlideFrame>
       <div className={"mb-6"}>
         <div className="w-24 h-24 rounded-full flex items-center justify-center glow-gold" style={{ background: 'linear-gradient(135deg, hsla(45, 100%, 50%, 0.2), hsla(162, 100%, 43%, 0.1))' }}>
           <Rocket className="w-14 h-14" />
@@ -73,6 +74,6 @@ export const SlideStart = ({ isActive, userRole, onComplete }: SlideStartProps) 
         <PartyPopper className="w-6 h-6" />
         <span className="font-gaming">{t('onboarding.start')}</span>
       </button>
-    </div>
+    </SlideFrame>
   );
 };

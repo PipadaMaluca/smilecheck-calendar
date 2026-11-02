@@ -666,21 +666,24 @@
       "adamantine": "Adamantine"
     },
     "rankings": {
-      "global": "Global",
-      "globalDesc": "World Top 25",
+      "global": "Overall",
+      "globalDesc": "Top 25 across all app countries",
       "national": "National",
       "nationalDesc": "Top 25 in your country",
       "clinic": "Clinic",
       "clinicDesc": "Within your clinic",
       "regional": "Regional",
       "regionalDesc": "In your region",
-      "prize1": "€200 + exclusive badge",
-      "prize2": "€100 + badge",
-      "prize3": "€50 + badge",
-      "annualGlobal": "Annual Global Top 1",
-      "annualGlobalPrize": "€2000 + Conference Ticket + 10% Postgraduate Discount + Badge",
+      "prize1": "Rewards to be announced",
+      "prize2": "Rewards to be announced",
+      "prize3": "Rewards to be announced",
+      "annualGlobal": "Annual overall top 1",
+      "annualGlobalPrize": "Rewards to be announced",
       "annualNational": "Annual National Top 1",
-      "annualNationalPrize": "€1000 + Conference Ticket + Badge"
+      "annualNationalPrize": "Rewards to be announced",
+      "ord1": "1st",
+      "ord2": "2nd",
+      "ord3": "3rd"
     }
   },
   "dashboard": {

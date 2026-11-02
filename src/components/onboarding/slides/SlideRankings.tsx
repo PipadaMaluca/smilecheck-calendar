@@ -1,3 +1,4 @@
+import { SlideFrame } from '../SlideFrame';
 import { UserRole } from '@/types/calendar';
 import { Trophy, Medal, Globe, Flag, Building2, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -11,37 +12,35 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
     ? [{ icon: Globe, titleKey: 'onboarding.rankings.global', descKey: 'onboarding.rankings.globalDesc' }, { icon: Flag, titleKey: 'onboarding.rankings.national', descKey: 'onboarding.rankings.nationalDesc' }, { icon: MapPin, titleKey: 'onboarding.rankings.regional', descKey: 'onboarding.rankings.regionalDesc' }]
     : [{ icon: Globe, titleKey: 'onboarding.rankings.global', descKey: 'onboarding.rankings.globalDesc' }, { icon: Flag, titleKey: 'onboarding.rankings.national', descKey: 'onboarding.rankings.nationalDesc' }, { icon: Building2, titleKey: 'onboarding.rankings.clinic', descKey: 'onboarding.rankings.clinicDesc' }];
 
-  const sectionTitle = "text-sm font-bold text-center text-foreground mt-4 mb-2";
+  const sectionTitle = "text-xs font-bold text-center text-foreground mt-2 mb-1";
 
   return (
-    <div className="h-full w-full overflow-y-auto px-4 pb-4 pt-2">
+    <SlideFrame title={<h2 className="font-gaming text-xl md:text-2xl text-gaming-gold flex items-center justify-center gap-2 text-center">
+<Trophy className="w-6 h-6 shrink-0" />{t('onboarding.rankingsTitle')}
+        </h2>}>
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
-        {/* Title */}
-        <h2 className="w-full text-base font-bold text-center text-gaming-gold mb-3 px-12">
-<Trophy className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('onboarding.rankingsTitle')}
-        </h2>
 
         {/* Podium */}
-        <div className="grid grid-cols-3 gap-1 w-full max-w-[280px] items-end mb-2">
+        <div className="grid grid-cols-3 gap-1 w-full max-w-[280px] items-end mb-1">
           {/* 2º */}
           <div className="flex flex-col items-center">
             <Medal className="w-6 h-6 mb-1 text-slate-300" />
-            <div className="w-full h-14 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#C0C0C0' }}>
-              <span className="text-base font-bold text-black">2º</span>
+            <div className="w-full h-10 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#C0C0C0' }}>
+              <span className="text-base font-bold text-black">{t('onboarding.rankings.ord2')}</span>
             </div>
           </div>
           {/* 1º */}
           <div className="flex flex-col items-center">
             <Medal className="w-7 h-7 mb-1 text-yellow-400" />
-            <div className="w-full h-20 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#FFD700' }}>
-              <span className="text-lg font-bold text-black">1º</span>
+            <div className="w-full h-14 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#FFD700' }}>
+              <span className="text-lg font-bold text-black">{t('onboarding.rankings.ord1')}</span>
             </div>
           </div>
           {/* 3º */}
           <div className="flex flex-col items-center">
             <Medal className="w-6 h-6 mb-1 text-amber-600" />
-            <div className="w-full h-10 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#CD7F32' }}>
-              <span className="text-base font-bold text-black">3º</span>
+            <div className="w-full h-8 rounded-t-lg flex items-center justify-center" style={{ backgroundColor: '#CD7F32' }}>
+              <span className="text-base font-bold text-black">{t('onboarding.rankings.ord3')}</span>
             </div>
           </div>
         </div>
@@ -52,8 +51,8 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
           {rankingTypes.map((type, index) => {
             const Icon = type.icon;
             return (
-              <div key={index} className="bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-center" style={{ padding: '12px 4px' }}>
-                <Icon className="w-6 h-6" />
+              <div key={index} className="bg-white/5 border border-white/10 rounded-xl flex flex-col items-center justify-center text-center" style={{ padding: '8px 4px' }}>
+                <Icon className="w-5 h-5" />
                 <p className="text-xs font-bold text-foreground mt-1">{t(type.titleKey)}</p>
                 <p className="text-2xs text-muted-foreground mt-0.5">{t(type.descKey)}</p>
               </div>
@@ -66,17 +65,17 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         <div className="grid grid-cols-3 gap-2 w-full items-stretch">
           {/* 2º */}
           <div className="rounded-xl border flex flex-col items-center justify-center text-center p-2" style={{ backgroundColor: '#C0C0C015', borderColor: '#C0C0C040' }}>
-            <span className="text-sm font-bold" style={{ color: '#C0C0C0' }}>2º</span>
+            <span className="text-sm font-bold" style={{ color: '#C0C0C0' }}>{t('onboarding.rankings.ord2')}</span>
             <p className="text-2xs text-muted-foreground mt-1 leading-tight">{t('onboarding.rankings.prize2')}</p>
           </div>
           {/* 1º */}
           <div className="rounded-xl border-2 flex flex-col items-center justify-center text-center p-2" style={{ backgroundColor: '#FFD70015', borderColor: '#2196F3' }}>
-            <span className="text-sm font-bold" style={{ color: '#FFD700' }}>1º</span>
+            <span className="text-sm font-bold" style={{ color: '#FFD700' }}>{t('onboarding.rankings.ord1')}</span>
             <p className="text-2xs text-foreground mt-1 leading-tight font-semibold">{t('onboarding.rankings.prize1')}</p>
           </div>
           {/* 3º */}
           <div className="rounded-xl border flex flex-col items-center justify-center text-center p-2" style={{ backgroundColor: '#CD7F3215', borderColor: '#CD7F3240' }}>
-            <span className="text-sm font-bold" style={{ color: '#CD7F32' }}>3º</span>
+            <span className="text-sm font-bold" style={{ color: '#CD7F32' }}>{t('onboarding.rankings.ord3')}</span>
             <p className="text-2xs text-muted-foreground mt-1 leading-tight">{t('onboarding.rankings.prize3')}</p>
           </div>
         </div>
@@ -84,14 +83,14 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         {/* Annual Highlights */}
         <h3 className={sectionTitle}>{t('onboarding.annualHighlights')}</h3>
         <div className="w-full flex flex-col gap-2">
-          <div className="rounded-xl border border-white/20 flex items-center gap-3" style={{ padding: '14px 16px', background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)' }}>
+          <div className="rounded-xl border border-white/20 flex items-center gap-3" style={{ padding: '8px 12px', background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)' }}>
             <Globe className="w-6 h-6 flex-shrink-0" />
             <div className="flex-1 min-w-0 text-left">
               <p className="font-semibold text-foreground text-sm">{t('onboarding.rankings.annualGlobal')}</p>
               <p className="text-2xs text-muted-foreground mt-0.5">{t('onboarding.rankings.annualGlobalPrize')}</p>
             </div>
           </div>
-          <div className="rounded-xl border border-white/20 flex items-center gap-3" style={{ padding: '14px 16px', background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)' }}>
+          <div className="rounded-xl border border-white/20 flex items-center gap-3" style={{ padding: '8px 12px', background: 'linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)' }}>
             <Trophy className="w-6 h-6 flex-shrink-0" />
             <div className="flex-1 min-w-0 text-left">
               <p className="font-semibold text-foreground text-sm">{t('onboarding.rankings.annualNational')}</p>
@@ -101,7 +100,7 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
         </div>
 
         {/* Info Box */}
-        <div className="w-full rounded-lg text-center mt-4" style={{ backgroundColor: 'rgba(33, 150, 243, 0.1)', padding: '12px 16px' }}>
+        <div className="w-full rounded-lg text-center mt-2" style={{ backgroundColor: 'rgba(33, 150, 243, 0.1)', padding: '8px 12px' }}>
           <p className="text-2xs text-muted-foreground leading-relaxed">
             {t('onboarding.rankingsUpdate')}
           </p>
@@ -110,6 +109,6 @@ export const SlideRankings = ({ isActive, userRole }: SlideRankingsProps) => {
           </p>
         </div>
       </div>
-    </div>
+    </SlideFrame>
   );
 };
