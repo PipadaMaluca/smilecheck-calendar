@@ -31,13 +31,13 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-celebration flex items-center justify-center transition-opacity duration-300',
+        'fixed inset-0 z-celebration flex items-center justify-center overflow-hidden transition-opacity duration-300',
         selected !== null ? 'opacity-0 pointer-events-none' : 'opacity-100',
         'bg-gradient-to-br from-[hsl(220,40%,8%)] via-[hsl(220,30%,12%)] to-[hsl(220,40%,8%)]'
       )}
     >
       <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-sm max-h-full overflow-y-auto py-6">
-        <div className="w-screen max-w-3xl -my-6 md:-my-10 overflow-hidden">
+        <div className="w-screen max-w-3xl -my-6 md:-my-10 pointer-events-none">
           <AppIconTile forceDark />
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[hsl(220,15%,95%)]">SmileCheck</h1>
