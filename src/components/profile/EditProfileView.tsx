@@ -784,6 +784,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <span className="text-sm font-medium">{t('editProfile.teleconsultationsAvailable')}</span>
                   <Switch aria-label={t('editProfile.teleconsultationsAvailable')} checked={clinicTeleconsultas} onCheckedChange={setClinicTeleconsultas} />
                 </div>
+                <ClinicChequesSettings />
               </div>
 
               <SectionTitle>{t('editProfile.tariffs')}</SectionTitle>
