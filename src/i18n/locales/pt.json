@@ -1073,7 +1073,7 @@
     "overallProgress": "Progresso geral",
     "all": "Todas",
     "completed": "Completas",
-    "manageShowcase": "Gerir Destaques",
+    "manageShowcase": "Gerir destaques",
     "addToShowcase": "Adicionar aos Destaques?",
     "secret": "Conquista secreta",
     "secrets": "Secretas",
@@ -1539,7 +1539,11 @@
         "name": "Nº 1 Nacional",
         "desc": "1.º lugar na classificação nacional"
       }
-    }
+    },
+    "addToShowcaseA11y": "Adicionar aos destaques",
+    "removeFromShowcaseA11y": "Remover dos destaques",
+    "showcaseFull": "Já tem 8 destaques. Remova um para adicionar outro.",
+    "showcaseSaveError": "Não foi possível guardar os destaques. Tente novamente."
   },
   "scores": {
     "title": "Pontuações",

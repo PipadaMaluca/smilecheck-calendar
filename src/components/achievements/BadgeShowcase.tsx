@@ -101,7 +101,7 @@ export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onVi
         onOpenChange={setShowModal}
         categories={categories}
         selectedIds={showcasedIds}
-        onSave={setShowcasedIds}
+        onSave={(ids) => { if (isOwnProfile) void own.save(ids); else setShowcasedIds(ids); }}
       />
     </div>
   );

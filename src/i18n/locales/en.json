@@ -1073,7 +1073,7 @@
     "overallProgress": "Overall progress",
     "all": "All",
     "completed": "Completed",
-    "manageShowcase": "Manage Showcase",
+    "manageShowcase": "Manage highlights",
     "addToShowcase": "Add to Showcase?",
     "secret": "Secret achievement",
     "secrets": "Secrets",
@@ -1539,7 +1539,11 @@
         "name": "#1 National",
         "desc": "1st place in national ranking"
       }
-    }
+    },
+    "addToShowcaseA11y": "Add to highlights",
+    "removeFromShowcaseA11y": "Remove from highlights",
+    "showcaseFull": "You already have 8 highlights. Remove one to add another.",
+    "showcaseSaveError": "Couldn't save your highlights. Please try again."
   },
   "scores": {
     "title": "Scores",

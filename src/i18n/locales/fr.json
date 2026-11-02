@@ -1057,15 +1057,15 @@
     "overallProgress": "Progression globale",
     "all": "Toutes",
     "completed": "Terminées",
-    "manageShowcase": "Gérer la vitrine",
+    "manageShowcase": "Gérer les favoris",
     "addToShowcase": "Ajouter à la vitrine ?",
     "secret": "Réalisation secrète",
     "secrets": "Secrètes",
     "secretsDesc": "Réalisations cachées — découvrez comment les débloquer",
     "noUnlocked": "Vous n'avez encore débloqué aucune réalisation.",
     "clickToManage": "Cliquez sur une réalisation pour l'ajouter ou la retirer de votre vitrine de profil.",
-    "addedToShowcase": "ajouté à la vitrine !",
-    "removedFromShowcase": "retiré de la vitrine",
+    "addedToShowcase": "ajouté aux favoris !",
+    "removedFromShowcase": "retiré des favoris",
     "categories": {
       "firstSteps": "Premiers Pas",
       "consultations": "Rendez-vous",
@@ -1523,7 +1523,11 @@
         "name": "N°1 National",
         "desc": "1ère place au classement national"
       }
-    }
+    },
+    "addToShowcaseA11y": "Ajouter aux favoris",
+    "removeFromShowcaseA11y": "Retirer des favoris",
+    "showcaseFull": "Vous avez déjà 8 favoris. Retirez-en un pour en ajouter un autre.",
+    "showcaseSaveError": "Impossible d’enregistrer les favoris. Veuillez réessayer."
   },
   "scores": {
     "title": "Scores",
