@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { isDemoOnboardingSeen } from '@/contexts/OnboardingContext';
 
 const LS_PREFIX = 'smilecheck_coachmark_';
 
@@ -11,6 +12,8 @@ const LS_PREFIX = 'smilecheck_coachmark_';
  * Coach marks must NEVER appear during the onboarding flow.
  */
 function isOnboardingInProgress(): boolean {
+  // Demo sessions: tutorial already seen this session for some role.
+  if (['patient', 'dentist', 'clinic'].some((r) => isDemoOnboardingSeen(r))) return false;
   // Explicit user-controlled flag
   if (localStorage.getItem('sc:onboarding-completed') === 'true') return false;
   // Fallback: at least one role must have completed the legacy onboarding flow

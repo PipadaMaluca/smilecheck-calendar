@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
@@ -165,14 +166,18 @@ export function DesktopCalendarView() {
   const consultationMode = useConsultationMode(activeRole === 'dentist' ? dentistConsultations : []);
 
   // Onboarding: trigger on first visit per role
-  const { hasCompletedOnboarding, startCarousel, showCarousel, showTooltips } = useOnboarding();
+  const { hasCompletedOnboarding, startCarousel, showCarousel, showTooltips, setDemoSession } = useOnboarding();
+  const { user: authUser, demoMode: authDemoMode, loading: authLoading } = useAuth();
+  const onboardingDemo = authDemoMode || !authUser;
+  setDemoSession(onboardingDemo);
   const onboardingTriggeredRef = useRef<Set<UserRole>>(new Set());
   useEffect(() => {
+    if (authLoading) return;
     if (!onboardingTriggeredRef.current.has(activeRole) && !hasCompletedOnboarding(activeRole) && !showCarousel && !showTooltips) {
       onboardingTriggeredRef.current.add(activeRole);
       startCarousel(activeRole);
     }
-  }, [activeRole, hasCompletedOnboarding, startCarousel, showCarousel, showTooltips]);
+  }, [activeRole, hasCompletedOnboarding, startCarousel, showCarousel, showTooltips, authLoading, onboardingDemo]);
 
   // Listen to global role-change events emitted by DemoControlsPanel
   useEffect(() => {
