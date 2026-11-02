@@ -701,10 +701,10 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                 <FieldGroup label={t('editProfile.nif')}>
                   <Input value={clinicNif} onChange={(e) => setClinicNif(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Email">
+                <FieldGroup label={t('editProfile.email')}>
                   <Input type="email" value={clinicEmail} onChange={(e) => setClinicEmail(e.target.value)} />
                 </FieldGroup>
-                <FieldGroup label="Telefone">
+                <FieldGroup label={t('editProfile.phone')}>
                   <Input value={clinicPhone} onChange={(e) => setClinicPhone(e.target.value)} />
                 </FieldGroup>
                 <FieldGroup label={t('editProfile.website')}>

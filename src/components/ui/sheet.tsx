@@ -2,6 +2,12 @@ import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+
+function SrLabel({ k }: { k: string }) {
+  const { t } = useTranslation();
+  return <span className="sr-only">{t(k)}</span>;
+}
 const Sheet = SheetPrimitive.Root;
 const SheetTrigger = SheetPrimitive.Trigger;
 const SheetClose = SheetPrimitive.Close;
@@ -38,7 +44,7 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
         {children}
         <SheetPrimitive.Close className="absolute right-4 top-4 rounded-full opacity-70 ring-offset-background transition-opacity data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
           
-          <span className="sr-only">Close</span>
+          <SrLabel k="a11y.close" />
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>);

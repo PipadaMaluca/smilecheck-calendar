@@ -38,8 +38,8 @@ export function PreCallModal({ isOpen, onClose, onStart, patientName }: PreCallM
               <AlertTriangle className="w-3.5 h-3.5" /> {t('preCall.healthAlerts')}
             </p>
             <div className="flex flex-wrap gap-1.5">
-              <span className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">Penicilina</span>
-              <span className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">Látex</span>
+              <span className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{demoText('Penicilina')}</span>
+              <span className="text-xs px-2 py-1 rounded-full bg-destructive/20 text-destructive font-medium">{demoText('Látex')}</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-yellow-400">
               <Pill className="w-3 h-3" /> Varfarina — Risco com AINEs
