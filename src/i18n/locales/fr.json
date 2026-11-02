@@ -2301,9 +2301,131 @@
     "createQuick": "Créer une Téléconsultation"
   },
   "legal": {
-    "terms": "Conditions d'Utilisation",
-    "privacy": "Politique de Confidentialité",
-    "lastUpdated": "Dernière mise à jour"
+    "terms": {
+      "sections": [
+        {
+          "id": "introducao",
+          "title": "1. Introduction",
+          "content": "SmileCheck est une plateforme de gestion de la santé bucco-dentaire qui relie patients, dentistes et cabinets. En utilisant nos services, vous acceptez les présentes conditions."
+        },
+        {
+          "id": "definicoes",
+          "title": "2. Définitions",
+          "content": "• « Utilisateur » : toute personne inscrite sur la plateforme\n• « Patient » : utilisateur recherchant des soins dentaires\n• « Dentiste » : professionnel de santé bucco-dentaire inscrit\n• « Cabinet » : établissement de santé bucco-dentaire inscrit\n• « Téléconsultation » : consultation réalisée par appel vidéo via la plateforme"
+        },
+        {
+          "id": "registo",
+          "title": "3. Inscription et compte",
+          "content": "• Exactitude des données fournies\n• Vérification téléphonique obligatoire\n• Responsabilité de la sécurité du compte\n• Un compte par personne/entité"
+        },
+        {
+          "id": "pontos",
+          "title": "4. Système de points et de récompenses",
+          "content": "• XP (expérience) : points permanents qui définissent le niveau\n• Points de récompense : échangeables dans la Boutique\n• Offre Free : remise à zéro annuelle le 1er janvier\n• Offre Pro/Premium : sans remise à zéro\n• SmileCheck se réserve le droit d'ajuster la valeur des points"
+        },
+        {
+          "id": "avaliacoes",
+          "title": "5. Évaluations et avis",
+          "content": "• Limite de 40 évaluations par jour\n• Les évaluations doivent être honnêtes et fondées sur des expériences réelles\n• Contestation possible jusqu'à 24 h après consultation\n• 3 contestations rejetées entraînent une pénalité de -5 points\n• Évaluations modifiables jusqu'à 24 h après leur envoi"
+        },
+        {
+          "id": "teleconsultas",
+          "title": "6. Téléconsultations",
+          "content": "• Coût : {{price}} par séance\n• Ne remplacent pas une consultation d'urgence en présentiel\n• Nécessitent une connexion internet stable\n• Enregistrement interdit sans consentement"
+        },
+        {
+          "id": "trabalho",
+          "title": "7. Offres d'emploi",
+          "content": "• Informations d'emploi visibles uniquement entre dentistes et cabinets\n• Les patients n'ont jamais accès aux informations de recrutement\n• SmileCheck n'est pas responsable des accords de travail"
+        },
+        {
+          "id": "cancelamentos",
+          "title": "8. Annulations et absences",
+          "content": "• Annulation plus de 24 h à l'avance : sans pénalité\n• Annulation moins de 24 h à l'avance : pénalité de points\n• Absence non justifiée : pénalité maximale\n• Absence justifiée : sans pénalité"
+        },
+        {
+          "id": "propriedade",
+          "title": "9. Propriété intellectuelle",
+          "content": "• Le contenu de la plateforme appartient à SmileCheck\n• Les données cliniques appartiennent aux professionnels concernés"
+        },
+        {
+          "id": "responsabilidade",
+          "title": "10. Limitation de responsabilité",
+          "content": "• La plateforme facilite la mise en relation des utilisateurs\n• Elle ne remplace ni un diagnostic ni un traitement médical"
+        },
+        {
+          "id": "modificacoes",
+          "title": "11. Modifications",
+          "content": "SmileCheck peut modifier ces conditions avec un préavis de 30 jours."
+        },
+        {
+          "id": "contacto",
+          "title": "12. Contact",
+          "content": "E-mail : legal@smilecheck.pt\nAdresse : Av. da Liberdade 123, Lisbonne, Portugal"
+        }
+      ]
+    },
+    "privacy": {
+      "sections": [
+        {
+          "id": "responsavel",
+          "title": "1. Responsable du traitement",
+          "content": "SmileCheck, Lda. — N° fiscal : 509 123 456"
+        },
+        {
+          "id": "dados-recolhidos",
+          "title": "2. Données collectées",
+          "content": "• Données d'identification (nom, e-mail, téléphone, date de naissance)\n• Données professionnelles (n° RPPS/ordre, spécialités — dentistes)\n• Données de santé (allergies, médicaments, pathologies — patients)\n• Données d'utilisation (consultations, points, évaluations)\n• Données techniques (IP, appareil, navigateur)"
+        },
+        {
+          "id": "finalidade",
+          "title": "3. Finalités du traitement",
+          "content": "• Gestion du compte et du profil\n• Prise de rendez-vous et téléconsultations\n• Système de points et de récompenses\n• Communication entre utilisateurs\n• Amélioration des services"
+        },
+        {
+          "id": "base-legal",
+          "title": "4. Base légale",
+          "content": "• Consentement de l'utilisateur\n• Exécution d'un contrat\n• Intérêt légitime\n• Obligation légale"
+        },
+        {
+          "id": "partilha",
+          "title": "5. Partage des données",
+          "content": "• Données de santé : partagées uniquement avec les dentistes/cabinets du patient\n• Données professionnelles : visibles selon les paramètres de confidentialité\n• Offres d'emploi : visibles uniquement entre dentistes et cabinets\n• Nous ne vendons jamais de données à des tiers"
+        },
+        {
+          "id": "retencao",
+          "title": "6. Conservation des données",
+          "content": "• Données de compte : tant que le compte est actif\n• Données cliniques : 10 ans (obligation légale)\n• Données d'utilisation : 3 ans après la dernière activité"
+        },
+        {
+          "id": "direitos",
+          "title": "7. Droits de l'utilisateur (RGPD)",
+          "content": "• Droit d'accès\n• Droit de rectification\n• Droit à l'effacement\n• Droit à la portabilité\n• Droit d'opposition\n\nContact DPO : dpo@smilecheck.pt"
+        },
+        {
+          "id": "seguranca",
+          "title": "8. Sécurité",
+          "content": "• Chiffrement des données en transit et au repos\n• Authentification à deux facteurs\n• Vérification téléphonique obligatoire\n• Surveillance des accès"
+        },
+        {
+          "id": "cookies",
+          "title": "9. Cookies",
+          "content": "• Cookies essentiels (session, authentification)\n• Cookies de préférence (thème, langue)\n• Aucun cookie publicitaire"
+        },
+        {
+          "id": "alteracoes",
+          "title": "10. Modifications",
+          "content": "Notification par e-mail en cas de modifications importantes."
+        }
+      ]
+    },
+    "lastUpdated": "Dernière mise à jour : {{date}}",
+    "termsTitle": "Conditions d'utilisation",
+    "privacyTitle": "Politique de confidentialité",
+    "toc": "Sommaire",
+    "draftNotice": "Version provisoire — sous réserve de validation juridique",
+    "print": "Imprimer le document",
+    "back": "Retour"
   },
   "errors": {
     "404title": "Page introuvable",
@@ -4271,5 +4393,8 @@
     "faturacao": "Un paiement est en attente",
     "count_one": "{{count}} nouveauté",
     "count_other": "{{count}} nouveautés"
+  },
+  "meta": {
+    "defaultTitle": "SmileCheck — Santé bucco-dentaire, rendez-vous et téléconsultations"
   }
 }
