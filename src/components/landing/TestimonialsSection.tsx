@@ -49,7 +49,7 @@ export function TestimonialsSection() {
               const name = t(item.nameKey);
               return (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2 sc-perspective">
-                  <div data-reveal="image" data-anim="tilt-card" className="p-5 rounded-2xl bg-white dark:bg-background border border-border shadow-[0_2px_8px_rgba(33,150,243,0.08)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.12)] transition-colors duration-300 h-full flex flex-col">
+                  <div data-reveal="image" data-anim="tilt-card" className="p-5 rounded-2xl bg-card dark:bg-background border border-border shadow-[0_2px_8px_rgba(33,150,243,0.08)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.12)] transition-colors duration-300 h-full flex flex-col">
                     <div className="text-6xl text-primary/30 leading-none font-serif mb-2">"</div>
                     <div className="flex gap-0.5 mb-4">
                       {Array.from({ length: item.rating }).map((_, j) => (

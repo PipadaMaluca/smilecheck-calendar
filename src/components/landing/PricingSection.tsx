@@ -56,7 +56,7 @@ export function PricingSection() {
   }, []);
 
   return (
-    <section id="planos" className="py-8 sm:py-12 md:py-14 px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
+    <section id="planos" className="py-8 sm:py-12 md:py-14 px-6 md:px-10 bg-background" ref={ref}>
       <div className="max-w-3xl mx-auto mb-6"><PaymentTestModeBanner /></div>
       <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
@@ -150,7 +150,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
             <div
               key={plan.name}
               data-anim="tilt-card"
-              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-card hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-[transform,background-color,border-color,color,box-shadow] duration-150 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
+              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-card hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-[transform,background-color,border-color,color,box-shadow] duration-150 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
             >
               <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-primary to-primary/80 text-white shadow-md">
                 {plan.badge}
@@ -164,7 +164,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         return (
           <div key={plan.name} data-anim="tilt-card" className={cn(
-            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-colors duration-150 bg-white dark:bg-card',
+            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-colors duration-150 bg-card',
             isPopular
               ? 'border-2 border-primary shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
               : 'border border-border hover:shadow-xl hover:shadow-primary/5'
@@ -220,7 +220,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
           'w-full rounded-full font-semibold transition-colors',
           accent
             ? 'bg-primary-solid hover:bg-primary-solid/90 text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
-            : 'bg-white dark:bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
+            : 'bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
         )}
       >
         {t('landing.pricing.start')}

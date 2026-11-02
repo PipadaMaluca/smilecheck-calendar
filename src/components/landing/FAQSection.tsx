@@ -44,7 +44,7 @@ export function FAQSection() {
             <AccordionItem
               key={i}
               value={`item-${i}`}
-              className="rounded-lg border border-border bg-white dark:bg-card data-[state=open]:bg-[#F0F7FF] dark:data-[state=open]:bg-accent/40 data-[state=open]:border-l-[3px] data-[state=open]:border-l-[#2196F3] px-4 transition-colors shadow-[0_1px_4px_rgba(33,150,243,0.05)]"
+              className="rounded-lg border border-border bg-card data-[state=open]:bg-accent/60 dark:data-[state=open]:bg-accent/40 data-[state=open]:border-l-[3px] data-[state=open]:border-l-[#2196F3] px-4 transition-colors shadow-[0_1px_4px_rgba(33,150,243,0.05)]"
             >
               <AccordionTrigger className="text-left text-base text-foreground py-3 font-medium hover:no-underline [&>svg]:text-primary min-h-11">
                 {t(faq.qKey)}

@@ -18,7 +18,7 @@ export function LandingFooter() {
   return (
     <>
       {/* CTA Banner */}
-      <section className="py-8 sm:py-10 md:py-12 px-6 md:px-10 bg-white dark:bg-background" id="contacto">
+      <section className="py-8 sm:py-10 md:py-12 px-6 md:px-10 bg-background" id="contacto">
         <div className="max-w-4xl mx-auto text-center">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/80 p-8 sm:p-10 md:p-12 shadow-2xl shadow-primary/20">
             <div className="sc-particles" aria-hidden="true">
