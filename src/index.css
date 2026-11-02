@@ -1978,3 +1978,34 @@ input[type="checkbox"]:checked::after {
 .sentence-case { text-transform: none; }
 .sentence-case::first-letter { text-transform: uppercase; }
 span.sentence-case { display: inline-block; }
+
+/* ───────── Accessibility: touch targets & focus (Apple HIG) ───────── */
+/* Mobile/tablet: every interactive element gets an invisible ≥44×44 hit area without changing its look.
+   :where() keeps specificity at 0 so layout utilities (absolute, fixed, sticky) still win. */
+@media (max-width: 1279px), (pointer: coarse) {
+  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target) {
+    position: relative;
+  }
+  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target)::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    background: transparent;
+  }
+}
+.touch-target { position: relative; }
+.touch-target::before {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  width: max(100%, 44px); height: max(100%, 44px); transform: translate(-50%, -50%);
+}
+
+/* Visible keyboard focus everywhere (mouse clicks don't show it). */
+:where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="menuitem"], a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
