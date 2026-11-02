@@ -2822,6 +2822,8 @@
       "title": "Smart analysis",
       "analyzing": "Analyzing your symptoms…",
       "error": "Couldn't get the analysis right now. You can continue booking.",
+      "errorAuth": "Sign in to get the smart analysis.",
+      "errorLimit": "You have reached the limit of 10 analyses per day. Please try again tomorrow.",
       "tips": "Until your appointment:",
       "disclaimer": "Preliminary AI-generated guidance. It does not replace your dentist's assessment.",
       "emergency": "These signs suggest you should seek urgent care today.",

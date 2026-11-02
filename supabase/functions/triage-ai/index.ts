@@ -1,5 +1,8 @@
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3";
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+const DAILY_LIMIT = 10;
 
 const Body = z.object({
   language: z.enum(["pt", "en", "fr"]),
@@ -23,11 +26,36 @@ const json = (data: unknown, status = 200) =>
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) return json({ error: "Unauthorized" }, 401);
+    const url = Deno.env.get("SUPABASE_URL")!;
+    const userClient = createClient(url, Deno.env.get("SUPABASE_ANON_KEY")!, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: claims, error: authError } = await userClient.auth.getClaims(authHeader.slice(7));
+    const userId = claims?.claims?.sub;
+    if (authError || !userId || claims?.claims?.role !== "authenticated") {
+      return json({ error: "Unauthorized" }, 401);
+    }
+
     const parsed = Body.safeParse(await req.json());
     if (!parsed.success) return json({ error: "Invalid input" }, 400);
     const d = parsed.data;
     const key = Deno.env.get("LOVABLE_API_KEY");
     if (!key) return json({ error: "AI not configured" }, 500);
+
+    // Rate limit: count the last 24h and record this request BEFORE calling the AI.
+    const admin = createClient(url, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+    const { count, error: countError } = await admin
+      .from("triage_ai_usage")
+      .select("id", { count: "exact", head: true })
+      .eq("profile_id", userId)
+      .gte("created_at", since);
+    if (countError) return json({ error: "Usage check failed" }, 500);
+    if ((count ?? 0) >= DAILY_LIMIT) return json({ error: "Daily limit reached" }, 429);
+    const { error: logError } = await admin.from("triage_ai_usage").insert({ profile_id: userId });
+    if (logError) return json({ error: "Usage log failed" }, 500);
 
     const system = `You are a careful dental triage assistant for a patient app. You never diagnose; you give a preliminary orientation.
 Reply ONLY with a JSON object (no markdown) with keys:
