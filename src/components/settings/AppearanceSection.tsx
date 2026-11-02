@@ -65,7 +65,7 @@ export function AppearanceSection({ isPremium = true, onViewPlans }: AppearanceS
                 {darkMode ? <><Moon className="w-4 h-4 inline mr-1.5" />{t('appearance.darkMode')}</> : <><Sun className="w-4 h-4 inline mr-1.5" />{t('appearance.lightMode')}</>}
               </span>
             </div>
-            <Switch aria-label={t('appearance.lightMode')} checked={darkMode} onCheckedChange={setDarkMode} />
+            <Switch aria-label={t('appearance.darkMode')} checked={darkMode} onCheckedChange={setDarkMode} />
           </div>
 
           {/* Customize button */}

@@ -825,7 +825,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               {clinicHours.map((h, i) =>
             <div key={OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} className="flex flex-wrap sm:flex-nowrap items-center gap-2 text-sm">
                     <span className="w-20 text-muted-foreground flex-shrink-0">{h.day}</span>
-                    <Switch aria-label={t('editProfile.operatingHours')} checked={h.open} onCheckedChange={(checked) => {
+                    <Switch aria-label={OPTION_LABEL_KEYS[h.day] ? t(OPTION_LABEL_KEYS[h.day]) : h.day} checked={h.open} onCheckedChange={(checked) => {
                 const updated = [...clinicHours];
                 updated[i] = { ...updated[i], open: checked };
                 setClinicHours(updated);

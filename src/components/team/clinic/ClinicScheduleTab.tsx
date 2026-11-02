@@ -174,7 +174,7 @@ export function ClinicScheduleTab() {
                 h.open && 'bg-accent/5'
               )}>
                 <span className="text-sm font-medium">{t(dayKeys[i])}</span>
-                <Switch aria-label={t('team.closing')} checked={h.open} onCheckedChange={() => toggleDay(i)} />
+                <Switch aria-label={t(dayKeys[i])} checked={h.open} onCheckedChange={() => toggleDay(i)} />
                 {h.open ? (
                   <>
                     <Input type="time" value={h.start} onChange={e => updateTime(i, 'start', e.target.value)} className="h-8 text-xs px-2" />

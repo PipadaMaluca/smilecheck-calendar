@@ -176,7 +176,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                   <Label className="text-xs font-medium">{t('timeBlock.clinicWide')}</Label>
                   <p className="text-2xs text-muted-foreground">{t('timeBlock.appliesToAll')}</p>
                 </div>
-                <Switch aria-label={t('timeBlock.appliesToAll')} checked={isClinicWide} onCheckedChange={setIsClinicWide} />
+                <Switch aria-label={t('timeBlock.clinicWide')} checked={isClinicWide} onCheckedChange={setIsClinicWide} />
               </div>
             )}
 
