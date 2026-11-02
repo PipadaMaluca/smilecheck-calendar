@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatters';
 import { getActiveLocale } from '@/lib/formatters';
 import { teleconsultSplit, DEMO_CURRENT_PLAN, TELECONSULT_PRICE, type PlanTier } from '@/lib/planRules';
 export const patientPayments = [
@@ -31,14 +32,23 @@ export function getDentistTeleconsultas(plan: PlanTier = DEMO_CURRENT_PLAN.denti
 export const dentistTeleconsultas = getDentistTeleconsultas();
 
 
-export const dentistRevenueMonths = [
-  { month: 'Ago', presencial: 1800, teleconsulta: 180 },
-  { month: 'Set', presencial: 2100, teleconsulta: 200 },
-  { month: 'Out', presencial: 2300, teleconsulta: 220 },
-  { month: 'Nov', presencial: 2000, teleconsulta: 200 },
-  { month: 'Dez', presencial: 2200, teleconsulta: 210 },
-  { month: 'Jan', presencial: 2210, teleconsulta: 240 },
+const REVENUE_SERIES = [
+  { presencial: 1800, teleconsulta: 180 },
+  { presencial: 2100, teleconsulta: 200 },
+  { presencial: 2300, teleconsulta: 220 },
+  { presencial: 2000, teleconsulta: 200 },
+  { presencial: 2200, teleconsulta: 210 },
+  { presencial: 2210, teleconsulta: 240 },
 ];
+
+/** Last 6 months ending with the current month, labelled in the active language. */
+export function getDentistRevenueMonths(now: Date = new Date()) {
+  return REVENUE_SERIES.map((v, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (REVENUE_SERIES.length - 1 - i), 1);
+    const label = formatDate(d, 'LLL').replace('.', '');
+    return { month: label.charAt(0).toUpperCase() + label.slice(1), monthIndex: d.getMonth(), year: d.getFullYear(), ...v };
+  });
+}
 
 export const clinicDentistRevenue = [
   { id: '1', name: 'Dr. Gonçalo Pipo', consultas: 52, tele: 15, revenue: 4200, color: 'hsl(210, 85%, 45%)' },

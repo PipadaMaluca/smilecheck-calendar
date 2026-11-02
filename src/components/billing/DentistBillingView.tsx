@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { getDentistTeleconsultas, dentistRevenueMonths, generateReceipt } from './billingMockData';
+import { getDentistTeleconsultas, getDentistRevenueMonths, generateReceipt } from './billingMockData';
 import { DEMO_CURRENT_PLAN, commissionPercent, summarizeTeleconsults } from '@/lib/planRules';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
@@ -97,7 +97,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <CardContent>
                 <div className="h-48">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={dentistRevenueMonths}>
+                    <BarChart data={getDentistRevenueMonths()}>
                       <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
                       <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
                       <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: 8, color: 'hsl(var(--foreground))' }} />
