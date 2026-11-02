@@ -429,14 +429,12 @@
         "Full customisation"
       ],
       "clinicFree": [
-        "Up to 2 dentists",
         "Basic dashboard",
         "Monthly reports",
         "Basic team management"
       ],
       "clinicFreeWarning": "Annual points reset",
       "clinicPro": [
-        "Up to 10 dentists",
         "Full dashboard",
         "Weekly reports",
         "Advanced statistics",
@@ -444,7 +442,6 @@
         "PDF/Excel exports"
       ],
       "clinicPremium": [
-        "Unlimited dentists",
         "Everything in Pro",
         "Team teleconsultations",
         "API integration",
@@ -1887,7 +1884,12 @@
     "viewDossier": "View Dossier",
     "noPatientsFound": "No patient found",
     "tryOtherTerms": "Try searching with other terms.",
-    "nextLabel": "Next"
+    "nextLabel": "Next",
+    "viewList": "List",
+    "viewMap": "Map",
+    "viewModeLabel": "View mode",
+    "mapAria": "Dentist map",
+    "viewProfileBtn": "View profile"
   },
   "history": {
     "consultationHistory": "Consultation History",
@@ -1957,7 +1959,20 @@
     "tabEquipamento": "Equipment",
     "tabFormacao": "Training",
     "tabSoftware": "Software",
-    "general": "General"
+    "general": "General",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "sortPopular": "Most popular",
+    "sortPointsAsc": "Fewest points",
+    "sortPointsDesc": "Most points",
+    "pointsRange": "Points range",
+    "affordableOnly": "Only what I can redeem",
+    "clearFilters": "Clear filters",
+    "resultsCount_one": "{{count}} result",
+    "resultsCount_other": "{{count}} results",
+    "showResults": "Show {{count}} results",
+    "noResultsTitle": "No rewards found",
+    "noResultsDesc": "Adjust the filters to see more rewards."
   },
   "billing": {
     "title": "Billing",
@@ -2173,7 +2188,8 @@
     "confirmationLabel": "confirmation",
     "noTeleconsultations": "No teleconsultations",
     "noResultsTitle": "No members found",
-    "noResultsDesc": "Try adjusting your search or filters."
+    "noResultsDesc": "Try adjusting your search or filters.",
+    "inviteLimitReached": "You have reached your plan limit of {{count}} dentists. Upgrade your plan to invite more dentists."
   },
   "availability": {
     "selectClinic": "Select clinic",
@@ -3080,7 +3096,9 @@
       "monthlyReports": "Monthly reports",
       "exportReportsPdfExcel": "Export reports (PDF, Excel)",
       "realtimeConfirmations": "Real-time confirmations dashboard",
-      "unlimitedDentists": "Unlimited dentists"
+      "unlimitedDentists": "Unlimited dentists",
+      "teleCommission": "{{pct}}% commission per teleconsultation",
+      "dentistLimit": "Up to {{count}} dentists"
     },
     "badges": {
       "popular": "Popular",

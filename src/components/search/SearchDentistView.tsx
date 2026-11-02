@@ -289,7 +289,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       {showMobileFilters && (isMobile || viewMode === 'map') && (
         <>
           <div className="fixed inset-0 scrim z-modal" onClick={() => setShowMobileFilters(false)} />
-          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-modal space-y-4 max-h-[70vh] overflow-y-auto">
+          <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-modal space-y-4 max-h-[70vh] overflow-y-auto md:left-auto md:right-6 md:bottom-6 md:w-96 md:rounded-2xl md:border">
             <div className="flex items-center justify-between">
               <h3 className="font-bold">{t('search.advancedFilters')}</h3>
               <Button variant="ghost" size="icon" onClick={() => setShowMobileFilters(false)}>

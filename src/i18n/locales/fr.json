@@ -429,14 +429,12 @@
         "Personnalisation complète"
       ],
       "clinicFree": [
-        "Jusqu'à 2 dentistes",
         "Tableau de bord basique",
         "Rapports mensuels",
         "Gestion d'équipe basique"
       ],
       "clinicFreeWarning": "Remise à zéro annuelle des points",
       "clinicPro": [
-        "Jusqu'à 10 dentistes",
         "Tableau de bord complet",
         "Rapports hebdomadaires",
         "Statistiques avancées",
@@ -444,7 +442,6 @@
         "Export PDF/Excel"
       ],
       "clinicPremium": [
-        "Dentistes illimités",
         "Tout du Pro",
         "Téléconsultations d'équipe",
         "Intégration API",
@@ -1871,7 +1868,12 @@
     "viewDossier": "Voir Dossier",
     "noPatientsFound": "Aucun patient trouvé",
     "tryOtherTerms": "Essayez d'autres termes de recherche.",
-    "nextLabel": "Proch"
+    "nextLabel": "Proch",
+    "viewList": "Liste",
+    "viewMap": "Carte",
+    "viewModeLabel": "Mode d'affichage",
+    "mapAria": "Carte des dentistes",
+    "viewProfileBtn": "Voir le profil"
   },
   "history": {
     "consultationHistory": "Historique des Consultations",
@@ -1941,7 +1943,20 @@
     "tabEquipamento": "Équipement",
     "tabFormacao": "Formation",
     "tabSoftware": "Logiciel",
-    "general": "Général"
+    "general": "Général",
+    "filters": "Filtres",
+    "sortBy": "Trier par",
+    "sortPopular": "Les plus populaires",
+    "sortPointsAsc": "Moins de points",
+    "sortPointsDesc": "Plus de points",
+    "pointsRange": "Plage de points",
+    "affordableOnly": "Seulement ce que je peux échanger",
+    "clearFilters": "Effacer les filtres",
+    "resultsCount_one": "{{count}} résultat",
+    "resultsCount_other": "{{count}} résultats",
+    "showResults": "Voir {{count}} résultats",
+    "noResultsTitle": "Aucune récompense trouvée",
+    "noResultsDesc": "Ajustez les filtres pour voir plus de récompenses."
   },
   "billing": {
     "title": "Facturation",
@@ -2157,7 +2172,8 @@
     "confirmationLabel": "confirmation",
     "noTeleconsultations": "Pas de téléconsultations",
     "noResultsTitle": "Aucun membre trouvé",
-    "noResultsDesc": "Essayez d'ajuster la recherche ou les filtres."
+    "noResultsDesc": "Essayez d'ajuster la recherche ou les filtres.",
+    "inviteLimitReached": "Vous avez atteint la limite de {{count}} dentistes de votre forfait. Passez à un forfait supérieur pour inviter plus de dentistes."
   },
   "availability": {
     "selectClinic": "Sélectionner le cabinet",
@@ -3064,7 +3080,9 @@
       "monthlyReports": "Rapports mensuels",
       "exportReportsPdfExcel": "Exporter des rapports (PDF, Excel)",
       "realtimeConfirmations": "Tableau de bord confirmations en temps réel",
-      "unlimitedDentists": "Dentistes illimités"
+      "unlimitedDentists": "Dentistes illimités",
+      "teleCommission": "Commission de {{pct}} % par téléconsultation",
+      "dentistLimit": "Jusqu'à {{count}} dentistes"
     },
     "badges": {
       "popular": "Populaire",
