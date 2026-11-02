@@ -8,3 +8,7 @@
 - Use Tailwind scale tokens only: `text-2xs`…, `z-base|raised|sticky|dropdown|floating|overlay|modal|notification|toast|celebration`; no arbitrary `text-[Npx]`/`z-[N]` — consistency.
 - On-screen decimals use `formatDecimal1`; money always `formatCurrency` (whole amounts without cents, otherwise 2 decimals).
 - Blue text uses `--primary-text` via `.text-primary` (contrast AA); `--primary` stays for fills.
+- Other users' names come from `professional_public_profiles` (view without phone/email/birth date) via `src/data/displayNames.ts`; full `profiles` rows of professionals are readable only by themselves and their clinic owner.
+- Seed records are appointments whose patient and dentist emails end in `@seed.smilecheck.app`; only `refresh_seed_appointments()` (daily cron) moves them, keeping a −14/+14-day window in 4-week steps so weekdays (Sunday rule) are preserved.
+- Landing sections without real content stay behind flags in `src/lib/landingFlags.ts`; never show invented numbers, testimonials or certifications.
+- Images in `public/` ship as WebP with a small PNG fallback at ≤2× display size; `Logo` serves the WebP via `<picture>`.
