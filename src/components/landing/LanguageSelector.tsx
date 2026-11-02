@@ -31,12 +31,12 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-celebration flex items-center justify-center overflow-hidden transition-opacity duration-300',
+        'fixed inset-0 z-celebration flex items-center justify-center overflow-y-auto overflow-x-hidden transition-opacity duration-300',
         selected !== null ? 'opacity-0 pointer-events-none' : 'opacity-100',
         'bg-gradient-to-br from-[hsl(220,40%,8%)] via-[hsl(220,30%,12%)] to-[hsl(220,40%,8%)]'
       )}
     >
-      <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-3xl max-h-full overflow-y-auto overflow-x-hidden py-6">
+      <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-3xl m-auto py-6">
         <div className="w-full pointer-events-none">
           <AppIconTile forceDark />
         </div>
