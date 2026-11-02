@@ -1983,10 +1983,10 @@ span.sentence-case { display: inline-block; }
 /* Mobile/tablet: every interactive element gets an invisible ≥44×44 hit area without changing its look.
    :where() keeps specificity at 0 so layout utilities (absolute, fixed, sticky) still win. */
 @media (max-width: 1279px), (pointer: coarse) {
-  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target) {
+  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target):not(.consultation-card) {
     position: relative;
   }
-  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target)::before {
+  :where(button, [role="button"], [role="tab"], [role="switch"], [role="checkbox"], [role="radio"], [role="menuitem"], [role="option"], a[href], summary, label[for]):not(.no-touch-target):not(.consultation-card)::before {
     content: '';
     position: absolute;
     left: 50%;
