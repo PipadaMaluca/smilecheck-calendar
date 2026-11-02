@@ -34,7 +34,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibili
         <img src={watermarkSrc} alt="" className="w-[600px] h-[600px] object-contain" />
       </div>
       <div className="relative z-10">
-        <header className="sticky top-0 bg-background/95 backdrop-blur border-b border-border z-20">
+        <header className="sticky top-0 bg-card/95 backdrop-blur border-b border-border z-20">
           <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)} aria-label={t('legal.back')}>
               <ArrowLeft className="w-5 h-5" />
