@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 // Patient scoring system types
 
 export interface FeedbackCheckbox {

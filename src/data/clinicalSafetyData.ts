@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 // Clinical Safety System — auto-generated alerts & recall recommendations
 
 export interface ClinicalAlert {
