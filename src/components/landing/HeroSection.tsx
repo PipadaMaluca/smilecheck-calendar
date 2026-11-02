@@ -4,10 +4,9 @@ import { formatNumber } from '@/lib/formatters';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Logo } from '@/components/branding/Logo';
 import { StoreQrCodes } from './StoreQrCodes';
+import { AppIconTile } from './AppIconTile';
 
 function useCountUp(end: number, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -57,46 +56,36 @@ export function HeroSection() {
   return (
     <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-14 overflow-hidden bg-gradient-to-b from-background to-white dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        <div className="flex justify-center mb-4">
-          <Logo variant="full" size={180} className="md:!w-[200px]" />
-        </div>
+        <AppIconTile />
 
-        <div className="mb-8">
-          <StoreQrCodes />
-        </div>
-
-        {/* Visible pill — clear blue tint per design spec */}
-        <div className="inline-flex animate-fade-in" style={{ marginBottom: 16 }}>
-          <div className="rounded-full bg-accent dark:bg-card border border-border px-4 py-1.5 flex items-center gap-2 shadow-[0_2px_8px_rgba(33,150,243,0.08)]">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-semibold text-primary dark:text-primary">{t('landing.hero.badge')}</span>
-          </div>
-        </div>
-
-        <h1 data-reveal="words" className="text-3xl leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-display font-bold tracking-tight text-foreground max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
-          {t('landing.hero.title')}{' '}
+        <h1 data-reveal="words" className="text-3xl leading-none sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-foreground mx-auto mt-2 mb-4 text-balance">
+          {t('landing.hero.title')}
+          <br />
           <span className="sc-grad-wipe bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}
           </span>
         </h1>
 
-        <p data-reveal="up" data-reveal-delay="200" className="text-base sm:text-xl font-light leading-relaxed text-muted-foreground max-w-[85%] sm:max-w-2xl mx-auto text-center" style={{ marginBottom: 24 }}>
+        <p data-reveal="up" data-reveal-delay="200" className="text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl mx-auto text-center mb-8">
           {t('landing.hero.subtitle')}
         </p>
 
-        <div data-reveal="up" data-reveal-delay="350" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none mx-auto" style={{ marginBottom: 12 }}>
+        <div className="mb-10">
+          <StoreQrCodes />
+        </div>
+
+        <div data-reveal="up" data-reveal-delay="350" className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-md sm:max-w-none mx-auto mb-3">
           <Button
-            size="lg"
+            variant="secondary"
             onClick={() => navigate('/signup')}
-            className="rounded-full bg-primary hover:bg-primary/90 text-white text-base font-semibold px-8 py-4 h-12 sm:h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_8px_24px_rgba(33,150,243,0.45)] hover:-translate-y-0.5 transition-[transform,background-color,border-color,color,box-shadow] duration-300 w-full sm:w-auto"
+            className="rounded-full text-sm font-semibold px-6 h-11 w-full sm:w-auto"
           >
             {t('landing.hero.cta')}
           </Button>
           <Button
-            size="lg"
-            variant="outline"
+            variant="ghost"
             onClick={() => navigate('/app?demo=true&role=patient')}
-            className="rounded-full text-base font-semibold px-8 py-4 h-12 sm:h-auto w-full sm:w-auto bg-white dark:bg-transparent border-2 border-border text-primary hover:border-primary hover:bg-accent dark:border-white/30 dark:text-white dark:hover:border-white dark:hover:bg-white/10 hover:-translate-y-0.5 transition-[transform,background-color,border-color,color,box-shadow] duration-300"
+            className="rounded-full text-sm font-semibold px-6 h-11 w-full sm:w-auto text-primary"
           >
             {t('landing.hero.demo')}
           </Button>

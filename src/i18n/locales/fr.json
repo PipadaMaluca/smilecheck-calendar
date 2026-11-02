@@ -542,7 +542,8 @@
       "appStoreAria": "Télécharger dans l'App Store — bientôt disponible",
       "playAria": "Disponible sur Google Play — bientôt disponible",
       "appStoreAlt": "Télécharger dans l'App Store",
-      "playAlt": "Disponible sur Google Play"
+      "playAlt": "Disponible sur Google Play",
+      "comingSoonLine": "Bientôt sur l’App Store et Google Play"
     }
   },
   "onboarding": {
