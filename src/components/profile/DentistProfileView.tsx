@@ -1,3 +1,4 @@
+import { VerifiedReviewBadge } from '@/components/feedback/VerifiedReviewBadge';
 import { Star as StarIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
@@ -419,6 +420,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
                     {r.patientName[0]}
                   </div>
                   <span className="text-xs font-semibold">{r.patientName}</span>
+                  {hasRealRating && <VerifiedReviewBadge />}
                 </div>
                 <div className="flex gap-0.5">
                   {Array.from({ length: r.rating }).map((_, i) =>

@@ -110,6 +110,7 @@ export function LandingFooter() {
                 <li><a href="/privacidade" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.privacyPolicy')}</a></li>
                 <li><a href="/privacidade#direitos" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.gdpr')}</a></li>
                 <li><a href="/privacidade#cookies" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.cookies')}</a></li>
+                <li><a href="/acessibilidade" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.accessibility')}</a></li>
               </ul>
             </div>
           </div>

@@ -21,3 +21,8 @@
 - Agenda wall-clock times use the clinic's IANA `clinics.timezone` via `zonedParts` — never the viewer's or UTC.
 - Brand fills with white text use `bg-primary-solid`; `--primary` stays the brand #2196F3.
 - Screen entrance animations come only from `ScreenEnter` (`src/components/motion/ScreenEnter.tsx`), keyed by the screen so they run once per entry; Button's default variant self-marks `data-enter="button"` — no per-screen animation code.
+- `profiles.plan` is written only by `sync_profile_plan()` (service_role, called from the `payments-webhook` edge function); subscription price ids are `<role>_<tier>_<monthly|yearly>` and must match `planRules.ts` (tested) — so the client can never grant itself a plan.
+- Consent lives in `src/lib/consent.ts` (localStorage + `consent_preferences` when signed in); anything optional (stats, personalised ads) must check it — default is refused.
+- The only service-worker registrar is `src/lib/pwa.ts` (refuses dev/preview/iframes); the worker caches the app shell and static assets only, never API/health data.
+- Cheque eligibility is server-enforced (`trg_guard_clinic_cheques`, PT only, country derived from timezone); demo clinics use `src/lib/cheques.ts`.
+- Reviews are only accepted after a `visto`/`concluida` appointment between both parties, one per appointment (`trg_guard_feedback_verified`).

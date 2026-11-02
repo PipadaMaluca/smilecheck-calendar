@@ -1,160 +1,92 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { UserRole } from '@/types/calendar';
 
-interface NotifOption {
-  id: string;
-  labelKey: string;
-  fallback: string;
-  defaultChecked: boolean;
-}
+export const NOTIF_TYPES = ['reminders', 'confirmations', 'points', 'news'] as const;
+export const NOTIF_CHANNELS = ['email', 'push', 'sms', 'whatsapp'] as const;
+/** Only e-mail works today; the other channels are "Em breve" and the server refuses enabling them. */
+export const AVAILABLE_CHANNELS: ReadonlySet<string> = new Set(['email']);
+const DEFAULT_ON: ReadonlySet<string> = new Set(['reminders', 'confirmations']);
 
-interface NotifGroup {
-  headerKey: string;
-  fallback: string;
-  options: NotifOption[];
-}
+type Key = `${typeof NOTIF_TYPES[number]}:${typeof NOTIF_CHANNELS[number]}`;
+const LOCAL_KEY = 'sc:demo-notif-prefs';
 
-const PATIENT_GROUPS: NotifGroup[] = [
-  {
-    headerKey: 'settings.notifConsultas',
-    fallback: 'Consultas',
-    options: [
-      { id: 'lembrete_24h', labelKey: '', fallback: 'Lembrete 24h antes da consulta', defaultChecked: true },
-      { id: 'lembrete_1h', labelKey: '', fallback: 'Lembrete 1h antes da consulta', defaultChecked: true },
-      { id: 'consulta_alterada', labelKey: '', fallback: 'Consulta alterada/cancelada', defaultChecked: true },
-      { id: 'receita', labelKey: '', fallback: 'Nova receita disponível', defaultChecked: true },
-      { id: 'referencia', labelKey: '', fallback: 'Nova carta de referência', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifCommunication',
-    fallback: 'Comunicação',
-    options: [
-      { id: 'feedback', labelKey: '', fallback: 'Pedir feedback após consulta', defaultChecked: true },
-      { id: 'mensagem', labelKey: '', fallback: 'Novas mensagens', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifPointsReferral',
-    fallback: 'Pontos & Referral',
-    options: [
-      { id: 'pontos', labelKey: '', fallback: 'Pontos ganhos/perdidos', defaultChecked: true },
-      { id: 'referral_usado', labelKey: '', fallback: 'Código referral usado', defaultChecked: true },
-    ],
-  },
-];
-
-const DENTIST_GROUPS: NotifGroup[] = [
-  {
-    headerKey: 'settings.notifConsultas',
-    fallback: 'Consultas',
-    options: [
-      { id: 'novo_agendamento', labelKey: '', fallback: 'Novo paciente agendou consulta', defaultChecked: false },
-      { id: 'paciente_confirmou', labelKey: '', fallback: 'Paciente confirmou consulta', defaultChecked: true },
-      { id: 'paciente_cancelou', labelKey: '', fallback: 'Paciente cancelou consulta', defaultChecked: true },
-      { id: 'sala_espera', labelKey: '', fallback: 'Paciente em sala de espera', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifCommunication',
-    fallback: 'Comunicação',
-    options: [
-      { id: 'feedback_recebido', labelKey: '', fallback: 'Feedback recebido de paciente', defaultChecked: true },
-      { id: 'mensagem', labelKey: '', fallback: 'Novas mensagens', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifPointsReferral',
-    fallback: 'Pontos & Referral',
-    options: [
-      { id: 'pontos', labelKey: '', fallback: 'Pontos ganhos', defaultChecked: true },
-      { id: 'referral_usado', labelKey: '', fallback: 'Código referral usado', defaultChecked: true },
-      { id: 'referenciou_paciente', labelKey: '', fallback: 'Paciente referenciado (10 pontos)', defaultChecked: true },
-    ],
-  },
-];
-
-const CLINIC_GROUPS: NotifGroup[] = [
-  {
-    headerKey: 'settings.notifConsultas',
-    fallback: 'Consultas',
-    options: [
-      { id: 'novo_agendamento', labelKey: '', fallback: 'Novo agendamento', defaultChecked: false },
-      { id: 'paciente_confirmou_cancelou', labelKey: '', fallback: 'Paciente confirmou/cancelou', defaultChecked: true },
-      { id: 'resumo_diario', labelKey: '', fallback: 'Resumo diário de estatísticas', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifCommunication',
-    fallback: 'Comunicação',
-    options: [
-      { id: 'novo_dentista', labelKey: '', fallback: 'Novo dentista registou-se', defaultChecked: true },
-      { id: 'mensagem', labelKey: '', fallback: 'Novas mensagens', defaultChecked: true },
-    ],
-  },
-  {
-    headerKey: 'settings.notifPointsReferral',
-    fallback: 'Pontos & Referral',
-    options: [
-      { id: 'referral_usado', labelKey: '', fallback: 'Código referral usado', defaultChecked: true },
-    ],
-  },
-];
-
-function getGroupsForRole(role: UserRole): NotifGroup[] {
-  switch (role) {
-    case 'patient': return PATIENT_GROUPS;
-    case 'dentist': return DENTIST_GROUPS;
-    case 'clinic': return CLINIC_GROUPS;
-    default: return PATIENT_GROUPS;
-  }
-}
-
-interface NotificationSettingsSectionProps {
-  userRole: UserRole;
-}
-
-export function NotificationSettingsSection({ userRole }: NotificationSettingsSectionProps) {
+export function NotificationSettingsSection(_props: { userRole: UserRole }) {
   const { t } = useTranslation();
-  const groups = getGroupsForRole(userRole);
-  const allOptions = groups.flatMap(g => g.options);
-  const [checked, setChecked] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(allOptions.map(o => [o.id, o.defaultChecked]))
-  );
+  const { demoMode, user } = useAuth();
+  const real = !demoMode && !!user;
+  const [prefs, setPrefs] = useState<Record<string, boolean>>(() => {
+    const base = Object.fromEntries(NOTIF_TYPES.map((n) => [`${n}:email`, DEFAULT_ON.has(n)]));
+    try { return { ...base, ...(JSON.parse(localStorage.getItem(LOCAL_KEY) || '{}')) }; } catch { return base; }
+  });
 
-  const toggle = (id: string) => {
-    setChecked(prev => ({ ...prev, [id]: !prev[id] }));
+  useEffect(() => {
+    if (!real || !user) return;
+    void supabase.from('notification_preferences').select('notif_type, channel, enabled').eq('profile_id', user.id)
+      .then(({ data }) => {
+        if (data?.length) setPrefs((p) => ({ ...p, ...Object.fromEntries(data.map((r) => [`${r.notif_type}:${r.channel}`, r.enabled])) }));
+      });
+  }, [real, user]);
+
+  const toggle = async (type: string, channel: string, value: boolean) => {
+    const k = `${type}:${channel}` as Key;
+    const prev = prefs[k];
+    const next = { ...prefs, [k]: value };
+    setPrefs(next);
+    if (!real || !user) { localStorage.setItem(LOCAL_KEY, JSON.stringify(next)); return; }
+    const { error } = await supabase.from('notification_preferences')
+      .upsert({ profile_id: user.id, notif_type: type, channel, enabled: value });
+    if (error) { setPrefs((p) => ({ ...p, [k]: prev })); toast.error(t('notifPrefs.saveError')); }
   };
 
   return (
     <Card className="bg-card/80 backdrop-blur border-border">
       <CardHeader className="pb-2">
-        <CardTitle size="compact">{t('settings.notifications')}</CardTitle>
+        <CardTitle size="compact">{t('notifPrefs.title')}</CardTitle>
+        <p className="text-xs text-muted-foreground">{t('notifPrefs.subtitle')}</p>
       </CardHeader>
-      <CardContent className="space-y-1">
-        {groups.map((group, gi) => (
-          <div key={group.headerKey}>
-            {gi > 0 && <Separator className="my-3" />}
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-              {t(group.headerKey, group.fallback)}
-            </p>
-            <div className="space-y-2">
-              {group.options.map(option => (
-                <label key={option.id} className="flex items-center gap-3 cursor-pointer py-1 press">
-                  <Checkbox
-                    checked={checked[option.id] ?? option.defaultChecked}
-                    onCheckedChange={() => toggle(option.id)}
-                  />
-                  <span className="text-sm text-foreground">{option.fallback}</span>
-                </label>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <caption className="sr-only">{t('notifPrefs.title')}</caption>
+            <thead>
+              <tr>
+                <th scope="col" className="text-left font-medium text-muted-foreground py-2 pr-2">{t('notifPrefs.type')}</th>
+                {NOTIF_CHANNELS.map((c) => (
+                  <th key={c} scope="col" className="px-1 py-2 text-center font-medium text-muted-foreground">
+                    <span className="block">{t(`notifPrefs.channels.${c}`)}</span>
+                    {!AVAILABLE_CHANNELS.has(c) && <span className="block text-2xs font-normal">{t('common.comingSoon')}</span>}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {NOTIF_TYPES.map((n) => (
+                <tr key={n} className="border-t border-border">
+                  <th scope="row" className="text-left font-normal text-foreground py-3 pr-2">{t(`notifPrefs.types.${n}`)}</th>
+                  {NOTIF_CHANNELS.map((c) => {
+                    const available = AVAILABLE_CHANNELS.has(c);
+                    return (
+                      <td key={c} className="text-center">
+                        <Checkbox
+                          aria-label={t('notifPrefs.cellA11y', { type: t(`notifPrefs.types.${n}`), channel: t(`notifPrefs.channels.${c}`) })}
+                          checked={available ? !!prefs[`${n}:${c}`] : false}
+                          disabled={!available}
+                          onCheckedChange={(v) => available && toggle(n, c, v === true)}
+                        />
+                      </td>
+                    );
+                  })}
+                </tr>
               ))}
-            </div>
-          </div>
-        ))}
+            </tbody>
+          </table>
+        </div>
       </CardContent>
     </Card>
   );

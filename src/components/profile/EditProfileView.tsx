@@ -1,3 +1,4 @@
+import { ClinicChequesSettings } from '@/components/clinic/ClinicChequesSettings';
 import { FearScalePicker } from '@/components/fear/FearScale';
 import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
 import type { FearLevel } from '@/lib/fearScale';
@@ -784,6 +785,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
                   <span className="text-sm font-medium">{t('editProfile.teleconsultationsAvailable')}</span>
                   <Switch aria-label={t('editProfile.teleconsultationsAvailable')} checked={clinicTeleconsultas} onCheckedChange={setClinicTeleconsultas} />
                 </div>
+                <ClinicChequesSettings />
               </div>
 
               <SectionTitle>{t('editProfile.tariffs')}</SectionTitle>

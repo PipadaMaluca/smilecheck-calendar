@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HelpCircle, FileText, Shield, LogOut, ChevronRight, Lock, Trash2, BookOpen, Mail, HelpCircle as FAQ, Bell, ChevronDown } from 'lucide-react';
+import { Accessibility, Cookie, HelpCircle, FileText, Shield, LogOut, ChevronRight, Lock, Trash2, BookOpen, Mail, HelpCircle as FAQ, Bell, ChevronDown } from 'lucide-react';
 import { CalendarSyncSection } from '@/components/export/CalendarSyncSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { RegionalSection } from '@/components/settings/RegionalSection';
@@ -25,6 +25,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { OPEN_CONSENT_EVENT } from '@/lib/consent';
+import { InstallAppButton } from '@/components/pwa/InstallPrompt';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -91,6 +93,20 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           )}
         </Card>
 
+        {/* Privacidade — consentimento */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('settings.privacy')}</CardTitle></CardHeader>
+          <CardContent className="space-y-0 divide-y divide-border">
+            <LinkRow icon={Cookie} label={t('consent.manage')} onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))} />
+          </CardContent>
+        </Card>
+
+        {/* App instalável */}
+        <Card className="bg-card/80 backdrop-blur border-border">
+          <CardHeader className="pb-2"><CardTitle size="compact">{t('pwa.title')}</CardTitle></CardHeader>
+          <CardContent><InstallAppButton /></CardContent>
+        </Card>
+
         {/* 4. Sincronização */}
         {(userRole === 'dentist' || userRole === 'clinic') && <CalendarSyncSection />}
 
@@ -115,6 +131,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={FileText} label={t('settings.termsOfService')} onClick={() => window.open('/termos', '_blank')} />
             <LinkRow icon={Shield} label={t('settings.privacyPolicy')} onClick={() => window.open('/privacidade', '_blank')} />
+            <LinkRow icon={Accessibility} label={t('settings.accessibilityStatement')} onClick={() => window.open('/acessibilidade', '_blank')} />
           </CardContent>
         </Card>
 

@@ -1,4 +1,10 @@
-import { formatCurrency } from '@/lib/formatters';
+import { formatCurrency, formatDate } from '@/lib/formatters';
+import { useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { getStripeEnvironment, planPriceId } from '@/lib/stripe';
+import { PaymentTestModeBanner } from '@/components/PaymentTestModeBanner';
+import { StripeEmbeddedCheckout } from '@/components/plan/StripeEmbeddedCheckout';
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -86,7 +92,52 @@ export function ManagePlanView({
 }: ManagePlanViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const [currentPlan, setCurrentPlan] = useState<PlanTier>('pro');
+  const { demoMode, user, profile } = useAuth();
+  const realMode = !demoMode && !!user;
+  const [currentPlan, setCurrentPlan] = useState<PlanTier>(realMode ? (profile?.plan ?? 'free') : 'pro');
+  const [realCheckoutPrice, setRealCheckoutPrice] = useState<string | null>(null);
+  const [sub, setSub] = useState<{ status: string; current_period_end: string | null; cancel_at_period_end: boolean } | null>(null);
+  const [portalBusy, setPortalBusy] = useState(false);
+
+  // Real accounts: plan always comes from the server (profiles.plan, written only by the payments webhook).
+  useEffect(() => {
+    if (!realMode || !user) return;
+    let env: string;
+    try { env = getStripeEnvironment(); } catch { return; }
+    const load = () => {
+      void supabase.from('profiles').select('plan').eq('id', user.id).maybeSingle()
+        .then(({ data }) => data?.plan && setCurrentPlan(data.plan as PlanTier));
+      void supabase.from('subscriptions').select('status, current_period_end, cancel_at_period_end')
+        .eq('user_id', user.id).eq('environment', env).order('created_at', { ascending: false }).limit(1).maybeSingle()
+        .then(({ data }) => setSub(data ?? null));
+    };
+    load();
+    // After returning from checkout the webhook may land a few seconds later.
+    const timer = new URLSearchParams(window.location.search).has('session_id') ? window.setInterval(load, 3000) : undefined;
+    const stop = timer ? window.setTimeout(() => window.clearInterval(timer), 30000) : undefined;
+    return () => { if (timer) window.clearInterval(timer); if (stop) window.clearTimeout(stop); };
+  }, [realMode, user]);
+
+  const hasActiveSub = !!sub && ['active', 'trialing', 'past_due'].includes(sub.status);
+
+  const openPortal = async () => {
+    setPortalBusy(true);
+    const win = window.open('', '_blank');
+    const { data, error } = await supabase.functions.invoke('create-portal-session', {
+      body: { returnUrl: window.location.href, environment: getStripeEnvironment() },
+    });
+    setPortalBusy(false);
+    if (error || !data?.url) { win?.close(); toast.error(t('payments.portalError')); return; }
+    if (win) win.location.href = data.url; else window.location.href = data.url;
+  };
+
+  const choosePlan = (plan: Plan) => {
+    if (!realMode) { setConfirmPlan(plan); return; }
+    // Existing subscribers change or cancel in the billing portal (upgrade = immediate, prorated; cancel/downgrade to free = end of period).
+    if (hasActiveSub) { void openPortal(); return; }
+    if (plan.id === 'free') return;
+    setRealCheckoutPrice(planPriceId(userRole as 'patient' | 'dentist' | 'clinic', plan.id, isAnnual));
+  };
   const [isAnnual, setIsAnnual] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
   const [confirmPlan, setConfirmPlan] = useState<Plan | null>(null);
@@ -125,11 +176,16 @@ export function ManagePlanView({
   };
 
   const handleCancel = () => {
+    if (realMode) { void openPortal(); return; }
     toast.success(t('plan.cancelled'));
   };
 
   return (
     <div className="p-4 sm:p-6 w-full mx-auto space-y-6 pb-28">
+      <PaymentTestModeBanner />
+      {realMode && sub?.cancel_at_period_end && sub.current_period_end && (
+        <p role="status" className="text-sm text-muted-foreground">{t('payments.endsOn', { date: formatDate(new Date(sub.current_period_end)) })}</p>
+      )}
       {/* Top summary bar: heading + current plan info inline */}
       <div className="rounded-xl border border-border bg-accent dark:bg-background px-4 py-3 sm:px-6 sm:py-4 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 flex-wrap">
         <div className="flex-1 min-w-0">
@@ -161,7 +217,7 @@ export function ManagePlanView({
           >
             {t('billing.changePlan')}
           </Button>
-          {currentPlan !== 'free' && (
+          {currentPlan !== 'free' && (!realMode || hasActiveSub) && (
             <button
               className="text-xs text-destructive hover:underline"
               onClick={handleCancel}
@@ -339,14 +395,31 @@ export function ManagePlanView({
                     !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
                   )}
                   variant={isCurrent ? 'outline' : 'default'}
-                  disabled={isCurrent}
-                  onClick={() => !isCurrent && setConfirmPlan(plan)}>
+                  disabled={isCurrent || portalBusy}
+                  onClick={() => !isCurrent && choosePlan(plan)}>
                   {isCurrent ? t('plan.currentPlanBtn') : plan.monthlyPrice > (plans.find((p) => p.id === currentPlan)?.monthlyPrice || 0) ? t('plan.subscribe') : t('plan.choose')}
                 </Button>
               </CardContent>
             </Card>);
         })}
       </div>
+
+      {/* Real checkout (test mode) */}
+      <Dialog open={!!realCheckoutPrice} onOpenChange={(o) => !o && setRealCheckoutPrice(null)}>
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t('payments.checkoutTitle')}</DialogTitle>
+            <DialogDescription>{t('payments.checkoutDesc')}</DialogDescription>
+          </DialogHeader>
+          <PaymentTestModeBanner />
+          {realCheckoutPrice && (
+            <StripeEmbeddedCheckout
+              priceId={realCheckoutPrice}
+              returnUrl={`${window.location.origin}${window.location.pathname}?${new URLSearchParams({ ...Object.fromEntries(new URLSearchParams(window.location.search)) }).toString()}&session_id={CHECKOUT_SESSION_ID}`}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Checkout Dialog */}
       <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
