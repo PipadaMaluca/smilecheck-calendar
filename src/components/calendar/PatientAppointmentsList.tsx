@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Video, MapPin, Clock, Calendar, Check, AlertCircle, MessageCircle, Ban } from 'lucide-react';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
@@ -7,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Consultation, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -132,7 +133,7 @@ export function PatientAppointmentsList({
                       <div className={cn("flex items-center gap-2 text-muted-foreground mb-2", compact ? "text-xs" : "text-sm")}>
                         <Calendar className="w-4 h-4 flex-shrink-0" />
                         <span className="capitalize truncate">
-                          {format(consultation.date, compact ? "d MMM" : "EEEE, d 'de' MMMM", { locale: pt })}
+                          {format(consultation.date, compact ? "d MMM" : "EEEE, d 'de' MMMM", { locale: getDateFnsLocale() })}
                         </span>
                         <span>•</span>
                         <Clock className="w-4 h-4 flex-shrink-0" />

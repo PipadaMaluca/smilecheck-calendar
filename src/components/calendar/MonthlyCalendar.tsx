@@ -1,8 +1,9 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { useSyncedMonth } from '@/hooks/useSyncedMonth';
 
@@ -54,7 +55,7 @@ export function MonthlyCalendar({
           <ChevronLeft className="w-4 h-4" />
         </Button>
         <span className="text-sm font-semibold capitalize">
-          {format(currentMonth, 'MMMM yyyy', { locale: pt })}
+          {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
         </span>
         <Button
           variant="ghost"

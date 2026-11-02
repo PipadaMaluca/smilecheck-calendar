@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Star, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 import { Scale } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,7 +11,7 @@ import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 
 interface HistoryScoreCardProps {
   score: ConsultationScore;
@@ -36,7 +37,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   // Main line: date + primary name
   const dateStr = score.consultationTime
     ? `${score.consultationTime}`
-    : format(score.date, "d MMM", { locale: pt });
+    : format(score.date, "d MMM", { locale: getDateFnsLocale() });
 
   const renderPrimaryName = () => {
     if (userRole === 'patient') {

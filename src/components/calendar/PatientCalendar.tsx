@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { demoDate } from '@/lib/demoClock';
 import { useState, useEffect } from 'react';
@@ -37,7 +38,7 @@ import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { format, isSameDay } from 'date-fns';
 import { CalendarX } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
-import { pt } from 'date-fns/locale';
+
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = demoDate(2026, 0, 31);
 
@@ -220,7 +221,7 @@ export function PatientCalendar() {
               {dayConsultations.length > 0 ? (
                 <>
                   <h3 className="text-sm font-semibold text-muted-foreground mb-3">
-                    {format(selectedDate, "d 'de' MMMM", { locale: pt })} • {dayConsultations.length} consulta{dayConsultations.length > 1 ? 's' : ''}
+                    {format(selectedDate, "d 'de' MMMM", { locale: getDateFnsLocale() })} • {dayConsultations.length} consulta{dayConsultations.length > 1 ? 's' : ''}
                   </h3>
                   <div className="space-y-3">
                     {dayConsultations.map((consultation) => (
@@ -243,7 +244,7 @@ export function PatientCalendar() {
                     {upcomingConsultations.slice(0, 5).map((consultation) => (
                       <div key={consultation.id}>
                         <p className="text-xs text-muted-foreground mb-1 capitalize">
-                          {format(consultation.date, "EEEE, d 'de' MMMM", { locale: pt })}
+                          {format(consultation.date, "EEEE, d 'de' MMMM", { locale: getDateFnsLocale() })}
                         </p>
                         <ConsultationCard
                           consultation={consultation}

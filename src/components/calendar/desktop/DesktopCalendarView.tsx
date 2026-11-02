@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
@@ -61,7 +62,7 @@ import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { isSameDay, startOfWeek, addDays, addWeeks, subWeeks, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { AgendaSearchBar } from './AgendaSearchBar';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
@@ -415,10 +416,10 @@ export function DesktopCalendarView() {
     if (viewMode === 'week') {
       const ws = startOfWeek(selectedDate, { weekStartsOn: 1 });
       const we = addDays(ws, 5);
-      return `Semana de ${format(ws, 'd', { locale: pt })} - ${format(we, 'd MMM yyyy', { locale: pt })}`;
+      return `Semana de ${format(ws, 'd', { locale: getDateFnsLocale() })} - ${format(we, 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
     }
     if (viewMode === 'month') {
-      return format(selectedDate, 'MMMM yyyy', { locale: pt });
+      return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
     return selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };

@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Search, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ import { UserRole } from '@/types/calendar';
 import { ConsultationReasonSelector } from '../ConsultationReasonSelector';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '@/integrations/supabase/client';
@@ -227,7 +228,7 @@ export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistN
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
-                      {format(date, 'dd/MM/yyyy', { locale: pt })}
+                      {format(date, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">

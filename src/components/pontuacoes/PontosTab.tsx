@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -15,7 +16,7 @@ import { StatsSkeleton } from '@/components/skeletons';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ClipboardList } from 'lucide-react';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { LevelIcon } from '@/components/level/LevelIcon';
@@ -245,7 +246,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
         <div className="space-y-1">
           {filteredHistory.map(entry => {
             const isToday = isSameDay(entry.date, DEMO_DATE);
-            const dateLabel = isToday ? t('scores.today') : format(entry.date, "d MMM", { locale: pt });
+            const dateLabel = isToday ? t('scores.today') : format(entry.date, "d MMM", { locale: getDateFnsLocale() });
             return (
               <div key={entry.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
                 <div className="flex-1 min-w-0">

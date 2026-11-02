@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import i18n from '@/i18n';
 import type { Locale } from 'date-fns';
 import { pt, fr, enGB } from 'date-fns/locale';
@@ -59,7 +60,7 @@ export function formatCurrency(value: number, opts: { decimals?: boolean } = {})
 
 const DATE_FNS_LOCALES: Record<string, Locale> = { pt, fr, en: enGB };
 
-/** date-fns locale for the active language — never hardcode `locale: pt`. */
+/** date-fns locale for the active language — never hardcode `locale: getDateFnsLocale()`. */
 export function getDateFnsLocale(): Locale {
   return DATE_FNS_LOCALES[(i18n.language || 'pt').slice(0, 2)] || pt;
 }

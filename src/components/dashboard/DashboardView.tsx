@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate, pickNextAppointment } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -20,7 +21,7 @@ import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
@@ -166,7 +167,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
-      format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
+      format(nextPatientCon.date, "d 'de' MMMM", { locale: getDateFnsLocale() }) :
       t('dashboard.bookConsultation');
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [
