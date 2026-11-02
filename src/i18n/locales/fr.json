@@ -4671,7 +4671,8 @@
     "mainContent": "Contenu principal",
     "newConsultation": "Nouvelle consultation",
     "today": "Aujourd’hui",
-    "goToSlide": "Aller à l'écran {{n}}"
+    "goToSlide": "Aller à l'écran {{n}}",
+    "freeSlotAt": "Créneau libre à {{time}} — {{name}}"
   },
   "demoText": {
     "abcesso": "Abcès",

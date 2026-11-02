@@ -4671,7 +4671,8 @@
     "mainContent": "Conteúdo principal",
     "newConsultation": "Nova consulta",
     "today": "Hoje",
-    "goToSlide": "Ir para o ecrã {{n}}"
+    "goToSlide": "Ir para o ecrã {{n}}",
+    "freeSlotAt": "Vaga livre às {{time}} — {{name}}"
   },
   "demoText": {
     "abcesso": "Abcesso",

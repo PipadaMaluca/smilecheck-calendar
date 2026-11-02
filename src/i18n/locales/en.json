@@ -4671,7 +4671,8 @@
     "mainContent": "Main content",
     "newConsultation": "New appointment",
     "today": "Today",
-    "goToSlide": "Go to screen {{n}}"
+    "goToSlide": "Go to screen {{n}}",
+    "freeSlotAt": "Free slot at {{time}} — {{name}}"
   },
   "demoText": {
     "abcesso": "Abscess",
