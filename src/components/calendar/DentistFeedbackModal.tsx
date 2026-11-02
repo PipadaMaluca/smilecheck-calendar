@@ -140,7 +140,7 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
               'text-xl font-bold',
               totalPoints > 0 ? 'text-primary' : totalPoints < 0 ? 'text-destructive' : 'text-muted-foreground'
             )}>
-              {totalPoints >= 0 ? '+' : ''}{totalPoints} {t('feedback.points')}
+              {totalPoints >= 0 ? '+' : ''}{t('feedback.points', { count: totalPoints })}
             </span>
           </div>
 

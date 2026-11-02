@@ -6,15 +6,19 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { clinicDentistRevenue, getDentistTeleconsultas, generateReceipt } from './billingMockData';
-import { DEMO_CURRENT_PLAN, TELECONSULT_PRICE, commissionPercent, teleconsultSplit } from '@/lib/planRules';
+import { DEMO_CURRENT_PLAN, TELECONSULT_PRICE, commissionPercent, teleconsultSplit, summarizeTeleconsults } from '@/lib/planRules';
 
 // Commission is charged per teleconsultation at the rate of the dentist's plan.
 const DENTIST_PLAN = DEMO_CURRENT_PLAN.dentist;
 const dentistTeleconsultas = getDentistTeleconsultas(DENTIST_PLAN);
-const CLINIC_TELE_COUNT = 45;
-const CLINIC_TOTAL_REVENUE = 12800;
-const CLINIC_TELE_REVENUE = CLINIC_TELE_COUNT * TELECONSULT_PRICE;
-const CLINIC_COMMISSION = CLINIC_TELE_COUNT * teleconsultSplit(TELECONSULT_PRICE, DENTIST_PLAN).commission;
+// Summary figures are derived from the per-dentist lines so they always add up.
+const CLINIC_TELE_COUNT = clinicDentistRevenue.reduce((s, d) => s + d.tele, 0);
+const CLINIC_TOTAL_REVENUE = clinicDentistRevenue.reduce((s, d) => s + d.revenue, 0);
+const CLINIC_TELE_SUMMARY = summarizeTeleconsults(
+  Array.from({ length: CLINIC_TELE_COUNT }, () => ({ amount: TELECONSULT_PRICE, ...teleconsultSplit(TELECONSULT_PRICE, DENTIST_PLAN) })),
+);
+const CLINIC_TELE_REVENUE = CLINIC_TELE_SUMMARY.amount;
+const CLINIC_COMMISSION = CLINIC_TELE_SUMMARY.commission;
 const fmtEur = (v: number) => `€${v.toLocaleString('pt-PT', { maximumFractionDigits: 2 })}`;
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
@@ -115,7 +119,7 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
                   <button className="w-full p-4 flex items-center justify-between text-left" onClick={() => setExpandedDentist(expandedDentist === d.id ? null : d.id)}>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{d.name}</p>
-                      <p className="text-xs text-muted-foreground">{d.consultas} {t('billing.consultations')} · {d.tele} {t('billing.tele')} · €{d.revenue.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">{t('billing.consultations', { count: d.consultas })} · {d.tele} {t('billing.tele')} · €{d.revenue.toLocaleString()}</p>
                     </div>
                     {expandedDentist === d.id ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
                   </button>

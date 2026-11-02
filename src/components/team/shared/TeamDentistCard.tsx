@@ -151,7 +151,7 @@ export function TeamDentistCard({
                 <p><Phone className="w-3 h-3 inline mr-1" />{dentist.teleconsultas ? t('team.teleconsultations') : `❌ ${t('team.noTeleconsultations')}`}</p>
               )}
               <p>
-                {dentist.consultationsThisMonth} {t('team.consultationsLabel')}
+                {t('team.consultationsLabel', { count: dentist.consultationsThisMonth })}
                 {dentist.teleconsultationsThisMonth !== undefined && ` · ${dentist.teleconsultationsThisMonth} ${t('team.teleconsultationsLabel')}`}
                 {dentist.confirmationRate !== undefined && ` · ${dentist.confirmationRate}% ${t('team.confirmationLabel')}`}
               </p>

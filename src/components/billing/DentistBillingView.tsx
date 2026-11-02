@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { getDentistTeleconsultas, dentistRevenueMonths, generateReceipt } from './billingMockData';
-import { DEMO_CURRENT_PLAN, commissionPercent } from '@/lib/planRules';
+import { DEMO_CURRENT_PLAN, commissionPercent, summarizeTeleconsults } from '@/lib/planRules';
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -27,10 +27,11 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
   const plan = DEMO_CURRENT_PLAN.dentist;
   const dentistTeleconsultas = getDentistTeleconsultas(plan);
   const totalRevenue = 2450;
-  const teleRevenue = 240;
-  const totalTele = dentistTeleconsultas.reduce((s, t) => s + t.amount, 0);
-  const totalComm = dentistTeleconsultas.reduce((s, t) => s + t.commission, 0);
-  const totalNet = dentistTeleconsultas.reduce((s, t) => s + t.net, 0);
+  const teleSummary = summarizeTeleconsults(dentistTeleconsultas);
+  const teleRevenue = teleSummary.amount;
+  const totalTele = teleSummary.amount;
+  const totalComm = teleSummary.commission;
+  const totalNet = teleSummary.net;
   const commission = totalComm;
   const net = totalRevenue - commission;
 
@@ -61,7 +62,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.teleconsultas')}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">12</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">{teleSummary.count}</p>
                   <p className="text-xs text-muted-foreground">€{teleRevenue}</p>
                 </CardContent>
               </Card>

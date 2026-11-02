@@ -558,7 +558,7 @@
 }
 
 @layer utilities {
-  .tap-target {
+  .tap-target:not(.absolute):not(.fixed):not(.sticky) {
     position: relative;
   }
   .tap-target::after {

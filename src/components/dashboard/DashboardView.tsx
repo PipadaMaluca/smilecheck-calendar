@@ -1,3 +1,4 @@
+import { demoDate, pickNextAppointment } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -46,7 +47,7 @@ function getUserName(role: UserRole): string {
   }
 }
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 /** Persist collapse state in sessionStorage so it survives navigation but resets per session. */
 function useSessionCollapse(key: string, defaultOpen = true) {
@@ -162,9 +163,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
-      const nextPatientCon = [...mockPatientConsultations].
-      filter((c) => c.date >= DEMO_DATE).
-      sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
       format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
@@ -177,8 +176,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     if (userRole === 'dentist') {
-      const dentistCons = todayConsultations.filter((c) => c.dentist.id === mockDentists[0].id).sort((a, b) => a.time.localeCompare(b.time));
-      const next = dentistCons[0];
+      // "Next" = first appointment at/after now that is still agendada/confirmada.
+      const next = pickNextAppointment(mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id));
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
       { label: t('dashboard.nextConsultation'), value: next ? next.time : '—', subtitle: next ? next.patient.name : '', extraLine: nextCatLabel, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: next?.category, primaryName: next?.patient.name || '' },
@@ -188,7 +187,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     }
     if (userRole === 'clinic') {
       return [
-      { label: t('dashboard.todayConsultations'), value: '54', subtitle: `40 ${t('dashboard.presential')} · 14 ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
+      { label: t('dashboard.todayConsultations'), value: String(todayConsultations.length), subtitle: `${todayConsultations.filter((c) => c.type !== 'teleconsulta').length} ${t('dashboard.presential')} · ${todayConsultations.filter((c) => c.type === 'teleconsulta').length} ${t('dashboard.teleconsultations')}`, icon: Calendar, clickTab: 'agenda', isHero: true, category: undefined as ConsultationCategory | undefined, primaryName: '' },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
       { label: t('dashboard.availablePoints'), value: `${pointsData.rewardPoints} pts`, icon: Star, clickTab: 'loja', isPoints: true },
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
@@ -817,7 +816,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="clinic:lista-espera"
-              badge={<Badge variant="outline" className="text-[11px]">{totalWaitlist} {t('dashboard.patients')}</Badge>}
+              badge={<Badge variant="outline" className="text-[11px]">{t('dashboard.patients', { count: totalWaitlist })}</Badge>}
             >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
@@ -876,7 +875,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
-                <Badge variant="outline" className="text-[11px]">{upcomingItems.length} {t('dashboard.consultations')}</Badge>
+                <Badge variant="outline" className="text-[11px]">{t('dashboard.consultations', { count: upcomingItems.length })}</Badge>
               </div>
               <div className="">
                 {upcomingItems.map((item, index) => {

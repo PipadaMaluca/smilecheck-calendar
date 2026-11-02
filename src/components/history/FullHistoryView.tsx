@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo } from 'react';
 import { ArrowLeft, Trophy, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ import { subMonths, isAfter, isSameDay } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
 type PeriodFilter = 'all' | '1month' | '3months' | '6months' | 'year';
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 const ITEMS_PER_PAGE = 10;
 
 interface FullHistoryViewProps {

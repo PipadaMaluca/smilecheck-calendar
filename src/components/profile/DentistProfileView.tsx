@@ -175,7 +175,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-warning" />
               <span className={cn('text-sm font-bold', levelCfg.color)}>{displayRating}</span>
-              <span className="text-xs text-muted-foreground">({displayReviewCount} {t('profile.reviews').toLowerCase()})</span>
+              <span className="text-xs text-muted-foreground">({t('profile.reviews', { count: displayReviewCount })})</span>
             </div>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
@@ -260,7 +260,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{DENTIST_EXTRA.yearsExperience} {t('profile.experience')}</span>
+            <span className="text-muted-foreground">{t('profile.experience', { count: DENTIST_EXTRA.yearsExperience })}</span>
           </div>
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-muted-foreground" />
@@ -392,7 +392,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <Star key={i} className={cn('w-4 h-4', i < Math.floor(displayRating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
             )}
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">{displayReviewCount} {t('profile.reviews').toLowerCase()}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{t('profile.reviews', { count: displayReviewCount })}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map((b) =>

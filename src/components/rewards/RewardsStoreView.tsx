@@ -50,15 +50,9 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   const refreshPoints = usePointsRefresh();
   const isDemo = points.isDemo || !user;
 
-  const getInitialPoints = () => {
-    switch (userRole) {
-      case 'patient': return 450;
-      case 'dentist': return 1250;
-      case 'clinic': return 3800;
-    }
-  };
-  // Demo mode keeps a purely local balance; real users read `user_levels`.
-  const [demoPoints, setDemoPoints] = useState(getInitialPoints());
+  // Demo mode keeps a purely local balance seeded from the same spendable
+  // reward points shown on Dashboard/Pontuações (never XP); real users read `user_levels`.
+  const [demoPoints, setDemoPoints] = useState(points.rewardPoints);
   const userPoints = isDemo ? demoPoints : points.rewardPoints;
 
   const [redeemProduct, setRedeemProduct] = useState<RewardProduct | null>(null);

@@ -286,7 +286,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1">
             <Star className="w-4 h-4 fill-amber-400 text-warning" />
             <span className="text-sm font-bold">{displayRating}</span>
-            <span className="text-xs text-muted-foreground">({displayReviewCount} {t('profile.reviews').toLowerCase()})</span>
+            <span className="text-xs text-muted-foreground">({t('profile.reviews', { count: displayReviewCount })})</span>
           </div>
           <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
@@ -362,7 +362,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{new Date().getFullYear() - data.founded} {t('profile.experience')}</span>
+            <span className="text-muted-foreground">{t('profile.experience', { count: new Date().getFullYear() - data.founded })}</span>
           </div>
           {data.certification && (
             <div className="flex items-center gap-2">
@@ -547,7 +547,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
                 <Star key={i} className={cn('w-4 h-4', i < Math.floor(displayRating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground')} />
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">{displayReviewCount} {t('profile.reviews').toLowerCase()}</p>
+            <p className="text-xs text-muted-foreground">{t('profile.reviews', { count: displayReviewCount })}</p>
           </div>
           <div className="flex-1 space-y-1">
             {breakdown.map(b => (

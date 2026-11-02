@@ -43,3 +43,16 @@ export function planTierFromName(name?: string): PlanTier {
   const n = (name ?? '').toLowerCase();
   return n === 'premium' ? 'premium' : n === 'pro' ? 'pro' : 'free';
 }
+
+export interface TeleconsultLine { amount: number; commission: number; net: number }
+
+/** Billing summary derived from the individual lines — the summary is always the sum of its lines. */
+export function summarizeTeleconsults(lines: TeleconsultLine[]) {
+  const r = (v: number) => Math.round(v * 100) / 100;
+  return {
+    count: lines.length,
+    amount: r(lines.reduce((s, l) => s + l.amount, 0)),
+    commission: r(lines.reduce((s, l) => s + l.commission, 0)),
+    net: r(lines.reduce((s, l) => s + l.net, 0)),
+  };
+}

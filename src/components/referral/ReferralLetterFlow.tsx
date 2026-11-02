@@ -172,7 +172,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                   </Avatar>
                   <div className="text-left flex-1">
                     <p className="text-sm font-medium">{p.name}</p>
-                    <p className="text-xs text-muted-foreground">{p.age} {t('profile.years')}</p>
+                    <p className="text-xs text-muted-foreground">{t('profile.years', { count: p.age })}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <p className="text-xs text-muted-foreground">
@@ -345,7 +345,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <Separator />
               <div>
                 <p className="text-xs text-muted-foreground uppercase font-semibold">{t('prescription.patientLabel')}:</p>
-                <p>{selectedPatient?.name}, {selectedPatient?.age} {t('profile.years')}</p>
+                <p>{selectedPatient?.name}, {t('profile.years', { count: selectedPatient?.age })}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground uppercase font-semibold">{t('referral.referTo')}:</p>

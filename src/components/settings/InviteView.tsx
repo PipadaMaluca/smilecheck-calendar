@@ -9,6 +9,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { mockClinics, mockDentists, mockFamilyMembers } from '@/data/mockData';
+import { buildReferralCode, REFERRAL_ACTION_KEY, SUSPENDED_ACTIONS } from '@/lib/referral';
 
 interface InviteViewProps {
   onClose: () => void;
@@ -16,10 +20,10 @@ interface InviteViewProps {
 }
 
 const MOCK_HISTORY = [
-  { name: 'Maria S.', date: '10 Jan 2026', status: 'confirmed' as const, points: 50 },
-  { name: 'Pedro A.', date: '5 Jan 2026', status: 'confirmed' as const, points: 50 },
-  { name: 'Ana F.', date: '2 Jan 2026', status: 'pending' as const, points: 0 },
-  { name: 'Carlos M.', date: '28 Dez 2025', status: 'confirmed' as const, points: 50 },
+  { name: 'Maria S.', date: '10 Jan 2026', status: 'confirmed' as const },
+  { name: 'Pedro A.', date: '5 Jan 2026', status: 'confirmed' as const },
+  { name: 'Ana F.', date: '2 Jan 2026', status: 'pending' as const },
+  { name: 'Carlos M.', date: '28 Dez 2025', status: 'confirmed' as const },
 ];
 
 export function InviteView({ onClose, inline }: InviteViewProps) {
@@ -30,8 +34,23 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  const code = 'GONCALO2026';
-  const link = `smilecheck.app/invite/${code}`;
+  const { user, profile, role } = useAuth();
+  const ownerName = user
+    ? profile?.full_name ?? user.email ?? ''
+    : role === 'dentist' ? mockDentists[0].name : role === 'clinic' ? mockClinics[0].name : mockFamilyMembers[0].name;
+  const code = buildReferralCode(ownerName, user?.id ?? `demo-${role}`);
+  const link = `${window.location.origin}/invite/${code}`;
+
+  // Real reward comes from points_rules; while the server suspends the action, promise nothing.
+  const suspended = SUSPENDED_ACTIONS.includes(REFERRAL_ACTION_KEY);
+  const [rulePoints, setRulePoints] = useState<number | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    void supabase.from('points_rules').select('points').eq('role', role).eq('action_key', REFERRAL_ACTION_KEY).maybeSingle()
+      .then(({ data }) => { if (!cancelled) setRulePoints(data?.points ?? null); });
+    return () => { cancelled = true; };
+  }, [role]);
+  const confirmedCount = MOCK_HISTORY.filter(h => h.status === 'confirmed').length;
   const shareMessage = t('invite.shareMessage', { code, link });
 
   const copyToClipboard = (text: string, type: 'code' | 'link') => {
@@ -52,8 +71,13 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         <div className="w-9 h-9 md:w-16 md:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
           <Gift className="w-5 h-5 md:w-8 md:h-8 text-primary" />
         </div>
-        <h2 className="text-base md:text-xl font-bold text-foreground px-2">{t('invite.headline')}</h2>
-        <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitle')}</p>
+        <h2 className="text-base md:text-xl font-bold text-foreground px-2">{suspended ? t('invite.headlineNoPoints') : t('invite.headline')}</h2>
+        {suspended ? (
+          <Badge variant="secondary" className="mx-auto">{t('invite.comingSoon')}</Badge>
+        ) : rulePoints !== null ? (
+          <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
+        ) : null}
+        {suspended && <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitleComingSoon')}</p>}
       </div>
 
       {/* Code & Link */}
@@ -111,13 +135,13 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
-            <p className="text-xl md:text-2xl font-bold text-emerald-500 leading-tight">3</p>
+            <p className="text-xl md:text-2xl font-bold text-emerald-500 leading-tight">{confirmedCount}</p>
             <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.confirmed')}</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
-            <p className="text-xl md:text-2xl font-bold text-warning leading-tight">150</p>
+            <p className="text-xl md:text-2xl font-bold text-warning leading-tight">{suspended || rulePoints === null ? '—' : confirmedCount * rulePoints}</p>
             <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">{t('invite.pointsEarnedShort')}</span><span className="hidden md:inline">{t('invite.pointsEarned')}</span></p>
           </CardContent>
         </Card>
@@ -140,7 +164,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
                 <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-[11px]">
                   {h.status === 'confirmed' ? t('invite.statusConfirmed') : t('invite.statusPending')}
                 </Badge>
-                {h.points > 0 && <span className="text-[11px] md:text-xs font-medium text-warning whitespace-nowrap">+{h.points} pts</span>}
+                {!suspended && rulePoints !== null && h.status === 'confirmed' && <span className="text-[11px] md:text-xs font-medium text-warning whitespace-nowrap">{t('invite.pointsShort', { count: rulePoints })}</span>}
               </div>
             </div>
           ))}

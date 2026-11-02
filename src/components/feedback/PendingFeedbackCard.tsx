@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { UserRole } from '@/types/calendar';
+import { UserRole, translateRawValue } from '@/types/calendar';
 import {
   PendingFeedbackItem,
   getPendingForRole,
@@ -119,7 +119,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
                       {t(titleKey, { name: item.targetName })}
                     </p>
                     <p className="text-[11px] text-muted-foreground truncate">
-                      {item.contextLabel || item.dentistName || item.consultationType || ''}
+                      {item.contextLabel || item.dentistName || translateRawValue(t, item.consultationType)}
                       {' · '}
                       <span className="text-emerald-500">+{FEEDBACK_GIVER_REWARD} pts {t('bidirectionalFeedback.forYou')}</span>
                     </p>
@@ -127,10 +127,10 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="h-8 text-xs flex-shrink-0 border-amber-500/40 text-warning hover:bg-amber-500/10 min-h-[36px]"
+                    className="h-8 text-xs flex-shrink-0 border-warning/30 text-warning hover:bg-warning-surface/10 hover:text-warning"
                     onClick={() => setActiveItem(item)}
                   >
-                    {t('bidirectionalFeedback.giveFeedback')}
+                    {t('bidirectionalFeedback.rate')}
                   </Button>
                 </div>
               );
@@ -144,7 +144,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
         onClose={() => setActiveItem(null)}
         targetName={activeItem?.targetName || ''}
         targetRole={activeItem?.targetRole || 'patient'}
-        contextLabel={activeItem?.contextLabel || activeItem?.dentistName || activeItem?.consultationType}
+        contextLabel={activeItem?.contextLabel || activeItem?.dentistName || translateRawValue(t, activeItem?.consultationType)}
         onSubmit={handleSubmit}
       />
     </>

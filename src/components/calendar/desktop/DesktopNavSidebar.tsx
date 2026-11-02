@@ -130,9 +130,13 @@ export function DesktopNavSidebar({
         <div className="relative">
           <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-[#2196F3]')} />
           {badge && (
-            <span className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
-              {badge.type === 'count' ? badge.value : '!'}
+            badge.type === 'count' ? (
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
+              {badge.value}
             </span>
+          ) : (
+            <span role="status" aria-label={t(`sidebarBadges.${item.id}`, { defaultValue: t('sidebarBadges.generic') })} className="absolute -top-0.5 -right-1 w-3 h-3 rounded-full bg-primary border-2 border-sidebar" />
+          )
           )}
         </div>
         {isExpanded && (

@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 // Clinical Safety System — auto-generated alerts & recall recommendations
 
 export interface ClinicalAlert {
@@ -197,7 +198,7 @@ export function calculateRecall(
   const nextDate = new Date(lastDate);
   nextDate.setMonth(nextDate.getMonth() + shortestMin);
   
-  const now = new Date(2026, 0, 31); // demo date
+  const now = demoDate(2026, 0, 31); // demo date
   const isOverdue = now > nextDate;
   const overdueDays = isOverdue ? Math.floor((now.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24)) : 0;
 

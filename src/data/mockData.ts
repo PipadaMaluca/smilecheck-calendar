@@ -1,3 +1,4 @@
+import { demoDate, liveDemoStatus } from '@/lib/demoClock';
 import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
 
 // ===== CLINICS =====
@@ -73,9 +74,19 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   dateOfBirth: createDateOfBirth(age),
 });
 
+// Demo realism: ~75% of upcoming 'agendada' visits are already confirmed (stable per id).
+const plausibleStatus = (c: Consultation): ConsultationStatus => {
+  const st = c.status || ('agendada' as ConsultationStatus);
+  if (st !== 'agendada') return st;
+  let h = 0;
+  for (let i = 0; i < c.id.length; i++) h = (h * 31 + c.id.charCodeAt(i)) >>> 0;
+  return (h % 4 === 0 ? 'agendada' : 'confirmada') as ConsultationStatus;
+};
+
 const withRequiredConsultationFields = (consultation: Consultation): Consultation => ({
   ...consultation,
-  status: consultation.status || ('agendada' as ConsultationStatus),
+  // Demo statuses follow the real clock (past → visto, ongoing → em_consulta, future → agendada).
+  status: liveDemoStatus(consultation.date, consultation.time, consultation.duration, plausibleStatus(consultation)),
   notes: consultation.notes || 'Observação clínica',
   patient: {
     ...consultation.patient,
@@ -91,7 +102,7 @@ export const mockFamilyMembers = [
 ];
 
 // Demo date - January 31, 2026
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 // Patient consultations - one Jan 31, 2026 demo-day source for every viewport.
 // Dashboard, Agenda, desktop, tablet, and mobile must all render this same data.
@@ -1686,11 +1697,11 @@ export const mockConsultations: Consultation[] = ([
   ...((): Consultation[] => {
     const out: Consultation[] = [];
     const days = [
-      new Date(2026, 0, 26), // Mon
-      new Date(2026, 0, 27), // Tue
-      new Date(2026, 0, 28), // Wed
-      new Date(2026, 0, 29), // Thu
-      new Date(2026, 0, 30), // Fri
+      demoDate(2026, 0, 26), // Mon
+      demoDate(2026, 0, 27), // Tue
+      demoDate(2026, 0, 28), // Wed
+      demoDate(2026, 0, 29), // Thu
+      demoDate(2026, 0, 30), // Fri
     ];
     const slate: Array<{
       time: string; duration: number; cat: string; type: 'presencial' | 'teleconsulta';
@@ -1734,7 +1745,10 @@ export const mockConsultations: Consultation[] = ([
     });
     return out;
   })(),
-] as Consultation[]).map(withRequiredConsultationFields);
+] as Consultation[])
+  // Physical clinics are closed on Sundays: shifted demo days never place in-person visits there.
+  .filter(c => c.date.getDay() !== 0 || c.type === 'teleconsulta')
+  .map(withRequiredConsultationFields);
 
 // Generate time slots for a given date and dentist consultations
 export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {

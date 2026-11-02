@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, X, Star, User, Building2, ChevronRight } from 'lucide-react';
+import { Search, X, Star, User, Building2, ChevronRight, List, Map as MapIcon } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
@@ -11,6 +12,8 @@ import { UserRole } from '@/types/calendar';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
+
+const DentistMapView = lazy(() => import('./DentistMapView'));
 
 interface UnifiedSearchProps {
   userRole: UserRole;
@@ -35,11 +38,11 @@ const MOCK_PATIENTS = [
 ];
 
 const MOCK_CLINIC_SEARCH = [
-  { id: '1', name: 'Clínica SmileCheck', address: 'Av. da Liberdade 123, Lisboa', rating: 4.9, reviewCount: 312, distance: 2.5 },
-  { id: '2', name: 'Clínica Mitry-Mory', address: 'Rue de Paris 45, Mitry-Mory', rating: 4.7, reviewCount: 185, distance: 4.2 },
-  { id: '3', name: 'Clínica Montfermeil', address: 'Avenue Jean Jaurès 78, Montfermeil', rating: 4.6, reviewCount: 143, distance: 6.0 },
-  { id: '4', name: 'Dental Studio Lisboa', address: 'Rua Garrett 50, Lisboa', rating: 4.8, reviewCount: 256, distance: 3.1 },
-  { id: '5', name: 'OralMed Cascais', address: 'Av. 25 de Abril, Cascais', rating: 4.5, reviewCount: 98, distance: 15.0 },
+  { id: '1', lat: 38.7197, lng: -9.1458, name: 'Clínica SmileCheck', address: 'Av. da Liberdade 123, Lisboa', rating: 4.9, reviewCount: 312, distance: 2.5 },
+  { id: '2', lat: 48.9833, lng: 2.6167, name: 'Clínica Mitry-Mory', address: 'Rue de Paris 45, Mitry-Mory', rating: 4.7, reviewCount: 185, distance: 4.2 },
+  { id: '3', lat: 48.8983, lng: 2.5667, name: 'Clínica Montfermeil', address: 'Avenue Jean Jaurès 78, Montfermeil', rating: 4.6, reviewCount: 143, distance: 6.0 },
+  { id: '4', lat: 38.7107, lng: -9.142, name: 'Dental Studio Lisboa', address: 'Rua Garrett 50, Lisboa', rating: 4.8, reviewCount: 256, distance: 3.1 },
+  { id: '5', lat: 38.6979, lng: -9.4215, name: 'OralMed Cascais', address: 'Av. 25 de Abril, Cascais', rating: 4.5, reviewCount: 98, distance: 15.0 },
 ];
 
 export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile, onViewClinicProfile, favorites = [], onToggleFavorite, inline }: UnifiedSearchProps) {
@@ -47,6 +50,9 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'patients' | 'dentists' | 'clinics'>('all');
   const isMobile = useIsMobile();
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
+  const mapAvailable = activeFilter === 'dentists' || activeFilter === 'clinics';
+  const showMap = mapAvailable && viewMode === 'map';
 
   const filteredPatients = useMemo(() => {
     if (!query.trim()) return MOCK_PATIENTS.slice(0, 3);
@@ -119,8 +125,42 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
             </Button>
           ))}
         </div>
+
+        {mapAvailable && (
+          <div role="tablist" aria-label={t('search.viewModeLabel')} className="mt-3 inline-flex rounded-lg border border-border bg-secondary p-1">
+            {([
+              { key: 'list', icon: List, label: t('search.viewList') },
+              { key: 'map', icon: MapIcon, label: t('search.viewMap') },
+            ] as const).map(opt => (
+              <Button
+                key={opt.key}
+                type="button"
+                role="tab"
+                aria-selected={viewMode === opt.key}
+                variant={viewMode === opt.key ? 'default' : 'ghost'}
+                size="sm"
+                className="gap-2 min-h-11 px-4"
+                onClick={() => setViewMode(opt.key)}
+              >
+                <opt.icon className="w-4 h-4" />
+                {opt.label}
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
 
+      {showMap ? (
+        <div className="flex-1 min-h-[400px] h-[60vh]">
+          <Suspense fallback={<Skeleton className="h-full w-full" />}>
+            {activeFilter === 'clinics' ? (
+              <DentistMapView clinics={filteredClinics} onViewClinic={id => onViewClinicProfile?.(id)} />
+            ) : (
+              <DentistMapView dentists={filteredDentists} onViewProfile={d => onViewDentistProfile?.(d)} />
+            )}
+          </Suspense>
+        </div>
+      ) : (
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-5">
           {showPatients && filteredPatients.length > 0 && (
@@ -143,7 +183,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate" title={p.name}>{p.name}</p>
-                      <p className="text-xs text-muted-foreground truncate" title={`${p.age} ${t('search.yearsOld')} · ${t('search.lastConsultation')}: ${p.lastConsultation}`}>{p.age} {t('search.yearsOld')} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
+                      <p className="text-xs text-muted-foreground truncate" title={`${p.age} ${t('search.yearsOld')} · ${t('search.lastConsultation')}: ${p.lastConsultation}`}>{t('search.yearsOld', { count: p.age })} · {t('search.lastConsultation')}: {p.lastConsultation}</p>
                     </div>
                   </Button>
                 ))}
@@ -247,6 +287,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
           )}
         </div>
       </ScrollArea>
+      )}
     </div>
   );
 

@@ -345,7 +345,7 @@ export function SignUpScreen() {
                 <Input type={showPassword ? 'text' : 'password'} placeholder={t('auth.backupPassword')} value={password}
                   onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }}
                   className={cn('h-12 bg-secondary border-border pr-10', errors.password && 'border-destructive')} />
-                <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)}
+                <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")} aria-pressed={showPassword}
                   className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </Button>
@@ -486,7 +486,7 @@ export function SignUpScreen() {
               <Input type={showPassword ? 'text' : 'password'} placeholder={t('auth.password')} value={password}
                 onChange={e => { setPassword(e.target.value); setErrors(p => ({ ...p, password: '' })); }}
                 className={cn('h-12 bg-secondary border-border pr-10', errors.password && 'border-destructive')} />
-              <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)}
+              <Button type="button" variant="ghost" size="icon-sm" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? t("auth.hidePassword") : t("auth.showPassword")} aria-pressed={showPassword}
                 className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </Button>

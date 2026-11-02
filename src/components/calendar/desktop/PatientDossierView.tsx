@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CATEGORY_COLORS, getCategoryBadgeStyle } from '@/types/calendar';
+import { CATEGORY_COLORS, getCategoryBadgeStyle, translateRawValue } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -379,7 +379,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             <span className="text-sm font-medium">{c.date} — {c.time}</span>
                             <div className="flex items-center gap-1.5">
                               {c.hasPrescription && <FileText className="w-3 h-3 text-primary" />}
-                              <span className="text-[11px] text-muted-foreground">{c.status}</span>
+                              <span className="text-[11px] text-muted-foreground">{translateRawValue(t, c.status)}</span>
                               {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </div>
                           </div>
@@ -387,7 +387,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             <span
                               className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
                               style={{ ...getCategoryBadgeStyle(catColor?.hex || '#9E9E9E'), padding: '2px 10px' }}
-                            >{c.type}</span>
+                            >{c.category ? translateRawValue(t, c.category) : c.type}</span>
                             {userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>}
                             • <ClickableClinicName name={c.clinic} className="text-xs text-muted-foreground" />
                           </p>

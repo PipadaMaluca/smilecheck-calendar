@@ -259,7 +259,7 @@ export function PatientProfileBody({
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 fill-amber-400 text-warning" />
                   <span className="text-sm font-bold">{data.rating}</span>
-                  <span className="text-xs text-muted-foreground">({data.reviewCount} {t('profile.reviews').toLowerCase()})</span>
+                  <span className="text-xs text-muted-foreground">({t('profile.reviews', { count: data.reviewCount })})</span>
                 </div>
               </div>
 
@@ -300,7 +300,7 @@ export function PatientProfileBody({
               <div className="flex flex-wrap gap-2">
                 {data.family.map((f) =>
                 <Badge key={f.name} variant="secondary" className="text-xs py-1">
-                    {f.name} ({f.age} {t('profile.years')}{f.minor ? ` — ${t('profile.minor')}` : ''})
+                    {f.name} ({t('profile.years', { count: f.age })}{f.minor ? ` — ${t('profile.minor')}` : ''})
                   </Badge>
                 )}
               </div>
@@ -418,7 +418,7 @@ export function PatientProfileBody({
                   <div className="flex items-center gap-1.5 mt-1">
                     <Star className="w-3 h-3 fill-amber-400 text-warning" />
                     <span className="text-xs text-foreground">{data.mainDentist.rating}</span>
-                    <span className="text-[11px] text-muted-foreground">· {data.mainDentist.consultations} {t('profile.consultations')}</span>
+                    <span className="text-[11px] text-muted-foreground">· {t('profile.consultations', { count: data.mainDentist.consultations })}</span>
                   </div>
                 </div>
               </div>
@@ -459,7 +459,7 @@ export function PatientProfileBody({
 
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-2">{data.reviewCount} {t('profile.reviews').toLowerCase()}</p>
+              <p className="text-xs text-muted-foreground mt-2">{t('profile.reviews', { count: data.reviewCount })}</p>
             </div>
 
             <div className="flex-1 space-y-2">

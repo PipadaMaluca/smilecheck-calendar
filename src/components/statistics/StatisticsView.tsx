@@ -1,3 +1,5 @@
+import { demoDate } from '@/lib/demoClock';
+import { computeKpis, inPeriod } from '@/data/kpis';
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,7 +22,7 @@ import { useTranslation } from 'react-i18next';
 type Period = 'today' | 'week' | 'month';
 type SubTab = 'geral' | 'confirmacoes' | 'lista_espera';
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 interface StatisticsViewProps {
   userRole?: UserRole;
@@ -49,29 +51,33 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
       if (selectedClinic !== 'all' && c.clinic.id !== selectedClinic) return false;
       return true;
     });
-    if (period === 'today') cons = cons.filter((c) => isSameDay(c.date, DEMO_DATE));
+    cons = cons.filter((c) => inPeriod(c, period, DEMO_DATE));
     if (selectedDentist !== 'all') cons = cons.filter((c) => c.dentist.id === selectedDentist);
     return cons;
   }, [period, selectedDentist, selectedClinic]);
 
-  const totalConsultations = filteredConsultations.length;
-  const confirmed = filteredConsultations.filter((c) => c.status === 'confirmada' || c.status === 'visto' || c.status === 'em_consulta' || c.status === 'em_sala_espera').length;
-  const faltas = filteredConsultations.filter((c) => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
-  const confirmRate = totalConsultations > 0 ? Math.round(confirmed / totalConsultations * 100) : 0;
-  const faltaRate = totalConsultations > 0 ? Math.round(faltas / totalConsultations * 100) : 0;
-  const revenue = filteredConsultations.reduce((sum, c) => sum + c.price, 0);
+  // All KPIs come from the shared definition in data/kpis (also used by Equipa).
+  const kpis = computeKpis(filteredConsultations);
+  const totalConsultations = kpis.total;
+  const faltas = kpis.absences;
+  const confirmRate = kpis.confirmRate;
+  const faltaRate = kpis.absenceRate;
+  const revenue = kpis.revenue;
 
   const clinicDentistsList = useMemo(() => getDentistsForClinic('1'), []);
 
   const dentistStats = useMemo(() => {
-    const dentistsToUse = selectedClinic === 'all' ? clinicDentistsList : getDentistsForClinic(selectedClinic);
+    // Every dentist present in the filtered set, so the per-dentist rows always add up to the total.
+    const ids = new Set(filteredConsultations.map((c) => c.dentist.id));
+    const dentistsToUse = mockDentists.filter((d) => ids.has(d.id));
     return dentistsToUse.map((d) => {
       const dCons = filteredConsultations.filter((c) => c.dentist.id === d.id);
-      const dFaltas = dCons.filter((c) => c.status === 'falta_justificada' || c.status === 'falta_nao_justificada').length;
-      const dTele = dCons.filter((c) => c.type === 'teleconsulta').length;
-      const dPres = dCons.filter((c) => c.type === 'presencial').length;
+      const dK = computeKpis(dCons);
+      const dFaltas = dK.absences;
+      const dTele = dK.tele;
+      const dPres = dK.presencial;
       const clinicName = dCons[0]?.clinic?.name?.replace('Clínica ', '') ?? '';
-      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: (4 + Math.random() * 0.9).toFixed(1) };
+      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: (4 + (Number(d.id) || 1) * 0.13 % 0.9).toFixed(1) };
     }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
   }, [filteredConsultations, clinicDentistsList, selectedClinic]);
 
@@ -320,7 +326,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         <span className="text-xs font-bold text-muted-foreground w-6">#{i + 1}</span>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-foreground"><ClickablePatientName name={p.name} className="text-sm font-medium text-foreground" /></p>
-                          <p className="text-xs text-muted-foreground">{p.count} {t('statistics.consultations').toLowerCase()}</p>
+                          <p className="text-xs text-muted-foreground">{t('statistics.consultations', { count: p.count })}</p>
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />

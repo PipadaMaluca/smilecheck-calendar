@@ -208,7 +208,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             </Avatar>
             <div className="text-left flex-1">
               <p className="text-sm font-medium">{patient.name}</p>
-              <p className="text-xs text-muted-foreground">{patient.age} {t('profile.years')}</p>
+              <p className="text-xs text-muted-foreground">{t('profile.years', { count: patient.age })}</p>
             </div>
             <div className="flex items-center gap-2">
               <p className="text-xs text-muted-foreground">
@@ -319,7 +319,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
           </Avatar>
           <div className="flex-1">
             <p className="text-sm font-medium">{selectedPatient.name}</p>
-            <p className="text-xs text-muted-foreground">{selectedPatient.age} {t('profile.years')}</p>
+            <p className="text-xs text-muted-foreground">{t('profile.years', { count: selectedPatient.age })}</p>
           </div>
           {patientHealth.allergies.length > 0 &&
       <div className="flex flex-wrap gap-1">
@@ -440,7 +440,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
 
         <div className="border-b border-gray-200 pb-2">
           <p className="text-sm"><span className="font-semibold">{t('prescription.patientLabel')}:</span> {selectedPatient?.name}</p>
-          <p className="text-xs text-gray-600">{selectedPatient?.age} {t('profile.years')}</p>
+          <p className="text-xs text-gray-600">{t('profile.years', { count: selectedPatient?.age })}</p>
           {patientHealth.allergies.length > 0 &&
         <p className="text-xs text-red-600 mt-1">
 <Glyph emoji="⚠️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('prescription.allergiesWarning')}: {patientHealth.allergies.join(', ')}</p>
