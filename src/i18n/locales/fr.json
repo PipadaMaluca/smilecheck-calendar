@@ -4987,5 +4987,18 @@
     "streakDate_25_Jan_2026": "25 janv. 2026",
     "streakDate_28_Nov_2025": "28 nov. 2025",
     "streakDate_5_Nov_2025": "5 nov. 2025"
+  },
+  "oauthConsent": {
+    "title": "Connecter {{client}} à SmileCheck",
+    "body": "{{client}} pourra utiliser SmileCheck en votre nom : voir vos rendez-vous et vos points.",
+    "account": "Connecté en tant que {{email}}",
+    "boundary": "Cela ne contourne pas les autorisations ni les règles d’accès de l’application.",
+    "redirect": "Adresse de retour : {{uri}}",
+    "approve": "Autoriser",
+    "deny": "Annuler la connexion",
+    "loading": "Chargement…",
+    "error": "Impossible de charger cette demande d’autorisation.",
+    "missing": "Demande d’autorisation invalide ou expirée.",
+    "anApp": "une application"
   }
 }

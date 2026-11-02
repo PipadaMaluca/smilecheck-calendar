@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "sdk_version": "3.4.0",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://iftarxeeufyolkbwgsbn.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "smilecheck-app",
+      "version": "0.1.0",
+      "title": "SmileCheck App"
+    },
+    "tools": [
+      {
+        "name": "list_my_appointments",
+        "title": "List my appointments",
+        "description": "List the signed-in user's appointments (as patient or professional), upcoming by default.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "scope": {
+              "default": "upcoming",
+              "description": "Which appointments to return.",
+              "type": "string",
+              "enum": [
+                "upcoming",
+                "past",
+                "all"
+              ]
+            },
+            "limit": {
+              "default": 20,
+              "description": "Maximum number of appointments.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_points",
+        "title": "Get my points and level",
+        "description": "Return the signed-in user's level, lifetime XP, spendable reward points and streak.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { oauthReturnPath } from '@/lib/oauth-return-path';
 import { Eye, EyeOff, Loader2, QrCode, ChevronDown, ChevronUp, User, Stethoscope, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,8 @@ export function LoginScreen() {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [searchParams] = useSearchParams();
+  const rawNext = searchParams.get('next');
+  const nextPath = rawNext ? oauthReturnPath(rawNext) : null;
   const watermarkSrc = useWatermarkSrc();
   const { enterDemo, exitDemo } = useAuth();
   const [email, setEmail] = useState('');
@@ -57,6 +60,7 @@ export function LoginScreen() {
       .eq('id', data.user.id)
       .maybeSingle();
     setLoading(false);
+    if (nextPath && nextPath !== '/') { navigate(nextPath); return; }
     navigate(`/app?role=${profile?.role ?? 'patient'}`);
   };
 
@@ -143,7 +147,7 @@ export function LoginScreen() {
 
       <p className="mt-6 text-muted-foreground text-base">
         {t('auth.noAccount')}{' '}
-        <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate('/signup')}>{t('auth.createAccount')}</Button>
+        <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate(nextPath ? `/signup?next=${encodeURIComponent(nextPath)}` : '/signup')}>{t('auth.createAccount')}</Button>
       </p>
 
       <div className="w-full mt-6 pt-4 border-t border-border">

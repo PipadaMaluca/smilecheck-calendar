@@ -4987,5 +4987,18 @@
     "streakDate_25_Jan_2026": "Jan 25, 2026",
     "streakDate_28_Nov_2025": "Nov 28, 2025",
     "streakDate_5_Nov_2025": "Nov 5, 2025"
+  },
+  "oauthConsent": {
+    "title": "Connect {{client}} to SmileCheck",
+    "body": "{{client}} will be able to use SmileCheck as you: view your appointments and points.",
+    "account": "Signed in as {{email}}",
+    "boundary": "This does not bypass the app's permissions or access rules.",
+    "redirect": "Return address: {{uri}}",
+    "approve": "Approve",
+    "deny": "Cancel connection",
+    "loading": "Loading…",
+    "error": "Could not load this authorization request.",
+    "missing": "Invalid or expired authorization request.",
+    "anApp": "an app"
   }
 }
