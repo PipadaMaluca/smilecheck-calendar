@@ -59,7 +59,13 @@ export function PricingSection() {
       { threshold: 0.05 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    // Fallback: never leave on-screen content hidden if the observer is slow (background tab, slow device) or motion is reduced.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setVisible(true);
+    const fallback = window.setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) setVisible(true);
+    }, 1500);
+    return () => { obs.disconnect(); window.clearTimeout(fallback); };
   }, []);
 
   return (
