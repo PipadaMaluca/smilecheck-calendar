@@ -937,7 +937,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-lg max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
-            {/* Date lives only in the top bar — not repeated under the greeting. */}
+            {/* Desktop/tablet show the date in the top bar; only mobile (no top-bar date) shows it here. */}
+            <p className="md:hidden text-xs text-muted-foreground mt-0.5 sentence-case text-center">
+              {DEMO_DATE.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}
+            </p>
           </div>
         </div>
 
