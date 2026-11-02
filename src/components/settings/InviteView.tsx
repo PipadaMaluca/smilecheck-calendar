@@ -187,20 +187,6 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         <p className="text-xs text-muted-foreground">{t('invite.storyHint')}</p>
       </div>
 
-      {/* QR code */}
-      <Card className="bg-card/80 backdrop-blur border-border">
-        <CardContent className="pt-4 px-3 md:px-6 flex flex-col items-center gap-3 text-center">
-          <p className="text-sm font-semibold text-foreground flex items-center gap-1.5"><QrCode className="w-4 h-4 text-primary" /> {t('invite.qrTitle')}</p>
-          <p className="text-xs text-muted-foreground">{t('invite.qrDesc')}</p>
-          <div className="rounded-xl bg-background p-3 border border-border">
-            {/* QR must stay dark-on-light in both themes so every camera reads it */}
-            <QRCodeCanvas id="invite-qr" value={link} size={176} marginSize={2} bgColor="#ffffff" fgColor="#000000" level="M" title={t('invite.qrAlt')} />
-          </div>
-          <Button variant="outline" className="h-11 gap-2" onClick={downloadQr}>
-            <Download className="w-4 h-4" /> {t('invite.qrDownload')}
-          </Button>
-        </CardContent>
-      </Card>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-2 md:gap-3">
