@@ -1057,15 +1057,15 @@
     "overallProgress": "Progression globale",
     "all": "Toutes",
     "completed": "Terminées",
-    "manageShowcase": "Gérer les favoris",
+    "manageShowcase": "Gérer la vitrine",
     "addToShowcase": "Ajouter à la vitrine ?",
     "secret": "Réalisation secrète",
     "secrets": "Secrètes",
     "secretsDesc": "Réalisations cachées — découvrez comment les débloquer",
     "noUnlocked": "Vous n'avez encore débloqué aucune réalisation.",
     "clickToManage": "Cliquez sur une réalisation pour l'ajouter ou la retirer de votre vitrine de profil.",
-    "addedToShowcase": "ajouté aux favoris !",
-    "removedFromShowcase": "retiré des favoris",
+    "addedToShowcase": "ajouté à la vitrine !",
+    "removedFromShowcase": "retiré de la vitrine",
     "categories": {
       "firstSteps": "Premiers Pas",
       "consultations": "Rendez-vous",
@@ -1524,10 +1524,10 @@
         "desc": "1ère place au classement national"
       }
     },
-    "addToShowcaseA11y": "Ajouter aux favoris",
-    "removeFromShowcaseA11y": "Retirer des favoris",
-    "showcaseFull": "Vous avez déjà 8 favoris. Retirez-en un pour en ajouter un autre.",
-    "showcaseSaveError": "Impossible d’enregistrer les favoris. Veuillez réessayer."
+    "addToShowcaseA11y": "Ajouter à la vitrine",
+    "removeFromShowcaseA11y": "Retirer de la vitrine",
+    "showcaseFull": "Vous avez déjà 8 succès en vitrine. Retirez-en un pour en ajouter un autre.",
+    "showcaseSaveError": "Impossible d’enregistrer la vitrine. Veuillez réessayer."
   },
   "scores": {
     "title": "Scores",
