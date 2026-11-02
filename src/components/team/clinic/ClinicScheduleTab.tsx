@@ -202,7 +202,7 @@ export function ClinicScheduleTab() {
 <Glyph emoji="🍽️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('team.schedule.lunchBreak')}</span>
                 <p className="text-xs text-muted-foreground">{t('team.schedule.lunchBreakDesc')}</p>
               </div>
-              <Switch aria-label={t('team.schedule.lunchBreakDesc')} checked={lunchBreak} onCheckedChange={setLunchBreak} />
+              <Switch aria-label={t('team.schedule.lunchBreak')} checked={lunchBreak} onCheckedChange={setLunchBreak} />
             </div>
             {lunchBreak && (
               <div className="flex items-center gap-2 pl-2">
