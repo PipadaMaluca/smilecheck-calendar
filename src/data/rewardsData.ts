@@ -8,6 +8,8 @@ export interface RewardProduct {
   brand?: string;
   discount?: string;
   emoji?: string;
+  /** Not redeemable yet (feature doesn't exist) — shown with "Em breve". */
+  soon?: boolean;
 }
 
 export interface Brand {
@@ -39,8 +41,8 @@ export interface RedeemHistoryItem {
 // ═══════════════════════════════════════
 
 const patientConsultas: RewardProduct[] = [
-  { id: 'pc1', name: 'Teleconsulta com 50% desconto', points: 150, category: 'Consultas', emoji: '📱', discount: '50%' },
-  { id: 'pc2', name: 'Teleconsulta grátis', points: 300, category: 'Consultas', emoji: '📱' },
+  { id: 'pc1', name: 'Teleconsulta com 50% desconto', points: 150, category: 'Consultas', emoji: '📱', discount: '50%', soon: true },
+  { id: 'pc2', name: 'Teleconsulta grátis', points: 300, category: 'Consultas', emoji: '📱', soon: true },
 ];
 
 const patientHigieneOral: RewardProduct[] = [
@@ -65,9 +67,9 @@ const patientHigieneOral: RewardProduct[] = [
   { id: 'ph17', name: 'Kit de viagem', points: 200, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '🧳' },
   { id: 'ph18', name: 'Cabeças de substituição (x4)', points: 280, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
   { id: 'ph19', name: 'Protetor bucal (bruxismo)', points: 400, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '🦷' },
-  { id: 'ph20', name: 'Escova eléctrica básica', points: 1500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph20', name: 'Escova elétrica básica', points: 1500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
   { id: 'ph21', name: 'Irrigador oral básico', points: 2000, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '💧' },
-  { id: 'ph22', name: 'Escova eléctrica premium', points: 3500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
+  { id: 'ph22', name: 'Escova elétrica premium', points: 3500, category: 'Higiene Oral', subcategory: 'Escovas', emoji: '🪥' },
   { id: 'ph23', name: 'Irrigador oral premium', points: 3500, category: 'Higiene Oral', subcategory: 'Outros Acessórios', emoji: '💧' },
 ];
 
@@ -96,7 +98,7 @@ const patientBrands: Brand[] = [
       { id: 'la1', name: 'Pasta Lacer', points: 90, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
       { id: 'la2', name: 'Elixir Lacer', points: 100, category: 'Marcas', brand: 'LACER', emoji: '🫗' },
       { id: 'la3', name: 'Pasta Lacer Oros', points: 120, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
-      { id: 'la4', name: 'Gel Bioadhesivo Lacer', points: 150, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
+      { id: 'la4', name: 'Gel bioadesivo Lacer', points: 150, category: 'Marcas', brand: 'LACER', emoji: '🧴' },
     ],
   },
   {

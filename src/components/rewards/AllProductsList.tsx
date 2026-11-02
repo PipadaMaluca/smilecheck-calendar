@@ -67,7 +67,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{demoText(product.name)}</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {product.category}
+                  {product.soon ? t('plans.soon') : demoText(product.category)}
                   {product.discount && (
                     <span className="ml-2 text-warning font-medium">{product.discount} {t('store.discount')}</span>
                   )}

@@ -54,7 +54,7 @@ export function ProductGrid({ products, userPoints, onRedeem, groupBySubcategory
 
 function ProductCard({ product, userPoints, onRedeem }: { product: RewardProduct; userPoints: number; onRedeem: (p: RewardProduct) => void }) {
   const { t } = useTranslation();
-  const canAfford = userPoints >= product.points;
+  const canAfford = !product.soon && userPoints >= product.points;
   const missing = product.points - userPoints;
 
   return (
@@ -72,8 +72,9 @@ function ProductCard({ product, userPoints, onRedeem }: { product: RewardProduct
         <Badge variant="secondary" className="text-xs font-bold">
           {formatNumber(product.points)} pts
         </Badge>
+        {product.soon && <Badge variant="outline" className="text-xs">{t('plans.soon')}</Badge>}
         <Button size="sm" className="w-full text-xs mt-1" disabled={!canAfford} onClick={() => onRedeem(product)}>
-          {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)} pts`}
+          {product.soon ? t('plans.soon') : canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)} pts`}
         </Button>
       </CardContent>
     </Card>
