@@ -1,181 +1,207 @@
+# Plano de segurança da base de dados (revisto)
 
+Só plano. Nada é aplicado até aprovares. Uma migração por fase, testada antes da seguinte.
 
-# Production-Ready Polish Pass
+## O que muda em relação à versão anterior
+- Estados de consulta: só os 8 válidos (`agendada, confirmada, em_sala_de_espera, em_consulta, concluida, cancelada, falta, visto`). Sai `reagendamento_pendente`. O paciente só pode pôr `confirmada` ou `cancelada`; reagendar = mudar `scheduled_at`.
+- Todos os triggers usam `auth.role()` e bloqueiam quando é `authenticated` ou `anon`.
+- `award_points` recusa por defeito: lista explícita de ações, tudo o resto dá erro.
+- `convidar_amigo` suspenso até existir sistema de convites com o id do convidado.
+- `confirm_phone_verification`: só `service_role`.
+- `triage-ai`: o uso é registado pelo servidor (service role) antes de chamar a IA; sem INSERT para `authenticated`.
+- `protect_patient_fields` e `restrict_professional_patient_update` passam a ser um único trigger.
 
-Implementation of the 8 approved options. Grouped by file impact to minimize risk.
-
----
-
-## 1.1 — Quarantine gaming visuals (medical neutralization)
-
-**What changes**
-- Remove `glow-primary`, `glow-gold`, `glow-green`, `animate-fire-flicker`, `animate-sparkle`, `animate-pulse-glow`, `animate-rocket`, `animate-golden-shimmer`, `text-gradient-gold`, `text-gradient-green`, `font-gaming`, `btn-gaming*` classes from the following surfaces:
-  - `DashboardView.tsx` — strip `animate-fire-flicker` from streak emoji, remove any glow boxes from stat cards.
-  - `landing/HeroSection.tsx` and `LandingNavbar.tsx` — replace gaming gradients with solid primary blue.
-  - `auth/AuthBackground.tsx`, `LoginScreen.tsx`, `SignUpScreen.tsx` — remove gold/green glows.
-  - `splash/VideoSplashScreen.tsx`, `header/UserAvatarDropdown.tsx`, `calendar/*` — remove any leftover sparkle/glow.
-  - `account/AccountView.tsx`, `profile/*View.tsx`, `settings/*`, `team/*`, `billing/*`, `prescription/*`, `referral/*`, `triage/*`, `conversations/*`, `dashboard/*` — audit for and remove gaming classes.
-- **Keep** gaming visuals exclusively in:
-  - `pontuacoes/*` (PontuacoesView, PontosTab, ClassificacoesTab, StreakTab)
-  - `rewards/*` (RewardsStoreView, ProductGrid, RedeemModal, BrandsList, AllProductsList, RewardsHistory)
-  - `rankings/RankingsView.tsx`
-  - `achievements/*` (AchievementsView, BadgeShowcase, BadgeFrame, MiniBadges, BadgeSelectionModal)
-  - `onboarding/slides/*` (one-time tutorial — keep playful)
-- Streak emoji 🔥 on dashboard stays as plain emoji (no flicker animation).
-- `index.css` and `tailwind.config.ts`: keep utility classes defined (so gamification pages still work) but stop applying them on neutral surfaces.
-
-**Outcome**: Dashboard, agenda, profile, dossier, prescription, referral, chat, equipa, settings, billing, auth all read as a calm medical product. Pontos/Loja/Rankings/Conquistas keep their playful identity.
+## Fases
+1. Campos protegidos (role, patients, appointments)
+2. `award_points` com lista explícita + unicidade por consulta
+3. Acesso a dados clínicos (já planeado, sem alterações)
+4. Telemóvel verificado (`phone_verified_at`)
+5. Verificação de dentistas e clínicas
+6. Limite da triagem IA
+7. Testes
 
 ---
 
-## 1.2 — Desaturate consultation type colors (~22%)
+## Detalhes técnicos
 
-**What changes** — `src/index.css` `:root` block:
-| Token | Before | After |
-|-------|--------|-------|
-| `--restauracao` | `207 90% 54%` | `207 70% 56%` |
-| `--primeira-consulta` | `49 98% 60%` | `49 76% 62%` |
-| `--protese` | `122 39% 49%` | `122 30% 51%` |
-| `--urgencia` | `4 90% 58%` | `4 70% 60%` |
-| `--teleconsulta` | `36 100% 50%` | `36 78% 54%` |
-| `--bloqueado` / `--livre` | `0 0% 62%` | unchanged |
-| Legacy `--presencial`, `--urgente`, `--prioritario`, `--rotina` | mirror new values | mirrored |
-
-All 10 categories preserved. Hex equivalents in `mockData`/`CATEGORY_COLORS` (if any hard-coded) get updated to match.
-
----
-
-## 1.3 — Spacing audit (Dashboard + Agenda + Profile)
-
-Replace arbitrary `[Npx]` values with strict 4px-scale tokens:
-- `py-[3px]` → `py-1` (4px)
-- `py-[5px]` → `py-1.5` (6px)
-- `py-[10px]` → `py-2.5` (10px) — already on scale, convert to token form
-- `px-[15px]` → `px-4` (16px)
-- `gap-[10px]` → `gap-2.5`
-- `pl-[48px]` → `pl-12`
-- `gap-[5px]` → `gap-1.5`
-- `px-[8px] py-[8px]` → `p-2`
-- `my-[6px]` → `my-1.5`
-
-**Files touched**:
-- `src/components/dashboard/DashboardView.tsx` (~10 occurrences)
-- `src/components/calendar/desktop/*.tsx`, `MultiDentistGrid.tsx`, `ConsultationCard.tsx`, `MobileConsultationDetail.tsx`
-- `src/components/profile/ProfileView.tsx`, `EditProfileView.tsx`, `DentistProfileView.tsx`, `ClinicProfileView.tsx`, `patient/PatientProfileBody.tsx`
-
-No visual regression — values rounded to nearest 4px token.
-
----
-
-## 1.5 — Typography rhythm classes
-
-Add to `src/index.css` under `@layer components`:
-```css
-.t-h1 { @apply text-2xl font-semibold leading-tight; }   /* 24px */
-.t-h2 { @apply text-xl font-semibold leading-snug; }     /* 20px */
-.t-h3 { @apply text-base font-medium leading-snug; }     /* 16px */
-.t-h4 { @apply text-sm font-medium leading-normal; }     /* 14px */
+### Nota sobre `auth.role()` dentro de funções do servidor
+`auth.role()` lê o JWT do pedido, por isso continua `authenticated` quando uma função SECURITY DEFINER (ex.: `recompute_profile_rating`) escreve em `patients.rating`. Para essas escritas legítimas, as funções do servidor ativam uma marca local à transação:
+```sql
+PERFORM set_config('app.trusted_write', 'on', true);
 ```
-Apply across `DashboardView.tsx`:
-- Greeting `<h1>` → `t-h1`
-- Section headers ("Consultas de Hoje", "Confirmações", "Lista de Espera", "Ações Rápidas", "Pontos Pendentes", "Histórico") → `t-h3`
-- Stat card labels → `t-h4`
+Os triggers bloqueiam se `auth.role() IN ('authenticated','anon')` **e** a marca não estiver ativa. O cliente não consegue ativá-la (não há RPC que o permita).
 
----
-
-## 2.1 — Hide demo role switcher unless `?demo=true`
-
-**`src/components/calendar/CalendarDemo.tsx`**:
-- Read `searchParams.get('demo') === 'true'`.
-- If `false`, render only the `<TabsContent value={initialRole}>` for the role given by `?role=` (default `patient`) — no `<TabsList>` and no sticky tab bar.
-- If `true`, keep current 3-tab switcher (for the `/demo` page).
-- Also update `src/pages/Index.tsx` / `src/pages/AppPage.tsx` if they wrap CalendarDemo to pass through the param naturally (URLSearchParams already handles it).
-
----
-
-## 2.2 — Standardize all "Avaliar" entry points
-
-Unify on `BidirectionalFeedbackModal` + the literal label `t('bidirectionalFeedback.rate')` ("Avaliar"):
-- `PatientScoreHistory.tsx` — replace `PatientFeedbackModal` trigger with `BidirectionalFeedbackModal` for pending items; keep `PatientFeedbackModal` only for legacy in-call flow if still used.
-- `FullHistoryView.tsx` — same swap; button label normalized to "Avaliar".
-- `desktop/DesktopCalendarView.tsx` — `DentistFeedbackModal` button label normalized to "Avaliar"; modal kept (it has clinical checkboxes specific to dentist post-call).
-- All "Dar Feedback", "Avaliar Agora", "Rate", "Avaliar Dentista" buttons across the codebase → single label `t('bidirectionalFeedback.rate')`.
-- Visual style normalized to outline button with star icon, size sm.
-
----
-
-## 2.3 — Skip simulated loading after first session visit
-
-Update `src/hooks/use-simulated-loading.ts`:
-```ts
-export function useSimulatedLoading(duration = 1200, key = 'global'): boolean {
-  const storageKey = `sc:loaded:${key}`;
-  const [isLoading, setIsLoading] = useState(() => {
-    if (typeof sessionStorage === 'undefined') return true;
-    return sessionStorage.getItem(storageKey) !== '1';
-  });
-  useEffect(() => {
-    if (!isLoading) return;
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      sessionStorage.setItem(storageKey, '1');
-    }, duration);
-    return () => clearTimeout(timer);
-  }, [isLoading, duration, storageKey]);
-  return isLoading;
-}
+Helper:
+```sql
+CREATE OR REPLACE FUNCTION public.is_untrusted_caller() RETURNS boolean
+LANGUAGE sql STABLE SET search_path = public AS $$
+  SELECT auth.role() IN ('authenticated','anon')
+     AND coalesce(current_setting('app.trusted_write', true), '') <> 'on'
+$$;
 ```
-Pass per-screen keys at call sites: `useSimulatedLoading(1200, 'dashboard')`, `'agenda'`, `'profile'`, `'achievements'`, `'rewards'`, `'conversations'`. Backward compatible — calls without a key share `'global'`.
 
----
+### Fase 1 — Campos protegidos
+```sql
+-- profiles.role imutável
+CREATE OR REPLACE FUNCTION public.protect_profile_role() RETURNS trigger
+LANGUAGE plpgsql SET search_path = public AS $$
+BEGIN
+  IF public.is_untrusted_caller() AND NEW.role IS DISTINCT FROM OLD.role THEN
+    RAISE EXCEPTION 'role_change_not_allowed';
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE TRIGGER trg_protect_profile_role BEFORE UPDATE ON public.profiles
+  FOR EACH ROW EXECUTE FUNCTION public.protect_profile_role();
 
-## 2.4 — Back button audit (3 critical flows)
+-- patients: trigger único (substitui os dois anteriores)
+CREATE OR REPLACE FUNCTION public.guard_patient_update() RETURNS trigger
+LANGUAGE plpgsql SET search_path = public AS $$
+BEGIN
+  IF NOT public.is_untrusted_caller() THEN RETURN NEW; END IF;
+  -- Ninguém no cliente mexe em campos administrativos
+  IF NEW.blocked IS DISTINCT FROM OLD.blocked
+     OR NEW.rating IS DISTINCT FROM OLD.rating THEN
+    RAISE EXCEPTION 'admin_field_not_allowed';
+  END IF;
+  -- Profissional: só campos clínicos e só se tratar o paciente
+  IF auth.uid() <> OLD.id THEN
+    IF NOT public.treats_patient(OLD.id) THEN
+      RAISE EXCEPTION 'not_treating_professional';
+    END IF;
+    IF NEW.fear_level IS DISTINCT FROM OLD.fear_level THEN
+      RAISE EXCEPTION 'field_not_allowed_for_professional';
+    END IF;
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE TRIGGER trg_guard_patient_update BEFORE UPDATE ON public.patients
+  FOR EACH ROW EXECUTE FUNCTION public.guard_patient_update();
 
-1. **Triagem → Booking**
-   - `src/pages/Triagem.tsx` and `src/components/booking/BookingFlow.tsx`: ensure browser back from BookingFlow returns to the last triage step (not landing). Add `history.pushState` markers when entering booking from triage; `BookingFlow`'s back arrow calls `navigate(-1)` instead of fixed route.
+-- appointments
+CREATE OR REPLACE FUNCTION public.guard_appointment_update() RETURNS trigger
+LANGUAGE plpgsql SET search_path = public AS $$
+BEGIN
+  IF NOT public.is_untrusted_caller() THEN RETURN NEW; END IF;
+  IF NEW.price IS DISTINCT FROM OLD.price
+     OR NEW.payment_status IS DISTINCT FROM OLD.payment_status THEN
+    RAISE EXCEPTION 'admin_field_not_allowed';
+  END IF;
+  IF auth.uid() = OLD.patient_id
+     AND auth.uid() IS DISTINCT FROM OLD.dentist_id
+     AND NOT public.is_clinic_member(OLD.clinic_id)
+     AND NOT public.owns_clinic(OLD.clinic_id) THEN
+    IF NEW.status IS DISTINCT FROM OLD.status
+       AND NEW.status NOT IN ('confirmada','cancelada') THEN
+      RAISE EXCEPTION 'patient_status_not_allowed';
+    END IF;
+    IF NEW.dentist_id IS DISTINCT FROM OLD.dentist_id
+       OR NEW.clinic_id IS DISTINCT FROM OLD.clinic_id
+       OR NEW.patient_id IS DISTINCT FROM OLD.patient_id
+       OR NEW.observation IS DISTINCT FROM OLD.observation THEN
+      RAISE EXCEPTION 'patient_field_not_allowed';
+    END IF;
+    -- scheduled_at pode mudar (reagendamento)
+  END IF;
+  RETURN NEW;
+END $$;
+CREATE TRIGGER trg_guard_appointment_update BEFORE UPDATE ON public.appointments
+  FOR EACH ROW EXECUTE FUNCTION public.guard_appointment_update();
+```
+`recompute_profile_rating` e `apply_points` passam a chamar `set_config('app.trusted_write','on',true)`.
 
-2. **Dashboard → Dossier (patient view)**
-   - `src/components/calendar/desktop/PatientDossierView.tsx` and `MobilePatientDossier.tsx`: store the entry tab (`agenda` vs `dashboard`) in component state; back arrow returns to that tab. Currently always goes to `agenda`.
+### Fase 2 — `award_points` (recusa por defeito)
+```sql
+CREATE UNIQUE INDEX IF NOT EXISTS uq_points_once_per_appt
+  ON public.points_ledger (profile_id, related_appointment_id, reason)
+  WHERE related_appointment_id IS NOT NULL AND type = 'xp';
+```
+Lógica, no início de `award_points` (antes de ler `points_rules`):
+```text
+caller := auth.uid(); se NULL -> erro not_authenticated
 
-3. **Profile → Edit Profile**
-   - `src/components/profile/ProfileView.tsx` and `EditProfileView.tsx`: Edit screen's back arrow must return to Profile (currently can land on dashboard if profile was opened modally). Add `onBackToProfile` callback wired through `ProfileNavigationContext`.
+CASE _action_key
+  'checkin_diario':
+     _profile_id = caller
+  'compareceu','falta','chegou_a_horas','colaborou','higiene_oral',
+  'seguiu_recomendacoes','cancelamento_tardio':
+     consulta obrigatória, status = 'concluida'
+     caller = dentist_id da consulta OU membro/dono da clínica
+     _profile_id = patient_id da consulta
+  'consulta_concluida','teleconsulta','consulta_clinica':
+     consulta obrigatória, status IN ('concluida','visto')
+     caller = dentist_id OU membro/dono da clínica
+     _profile_id = dentist_id OU clinics.owner_profile_id dessa consulta
+  'feedback_rating':
+     _related_appointment_id obrigatório
+     can_rate_appointment(_related_appointment_id, _profile_id) = true
+     existe feedback com from_profile_id = caller,
+       to_profile_id = _profile_id, appointment_id = _related_appointment_id
+  'convidar_amigo':
+     erro action_suspended (até haver convites com id do convidado)
+  ELSE:
+     erro action_not_allowed
+END
+```
+Conquistas: `check_achievements` continua a dar bónus por chamada interna com a marca de confiança, sem passar pela lista do cliente.
+`REVOKE EXECUTE ON FUNCTION apply_points FROM authenticated, anon;` (só interna).
 
----
+### Fase 3 — Dados clínicos
+Sem alterações face à versão anterior: profissionais só leem campos clínicos de pacientes com consulta futura ou dos últimos 12 meses (`treats_patient` atualizado com essa janela).
 
-## 2.5 — Collapsible "Confirmações" + "Lista de Espera"
+### Fase 4 — Telemóvel verificado
+```sql
+ALTER TABLE public.profiles ADD COLUMN phone_verified_at timestamptz;
 
-In `DashboardView.tsx` (Dentist + Clinic dashboards):
-- Wrap each section in a small local component `<CollapsibleSection title persistKey defaultOpen=true>` using the existing `@/components/ui/collapsible` primitive.
-- Header row: title + count badge + chevron (rotates 180° when open).
-- State persisted per session via `sessionStorage` key `sc:collapse:confirmacoes` / `sc:collapse:lista-espera`.
-- Default expanded.
-- "Consultas de Hoje" stays always open (primary content).
+CREATE OR REPLACE FUNCTION public.confirm_phone_verification(_profile_id uuid)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  IF auth.role() <> 'service_role' THEN RAISE EXCEPTION 'not_allowed'; END IF;
+  PERFORM set_config('app.trusted_write','on',true);
+  UPDATE public.profiles SET phone_verified_at = now() WHERE id = _profile_id;
+END $$;
+REVOKE ALL ON FUNCTION public.confirm_phone_verification(uuid) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.confirm_phone_verification(uuid) TO service_role;
+```
+`protect_profile_role` passa também a bloquear mudanças a `phone_verified_at` vindas do cliente; mudar `phone` limpa `phone_verified_at`.
 
----
+### Fase 5 — Verificação de profissionais
+```sql
+CREATE TYPE public.verification_status AS ENUM ('pendente','aprovado','rejeitado');
+ALTER TABLE public.dentists ADD COLUMN verification_status public.verification_status NOT NULL DEFAULT 'pendente';
+ALTER TABLE public.clinics  ADD COLUMN verification_status public.verification_status NOT NULL DEFAULT 'pendente';
+```
+Os registos existentes (seed) ficam `aprovado` no mesmo passo. Políticas de leitura pública e pesquisa filtram `verification_status = 'aprovado'`; o próprio vê sempre o seu. O trigger de proteção bloqueia o cliente de alterar este campo.
 
-## File Inventory
+### Fase 6 — Limite da triagem IA
+```sql
+CREATE TABLE public.triage_ai_usage (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  profile_id uuid NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX ON public.triage_ai_usage (profile_id, created_at);
+GRANT SELECT ON public.triage_ai_usage TO authenticated;
+GRANT ALL ON public.triage_ai_usage TO service_role;
+ALTER TABLE public.triage_ai_usage ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own usage read" ON public.triage_ai_usage
+  FOR SELECT TO authenticated USING (profile_id = auth.uid());
+```
+Função `triage-ai`:
+1. Exige `Authorization: Bearer`; valida o utilizador -> 401 se falhar.
+2. Com cliente service role: conta pedidos das últimas 24h; se >= 10 -> 429.
+3. Insere a linha em `triage_ai_usage` **antes** de chamar a IA.
+4. Só depois chama a IA.
 
-**Modified**
-- `src/index.css` (color tokens + typography classes + remove gaming utilities from neutral surfaces' usages — utility classes themselves stay defined)
-- `tailwind.config.ts` (no change needed)
-- `src/hooks/use-simulated-loading.ts`
-- `src/components/calendar/CalendarDemo.tsx`
-- `src/components/dashboard/DashboardView.tsx` (spacing + typography + collapsibles + remove gaming)
-- `src/components/dashboard/PatientScoreHistory.tsx` (unify Avaliar)
-- `src/components/history/FullHistoryView.tsx` (unify Avaliar)
-- `src/components/calendar/desktop/DesktopCalendarView.tsx` (label normalize)
-- `src/components/booking/BookingFlow.tsx` (back nav)
-- `src/components/calendar/desktop/PatientDossierView.tsx` + `mobile/MobilePatientDossier.tsx` (back nav)
-- `src/components/profile/ProfileView.tsx` + `EditProfileView.tsx` (back nav)
-- ~12 calendar/profile files for spacing-token swaps
-- `src/components/landing/HeroSection.tsx`, `LandingNavbar.tsx`, `auth/*`, `account/AccountView.tsx`, `header/UserAvatarDropdown.tsx`, etc. for gaming-class removal
-- i18n: add `bidirectionalFeedback.rate` ("Avaliar" / "Rate" / "Évaluer") if missing
+Frontend: `TriageAiAnalysisCard` mostra mensagem traduzida (PT/EN/FR) para 401 e 429. Modo demo não chama a função.
 
-**Created**: none (all reuses existing primitives)
-
----
-
-## Out of scope (per user)
-- 1.4 (card hierarchy) — already addressed.
-- Issue 3 strengths — left untouched.
-
+### Fase 7 — Testes
+- Paciente muda status para `em_consulta` -> recusado; para `confirmada`/`cancelada` -> aceite; muda `scheduled_at` -> aceite; muda `price` -> recusado.
+- Utilizador muda o próprio `role` -> recusado.
+- `award_points('compareceu')` pelo paciente -> recusado; pelo dentista numa consulta `agendada` -> recusado; `concluida` -> aceite; segunda vez -> recusado (índice único).
+- `consulta_concluida` com destinatário que não é o dentista/dono da clínica -> recusado.
+- `feedback_rating` sem consulta ou sem feedback do caller -> recusado.
+- `convidar_amigo` e ação desconhecida -> erro.
+- `confirm_phone_verification` chamado por utilizador autenticado -> recusado.
+- Triagem sem sessão -> 401; 11.º pedido no dia -> 429.
+- Avaliações continuam a atualizar `patients.rating` (escrita de confiança funciona).
