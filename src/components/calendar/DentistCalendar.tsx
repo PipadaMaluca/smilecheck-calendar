@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
@@ -62,7 +63,7 @@ export function DentistCalendar() {
   const { t } = useTranslation();
   // Subscribe so changes re-render columns/list
   useAgendaFilters();
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
@@ -335,7 +336,7 @@ export function DentistCalendar() {
     }
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
-      const DEMO_DATE = new Date(2026, 0, 31);
+      const DEMO_DATE = demoDate(2026, 0, 31);
       const dentistCons = agendaConsultations
         .filter(c => c.dentist.id === mockDentists[0].id && c.date.toDateString() === DEMO_DATE.toDateString())
         .sort((a, b) => a.time.localeCompare(b.time));

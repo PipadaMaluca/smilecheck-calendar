@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -24,7 +25,7 @@ interface PontosTabProps {
   onNavigate?: (tab: string) => void;
 }
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const data = usePointsData(userRole);

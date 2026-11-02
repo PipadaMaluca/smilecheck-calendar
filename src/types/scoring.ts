@@ -65,7 +65,7 @@ export const mockScoreHistory: ConsultationScore[] = [
   {
     id: 'sc-1',
     consultationId: 'gp-1',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Pedro Almeida',
@@ -73,7 +73,7 @@ export const mockScoreHistory: ConsultationScore[] = [
     consultationTime: '09:00',
     totalPoints: 15,
     feedbackStatus: 'pending',
-    dentistFeedbackDate: new Date(2026, 0, 31, 17, 0),
+    dentistFeedbackDate: demoDate(2026, 0, 31, 17, 0),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -87,7 +87,7 @@ export const mockScoreHistory: ConsultationScore[] = [
   {
     id: 'sc-6',
     consultationId: 'sa-1',
-    date: new Date(2026, 0, 28),
+    date: demoDate(2026, 0, 28),
     dentistName: 'Dra. Sofia Almeida',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Ana Costa',
@@ -95,7 +95,7 @@ export const mockScoreHistory: ConsultationScore[] = [
     consultationTime: '10:00',
     totalPoints: 11,
     feedbackStatus: 'pending',
-    dentistFeedbackDate: new Date(2026, 0, 28, 16, 30),
+    dentistFeedbackDate: demoDate(2026, 0, 28, 16, 30),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Compareceu', points: 5 },
@@ -107,7 +107,7 @@ export const mockScoreHistory: ConsultationScore[] = [
   {
     id: 'sc-2',
     consultationId: 'ab-1',
-    date: new Date(2026, 0, 24),
+    date: demoDate(2026, 0, 24),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Marta Santos',
@@ -115,8 +115,8 @@ export const mockScoreHistory: ConsultationScore[] = [
     consultationTime: '11:00',
     totalPoints: 10,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: new Date(2026, 0, 25) },
-    dentistFeedbackDate: new Date(2026, 0, 24, 11, 0),
+    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: demoDate(2026, 0, 25) },
+    dentistFeedbackDate: demoDate(2026, 0, 24, 11, 0),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Compareceu', points: 5 },
@@ -127,7 +127,7 @@ export const mockScoreHistory: ConsultationScore[] = [
   {
     id: 'sc-4',
     consultationId: 'pat-1',
-    date: new Date(2026, 0, 10),
+    date: demoDate(2026, 0, 10),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'João Mendes',
@@ -135,8 +135,8 @@ export const mockScoreHistory: ConsultationScore[] = [
     consultationTime: '10:15',
     totalPoints: 12,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 4, comment: 'Muito bom', submittedAt: new Date(2026, 0, 11) },
-    dentistFeedbackDate: new Date(2026, 0, 10, 15, 0),
+    patientFeedback: { rating: 4, comment: 'Muito bom', submittedAt: demoDate(2026, 0, 11) },
+    dentistFeedbackDate: demoDate(2026, 0, 10, 15, 0),
     breakdown: [
       { label: 'Confirmação 1h', points: 1 },
       { label: 'Compareceu', points: 5 },
@@ -148,7 +148,7 @@ export const mockScoreHistory: ConsultationScore[] = [
   {
     id: 'sc-5',
     consultationId: 'pat-2',
-    date: new Date(2026, 0, 3),
+    date: demoDate(2026, 0, 3),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Inês Marques',
@@ -169,7 +169,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
   {
     id: 'dh-exp',
     consultationId: 'prev-exp',
-    date: new Date(2025, 11, 31),
+    date: demoDate(2025, 11, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Sofia Rodrigues',
@@ -185,7 +185,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
   {
     id: 'dh-1',
     consultationId: 'gp-1',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Pedro Almeida',
@@ -193,8 +193,8 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
     consultationTime: '09:00',
     totalPoints: 15,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: new Date(2026, 0, 31, 12, 0) },
-    dentistFeedbackDate: new Date(2026, 0, 31, 9, 30),
+    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: demoDate(2026, 0, 31, 12, 0) },
+    dentistFeedbackDate: demoDate(2026, 0, 31, 9, 30),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -209,7 +209,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
   {
     id: 'dh-2',
     consultationId: 'gp-2',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Maria Silva',
@@ -228,7 +228,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
   {
     id: 'dh-3',
     consultationId: 'gp-3',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'João Costa',
@@ -245,7 +245,7 @@ export const mockDentistScoreHistory: ConsultationScore[] = [
   {
     id: 'dh-4',
     consultationId: 'gp-4',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Ana Ferreira',
@@ -266,7 +266,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-exp-1',
     consultationId: 'prev-exp-gp',
-    date: new Date(2025, 11, 31),
+    date: demoDate(2025, 11, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Sofia Rodrigues',
@@ -282,7 +282,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-1',
     consultationId: 'gp-1',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Pedro Almeida',
@@ -290,8 +290,8 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
     consultationTime: '09:00',
     totalPoints: 15,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: new Date(2026, 0, 31, 12, 0) },
-    dentistFeedbackDate: new Date(2026, 0, 31, 9, 30),
+    patientFeedback: { rating: 5, comment: 'Excelente consulta!', submittedAt: demoDate(2026, 0, 31, 12, 0) },
+    dentistFeedbackDate: demoDate(2026, 0, 31, 9, 30),
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -305,7 +305,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-2',
     consultationId: 'gs-1',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
     patientName: 'André Gomes',
@@ -313,7 +313,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
     consultationTime: '09:00',
     totalPoints: 12,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 5, submittedAt: new Date(2026, 0, 31, 10, 0) },
+    patientFeedback: { rating: 5, submittedAt: demoDate(2026, 0, 31, 10, 0) },
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -326,7 +326,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-3',
     consultationId: 'ab-1c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Inês Marques',
@@ -334,7 +334,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
     consultationTime: '09:00',
     totalPoints: 10,
     feedbackStatus: 'completed',
-    patientFeedback: { rating: 4, comment: 'Muito boa consulta', submittedAt: new Date(2026, 0, 31, 11, 0) },
+    patientFeedback: { rating: 4, comment: 'Muito boa consulta', submittedAt: demoDate(2026, 0, 31, 11, 0) },
     breakdown: [
       { label: 'Confirmação 24h', points: 1 },
       { label: 'Confirmação 1h', points: 1 },
@@ -347,7 +347,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-4',
     consultationId: 'gp-2c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Maria Silva',
@@ -365,7 +365,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-5',
     consultationId: 'gs-2c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Mariana Reis',
@@ -383,7 +383,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-6',
     consultationId: 'gp-3c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'João Costa',
@@ -399,7 +399,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-7',
     consultationId: 'ab-2c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Miguel Almeida',
@@ -415,7 +415,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-8',
     consultationId: 'gs-3c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gil Santos',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Catarina Dias',
@@ -432,7 +432,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-9',
     consultationId: 'gp-4c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Gonçalo Pipo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Ana Ferreira',
@@ -447,7 +447,7 @@ export const mockClinicScoreHistory: ConsultationScore[] = [
   {
     id: 'ch-10',
     consultationId: 'ab-3c',
-    date: new Date(2026, 0, 31),
+    date: demoDate(2026, 0, 31),
     dentistName: 'Dr. Alexandre Bernardo',
     clinicName: 'Clínica SmileCheck',
     patientName: 'Bruno Cardoso',

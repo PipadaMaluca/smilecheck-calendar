@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
@@ -55,7 +56,7 @@ export function ClinicCalendar() {
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');

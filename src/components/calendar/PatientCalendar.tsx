@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
@@ -37,13 +38,13 @@ import { CalendarX } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 import { pt } from 'date-fns/locale';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 export function PatientCalendar() {
   const { patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { t } = useTranslation();
   const smileIcon = useWatermarkSrc();
-  const [selectedDate, setSelectedDate] = useState(new Date(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [selectedMembers, setSelectedMembers] = useState<string[]>(['all']);

@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 type Period = 'today' | 'week' | 'month';
 type SubTab = 'geral' | 'confirmacoes' | 'lista_espera';
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 interface StatisticsViewProps {
   userRole?: UserRole;

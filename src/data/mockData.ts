@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
 
 // ===== CLINICS =====
@@ -91,7 +92,7 @@ export const mockFamilyMembers = [
 ];
 
 // Demo date - January 31, 2026
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 // Patient consultations - one Jan 31, 2026 demo-day source for every viewport.
 // Dashboard, Agenda, desktop, tablet, and mobile must all render this same data.
@@ -1686,11 +1687,11 @@ export const mockConsultations: Consultation[] = ([
   ...((): Consultation[] => {
     const out: Consultation[] = [];
     const days = [
-      new Date(2026, 0, 26), // Mon
-      new Date(2026, 0, 27), // Tue
-      new Date(2026, 0, 28), // Wed
-      new Date(2026, 0, 29), // Thu
-      new Date(2026, 0, 30), // Fri
+      demoDate(2026, 0, 26), // Mon
+      demoDate(2026, 0, 27), // Tue
+      demoDate(2026, 0, 28), // Wed
+      demoDate(2026, 0, 29), // Thu
+      demoDate(2026, 0, 30), // Fri
     ];
     const slate: Array<{
       time: string; duration: number; cat: string; type: 'presencial' | 'teleconsulta';

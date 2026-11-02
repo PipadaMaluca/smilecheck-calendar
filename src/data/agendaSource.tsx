@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -78,7 +79,7 @@ interface PatientInfo {
   level: string;
 }
 
-function ageFrom(dob?: string, reference = new Date(2026, 0, 31)) {
+function ageFrom(dob?: string, reference = demoDate(2026, 0, 31)) {
   if (!dob) return undefined;
   const [d, m, y] = dob.split('/').map(Number);
   let age = reference.getFullYear() - y;

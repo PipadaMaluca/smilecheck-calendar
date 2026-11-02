@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useMemo } from 'react';
 import { CheckCircle, Check, X, Circle, Minus, type LucideIcon } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -14,7 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { getDentistInitials } from '@/lib/avatarUtils';
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 type BadgeStatus = 'confirmed' | 'cancelled' | 'pending' | 'irrelevant';
 

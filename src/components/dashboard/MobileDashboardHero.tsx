@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Star, Flame } from 'lucide-react';
@@ -10,7 +11,7 @@ import { getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress
 import { usePointsData } from '@/data/pointsSource';
 import { getQuickActions } from './quickActions';
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 interface MobileDashboardHeroProps {
   userRole: UserRole;

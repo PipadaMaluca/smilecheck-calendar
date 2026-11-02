@@ -1,3 +1,4 @@
+import { demoDate } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -46,7 +47,7 @@ function getUserName(role: UserRole): string {
   }
 }
 
-const DEMO_DATE = new Date(2026, 0, 31);
+const DEMO_DATE = demoDate(2026, 0, 31);
 
 /** Persist collapse state in sessionStorage so it survives navigation but resets per session. */
 function useSessionCollapse(key: string, defaultOpen = true) {
