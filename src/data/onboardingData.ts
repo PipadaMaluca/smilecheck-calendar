@@ -18,8 +18,8 @@ export const TOOLTIP_STEPS: Record<UserRole, TooltipStep[]> = {
     { targetId: 'onboarding-nav-agenda', title: 'Consultas', description: 'Aceda ao calendário completo das suas consultas.' },
     { targetId: 'onboarding-nav-saude', title: 'Saúde', description: 'Gerir alergias, medicação, vacinas e documentos médicos.' },
     { targetId: 'onboarding-nav-conquistas', title: 'Conquistas', description: 'Acompanhe o seu progresso e desbloqueie conquistas.' },
-    { targetId: 'onboarding-nav-loja', title: 'Loja de Recompensas', description: 'Troque pontos por recompensas aqui.' },
-    { targetId: 'onboarding-pontuacao-card', title: 'Pontos Disponíveis', description: 'Os seus pontos de recompensa. Clique para ir à Loja de Recompensas!' },
+    { targetId: 'onboarding-nav-loja', title: 'Loja de recompensas', description: 'Troque pontos por recompensas aqui.' },
+    { targetId: 'onboarding-pontuacao-card', title: 'Pontos disponíveis', description: 'Os seus pontos de recompensa. Clique para ir à Loja de recompensas!' },
     { targetId: 'onboarding-nav-conversas', title: 'Conversas', description: 'Comunique diretamente com os seus dentistas.' },
   ],
   dentist: [
