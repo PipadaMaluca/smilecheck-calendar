@@ -2020,3 +2020,7 @@ span.sentence-case { display: inline-block; }
 @keyframes sc-halo-pulse { 0%,100% { opacity: .7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
 .sc-halo { animation: sc-halo-pulse 8s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .sc-halo { animation: none; } }
+
+/* Light theme: green points text needs a deeper shade for WCAG AA (fills keep the bright gaming green). */
+.light .text-gaming-green { color: hsl(162 100% 23%); }
+.light .text-emerald-500 { color: hsl(160 84% 25%); }
