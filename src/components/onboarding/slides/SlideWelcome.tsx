@@ -25,15 +25,22 @@ export const SlideWelcome = ({ isActive, userRole }: SlideWelcomeProps) => {
         <Sparkles className={`absolute bottom-2 -left-4 w-6 h-6 text-gaming-diamond`} style={{ animationDelay: '0.5s' }} />
       </div>
       <h1 className="font-gaming text-3xl md:text-4xl text-foreground mb-3">
-        {t('onboarding.welcomeTo')}{' '}<span className="text-gaming-diamond">{title}</span>
+        {t('onboarding.welcomeTo')}{' '}<span className="text-gaming-diamond">{keepHyphenated(title)}</span>
       </h1>
-      <p className="text-xl text-muted-foreground mb-6">{subtitle}</p>
+      <p className="text-xl text-muted-foreground mb-6">{keepHyphenated(subtitle)}</p>
       <div className="glass-card p-6 max-w-sm">
         <p className="text-foreground/90 leading-relaxed">
-          <span className="text-gaming-gold font-semibold">{tagline.split(',')[0]}</span>
-          {tagline.includes(',') && <>, <span className="text-gaming-diamond font-semibold">{tagline.split(',').slice(1).join(',').trim()}</span></>}
+          <span className="text-gaming-gold font-semibold">{keepHyphenated(tagline.split(',')[0])}</span>
+          {tagline.includes(',') && <>, <span className="text-gaming-diamond font-semibold">{keepHyphenated(tagline.split(',').slice(1).join(',').trim())}</span></>}
         </p>
       </div>
     </SlideFrame>
   );
 };
+
+/** Keeps hyphenated words (e.g. "destaque-se!") on one line so they never break at the hyphen. */
+function keepHyphenated(text: string) {
+  return text.split(/(\S*\S-\S+)/).map((part, i) =>
+    i % 2 === 1 ? <span key={i} className="whitespace-nowrap">{part}</span> : part,
+  );
+}

@@ -111,8 +111,8 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     { id: 'facebook', label: 'Facebook', Icon: FacebookIcon, onClick: () => open(`https://www.facebook.com/sharer/sharer.php?u=${enc(link)}`) },
     { id: 'x', label: 'X', Icon: XIcon, onClick: () => open(`https://twitter.com/intent/tweet?text=${enc(shareMessage)}`) },
     { id: 'linkedin', label: 'LinkedIn', Icon: LinkedInIcon, onClick: () => open(`https://www.linkedin.com/sharing/share-offsite/?url=${enc(link)}`) },
-    { id: 'email', label: t('invite.channelEmail'), Icon: Mail, onClick: () => { window.location.href = `mailto:?subject=${enc(t('invite.emailSubject'))}&body=${enc(shareMessage)}`; } },
-    { id: 'sms', label: 'SMS', Icon: Smartphone, onClick: () => { window.location.href = `sms:?&body=${enc(shareMessage)}`; } },
+    { id: 'email', label: t('invite.channelEmail'), Icon: Mail, by: t('invite.channelByEmail'), onClick: () => { window.location.href = `mailto:?subject=${enc(t('invite.emailSubject'))}&body=${enc(shareMessage)}`; } },
+    { id: 'sms', label: 'SMS', Icon: Smartphone, by: 'SMS', onClick: () => { window.location.href = `sms:?&body=${enc(shareMessage)}`; } },
     { id: 'instagram', label: 'Instagram', Icon: InstagramIcon, onClick: copyForStory, copyOnly: true },
     { id: 'tiktok', label: 'TikTok', Icon: TikTokIcon, onClick: copyForStory, copyOnly: true },
   ];
@@ -171,13 +171,13 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           </Button>
         )}
         <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
-          {shareTargets.map(({ id, label, Icon, onClick, copyOnly }) => (
+          {shareTargets.map(({ id, label, Icon, onClick, copyOnly, by }) => (
             <Button
               key={id}
               variant="outline"
               className="flex-col h-16 px-1 gap-1"
               onClick={onClick}
-              aria-label={copyOnly ? t('invite.copyForA11y', { network: label }) : t('invite.shareOnA11y', { network: label })}
+              aria-label={copyOnly ? t('invite.copyForA11y', { network: label }) : (by ? t('invite.shareByA11y', { channel: by }) : t('invite.shareOnA11y', { network: label }))}
             >
               <Icon className="w-5 h-5 text-foreground" />
               <span className="text-2xs truncate max-w-full">{label}</span>
