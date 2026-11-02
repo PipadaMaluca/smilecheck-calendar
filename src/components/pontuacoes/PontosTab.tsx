@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { formatDecimal1 } from '@/lib/formatters';
 import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
@@ -254,7 +255,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   <p className="text-xs text-foreground">
                     <span className="text-muted-foreground">{dateLabel}, {entry.time}</span>
                     {' — '}
-                    {entry.description}
+                    {demoText(entry.description)}
                     {entry.relatedName && <span className="text-muted-foreground"> ({entry.relatedName})</span>}
                   </p>
                 </div>

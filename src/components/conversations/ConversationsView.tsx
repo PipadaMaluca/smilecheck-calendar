@@ -1,3 +1,5 @@
+import { formatDate } from '@/lib/formatters';
+import { demoText } from '@/lib/demoText';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2, MessageSquare, Plus, X } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -281,6 +283,12 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
     if (raw === '__today__') return t('common.today');
     if (raw === '__yesterday__') return t('common.yesterday');
     if (raw === '__now__') return t('chat.now');
+    // Mock dates are authored as "28 Jan 2026" (PT month abbreviations) — render in the active language.
+    const m = raw.match(/^(\d{1,2}) (Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez) (\d{4})$/);
+    if (m) {
+      const month = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'].indexOf(m[2]);
+      return formatDate(new Date(Number(m[3]), month, Number(m[1])), { day: 'numeric', month: 'short', year: 'numeric' });
+    }
     return raw;
   };
 
@@ -507,11 +515,11 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                     const isUnread = conversation.unread > 0;
 
                     // Preview text
-                    let previewText = conversation.lastMessage;
+                    let previewText = demoText(conversation.lastMessage);
                     if (conversation.isTyping) {
                       previewText = '';
                     } else if (conversation.lastMessageFromMe) {
-                      previewText = `${t('i18nA.me')}: ${conversation.lastMessage}`;
+                      previewText = `${t('i18nA.me')}: ${demoText(conversation.lastMessage)}`;
                     }
 
                     return (
@@ -640,7 +648,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                               : 'bg-secondary rounded-bl-md'
                           )}
                         >
-                          <p className="text-sm">{msg.text}</p>
+                          <p className="text-sm">{demoText(msg.text)}</p>
                           <p
                             className={cn(
                               'text-2xs mt-1',

@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { ArrowLeft, Copy, Check, MessageCircle, Mail, Smartphone, Gift, Users } from 'lucide-react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -20,10 +21,10 @@ interface InviteViewProps {
 }
 
 const MOCK_HISTORY = [
-  { name: 'Maria S.', date: '10 Jan 2026', status: 'confirmed' as const },
-  { name: 'Pedro A.', date: '5 Jan 2026', status: 'confirmed' as const },
-  { name: 'Ana F.', date: '2 Jan 2026', status: 'pending' as const },
-  { name: 'Carlos M.', date: '28 Dez 2025', status: 'confirmed' as const },
+  { name: 'Maria S.', date: '2026-01-10', status: 'confirmed' as const },
+  { name: 'Pedro A.', date: '2026-01-05', status: 'confirmed' as const },
+  { name: 'Ana F.', date: '2026-01-02', status: 'pending' as const },
+  { name: 'Carlos M.', date: '2025-12-28', status: 'confirmed' as const },
 ];
 
 export function InviteView({ onClose, inline }: InviteViewProps) {
@@ -157,7 +158,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
                 <Users className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 <div className="min-w-0">
                   <p className="text-sm md:text-sm text-foreground truncate">{h.name}</p>
-                  <p className="text-2xs md:text-xs text-muted-foreground truncate">{h.date}</p>
+                  <p className="text-2xs md:text-xs text-muted-foreground truncate">{formatDate(h.date, { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">

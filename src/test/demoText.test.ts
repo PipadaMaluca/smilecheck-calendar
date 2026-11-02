@@ -21,3 +21,13 @@ describe('landing achievement count', () => {
     expect(total).toBe(ACHIEVEMENTS_PER_ROLE);
   });
 });
+
+describe('store, points and chat demo text follow the active language', () => {
+  it('translates reward, points-history and message samples to English', async () => {
+    await i18n.changeLanguage('en');
+    expect(demoText('Kit de viagem')).not.toBe('Kit de viagem');
+    expect(demoText('Check-in diário')).not.toBe('Check-in diário');
+    expect(demoText('Claro! Deixe-me verificar a agenda.')).not.toBe('Claro! Deixe-me verificar a agenda.');
+    await i18n.changeLanguage('pt');
+  });
+});

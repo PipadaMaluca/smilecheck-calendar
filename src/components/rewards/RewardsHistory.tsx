@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
@@ -70,7 +71,7 @@ export function RewardsHistory({ items, loading = false }: RewardsHistoryProps) 
                     <Clock className="w-4 h-4 text-muted-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{item.name}</p>
+                    <p className="text-sm font-medium text-foreground truncate">{demoText(item.name)}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <span className="text-xs text-muted-foreground">{item.date}</span>
                       <span className="text-xs font-mono text-muted-foreground">{item.code}</span>
