@@ -4263,5 +4263,13 @@
     "team": {
       "noColleagues": "No colleagues in this clinic"
     }
+  },
+  "sidebarBadges": {
+    "generic": "There is something new here",
+    "conquistas": "New achievement unlocked",
+    "pontuacoes": "New points received",
+    "faturacao": "A payment is pending",
+    "count_one": "{{count}} new item",
+    "count_other": "{{count}} new items"
   }
 }

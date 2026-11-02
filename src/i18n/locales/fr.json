@@ -4263,5 +4263,13 @@
     "team": {
       "noColleagues": "Aucun collègue dans cette clinique"
     }
+  },
+  "sidebarBadges": {
+    "generic": "Du nouveau dans cette section",
+    "conquistas": "Nouveau succès débloqué",
+    "pontuacoes": "Nouveaux points reçus",
+    "faturacao": "Un paiement est en attente",
+    "count_one": "{{count}} nouveauté",
+    "count_other": "{{count}} nouveautés"
   }
 }

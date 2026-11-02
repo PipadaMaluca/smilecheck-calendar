@@ -4263,5 +4263,13 @@
     "team": {
       "noColleagues": "Nenhum colega nesta clínica"
     }
+  },
+  "sidebarBadges": {
+    "generic": "Há novidades nesta secção",
+    "conquistas": "Nova conquista desbloqueada",
+    "pontuacoes": "Novos pontos recebidos",
+    "faturacao": "Há um pagamento pendente",
+    "count_one": "{{count}} novidade",
+    "count_other": "{{count}} novidades"
   }
 }

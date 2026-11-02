@@ -135,7 +135,7 @@ export function DesktopNavSidebar({
               {badge.value}
             </span>
           ) : (
-            <span role="status" aria-label={t(`sidebarBadges.${item.id}`, { defaultValue: t('sidebarBadges.generic') })} className="absolute -top-0.5 -right-1 w-2.5 h-2.5 rounded-full bg-primary border-2 border-sidebar" />
+            <span role="status" aria-label={t(`sidebarBadges.${item.id}`, { defaultValue: t('sidebarBadges.generic') })} className="absolute -top-0.5 -right-1 w-3 h-3 rounded-full bg-primary border-2 border-sidebar" />
           )
           )}
         </div>
