@@ -150,7 +150,7 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">{t('team.maxTeleconsultPerDay')}</span>
-                <Input type="number" min={1} max={20} value={maxTelePerDay} onChange={(e) => setMaxTelePerDay(+e.target.value)} className="w-20 h-8 text-center px-2" />
+                <Input type="number" aria-label={t('team.maxTeleconsultPerDay')} min={1} max={20} value={maxTelePerDay} onChange={(e) => setMaxTelePerDay(+e.target.value)} className="w-20 h-8 text-center px-2" />
               </div>
             </>
           )}
