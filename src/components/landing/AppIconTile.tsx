@@ -25,9 +25,9 @@ export function AppIconTile() {
           WebkitMaskImage: 'radial-gradient(circle at center, black 10%, transparent 65%)',
         }}
       >
-        <div className="grid grid-cols-7 gap-x-5 gap-y-5 md:gap-x-7 md:gap-y-7">
+        <div className="grid grid-cols-7 gap-x-5 gap-y-4 md:gap-x-7 md:gap-y-6">
           {cells.map((_, i) => (
-            <div key={i} className="w-16 h-16 md:w-24 md:h-24 rounded-[22%] border border-border/30 bg-muted/20 dark:bg-muted/10 dark:border-border/35" />
+            <div key={i} className="w-16 h-16 md:w-24 md:h-24 rounded-2xl md:rounded-3xl border border-border/30 bg-muted/20 dark:bg-muted/10 dark:border-border/35" />
           ))}
         </div>
       </div>
