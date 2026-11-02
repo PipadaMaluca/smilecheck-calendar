@@ -187,7 +187,7 @@ export function DesktopCalendarSidebar({
                   'relative flex flex-col items-center justify-center w-6 h-6 rounded text-2xs transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
                   isCurrentMonth && 'text-foreground hover:bg-secondary',
-                  isToday && 'bg-primary text-primary-foreground font-semibold',
+                  isToday && 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 font-semibold',
                   isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
                 )}
               >

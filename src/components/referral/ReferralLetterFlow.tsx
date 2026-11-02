@@ -214,11 +214,11 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             <div className="flex gap-2">
               <button
                 onClick={() => setDentistFilter('all')}
-                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
+                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'all' ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-secondary text-muted-foreground')}>
                 {t('referral.allDentists')}</button>
               <button
                 onClick={() => setDentistFilter('favorites')}
-                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>
+                className={cn('px-3 py-1.5 text-xs rounded-full', dentistFilter === 'favorites' ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-secondary text-muted-foreground')}>
 <Glyph emoji="⭐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('referral.onlyFavorites')}</button>
             </div>
             <div className="space-y-2">

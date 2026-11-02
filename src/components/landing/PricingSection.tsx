@@ -7,15 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { Check, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { CLINIC_DENTIST_LIMIT, commissionPercent, type PlanTier } from '@/lib/planRules';
+import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
 
 interface Plan {
   name: string;
   monthly: number;
   annual: number;
   badge?: string;
-  badgeColor?: string;
-  features: string[];
+  features: PlanFeature[];
   warning?: string;
 }
 
@@ -26,30 +25,17 @@ export function PricingSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
-  const arr = (key: string) => t(key, { returnObjects: true }) as string[];
-  const tele = (tier: PlanTier) => [t('plan.features.teleCommission', { pct: commissionPercent(tier) }), ...arr(`landing.pricing.dentist${tier[0].toUpperCase()}${tier.slice(1)}`)];
-  const limit = (tier: PlanTier) => {
-    const n = CLINIC_DENTIST_LIMIT[tier];
-    return [n === null ? t('plan.features.unlimitedDentists') : t('plan.features.dentistLimit', { count: n }), ...arr(`landing.pricing.clinic${tier[0].toUpperCase()}${tier.slice(1)}`)];
-  };
-
-  const patientPlans: Plan[] = [
-    { name: 'Free', monthly: 0, annual: 0, features: t('landing.pricing.patientFree', { returnObjects: true }) as string[], warning: t('landing.pricing.patientFreeWarning') },
-    { name: 'Pro', monthly: 4.99, annual: 4.24, badge: t('landing.pricing.popular'), features: t('landing.pricing.patientPro', { returnObjects: true }) as string[] },
-    { name: 'Premium', monthly: 9.99, annual: 8.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: t('landing.pricing.patientPremium', { returnObjects: true }) as string[] },
-  ];
-
-  const dentistPlans: Plan[] = [
-    { name: 'Free', monthly: 0, annual: 0, features: tele('free'), warning: t('landing.pricing.dentistFreeWarning') },
-    { name: 'Pro', monthly: 19.99, annual: 17.0, badge: t('landing.pricing.popular'), features: tele('pro') },
-    { name: 'Premium', monthly: 29.99, annual: 25.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: tele('premium') },
-  ];
-
-  const clinicPlans: Plan[] = [
-    { name: 'Free', monthly: 0, annual: 0, features: limit('free'), warning: t('landing.pricing.clinicFreeWarning') },
-    { name: 'Pro', monthly: 39.99, annual: 34.0, badge: t('landing.pricing.popular'), features: limit('pro') },
-    { name: 'Premium', monthly: 49.99, annual: 42.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: limit('premium') },
-  ];
+  const build = (role: PlanRole): Plan[] => (['free', 'pro', 'premium'] as PlanTier[]).map((tier) => ({
+    name: tier === 'free' ? 'Free' : tier === 'pro' ? 'Pro' : 'Premium',
+    monthly: PLAN_MONTHLY_PRICE[role][tier],
+    annual: annualMonthlyPrice(PLAN_MONTHLY_PRICE[role][tier]),
+    badge: tier === 'pro' ? t('landing.pricing.popular') : tier === 'premium' ? t('landing.pricing.best') : undefined,
+    features: PLAN_FEATURES[role][tier],
+    warning: planHasPointsResetWarning(tier) ? t('plans.pointsResetWarning') : undefined,
+  }));
+  const patientPlans = build('patient');
+  const dentistPlans = build('dentist');
+  const clinicPlans = build('clinic');
 
   useEffect(() => {
     const el = ref.current;
@@ -73,7 +59,8 @@ export function PricingSection() {
       <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
           <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-5">{t('landing.pricing.title')}</h2>
-          <p className="text-base sm:text-xl font-light text-muted-foreground mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
+          <p className="text-base sm:text-xl font-light text-muted-foreground mb-3 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
+          <p className="text-sm sm:text-base font-medium text-primary mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.highlight')}</p>
 
           <div className="inline-flex flex-wrap items-center justify-center gap-2">
             <div
@@ -89,7 +76,7 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   !annual
-                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    ? 'bg-primary-solid text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
@@ -103,14 +90,14 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   annual
-                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    ? 'bg-primary-solid text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
                     : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
                 {t('landing.pricing.annual')}
               </button>
             </div>
-            {annual && <Badge className="text-xs bg-primary text-white border-0">{t('landing.pricing.discount')}</Badge>}
+            {annual && <Badge className="text-xs bg-primary-solid text-white border-0">{t('landing.pricing.discount')}</Badge>}
           </div>
         </div>
 
@@ -181,7 +168,7 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
               : 'border border-border hover:shadow-xl hover:shadow-primary/5'
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-primary text-white shadow-md">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-primary-solid text-white shadow-md">
                 {plan.badge}
               </Badge>
             )}
@@ -210,9 +197,12 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
       </div>
       <ul className="space-y-3 mb-6 flex-1">
         {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Check className="w-4 h-4 text-success mt-0.5 flex-shrink-0" strokeWidth={3} />
-            <span className="text-muted-foreground">{f}</span>
+          <li key={f.key} className="flex items-start gap-2.5 text-sm">
+            {f.inherited ? <span className="w-4 flex-shrink-0" aria-hidden="true" /> : <Check className="w-4 h-4 text-success mt-0.5 flex-shrink-0" strokeWidth={3} />}
+            <span className={cn('text-muted-foreground', f.inherited && 'italic')}>
+              {t(`plans.f.${f.key}`, f.params)}
+              {f.soon && <Badge variant="outline" className="ml-2 align-middle text-2xs py-0 px-1.5 font-medium">{t('plans.soon')}</Badge>}
+            </span>
           </li>
         ))}
       </ul>
@@ -227,7 +217,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
         className={cn(
           'w-full rounded-full font-semibold transition-colors',
           accent
-            ? 'bg-primary hover:bg-primary/90 text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
+            ? 'bg-primary-solid hover:bg-primary-solid/90 text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
             : 'bg-white dark:bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
         )}
       >

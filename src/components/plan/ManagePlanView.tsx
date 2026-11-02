@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { CLINIC_DENTIST_LIMIT, commissionPercent } from '@/lib/planRules';
+import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualTotalPrice, planHasPointsResetWarning, type PlanRole } from '@/lib/planRules';
 
 interface ManagePlanViewProps {
   userRole: UserRole;
@@ -33,6 +33,7 @@ interface PlanFeature {
   included: boolean;
   isInherited?: boolean;
   isWarning?: boolean;
+  soon?: boolean;
 }
 
 interface Plan {
@@ -53,144 +54,27 @@ const ToothIcon = ({ className }: {className?: string;}) =>
   </svg>;
 
 
+const TIER_META: Record<PlanTier, Pick<Plan, 'nameKey' | 'icon' | 'popular' | 'badgeKey'>> = {
+  free: { nameKey: 'plan.tiers.free', icon: ToothIcon },
+  pro: { nameKey: 'Pro', icon: Star, popular: true, badgeKey: 'plan.badges.popular' },
+  premium: { nameKey: 'Premium', icon: Crown, badgeKey: 'plan.badges.best' },
+};
+
+const buildPlans = (role: PlanRole): Plan[] => (['free', 'pro', 'premium'] as PlanTier[]).map((tier) => ({
+  id: tier,
+  ...TIER_META[tier],
+  monthlyPrice: PLAN_MONTHLY_PRICE[role][tier],
+  annualPrice: annualTotalPrice(PLAN_MONTHLY_PRICE[role][tier]),
+  features: [
+    ...PLAN_FEATURES[role][tier].map((f) => ({ textKey: `plans.f.${f.key}`, params: f.params, included: true, isInherited: f.inherited, soon: f.soon })),
+    ...(planHasPointsResetWarning(tier) ? [{ textKey: 'plans.pointsResetWarning', included: false, isWarning: true }] : []),
+  ],
+}));
+
 const PLANS_BY_ROLE: Record<string, Plan[]> = {
-  patient: [
-  {
-    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-    features: [
-    { textKey: 'plan.features.appAccess', included: true },
-    { textKey: 'plan.features.bookAppointments', included: true },
-    { textKey: 'plan.features.1teleconsultMonth', included: true },
-    { textKey: 'plan.features.basicPointsSystem', included: true },
-    { textKey: 'plan.features.notifAppPushEmail', included: true },
-    { textKey: 'plan.features.lightDarkTheme', included: true },
-    { textKey: 'plan.features.10fixedColors', included: true },
-    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
-    { textKey: 'plan.features.noPointsBonus', included: false },
-    { textKey: 'plan.features.withAds', included: false }]
-  },
-  {
-    id: 'pro', nameKey: 'Pro', monthlyPrice: 4.99, annualPrice: 50.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
-    features: [
-    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
-    { textKey: 'plan.features.unlimitedTeleconsults', included: true },
-    { textKey: 'plan.features.keepPoints', included: true },
-    { textKey: 'plan.features.smsNotifications', included: true },
-    { textKey: 'plan.features.bookingPriority', included: true },
-    { textKey: 'plan.features.noAds', included: true },
-    { textKey: 'plan.features.fullHistory', included: true },
-    { textKey: 'plan.features.13editableColors', included: true },
-    { textKey: 'plan.features.noPointsBonus', included: false }]
-  },
-  {
-    id: 'premium', nameKey: 'Premium', monthlyPrice: 9.99, annualPrice: 101.90, icon: Crown, badgeKey: 'plan.badges.best',
-    features: [
-    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
-    { textKey: 'plan.features.pointsBonus10', included: true },
-    { textKey: 'plan.features.teleconsult10discount', included: true },
-    { textKey: 'plan.features.appointmentDiscounts', included: true },
-    { textKey: 'plan.features.maxSearchPriority', included: true },
-    { textKey: 'plan.features.maxBookingPriority', included: true },
-    { textKey: 'plan.features.maxUrgencyPriority', included: true },
-    { textKey: 'plan.features.prioritySupport', included: true },
-    { textKey: 'plan.features.fullCustomColors', included: true },
-    { textKey: 'plan.features.premiumBadge', included: true },
-    { textKey: 'plan.features.exclusiveRewards', included: true }]
-  }],
-
-  dentist: [
-  {
-    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-    features: [
-    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('free') }, included: true },
-    { textKey: 'plan.features.10teleconsultsMonth', included: true },
-    { textKey: 'plan.features.1clinic', included: true },
-    { textKey: 'plan.features.basicPointsSystem', included: true },
-    { textKey: 'plan.features.notifAppPushEmail', included: true },
-    { textKey: 'plan.features.10fixedColors', included: true },
-    { textKey: 'plan.features.lightDarkTheme', included: true },
-    { textKey: 'plan.features.basicReportsPdf', included: true },
-    { textKey: 'plan.features.limitedPrescriptions', included: true },
-    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
-    { textKey: 'plan.features.noPointsBonus', included: false },
-    { textKey: 'plan.features.withAds', included: false }]
-  },
-  {
-    id: 'pro', nameKey: 'Pro', monthlyPrice: 19.99, annualPrice: 203.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
-    features: [
-    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
-    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('pro') }, included: true },
-    { textKey: 'plan.features.unlimitedTeleconsults', included: true },
-    { textKey: 'plan.features.upTo3clinics', included: true },
-    { textKey: 'plan.features.keepPoints', included: true },
-    { textKey: 'plan.features.smsNotifications', included: true },
-    { textKey: 'plan.features.statistics', included: true },
-    { textKey: 'plan.features.unlimitedPrescriptions', included: true },
-    { textKey: 'plan.features.13editableColors', included: true },
-    { textKey: 'plan.features.allReportsPdfExcel', included: true },
-    { textKey: 'plan.features.noAds', included: true },
-    { textKey: 'plan.features.noPointsBonus', included: false }]
-  },
-  {
-    id: 'premium', nameKey: 'Premium', monthlyPrice: 29.99, annualPrice: 305.90, icon: Crown, badgeKey: 'plan.badges.best',
-    features: [
-    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
-    { textKey: 'plan.features.teleCommission', params: { pct: commissionPercent('premium') }, included: true },
-    { textKey: 'plan.features.unlimitedClinics', included: true },
-    { textKey: 'plan.features.pointsBonus10', included: true },
-    { textKey: 'plan.features.maxSearchPriority', included: true },
-    { textKey: 'plan.features.maxBookingPriority', included: true },
-    { textKey: 'plan.features.maxUrgencyPriority', included: true },
-    { textKey: 'plan.features.advancedStatistics', included: true },
-    { textKey: 'plan.features.searchHighlight', included: true },
-    { textKey: 'plan.features.prioritySupport', included: true },
-    { textKey: 'plan.features.fullCustomColors', included: true },
-    { textKey: 'plan.features.externalCalendarSync', included: true }]
-  }],
-
-  clinic: [
-  {
-    id: 'free', nameKey: 'plan.tiers.free', monthlyPrice: 0, annualPrice: 0, icon: ToothIcon,
-    features: [
-    { textKey: 'plan.features.dentistLimit', params: { count: CLINIC_DENTIST_LIMIT.free }, included: true },
-    { textKey: 'plan.features.basicFeatures', included: true },
-    { textKey: 'plan.features.basicPointsSystem', included: true },
-    { textKey: 'plan.features.10fixedColors', included: true },
-    { textKey: 'plan.features.lightDarkTheme', included: true },
-    { textKey: 'plan.features.annualPointsReset', included: false, isWarning: true },
-    { textKey: 'plan.features.noPointsBonus', included: false },
-    { textKey: 'plan.features.withAds', included: false }]
-  },
-  {
-    id: 'pro', nameKey: 'Pro', monthlyPrice: 39.99, annualPrice: 407.90, icon: Star, popular: true, badgeKey: 'plan.badges.popular',
-    features: [
-    { textKey: 'plan.features.allFromFree', included: true, isInherited: true },
-    { textKey: 'plan.features.dentistLimit', params: { count: CLINIC_DENTIST_LIMIT.pro }, included: true },
-    { textKey: 'plan.features.keepPoints', included: true },
-    { textKey: 'plan.features.statistics', included: true },
-    { textKey: 'plan.features.monthlyReports', included: true },
-    { textKey: 'plan.features.smsNotifications', included: true },
-    { textKey: 'plan.features.13editableColors', included: true },
-    { textKey: 'plan.features.exportReportsPdfExcel', included: true },
-    { textKey: 'plan.features.realtimeConfirmations', included: true },
-    { textKey: 'plan.features.noAds', included: true },
-    { textKey: 'plan.features.noPointsBonus', included: false }]
-  },
-  {
-    id: 'premium', nameKey: 'Premium', monthlyPrice: 49.99, annualPrice: 509.90, icon: Crown, badgeKey: 'plan.badges.best',
-    features: [
-    { textKey: 'plan.features.allFromPro', included: true, isInherited: true },
-    { textKey: 'plan.features.unlimitedDentists', included: true },
-    { textKey: 'plan.features.pointsBonus10', included: true },
-    { textKey: 'plan.features.maxSearchPriority', included: true },
-    { textKey: 'plan.features.maxBookingPriority', included: true },
-    { textKey: 'plan.features.maxUrgencyPriority', included: true },
-    { textKey: 'plan.features.advancedStatistics', included: true },
-    { textKey: 'plan.features.prioritySupport', included: true },
-    { textKey: 'plan.features.searchHighlight', included: true },
-    { textKey: 'plan.features.fullCustomColors', included: true },
-    { textKey: 'plan.features.externalCalendarSync', included: true }]
-  }]
+  patient: buildPlans('patient'),
+  dentist: buildPlans('dentist'),
+  clinic: buildPlans('clinic'),
 };
 
 export function ManagePlanView({
@@ -295,7 +179,7 @@ export function ManagePlanView({
           className={cn(
             'px-4 py-2 rounded-l-lg text-sm font-medium transition-colors border',
             !isAnnual ?
-            'bg-primary text-primary-foreground border-primary' :
+            'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.monthly')}
@@ -305,7 +189,7 @@ export function ManagePlanView({
           className={cn(
             'px-4 py-2 rounded-r-lg text-sm font-medium transition-colors border relative',
             isAnnual ?
-            'bg-primary text-primary-foreground border-primary' :
+            'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.annual')}
@@ -405,7 +289,7 @@ export function ManagePlanView({
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey, feat.params)}</span> :
                     <>
                           <Check className="w-3.5 h-3.5 text-success flex-shrink-0 mt-0.5" strokeWidth={3} />
-                          <span className="text-foreground">{t(feat.textKey, feat.params)}</span>
+                          <span className="text-foreground">{t(feat.textKey, feat.params)}{feat.soon && <Badge variant="outline" className="ml-1.5 align-middle text-2xs py-0 px-1.5 font-medium">{t('plans.soon')}</Badge>}</span>
                         </>
                     }
                     </div>
@@ -451,7 +335,7 @@ export function ManagePlanView({
                   className={cn(
                     'w-full mt-4 h-10 rounded-full font-semibold text-sm',
                     isPremium && !isCurrent && 'bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-primary/70 text-white border-0',
-                    isPro && !isCurrent && 'bg-primary hover:bg-primary/90 text-white border-0',
+                    isPro && !isCurrent && 'bg-primary-solid hover:bg-primary-solid/90 text-white border-0',
                     !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
                   )}
                   variant={isCurrent ? 'outline' : 'default'}

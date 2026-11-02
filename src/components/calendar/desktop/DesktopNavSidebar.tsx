@@ -131,7 +131,7 @@ export function DesktopNavSidebar({
           <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-primary')} />
           {badge && (
             badge.type === 'count' ? (
-            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary text-primary-foreground border-2 border-sidebar">
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-2 border-sidebar">
               {badge.value}
             </span>
           ) : (

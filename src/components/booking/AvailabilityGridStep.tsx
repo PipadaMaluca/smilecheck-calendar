@@ -237,7 +237,7 @@ export function AvailabilityGridStep({
                 className={cn(
                   'flex-shrink-0 px-3 py-2 rounded-lg text-xs font-semibold border transition-colors',
                   mobileDayIdx === i
-                    ? 'bg-primary text-primary-foreground border-primary'
+                    ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary'
                     : 'bg-secondary text-foreground border-border'
                 )}
               >
@@ -340,7 +340,7 @@ export function AvailabilityGridStep({
                       className={cn(
                         'px-3 py-1.5 rounded-md text-xs font-medium border transition-colors',
                         selected
-                          ? 'bg-primary text-primary-foreground border-primary'
+                          ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary'
                           : 'bg-background text-foreground border-border hover:border-primary/50'
                       )}
                     >

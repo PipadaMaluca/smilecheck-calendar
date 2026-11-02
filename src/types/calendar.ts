@@ -33,6 +33,8 @@ export interface Patient {
   avatar?: string;
   age?: number;
   dateOfBirth?: string;
+  /** Fear scale 0–4: professional's latest assessment if any, otherwise the patient's own. */
+  fearLevel?: number;
 }
 
 export interface Dentist {

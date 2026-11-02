@@ -216,7 +216,7 @@ export function FavoritesView({
             </Button>
           )}
           {typeFilter !== 'patients' && (
-            <Button type="button" variant="outline" size="sm" aria-pressed={filterTab === 'favoritos'} onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('gap-1', filterTab === 'favoritos' ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
+            <Button type="button" variant="outline" size="sm" aria-pressed={filterTab === 'favoritos'} onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('gap-1', filterTab === 'favoritos' ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
               <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
             </Button>
           )}

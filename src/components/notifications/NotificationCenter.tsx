@@ -130,7 +130,7 @@ function NotificationFilterTabs({ filters, activeFilter, unreadCount, onChange, 
           onClick={(e) => {e.stopPropagation();onChange(f.id);}}
           className={cn(
             'notification-tab relative font-medium transition-colors',
-            activeFilter === f.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
+            activeFilter === f.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-secondary/50 text-muted-foreground hover:bg-secondary'
           )}>
 
           <span>{f.label}</span>

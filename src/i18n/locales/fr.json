@@ -394,73 +394,7 @@
       "patient": "Patient",
       "dentist": "Dentiste",
       "clinic": "Cabinet",
-      "patientFree": [
-        "Prendre rendez-vous",
-        "Gagner des points",
-        "Boutique de récompenses",
-        "Profil de santé basique",
-        "Avec publicités"
-      ],
-      "patientFreeWarning": "Remise à zéro annuelle des points",
-      "patientPro": [
-        "Tout du Free",
-        "Sans publicités",
-        "Conserve les points accumulés",
-        "13 couleurs de thème modifiables",
-        "Succès exclusifs",
-        "Historique complet"
-      ],
-      "patientPremium": [
-        "Tout du Pro",
-        "RGB complet (toutes les couleurs)",
-        "Bonus +10% de points",
-        "Badge exclusif Premium",
-        "Support prioritaire",
-        "Téléconsultations à prix réduit"
-      ],
-      "dentistFree": [
-        "Agenda basique",
-        "Jusqu'à 20 rendez-vous/mois",
-        "Confirmations manuelles",
-        "Profil public basique"
-      ],
-      "dentistFreeWarning": "Remise à zéro annuelle des points",
-      "dentistPro": [
-        "Rendez-vous illimités",
-        "Confirmations automatiques",
-        "Ordonnances numériques",
-        "Lettres de référence",
-        "Statistiques détaillées",
-        "Classements et succès"
-      ],
-      "dentistPremium": [
-        "Tout du Pro",
-        "Téléconsultations intégrées",
-        "Export avancé",
-        "Intégration API",
-        "Support prioritaire",
-        "Personnalisation complète"
-      ],
-      "clinicFree": [
-        "Tableau de bord basique",
-        "Rapports mensuels",
-        "Gestion d'équipe basique"
-      ],
-      "clinicFreeWarning": "Remise à zéro annuelle des points",
-      "clinicPro": [
-        "Tableau de bord complet",
-        "Rapports hebdomadaires",
-        "Statistiques avancées",
-        "Classement du cabinet",
-        "Export PDF/Excel"
-      ],
-      "clinicPremium": [
-        "Tout du Pro",
-        "Téléconsultations d'équipe",
-        "Intégration API",
-        "Support dédié",
-        "Multi-localisation"
-      ]
+      "highlight": "Moins de rendez-vous manqués : les patients gagnent des points en venant."
     },
     "testimonials": {
       "title": "Ce qu'on dit de nous",
@@ -4263,14 +4197,17 @@
     "pointsEarned": "Points gagnés",
     "pointsEarnedShort": "Pts gagnés",
     "history": "Historique des invitations",
-    "statusConfirmed": "Confirmé",
+    "statusConfirmed": "Validé",
     "statusPending": "En attente",
     "headlineNoPoints": "Invitez des amis sur SmileCheck",
     "comingSoon": "Récompense bientôt",
     "subtitleComingSoon": "La récompense de parrainage sera bientôt disponible. Vous pouvez déjà partager votre code.",
     "subtitlePoints_one": "Gagnez {{count, number}} point pour chaque personne inscrite",
     "subtitlePoints_other": "Gagnez {{count, number}} points pour chaque personne inscrite",
-    "pointsShort": "+{{count, number}} pts"
+    "pointsShort": "+{{count, number}} pts",
+    "invitedPerson": "Personne invitée n° {{n}}",
+    "noInvitesYet": "Vous n'avez encore invité personne.",
+    "rulesDetail": "Vous pouvez inviter des patients, des dentistes et des cabinets. Chaque invitation compte une fois, lorsque la personne vérifie son téléphone et termine sa 1re consultation (dentistes et cabinets : lorsque le profil est approuvé). Gagnez aussi 1 point pour chaque personne amenée par vos invités."
   },
   "sweep": {
     "dentistProfile": {
@@ -4988,17 +4925,130 @@
     "streakDate_28_Nov_2025": "28 nov. 2025",
     "streakDate_5_Nov_2025": "5 nov. 2025"
   },
-  "oauthConsent": {
-    "title": "Connecter {{client}} à SmileCheck",
-    "body": "{{client}} pourra utiliser SmileCheck en votre nom : voir vos rendez-vous et vos points.",
-    "account": "Connecté en tant que {{email}}",
-    "boundary": "Cela ne contourne pas les autorisations ni les règles d’accès de l’application.",
-    "redirect": "Adresse de retour : {{uri}}",
-    "approve": "Autoriser",
-    "deny": "Annuler la connexion",
-    "loading": "Chargement…",
-    "error": "Impossible de charger cette demande d’autorisation.",
-    "missing": "Demande d’autorisation invalide ou expirée.",
-    "anApp": "une application"
+  "plans": {
+    "f": {
+      "bookAppointments": "Prendre rendez-vous",
+      "earnPointsLevels": "Gagner des points et monter de niveau",
+      "rewardsShop": "Boutique de récompenses",
+      "healthFearProfile": "Profil de santé et échelle de peur",
+      "withAds": "Avec publicités",
+      "allFromFree": "Tout le Free",
+      "allFromPro": "Tout le Pro",
+      "noAds": "Sans publicités",
+      "pointsNeverLost": "Vos points ne sont jamais perdus",
+      "theme13": "Personnalisation du thème (13 couleurs)",
+      "exclusiveAchievements": "Succès exclusifs",
+      "fullHistory": "Historique complet des consultations",
+      "fullVisual": "Personnalisation visuelle complète (toutes les couleurs)",
+      "appIconColor": "Icône de l’app dans la couleur de votre choix (apps iOS et Android)",
+      "pointsBonus10": "Bonus de +10 % de points",
+      "premiumBadge": "Badge Premium",
+      "prioritySupport": "Support prioritaire",
+      "onlineAgenda": "Agenda et prise de rendez-vous en ligne",
+      "unlimitedAppointments": "Consultations illimitées",
+      "dossierFear": "Dossier clinique et échelle de peur",
+      "waitingList": "Liste d’attente",
+      "publicProfile": "Profil public",
+      "teleCommission": "Téléconsultations : commission de {{pct}} %",
+      "autoReminders": "Confirmations et rappels automatiques",
+      "multiClinicAgenda": "Agenda multi-cabinets",
+      "detailedStats": "Statistiques détaillées",
+      "rankingsAchievements": "Classements et succès",
+      "themeCustom": "Personnalisation du thème",
+      "prescriptionsLetters": "Ordonnances et courriers numériques",
+      "fullVisualAppIcon": "Personnalisation visuelle complète et icône de l’app",
+      "dentistLimit": "Jusqu’à {{count, number}} dentistes",
+      "unlimitedDentists": "Dentistes illimités",
+      "clinicDashboard": "Tableau de bord du cabinet",
+      "sharedAgenda": "Agenda partagé de l’équipe",
+      "monthlyReports": "Rapports mensuels",
+      "teamSchedules": "Gestion de l’équipe et des horaires",
+      "advancedStatsWeekly": "Statistiques avancées et rapports hebdomadaires",
+      "clinicRankings": "Classements des cabinets",
+      "exportPdfExcel": "Export PDF/Excel",
+      "teamTeleconsults": "Téléconsultations de l’équipe",
+      "dedicatedSupport": "Support dédié"
+    },
+    "soon": "Bientôt",
+    "pointsResetWarning": "Les points de récompense sont réinitialisés chaque année",
+    "billedAnnually": "{{total}} par an"
+  },
+  "fear": {
+    "title": "Échelle de peur",
+    "selfTitle": "Comment vous sentez-vous chez le dentiste ?",
+    "selfHint": "Vous pouvez le modifier à tout moment. Cela aide l'équipe à adapter la consultation.",
+    "chip": "Peur {{level}} · {{label}}",
+    "shortValues": "P {{p}} · C {{c}}",
+    "mismatch": "L'auto-évaluation du patient et l'évaluation clinique diffèrent de 2 niveaux ou plus.",
+    "panelTitle": "Échelle de peur",
+    "panelSubtitle": "P = auto-évaluation du patient · C = évaluation clinique",
+    "patientValue": "Patient",
+    "professionalValue": "Clinique",
+    "suggestedApproach": "Conduite suggérée",
+    "scaleTitle": "Niveaux",
+    "history": "Historique des évaluations",
+    "noHistory": "Pas encore d'évaluation clinique.",
+    "noData": "Aucun niveau de peur enregistré.",
+    "lastAssessed": "Évalué le {{date}}",
+    "updateTitle": "Mettre à jour le niveau de peur (facultatif)",
+    "updateHint": "La dernière valeur est déjà sélectionnée ; touchez pour confirmer ou choisissez-en une autre.",
+    "saved": "Niveau de peur enregistré",
+    "saveError": "Impossible d'enregistrer le niveau de peur",
+    "yourLevel": "Votre niveau",
+    "levels": {
+      "0": {
+        "label": "Serein",
+        "desc": "Détendu et coopératif ; comprend le soin.",
+        "conduct": "Approche habituelle."
+      },
+      "1": {
+        "label": "Légère appréhension",
+        "desc": "Légère anxiété ; pose des questions et coopère.",
+        "conduct": "Expliquer chaque étape et répondre aux questions."
+      },
+      "2": {
+        "label": "Anxiété modérée",
+        "desc": "Tension visible ; de légers signes physiques peuvent apparaître (p. ex., tachycardie).",
+        "conduct": "Environnement calme, pauses convenues et vérification régulière du confort."
+      },
+      "3": {
+        "label": "Peur intense",
+        "desc": "Peur évidente ; risque de résistance au traitement.",
+        "conduct": "Technique dire-montrer-faire et signal d'arrêt convenu ; envisager une anxiolyse ou une prémédication."
+      },
+      "4": {
+        "label": "Panique",
+        "desc": "Crise d'anxiété ou refus du traitement.",
+        "conduct": "Reporter les soins non urgents ; envisager une sédation consciente ou une orientation."
+      }
+    }
+  },
+  "noClinic": {
+    "title": "Rejoignez un cabinet",
+    "description": "Toutes les consultations ont lieu dans un cabinet. Tant que vous n'en faites partie d'aucun, vous ne pouvez pas recevoir de rendez-vous.",
+    "invite": "Inviter mon cabinet"
+  },
+  "ads": {
+    "title": "Publicités",
+    "removeTitle": "Supprimer les publicités",
+    "removeDesc": "Regardez 5 courtes vidéos (30 s max. chacune) et profitez de 8 heures sans publicités.",
+    "removeCta": "Voir une vidéo ({{n}}/{{total}})",
+    "adFreeLeft": "Sans publicités pendant {{time}}",
+    "until": "Jusqu'à {{time}}",
+    "adFreeStarted": "8 heures sans publicités activées",
+    "earnTitle": "Gagner des points",
+    "earnDesc": "Tous les 10 publicités vues, gagnez 2 points de récompense (sans XP), au maximum 1 fois par jour.",
+    "earnCta": "Voir une publicité ({{n}}/{{total}})",
+    "pointsAwarded_one": "Vous avez gagné {{count}} point de récompense",
+    "pointsAwarded_other": "Vous avez gagné {{count}} points de récompense",
+    "dailyLimit": "Vous avez déjà gagné les points publicitaires du jour. Revenez demain.",
+    "phoneRequired": "Vérifiez votre téléphone pour gagner des points.",
+    "error": "Impossible d'enregistrer la publicité",
+    "noAdsOnPlan": "Pas de publicités avec votre forfait",
+    "privacyNote": "Les publicités n'utilisent jamais vos données de santé et n'apparaissent jamais sur les écrans cliniques.",
+    "playingTitle": "Publicité de démonstration",
+    "playingDesc": "Pas encore de régie publicitaire réelle. Patientez quelques secondes.",
+    "bannerLabel": "Publicité",
+    "bannerPlaceholder": "Espace publicitaire (forfait Free)"
   }
 }

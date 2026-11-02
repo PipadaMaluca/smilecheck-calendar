@@ -104,7 +104,7 @@ export function DentistAgendaDropdown({
             className={cn(
               'flex items-center gap-1.5 text-xs px-2 py-1 rounded-md transition-colors',
               filterPresentes
-                ? 'bg-primary text-primary-foreground'
+                ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90'
                 : 'hover:text-primary text-muted-foreground'
             )}
           >

@@ -93,7 +93,7 @@ export function MonthlyCalendar({
                 'relative flex flex-col items-center justify-center w-10 h-10 rounded-lg text-sm transition-colors',
                 !isCurrentMonth && 'text-muted-foreground/40',
                 isCurrentMonth && 'text-foreground hover:bg-secondary/50',
-                isToday && 'bg-primary text-primary-foreground font-semibold',
+                isToday && 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 font-semibold',
                 isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
               )}
             >

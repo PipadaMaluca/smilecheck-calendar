@@ -1,3 +1,5 @@
+import { FearChip } from '@/components/fear/FearScale';
+import { OwnFearValue } from '@/components/fear/OwnFearValue';
 import { Star as StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -125,14 +127,15 @@ export function PatientProfileBody({
   isMobile,
   onEditProfile,
   viewerRole,
-  onNavigate
+  onNavigate,
+  patientId
 
 
 
 
 
 
-}: {userRole: UserRole;isMobile: boolean;onEditProfile: () => void;viewerRole?: UserRole;onNavigate?: (tab: string) => void;}) {
+}: {userRole: UserRole;isMobile: boolean;onEditProfile: () => void;viewerRole?: UserRole;onNavigate?: (tab: string) => void;patientId?: string;}) {
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
@@ -311,6 +314,9 @@ export function PatientProfileBody({
 
         {/* Resumo de Saúde */}
         <SectionCard title={t('profile.healthSummary')}>
+          <div className="mb-4">
+            {isOwnProfile ? <OwnFearValue /> : <FearChip patientId={patientId ?? 'demo'} />}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="space-y-4">
               <div className="flex items-center gap-2">

@@ -9,6 +9,9 @@ import { Consultation } from '@/types/calendar';
 import { FEEDBACK_CHECKBOXES } from '@/types/scoring';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { FearScalePicker } from '@/components/fear/FearScale';
+import { recordFearAssessment, DEMO_FEAR } from '@/data/fearSource';
+import { clampFear, type FearLevel } from '@/lib/fearScale';
 
 interface DentistFeedbackModalProps {
   consultation: Consultation | null;
@@ -23,6 +26,10 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
   const [rating, setRating] = useState(0);
   const [hovered, setHovered] = useState(0);
   const [comment, setComment] = useState('');
+  const [fear, setFear] = useState<FearLevel | null>(null);
+  const [fearTouched, setFearTouched] = useState(false);
+  const lastFear = clampFear(consultation?.patient.fearLevel ?? DEMO_FEAR.history[0]?.level);
+  const shownFear = fear ?? lastFear;
 
   const isUrgent = consultation?.category === 'urgencia' || consultation?.isUrgentTeleconsulta;
 
@@ -43,6 +50,11 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
   const handleSubmit = () => {
     if (!consultation) return;
     onSubmit(consultation.id, checkedIds, totalPoints);
+    if (fearTouched && shownFear !== null) {
+      recordFearAssessment(consultation.patient.id, consultation.id, shownFear).catch(() => toast.error(t('fear.saveError')));
+    }
+    setFear(null);
+    setFearTouched(false);
     toast.success(`${t('feedback.feedbackSubmitted')}: ${totalPoints >= 0 ? '+' : ''}${totalPoints} ${t('feedback.points')}`);
     setCheckedIds(['compareceu']);
     setRating(0);
@@ -132,6 +144,12 @@ export function DentistFeedbackModal({ consultation, isOpen, onClose, onSubmit }
               className="resize-none"
               rows={2}
             />
+          </div>
+
+          <div className="space-y-2">
+            <p id="fear-update-title" className="text-sm font-medium">{t('fear.updateTitle')}</p>
+            <p className="text-xs text-muted-foreground">{t('fear.updateHint')}</p>
+            <FearScalePicker value={shownFear} onChange={(l) => { setFear(l); setFearTouched(true); }} showDescriptions={false} labelledBy="fear-update-title" />
           </div>
 
           <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-border">

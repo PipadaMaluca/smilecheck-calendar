@@ -1,3 +1,5 @@
+import { FearDot } from '@/components/fear/FearScale';
+import { showFearDotOnCard } from '@/lib/fearScale';
 import { onActivateKey } from '@/lib/a11y';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -138,6 +140,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               <ClickablePatientName name={consultation.patient.name} patientId={consultation.patient.id} className="text-sm font-bold text-white">
                 {patientNameWithAge}
               </ClickablePatientName>
+              {showFearDotOnCard(consultation.patient.fearLevel) && <span className="ml-1.5 align-middle"><FearDot level={consultation.patient.fearLevel!} /></span>}
             </p>
             {consultation.notes && (
               <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>

@@ -1,3 +1,4 @@
+import { AdsPanel } from '@/components/ads/AdsPanel';
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -37,6 +38,7 @@ export function PontuacoesView({ userRole, initialTab = 'pontos', onNavigate }: 
           </TabsList>
 
           <TabsContent value="pontos" className="mt-4">
+            <div className="mb-4"><AdsPanel /></div>
             <PontosTab userRole={userRole} onNavigate={onNavigate} />
           </TabsContent>
 

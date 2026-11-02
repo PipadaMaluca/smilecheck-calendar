@@ -107,6 +107,78 @@ export type Database = {
           },
         ]
       }
+      ad_rewards_daily: {
+        Row: {
+          created_at: string
+          profile_id: string
+          reward_date: string
+        }
+        Insert: {
+          created_at?: string
+          profile_id: string
+          reward_date: string
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+          reward_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_rewards_daily_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_rewards_daily_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ad_state: {
+        Row: {
+          ad_free_until: string | null
+          ads_seen: number
+          profile_id: string
+          updated_at: string
+          videos_watched: number
+        }
+        Insert: {
+          ad_free_until?: string | null
+          ads_seen?: number
+          profile_id: string
+          updated_at?: string
+          videos_watched?: number
+        }
+        Update: {
+          ad_free_until?: string | null
+          ads_seen?: number
+          profile_id?: string
+          updated_at?: string
+          videos_watched?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_state_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_state_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           clinic_id: string | null
@@ -116,6 +188,7 @@ export type Database = {
           duration_minutes: number
           family_member_id: string | null
           id: string
+          is_seed: boolean
           is_teleconsultation: boolean
           notes: string | null
           observation: string | null
@@ -134,6 +207,7 @@ export type Database = {
           duration_minutes?: number
           family_member_id?: string | null
           id?: string
+          is_seed?: boolean
           is_teleconsultation?: boolean
           notes?: string | null
           observation?: string | null
@@ -152,6 +226,7 @@ export type Database = {
           duration_minutes?: number
           family_member_id?: string | null
           id?: string
+          is_seed?: boolean
           is_teleconsultation?: boolean
           notes?: string | null
           observation?: string | null
@@ -274,6 +349,7 @@ export type Database = {
           phone: string | null
           postal_code: string | null
           rating: number | null
+          timezone: string
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
@@ -291,6 +367,7 @@ export type Database = {
           phone?: string | null
           postal_code?: string | null
           rating?: number | null
+          timezone?: string
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -308,6 +385,7 @@ export type Database = {
           phone?: string | null
           postal_code?: string | null
           rating?: number | null
+          timezone?: string
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -412,6 +490,59 @@ export type Database = {
           },
         ]
       }
+      dossier_access_log: {
+        Row: {
+          accessed_at: string
+          accessor_id: string
+          id: string
+          patient_id: string
+          section: string
+        }
+        Insert: {
+          accessed_at?: string
+          accessor_id: string
+          id?: string
+          patient_id: string
+          section: string
+        }
+        Update: {
+          accessed_at?: string
+          accessor_id?: string
+          id?: string
+          patient_id?: string
+          section?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dossier_access_log_accessor_id_fkey"
+            columns: ["accessor_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dossier_access_log_accessor_id_fkey"
+            columns: ["accessor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dossier_access_log_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dossier_access_log_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       family_members: {
         Row: {
           created_at: string
@@ -451,6 +582,72 @@ export type Database = {
           {
             foreignKeyName: "family_members_primary_patient_id_fkey"
             columns: ["primary_patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fear_assessments: {
+        Row: {
+          appointment_id: string | null
+          created_at: string
+          id: string
+          level: number
+          note: string | null
+          patient_id: string
+          professional_id: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          created_at?: string
+          id?: string
+          level: number
+          note?: string | null
+          patient_id: string
+          professional_id: string
+        }
+        Update: {
+          appointment_id?: string | null
+          created_at?: string
+          id?: string
+          level?: number
+          note?: string | null
+          patient_id?: string
+          professional_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fear_assessments_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fear_assessments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fear_assessments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fear_assessments_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fear_assessments_professional_id_fkey"
+            columns: ["professional_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -584,6 +781,7 @@ export type Database = {
           created_at: string
           fear_level: number
           id: string
+          is_seed: boolean
           medical_notes: string | null
           rating: number | null
           updated_at: string
@@ -594,6 +792,7 @@ export type Database = {
           created_at?: string
           fear_level?: number
           id: string
+          is_seed?: boolean
           medical_notes?: string | null
           rating?: number | null
           updated_at?: string
@@ -604,6 +803,7 @@ export type Database = {
           created_at?: string
           fear_level?: number
           id?: string
+          is_seed?: boolean
           medical_notes?: string | null
           rating?: number | null
           updated_at?: string
@@ -724,9 +924,12 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          is_seed: boolean
           language: Database["public"]["Enums"]["app_language"]
           phone: string | null
           phone_verified_at: string | null
+          plan: string
+          referral_code: string | null
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
         }
@@ -737,9 +940,12 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          is_seed?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
           phone_verified_at?: string | null
+          plan?: string
+          referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
@@ -750,9 +956,12 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          is_seed?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
           phone_verified_at?: string | null
+          plan?: string
+          referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
@@ -806,6 +1015,62 @@ export type Database = {
           {
             foreignKeyName: "redemptions_profile_id_fkey"
             columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          invitee_id: string
+          inviter_id: string
+          level2_awarded_at: string | null
+          validated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invitee_id: string
+          inviter_id: string
+          level2_awarded_at?: string | null
+          validated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invitee_id?: string
+          inviter_id?: string
+          level2_awarded_at?: string | null
+          validated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_invitee_id_fkey"
+            columns: ["invitee_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_invitee_id_fkey"
+            columns: ["invitee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_inviter_id_fkey"
+            columns: ["inviter_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_inviter_id_fkey"
+            columns: ["inviter_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1071,6 +1336,7 @@ export type Database = {
         Args: { _appointment_id: string; _to_profile_id: string }
         Returns: boolean
       }
+      can_read_dossier: { Args: { _patient_id: string }; Returns: boolean }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
       confirm_phone_verification: {
         Args: { _profile_id: string }
@@ -1101,21 +1367,28 @@ export type Database = {
         Args: { _level: Database["public"]["Enums"]["level_tier"] }
         Returns: number
       }
+      log_dossier_access: {
+        Args: { _patient_id: string; _section: string }
+        Returns: boolean
+      }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
       recompute_profile_rating: {
         Args: { _profile_id: string }
         Returns: undefined
       }
+      record_ad_view: { Args: { _kind: string }; Returns: Json }
       redeem_reward: {
         Args: { _profile_id: string; _reward_key: string }
         Returns: Json
       }
       refresh_seed_appointments: { Args: never; Returns: undefined }
+      register_referral: { Args: { _code: string }; Returns: Json }
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
         Returns: undefined
       }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
+      try_validate_referral: { Args: { _invitee: string }; Returns: undefined }
     }
     Enums: {
       app_language: "pt" | "fr" | "en"

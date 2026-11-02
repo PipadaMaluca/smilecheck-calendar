@@ -73,6 +73,8 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   level,
   age,
   dateOfBirth: createDateOfBirth(age),
+  // Demo fear scale, stable per patient and mostly low (0–1), so only a few cards carry the ≥2 dot.
+  fearLevel: [0, 0, 0, 1, 1, 1, 2, 2, 3, 4][[...id].reduce((a, c) => a + c.charCodeAt(0), 0) % 10],
 });
 
 // Demo realism: ~75% of upcoming 'agendada' visits are already confirmed (stable per id).

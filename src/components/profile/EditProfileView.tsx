@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { FearScalePicker } from '@/components/fear/FearScale';
+import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
+import type { FearLevel } from '@/lib/fearScale';
+import { useState, useEffect } from 'react';
 import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase, Lock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -307,6 +310,14 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
   const { t } = useTranslation();
+  const [fearLevel, setFearLevel] = useState<number | null>(null);
+  useEffect(() => {
+    if (userRole === 'patient') fetchOwnFearLevel().then((v) => setFearLevel(v ?? DEMO_FEAR.patientLevel)).catch(() => setFearLevel(null));
+  }, [userRole]);
+  const handleFearChange = (lvl: FearLevel) => {
+    setFearLevel(lvl);
+    saveOwnFearLevel(lvl).then(() => toast.success(t('fear.saved'))).catch(() => toast.error(t('fear.saveError')));
+  };
   const isMobile = useIsMobile();
 
   // Patient state
@@ -434,7 +445,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                 {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
               </div>
-              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
+              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
                 <Camera className="w-4 h-4" />
               </button>
             </div>
@@ -444,6 +455,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           {/* ===== PATIENT FIELDS ===== */}
           {userRole === 'patient' &&
         <>
+              <SectionTitle>{t('fear.title')}</SectionTitle>
+              <div className="space-y-2">
+                <p id="fear-self-title" className="text-sm font-medium text-foreground">{t('fear.selfTitle')}</p>
+                <p className="text-xs text-muted-foreground">{t('fear.selfHint')}</p>
+                <FearScalePicker value={fearLevel} onChange={handleFearChange} labelledBy="fear-self-title" />
+              </div>
               <SectionTitle>{t('editProfile.personalData')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label={t('editProfile.fullName')}>

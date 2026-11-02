@@ -20,7 +20,9 @@ interface InviteViewProps {
   inline?: boolean;
 }
 
-const MOCK_HISTORY = [
+type InviteRow = { name: string; date: string; status: 'confirmed' | 'pending' };
+
+const MOCK_HISTORY: InviteRow[] = [
   { name: 'Maria S.', date: '2026-01-10', status: 'confirmed' as const },
   { name: 'Pedro A.', date: '2026-01-05', status: 'confirmed' as const },
   { name: 'Ana F.', date: '2026-01-02', status: 'pending' as const },
@@ -39,7 +41,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   const ownerName = user
     ? profile?.full_name ?? user.email ?? ''
     : role === 'dentist' ? mockDentists[0].name : role === 'clinic' ? mockClinics[0].name : mockFamilyMembers[0].name;
-  const code = buildReferralCode(ownerName, user?.id ?? `demo-${role}`);
+  const code = (user && profile?.referral_code) || buildReferralCode(ownerName, user?.id ?? `demo-${role}`);
   const link = `${window.location.origin}/invite/${code}`;
 
   // Real reward comes from points_rules; while the server suspends the action, promise nothing.
@@ -51,7 +53,27 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       .then(({ data }) => { if (!cancelled) setRulePoints(data?.points ?? null); });
     return () => { cancelled = true; };
   }, [role]);
-  const confirmedCount = MOCK_HISTORY.filter(h => h.status === 'confirmed').length;
+  // Real accounts: own referrals (RLS: inviter/invitee only) + level-2 points from the own points ledger.
+  const [history, setHistory] = useState<InviteRow[]>(user ? [] : MOCK_HISTORY);
+  const [level2Points, setLevel2Points] = useState(0);
+  useEffect(() => {
+    if (!user) { setHistory(MOCK_HISTORY); setLevel2Points(0); return; }
+    let cancelled = false;
+    void Promise.all([
+      supabase.from('referrals').select('created_at, validated_at').eq('inviter_id', user.id).order('created_at', { ascending: false }),
+      supabase.from('points_ledger').select('amount').eq('profile_id', user.id).eq('type', 'reward_points').eq('reason', 'Convite de um convidado'),
+    ]).then(([refs, l2]) => {
+      if (cancelled) return;
+      setHistory((refs.data ?? []).map((r, i) => ({
+        name: t('invite.invitedPerson', { n: (refs.data?.length ?? 0) - i }),
+        date: r.created_at,
+        status: r.validated_at ? 'confirmed' : 'pending',
+      })));
+      setLevel2Points((l2.data ?? []).reduce((a, r) => a + r.amount, 0));
+    });
+    return () => { cancelled = true; };
+  }, [user, t]);
+  const confirmedCount = history.filter(h => h.status === 'confirmed').length;
   const shareMessage = t('invite.shareMessage', { code, link });
 
   const copyToClipboard = (text: string, type: 'code' | 'link') => {
@@ -76,7 +98,10 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         {suspended ? (
           <Badge variant="secondary" className="mx-auto">{t('invite.comingSoon')}</Badge>
         ) : rulePoints !== null ? (
-          <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
+          <>
+            <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
+            <p className="text-xs text-muted-foreground px-4 leading-snug">{t('invite.rulesDetail')}</p>
+          </>
         ) : null}
         {suspended && <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitleComingSoon')}</p>}
       </div>
@@ -130,7 +155,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       <div className="grid grid-cols-3 gap-2 md:gap-3">
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
-            <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">7</p>
+            <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">{history.length}</p>
             <p className="text-2xs md:text-2xs text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.invited')}</p>
           </CardContent>
         </Card>
@@ -142,7 +167,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
-            <p className="text-xl md:text-2xl font-bold text-warning leading-tight">{suspended || rulePoints === null ? '—' : confirmedCount * rulePoints}</p>
+            <p className="text-xl md:text-2xl font-bold text-warning leading-tight">{suspended || rulePoints === null ? '—' : confirmedCount * rulePoints + level2Points}</p>
             <p className="text-2xs md:text-2xs text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">{t('invite.pointsEarnedShort')}</span><span className="hidden md:inline">{t('invite.pointsEarned')}</span></p>
           </CardContent>
         </Card>
@@ -152,7 +177,8 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2"><CardTitle size="compact">{t('invite.history')}</CardTitle></CardHeader>
         <CardContent className="space-y-0 divide-y divide-border px-3 md:px-6">
-          {MOCK_HISTORY.map((h, i) => (
+          {history.length === 0 && <p className="py-4 text-sm text-muted-foreground">{t('invite.noInvitesYet')}</p>}
+          {history.map((h, i) => (
             <div key={i} className="flex items-center justify-between py-2.5 md:py-3 gap-2">
               <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
                 <Users className="w-4 h-4 text-muted-foreground flex-shrink-0" />

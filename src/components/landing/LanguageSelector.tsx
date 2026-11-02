@@ -4,17 +4,17 @@ import { cn } from '@/lib/utils';
 import { Languages } from 'lucide-react';
 import { LANGUAGE_CHOSEN_KEY } from '@/i18n';
 
-const logoSrc = '/assets/smilecheck-logo-blue.webp';
+import { AppIconTile } from './AppIconTile';
 
 interface LanguageSelectorProps {
   onSelect: (lang: string) => void;
 }
 
-// Language names are always shown in their own language (no flag emojis: they render as "PT"/"GB" on Windows).
+// Language names in their own language; flags are local SVGs (flag emojis render as "PT"/"GB" on Windows).
 const languages = [
-  { code: 'pt', label: 'Português' },
-  { code: 'fr', label: 'Français' },
-  { code: 'en', label: 'English' },
+  { code: 'pt', label: 'Português', flag: '/flags/pt.svg' },
+  { code: 'fr', label: 'Français', flag: '/flags/fr.svg' },
+  { code: 'en', label: 'English', flag: '/flags/gb.svg' },
 ];
 
 export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
@@ -31,17 +31,16 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-celebration flex items-center justify-center transition-opacity duration-300',
+        'fixed inset-0 z-celebration flex items-center justify-center overflow-hidden transition-opacity duration-300',
         selected !== null ? 'opacity-0 pointer-events-none' : 'opacity-100',
         'bg-gradient-to-br from-[hsl(220,40%,8%)] via-[hsl(220,30%,12%)] to-[hsl(220,40%,8%)]'
       )}
     >
-      <div className="flex flex-col items-center gap-8 animate-fade-in px-4 w-full max-w-sm">
-        <img
-          src={logoSrc}
-          alt="SmileCheck"
-          className="h-[100px] sm:h-[120px] drop-shadow-[0_0_40px_hsla(217,91%,60%,0.3)]"
-        />
+      <div className="flex flex-col items-center gap-6 animate-fade-in px-4 w-full max-w-3xl max-h-full overflow-y-auto overflow-x-hidden py-6">
+        <div className="w-full pointer-events-none">
+          <AppIconTile forceDark />
+        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[hsl(220,15%,95%)]">SmileCheck</h1>
 
         <div className="text-center">
           <p className="text-[hsl(220,15%,80%)] text-base inline-flex items-center gap-2">
@@ -53,7 +52,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-3 w-full">
+        <div className="flex flex-col gap-3 w-full max-w-sm">
           {languages.map((lang) => (
             <button
               key={lang.code}
@@ -62,10 +61,11 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
               className={cn(
                 'group w-full h-16 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)]',
                 'bg-gradient-to-r from-[hsl(220,30%,15%)] to-[hsl(220,30%,18%)]',
-                'flex items-center justify-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
+                'flex items-center justify-start gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >
+              <img src={lang.flag} alt="" width={24} height={16} className="w-6 h-4 rounded-xs object-cover shrink-0 shadow-sm" />
               <span className="text-[hsl(220,15%,85%)] font-semibold text-lg group-hover:text-white transition-colors">
                 {lang.label}
               </span>

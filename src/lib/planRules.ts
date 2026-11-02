@@ -21,7 +21,8 @@ export const CLINIC_DENTIST_LIMIT: Record<PlanTier, number | null> = {
 export const TELECONSULT_PRICE = 20;
 
 /** Demo plans used while billing/team data is still mock. */
-export const DEMO_CURRENT_PLAN: { dentist: PlanTier; clinic: PlanTier } = {
+export const DEMO_CURRENT_PLAN: { patient: PlanTier; dentist: PlanTier; clinic: PlanTier } = {
+  patient: 'pro',
   dentist: 'pro',
   clinic: 'pro',
 };
@@ -56,3 +57,61 @@ export function summarizeTeleconsults(lines: TeleconsultLine[]) {
     net: r(lines.reduce((s, l) => s + l.net, 0)),
   };
 }
+
+export type PlanRole = 'patient' | 'dentist' | 'clinic';
+
+/** Monthly list prices (EUR). Free = 0. */
+export const PLAN_MONTHLY_PRICE: Record<PlanRole, Record<PlanTier, number>> = {
+  patient: { free: 0, pro: 4.99, premium: 9.99 },
+  dentist: { free: 0, pro: 19.99, premium: 29.99 },
+  clinic: { free: 0, pro: 39.99, premium: 49.99 },
+};
+
+export const ANNUAL_DISCOUNT = 0.15;
+
+/** Monthly-equivalent price when billed annually: exactly −15%, truncated to the cent (19,99 → 16,99). */
+export function annualMonthlyPrice(monthly: number) {
+  return Math.floor(Math.round(monthly * (1 - ANNUAL_DISCOUNT) * 10000) / 100) / 100;
+}
+
+export function annualTotalPrice(monthly: number) {
+  return Math.round(annualMonthlyPrice(monthly) * 12 * 100) / 100;
+}
+
+export interface PlanFeature {
+  /** i18n key under `plans.f.` */
+  key: string;
+  params?: Record<string, unknown>;
+  /** Not available yet → shown with "Em breve". */
+  soon?: boolean;
+  /** Muted "Tudo do Free/Pro" line. */
+  inherited?: boolean;
+}
+
+const tele = (tier: PlanTier): PlanFeature => ({ key: 'teleCommission', params: { pct: commissionPercent(tier) }, soon: true });
+const dentists = (tier: PlanTier): PlanFeature => {
+  const n = CLINIC_DENTIST_LIMIT[tier];
+  return n === null ? { key: 'unlimitedDentists' } : { key: 'dentistLimit', params: { count: n } };
+};
+
+/** Features per role and tier — single source for the landing pricing and the in-app plan screens. */
+export const PLAN_FEATURES: Record<PlanRole, Record<PlanTier, PlanFeature[]>> = {
+  patient: {
+    free: [{ key: 'bookAppointments' }, { key: 'earnPointsLevels' }, { key: 'rewardsShop' }, { key: 'healthFearProfile' }, { key: 'withAds' }],
+    pro: [{ key: 'allFromFree', inherited: true }, { key: 'noAds' }, { key: 'pointsNeverLost' }, { key: 'theme13' }, { key: 'exclusiveAchievements' }, { key: 'fullHistory' }],
+    premium: [{ key: 'allFromPro', inherited: true }, { key: 'fullVisual' }, { key: 'appIconColor', soon: true }, { key: 'pointsBonus10', soon: true }, { key: 'premiumBadge' }, { key: 'prioritySupport' }],
+  },
+  dentist: {
+    free: [{ key: 'onlineAgenda' }, { key: 'unlimitedAppointments' }, { key: 'dossierFear' }, { key: 'waitingList' }, { key: 'publicProfile' }, { key: 'withAds' }, tele('free')],
+    pro: [{ key: 'allFromFree', inherited: true }, { key: 'noAds' }, { key: 'autoReminders' }, { key: 'multiClinicAgenda' }, { key: 'detailedStats' }, { key: 'rankingsAchievements' }, { key: 'pointsNeverLost' }, { key: 'themeCustom' }, tele('pro')],
+    premium: [{ key: 'allFromPro', inherited: true }, { key: 'prescriptionsLetters', soon: true }, { key: 'fullVisualAppIcon', soon: true }, { key: 'premiumBadge' }, { key: 'prioritySupport' }, tele('premium')],
+  },
+  clinic: {
+    free: [dentists('free'), { key: 'clinicDashboard' }, { key: 'sharedAgenda' }, { key: 'waitingList' }, { key: 'monthlyReports' }, { key: 'withAds' }],
+    pro: [dentists('pro'), { key: 'allFromFree', inherited: true }, { key: 'noAds' }, { key: 'teamSchedules' }, { key: 'advancedStatsWeekly' }, { key: 'clinicRankings' }, { key: 'exportPdfExcel' }, { key: 'pointsNeverLost' }, { key: 'themeCustom' }],
+    premium: [dentists('premium'), { key: 'allFromPro', inherited: true }, { key: 'teamTeleconsults', soon: true }, { key: 'fullVisualAppIcon', soon: true }, { key: 'dedicatedSupport' }],
+  },
+};
+
+/** Free plans of every role carry the yearly points-reset warning. */
+export const planHasPointsResetWarning = (tier: PlanTier) => tier === 'free';

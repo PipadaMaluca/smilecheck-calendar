@@ -394,73 +394,7 @@
       "patient": "Patient",
       "dentist": "Dentist",
       "clinic": "Clinic",
-      "patientFree": [
-        "Book appointments",
-        "Earn points",
-        "Rewards store",
-        "Basic health profile",
-        "With ads"
-      ],
-      "patientFreeWarning": "Annual points reset",
-      "patientPro": [
-        "Everything in Free",
-        "No ads",
-        "Keep accumulated points",
-        "13 editable theme colours",
-        "Exclusive achievements",
-        "Full history"
-      ],
-      "patientPremium": [
-        "Everything in Pro",
-        "Full RGB (all colours)",
-        "+10% points bonus",
-        "Exclusive Premium badge",
-        "Priority support",
-        "Discounted teleconsultations"
-      ],
-      "dentistFree": [
-        "Basic schedule",
-        "Up to 20 appointments/month",
-        "Manual confirmations",
-        "Basic public profile"
-      ],
-      "dentistFreeWarning": "Annual points reset",
-      "dentistPro": [
-        "Unlimited appointments",
-        "Automatic confirmations",
-        "Digital prescriptions",
-        "Referral letters",
-        "Detailed statistics",
-        "Rankings & achievements"
-      ],
-      "dentistPremium": [
-        "Everything in Pro",
-        "Integrated teleconsultations",
-        "Advanced exports",
-        "API integration",
-        "Priority support",
-        "Full customisation"
-      ],
-      "clinicFree": [
-        "Basic dashboard",
-        "Monthly reports",
-        "Basic team management"
-      ],
-      "clinicFreeWarning": "Annual points reset",
-      "clinicPro": [
-        "Full dashboard",
-        "Weekly reports",
-        "Advanced statistics",
-        "Clinic rankings",
-        "PDF/Excel exports"
-      ],
-      "clinicPremium": [
-        "Everything in Pro",
-        "Team teleconsultations",
-        "API integration",
-        "Dedicated support",
-        "Multi-location"
-      ]
+      "highlight": "Fewer no-shows: patients earn points for showing up."
     },
     "testimonials": {
       "title": "What people say about us",
@@ -4263,14 +4197,17 @@
     "pointsEarned": "Points earned",
     "pointsEarnedShort": "Pts earned",
     "history": "Invite History",
-    "statusConfirmed": "Confirmed",
+    "statusConfirmed": "Validated",
     "statusPending": "Pending",
     "headlineNoPoints": "Invite friends to SmileCheck",
     "comingSoon": "Reward coming soon",
     "subtitleComingSoon": "The referral reward will be available soon. You can already share your code.",
     "subtitlePoints_one": "Earn {{count, number}} point for every person who signs up",
     "subtitlePoints_other": "Earn {{count, number}} points for every person who signs up",
-    "pointsShort": "+{{count, number}} pts"
+    "pointsShort": "+{{count, number}} pts",
+    "invitedPerson": "Invited person #{{n}}",
+    "noInvitesYet": "You haven't invited anyone yet.",
+    "rulesDetail": "You can invite patients, dentists and clinics. Each invite counts once, when the person verifies their phone and completes their first appointment (dentists and clinics: when the profile is approved). You also earn 1 point for each person your invitees bring."
   },
   "sweep": {
     "dentistProfile": {
@@ -4988,17 +4925,130 @@
     "streakDate_28_Nov_2025": "Nov 28, 2025",
     "streakDate_5_Nov_2025": "Nov 5, 2025"
   },
-  "oauthConsent": {
-    "title": "Connect {{client}} to SmileCheck",
-    "body": "{{client}} will be able to use SmileCheck as you: view your appointments and points.",
-    "account": "Signed in as {{email}}",
-    "boundary": "This does not bypass the app's permissions or access rules.",
-    "redirect": "Return address: {{uri}}",
-    "approve": "Approve",
-    "deny": "Cancel connection",
-    "loading": "Loading…",
-    "error": "Could not load this authorization request.",
-    "missing": "Invalid or expired authorization request.",
-    "anApp": "an app"
+  "plans": {
+    "f": {
+      "bookAppointments": "Book appointments",
+      "earnPointsLevels": "Earn points and level up",
+      "rewardsShop": "Rewards shop",
+      "healthFearProfile": "Health profile and fear scale",
+      "withAds": "With ads",
+      "allFromFree": "Everything in Free",
+      "allFromPro": "Everything in Pro",
+      "noAds": "No ads",
+      "pointsNeverLost": "Your points never expire",
+      "theme13": "Theme customisation (13 colours)",
+      "exclusiveAchievements": "Exclusive achievements",
+      "fullHistory": "Full appointment history",
+      "fullVisual": "Full visual customisation (all colours)",
+      "appIconColor": "App icon in the colour of your choice (iOS and Android apps)",
+      "pointsBonus10": "+10% points bonus",
+      "premiumBadge": "Premium badge",
+      "prioritySupport": "Priority support",
+      "onlineAgenda": "Agenda and online booking",
+      "unlimitedAppointments": "Unlimited appointments",
+      "dossierFear": "Clinical record and fear scale",
+      "waitingList": "Waiting list",
+      "publicProfile": "Public profile",
+      "teleCommission": "Teleconsultations: {{pct}}% commission",
+      "autoReminders": "Automatic confirmations and reminders",
+      "multiClinicAgenda": "Agenda across several clinics",
+      "detailedStats": "Detailed statistics",
+      "rankingsAchievements": "Rankings and achievements",
+      "themeCustom": "Theme customisation",
+      "prescriptionsLetters": "Digital prescriptions and letters",
+      "fullVisualAppIcon": "Full visual customisation and app icon",
+      "dentistLimit": "Up to {{count, number}} dentists",
+      "unlimitedDentists": "Unlimited dentists",
+      "clinicDashboard": "Clinic dashboard",
+      "sharedAgenda": "Shared team agenda",
+      "monthlyReports": "Monthly reports",
+      "teamSchedules": "Team and schedule management",
+      "advancedStatsWeekly": "Advanced statistics and weekly reports",
+      "clinicRankings": "Clinic rankings",
+      "exportPdfExcel": "PDF/Excel export",
+      "teamTeleconsults": "Team teleconsultations",
+      "dedicatedSupport": "Dedicated support"
+    },
+    "soon": "Coming soon",
+    "pointsResetWarning": "Reward points are reset every year",
+    "billedAnnually": "{{total}} per year"
+  },
+  "fear": {
+    "title": "Fear scale",
+    "selfTitle": "How do you feel at the dentist?",
+    "selfHint": "You can change it at any time. It helps the team adapt your appointment.",
+    "chip": "Fear {{level}} · {{label}}",
+    "shortValues": "P {{p}} · C {{c}}",
+    "mismatch": "The patient's self-assessment and the clinical assessment differ by 2 or more levels.",
+    "panelTitle": "Fear scale",
+    "panelSubtitle": "P = patient's self-assessment · C = clinical assessment",
+    "patientValue": "Patient",
+    "professionalValue": "Clinical",
+    "suggestedApproach": "Suggested approach",
+    "scaleTitle": "Levels",
+    "history": "Assessment history",
+    "noHistory": "No clinical assessments yet.",
+    "noData": "No fear level recorded.",
+    "lastAssessed": "Assessed on {{date}}",
+    "updateTitle": "Update fear level (optional)",
+    "updateHint": "The last value is preselected; tap to confirm or pick another.",
+    "saved": "Fear level saved",
+    "saveError": "Could not save the fear level",
+    "yourLevel": "Your level",
+    "levels": {
+      "0": {
+        "label": "Calm",
+        "desc": "Relaxed and cooperative; understands the procedure.",
+        "conduct": "Usual approach."
+      },
+      "1": {
+        "label": "Mild apprehension",
+        "desc": "Mild anxiety; asks questions and cooperates.",
+        "conduct": "Explain each step and answer questions."
+      },
+      "2": {
+        "label": "Moderate anxiety",
+        "desc": "Visible tension; mild physical signs may appear (e.g. tachycardia).",
+        "conduct": "Calm environment, agreed breaks and frequent comfort checks."
+      },
+      "3": {
+        "label": "Intense fear",
+        "desc": "Obvious fear; risk of resisting treatment.",
+        "conduct": "Tell-show-do technique and an agreed stop signal; consider anxiolysis or premedication."
+      },
+      "4": {
+        "label": "Panic",
+        "desc": "Anxiety attack or refusal of treatment.",
+        "conduct": "Postpone non-urgent procedures; consider conscious sedation or referral."
+      }
+    }
+  },
+  "noClinic": {
+    "title": "Join a clinic",
+    "description": "Every appointment takes place at a clinic. Until you belong to one, you can't receive bookings.",
+    "invite": "Invite my clinic"
+  },
+  "ads": {
+    "title": "Ads",
+    "removeTitle": "Remove ads",
+    "removeDesc": "Watch 5 short videos (up to 30 s each) and get 8 hours without ads.",
+    "removeCta": "Watch video ({{n}}/{{total}})",
+    "adFreeLeft": "Ad-free for {{time}}",
+    "until": "Until {{time}}",
+    "adFreeStarted": "8 ad-free hours activated",
+    "earnTitle": "Earn points",
+    "earnDesc": "Every 10 ads watched earn you 2 reward points (no XP), at most once a day.",
+    "earnCta": "Watch ad ({{n}}/{{total}})",
+    "pointsAwarded_one": "You earned {{count}} reward point",
+    "pointsAwarded_other": "You earned {{count}} reward points",
+    "dailyLimit": "You've already earned today's ad points. Come back tomorrow.",
+    "phoneRequired": "Verify your phone to earn points.",
+    "error": "Could not record the ad",
+    "noAdsOnPlan": "No ads on your plan",
+    "privacyNote": "Ads never use your health data and never appear on clinical screens.",
+    "playingTitle": "Demo ad",
+    "playingDesc": "No real ad network yet. Please wait a few seconds.",
+    "bannerLabel": "Advertisement",
+    "bannerPlaceholder": "Ad space (Free plan)"
   }
 }

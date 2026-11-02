@@ -69,7 +69,7 @@ export function PatientsTab({ userRole, onSendMessage, onViewDossier }: Patients
             className={cn(
               'px-3 py-1.5 rounded-full text-xs font-medium border transition-colors min-h-8',
               statusFilter === f
-                ? 'bg-primary text-primary-foreground border-primary'
+                ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary'
                 : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
             )}
           >

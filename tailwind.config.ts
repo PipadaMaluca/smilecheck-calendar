@@ -29,9 +29,17 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        fear: {
+          0: "hsl(var(--fear-0))",
+          1: "hsl(var(--fear-1))",
+          2: "hsl(var(--fear-2))",
+          3: "hsl(var(--fear-3))",
+          4: "hsl(var(--fear-4))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          solid: "hsl(var(--primary-solid))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -116,6 +124,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "2px",
       },
       zIndex: {
         // === Stacking scale (Phase 6) — single source of truth for overlay z-index ===

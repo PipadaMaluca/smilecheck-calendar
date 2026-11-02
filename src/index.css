@@ -32,7 +32,8 @@
     --popover-foreground: 210 40% 98%;
 
     /* Changed from green to blue #2196F3 */
-    --primary: 210 85% 44%;
+    --primary: 207 90% 54%;
+    --primary-solid: 210 85% 44%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 214 40% 18%;
@@ -53,6 +54,13 @@
     --warning-surface: 38 92% 55%;
     --success: 152 60% 45%;
     --success-foreground: 214 50% 10%;
+
+    /* Fear scale 0–4 (neutral → red); text-safe on dark surfaces */
+    --fear-0: 215 15% 65%;
+    --fear-1: 152 60% 50%;
+    --fear-2: 43 96% 56%;
+    --fear-3: 25 95% 58%;
+    --fear-4: 0 84% 65%;
 
     --border: 214 30% 25%;
     --input: 214 30% 25%;
@@ -160,7 +168,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 26% 14%;
 
-    --primary: 210 85% 44%;
+    --primary: 207 90% 54%;
+    --primary-solid: 210 85% 44%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 100% 97%;          /* #F0F7FF blue-tinted surface */
@@ -182,6 +191,12 @@
     --warning-surface: 38 92% 50%;
     --success: 152 55% 33%;
     --success-foreground: 0 0% 100%;
+
+    --fear-0: 215 16% 40%;
+    --fear-1: 152 60% 28%;
+    --fear-2: 35 92% 30%;
+    --fear-3: 22 90% 36%;
+    --fear-4: 0 72% 42%;
 
     --border: 210 60% 89%;              /* #D6E4F0 blue-gray */
     --input: 210 100% 98%;              /* #F5F9FF */
@@ -429,7 +444,7 @@
   }
 
   .calendar-day-today {
-    @apply bg-primary text-primary-foreground font-semibold;
+    @apply bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 font-semibold;
     box-shadow: var(--shadow-glow);
   }
 
@@ -513,7 +528,7 @@
   }
 
   .floating-button {
-    @apply fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg transition-colors duration-300 hover:scale-110;
+    @apply fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 flex items-center justify-center shadow-lg transition-colors duration-300 hover:scale-110;
     box-shadow: var(--shadow-glow);
   }
 

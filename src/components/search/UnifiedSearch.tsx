@@ -117,7 +117,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
               className={cn(
                 'h-auto px-3 py-1.5 text-xs font-medium rounded-full border-transparent tap-target',
                 activeFilter === f
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                  ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90'
                   : 'bg-secondary text-muted-foreground hover:text-foreground'
               )}
             >
