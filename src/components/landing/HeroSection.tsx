@@ -58,7 +58,7 @@ export function HeroSection() {
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <AppIconTile />
 
-        <h1 data-reveal="words" className="text-4xl leading-none sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-foreground mx-auto mt-2 mb-4 text-balance">
+        <h1 data-reveal="words" className="text-3xl leading-none sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-foreground mx-auto mt-2 mb-4 text-balance">
           {t('landing.hero.title')}
           <br />
           <span className="sc-grad-wipe bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
