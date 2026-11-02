@@ -32,7 +32,7 @@
     --popover-foreground: 210 40% 98%;
 
     /* Changed from green to blue #2196F3 */
-    --primary: 207 90% 54%;
+    --primary: 210 85% 44%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 214 40% 18%;
@@ -160,7 +160,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 26% 14%;
 
-    --primary: 207 90% 54%;
+    --primary: 210 85% 44%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 100% 97%;          /* #F0F7FF blue-tinted surface */
@@ -1588,7 +1588,7 @@ body:not(.on-landing) [data-slot="button"].rounded-md {
 .light .btn-outline,
 .light button.border-input {
   border-color: #2196F3 !important;
-  color: #2196F3 !important;
+  color: hsl(var(--primary-text)) !important;
 }
 .light button[data-variant="outline"]:hover,
 .light .btn-outline:hover,
