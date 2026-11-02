@@ -57,6 +57,13 @@
       "when": 1793654560663,
       "tag": "0007_guard_showcased_achievements",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793658739640,
+      "tag": "0008_pedido6_cheques_consent_notif_reviews_subs",
+      "breakpoints": true
     }
   ]
 }

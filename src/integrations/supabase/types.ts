@@ -336,9 +336,12 @@ export type Database = {
       }
       clinics: {
         Row: {
+          accepts_cheque_dentista: boolean
+          accepts_cheque_protese: boolean
           address: string | null
           city: string | null
           closing_hour: string | null
+          country: string
           created_at: string
           email: string | null
           hds_certified: boolean
@@ -354,9 +357,12 @@ export type Database = {
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
+          accepts_cheque_dentista?: boolean
+          accepts_cheque_protese?: boolean
           address?: string | null
           city?: string | null
           closing_hour?: string | null
+          country?: string
           created_at?: string
           email?: string | null
           hds_certified?: boolean
@@ -372,9 +378,12 @@ export type Database = {
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
+          accepts_cheque_dentista?: boolean
+          accepts_cheque_protese?: boolean
           address?: string | null
           city?: string | null
           closing_hour?: string | null
+          country?: string
           created_at?: string
           email?: string | null
           hds_certified?: boolean
@@ -401,6 +410,45 @@ export type Database = {
             foreignKeyName: "clinics_owner_profile_id_fkey"
             columns: ["owner_profile_id"]
             isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      consent_preferences: {
+        Row: {
+          ads: boolean
+          decided_at: string
+          profile_id: string
+          statistics: boolean
+          updated_at: string
+        }
+        Insert: {
+          ads?: boolean
+          decided_at?: string
+          profile_id: string
+          statistics?: boolean
+          updated_at?: string
+        }
+        Update: {
+          ads?: boolean
+          decided_at?: string
+          profile_id?: string
+          statistics?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consent_preferences_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consent_preferences_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -717,6 +765,45 @@ export type Database = {
           {
             foreignKeyName: "feedback_to_profile_id_fkey"
             columns: ["to_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_preferences: {
+        Row: {
+          channel: string
+          enabled: boolean
+          notif_type: string
+          profile_id: string
+          updated_at: string
+        }
+        Insert: {
+          channel: string
+          enabled?: boolean
+          notif_type: string
+          profile_id: string
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          enabled?: boolean
+          notif_type?: string
+          profile_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_preferences_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_preferences_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1134,6 +1221,69 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          environment: string
+          id: string
+          price_id: string
+          product_id: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          price_id: string
+          product_id: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          price_id?: string
+          product_id?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       triage_ai_usage: {
         Row: {
           created_at: string
@@ -1392,6 +1542,10 @@ export type Database = {
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
         Returns: undefined
+      }
+      sync_profile_plan: {
+        Args: { _env: string; _user_id: string }
+        Returns: string
       }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
       try_validate_referral: { Args: { _invitee: string }; Returns: undefined }
