@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { oauthReturnPath } from '@/lib/oauth-return-path';
 import { ArrowLeft, User, Stethoscope, Building2, Eye, EyeOff, Loader2, Mail, Phone, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -101,7 +102,7 @@ export function SignUpScreen() {
       email: email.trim(),
       password,
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: nextPath ? new URL(nextPath, window.location.origin).href : window.location.origin,
         data: {
           role,
           full_name: name.trim(),
@@ -119,6 +120,7 @@ export function SignUpScreen() {
       setErrors({ [mapped.field === 'general' ? 'email' : mapped.field]: mapped.message });
       return;
     }
+    if (nextPath) { navigate(nextPath); return; }
     navigate(`/app?role=${role}`);
   };
 
@@ -225,9 +227,9 @@ export function SignUpScreen() {
 
           <p className="mt-6 text-sm text-muted-foreground">
             {t('auth.hasAccount')}{' '}
-            <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate('/login')}>{t('auth.login')}</Button>
+            <Button type="button" variant="link" className="h-auto p-0 text-primary font-medium" onClick={() => navigate(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : '/login')}>{t('auth.login')}</Button>
           </p>
-          <Button type="button" variant="link" onClick={() => navigate('/login')} className="mt-2 h-auto p-0 text-xs text-muted-foreground hover:text-primary">
+          <Button type="button" variant="link" onClick={() => navigate(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : '/login')} className="mt-2 h-auto p-0 text-xs text-muted-foreground hover:text-primary">
             {t('auth.otherDevice')}
           </Button>
         </div>
