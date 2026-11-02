@@ -18,7 +18,7 @@ const DEMO_AD_SECONDS = 3;
 
 export function useAdsPlan() {
   const { user, profile, role } = useAuth();
-  const plan = user ? profile?.plan ?? 'free' : role === 'patient' ? 'free' : DEMO_CURRENT_PLAN[role as 'dentist' | 'clinic'] ?? 'free';
+  const plan = user ? profile?.plan ?? 'free' : DEMO_CURRENT_PLAN[role as 'patient' | 'dentist' | 'clinic'] ?? 'free';
   return { plan, isFree: plan === 'free', isReal: !!user, userId: user?.id };
 }
 

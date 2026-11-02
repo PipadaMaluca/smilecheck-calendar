@@ -21,7 +21,8 @@ export const CLINIC_DENTIST_LIMIT: Record<PlanTier, number | null> = {
 export const TELECONSULT_PRICE = 20;
 
 /** Demo plans used while billing/team data is still mock. */
-export const DEMO_CURRENT_PLAN: { dentist: PlanTier; clinic: PlanTier } = {
+export const DEMO_CURRENT_PLAN: { patient: PlanTier; dentist: PlanTier; clinic: PlanTier } = {
+  patient: 'pro',
   dentist: 'pro',
   clinic: 'pro',
 };
