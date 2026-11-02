@@ -573,3 +573,18 @@ export async function assignWaitingMatch(
 
   return appointmentId;
 }
+
+/**
+ * Patient-only reschedule. Runs server-side (`request_reschedule`): validates
+ * ownership, future time and dentist overlap, then sets status to `agendada`.
+ */
+export async function requestReschedule(id: string, scheduledAt: string): Promise<void> {
+  const { error } = await supabase.rpc('request_reschedule', {
+    _appointment_id: id,
+    _new_time: scheduledAt,
+  });
+  if (error) {
+    if (error.message?.includes('slot_taken')) throw new SlotTakenError();
+    throw error;
+  }
+}
