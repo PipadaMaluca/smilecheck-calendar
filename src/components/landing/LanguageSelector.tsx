@@ -62,11 +62,10 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
               className={cn(
                 'group w-full h-16 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)]',
                 'bg-gradient-to-r from-[hsl(220,30%,15%)] to-[hsl(220,30%,18%)]',
-                'flex items-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
+                'flex items-center justify-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >
-              <span className="text-sm font-bold uppercase text-[hsl(220,15%,55%)] w-8">{lang.code}</span>
               <span className="text-[hsl(220,15%,85%)] font-semibold text-lg group-hover:text-white transition-colors">
                 {lang.label}
               </span>
