@@ -4,13 +4,13 @@ import { ArrowLeft, Info, Printer } from 'lucide-react';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/branding/Logo';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
 import { ACCESSIBILITY_REVIEWED_AT, SUPPORT_EMAIL } from '@/lib/support';
 
-const logoSrc = '/assets/smilecheck-logo-horizontal.webp';
 const LAST_UPDATED = new Date(2026, 0, 1);
 
 interface Section { id: string; title: string; content: string }
@@ -39,7 +39,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibili
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)} aria-label={t('legal.back')}>
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <img src={logoSrc} alt="SmileCheck" className="h-8 rounded-lg" />
+            <Logo variant="horizontal" size={32} />
             <div className="flex-1">
               <h1 className="text-lg font-bold text-foreground">{t(titleKey)}</h1>
               <p className="text-xs text-muted-foreground">{t('legal.lastUpdated', { date: formatDate(updated) })}</p>

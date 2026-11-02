@@ -1,3 +1,4 @@
+import { AiNotice } from '@/components/ai/AiNotice';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TriageHeader } from './TriageHeader';
@@ -131,6 +132,7 @@ export function TriageFlow() {
         <main className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
             <div className="mx-auto w-full max-w-[1100px] p-4 md:p-6">
+              <AiNotice className="mb-6" />
               {isCompleted ? (
                 <TriageCompletion
                   triageData={triageData}
@@ -177,6 +179,7 @@ export function TriageFlow() {
       />
 
       <div className="relative z-10">
+        <div className="sticky top-0 z-sticky bg-background px-4 pt-4 pb-2"><AiNotice /></div>
         {isCompleted ? (
           <div className="p-4">
             <TriageCompletion
