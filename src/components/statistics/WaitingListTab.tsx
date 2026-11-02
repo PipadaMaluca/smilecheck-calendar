@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
 import { AlertTriangle, BellRing, CalendarCheck, Loader2, Trash2, Users, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -169,7 +170,7 @@ const WEEKDAY_LABELS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 function formatSlotDay(isoDate: string) {
   const [y, m, d] = isoDate.split('-').map(Number);
   const date = new Date(Date.UTC(y, m - 1, d));
-  return date.toLocaleDateString('pt-PT', {
+  return date.toLocaleDateString(getActiveLocale(), {
     weekday: 'short',
     day: 'numeric',
     month: 'short',

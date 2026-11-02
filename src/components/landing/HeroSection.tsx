@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -120,7 +121,7 @@ export function HeroSection() {
 
 function StatItem({ end, prefix, label, isDecimal }: { end: number; prefix: string; label: string; isDecimal?: boolean }) {
   const { count, ref } = useCountUp(end);
-  const display = isDecimal ? (count / 10).toFixed(1) : count.toLocaleString('pt-PT');
+  const display = isDecimal ? (count / 10).toFixed(1) : formatNumber(count);
 
   return (
     <div ref={ref} className="text-center">

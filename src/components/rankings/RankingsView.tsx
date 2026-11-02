@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Trophy, TrendingUp, TrendingDown, Minus, Flag, Building2, User } from 'lucide-react';
@@ -191,7 +192,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   <TrendIcon trend={card.trend} change={card.change} />
                 </div>
                 <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: card.total.toLocaleString() })}</p>
+                <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
                 <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
               </CardContent>
             </Card>
@@ -224,7 +225,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                     <TrendIcon trend={card.trend} change={card.change} />
                   </div>
                   <p className="text-xl font-bold text-foreground">#{card.position}</p>
-                  <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: card.total.toLocaleString() })}</p>
+                  <p className="text-[11px] text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(card.total) })}</p>
                   <p className="text-xs font-medium text-foreground mt-1 truncate">{card.title}</p>
                 </CardContent>
               </Card>
@@ -266,7 +267,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                   </p>
                 </div>
                 <span className="text-sm font-medium text-muted-foreground">
-                  {entry.xp.toLocaleString()} XP
+                  {formatNumber(entry.xp)} XP
                 </span>
               </div>
             ))}
@@ -288,7 +289,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                     </p>
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">
-                    {currentUserXP.toLocaleString()} XP
+                    {formatNumber(currentUserXP)} XP
                   </span>
                 </div>
               </>
@@ -309,7 +310,7 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                     </p>
                   </div>
                   <span className="text-sm font-medium text-muted-foreground">
-                    {currentUserXP.toLocaleString()} XP
+                    {formatNumber(currentUserXP)} XP
                   </span>
                 </div>
               </>

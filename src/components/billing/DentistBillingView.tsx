@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useState } from 'react';
 import { Download } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -56,7 +57,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.revenue')}</p>
-                  <p className="text-2xl font-bold text-foreground mt-1">€{totalRevenue.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">€{formatNumber(totalRevenue)}</p>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 backdrop-blur border-border">
@@ -75,7 +76,7 @@ export function DentistBillingView({ initialTab, onNavigate }: DentistBillingVie
               <Card className="bg-card/80 backdrop-blur border-border">
                 <CardContent className="p-4 text-center">
                   <p className="text-xs text-muted-foreground">{t('billing.net')}</p>
-                  <p className="text-2xl font-bold text-primary mt-1">€{net.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+                  <p className="text-2xl font-bold text-primary mt-1">€{formatNumber(net, { maximumFractionDigits: 2 })}</p>
                 </CardContent>
               </Card>
             </div>

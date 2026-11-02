@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { teleconsultSplit, DEMO_CURRENT_PLAN, TELECONSULT_PRICE, type PlanTier } from '@/lib/planRules';
 export const patientPayments = [
   { id: '1', date: '15 Jan 2026', description: 'Teleconsulta Dr. Gonçalo Pipo', amount: 20, method: 'Visa ****4532', type: 'teleconsulta' },
@@ -55,7 +56,7 @@ export function generateReceipt(id: string, description: string, amount: number,
   import('./receiptPdf').then(({ downloadReceipt }) => {
     downloadReceipt({
       id: `SC-2026-${id.padStart(5, '0')}`,
-      date: new Date().toLocaleDateString('pt-PT'),
+      date: new Date().toLocaleDateString(getActiveLocale()),
       description,
       amount,
       method,

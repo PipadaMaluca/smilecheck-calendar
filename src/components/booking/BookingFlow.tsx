@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -461,7 +462,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))
                 .map(s => (
                   <p key={s.key} className="text-xs text-foreground pl-6">
-                    • {s.date.toLocaleDateString(i18n.language, { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
+                    • {s.date.toLocaleDateString(getActiveLocale(), { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
                   </p>
                 ))}
             </div>
@@ -505,7 +506,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
         <p className="text-xs text-muted-foreground">
-<CalendarIcon className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} <Clock className="inline w-3.5 h-3.5 mx-1 -mt-0.5" />{data.time} (30 min)</p>
+<CalendarIcon className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(getActiveLocale())} <Clock className="inline w-3.5 h-3.5 mx-1 -mt-0.5" />{data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">
 <Glyph emoji="🏥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
@@ -762,7 +763,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>{t('booking.receiptNumber')} {receiptId}</p>
-              <p>{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} — €{finalPrice.toFixed(2)}</p>
+              <p>{data.date?.toLocaleDateString(getActiveLocale())} — €{finalPrice.toFixed(2)}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
@@ -774,7 +775,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
               <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
               <span className="text-sm text-foreground">
-                {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
+                {data.date?.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
               </span>
             </div>
           </div>

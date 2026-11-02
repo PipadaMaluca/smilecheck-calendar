@@ -1,4 +1,4 @@
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
 import { demoDate, pickNextAppointment } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -320,7 +320,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       ) : (
                         <span className="text-[11px] text-muted-foreground tabular-nums truncate">
                           {'isPoints' in stat && (stat as any).isPoints
-                            ? `${pointsData.xp.toLocaleString()} XP`
+                            ? `${formatNumber(pointsData.xp)} XP`
                             : '\u00A0'}
                         </span>
                       )}
@@ -936,7 +936,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               {greeting}, {userName}!
             </h1>
             <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
-              {DEMO_DATE.toLocaleDateString('pt-PT', {
+              {DEMO_DATE.toLocaleDateString(getActiveLocale(), {
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long',

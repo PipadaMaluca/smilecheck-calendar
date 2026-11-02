@@ -64,7 +64,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
     const ext = format === 'pdf' ? '.txt' : '.csv';
     const filename = `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${ext}`;
     
-    const content = `SmileCheck Report - ${new Date().toLocaleString()}`;
+    const content = `SmileCheck Report - ${new Date().toLocaleString(getActiveLocale())}`;
     const mimeType = format === 'pdf' ? 'text/plain' : 'text/csv';
     
     const blob = new Blob([content], { type: mimeType });

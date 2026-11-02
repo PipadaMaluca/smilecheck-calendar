@@ -1,4 +1,4 @@
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -68,7 +68,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             <LevelIcon levelKey={level.key} size={48} />
             <div className="flex-1">
               <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
-              <p className="text-2xl font-bold text-primary">{data.xp.toLocaleString()} XP</p>
+              <p className="text-2xl font-bold text-primary">{formatNumber(data.xp)} XP</p>
               <p className="text-xs text-muted-foreground mt-1">
                 <span className="font-semibold text-primary">×{multiplier.toFixed(1)} {t('level.multiplier')}</span>
                 {' · '}
@@ -80,13 +80,13 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{data.xp.toLocaleString()} XP</span>
-              <span>{xpProgress.target.toLocaleString()} XP</span>
+              <span>{formatNumber(data.xp)} XP</span>
+              <span>{formatNumber(xpProgress.target)} XP</span>
             </div>
             <Progress id="coachmark-xp-bar" value={xpProgress.percent} className="h-3" />
             {xpProgress.nextLevelKey && (
               <p className="text-xs text-muted-foreground">
-                {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
+                {t('scores.missingFor')} <span className="font-bold text-primary">{formatNumber(xpProgress.remaining)} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
               </p>
             )}
           </div>
@@ -119,7 +119,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
           <div className="flex items-center gap-3">
             <Glyph emoji="⭐" className="w-8 h-8" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{data.rewardPoints.toLocaleString()} {t('scores.available')}</p>
+              <p className="text-2xl font-bold text-foreground">{formatNumber(data.rewardPoints)} {t('scores.available')}</p>
               <p className="text-xs text-muted-foreground">{planLabel}</p>
             </div>
           </div>

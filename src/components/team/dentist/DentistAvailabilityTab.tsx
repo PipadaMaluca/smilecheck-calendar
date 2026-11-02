@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -228,7 +229,7 @@ export function DentistAvailabilityTab() {
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr);
-    return d.toLocaleDateString('pt-PT', { day: 'numeric', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString(getActiveLocale(), { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
   const renderTimeCell = (dayIdx: number, period: 'morning' | 'afternoon' | 'evening', slot: TimeSlot) => {

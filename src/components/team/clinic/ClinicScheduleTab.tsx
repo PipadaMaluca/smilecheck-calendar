@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -116,7 +117,7 @@ export function ClinicScheduleTab() {
   const formatDateLabel = (iso: string) => {
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString(getActiveLocale(), { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   const saveClosure = () => {

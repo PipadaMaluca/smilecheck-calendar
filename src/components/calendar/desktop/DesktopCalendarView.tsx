@@ -1,4 +1,4 @@
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
@@ -421,7 +421,7 @@ export function DesktopCalendarView() {
     if (viewMode === 'month') {
       return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
-    return selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
 
   // Enforce single dentist for week/month
@@ -735,7 +735,7 @@ export function DesktopCalendarView() {
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-[50px] border border-secondary pb-[50px] px-[30px]">
               <span className="text-sm font-medium capitalize text-foreground">
-                {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />

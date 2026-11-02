@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Star, MapPin, Calendar, MessageCircle, Phone, Building2, User, Video, TrendingUp, Users, Stethoscope, GraduationCap, Languages, Lock, Check } from 'lucide-react';
@@ -253,7 +254,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         id: r.id,
         patientName: r.fromName || '—',
         rating: r.rating,
-        date: new Date(r.createdAt).toLocaleDateString(),
+        date: new Date(r.createdAt).toLocaleDateString(getActiveLocale()),
         comment: r.comment || '',
       }))
     : (CLINIC_REVIEWS[clinicId] || CLINIC_REVIEWS['1']);

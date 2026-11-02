@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent } from '@/components/ui/card';
@@ -39,7 +40,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
 
   // Calendar rendering
   const monthDate = new Date(2026, calendarMonth, 1);
-  const monthName = monthDate.toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
+  const monthName = monthDate.toLocaleDateString(getActiveLocale(), { month: 'long', year: 'numeric' });
   const daysInMonth = new Date(2026, calendarMonth + 1, 0).getDate();
   const firstDayOfWeek = (monthDate.getDay() + 6) % 7; // Monday = 0
   const todayDay = calendarMonth === 0 ? 31 : -1;
