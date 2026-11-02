@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -13,11 +14,24 @@ gsap.registerPlugin(ScrollTrigger);
  *  - data-reveal="image"   → 3D tilt + scale entrance
  *  - data-reveal="stagger" → stagger direct children
  * Optional: data-reveal-delay="200" (ms)
+ *
+ * Visibility rules:
+ *  - Elements already above the fold at mount only animate transform (never
+ *    start at opacity 0), so the hero is readable even if rAF is paused.
+ *  - After ~1.5 s any on-screen tween that hasn't finished is jumped to its end.
+ *  - Re-runs on language change; `data-reveal="words"` elements must carry
+ *    `key={i18n.language}` so React remounts them with fresh text to split.
  */
 export function useGsapReveals() {
+  const { i18n } = useTranslation();
+  const lang = i18n.language;
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const aboveFold = (el: Element) => el.getBoundingClientRect().top < window.innerHeight;
+    const fade = (el: Element) => (aboveFold(el) ? {} : { opacity: 0 });
+    const tweens: gsap.core.Tween[] = [];
 
     const ctx = gsap.context(() => {
       // Words variant — split each [data-reveal="words"] into word spans
@@ -52,29 +66,29 @@ export function useGsapReveals() {
         el.dataset.split = '1';
 
         const words = el.querySelectorAll('.reveal-word');
-        gsap.from(words, {
-          opacity: 0,
+        tweens.push(gsap.from(words, {
+          ...fade(el),
           y: 16,
           duration: 0.5,
           ease: 'power3.out',
           stagger: 0.06,
           scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-        });
+        }));
       });
 
       gsap.utils.toArray<HTMLElement>('[data-reveal="up"]').forEach((el) => {
         const delay = parseFloat(el.dataset.revealDelay || '0') / 1000;
-        gsap.from(el, {
-          opacity: 0, y: 24, duration: 0.7, ease: 'power3.out', delay,
+        tweens.push(gsap.from(el, {
+          ...fade(el), y: 24, duration: 0.7, ease: 'power3.out', delay,
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        });
+        }));
       });
 
       gsap.utils.toArray<HTMLElement>('[data-reveal="left"]').forEach((el) => {
-        gsap.from(el, {
-          opacity: 0, x: -30, duration: 0.6, ease: 'power3.out',
+        tweens.push(gsap.from(el, {
+          ...fade(el), x: -30, duration: 0.6, ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        });
+        }));
       });
 
       gsap.utils.toArray<HTMLElement>('[data-reveal="image"]').forEach((el) => {
@@ -89,18 +103,18 @@ export function useGsapReveals() {
 
       gsap.utils.toArray<HTMLElement>('[data-reveal="stagger"]').forEach((el) => {
         const children = Array.from(el.children) as HTMLElement[];
-        gsap.from(children, {
-          opacity: 0, x: -20, duration: 0.45, ease: 'power2.out', stagger: 0.08,
+        tweens.push(gsap.from(children, {
+          ...fade(el), x: -20, duration: 0.45, ease: 'power2.out', stagger: 0.08,
           scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        });
+        }));
       });
 
       gsap.utils.toArray<HTMLElement>('[data-reveal="cards"]').forEach((el) => {
         const children = Array.from(el.children) as HTMLElement[];
-        gsap.from(children, {
-          opacity: 0, y: 40, duration: 0.6, ease: 'power3.out', stagger: 0.15,
+        tweens.push(gsap.from(children, {
+          ...fade(el), y: 40, duration: 0.6, ease: 'power3.out', stagger: 0.15,
           scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-        });
+        }));
       });
 
       // Parallax on images
@@ -137,10 +151,20 @@ export function useGsapReveals() {
 
     // Refresh after fonts/layout settle
     const t = setTimeout(() => ScrollTrigger.refresh(), 200);
+    // Safety net: anything on screen whose animation hasn't finished becomes visible.
+    const fallback = setTimeout(() => {
+      tweens.forEach((tw) => {
+        const target = (tw.scrollTrigger?.trigger ?? (tw.targets()[0] as Element)) as Element | undefined;
+        if (!target || tw.progress() >= 1) return;
+        const r = target.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) tw.progress(1);
+      });
+    }, 1500);
 
     return () => {
       clearTimeout(t);
+      clearTimeout(fallback);
       ctx.revert();
     };
-  }, []);
+  }, [lang]);
 }
