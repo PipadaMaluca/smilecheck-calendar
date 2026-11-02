@@ -56,7 +56,7 @@ const NotFound = () => {
         <ToothSearchSVG />
 
         {/* 404 number */}
-        <p className="text-[64px] font-extrabold leading-none text-foreground/90 tracking-tight">
+        <p className="text-display-sm font-extrabold leading-none text-foreground/90 tracking-tight">
           404
         </p>
 

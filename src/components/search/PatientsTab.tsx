@@ -156,7 +156,7 @@ function PatientCard({
             <span className="text-xs text-muted-foreground shrink-0">({p.age} {t('search.yearsShort')})</span>
           </div>
           <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-            <span className={cn('text-[11px] font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
+            <span className={cn('text-2xs font-semibold px-1.5 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
               {t(levelCfg.labelKey)}
             </span>
             {p.rating !== null ? (
@@ -185,7 +185,7 @@ function PatientCard({
           <span className="truncate min-w-0" title={p.clinicName}>{p.clinicName}</span>
         </div>
         {userRole === 'clinic' && p.primaryDentistName && (
-          <div className="text-[11px] text-muted-foreground/80 italic truncate min-w-0" title={`${t('search.primaryDentist')}: ${p.primaryDentistName}`}>
+          <div className="text-2xs text-muted-foreground/80 italic truncate min-w-0" title={`${t('search.primaryDentist')}: ${p.primaryDentistName}`}>
             {t('search.primaryDentist')}: {p.primaryDentistName}
           </div>
         )}
@@ -194,7 +194,7 @@ function PatientCard({
       {p.alerts && p.alerts.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {p.alerts.map(a => (
-            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-destructive/15 text-destructive border border-destructive/30">
+            <span key={a} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-2xs font-semibold bg-destructive/15 text-destructive border border-destructive/30">
               <AlertTriangle className="w-2.5 h-2.5" /> {a}
             </span>
           ))}

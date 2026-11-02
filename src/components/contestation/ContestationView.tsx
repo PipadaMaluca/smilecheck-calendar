@@ -132,7 +132,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
             maxLength={500}
             className="min-h-[100px]"
           />
-          <p className="text-[11px] text-muted-foreground text-right">{explanation.length}/500 {t('contestation.characters')}</p>
+          <p className="text-2xs text-muted-foreground text-right">{explanation.length}/500 {t('contestation.characters')}</p>
         </div>
 
         {/* Documentos */}
@@ -144,7 +144,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
               <span className="hidden sm:inline">{t('contestation.dragFiles')}</span>
               <span className="sm:hidden">{t('contestation.dragFilesMobile')}</span>
             </p>
-            <p className="text-[11px] text-muted-foreground mt-1">{t('contestation.maxFiles')}</p>
+            <p className="text-2xs text-muted-foreground mt-1">{t('contestation.maxFiles')}</p>
           </div>
           {files.length > 0 && (
             <div className="space-y-1.5">
@@ -153,7 +153,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
                   <div className="flex items-center gap-2">
                     <FileText className="w-4 h-4 text-muted-foreground" />
                     <span className="text-xs text-foreground">{f.name}</span>
-                    <span className="text-[11px] text-muted-foreground">— {f.size}</span>
+                    <span className="text-2xs text-muted-foreground">— {f.size}</span>
                   </div>
                   <Button aria-label={t('a11y.close')} variant="ghost" size="icon" onClick={() => setFiles(files.filter((_, j) => j !== i))}>
                     <X className="w-4 h-4" />
@@ -171,7 +171,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
             <p className="text-xs text-blue-400">
               {t('contestation.infoReview')}
             </p>
-            <p className="text-[11px] text-blue-400/70">
+            <p className="text-2xs text-blue-400/70">
               {t('contestation.infoRejected')}
             </p>
           </div>

@@ -137,14 +137,14 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                   {isSunday && <Smartphone className="w-3 h-3 inline ml-1 text-primary" />}
                 </p>
                 {isSunday && (
-                  <p className="text-[11px] text-primary mb-1">
+                  <p className="text-2xs text-primary mb-1">
 <Glyph emoji="📱" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('search.sundayTeleconsultOnly')}</p>
                 )}
                 <div className="flex flex-wrap gap-1">
                   {day.slots.map((slot) => (
                     <button
                       key={slot}
-                      className="text-[11px] px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
+                      className="text-2xs px-2 py-1 rounded bg-primary/15 text-primary hover:bg-primary/25 transition-colors border border-primary/20"
                       onClick={(e) => {
                         e.stopPropagation();
                         if (onQuickBook) {
@@ -158,7 +158,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                     </button>
                   ))}
                   {day.slots.length === 0 && (
-                    <span className="text-[11px] text-muted-foreground">{t('sweep.dentistProfile.noSlots')}</span>
+                    <span className="text-2xs text-muted-foreground">{t('sweep.dentistProfile.noSlots')}</span>
                   )}
                 </div>
               </div>
@@ -192,7 +192,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">{review.comment}</p>
-              <p className="text-[11px] text-muted-foreground/60 mt-1">{review.date}</p>
+              <p className="text-2xs text-muted-foreground/60 mt-1">{review.date}</p>
             </div>
           ))}
         </div>

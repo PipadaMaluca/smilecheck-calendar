@@ -55,34 +55,34 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
   const renderSecondLine = () => (
     <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
       {catLabel && (
-        <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground leading-none whitespace-nowrap">
+        <span className="inline-flex items-center gap-1.5 text-2xs text-muted-foreground leading-none whitespace-nowrap">
           <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: catColor?.hex || 'hsl(var(--primary))' }} />
           {catLabel}
         </span>
       )}
       {userRole === 'clinic' && (
-        <ClickableDentistName name={score.dentistName} className="text-[11px] text-muted-foreground" />
+        <ClickableDentistName name={score.dentistName} className="text-2xs text-muted-foreground" />
       )}
       {!catLabel && !score.category && (
         <p className="text-xs text-muted-foreground truncate">{score.clinicName}</p>
       )}
       {isPending && (
-        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-amber-500/30 text-warning bg-amber-500/10">
+        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-amber-500/30 text-warning bg-amber-500/10">
           <Clock className="w-2.5 h-2.5 mr-0.5" /> {t('confirmationStates.pending')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints < 0 && (
-        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
+        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.missed')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints >= 0 && (
-        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
+        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
           <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.completed')}
         </Badge>
       )}
       {isExpired && (
-        <Badge variant="outline" className="text-[11px] px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
+        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.expired')}
         </Badge>
       )}
@@ -108,7 +108,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
           </div>
 
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-foreground whitespace-nowrap overflow-hidden text-ellipsis text-[12px] sm:text-[13px]">
+            <p className="font-medium text-foreground whitespace-nowrap overflow-hidden text-ellipsis text-xs sm:text-sm">
               {dateStr} — {renderPrimaryName()}
             </p>
             {renderSecondLine()}
@@ -117,7 +117,7 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
           <div className="flex items-center gap-2 flex-shrink-0" style={{ minWidth: 55 }}>
             <div className="flex flex-col items-end gap-0.5">
               {score.totalPoints > 0 && (
-                <span className="text-[11px] font-bold text-primary">+{score.totalPoints} XP</span>
+                <span className="text-2xs font-bold text-primary">+{score.totalPoints} XP</span>
               )}
               <Badge
                 variant="outline"

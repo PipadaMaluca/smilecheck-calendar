@@ -265,10 +265,10 @@ export function DentistAvailabilityTab() {
             />
           </div>
           <div className="flex gap-1">
-            <Button aria-label={t('a11y.confirm')} size="sm" variant="ghost" className="h-6 text-[11px] flex-1" onClick={() => setEditingCell(null)}>
+            <Button aria-label={t('a11y.confirm')} size="sm" variant="ghost" className="h-6 text-2xs flex-1" onClick={() => setEditingCell(null)}>
               <Check className="w-3.5 h-3.5" />
             </Button>
-            <Button aria-label={t('a11y.close')} size="sm" variant="ghost" className="h-6 text-[11px] text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
+            <Button aria-label={t('a11y.close')} size="sm" variant="ghost" className="h-6 text-2xs text-destructive flex-1" onClick={() => togglePeriod(dayIdx, period)}>
               <X className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -333,7 +333,7 @@ export function DentistAvailabilityTab() {
         </CardHeader>
         <CardContent>
           {/* Desktop header */}
-          <div className="hidden sm:grid grid-cols-4 gap-2 text-[11px] font-medium text-muted-foreground mb-2 px-1">
+          <div className="hidden sm:grid grid-cols-4 gap-2 text-2xs font-medium text-muted-foreground mb-2 px-1">
             <span>{t('team.day')}</span>
             <span className="text-center">
 <Glyph emoji="☀️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('availability.morning')}</span>
@@ -360,7 +360,7 @@ export function DentistAvailabilityTab() {
                       {t(day.dayKey)}
                     </span>
                     {off && (
-                      <Badge variant="outline" className="text-[11px] bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
+                      <Badge variant="outline" className="text-2xs bg-destructive/10 text-destructive border-destructive/30 sm:ml-2">
                         {t('team.closed')}
                       </Badge>
                     )}
@@ -370,7 +370,7 @@ export function DentistAvailabilityTab() {
                   <div className="sm:hidden space-y-2">
                     {(['morning', 'afternoon', 'evening'] as const).map(period => (
                       <div key={period} className="flex items-center gap-2">
-                        <span className="text-[11px] text-muted-foreground w-16 flex-shrink-0">
+                        <span className="text-2xs text-muted-foreground w-16 flex-shrink-0">
                           {period === 'morning' ? t('availability.morning') :
                            period === 'afternoon' ? t('availability.afternoon') :
                            t('availability.eveningShort')}

@@ -71,7 +71,7 @@ export function AgendaFilterGroups({ className, compact }: AgendaFilterGroupsPro
 
   const padding = compact ? 'px-3 py-2.5' : 'px-4 py-3';
   const itemPadding = compact ? 'py-1.5 pl-6 pr-3' : 'py-2 pl-6 pr-4';
-  const labelSize = compact ? 'text-xs' : 'text-[13px]';
+  const labelSize = compact ? 'text-xs' : 'text-sm';
   const headerSize = compact ? 'text-xs' : 'text-sm';
 
   return (

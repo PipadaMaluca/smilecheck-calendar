@@ -66,7 +66,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       {/* === Hero: Next appointment (mobile only) === */}
       {next ? (
         <div className="md:hidden">
-        <p className="text-[11px] text-muted-foreground mb-1.5 mt-4 px-0.5 uppercase tracking-[0.5px]">
+        <p className="text-2xs text-muted-foreground mb-1.5 mt-4 px-0.5 uppercase tracking-[0.5px]">
           {t('dashboard.nextConsultation')}
         </p>
         <button
@@ -77,15 +77,15 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
           <div className="flex-1 min-w-0 pl-2 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[13px] font-bold text-foreground tabular-nums flex-shrink-0">
+              <span className="text-sm font-bold text-foreground tabular-nums flex-shrink-0">
                 {next.time}
               </span>
-              <span className="text-[13px] text-foreground truncate min-w-0">
+              <span className="text-sm text-foreground truncate min-w-0">
                 · {next.name}
               </span>
             </div>
             {next.category && (
-              <span className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground self-start">
+              <span className="inline-flex items-center gap-1.5 text-2xs text-muted-foreground self-start">
                 <span aria-hidden className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: next.catColor }} />
                 <span className="truncate">{next.catLabel}</span>
               </span>
@@ -93,11 +93,11 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           </div>
           <div className="flex items-center pr-3 flex-shrink-0">
             {!next.isToday ? null : next.countdownMin === 0 ? (
-              <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+              <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-2xs font-semibold">
                 {t('dashboard.nowBadge')}
               </span>
             ) : (
-              <span className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
+              <span className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-2xs font-semibold whitespace-nowrap">
                 {next.countdownMin >= 60
                   ? t('dashboard.inHours', { count: Math.round(next.countdownMin / 60) })
                   : t('dashboard.inMinutes', { count: next.countdownMin })}
@@ -107,7 +107,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
         </button>
         </div>
       ) : (
-        <div className="md:hidden w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-[13px] text-muted-foreground">
+        <div className="md:hidden w-full h-[64px] flex items-center justify-center bg-muted/30 border border-border rounded-xl text-sm text-muted-foreground">
           {t('dashboard.noConsultations')}
         </div>
       )}
@@ -115,7 +115,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       {/* === Hero: Next appointment (TABLET only — merged single-row card) === */}
       {next ? (
         <div className="hidden md:block lg:hidden">
-          <p className="text-[11px] text-muted-foreground mb-1.5 px-0.5">
+          <p className="text-2xs text-muted-foreground mb-1.5 px-0.5">
             {t('dashboard.nextConsultation')}
           </p>
           <button
@@ -126,10 +126,10 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
             <span aria-hidden className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: next.catColor }} />
             <div className="flex-1 min-w-0 px-4 flex items-center gap-3">
               <div className="flex items-center gap-2 min-w-0 flex-1">
-                <span className="text-[15px] font-bold text-foreground tabular-nums flex-shrink-0">
+                <span className="text-base font-bold text-foreground tabular-nums flex-shrink-0">
                   {next.time}
                 </span>
-                <span className="text-[15px] font-bold text-foreground truncate min-w-0">
+                <span className="text-base font-bold text-foreground truncate min-w-0">
                   · {next.name}
                 </span>
               </div>
@@ -141,11 +141,11 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               )}
               <div className="flex-shrink-0">
                 {!next.isToday ? null : next.countdownMin === 0 ? (
-                  <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+                  <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-2xs font-semibold">
                     {t('dashboard.nowBadge')}
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
+                  <span className="px-2.5 py-1 rounded-full bg-muted text-muted-foreground text-2xs font-semibold whitespace-nowrap">
                     {next.countdownMin >= 60
                   ? t('dashboard.inHours', { count: Math.round(next.countdownMin / 60) })
                   : t('dashboard.inMinutes', { count: next.countdownMin })}
@@ -163,10 +163,10 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
-          <span className="text-[11px] text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
+          <span className="text-2xs text-muted-foreground leading-none">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex items-center gap-1 min-w-0">
             <LevelIcon levelKey={level.key} size={14} />
-            <span className="text-[12px] font-bold text-foreground truncate">
+            <span className="text-xs font-bold text-foreground truncate">
               {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
             </span>
           </div>
@@ -179,7 +179,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               style={{ width: `${xpProgress.percent}%` }}
             />
           </div>
-          <div className="flex items-center justify-between text-[11px] text-muted-foreground tabular-nums leading-none">
+          <div className="flex items-center justify-between text-2xs text-muted-foreground tabular-nums leading-none">
             <span>{points.xp} XP</span>
             <span>×{formatDecimal1(multiplier)}</span>
           </div>
@@ -188,10 +188,10 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
-          <span className="text-[11px] text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
+          <span className="text-2xs text-muted-foreground leading-none">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1 flex-1">
             <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 flex-shrink-0" />
-            <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
+            <span className="text-xs font-bold text-foreground tabular-nums truncate">
               {points.rewardPoints} pts
             </span>
           </div>
@@ -200,10 +200,10 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
-          <span className="text-[11px] text-muted-foreground leading-none">{t('i18nC.streak')}</span>
+          <span className="text-2xs text-muted-foreground leading-none">{t('i18nC.streak')}</span>
           <div className="flex items-center gap-1 flex-1">
             <Flame className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
-            <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
+            <span className="text-xs font-bold text-foreground tabular-nums truncate">
               {t('scores.days', { count: points.streak })}
             </span>
           </div>
@@ -216,17 +216,17 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
-          <span className="text-[11px] text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
+          <span className="text-2xs text-muted-foreground">{t('scores.levelXp', 'Nível e XP')}</span>
           <div className="flex flex-col gap-1.5 min-w-0 flex-1 justify-center">
             <div className="flex items-center min-w-0">
               <div className="flex items-center gap-1.5 min-w-0 flex-1">
                 <LevelIcon levelKey={level.key} size={25} />
-                <span className="text-[20px] font-bold text-foreground truncate">
+                <span className="text-xl font-bold text-foreground truncate">
                   {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
                 </span>
               </div>
-              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0 mx-2">{points.xp} XP</span>
-              <span className="text-[13px] text-muted-foreground tabular-nums flex-shrink-0">×{formatDecimal1(multiplier)}</span>
+              <span className="text-sm text-muted-foreground tabular-nums flex-shrink-0 mx-2">{points.xp} XP</span>
+              <span className="text-sm text-muted-foreground tabular-nums flex-shrink-0">×{formatDecimal1(multiplier)}</span>
             </div>
             <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
               <div
@@ -243,27 +243,27 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
-          <span className="text-[11px] text-muted-foreground">{t('scores.points', 'Pontos')}</span>
+          <span className="text-2xs text-muted-foreground">{t('scores.points', 'Pontos')}</span>
           <div className="flex items-center gap-1.5">
             <Star className="w-[18px] h-[18px] text-amber-500 fill-amber-500" />
-            <span className="text-[16px] font-bold text-foreground tabular-nums">
+            <span className="text-base font-bold text-foreground tabular-nums">
               {points.rewardPoints} pts
             </span>
           </div>
-          <span className="text-[11px] text-muted-foreground">{t('nav.scores')}</span>
+          <span className="text-2xs text-muted-foreground">{t('nav.scores')}</span>
         </button>
         <button
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
-          <span className="text-[11px] text-muted-foreground">{t('i18nC.streak')}</span>
+          <span className="text-2xs text-muted-foreground">{t('i18nC.streak')}</span>
           <div className="flex items-center gap-1.5">
             <Flame className="w-[18px] h-[18px] text-orange-500" />
-            <span className="text-[16px] font-bold text-foreground tabular-nums">
+            <span className="text-base font-bold text-foreground tabular-nums">
               {t('scores.days', { count: points.streak })}
             </span>
           </div>
-          <span className="text-[11px] text-muted-foreground">{t('scores.bestStreak')}: {points.bestStreak}</span>
+          <span className="text-2xs text-muted-foreground">{t('scores.bestStreak')}: {points.bestStreak}</span>
         </button>
       </div>
 
@@ -282,7 +282,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               )}
             >
               <Icon className="w-4 h-4 text-primary flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-none truncate max-w-full px-1">{p.label}</span>
+              <span className="text-2xs font-medium leading-none truncate max-w-full px-1">{p.label}</span>
             </button>
           );
         })}
@@ -303,7 +303,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               )}
             >
               <Icon className="w-5 h-5 text-primary flex-shrink-0" />
-              <span className="text-[11px] font-medium leading-none text-foreground text-center max-w-full truncate">{p.label}</span>
+              <span className="text-2xs font-medium leading-none text-foreground text-center max-w-full truncate">{p.label}</span>
             </button>
           );
         })}

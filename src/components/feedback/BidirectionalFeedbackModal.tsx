@@ -92,7 +92,7 @@ export function BidirectionalFeedbackModal({
             </div>
             <div className="flex flex-col items-start">
               <span>{t('bidirectionalFeedback.rate')} {targetName}</span>
-              <Badge variant="outline" className="text-[11px] mt-0.5 font-normal">
+              <Badge variant="outline" className="text-2xs mt-0.5 font-normal">
                 {t(roleBadgeKey)}
               </Badge>
             </div>
@@ -139,7 +139,7 @@ export function BidirectionalFeedbackModal({
                 <p className="text-xs text-muted-foreground">
                   {t('bidirectionalFeedback.willGive', { points: targetPoints, name: targetName })}
                 </p>
-                <p className="text-[11px] text-emerald-500">
+                <p className="text-2xs text-emerald-500">
                   +{FEEDBACK_GIVER_REWARD} pts {t('bidirectionalFeedback.giverReward')}
                 </p>
               </>
@@ -159,7 +159,7 @@ export function BidirectionalFeedbackModal({
               className="resize-none"
               rows={3}
             />
-            <div className="flex justify-end text-[11px] text-muted-foreground">
+            <div className="flex justify-end text-2xs text-muted-foreground">
               {comment.length}/{COMMENT_LIMIT}
             </div>
           </div>

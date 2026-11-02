@@ -202,22 +202,22 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 {/* Mini cards */}
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[11px] text-muted-foreground">{t('dossier.bloodType')}</p>
+                    <p className="text-2xs text-muted-foreground">{t('dossier.bloodType')}</p>
                     <p className="font-bold text-base mt-0.5">{data.bloodType}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[11px] text-muted-foreground">{t('dossier.height')}</p>
+                    <p className="text-2xs text-muted-foreground">{t('dossier.height')}</p>
                     <p className="font-bold text-base mt-0.5">{data.height}</p>
                   </div>
                   <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
-                    <p className="text-[11px] text-muted-foreground">{t('dossier.weight')}</p>
+                    <p className="text-2xs text-muted-foreground">{t('dossier.weight')}</p>
                     <p className="font-bold text-base mt-0.5">{data.weight}</p>
                   </div>
                 </div>
                 <Separator className="my-1" />
                 {/* Condições Médicas */}
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">{t('dossier.medicalConditions')}</h4>
+                  <h4 className="text-2xs font-semibold text-muted-foreground uppercase">{t('dossier.medicalConditions')}</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {data.conditions.map((c: string) => (
                       <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground">{c}</span>
@@ -227,7 +227,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <Separator className="my-1" />
                 {/* Alergias */}
                 <div className={cn('space-y-2 rounded-lg p-2.5', data.allergies.length > 0 ? 'bg-destructive/5 border border-destructive/20' : '')}>
-                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
+                  <h4 className="text-2xs font-semibold text-muted-foreground uppercase flex items-center gap-1.5">
                     {data.allergies.length > 0 && <AlertTriangle className="w-3.5 h-3.5 text-destructive" />}
                     {t('dossier.allergies')}
                   </h4>
@@ -241,7 +241,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <Separator className="my-1" />
                 {/* Vacinas */}
                 <div className="space-y-2">
-                  <h4 className="text-[11px] font-semibold text-muted-foreground uppercase">{t('dossier.vaccines')}</h4>
+                  <h4 className="text-2xs font-semibold text-muted-foreground uppercase">{t('dossier.vaccines')}</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {data.vaccines.map((v: string) => (
                       <span key={v} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 text-primary">{v}</span>
@@ -272,19 +272,19 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                               </p>
                               <p className="text-xs text-muted-foreground mt-0.5">{alert.description}</p>
                             </div>
-                            <span className={cn('text-[11px] font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
+                            <span className={cn('text-2xs font-medium px-1.5 py-0.5 rounded', sev.bg, sev.text)}>{sev.label}</span>
                           </div>
                           {isAck ? (
-                            <p className="text-[11px] text-success mt-1.5 flex items-center gap-1">
+                            <p className="text-2xs text-success mt-1.5 flex items-center gap-1">
                               <Check className="w-3 h-3" /> {t('dossier.verifiedBy')} Dr. Gonçalo Pipo — 31 Jan 2026
                             </p>
                           ) : (isDentist || isClinic) && (
                             <div className="flex items-center gap-2 mt-2">
-                              <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-success hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
+                              <Button size="sm" variant="ghost" className="h-6 text-2xs gap-1 text-success hover:text-emerald-300" onClick={() => handleAcknowledge(alert.id)}>
                                 <Check className="w-3 h-3" /> {t('dossier.confirm')}
                               </Button>
                               <div className="relative">
-                                <Button size="sm" variant="ghost" className="h-6 text-[11px] gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
+                                <Button size="sm" variant="ghost" className="h-6 text-2xs gap-1 text-muted-foreground" onClick={() => setShowIgnoreDropdown(showIgnoreDropdown === alert.id ? null : alert.id)}>
                                   <SkipForward className="w-3 h-3" /> {t('dossier.ignore')}
                                 </Button>
                                 {showIgnoreDropdown === alert.id && (
@@ -380,13 +380,13 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                             <span className="text-sm font-medium">{c.date} — {c.time}</span>
                             <div className="flex items-center gap-1.5">
                               {c.hasPrescription && <FileText className="w-3 h-3 text-primary" />}
-                              <span className="text-[11px] text-muted-foreground">{translateRawValue(t, c.status)}</span>
+                              <span className="text-2xs text-muted-foreground">{translateRawValue(t, c.status)}</span>
                               {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">
                             <span
-                              className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                              className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap"
                               style={{ ...getCategoryBadgeStyle(catColor?.hex || '#9E9E9E'), padding: '2px 10px' }}
                             >{c.category ? translateRawValue(t, c.category) : c.type}</span>
                             {userRole !== 'dentist' && <> • <ClickableDentistName name={c.dentist} className="text-xs text-muted-foreground" /></>}
@@ -414,10 +414,10 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.documents')}</h3>
               <Tabs defaultValue="receitas">
                 <TabsList className="bg-secondary/50 h-8">
-                  <TabsTrigger value="receitas" className="text-[11px] h-6">{t('dossier.receipts')}</TabsTrigger>
-                  <TabsTrigger value="cartas" className="text-[11px] h-6">{t('dossier.letters')}</TabsTrigger>
-                  <TabsTrigger value="exames" className="text-[11px] h-6">{t('dossier.exams')}</TabsTrigger>
-                  <TabsTrigger value="outros" className="text-[11px] h-6">{t('dossier.others')}</TabsTrigger>
+                  <TabsTrigger value="receitas" className="text-2xs h-6">{t('dossier.receipts')}</TabsTrigger>
+                  <TabsTrigger value="cartas" className="text-2xs h-6">{t('dossier.letters')}</TabsTrigger>
+                  <TabsTrigger value="exames" className="text-2xs h-6">{t('dossier.exams')}</TabsTrigger>
+                  <TabsTrigger value="outros" className="text-2xs h-6">{t('dossier.others')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="receitas" className="space-y-2 mt-2">
                   {data.prescriptions.map((rx: any) => (
@@ -427,7 +427,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                         <p className="text-xs text-muted-foreground"><ClickableDentistName name={rx.dentist} className="text-xs text-muted-foreground" /></p>
                         <p className="text-xs text-muted-foreground mt-0.5 truncate">{rx.medications.join(', ')}</p>
                       </div>
-                      <Button variant="ghost" size="sm" className="gap-1 text-[11px] shrink-0" onClick={() => setPreviewPrescription(rx)}>
+                      <Button variant="ghost" size="sm" className="gap-1 text-2xs shrink-0" onClick={() => setPreviewPrescription(rx)}>
                         <Eye className="w-3 h-3" /> {t('dossier.view')}
                       </Button>
                     </div>
@@ -454,14 +454,14 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('dossier.xraysAndImages')}</h3>
-                <Button size="sm" variant="secondary" className="gap-1.5 text-[11px]" onClick={() => setShowUploadModal(true)}>
+                <Button size="sm" variant="secondary" className="gap-1.5 text-2xs" onClick={() => setShowUploadModal(true)}>
                   <Upload className="w-3 h-3" /> {t('dossier.upload')}
                 </Button>
               </div>
               <Tabs defaultValue="radiografias">
                 <TabsList className="bg-secondary/50 h-8">
-                  <TabsTrigger value="radiografias" className="text-[11px] h-6">{t('dossier.xrays')}</TabsTrigger>
-                  <TabsTrigger value="fotos" className="text-[11px] h-6">{t('dossier.photos')}</TabsTrigger>
+                  <TabsTrigger value="radiografias" className="text-2xs h-6">{t('dossier.xrays')}</TabsTrigger>
+                  <TabsTrigger value="fotos" className="text-2xs h-6">{t('dossier.photos')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="radiografias" className="mt-2">
                   <div className="grid grid-cols-2 gap-3">
@@ -471,7 +471,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           <Camera className="w-6 h-6 text-muted-foreground/30" />
                         </div>
                         <p className="text-xs font-medium truncate">{img.category}</p>
-                        <p className="text-[11px] text-muted-foreground">{img.date}</p>
+                        <p className="text-2xs text-muted-foreground">{img.date}</p>
                       </button>
                     ))}
                   </div>
@@ -484,7 +484,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                           <Camera className="w-6 h-6 text-muted-foreground/30" />
                         </div>
                         <p className="text-xs font-medium truncate">{img.category}</p>
-                        <p className="text-[11px] text-muted-foreground">{img.date}</p>
+                        <p className="text-2xs text-muted-foreground">{img.date}</p>
                       </button>
                     ))}
                   </div>

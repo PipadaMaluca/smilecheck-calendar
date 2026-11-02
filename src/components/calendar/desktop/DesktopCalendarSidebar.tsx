@@ -164,7 +164,7 @@ export function DesktopCalendarSidebar({
           {weekDays.map((d, i) => (
             <div
               key={`${d}-${i}`}
-              className="text-center text-[11px] font-medium text-muted-foreground py-0.5"
+              className="text-center text-2xs font-medium text-muted-foreground py-0.5"
             >
               {d}
             </div>
@@ -184,7 +184,7 @@ export function DesktopCalendarSidebar({
                 key={idx}
                 onClick={() => onDateSelect(date)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center w-6 h-6 rounded text-[11px] transition-colors',
+                  'relative flex flex-col items-center justify-center w-6 h-6 rounded text-2xs transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
                   isCurrentMonth && 'text-foreground hover:bg-[#152238]',
                   isToday && 'bg-primary text-primary-foreground font-semibold',
@@ -340,7 +340,7 @@ export function DesktopCalendarSidebar({
                           {dentist.name}{isSelfLabel ? ` ${t('sweep.calendarSidebar.me')}` : ''}
                           {!worksOnDemo && ' •'}
                         </span>
-                        <span className="text-[11px] text-muted-foreground">
+                        <span className="text-2xs text-muted-foreground">
                           {dentist.workingHours || t('sweep.calendarSidebar.defaultHours')}
                         </span>
                       </button>
@@ -372,7 +372,7 @@ export function DesktopCalendarSidebar({
 
       {/* Footer */}
       <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
-        <p className="text-[11px] text-muted-foreground">SmileCheck © 2026</p>
+        <p className="text-2xs text-muted-foreground">SmileCheck © 2026</p>
       </div>
       </div>
     </aside>

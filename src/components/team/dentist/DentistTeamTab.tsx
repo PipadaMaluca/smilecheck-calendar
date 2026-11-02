@@ -99,14 +99,14 @@ export function DentistTeamTab() {
                                 {[1, 2, 3, 4, 5].map((i) => (
                                   <Star key={i} className={cn('w-3 h-3', i <= Math.round(extras.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')} />
                                 ))}
-                                <span className="text-[11px] text-muted-foreground ml-0.5">{formatDecimal1(extras.rating)}</span>
+                                <span className="text-2xs text-muted-foreground ml-0.5">{formatDecimal1(extras.rating)}</span>
                               </div>
-                              <Badge variant="outline" className={cn('text-[11px] px-1.5 py-0', levelColors[extras.level])}>
+                              <Badge variant="outline" className={cn('text-2xs px-1.5 py-0', levelColors[extras.level])}>
                                 <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[extras.level] || extras.level)}
                               </Badge>
                             </div>
                             {extras.scheduleSummary && (
-                              <p className="text-[11px] text-muted-foreground mt-1">
+                              <p className="text-2xs text-muted-foreground mt-1">
 <Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{extras.scheduleSummary}</p>
                             )}
                           </div>

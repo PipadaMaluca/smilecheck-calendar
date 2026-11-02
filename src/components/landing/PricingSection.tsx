@@ -66,7 +66,7 @@ export function PricingSection() {
     <section id="planos" className="py-8 sm:py-12 md:py-[60px] px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
-          <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
+          <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
           <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
           <div className="inline-flex flex-wrap items-center justify-center gap-2">
@@ -194,10 +194,10 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
       <h3 className="text-xl font-bold text-[#1A202C] dark:text-white mb-2">{plan.name}</h3>
       <div className="mb-6">
         {price === 0 ? (
-          <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
+          <span className="text-4xl leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
         ) : (
           <>
-            <span className="text-[40px] leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price)}</span>
+            <span className="text-4xl leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price)}</span>
             <span className="text-sm text-[#4A5568] dark:text-[#94A3B8] ml-1">{t('landing.pricing.perMonth')}</span>
           </>
         )}

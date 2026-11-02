@@ -253,7 +253,7 @@ export function ManagePlanView({
           <p className="text-xs sm:text-sm text-muted-foreground">{t('plan.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          <Badge className="bg-amber-500/20 text-warning border-amber-500/30 text-[11px]">
+          <Badge className="bg-amber-500/20 text-warning border-amber-500/30 text-2xs">
             {currentPlanName ?? (currentPlan === 'premium' ? 'Premium' : currentPlan === 'pro' ? 'Pro' : t('plan.tiers.free'))}
           </Badge>
           {currentPriceLabel && (
@@ -359,7 +359,7 @@ export function ManagePlanView({
 
               {badgeText &&
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-amber-500 text-white border-0 text-[11px] px-3">
+                  <Badge className="bg-amber-500 text-white border-0 text-2xs px-3">
                     {badgeText}
                   </Badge>
                 </div>
@@ -378,18 +378,18 @@ export function ManagePlanView({
                     'text-muted-foreground'
                   )} />
                 </div>
-                <CardTitle className="text-[18px] font-bold">{displayName}</CardTitle>
+                <CardTitle className="text-lg font-bold">{displayName}</CardTitle>
                 <div className="mt-0.5">
                   <span className={cn(
                     'font-bold text-foreground text-center',
-                    isAnnual && plan.monthlyPrice > 0 ? 'text-xl' : 'text-[28px] leading-none'
+                    isAnnual && plan.monthlyPrice > 0 ? 'text-xl' : 'text-3xl leading-none'
                   )}>
                     {price.main}
                   </span>
                   {price.sub &&
                   <span className={cn(
                     'text-muted-foreground',
-                    isAnnual && plan.monthlyPrice > 0 ? 'block text-xs mt-0.5' : 'text-[13px] ml-1'
+                    isAnnual && plan.monthlyPrice > 0 ? 'block text-xs mt-0.5' : 'text-sm ml-1'
                   )}>
                       {price.sub}
                     </span>
@@ -400,7 +400,7 @@ export function ManagePlanView({
                 <div className="space-y-1 flex-1">
                   {/* Included features */}
                   {visibleIncluded.map((feat, i) =>
-                  <div key={i} className={cn('flex items-start gap-1.5 text-[12px] leading-[1.4]', feat.isInherited && 'mb-0.5')}>
+                  <div key={i} className={cn('flex items-start gap-1.5 text-xs leading-[1.4]', feat.isInherited && 'mb-0.5')}>
                       {feat.isInherited ?
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey, feat.params)}</span> :
                     <>
@@ -414,7 +414,7 @@ export function ManagePlanView({
                     <button
                       type="button"
                       onClick={() => setExpandedFeatures(prev => ({ ...prev, [plan.id]: !isExpanded }))}
-                      className="flex items-center gap-1 text-[12px] text-primary hover:underline pt-1"
+                      className="flex items-center gap-1 text-xs text-primary hover:underline pt-1"
                     >
                       {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                       {isExpanded ? t('plan.showLess', { defaultValue: 'Ver menos' }) : t('plan.showAllFeatures', { defaultValue: `Ver todas (+${hiddenCount})`, count: hiddenCount })}
@@ -426,7 +426,7 @@ export function ManagePlanView({
                   <div className="mt-2 space-y-1">
                       <div className="rounded-md bg-amber-500/10 border border-amber-500/20 px-2 py-1.5">
                         {warningFeatures.map((feat, i) =>
-                        <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
+                        <div key={i} className="flex items-start gap-1.5 text-xs leading-[1.4]">
                           <AlertTriangle className="w-3.5 h-3.5 text-warning flex-shrink-0 mt-0.5" />
                           <span className="text-warning font-medium">{t(feat.textKey, feat.params)}</span>
                         </div>
@@ -439,7 +439,7 @@ export function ManagePlanView({
                   {excludedFeatures.length > 0 &&
                   <div className="mt-1.5 space-y-1">
                       {excludedFeatures.map((feat, i) =>
-                    <div key={i} className="flex items-start gap-1.5 text-[12px] leading-[1.4]">
+                    <div key={i} className="flex items-start gap-1.5 text-xs leading-[1.4]">
                           <X className="w-3.5 h-3.5 text-[#EF5350] flex-shrink-0 mt-0.5" />
                           <span className="text-muted-foreground line-through">{t(feat.textKey, feat.params)}</span>
                         </div>

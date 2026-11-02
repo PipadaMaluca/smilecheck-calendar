@@ -202,7 +202,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                           key={day}
                           variant={weekdays.includes(idx) ? 'default' : 'outline'}
                           size="sm"
-                          className="text-[11px] h-7 w-8 p-0"
+                          className="text-2xs h-7 w-8 p-0"
                           onClick={() => setWeekdays(prev => prev.includes(idx) ? prev.filter(d => d !== idx) : [...prev, idx])}
                         >
                           {day}
@@ -272,7 +272,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                 </button>
               ))}
             </div>
-            <p className="text-[11px] text-muted-foreground mt-2">{t('creationTabs.planColorNote')}</p>
+            <p className="text-2xs text-muted-foreground mt-2">{t('creationTabs.planColorNote')}</p>
           </section>
         </div>
       </div>

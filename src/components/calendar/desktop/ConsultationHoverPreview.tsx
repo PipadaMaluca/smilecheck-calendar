@@ -44,7 +44,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
             {getCategoryLabel(t, category)}
             {emoji && <Glyph emoji={emoji} className="w-3.5 h-3.5" />}
           </span>
-          <div className="text-[13px] sentence-case text-[#64748B] dark:text-[#94A3B8]">
+          <div className="text-sm sentence-case text-[#64748B] dark:text-[#94A3B8]">
             {format(consultation.date, 'EEE d MMM', { locale })}
           </div>
           <div className="text-base font-bold text-[#0F172A] dark:text-[#E2E8F0]">
@@ -57,13 +57,13 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
             <User className="h-4 w-4 flex-shrink-0" />
             <span>{consultation.patient.name}</span>
           </div>
-          <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">{consultation.patient.phone}</div>
-          <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">
+          <div className="text-sm text-[#64748B] dark:text-[#94A3B8]">{consultation.patient.phone}</div>
+          <div className="text-sm text-[#64748B] dark:text-[#94A3B8]">
             {consultation.patient.dateOfBirth || '—'}{consultation.patient.age ? ` (${t('i18nB.age', { count: consultation.patient.age })})` : ''}
           </div>
         </section>
 
-        <section className="pt-4 text-[13px] font-semibold">
+        <section className="pt-4 text-sm font-semibold">
           {isConfirmed ? (
             <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> {t('i18nB.confirmed')}</span>
           ) : (
@@ -77,7 +77,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
           </p>
         </section>
 
-        <section className="space-y-1 pt-4 text-[13px] text-[#64748B] dark:text-[#94A3B8]">
+        <section className="space-y-1 pt-4 text-sm text-[#64748B] dark:text-[#94A3B8]">
           <div className="font-semibold text-[#0F172A] dark:text-[#E2E8F0]">{consultation.dentist.name}</div>
           <div>{consultation.clinic.name}</div>
         </section>

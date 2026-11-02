@@ -35,7 +35,7 @@ export function DateNavigator({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <h2 className="text-base max-[499px]:text-[15px] font-semibold sentence-case text-center flex-1 px-2">
+        <h2 className="text-base max-[499px]:text-base font-semibold sentence-case text-center flex-1 px-2">
           {format(date, "EEEE, d MMMM", { locale })}
         </h2>
         <Button aria-label={t('a11y.next')}

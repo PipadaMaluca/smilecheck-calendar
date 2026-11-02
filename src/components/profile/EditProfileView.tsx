@@ -174,7 +174,7 @@ function DentistJobToggles() {
             <Label className="text-xs">{t('editProfile.additionalNote')}</Label>
             <Textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder={t('editProfile.additionalInfo')} />
           </div>
-          <p className="text-[11px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+          <p className="text-2xs text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
             {t('editProfile.visibleToClinics')}
           </p>
         </div>
@@ -266,7 +266,7 @@ function ClinicJobToggles() {
             <Label className="text-xs">{t('editProfile.jobDescription')}</Label>
             <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder={t('editProfile.jobDescPlaceholder')} />
           </div>
-          <p className="text-[11px] text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
+          <p className="text-2xs text-muted-foreground bg-amber-500/10 border border-amber-500/20 rounded-lg p-2">
             {t('editProfile.visibleToDentists')}
           </p>
         </div>

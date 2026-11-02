@@ -312,7 +312,7 @@ export function FavoritesView({
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
-                      <span className={cn('text-[11px] font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
+                      <span className={cn('text-2xs font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
                         {t(levelCfg.labelKey)}
                       </span>
                     </div>

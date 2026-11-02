@@ -78,7 +78,7 @@ export function ConsultationFAB({
   // Flush bottom-right corner. On mobile/tablet sit above bottom nav (~64px + 8px); on desktop, 8px from edge.
   return (
     <div
-      className="fixed z-[45] right-3 bottom-16 lg:bottom-2"
+      className="fixed z-floating right-3 bottom-16 lg:bottom-2"
       style={{
         paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}

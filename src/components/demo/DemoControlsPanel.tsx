@@ -56,7 +56,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-[26px] rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
+    'flex-1 h-[26px] rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
   const active = 'bg-card text-foreground shadow-sm';
   const inactive = 'bg-transparent text-muted-foreground hover:text-foreground';
 

@@ -31,8 +31,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
   const renderToggleGroup = (size: 'sm' | 'md') => {
     const btn =
       size === 'sm'
-        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-[11px] font-semibold transition-colors flex items-center justify-center'
-        : 'h-7 min-w-[32px] px-2 rounded-lg text-[11px] font-semibold transition-colors flex items-center justify-center';
+        ? 'h-[26px] min-w-[28px] px-1.5 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center'
+        : 'h-7 min-w-[32px] px-2 rounded-lg text-2xs font-semibold transition-colors flex items-center justify-center';
     const containerPad = size === 'sm' ? 'px-1.5 py-[3px]' : 'px-2 py-1';
     const dividerH = size === 'sm' ? 'h-[14px] mx-2' : 'h-5 mx-[10px]';
     const iconSize = size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5';
@@ -146,7 +146,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <button
                 onClick={() => navigate('/login')}
                 className={cn(
-                  'text-[13px] font-medium transition-colors whitespace-nowrap',
+                  'text-sm font-medium transition-colors whitespace-nowrap',
                   isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
                 )}
               >
@@ -155,7 +155,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <Button
                 size="sm"
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[13px] font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
+                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-sm font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
               >
                 {t('landing.navbar.signup')}
               </Button>

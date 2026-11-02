@@ -124,7 +124,7 @@ export function AvailabilityGridStep({
   const renderSlotCell = (dayIdx: number, date: Date, time: string) => {
     if (isLunch(time)) {
       return (
-        <div className="h-9 rounded-md bg-muted/40 border border-border/30 flex items-center justify-center text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+        <div className="h-9 rounded-md bg-muted/40 border border-border/30 flex items-center justify-center text-2xs font-semibold text-muted-foreground uppercase tracking-wide">
           {time === LUNCH_START ? t('availabilityGrid.lunch') : ''}
         </div>
       );
@@ -153,7 +153,7 @@ export function AvailabilityGridStep({
       return (
         <button
           onClick={() => toggleSlot(date, time)}
-          className="h-9 w-full rounded-md bg-[#2196F3] border border-[#2196F3] text-white text-[11px] font-bold flex items-center justify-center gap-1 shadow-sm transition-transform hover:scale-[1.02]"
+          className="h-9 w-full rounded-md bg-[#2196F3] border border-[#2196F3] text-white text-2xs font-bold flex items-center justify-center gap-1 shadow-sm transition-transform hover:scale-[1.02]"
         >
           <Check className="w-3 h-3" />
           {time}
@@ -163,7 +163,7 @@ export function AvailabilityGridStep({
     return (
       <button
         onClick={() => toggleSlot(date, time)}
-        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-success text-[11px] font-semibold transition-[transform,background-color,border-color,color,box-shadow] hover:bg-emerald-500/25 hover:brightness-110"
+        className="h-9 w-full rounded-md bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-success text-2xs font-semibold transition-[transform,background-color,border-color,color,box-shadow] hover:bg-emerald-500/25 hover:brightness-110"
       >
         {time}
       </button>
@@ -218,7 +218,7 @@ export function AvailabilityGridStep({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-3 text-2xs text-muted-foreground">
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" /> {t('availabilityGrid.legendAvailable')}</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500/15 border border-red-500/30" /> {t('availabilityGrid.legendOccupied')}</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#2196F3]" /> {t('availabilityGrid.legendSelected')}</span>
@@ -259,13 +259,13 @@ export function AvailabilityGridStep({
             <div className="bg-secondary/50 border-b border-border" />
             {days.map((d, i) => (
               <div key={i} className="bg-secondary/50 border-b border-l border-border px-2 py-2 text-center">
-                <div className="text-[11px] font-semibold text-muted-foreground uppercase">{DAY_LABELS[i]}</div>
+                <div className="text-2xs font-semibold text-muted-foreground uppercase">{DAY_LABELS[i]}</div>
                 <div className="text-sm font-bold text-foreground">{d.getDate()}</div>
               </div>
             ))}
             {times.map(time => (
               <Fragment key={time}>
-                <div className="text-[11px] text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
+                <div className="text-2xs text-muted-foreground text-right pr-1.5 py-1 border-b border-border/40 flex items-start justify-end">
                   {time.endsWith(':00') ? time : ''}
                 </div>
                 {days.map((date, dIdx) => (
@@ -302,7 +302,7 @@ export function AvailabilityGridStep({
         >
           <div>
             <p className="text-sm font-semibold text-foreground">{t('availabilityGrid.waitingPrefsTitle')}</p>
-            <p className="text-[11px] text-muted-foreground mt-0.5">
+            <p className="text-2xs text-muted-foreground mt-0.5">
               {t('availabilityGrid.waitingPrefsDesc')}
             </p>
           </div>
@@ -383,7 +383,7 @@ export function AvailabilityGridStep({
                 rows={3}
                 className="resize-none text-xs"
               />
-              <p className="text-[11px] text-muted-foreground mt-1 text-right">
+              <p className="text-2xs text-muted-foreground mt-1 text-right">
                 {preferences.observation.length}/500
               </p>
             </div>

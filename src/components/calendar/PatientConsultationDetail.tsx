@@ -100,13 +100,13 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5">{t('consultationDetail.consultationWith')}</p>
+                  <p className="text-2xs text-muted-foreground uppercase tracking-wider mb-0.5">{t('consultationDetail.consultationWith')}</p>
                   <ClickableDentistName name={consultation.dentist.name} className="text-base font-bold leading-tight" />
                   <p className="text-xs text-muted-foreground mt-0.5">{consultation.dentist.specialty || t('agenda.generalDentist')}</p>
                   <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                     {colors && (
                       <span
-                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap"
+                        className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
                         {categoryLabel}
@@ -144,7 +144,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
             {/* ── Informações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.information')}</h3>
+              <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.information')}</h3>
               <div className="space-y-2.5 text-sm">
                 <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -169,7 +169,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
             {/* ── Nota desta Consulta (read-only) ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-2.5">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.consultationNote')}</h3>
+              <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.consultationNote')}</h3>
               {consultation.notes ? (
                 <p className="text-sm text-foreground leading-relaxed">{consultation.notes}</p>
               ) : (
@@ -179,7 +179,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
             {/* ── Histórico Resumido ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.briefHistory')}</h3>
+              <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.briefHistory')}</h3>
               <div className="space-y-0">
                 {MOCK_HISTORY.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
@@ -202,7 +202,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
 
             {/* ── Ações ── */}
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.actions')}</h3>
+              <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.actions')}</h3>
               <div className="grid grid-cols-3 gap-2">
                 <Button
                   variant="secondary"
@@ -223,12 +223,12 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                     {t('consultation.reschedule')}
                   </Button>
                   {rescheduleCount > 0 && (
-                    <span className="absolute -top-1 -right-1 text-[11px] bg-muted px-1 rounded text-muted-foreground">
+                    <span className="absolute -top-1 -right-1 text-2xs bg-muted px-1 rounded text-muted-foreground">
                       {rescheduleCount}/{maxReschedules}
                     </span>
                   )}
                   {!canReschedule && (
-                    <p className="text-[11px] text-destructive mt-0.5 text-center">{t('consultationDetail.limitReached')}</p>
+                    <p className="text-2xs text-destructive mt-0.5 text-center">{t('consultationDetail.limitReached')}</p>
                   )}
                 </div>
                 <Button

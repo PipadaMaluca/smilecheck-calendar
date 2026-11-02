@@ -245,7 +245,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Patients */}
               {results.patients.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-2xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <User className="w-3 h-3" /> {t('sweep.search.patients')}
                   </div>
                   {results.patients.map((p) => (
@@ -276,7 +276,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                         </div>
                       </div>
                       <div className="flex-shrink-0 text-right flex items-center gap-2">
-                        <div className="text-[11px] text-muted-foreground leading-tight">
+                        <div className="text-2xs text-muted-foreground leading-tight">
                           <div className="text-primary font-medium">{t('sweep.search.scheduledCount', { count: p.scheduledCount })}</div>
                           <div>{t('sweep.search.totalLabel', { count: p.totalCount })}</div>
                         </div>
@@ -299,7 +299,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Dentists */}
               {results.dentists.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-2xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <Stethoscope className="w-3 h-3" /> {t('sweep.search.dentists')}
                   </div>
                   {results.dentists.map((d) => (
@@ -339,7 +339,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
               {/* Clinics */}
               {results.clinics.length > 0 && (
                 <div className="py-1">
-                  <div className="px-3 py-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                  <div className="px-3 py-1.5 text-2xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
                     <Building2 className="w-3 h-3" /> {t('sweep.search.clinics')}
                   </div>
                   {results.clinics.map((c) => (

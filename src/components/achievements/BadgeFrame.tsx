@@ -48,8 +48,8 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         {/* Decorative wings/stars for higher tiers */}
         {(tier === 'expert' || tier === 'legendary') && size !== 'sm' && (
           <>
-            <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -right-1 text-[11px]" />
-            {tier === 'legendary' && <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -left-1 text-[11px]" />}
+            <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -right-1 text-2xs" />
+            {tier === 'legendary' && <Glyph emoji="⭐" className="w-5 h-5 absolute -top-1 -left-1 text-2xs" />}
           </>
         )}
 
@@ -74,7 +74,7 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
       </div>
 
       {showName && (
-        <span className="text-[11px] text-muted-foreground text-center max-w-20 leading-snug whitespace-normal break-words">
+        <span className="text-2xs text-muted-foreground text-center max-w-20 leading-snug whitespace-normal break-words">
           {achievement.secret && !achievement.unlocked ? '???' : achievement.name}
         </span>
       )}
@@ -88,8 +88,8 @@ export function BadgeFrame({ achievement, size = 'md', showName = false, onClick
         <TooltipTrigger asChild>{badge}</TooltipTrigger>
         <TooltipContent side="top" className="max-w-48">
           <p className="font-semibold text-xs">{achievement.secret && !achievement.unlocked ? '???' : achievement.name}</p>
-          <p className="text-[11px] text-muted-foreground">{achievement.secret && !achievement.unlocked ? 'Conquista secreta' : achievement.description}</p>
-          <p className="text-[11px] font-medium text-warning mt-0.5">+{achievement.points} pts</p>
+          <p className="text-2xs text-muted-foreground">{achievement.secret && !achievement.unlocked ? 'Conquista secreta' : achievement.description}</p>
+          <p className="text-2xs font-medium text-warning mt-0.5">+{achievement.points} pts</p>
         </TooltipContent>
       </Tooltip>
     );

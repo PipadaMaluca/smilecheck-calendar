@@ -99,7 +99,7 @@ export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackMo
         <div className="space-y-5 py-2">
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">{t('feedback.howRateDentist')} {score.dentistName}?</p>
-            <p className="text-[11px] text-muted-foreground">{t('feedback.scaleHint')}</p>
+            <p className="text-2xs text-muted-foreground">{t('feedback.scaleHint')}</p>
             <StarRating
               value={dentistRating}
               hovered={dentistHover}
@@ -117,7 +117,7 @@ export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackMo
               className="resize-none"
               rows={2}
             />
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-2xs text-muted-foreground">
 <Glyph emoji="✏️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('feedback.editableUntil')}</p>
           </div>
 
@@ -125,7 +125,7 @@ export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackMo
 
           <div className="space-y-2">
             <p className="text-sm font-medium text-foreground">{t('feedback.howRateClinic')} {score.clinicName}?</p>
-            <p className="text-[11px] text-muted-foreground">{t('feedback.scaleHint')}</p>
+            <p className="text-2xs text-muted-foreground">{t('feedback.scaleHint')}</p>
             <StarRating
               value={clinicRating}
               hovered={clinicHover}
@@ -143,7 +143,7 @@ export const PatientFeedbackModal = forwardRef<HTMLDivElement, PatientFeedbackMo
               className="resize-none"
               rows={2}
             />
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-2xs text-muted-foreground">
 <Glyph emoji="✏️" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('feedback.editableUntil')}</p>
           </div>
 

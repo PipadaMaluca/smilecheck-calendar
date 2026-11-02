@@ -88,7 +88,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
     <>
       {/* Fixed second header — directly below main navbar */}
       <div
-        className="fixed left-0 right-0 z-[39] border-b top-11 md:top-16 lg:top-20"
+        className="fixed left-0 right-0 z-sticky border-b top-11 md:top-16 lg:top-20"
         style={{
           background: isDark ? 'rgba(10,25,41,0.92)' : 'rgba(245,249,255,0.92)',
           WebkitBackdropFilter: 'blur(12px)',
@@ -108,7 +108,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
                       href={`#${l.id}`}
                       onClick={(e) => handleClick(e, l.id)}
                       className={cn(
-                        'inline-flex items-center text-[11px] md:text-[12px] lg:text-[13px] whitespace-nowrap transition-colors duration-150 border-b-2',
+                        'inline-flex items-center text-2xs md:text-xs lg:text-sm whitespace-nowrap transition-colors duration-150 border-b-2',
                         isActive
                           ? 'text-[#2196F3] font-semibold border-[#2196F3]'
                           : cn(

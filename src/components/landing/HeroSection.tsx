@@ -73,7 +73,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <h1 data-reveal="words" className="text-[32px] leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] font-bold tracking-tight text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
+        <h1 data-reveal="words" className="text-3xl leading-[1.1] sm:text-5xl md:text-6xl lg:text-7xl xl:text-display font-bold tracking-tight text-[#1A202C] dark:text-white max-w-[90%] mx-auto sm:max-w-none" style={{ marginBottom: 16 }}>
           {t('landing.hero.title')}{' '}
           <span className="sc-grad-wipe bg-gradient-to-r from-[#2196F3] to-[#1E88E5] bg-clip-text text-transparent">
             {t('landing.hero.titleHighlight')}

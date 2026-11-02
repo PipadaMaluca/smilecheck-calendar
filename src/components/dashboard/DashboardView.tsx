@@ -233,14 +233,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-6 flex flex-col gap-3 min-w-0 min-h-[148px]">
               <div className="flex items-center gap-2 min-w-0">
                 <HeroIcon className="w-4 h-4 flex-shrink-0 text-primary" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground truncate">
+                <span className="text-2xs font-semibold uppercase tracking-[0.08em] text-muted-foreground truncate">
                   {heroStat.label}
                 </span>
               </div>
 
               {userRole === 'clinic' ? (
                 <div className="flex flex-col gap-1 min-w-0">
-                  <span className="text-[32px] leading-none font-semibold tabular-nums text-foreground">
+                  <span className="text-3xl leading-none font-semibold tabular-nums text-foreground">
                     {heroStat.value}
                   </span>
                   {heroStat.subtitle && (
@@ -249,7 +249,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 </div>
               ) : (
                 <div className="flex flex-col gap-1.5 min-w-0">
-                  <span className="text-[26px] leading-tight font-semibold text-foreground truncate">
+                  <span className="text-2xl leading-tight font-semibold text-foreground truncate">
                     {heroStat.primaryName || heroStat.subtitle || '—'}
                   </span>
                   <div className="flex items-center gap-3 min-w-0 text-sm">
@@ -301,7 +301,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       }}
                       className="flex flex-col justify-center gap-2 min-w-0 px-4 py-5 text-left transition-colors hover:bg-primary/[0.04] press"
                     >
-                      <span className="flex items-center gap-1.5 min-w-0 text-[11px] font-semibold uppercase tracking-[0.06em] text-muted-foreground">
+                      <span className="flex items-center gap-1.5 min-w-0 text-2xs font-semibold uppercase tracking-[0.06em] text-muted-foreground">
                         <Icon className="w-3.5 h-3.5 flex-shrink-0" />
                         <span className="truncate">{stat.label}</span>
                       </span>
@@ -319,7 +319,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           />
                         </div>
                       ) : (
-                        <span className="text-[11px] text-muted-foreground tabular-nums truncate">
+                        <span className="text-2xs text-muted-foreground tabular-nums truncate">
                           {'isPoints' in stat && (stat as any).isPoints
                             ? `${formatNumber(pointsData.xp)} XP`
                             : '\u00A0'}
@@ -358,7 +358,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     };
     const normalizedStatus = status && status in statusClasses ? status as ConsultationStatus : 'agendada';
     return (
-      <Badge variant="outline" className={cn('text-[11px] font-medium flex-shrink-0 whitespace-nowrap', statusClasses[normalizedStatus])}>
+      <Badge variant="outline" className={cn('text-2xs font-medium flex-shrink-0 whitespace-nowrap', statusClasses[normalizedStatus])}>
         {label}
       </Badge>
     );
@@ -370,7 +370,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
     return (
       <span
-        className={cn('inline-flex items-center min-w-0 max-w-full rounded-md font-semibold', size === 'sm' ? 'px-1.5 py-0.5 text-[11px]' : 'px-2 py-1 text-xs')}
+        className={cn('inline-flex items-center min-w-0 max-w-full rounded-md font-semibold', size === 'sm' ? 'px-1.5 py-0.5 text-2xs' : 'px-2 py-1 text-xs')}
         style={getCategoryBadgeStyle(color)}
       >
         <span className="truncate">{getCategoryLabel(t, category)}</span>
@@ -380,10 +380,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   // Confirmation indicator
   const confirmIndicator = (status: ConfirmationStatus, isIrrelevant = false) => {
-    if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-[11px] text-muted-foreground font-bold">—</span>;
-    if (status === 'confirmed') return <Glyph emoji="✓" className="w-5 h-5 w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-[11px] text-success font-bold" />;
-    if (status === 'declined') return <Glyph emoji="✗" className="w-5 h-5 w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-[11px] text-red-400 font-bold" />;
-    return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-[11px] text-orange-400 font-bold">●</span>;
+    if (isIrrelevant) return <span className="w-5 h-5 rounded-md bg-muted flex items-center justify-center text-2xs text-muted-foreground font-bold">—</span>;
+    if (status === 'confirmed') return <Glyph emoji="✓" className="w-5 h-5 w-5 h-5 rounded-md bg-emerald-500/20 flex items-center justify-center text-2xs text-success font-bold" />;
+    if (status === 'declined') return <Glyph emoji="✗" className="w-5 h-5 w-5 h-5 rounded-md bg-red-500/20 flex items-center justify-center text-2xs text-red-400 font-bold" />;
+    return <span className="w-5 h-5 rounded-md bg-orange-500/20 flex items-center justify-center text-2xs text-orange-400 font-bold">●</span>;
   };
 
   // ONE canonical row of four quick actions per role (shared with the mobile hero).
@@ -409,7 +409,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             className="flex items-center justify-center gap-2 min-h-12 px-3 py-2 rounded-2xl bg-card border border-border shadow-sm card-hover-lift hover:border-primary/40 transition-colors"
           >
             <ActionIcon className="w-5 h-5 flex-shrink-0 text-primary" />
-            <span className="text-[13px] lg:text-sm font-medium text-foreground text-center leading-tight">{action.label}</span>
+            <span className="text-sm lg:text-sm font-medium text-foreground text-center leading-tight">{action.label}</span>
           </button>
         );
       })}
@@ -450,7 +450,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
-                <Badge variant="outline" className="text-[11px]">{dentistCons.length} {t('dashboard.total')}</Badge>
+                <Badge variant="outline" className="text-2xs">{dentistCons.length} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
               {dentistCons.length === 0 && (
@@ -512,7 +512,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <div className="flex items-center justify-center gap-1.5 min-w-0 overflow-hidden">
                           {typeDot(c.category as ConsultationCategory)}
                           {c.notes && (
-                            <span className="text-[11px] text-muted-foreground truncate min-w-0 flex-shrink">
+                            <span className="text-2xs text-muted-foreground truncate min-w-0 flex-shrink">
                               {c.notes}
                             </span>
                           )}
@@ -530,27 +530,27 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         }}
                       >
                         <span
-                          className="text-[14px] font-semibold tabular-nums text-foreground self-center"
+                          className="text-sm font-semibold tabular-nums text-foreground self-center"
                           style={{ gridColumn: 1, gridRow: '1 / 3' }}
                         >
                           {c.time}
                         </span>
                         <span
-                          className="text-[14px] font-semibold text-foreground truncate min-w-0"
+                          className="text-sm font-semibold text-foreground truncate min-w-0"
                           style={{ gridColumn: 2, gridRow: 1 }}
                           onClick={(e) => e.stopPropagation()}
                         >
                           <ClickablePatientName
                             name={c.patient.name}
                             patientId={c.patient.id}
-                            className="text-[14px] font-semibold text-foreground hover:underline cursor-pointer press"
+                            className="text-sm font-semibold text-foreground hover:underline cursor-pointer press"
                           />
                         </span>
                         <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 1 }}>
                           {typeDot(c.category as ConsultationCategory, 'sm')}
                         </div>
                         <span
-                          className="text-[12px] text-muted-foreground truncate min-w-0"
+                          className="text-xs text-muted-foreground truncate min-w-0"
                           style={{ gridColumn: 2, gridRow: 2 }}
                         >
                           {c.notes || '\u00A0'}
@@ -577,14 +577,14 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             title={t('dashboard.confirmations')}
             persistKey="dentist:confirmacoes"
             liveBadge={
-              <Badge variant="outline" className="text-[11px] gap-1 border-primary/30 text-primary">
+              <Badge variant="outline" className="text-2xs gap-1 border-primary/30 text-primary">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
               </Badge>
             }
           >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
-                <span className="text-[11px] font-semibold text-muted-foreground w-5 text-center">24h</span>
-                <span className="text-[11px] font-semibold text-muted-foreground w-5 text-center">1h</span>
+                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">24h</span>
+                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">1h</span>
               </div>
               <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c, idx) => {
@@ -621,7 +621,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="dentist:lista-espera"
-              badge={<Badge variant="outline" className="text-[11px]">{dentistWaitlist.length}</Badge>}
+              badge={<Badge variant="outline" className="text-2xs">{dentistWaitlist.length}</Badge>}
             >
               <div className="space-y-0 flex-1">
                 {dentistWaitlist.length === 0 && (
@@ -630,7 +630,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {dentistWaitlist.map((wl) =>
                 <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                    <span className="text-[11px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                    <span className="text-2xs text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
                   </div>
                 )}
               </div>
@@ -715,7 +715,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
-                <Badge variant="outline" className="text-[11px]">54 {t('dashboard.total')}</Badge>
+                <Badge variant="outline" className="text-2xs">54 {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {clinicTodayConsultations.length === 0 && (
@@ -737,13 +737,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                         <p className="text-xs font-medium text-foreground truncate">
                           <ClickablePatientName name={c.patient.name} patientId={c.patient.id} className="text-xs font-medium text-foreground" />
                         </p>
-                        <p className="text-[11px] text-muted-foreground truncate sm:hidden">
-                          <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground" />
+                        <p className="text-2xs text-muted-foreground truncate sm:hidden">
+                          <ClickableDentistName name={c.dentist.name} className="text-2xs text-muted-foreground" />
                         </p>
                       </div>
                       <div className="hidden sm:flex min-w-0 items-center gap-2">
                         {typeDot(c.category, 'sm')}
-                        <ClickableDentistName name={c.dentist.name} className="text-[11px] text-muted-foreground truncate" />
+                        <ClickableDentistName name={c.dentist.name} className="text-2xs text-muted-foreground truncate" />
                       </div>
                       <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1">
                         <span className="sm:hidden">{typeDot(c.category, 'sm')}</span>
@@ -765,7 +765,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             title={t('dashboard.confirmations')}
             persistKey="clinic:confirmacoes"
             liveBadge={
-              <Badge variant="outline" className="text-[11px] gap-1 border-primary/30 text-primary">
+              <Badge variant="outline" className="text-2xs gap-1 border-primary/30 text-primary">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
               </Badge>
             }
@@ -777,7 +777,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                   <div className="flex-1 overflow-y-auto md:overflow-y-hidden">
                     {confirmationsByDentist.map(({ dentist, confirmations }) => (
                       <div key={dentist.id}>
-                        <p className="text-[11px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-[11px] font-semibold text-muted-foreground uppercase" /></p>
+                        <p className="text-2xs font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentist.name} className="text-2xs font-semibold text-muted-foreground uppercase" /></p>
                         {confirmations.slice(0, 2).map((c) => {
                           rowIndex++;
                           const isLast = rowIndex === totalRows;
@@ -818,16 +818,16 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="clinic:lista-espera"
-              badge={<Badge variant="outline" className="text-[11px]">{t('dashboard.patients', { count: totalWaitlist })}</Badge>}
+              badge={<Badge variant="outline" className="text-2xs">{t('dashboard.patients', { count: totalWaitlist })}</Badge>}
             >
               <div className="space-y-1 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {Object.entries(CLINIC_WAITLIST).map(([dentistName, patients]) =>
                 <div key={dentistName}>
-                    <p className="text-[11px] font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-[11px] font-semibold text-muted-foreground uppercase" /></p>
+                    <p className="text-2xs font-semibold text-muted-foreground uppercase py-0.5"><ClickableDentistName name={dentistName} className="text-2xs font-semibold text-muted-foreground uppercase" /></p>
                     {patients.slice(0, 2).map((wl) =>
                   <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                        <span className="text-[11px] text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                        <span className="text-2xs text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
                       </div>
                   )}
                   </div>
@@ -878,7 +878,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="t-h3 text-foreground">{t('dashboard.upcomingConsultations')}</h3>
-                <Badge variant="outline" className="text-[11px]">{t('dashboard.consultations', { count: upcomingItems.length })}</Badge>
+                <Badge variant="outline" className="text-2xs">{t('dashboard.consultations', { count: upcomingItems.length })}</Badge>
               </div>
               <div className="">
                 {upcomingItems.map((item, index) => {
@@ -934,7 +934,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
         {/* Greeting */}
         <div className="items-center justify-between flex flex-col gap-1.5 min-w-0 max-[499px]:gap-0">
           <div>
-            <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-[18px] max-[499px]:font-bold max-[499px]:mt-0">
+            <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-lg max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
             {/* Date lives only in the top bar — not repeated under the greeting. */}

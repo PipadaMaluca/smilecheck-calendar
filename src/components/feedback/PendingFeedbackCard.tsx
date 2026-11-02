@@ -90,7 +90,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
             <h3 className="text-sm font-bold text-foreground">
               {t('bidirectionalFeedback.pendingTitle')}
             </h3>
-            <Badge variant="outline" className="text-[11px] border-amber-500/30 text-warning bg-amber-500/10">
+            <Badge variant="outline" className="text-2xs border-amber-500/30 text-warning bg-amber-500/10">
               {items.length}
             </Badge>
           </div>
@@ -119,7 +119,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
                       {dateLabel && <span className="text-primary">{dateLabel} · </span>}
                       {t(titleKey, { name: item.targetName })}
                     </p>
-                    <p className="text-[11px] text-muted-foreground truncate">
+                    <p className="text-2xs text-muted-foreground truncate">
                       {item.contextLabel || item.dentistName || translateRawValue(t, item.consultationType)}
                       {' · '}
                       <span className="text-emerald-500">+{FEEDBACK_GIVER_REWARD} pts {t('bidirectionalFeedback.forYou')}</span>

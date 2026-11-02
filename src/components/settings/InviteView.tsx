@@ -75,9 +75,9 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         {suspended ? (
           <Badge variant="secondary" className="mx-auto">{t('invite.comingSoon')}</Badge>
         ) : rulePoints !== null ? (
-          <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
+          <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
         ) : null}
-        {suspended && <p className="text-[14px] md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitleComingSoon')}</p>}
+        {suspended && <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitleComingSoon')}</p>}
       </div>
 
       {/* Code & Link */}
@@ -86,7 +86,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <div>
             <label className="text-xs text-muted-foreground block mb-1.5">{t('invite.codeLabel')}</label>
             <div className="flex items-center gap-2">
-              <div id="coachmark-referral-code" className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-[13px] md:text-base font-mono font-bold text-foreground tracking-widest text-center truncate">{code}</div>
+              <div id="coachmark-referral-code" className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-sm md:text-base font-mono font-bold text-foreground tracking-widest text-center truncate">{code}</div>
               <Button variant="outline" size="sm" onClick={() => copyToClipboard(code, 'code')} className="gap-1.5 flex-shrink-0 h-11 w-11 md:w-auto p-0 md:px-3" aria-label={t('common.copy')}>
                 {copiedCode ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 <span className="hidden md:inline">{copiedCode ? t('invite.copied') : t('common.copy')}</span>
@@ -96,7 +96,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <div>
             <label className="text-xs text-muted-foreground block mb-1.5">{t('invite.linkLabel')}</label>
             <div className="flex items-center gap-2">
-              <div className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-[13px] md:text-sm text-muted-foreground truncate">{link}</div>
+              <div className="flex-1 min-w-0 bg-secondary rounded-lg px-3 py-2 md:px-4 md:py-2.5 text-sm md:text-sm text-muted-foreground truncate">{link}</div>
               <Button variant="outline" size="sm" onClick={() => copyToClipboard(link, 'link')} className="gap-1.5 flex-shrink-0 h-11 w-11 md:w-auto p-0 md:px-3" aria-label={t('common.copy')}>
                 {copiedLink ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                 <span className="hidden md:inline">{copiedLink ? t('invite.copied') : t('common.copy')}</span>
@@ -112,15 +112,15 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         <div className="grid grid-cols-3 gap-2">
           <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareWhatsApp}>
             <MessageCircle className="w-5 h-5 text-emerald-500" />
-            <span className="text-[11px] md:text-xs">WhatsApp</span>
+            <span className="text-2xs md:text-xs">WhatsApp</span>
           </Button>
           <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareEmail}>
             <Mail className="w-5 h-5 text-primary" />
-            <span className="text-[11px] md:text-xs">Email</span>
+            <span className="text-2xs md:text-xs">Email</span>
           </Button>
           <Button variant="outline" className="flex-col h-14 md:h-auto md:py-3 px-1 gap-1 md:gap-1.5" onClick={shareSMS}>
             <Smartphone className="w-5 h-5 text-primary" />
-            <span className="text-[11px] md:text-xs">SMS</span>
+            <span className="text-2xs md:text-xs">SMS</span>
           </Button>
         </div>
       </div>
@@ -130,19 +130,19 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-foreground leading-tight">7</p>
-            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.invited')}</p>
+            <p className="text-2xs md:text-2xs text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.invited')}</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-emerald-500 leading-tight">{confirmedCount}</p>
-            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.confirmed')}</p>
+            <p className="text-2xs md:text-2xs text-muted-foreground mt-0.5 whitespace-nowrap">{t('invite.confirmed')}</p>
           </CardContent>
         </Card>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-2 md:pt-4 md:pb-3 md:px-4 text-center">
             <p className="text-xl md:text-2xl font-bold text-warning leading-tight">{suspended || rulePoints === null ? '—' : confirmedCount * rulePoints}</p>
-            <p className="text-[11px] md:text-[11px] text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">{t('invite.pointsEarnedShort')}</span><span className="hidden md:inline">{t('invite.pointsEarned')}</span></p>
+            <p className="text-2xs md:text-2xs text-muted-foreground mt-0.5 whitespace-nowrap"><span className="md:hidden">{t('invite.pointsEarnedShort')}</span><span className="hidden md:inline">{t('invite.pointsEarned')}</span></p>
           </CardContent>
         </Card>
       </div>
@@ -156,15 +156,15 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
               <div className="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
                 <Users className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 <div className="min-w-0">
-                  <p className="text-[13px] md:text-sm text-foreground truncate">{h.name}</p>
-                  <p className="text-[11px] md:text-xs text-muted-foreground truncate">{h.date}</p>
+                  <p className="text-sm md:text-sm text-foreground truncate">{h.name}</p>
+                  <p className="text-2xs md:text-xs text-muted-foreground truncate">{h.date}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2 flex-shrink-0">
-                <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-[11px]">
+                <Badge variant={h.status === 'confirmed' ? 'default' : 'secondary'} className="text-2xs">
                   {h.status === 'confirmed' ? t('invite.statusConfirmed') : t('invite.statusPending')}
                 </Badge>
-                {!suspended && rulePoints !== null && h.status === 'confirmed' && <span className="text-[11px] md:text-xs font-medium text-warning whitespace-nowrap">{t('invite.pointsShort', { count: rulePoints })}</span>}
+                {!suspended && rulePoints !== null && h.status === 'confirmed' && <span className="text-2xs md:text-xs font-medium text-warning whitespace-nowrap">{t('invite.pointsShort', { count: rulePoints })}</span>}
               </div>
             </div>
           ))}

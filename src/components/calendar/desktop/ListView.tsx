@@ -139,7 +139,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className="inline-flex items-center text-[11px] font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
+                        className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
                         style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
                       >
                         {getCategoryLabel(t, category)}

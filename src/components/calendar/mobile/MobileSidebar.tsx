@@ -106,7 +106,7 @@ export function MobileSidebar({
         <span className="flex-1 text-left">{label}</span>
         {badge && (
           badge.type === 'count' ? (
-            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-[11px] font-semibold tabular-nums bg-primary text-primary-foreground">
+            <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary text-primary-foreground">
               {badge.value}
             </span>
           ) : (

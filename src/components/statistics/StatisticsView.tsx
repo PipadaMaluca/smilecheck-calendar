@@ -198,19 +198,19 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.totalConsultations')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.totalConsultations')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{totalConsultations}</span>
+                  <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{totalConsultations}</span>
                 </CardContent>
               </Card>
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.confirmationRate')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.confirmationRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{confirmRate}%</span>
+                    <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{confirmRate}%</span>
                     <Progress value={confirmRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -219,10 +219,10 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <XCircle className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.absenceRate')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.absenceRate')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{faltaRate}%</span>
+                    <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{faltaRate}%</span>
                     <Progress value={faltaRate} className="h-2 flex-1" />
                   </div>
                 </CardContent>
@@ -231,9 +231,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <TrendingUp className="w-4 h-4" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
+                  <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
                 </CardContent>
               </Card>
             </div>
@@ -294,22 +294,22 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         )}
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-[11px] font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
-                            <ClickableDentistName name={shortName} className="text-[11px] font-bold" />
+                          <p className="text-2xs font-bold text-foreground leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+                            <ClickableDentistName name={shortName} className="text-2xs font-bold" />
                             {d.clinicName && (
-                              <span className="ml-1 text-[11px] font-normal text-muted-foreground">
+                              <span className="ml-1 text-2xs font-normal text-muted-foreground">
                                 ({d.clinicName})
                               </span>
                             )}
                           </p>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
-                          <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
+                          <div className="text-2xs font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
+                          <div className="text-2xs text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
-                          <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
+                          <div className="text-2xs font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
+                          <div className="text-2xs text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
                         </div>
                       </li>
                     );

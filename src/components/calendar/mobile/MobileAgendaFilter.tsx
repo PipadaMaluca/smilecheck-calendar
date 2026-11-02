@@ -165,13 +165,13 @@ export function MobileAgendaFilter({
       {/* ROW 3: Active dentist name + clinic */}
       {active && (
         <div className="px-4 pt-1.5 pb-0 text-center">
-          <p className="text-[13px] leading-tight truncate text-[#2196F3] font-medium">
-            <ClickableDentistName name={active.dentist.name} className="text-[13px] font-medium text-[#2196F3]" />
+          <p className="text-sm leading-tight truncate text-[#2196F3] font-medium">
+            <ClickableDentistName name={active.dentist.name} className="text-sm font-medium text-[#2196F3]" />
             <span className="mx-1 text-[#2196F3]/70 font-normal">—</span>
             <ClickableClinicName
               name={active.clinic.name.replace('Clínica ', '')}
               clinicId={active.clinic.id}
-              className="text-[13px] font-medium text-[#2196F3]"
+              className="text-sm font-medium text-[#2196F3]"
             />
           </p>
         </div>
@@ -193,7 +193,7 @@ export function MobileAgendaFilter({
                 onClick={() => onActiveKeyChange?.(k)}
                 aria-label={c.dentist.name}
                 className={cn(
-                  'flex-shrink-0 flex items-center justify-center transition-colors text-[11px] font-bold',
+                  'flex-shrink-0 flex items-center justify-center transition-colors text-2xs font-bold',
                   isActive
                     ? 'bg-[#2196F3] text-white'
                     : hasAppointments
@@ -220,7 +220,7 @@ export function MobileAgendaFilter({
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>
           {selectedDentistIds.length > 0 && (
-            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center">
+            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-2xs font-bold flex items-center justify-center">
               {selectedDentistIds.length}
             </span>
           )}
@@ -276,7 +276,7 @@ export function MobileAgendaFilter({
                       onCheckedChange={() => agendaFiltersStore.togglePatientStatus(s)}
                       onClick={e => e.stopPropagation()}
                     />
-                    <span className="text-[13px]">{t(STATUS_I18N[s])}</span>
+                    <span className="text-sm">{t(STATUS_I18N[s])}</span>
                   </button>
                 ))}
               </div>
@@ -327,7 +327,7 @@ export function MobileAgendaFilter({
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{ backgroundColor: CATEGORY_COLORS[c]?.hex }}
                     />
-                    <span className="text-[13px]">{t(CATEGORY_I18N[c])}</span>
+                    <span className="text-sm">{t(CATEGORY_I18N[c])}</span>
                   </button>
                 ))}
               </div>
@@ -417,7 +417,7 @@ export function MobileAgendaFilter({
                                 {d.name}
                                 {isMe ? ` (${t('agenda.me')})` : ''}
                                 {!dWorks && (
-                                  <span className="ml-1 text-[11px] text-muted-foreground">
+                                  <span className="ml-1 text-2xs text-muted-foreground">
                                     · {t('agenda.notWorkingToday')}
                                   </span>
                                 )}

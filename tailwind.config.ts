@@ -13,6 +13,12 @@ export default {
       },
     },
     extend: {
+      fontSize: {
+        // Typographic scale — use these instead of arbitrary px values.
+        "2xs": ["11px", { lineHeight: "16px" }],
+        "display-sm": ["64px", { lineHeight: "1.05" }],
+        "display": ["80px", { lineHeight: "1.05" }],
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         gaming: ['Russo One', 'sans-serif'],
@@ -116,7 +122,10 @@ export default {
         // dropdown(40) < sticky(30 for headers, below dropdown intentionally) < overlay(50, shadcn Dialog/Sheet default)
         // < modal(60, bespoke full-screen views + modals) < notification(70, notification panel + persistent chrome above modals)
         // < toast(80) < celebration(90, level-up / incoming call, always on top)
+        base: "1",
+        raised: "5",
         dropdown: "40",
+        floating: "45",
         sticky: "30",
         overlay: "50",
         modal: "60",

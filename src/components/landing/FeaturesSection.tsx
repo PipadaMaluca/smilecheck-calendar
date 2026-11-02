@@ -47,7 +47,7 @@ function AgendaMockup() {
       <div className="p-5 grid grid-cols-5 gap-2">
         {Array.from({ length: 5 }, (_, i) => formatDate(new Date(2026, 0, 5 + i), { weekday: 'short' })).map((d, i) => (
           <div key={d} className="text-center">
-            <div className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8] mb-2">{d}</div>
+            <div className="text-2xs font-medium text-[#4A5568] dark:text-[#94A3B8] mb-2">{d}</div>
             <div className="space-y-1.5">
               {[
                 ['#2196F3', 28], ['#FB923C', 16], ['#2196F3', 22],
@@ -65,9 +65,9 @@ function AgendaMockup() {
           </div>
           <div className="flex-1">
             <div className="text-xs font-semibold text-[#1A202C] dark:text-white">{t('i18nC.cleaning')}</div>
-            <div className="text-[11px] text-[#4A5568] dark:text-[#94A3B8]">Dr. Gonçalo Pipo</div>
+            <div className="text-2xs text-[#4A5568] dark:text-[#94A3B8]">Dr. Gonçalo Pipo</div>
           </div>
-          <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">{t('i18nC.confirmed')}</span>
+          <span className="text-2xs px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-medium">{t('i18nC.confirmed')}</span>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@ function BadgesMockup() {
         {items.map((it) => (
           <div key={it.l} className="aspect-square rounded-xl bg-gradient-to-br from-[#F5F9FF] to-[#E8F2FF] dark:from-[#1E3A5F]/40 dark:to-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] flex flex-col items-center justify-center gap-1">
             <Glyph emoji={it.e} className="w-7 h-7" />
-            <span className="text-[11px] font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
+            <span className="text-2xs font-medium text-[#4A5568] dark:text-[#94A3B8]">{it.l}</span>
           </div>
         ))}
       </div>
@@ -117,15 +117,15 @@ function TeleconsultaMockup() {
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#2196F3] to-[#1565C0] flex items-center justify-center text-white text-3xl font-bold shadow-lg">
           GP
         </div>
-        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-[11px] font-bold flex items-center gap-1">
+        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-2xs font-bold flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> {t('i18nC.live')}
         </div>
-        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-[11px] text-white/50">{t('i18nC.you')}</div>
+        <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-[#0A1929] border border-white/10 flex items-center justify-center text-2xs text-white/50">{t('i18nC.you')}</div>
       </div>
       <div className="px-5 py-4 flex items-center justify-between bg-[#0A1929]">
         <div>
           <div className="text-sm font-semibold text-white">Dr. Gonçalo Pipo</div>
-          <div className="text-[11px] text-[#94A3B8]">{t('i18nC.fixedPrice', { price: formatCurrency(TELECONSULT_PRICE) })}</div>
+          <div className="text-2xs text-[#94A3B8]">{t('i18nC.fixedPrice', { price: formatCurrency(TELECONSULT_PRICE) })}</div>
         </div>
         <div className="flex gap-2">
           <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center"><Video className="w-4 h-4 text-white" /></div>
@@ -148,7 +148,7 @@ function FeatureRow({
         <div data-reveal="left" className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
-        <h3 data-reveal="words" className="text-[28px] sm:text-4xl lg:text-[40px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
+        <h3 data-reveal="words" className="text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
           {title}
         </h3>
         <p data-reveal="up" className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
@@ -203,7 +203,7 @@ export function FeaturesSection() {
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-10 sm:mb-12">
-            <h2 id="funcionalidades-title" style={{ scrollMarginTop: '120px' }} className="text-[32px] sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
+            <h2 id="funcionalidades-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">
               {t('landing.features.title')}
             </h2>
             <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] max-w-[90%] sm:max-w-2xl mx-auto">
@@ -235,7 +235,7 @@ export function FeaturesSection() {
               <div className="inline-block px-3 py-1 rounded-full bg-[#EBF4FF] dark:bg-[#1E3A5F]/60 text-[#1565C0] dark:text-[#60A5FA] border border-[#D6E4F0] dark:border-[#1E3A5F] text-xs font-semibold mb-4 uppercase tracking-wide">
 <Glyph emoji="📹" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('landing.features.teleEyebrow')}
               </div>
-              <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#1A202C] dark:text-white leading-[1.1] mb-5">
                 {t('landing.features.teleTitle')}
               </h3>
               <p className="text-base sm:text-lg text-[#4A5568] dark:text-[#94A3B8] leading-relaxed mb-10 max-w-[560px] mx-auto">
