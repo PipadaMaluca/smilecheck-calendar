@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatters';
 import { demoText } from '@/lib/demoText';
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowLeft, Send, User, Stethoscope, Building2, MessageSquare, Plus, X } from 'lucide-react';
