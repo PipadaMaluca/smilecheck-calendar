@@ -74,10 +74,19 @@ const createPatient = (id: string, name: string, phone: string, rating: number, 
   dateOfBirth: createDateOfBirth(age),
 });
 
+// Demo realism: ~75% of upcoming 'agendada' visits are already confirmed (stable per id).
+const plausibleStatus = (c: Consultation): ConsultationStatus => {
+  const st = c.status || ('agendada' as ConsultationStatus);
+  if (st !== 'agendada') return st;
+  let h = 0;
+  for (let i = 0; i < c.id.length; i++) h = (h * 31 + c.id.charCodeAt(i)) >>> 0;
+  return (h % 4 === 0 ? 'agendada' : 'confirmada') as ConsultationStatus;
+};
+
 const withRequiredConsultationFields = (consultation: Consultation): Consultation => ({
   ...consultation,
   // Demo statuses follow the real clock (past → visto, ongoing → em_consulta, future → agendada).
-  status: liveDemoStatus(consultation.date, consultation.time, consultation.duration, consultation.status || ('agendada' as ConsultationStatus)),
+  status: liveDemoStatus(consultation.date, consultation.time, consultation.duration, plausibleStatus(consultation)),
   notes: consultation.notes || 'Observação clínica',
   patient: {
     ...consultation.patient,

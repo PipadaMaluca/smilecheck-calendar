@@ -1,6 +1,7 @@
 import { DentistInfo } from './TeamDentistCard';
+import { dentistMonthKpis } from '@/data/kpis';
 
-export const clinicTeamMembers: DentistInfo[] = [
+const clinicTeamBase: DentistInfo[] = [
   {
     id: '1', name: 'Dr. Gonçalo Pipo', specialty: 'Generalista',
     rating: 4.8, level: 'Ouro', consultationsThisMonth: 142,
