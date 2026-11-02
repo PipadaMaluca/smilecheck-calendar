@@ -7,7 +7,7 @@ export const isRealId = (id?: string | null) => !!id && UUID.test(id);
 export interface FearAssessment { level: FearLevel; createdAt: string; professionalId: string }
 export interface FearSummary { patientLevel: number | null; history: FearAssessment[] }
 
-/** Demo values (mock patients): self 2, professional 3 → shows the "differs by ≥ 2"-free normal case with history. */
+/** Demo values for mock patients: self-assessment 2, latest professional assessment 3. */
 export const DEMO_FEAR: FearSummary = {
   patientLevel: 2,
   history: [
