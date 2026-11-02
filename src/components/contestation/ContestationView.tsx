@@ -1,3 +1,4 @@
+import { pointsRuleLabel } from '@/lib/pointsRuleLabels';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Upload, X, FileText, Clock, Info } from 'lucide-react';
@@ -91,7 +92,7 @@ export function ContestationView({ onBack, entryData }: ContestationViewProps) {
               <p className="text-xs text-muted-foreground">{t('contestation.receivedAgo', { hours: entry.hoursAgo })}</p>
             </div>
             <Badge className="bg-destructive/15 text-destructive border-destructive/30 text-xs">
-              {entry.points} pontos · {entry.reason}
+              {t('contestation.pointsReason', { count: entry.points, reason: pointsRuleLabel(entry.reason) })}
             </Badge>
           </CardContent>
         </Card>

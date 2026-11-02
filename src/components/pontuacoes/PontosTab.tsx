@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/formatters';
 import { pointsRuleLabel } from '@/lib/pointsRuleLabels';
 import { formatDecimal1 } from '@/lib/formatters';
 import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
@@ -45,7 +46,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const boost = getVisibilityBoost(level.key, data.plan);
 
   const nextReset = new Date(DEMO_DATE.getFullYear() + 1, 0, 1);
-  const planLabel = data.plan === 'free' ? t('scores.planFreeLabel', { date: formatDate(nextReset, 'd MMM yyyy') }) :
+  const planLabel = data.plan === 'free' ? t('scores.planFreeLabel', { date: formatDate(nextReset) }) :
     data.plan === 'pro' ? t('scores.planProLabel') :
     t('scores.planPremiumLabel');
 
