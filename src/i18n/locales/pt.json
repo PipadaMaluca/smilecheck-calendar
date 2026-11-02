@@ -303,7 +303,16 @@
       "patients": "Pacientes",
       "dentists": "Dentistas",
       "clinics": "Clínicas",
-      "avgRating": "Rating médio"
+      "avgRating": "Avaliação média",
+      "title": "Feito para quem cuida do sorriso",
+      "profiles": "3 perfis",
+      "profilesDesc": "Paciente, dentista e clínica",
+      "languages": "3 línguas",
+      "languagesDesc": "Português, français, English",
+      "countries": "Portugal e França",
+      "countriesDesc": "Pensado para os dois países",
+      "rewards": "Pontos e recompensas",
+      "rewardsDesc": "Ganhe pontos ao cuidar da sua saúde oral"
     },
     "dashboard": {
       "consultationsToday": "Consultas hoje",
@@ -864,7 +873,6 @@
     "triageSymptoms": "Sintomas",
     "triageDuration": "Duração",
     "triageIntensity": "Intensidade",
-    "triagePhotos": "foto(s)",
     "triageView": "Ver",
     "healthAlerts": "Alertas de saúde",
     "allergies": "Alergias",
@@ -1846,7 +1854,6 @@
     "advancedFilters": "Filtros avançados",
     "maxTeleconsultPrice": "Preço máx. teleconsulta",
     "languages": "Idiomas",
-    "dentistsFound": "dentista(s) encontrado(s)",
     "noDentistsFound": "Nenhum dentista encontrado",
     "adjustFilters": "Tente ajustar os filtros ou alargar a distância",
     "applyFilters": "Aplicar filtros",
@@ -1881,7 +1888,6 @@
     "dentistsTab": "Dentistas",
     "clinicsTab": "Clínicas",
     "jobOffersShort": "Propostas",
-    "resultsFound": "{{count, number}} resultado(s) encontrado(s)",
     "noResultsFor": "Nenhum resultado para \"{{query}}\"",
     "viewAll": "Ver todos",
     "all": "Todos",
@@ -1926,7 +1932,9 @@
     "dentistsFound_one": "{{count, number}} dentista encontrado",
     "dentistsFound_other": "{{count, number}} dentistas encontrados",
     "yearsOld_one": "{{count, number}} ano",
-    "yearsOld_other": "{{count, number}} anos"
+    "yearsOld_other": "{{count, number}} anos",
+    "resultsFound_one": "{{count, number}} resultado encontrado",
+    "resultsFound_other": "{{count, number}} resultados encontrados"
   },
   "history": {
     "consultationHistory": "Histórico de consultas",
@@ -2141,7 +2149,7 @@
     "totalDentists": "Total dentistas",
     "consultationsThisMonth": "Consultas este mês",
     "confirmationRate": "Taxa confirmação",
-    "averageRating": "Rating médio",
+    "averageRating": "Avaliação média",
     "viewAgenda": "Ver agenda",
     "editSchedule": "Editar horário",
     "viewStats": "Ver estatísticas",
@@ -2999,7 +3007,8 @@
       "type": "Tipo",
       "routineCheckup": "Consulta de rotina",
       "photosAttached": "Fotos anexadas",
-      "photoCount": "{{count, number}} foto(s)"
+      "photoCount_one": "{{count, number}} foto",
+      "photoCount_other": "{{count, number}} fotos"
     },
     "ai": {
       "title": "Análise inteligente",
@@ -4307,9 +4316,10 @@
       "slotAvailable": "Horário disponível!",
       "waitlistPreference": "{{name}} tem este horário nas preferências da lista de espera.",
       "urgent": "Urgente",
-      "othersWaiting": "+{{count, number}} outro(s) paciente(s) em espera para este horário",
       "ignore": "Ignorar",
-      "assign": "Atribuir"
+      "assign": "Atribuir",
+      "othersWaiting_one": "+{{count, number}} outro paciente em espera para este horário",
+      "othersWaiting_other": "+{{count, number}} outros pacientes em espera para este horário"
     },
     "patientSidebar": {
       "newConsultation": "NOVA CONSULTA",

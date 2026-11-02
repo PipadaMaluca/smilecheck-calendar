@@ -303,7 +303,16 @@
       "patients": "Patients",
       "dentists": "Dentists",
       "clinics": "Clinics",
-      "avgRating": "Average rating"
+      "avgRating": "Average rating",
+      "title": "Built for everyone who cares for smiles",
+      "profiles": "3 profiles",
+      "profilesDesc": "Patient, dentist and clinic",
+      "languages": "3 languages",
+      "languagesDesc": "Português, français, English",
+      "countries": "Portugal and France",
+      "countriesDesc": "Designed for both countries",
+      "rewards": "Points and rewards",
+      "rewardsDesc": "Earn points by looking after your oral health"
     },
     "dashboard": {
       "consultationsToday": "Today's Appointments",
@@ -864,7 +873,6 @@
     "triageSymptoms": "Symptoms",
     "triageDuration": "Duration",
     "triageIntensity": "Intensity",
-    "triagePhotos": "photo(s)",
     "triageView": "View",
     "healthAlerts": "Health Alerts",
     "allergies": "Allergies",
@@ -1846,7 +1854,6 @@
     "advancedFilters": "Advanced Filters",
     "maxTeleconsultPrice": "Max teleconsultation price",
     "languages": "Languages",
-    "dentistsFound": "dentist(s) found",
     "noDentistsFound": "No dentists found",
     "adjustFilters": "Try adjusting the filters or increasing the distance",
     "applyFilters": "Apply Filters",
@@ -1881,7 +1888,6 @@
     "dentistsTab": "Dentists",
     "clinicsTab": "Clinics",
     "jobOffersShort": "Jobs",
-    "resultsFound": "{{count, number}} result(s) found",
     "noResultsFor": "No results for \"{{query}}\"",
     "viewAll": "View all",
     "all": "All",
@@ -1926,7 +1932,9 @@
     "dentistsFound_one": "{{count, number}} dentist found",
     "dentistsFound_other": "{{count, number}} dentists found",
     "yearsOld_one": "{{count, number}} year old",
-    "yearsOld_other": "{{count, number}} years old"
+    "yearsOld_other": "{{count, number}} years old",
+    "resultsFound_one": "{{count, number}} result found",
+    "resultsFound_other": "{{count, number}} results found"
   },
   "history": {
     "consultationHistory": "Consultation History",
@@ -2999,7 +3007,8 @@
       "type": "Type",
       "routineCheckup": "Routine check-up",
       "photosAttached": "Photos attached",
-      "photoCount": "{{count, number}} photo(s)"
+      "photoCount_one": "{{count, number}} photo",
+      "photoCount_other": "{{count, number}} photos"
     },
     "ai": {
       "title": "Smart analysis",
@@ -4307,9 +4316,10 @@
       "slotAvailable": "Slot available!",
       "waitlistPreference": "{{name}} has this time in their waiting list preferences.",
       "urgent": "Urgent",
-      "othersWaiting": "+{{count, number}} other patient(s) waiting for this slot",
       "ignore": "Ignore",
-      "assign": "Assign"
+      "assign": "Assign",
+      "othersWaiting_one": "+{{count, number}} other patient waiting for this slot",
+      "othersWaiting_other": "+{{count, number}} other patients waiting for this slot"
     },
     "patientSidebar": {
       "newConsultation": "NEW APPOINTMENT",

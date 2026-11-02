@@ -303,7 +303,16 @@
       "patients": "Patients",
       "dentists": "Dentistes",
       "clinics": "Cabinets",
-      "avgRating": "Note moyenne"
+      "avgRating": "Note moyenne",
+      "title": "Conçu pour tous ceux qui prennent soin du sourire",
+      "profiles": "3 profils",
+      "profilesDesc": "Patient, dentiste et cabinet",
+      "languages": "3 langues",
+      "languagesDesc": "Português, français, English",
+      "countries": "Portugal et France",
+      "countriesDesc": "Pensé pour les deux pays",
+      "rewards": "Points et récompenses",
+      "rewardsDesc": "Gagnez des points en prenant soin de votre santé bucco-dentaire"
     },
     "dashboard": {
       "consultationsToday": "Rendez-vous du jour",
@@ -848,7 +857,6 @@
     "triageSymptoms": "Symptômes",
     "triageDuration": "Durée",
     "triageIntensity": "Intensité",
-    "triagePhotos": "photo(s)",
     "triageView": "Voir",
     "healthAlerts": "Alertes de santé",
     "allergies": "Allergies",
@@ -1830,7 +1838,6 @@
     "advancedFilters": "Filtres avancés",
     "maxTeleconsultPrice": "Prix max. téléconsultation",
     "languages": "Langues",
-    "dentistsFound": "dentiste(s) trouvé(s)",
     "noDentistsFound": "Aucun dentiste trouvé",
     "adjustFilters": "Essayez d'ajuster les filtres ou d'augmenter la distance",
     "applyFilters": "Appliquer les filtres",
@@ -1865,7 +1872,6 @@
     "dentistsTab": "Dentistes",
     "clinicsTab": "Cliniques",
     "jobOffersShort": "Offres",
-    "resultsFound": "{{count, number}} résultat(s) trouvé(s)",
     "noResultsFor": "Aucun résultat pour \"{{query}}\"",
     "viewAll": "Voir tout",
     "all": "Tous",
@@ -1910,7 +1916,9 @@
     "dentistsFound_one": "{{count, number}} dentiste trouvé",
     "dentistsFound_other": "{{count, number}} dentistes trouvés",
     "yearsOld_one": "{{count, number}} an",
-    "yearsOld_other": "{{count, number}} ans"
+    "yearsOld_other": "{{count, number}} ans",
+    "resultsFound_one": "{{count, number}} résultat trouvé",
+    "resultsFound_other": "{{count, number}} résultats trouvés"
   },
   "history": {
     "consultationHistory": "Historique des consultations",
@@ -2983,7 +2991,8 @@
       "type": "Type",
       "routineCheckup": "Contrôle de routine",
       "photosAttached": "Photos jointes",
-      "photoCount": "{{count, number}} photo(s)"
+      "photoCount_one": "{{count, number}} photo",
+      "photoCount_other": "{{count, number}} photos"
     },
     "ai": {
       "title": "Analyse intelligente",
@@ -4307,9 +4316,10 @@
       "slotAvailable": "Créneau disponible !",
       "waitlistPreference": "{{name}} a cet horaire dans ses préférences de liste d'attente.",
       "urgent": "Urgent",
-      "othersWaiting": "+{{count, number}} autre(s) patient(s) en attente pour ce créneau",
       "ignore": "Ignorer",
-      "assign": "Attribuer"
+      "assign": "Attribuer",
+      "othersWaiting_one": "+{{count, number}} autre patient en attente pour ce créneau",
+      "othersWaiting_other": "+{{count, number}} autres patients en attente pour ce créneau"
     },
     "patientSidebar": {
       "newConsultation": "NOUVEAU RENDEZ-VOUS",
