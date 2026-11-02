@@ -111,7 +111,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 onClick={() => setActiveSubTab(tab.id)}
                 className={cn(
                   'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
-                  activeSubTab === tab.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                  activeSubTab === tab.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'text-muted-foreground hover:text-foreground'
                 )}>
                 {tab.label}
               </button>
@@ -133,7 +133,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     onClick={() => setPeriod(p.id)}
                     className={cn(
                       'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
-                      period === p.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                      period === p.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'text-muted-foreground hover:text-foreground'
                     )}>
                     {p.label}
                   </button>

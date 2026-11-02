@@ -220,7 +220,7 @@ export function MobileAgendaFilter({
           <Filter className="w-3.5 h-3.5" />
           <span>{t('common.filter')}</span>
           {selectedDentistIds.length > 0 && (
-            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-2xs font-bold flex items-center justify-center">
+            <span className="ml-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 text-2xs font-bold flex items-center justify-center">
               {selectedDentistIds.length}
             </span>
           )}

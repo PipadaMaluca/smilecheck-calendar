@@ -577,7 +577,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                         <div className="flex flex-col items-end gap-1 flex-shrink-0">
                           <span className="text-2xs text-muted-foreground">{resolveDateLabel(conversation.lastMessageTime)}</span>
                           {isUnread && (
-                            <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground text-2xs font-bold flex items-center justify-center">
+                            <span className="w-5 h-5 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 text-2xs font-bold flex items-center justify-center">
                               {conversation.unread}
                             </span>
                           )}
@@ -644,7 +644,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                           className={cn(
                             'max-w-[75%] rounded-2xl py-2.5 px-3.5 mx-1.5 my-1',
                             msg.fromMe
-                              ? 'bg-primary text-primary-foreground rounded-br-md'
+                              ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 rounded-br-md'
                               : 'bg-secondary rounded-bl-md'
                           )}
                         >

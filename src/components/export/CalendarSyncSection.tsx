@@ -178,7 +178,7 @@ export function CalendarSyncSection() {
                   <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleRegenerate}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    className="bg-primary-solid text-primary-foreground hover:bg-primary-solid/90"
                   >
                     {t('common.confirm')}
                   </AlertDialogAction>

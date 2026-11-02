@@ -64,7 +64,7 @@ export function MobileHeader({
         
         {/* View Mode Selector - centered (not for patient) */}
         {onViewModeChange && <div className="flex items-center justify-center gap-1 w-full">
-            {modes.map((mode) => <button key={mode.id} onClick={() => onViewModeChange(mode.id)} className={cn('px-3 py-1.5 text-xs font-medium rounded-md transition-colors', viewMode === mode.id ? 'bg-primary text-primary-foreground' : 'bg-secondary/30 text-muted-foreground hover:bg-secondary/50')}>
+            {modes.map((mode) => <button key={mode.id} onClick={() => onViewModeChange(mode.id)} className={cn('px-3 py-1.5 text-xs font-medium rounded-md transition-colors', viewMode === mode.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-secondary/30 text-muted-foreground hover:bg-secondary/50')}>
                 {mode.label}
               </button>)}
           </div>}

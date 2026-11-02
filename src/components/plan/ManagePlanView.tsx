@@ -295,7 +295,7 @@ export function ManagePlanView({
           className={cn(
             'px-4 py-2 rounded-l-lg text-sm font-medium transition-colors border',
             !isAnnual ?
-            'bg-primary text-primary-foreground border-primary' :
+            'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.monthly')}
@@ -305,7 +305,7 @@ export function ManagePlanView({
           className={cn(
             'px-4 py-2 rounded-r-lg text-sm font-medium transition-colors border relative',
             isAnnual ?
-            'bg-primary text-primary-foreground border-primary' :
+            'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary' :
             'bg-secondary/50 text-muted-foreground border-border hover:bg-secondary'
           )}>
           {t('plan.annual')}

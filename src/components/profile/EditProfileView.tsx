@@ -434,7 +434,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                 {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
               </div>
-              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
+              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
                 <Camera className="w-4 h-4" />
               </button>
             </div>

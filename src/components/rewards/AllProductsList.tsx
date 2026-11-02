@@ -79,7 +79,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
                 </Badge>
                 <span className={cn(
                   'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap min-w-[90px] text-center',
-                  canAfford ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground',
+                  canAfford ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-muted text-muted-foreground',
                 )}>
                   {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
                 </span>

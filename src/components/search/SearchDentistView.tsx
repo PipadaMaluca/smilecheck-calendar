@@ -130,7 +130,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
               className={cn(
                 'flex items-center gap-1.5 h-auto px-2.5 py-1.5 rounded-full text-xs font-medium tap-target',
                 selectedLanguages.includes(lang.code)
-                  ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                  ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary hover:bg-primary/90'
                   : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
               )}
             >

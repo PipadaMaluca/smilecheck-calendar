@@ -110,7 +110,7 @@ export function DentistFilters({
                     className={cn(
                       'h-auto px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap tap-target',
                       availability === a.key
-                        ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                        ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary hover:bg-primary/90'
                         : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
                     )}
                   >
