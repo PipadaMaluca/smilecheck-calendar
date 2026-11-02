@@ -307,6 +307,10 @@ export function MultiDentistGrid({
                     const displayName = showFullName 
                       ? `${patientName.split(' ')[0]} ${patientName.split(' ').slice(-1)[0]}`
                       : patientName.split(' ')[0];
+                    // Short blocks (one 30-min row) show a single line: time + name. The rest lives in
+                    // the native tooltip and the hover preview, so text never spills into the next block.
+                    const isShort = spanCount <= 1;
+                    const tooltip = [`${slot.time} · ${patientName}`, getCategoryLabel(t, category), consultation.notes].filter(Boolean).join('\n');
 
                     return (
                       <div
@@ -321,7 +325,9 @@ export function MultiDentistGrid({
                         onMouseEnter={() => onConsultationHover?.(consultation)}
                         onMouseLeave={() => onConsultationHover?.(null)}
                         onClick={() => onSlotClick?.(col.dentist.id, col.clinic.id, slot)}
+                        title={isShort ? tooltip : undefined}
                         className={cn(
+                          isShort && "!justify-center",
                           "appt-block rounded-md flex flex-col items-start justify-start gap-[1px] cursor-grab active:cursor-grabbing hover:opacity-80 transition-colors overflow-hidden appointment-card-mobile",
                           smallMobileMulti ? "!px-[4px] !py-[3px]" : isSingleColumn ? "px-[3px] py-[2px]" : D.pad,
                           draggedConsultation?.consultation.id === consultation.id && "opacity-40 border-2 border-dashed border-primary"
@@ -338,12 +344,12 @@ export function MultiDentistGrid({
                           <span className={cn("font-medium text-white truncate min-w-0", smallMobileMulti ? "text-[11px]" : isSingleColumn ? "text-[11px]" : D.name)} title={`${displayName}${patientAge ? ` (${patientAge} anos)` : ''}`}>
                             {smallMobileMulti ? patientName.split(' ')[0] : displayName}
                           </span>
-                          {!smallMobileMulti && patientAge != null && (
+                          {!smallMobileMulti && !isShort && patientAge != null && (
                             <span className={cn("text-white/85 font-medium flex-shrink-0", isSingleColumn ? "text-[11px]" : D.age)}>({patientAge} anos)</span>
                           )}
                         </div>
-                        {/* Line 2: Type pill + description */}
-                        <div data-line="type-row" className="flex flex-wrap items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
+                        {/* Line 2: Type pill + description (hidden on short blocks) */}
+                        {!isShort && <div data-line="type-row" className="flex flex-wrap items-center gap-1 w-full min-w-0" style={{ lineHeight: 1 }}>
                           {smallMobileMulti ? (
                             <span
                               aria-label={getCategoryLabel(t, category)}
@@ -366,7 +372,7 @@ export function MultiDentistGrid({
                               {consultation.notes}
                             </span>
                           )}
-                        </div>
+                        </div>}
                       </div>
                     );
                   })}
