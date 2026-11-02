@@ -279,7 +279,7 @@
     "level": "Niveau",
     "xp": "XP",
     "availablePoints": "Points",
-    "streak": "Streak",
+    "streak": "Série",
     "days": "jours"
   },
   "language": {
@@ -309,7 +309,7 @@
       "consultationsToday": "Rendez-vous du Jour",
       "level": "Niveau",
       "points": "Points",
-      "streak": "Streak",
+      "streak": "Série",
       "weeklyAgenda": "Agenda Hebdomadaire",
       "days": "jours"
     },
@@ -589,10 +589,10 @@
     "rewardsOpenDaily": "Ouvrez l'app tous les jours!",
     "rewardsReset": "Remise à zéro à",
     "rewardsResetTime": "9h",
-    "rewardsDontLose": "— ne perdez pas votre streak !",
+    "rewardsDontLose": "— ne perdez pas votre série !",
     "rewardsCheckin": "Check-in quotidien",
-    "rewardsStreak7": "Streak 7 jours",
-    "rewardsStreak30": "Streak 30 jours",
+    "rewardsStreak7": "Série 7 jours",
+    "rewardsStreak30": "Série 30 jours",
     "rankingsTitle": "CLASSEMENTS & COMPÉTITION",
     "rankingsTypes": "Types de Classements",
     "monthlyPrizes": "Prix Mensuels",
@@ -630,7 +630,7 @@
       "prescription": "Émettre une ordonnance",
       "referralLetter": "Lettre de référence",
       "rating5FromPatient": "Note 5 d'un patient",
-      "streak7days": "Streak 7 jours",
+      "streak7days": "Série 7 jours",
       "clinicConsultCompleted": "Rendez-vous terminé au cabinet",
       "clinicTeleconsult": "Téléconsultation réalisée",
       "clinicRating5": "Note 5 d'un patient",
@@ -674,7 +674,7 @@
     "upcomingConsultations": "Prochains Rendez-vous",
     "levelAndXp": "Niveau et XP",
     "availablePoints": "Points",
-    "streak": "Streak",
+    "streak": "Série",
     "presential": "En personne",
     "teleconsultations": "Téléconsultations",
     "total": "total",
@@ -1261,11 +1261,11 @@
         "desc": "Inviter 5 amis"
       },
       "f1": {
-        "name": "Streak 7",
+        "name": "Série 7",
         "desc": "7 jours consécutifs"
       },
       "f2": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours consécutifs"
       },
       "f3": {
@@ -1273,7 +1273,7 @@
         "desc": "1 an dans l'app"
       },
       "f4": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours consécutifs"
       },
       "f5": {
@@ -1371,19 +1371,19 @@
         "desc": "1ère place nationale"
       },
       "cs1": {
-        "name": "Streak 7",
+        "name": "Série 7",
         "desc": "7 jours consécutifs"
       },
       "cs2": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours consécutifs"
       },
       "cs3": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours consécutifs"
       },
       "cs4": {
-        "name": "Streak 365",
+        "name": "Série 365",
         "desc": "365 jours consécutifs"
       },
       "dso1": {
@@ -1423,7 +1423,7 @@
         "desc": "500 téléconsultations"
       },
       "dsec3": {
-        "name": "Streak Annuel",
+        "name": "Série Annuel",
         "desc": "365 jours consécutifs"
       }
     },
@@ -1525,15 +1525,15 @@
         "desc": "1ère place nationale"
       },
       "ccs1": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours sans absences"
       },
       "ccs2": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours sans absences"
       },
       "ccs3": {
-        "name": "Streak 365",
+        "name": "Série 365",
         "desc": "1 an sans absences"
       },
       "cf1": {
@@ -1576,7 +1576,7 @@
     "subtitleNoClass": "XP et points de récompense",
     "pointsTab": "Points",
     "classificationsTab": "Classements",
-    "dailyStreakTab": "Streak Quotidien",
+    "dailyStreakTab": "Série Quotidien",
     "levelAndXp": "Niveau et Expérience",
     "missingFor": "Il manque",
     "for": "pour",
@@ -1612,17 +1612,17 @@
     "planProLabel": "Plan Pro — Pas de remise à zéro annuelle",
     "planPremiumLabel": "Plan Premium — Pas de remise à zéro + 10% bonus",
     "patient2x": "Patient (2x)",
-    "currentStreak": "Streak Actuel",
-    "bestStreak": "Meilleur streak",
-    "resetAt": "Remise à zéro à 9h — ne perdez pas votre streak !",
+    "currentStreak": "Série Actuel",
+    "bestStreak": "Meilleur série",
+    "resetAt": "Remise à zéro à 9h — ne perdez pas votre série !",
     "dailyRewards": "Récompenses Quotidiennes",
     "nextRewardIn": "Prochaine récompense dans :",
     "openDaily": "Ouvrez l'app tous les jours !",
     "dailyCheckin": "Check-in quotidien",
-    "streak7days": "Streak 7 jours",
-    "streak30days": "Streak 30 jours",
+    "streak7days": "Série 7 jours",
+    "streak30days": "Série 30 jours",
     "calendar": "Calendrier",
-    "streakHistory": "Historique des Streaks",
+    "streakHistory": "Historique des Série",
     "active": "Actif",
     "days": "jours",
     "weekDays": [
