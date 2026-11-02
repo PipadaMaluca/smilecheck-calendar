@@ -100,7 +100,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
     const a = document.createElement('a');
     a.href = canvas.toDataURL('image/png'); a.download = `smilecheck-${code}.png`; a.click();
   };
-  const shareTargets: { id: string; label: string; Icon: React.ComponentType<{ className?: string }>; onClick: () => void; copyOnly?: boolean }[] = [
+  const shareTargets: { id: string; label: string; Icon: React.ComponentType<{ className?: string }>; onClick: () => void; copyOnly?: boolean; by?: string }[] = [
     { id: 'whatsapp', label: 'WhatsApp', Icon: WhatsAppIcon, onClick: () => open(`https://wa.me/?text=${enc(shareMessage)}`) },
     { id: 'telegram', label: 'Telegram', Icon: TelegramIcon, onClick: () => open(`https://t.me/share/url?url=${enc(link)}&text=${enc(t('invite.shareMessage', { code, link: '' }).trim())}`) },
     { id: 'messenger', label: 'Messenger', Icon: MessengerIcon, onClick: () => {
