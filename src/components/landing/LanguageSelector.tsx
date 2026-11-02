@@ -65,7 +65,7 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >
-              <img src={lang.flag} alt="" width={24} height={16} className="w-6 h-4 rounded-[2px] object-cover shrink-0 shadow-sm" />
+              <img src={lang.flag} alt="" width={24} height={16} className="w-6 h-4 rounded-xs object-cover shrink-0 shadow-sm" />
               <span className="text-[hsl(220,15%,85%)] font-semibold text-lg group-hover:text-white transition-colors">
                 {lang.label}
               </span>

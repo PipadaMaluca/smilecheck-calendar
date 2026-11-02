@@ -124,6 +124,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "2px",
       },
       zIndex: {
         // === Stacking scale (Phase 6) — single source of truth for overlay z-index ===
