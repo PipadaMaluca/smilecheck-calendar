@@ -110,14 +110,14 @@
   "nav": {
     "home": "Home",
     "agenda": "Agenda",
-    "consultations": "Consultations",
+    "consultations": "Appointments",
     "health": "Health",
     "conversations": "Conversations",
     "achievements": "Achievements",
     "statistics": "Statistics",
     "billing": "Billing",
     "managePlan": "Manage plan",
-    "rewardsStore": "Rewards Store",
+    "rewardsStore": "Rewards store",
     "search": "Search",
     "scores": "Scores",
     "settings": "Settings",
@@ -295,7 +295,7 @@
       "title": "Your smile deserves",
       "titleHighlight": "the best",
       "subtitle": "Appointment management, teleconsultations, points and rewards in one platform. For patients, dentists and clinics.",
-      "cta": "Create Free account",
+      "cta": "Create free account",
       "demo": "See demo",
       "hasAccount": "Already have an account?"
     },
@@ -438,7 +438,7 @@
     "ctaFinal": {
       "title": "Ready to take care of your smile?",
       "subtitle": "Join thousands of patients, dentists and clinics",
-      "cta": "Create Free account",
+      "cta": "Create free account",
       "noCommitment": "No commitment. Free forever."
     },
     "footer": {
@@ -675,7 +675,8 @@
     "patients_one": "{{count, number}} patient",
     "patients_other": "{{count, number}} patients",
     "consultations_one": "{{count, number}} appointment",
-    "consultations_other": "{{count, number}} appointments"
+    "consultations_other": "{{count, number}} appointments",
+    "noMoreToday": "No more appointments today"
   },
   "agenda": {
     "today": "Today",
@@ -1074,7 +1075,7 @@
     "all": "All",
     "completed": "Completed",
     "manageShowcase": "Manage highlights",
-    "addToShowcase": "Add to Showcase?",
+    "addToShowcase": "Add to showcase?",
     "secret": "Secret achievement",
     "secrets": "Secrets",
     "secretsDesc": "Hidden achievements — discover how to unlock them",
@@ -1083,12 +1084,12 @@
     "addedToShowcase": "added to showcase!",
     "removedFromShowcase": "removed from showcase",
     "categories": {
-      "firstSteps": "First Steps",
+      "firstSteps": "First steps",
       "consultations": "Appointments",
       "health": "Health",
       "social": "Social",
       "loyalty": "Loyalty",
-      "workVolume": "Work Volume",
+      "workVolume": "Work volume",
       "quality": "Quality",
       "rankings": "Rankings",
       "consistency": "Consistency",
@@ -1098,13 +1099,13 @@
       "volume": "Volume"
     },
     "cat": {
-      "firstSteps": "First Steps",
+      "firstSteps": "First steps",
       "consultations": "Appointments",
       "health": "Health",
       "social": "Social",
       "loyalty": "Loyalty",
       "secrets": "Secrets",
-      "workVolume": "Work Volume",
+      "workVolume": "Work volume",
       "quality": "Quality",
       "rankings": "Rankings",
       "consistency": "Consistency",
@@ -1570,7 +1571,7 @@
     "action": "Action",
     "penalties": "Penalties",
     "penaltyNote": "Note: XP never decreases — only reward points are penalised.",
-    "antiFraud": "Anti-Fraud rules",
+    "antiFraud": "Anti-fraud rules",
     "antiFraudPhone": "Phone verification required for all accounts",
     "antiFraudLimit": "Limit of 40 ratings per day",
     "antiFraudContest": "Disputes always available for unfair ratings",
@@ -1583,7 +1584,7 @@
     "thisMonth": "This month",
     "everything": "All time",
     "noResults": "No results.",
-    "planFreeLabel": "Free plan — reset on 1 Jan 2027",
+    "planFreeLabel": "Free plan — reset on {{date}}",
     "planProLabel": "Pro plan — no annual reset",
     "planPremiumLabel": "Premium plan — no reset + 10% bonus",
     "patient2x": "Patient (2x)",
@@ -1899,7 +1900,7 @@
     "ratingReceived": "Rating received:"
   },
   "store": {
-    "title": "Rewards Store",
+    "title": "Rewards store",
     "balance": "Balance",
     "redeem": "Redeem",
     "pointsNeeded": "points needed",
@@ -2510,7 +2511,9 @@
       "systemError": "There was a system error",
       "emergency": "Medical/personal emergency",
       "other": "Other reason"
-    }
+    },
+    "pointsReason_one": "{{count}} point · {{reason}}",
+    "pointsReason_other": "{{count}} points · {{reason}}"
   },
   "blocking": {
     "blockPatient": "Block patient",
@@ -2855,13 +2858,13 @@
     "total": "Total"
   },
   "achievementData": {
-    "firstSteps": "First Steps",
+    "firstSteps": "First steps",
     "consultations": "Consultations",
     "health": "Health",
     "social": "Social",
     "loyalty": "Loyalty",
     "secrets": "Secrets",
-    "workVolume": "Work Volume",
+    "workVolume": "Work volume",
     "quality": "Quality",
     "rankings": "Rankings",
     "consistency": "Consistency",
@@ -2872,7 +2875,7 @@
     "secretAchievement": "Secret achievement",
     "removeFirst": "Remove an achievement first (max 8)",
     "showcaseUpdated": "Showcase achievements updated!",
-    "chooseShowcase": "Choose Showcase Achievements",
+    "chooseShowcase": "Choose showcase achievements",
     "selectUpTo8": "Select up to 8 achievements to display on your profile"
   },
   "triage": {
@@ -2939,7 +2942,8 @@
       "tip1": "Take photos with good lighting",
       "tip2": "Focus on the affected area",
       "tip3": "Include different angles if possible",
-      "photosAttached": "photo(s)"
+      "photosAttached_one": "{{count}} photo attached",
+      "photosAttached_other": "{{count}} photos attached"
     },
     "completionLabels": {
       "symptoms": "Symptoms",
@@ -3121,7 +3125,7 @@
     "bookAppointments": "Book appointments",
     "teleconsult1": "1 teleconsultation/month",
     "basicPoints": "Basic points system",
-    "notifAppPushEmail": "Notifications: App, push, email",
+    "notifAppPushEmail": "Notifications: app, push and email",
     "lightDarkTheme": "Light/dark theme",
     "fixedColors10": "10 appointment colours (fixed)",
     "annualReset": "Annual points reset",
@@ -3171,7 +3175,7 @@
       "bookAppointments": "Book appointments",
       "1teleconsultMonth": "1 teleconsult/month",
       "basicPointsSystem": "Basic points system",
-      "notifAppPushEmail": "Notifications: App, push, email",
+      "notifAppPushEmail": "Notifications: app, push and email",
       "lightDarkTheme": "Light/dark theme",
       "10fixedColors": "10 appointment colors (fixed)",
       "annualPointsReset": "Annual points reset",
@@ -3742,7 +3746,8 @@
     "step2": "Go to Settings → Connect device",
     "step3": "Point the camera at this code",
     "autoRefresh": "The code refreshes automatically every 60 seconds",
-    "simulateDemo": "Simulate authorization (demo)"
+    "simulateDemo": "Simulate authorization (demo)",
+    "label": "QR code"
   },
   "phoneInput": {
     "france": "France",
@@ -4030,9 +4035,9 @@
     "disclaimer": "Demo mode — the data shown is fictional"
   },
   "level": {
-    "myLevelTab": "My Level",
+    "myLevelTab": "My level",
     "current": "Current",
-    "allLevels": "All Levels",
+    "allLevels": "All levels",
     "multiplier": "multiplier",
     "visibility": "Visibility",
     "featured": "Featured",
@@ -4627,7 +4632,9 @@
     "today": "Today",
     "goToSlide": "Go to screen {{n}}",
     "freeSlotAt": "Free slot at {{time}} — {{name}}",
-    "copyCode": "Copy code"
+    "copyCode": "Copy code",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide"
   },
   "demoText": {
     "abcesso": "Abscess",
@@ -4822,7 +4829,7 @@
     "elixir_branqueador": "Whitening mouthwash",
     "elixir_para_gengivas_sensiveis": "Mouthwash for sensitive gums",
     "elixir_sem_alcool": "Alcohol-free mouthwash",
-    "elixires_bochechos": "Mouthwashes/Rinses",
+    "elixires_bochechos": "Mouthwashes/rinses",
     "emitir_receita": "Issue prescription",
     "escova_360_advanced": "360 Advanced toothbrush",
     "escova_electrica_pro_2": "Pro 2 electric toothbrush",
@@ -4852,7 +4859,7 @@
     "fio_dentario_para_aparelho_implantes": "Dental floss for braces/implants",
     "gel_bioadhesivo_lacer": "Lacer bioadhesive gel",
     "gostaria_de_agendar_uma_consulta_para_o_meu_filho": "I would like to book an appointment for my son.",
-    "implantes_maquinas": "Implants (Motors)",
+    "implantes_maquinas": "Implants (motors)",
     "irrigador_oral_aquacare": "Aquacare oral irrigator",
     "irrigador_oral_basico": "Basic oral irrigator",
     "irrigador_oral_premium": "Premium oral irrigator",
@@ -4905,7 +4912,7 @@
     "preciso_de_bloquear_o_horario_da_manha_de_quarta": "I need to block out Wednesday morning.",
     "protetor_bucal_bruxismo": "Bite splint (bruxism)",
     "qual_o_horario_de_funcionamento_ao_sabado": "What are the opening hours on Saturdays?",
-    "raio_x_periapical": "Periapical X-ray",
+    "raio_x_periapical": "Periapical x-ray",
     "raspador_de_lingua": "Tongue scraper",
     "reclamacao_nao_resolvida": "Unresolved complaint",
     "responder_mensagem_em_24h": "Reply to message within 24h",
@@ -4940,7 +4947,19 @@
     "streakDate_24_Nov_2025": "Nov 24, 2025",
     "streakDate_25_Jan_2026": "Jan 25, 2026",
     "streakDate_28_Nov_2025": "Nov 28, 2025",
-    "streakDate_5_Nov_2025": "Nov 5, 2025"
+    "streakDate_5_Nov_2025": "Nov 5, 2025",
+    "cat_consultas": "Appointments",
+    "cat_higiene_oral": "Oral hygiene",
+    "cat_marcas": "Brands",
+    "cat_formacao": "Training",
+    "cat_subscricao": "Subscription",
+    "cat_equipamento": "Equipment",
+    "cat_software": "Software",
+    "alergia_penicilina": "Penicillin",
+    "alergia_latex": "Latex",
+    "local_lisboa_portugal": "Lisbon, Portugal",
+    "local_lisboa": "Lisbon",
+    "device_pc_windows_chrome": "Windows PC — Chrome"
   },
   "plans": {
     "f": {
@@ -5067,5 +5086,44 @@
     "playingDesc": "No real ad network yet. Please wait a few seconds.",
     "bannerLabel": "Advertisement",
     "bannerPlaceholder": "Ad space (Free plan)"
+  },
+  "pointsRules": {
+    "anuncios_10": "10 ads watched",
+    "avaliacao_1": "1★ rating",
+    "avaliacao_2": "2★ rating",
+    "avaliacao_3": "3★ rating",
+    "avaliacao_4": "4★ rating",
+    "avaliacao_5": "5★ rating",
+    "deixar_avaliacao": "Leave a rating",
+    "cancelamento_tardio": "Late cancellation",
+    "cancelamento_tardio_dentista": "Late appointment cancellation",
+    "carta_referencia": "Referral letter",
+    "checkin_diario": "Daily check-in",
+    "chegou_a_horas": "Arrived on time",
+    "colaborou": "Cooperated during the appointment",
+    "compareceu": "Attended",
+    "confirmacao_1h": "Confirmation 1 h before",
+    "confirmacao_24h": "Confirmation 24 h before",
+    "consulta_concluida": "Appointment completed",
+    "consulta_clinica": "Appointment at the clinic",
+    "convidar_amigo": "Invite a friend",
+    "convite_nivel2": "Invite from an invitee",
+    "emitir_receita": "Issue a prescription",
+    "falta": "Unjustified no-show",
+    "falta_base": "Unjustified no-show (base)",
+    "higiene_oral": "Good oral hygiene",
+    "mensagem_24h": "Reply to a message within 24 h",
+    "mensagem_48h_sem_resposta": "Message unanswered for 48 h",
+    "novo_dentista_ativo": "New active dentist",
+    "penalizacao_confirmacao": "Confirmation penalty",
+    "reclamacao_nao_resolvida": "Unresolved complaint",
+    "seguiu_recomendacoes": "Followed recommendations",
+    "streak_30": "30-day streak",
+    "streak_7": "7-day streak",
+    "taxa_confirmacao_90": "Confirmation rate >90% (weekly)",
+    "teleconsulta": "Teleconsultation",
+    "achievement": "Achievement unlocked",
+    "suffixDentist": "(dentist)",
+    "suffixClinic": "(clinic)"
   }
 }
