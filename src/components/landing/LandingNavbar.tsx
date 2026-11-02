@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Menu, LogIn, Check } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -90,28 +91,41 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Mobile (<768): 2-row layout */}
+        {/* Mobile (<768): logo + sign-up + compact menu (language, theme, login). Fits at 360px. */}
         <div className="md:hidden">
-          {/* Single row: toggles (left-center) + auth (right) — 44px */}
-          <div className="flex items-center justify-between h-11 gap-2">
-            <div className="flex-shrink-0">{renderToggleGroup('sm')}</div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={() => navigate('/login')}
-                className={cn(
-                  'text-[12px] font-medium transition-colors whitespace-nowrap',
-                  isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
-                )}
-              >
-                {t('landing.navbar.login')}
-              </button>
-              <button
-                onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-[12px] font-semibold whitespace-nowrap shadow-[0_4px_14px_rgba(33,150,243,0.3)] transition-colors"
-                style={{ padding: '5px 10px' }}
-              >
+          <div className="flex items-center justify-between h-14 gap-2 min-w-0">
+            <a href="#" className="flex-shrink min-w-0 flex items-center min-h-11" aria-label="SmileCheck">
+              <Logo variant="icon" size={32} />
+            </a>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <Button size="sm" onClick={() => navigate('/signup')} className="rounded-full min-h-11 px-4 text-sm font-semibold whitespace-nowrap">
                 {t('landing.navbar.signup')}
-              </button>
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="min-h-11 min-w-11" aria-label={t('a11y.openMenu')}>
+                    <Menu className="w-5 h-5" aria-hidden />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem className="min-h-11" onSelect={() => navigate('/login')}>
+                    <LogIn className="w-4 h-4 mr-2" aria-hidden />{t('landing.navbar.login')}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  {langs.map((lang) => (
+                    <DropdownMenuItem key={lang} className="min-h-11" onSelect={() => i18n.changeLanguage(lang)}>
+                      <span className="w-6 text-xs font-semibold text-muted-foreground">{lang.toUpperCase()}</span>
+                      {t(`i18nC.lang_${lang}`, { defaultValue: { pt: 'Português', fr: 'Français', en: 'English' }[lang] })}
+                      {i18n.language?.startsWith(lang) && <Check className="w-4 h-4 ml-auto" aria-hidden />}
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="min-h-11" onSelect={onToggleTheme}>
+                    {isDark ? <Sun className="w-4 h-4 mr-2" aria-hidden /> : <Moon className="w-4 h-4 mr-2" aria-hidden />}
+                    {isDark ? t('i18nC.lightMode') : t('i18nC.darkMode')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
