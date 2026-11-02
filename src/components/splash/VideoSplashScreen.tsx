@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { prefersReducedMotion } from '@/lib/a11y';
 
 interface VideoSplashScreenProps {
   role: string;
@@ -37,6 +38,8 @@ export function VideoSplashScreen({ role, onFinish }: VideoSplashScreenProps) {
   // Timers + playback start run exactly once per mount — no prop-identity reruns,
   // so the video is never restarted mid-playback.
   useEffect(() => {
+    // Reduced motion: skip the animated splash entirely.
+    if (prefersReducedMotion()) { finishRef.current(); return; }
     const skipTimer = setTimeout(() => setShowSkip(true), 2000);
     const safetyTimer = setTimeout(() => finishRef.current(), 8000);
 
