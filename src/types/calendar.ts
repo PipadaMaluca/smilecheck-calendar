@@ -235,3 +235,32 @@ export interface FamilyMember {
   age: number;
   relation: string;
 }
+
+/**
+ * Translates any raw consultation type / status value (app or database enum) for display.
+ * Unknown values are returned unchanged only if they don't look like an enum key.
+ */
+const RAW_VALUE_I18N: Record<string, string> = {
+  ...CATEGORY_I18N_KEYS,
+  avaliacao: 'consultationTypes.evaluation',
+  presencial: 'consultation.inPerson',
+  agendada: 'consultation.scheduled',
+  confirmada: 'consultation.confirmed',
+  concluida: 'consultation.completed',
+  cancelada: 'consultation.cancelled',
+  falta: 'consultation.noShow',
+  em_consulta: 'consultation.inProgress',
+  em_sala_espera: 'consultation.waitingRoom',
+  em_sala_de_espera: 'consultation.waitingRoom',
+  visto: 'consultation.seen',
+  falta_nao_justificada: 'patientStatuses.noShowUnexcused',
+  falta_justificada: 'patientStatuses.noShowExcused',
+};
+
+export function translateRawValue(t: (key: string) => string, value?: string | null): string {
+  if (!value) return '';
+  const key = RAW_VALUE_I18N[value];
+  if (key) return t(key);
+  // Never leak snake_case DB keys: fall back to a readable form.
+  return /^[a-z0-9_]+$/.test(value) ? value.replace(/_/g, ' ').replace(/^./, c => c.toUpperCase()) : value;
+}
