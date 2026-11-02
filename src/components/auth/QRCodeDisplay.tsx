@@ -121,7 +121,7 @@ export function QRCodeDisplay({ onAuthorized }: QRCodeDisplayProps) {
           )}
         </svg>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img src="/assets/smilecheck-icon-watermark.png" alt="" className="w-8 h-8 sm:w-10 sm:h-10 rounded-md" style={{ filter: 'none', opacity: 1 }} />
+          <img src="/assets/smilecheck-icon-watermark.webp" alt="" className="w-8 h-8 sm:w-10 sm:h-10 rounded-md" style={{ filter: 'none', opacity: 1 }} />
         </div>
         {expired && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 rounded-2xl p-4">

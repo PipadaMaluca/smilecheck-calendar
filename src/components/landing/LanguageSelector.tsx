@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { Languages } from 'lucide-react';
 import { LANGUAGE_CHOSEN_KEY } from '@/i18n';
 
-const logoSrc = '/assets/smilecheck-logo-blue.png';
+const logoSrc = '/assets/smilecheck-logo-blue.webp';
 
 interface LanguageSelectorProps {
   onSelect: (lang: string) => void;

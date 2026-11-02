@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const logoSrc = '/assets/smilecheck-logo-blue.png';
+const logoSrc = '/assets/smilecheck-logo-blue.webp';
 
 interface ThemeSelectorProps {
   onSelect: (dark: boolean) => void;
