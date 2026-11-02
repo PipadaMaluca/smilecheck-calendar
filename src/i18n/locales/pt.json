@@ -2817,6 +2817,19 @@
       "routineCheckup": "Consulta de rotina",
       "photosAttached": "Fotos anexadas",
       "photoCount": "{{count}} foto(s)"
+    },
+    "ai": {
+      "title": "Análise inteligente",
+      "analyzing": "A analisar os seus sintomas…",
+      "error": "Não foi possível obter a análise agora. Pode continuar a marcação.",
+      "tips": "Até à consulta:",
+      "disclaimer": "Orientação preliminar gerada por IA. Não substitui a avaliação do dentista.",
+      "emergency": "Os sinais indicam que deve procurar atendimento urgente hoje.",
+      "urgency": {
+        "low": "Urgência baixa",
+        "moderate": "Urgência moderada",
+        "urgent": "Urgente"
+      }
     }
   },
   "consultationReasons": {
