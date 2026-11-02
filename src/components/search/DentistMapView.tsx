@@ -129,10 +129,10 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
           <Marker key={g.key} position={[g.lat, g.lng]} icon={markerIcon(g.dentists.length)} title={g.clinicName}>
             <Popup minWidth={220} maxWidth={280}>
               <div className="space-y-3 text-foreground">
-                <p className="text-xs font-semibold text-muted-foreground">{g.clinicName}</p>
                 {g.dentists.map(d => (
                   <div key={d.id} className="space-y-1">
                     <p className="text-sm font-semibold truncate">{d.name}</p>
+                    <p className="text-xs font-semibold text-muted-foreground truncate">{d.clinics[0]?.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{d.specialties.join(', ')}</p>
                     <div className="flex items-center justify-between gap-2">
                       <span className="flex items-center gap-1 text-xs">
