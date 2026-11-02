@@ -16,9 +16,10 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { Achievement, AchievementCategory, getBadgeTier, DEFAULT_SHOWCASED } from './achievementData';
+import { Achievement, AchievementCategory, getBadgeTier } from './achievementData';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { toast } from 'sonner';
+import { useShowcase, SHOWCASE_LIMIT } from '@/data/showcaseSource';
 
 interface AchievementsViewProps {
   userRole: UserRole;
@@ -307,7 +308,7 @@ function resolveCategories(defs: CategoryDef[], t: (key: string) => string): Ach
 }
 
  // Will be resolved at render time
-function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void }) {
+function AchievementCard({ achievement, isShowcased, onClickCompleted, onToggleShowcase }: { achievement: Achievement; isShowcased?: boolean; onClickCompleted?: () => void; onToggleShowcase?: () => void }) {
   const { t } = useTranslation();
   const isSecret = achievement.secret && !achievement.unlocked;
 
@@ -378,8 +379,17 @@ function AchievementCard({ achievement, isShowcased, onClickCompleted }: { achie
           )}>
             +{achievement.points} pts
           </span>
-          {isShowcased && (
-            <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500 flex-shrink-0" />
+          {achievement.unlocked && onToggleShowcase && (
+            <button
+              type="button"
+              aria-pressed={!!isShowcased}
+              aria-label={t(isShowcased ? 'achievements.removeFromShowcaseA11y' : 'achievements.addToShowcaseA11y')}
+              onClick={(e) => { e.stopPropagation(); onToggleShowcase(); }}
+              onKeyDown={(e) => e.stopPropagation()}
+              className="tap-target -m-1.5 p-1.5 rounded-md flex-shrink-0 text-amber-500 hover:bg-amber-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <StarIcon className={cn('w-4 h-4', isShowcased ? 'fill-amber-500' : 'fill-none')} />
+            </button>
           )}
         </div>
       </CardContent>
@@ -400,8 +410,7 @@ export function getAchievementCategories(userRole: UserRole, t?: (key: string) =
 export function AchievementsView({ userRole }: AchievementsViewProps) {
   const { t } = useTranslation();
   const [showManageModal, setShowManageModal] = useState(false);
-  const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
-  const [addToShowcaseTarget, setAddToShowcaseTarget] = useState<Achievement | null>(null);
+  const { ids: showcasedIds, save: saveShowcase } = useShowcase(userRole);
 
   const mockCategories = useMemo(() => getAchievementCategories(userRole, t), [userRole, t]);
   const {
@@ -425,16 +434,15 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
     achievements: cat.achievements.filter(a => a.unlocked),
   })).filter(cat => cat.achievements.length > 0);
 
-  const handleClickCompleted = (ach: Achievement) => {
+  const handleClickCompleted = async (ach: Achievement) => {
     if (showcasedIds.includes(ach.id)) {
-      setShowcasedIds(prev => prev.filter(id => id !== ach.id));
-      toast.info(`"${ach.name}" ${t('achievements.removedFromShowcase')}`);
-    } else if (showcasedIds.length < 8) {
-      setShowcasedIds(prev => [...prev, ach.id]);
-      toast.success(`"${ach.name}" ${t('achievements.addedToShowcase')}`);
+      if (await saveShowcase(showcasedIds.filter(id => id !== ach.id))) toast.info(`"${ach.name}" ${t('achievements.removedFromShowcase')}`);
+      else toast.error(t('achievements.showcaseSaveError'));
+    } else if (showcasedIds.length < SHOWCASE_LIMIT) {
+      if (await saveShowcase([...showcasedIds, ach.id])) toast.success(`"${ach.name}" ${t('achievements.addedToShowcase')}`);
+      else toast.error(t('achievements.showcaseSaveError'));
     } else {
-      setAddToShowcaseTarget(ach);
-      setShowManageModal(true);
+      toast.warning(t('achievements.showcaseFull'));
     }
   };
 
@@ -466,6 +474,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
                   achievement={achievement}
                   isShowcased={showcasedIds.includes(achievement.id)}
                   onClickCompleted={showClickHandler && achievement.unlocked ? () => handleClickCompleted(achievement) : undefined}
+                  onToggleShowcase={achievement.unlocked ? () => handleClickCompleted(achievement) : undefined}
                 />
               ))}
             </div>
@@ -540,7 +549,7 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
         onOpenChange={setShowManageModal}
         categories={categories}
         selectedIds={showcasedIds}
-        onSave={setShowcasedIds}
+        onSave={(ids) => { void saveShowcase(ids); }}
       />
       <CoachMark
         id={`achievements-${userRole}`}

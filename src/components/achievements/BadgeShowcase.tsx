@@ -7,6 +7,7 @@ import { BadgeFrame } from './BadgeFrame';
 import { BadgeSelectionModal } from './BadgeSelectionModal';
 import { UserRole } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
+import { useShowcase } from '@/data/showcaseSource';
 
 interface BadgeShowcaseProps {
   userRole: UserRole;
@@ -14,12 +15,16 @@ interface BadgeShowcaseProps {
   isOwnProfile?: boolean;
   onViewCollection?: () => void;
   className?: string;
+  /** Highlights of another profile (from professional_public_profiles); defaults to demo highlights. */
+  showcasedIds?: string[];
 }
 
-export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onViewCollection, className }: BadgeShowcaseProps) {
+export function BadgeShowcase({ userRole, categories, isOwnProfile = false, onViewCollection, className, showcasedIds: showcasedIdsProp }: BadgeShowcaseProps) {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
-  const [showcasedIds, setShowcasedIds] = useState<string[]>(DEFAULT_SHOWCASED[userRole] || []);
+  const own = useShowcase(userRole);
+  const [visitorIds, setShowcasedIds] = useState<string[]>(showcasedIdsProp ?? DEFAULT_SHOWCASED[userRole] ?? []);
+  const showcasedIds = isOwnProfile ? own.ids : visitorIds;
 
   const allAchievements = categories.flatMap(c => c.achievements);
   const showcasedAchievements = showcasedIds
