@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -158,12 +159,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
       {/* Profile Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
         <AvatarFrame levelKey={dentist.level} className="w-24 h-24">
-          <Avatar className="w-full h-full">
-            {photo && <AvatarImage src={photo} alt={dentist.name} />}
-            <AvatarFallback className="bg-secondary text-3xl font-bold text-primary">
-              {initials}
-            </AvatarFallback>
-          </Avatar>
+          <PersonAvatar name={dentist.name} photo={photo} className="!w-full !h-full text-3xl" />
         </AvatarFrame>
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold text-foreground">{dentist.name}</h3>

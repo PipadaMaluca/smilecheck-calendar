@@ -1,3 +1,4 @@
+import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { formatCurrency } from '@/lib/formatters';
 import { Star, MapPin, Clock, Video } from 'lucide-react';
@@ -48,13 +49,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
     >
       <div className="flex gap-3">
         <AvatarFrame levelKey={dentist.level} variant={showBoost ? 'full' : 'auto'} size={56} className="w-14 h-14">
-          {photo ? (
-            <img src={photo} alt={dentist.name} className="w-full h-full rounded-full object-cover" />
-          ) : (
-            <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center text-lg font-bold text-primary">
-              {initials}
-            </div>
-          )}
+          <PersonAvatar name={dentist.name} photo={photo} className="!w-full !h-full text-lg" />
         </AvatarFrame>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
