@@ -3003,7 +3003,7 @@
       "errorLimit": "You have reached the limit of 10 analyses per day. Please try again tomorrow.",
       "tips": "Until your appointment:",
       "disclaimer": "Preliminary AI-generated guidance. It does not replace your dentist's assessment.",
-      "emergency": "These signs suggest you should seek urgent care today.",
+      "emergency": "The signs suggest you should get urgent care today. In an emergency, call 112 (Portugal) or 15 (France).",
       "urgency": {
         "low": "Low urgency",
         "moderate": "Moderate urgency",

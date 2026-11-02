@@ -3003,7 +3003,7 @@
       "errorLimit": "Atingiu o limite de 10 análises por dia. Tente novamente amanhã.",
       "tips": "Até à consulta:",
       "disclaimer": "Orientação preliminar gerada por IA. Não substitui a avaliação do dentista.",
-      "emergency": "Os sinais indicam que deve procurar atendimento urgente hoje.",
+      "emergency": "Os sinais indicam que deve procurar atendimento urgente hoje. Em caso de emergência, ligue 112 (Portugal) ou 15 (França).",
       "urgency": {
         "low": "Urgência baixa",
         "moderate": "Urgência moderada",
