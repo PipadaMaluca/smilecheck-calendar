@@ -211,7 +211,7 @@ function FilterRow({
       tabIndex={0}
       aria-checked={indeterminate ? 'mixed' : checked}
       onClick={onToggle}
-      onKeyDown={onActivateKey(onToggle)}
+      onKeyDown={onActivateKey}
       className={cn(
         'w-full flex items-center gap-2 transition-colors hover:bg-[#F5F9FF] dark:hover:bg-[#1E3A5F] text-left cursor-pointer',
         itemPadding,
