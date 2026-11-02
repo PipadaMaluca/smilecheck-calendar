@@ -66,14 +66,14 @@ export function PricingSection() {
     <section id="planos" className="py-8 sm:py-12 md:py-14 px-6 md:px-10 bg-white dark:bg-background" ref={ref}>
       <div className={cn('max-w-6xl mx-auto transition-[transform,background-color,border-color,color,box-shadow] duration-300', visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}>
         <div className="text-center mb-8">
-          <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A202C] dark:text-white mb-5">{t('landing.pricing.title')}</h2>
-          <p className="text-base sm:text-xl font-light text-[#4A5568] dark:text-[#94A3B8] mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
+          <h2 id="planos-title" style={{ scrollMarginTop: '120px' }} className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-5">{t('landing.pricing.title')}</h2>
+          <p className="text-base sm:text-xl font-light text-muted-foreground mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.pricing.subtitle')}</p>
 
           <div className="inline-flex flex-wrap items-center justify-center gap-2">
             <div
               role="tablist"
               aria-label={t('landing.pricing.title')}
-              className="inline-flex items-center p-1 rounded-full bg-[#F5F9FF] dark:bg-[#0D2137] border border-[#D6E4F0] dark:border-[#1E3A5F] shadow-[0_2px_8px_rgba(33,150,243,0.06)]"
+              className="inline-flex items-center p-1 rounded-full bg-background dark:bg-card border border-border shadow-[0_2px_8px_rgba(33,150,243,0.06)]"
             >
               <button
                 type="button"
@@ -83,8 +83,8 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   !annual
-                    ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
-                    : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
+                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
                 {t('landing.pricing.monthly')}
@@ -97,30 +97,30 @@ export function PricingSection() {
                 className={cn(
                   'px-5 py-1.5 text-sm rounded-full transition-colors',
                   annual
-                    ? 'bg-[#2196F3] text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
-                    : 'text-[#4A5568] dark:text-[#94A3B8] hover:text-[#1A202C] dark:hover:text-white'
+                    ? 'bg-primary text-white font-semibold shadow-[0_2px_8px_rgba(33,150,243,0.35)]'
+                    : 'text-muted-foreground hover:text-foreground dark:hover:text-white'
                 )}
               >
                 {t('landing.pricing.annual')}
               </button>
             </div>
-            {annual && <Badge className="text-xs bg-[#2196F3] text-white border-0">{t('landing.pricing.discount')}</Badge>}
+            {annual && <Badge className="text-xs bg-primary text-white border-0">{t('landing.pricing.discount')}</Badge>}
           </div>
         </div>
 
         <Tabs defaultValue="patient" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6 h-auto bg-transparent p-0 border-b border-[#E2E8F0] dark:border-[#1E3A5F] rounded-none gap-0">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6 h-auto bg-transparent p-0 border-b border-border rounded-none gap-0">
             <TabsTrigger
               value="patient"
-              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-muted-foreground hover:text-muted-foreground dark:hover:text-white data-[state=active]:bg-accent dark:data-[state=active]:bg-accent/60 data-[state=active]:text-primary data-[state=active]:border-primary data-[state=active]:font-bold transition-colors"
             >{t('landing.pricing.patient')}</TabsTrigger>
             <TabsTrigger
               value="dentist"
-              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-muted-foreground hover:text-muted-foreground dark:hover:text-white data-[state=active]:bg-accent dark:data-[state=active]:bg-accent/60 data-[state=active]:text-primary data-[state=active]:border-primary data-[state=active]:font-bold transition-colors"
             >{t('landing.pricing.dentist')}</TabsTrigger>
             <TabsTrigger
               value="clinic"
-              className="text-sm py-3 rounded-none border-b-2 border-transparent text-[#94A3B8] hover:text-[#4A5568] dark:hover:text-white data-[state=active]:bg-[#EBF4FF] dark:data-[state=active]:bg-[#1E3A5F]/60 data-[state=active]:text-[#2196F3] data-[state=active]:border-[#2196F3] data-[state=active]:font-bold transition-colors"
+              className="text-sm py-3 rounded-none border-b-2 border-transparent text-muted-foreground hover:text-muted-foreground dark:hover:text-white data-[state=active]:bg-accent dark:data-[state=active]:bg-accent/60 data-[state=active]:text-primary data-[state=active]:border-primary data-[state=active]:font-bold transition-colors"
             >{t('landing.pricing.clinic')}</TabsTrigger>
           </TabsList>
 
@@ -155,9 +155,9 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
             <div
               key={plan.name}
               data-anim="tilt-card"
-              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-[#0D2137] hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-[transform,background-color,border-color,color,box-shadow] duration-150 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
+              className="sc-float-card relative rounded-2xl border-2 border-[#1565C0] bg-white dark:bg-card hover:shadow-[0_16px_40px_rgba(21,101,192,0.35)] transition-[transform,background-color,border-color,color,box-shadow] duration-150 shadow-[0_4px_20px_rgba(21,101,192,0.18)]"
             >
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-[#2196F3] to-[#1565C0] text-white shadow-md">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-xs border-0 bg-gradient-to-r from-primary to-primary/80 text-white shadow-md">
                 {plan.badge}
               </Badge>
               <div className="rounded-2xl p-6 flex flex-col h-full">
@@ -169,13 +169,13 @@ function PlanGrid({ plans, annual, onCta }: { plans: Plan[]; annual: boolean; on
 
         return (
           <div key={plan.name} data-anim="tilt-card" className={cn(
-            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-colors duration-150 bg-white dark:bg-[#0D2137]',
+            'sc-float-card relative rounded-2xl p-6 flex flex-col transition-colors duration-150 bg-white dark:bg-card',
             isPopular
-              ? 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
-              : 'border border-[#E2E8F0] dark:border-[#1E3A5F] hover:shadow-xl hover:shadow-[#2196F3]/5'
+              ? 'border-2 border-primary shadow-[0_4px_16px_rgba(33,150,243,0.12)]'
+              : 'border border-border hover:shadow-xl hover:shadow-primary/5'
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-[#2196F3] text-white shadow-md">
+              <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs border-0 bg-primary text-white shadow-md">
                 {plan.badge}
               </Badge>
             )}
@@ -191,27 +191,27 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
   const { t } = useTranslation();
   return (
     <>
-      <h3 className="text-xl font-bold text-[#1A202C] dark:text-white mb-2">{plan.name}</h3>
+      <h3 className="text-xl font-bold text-foreground mb-2">{plan.name}</h3>
       <div className="mb-6">
         {price === 0 ? (
-          <span className="text-4xl leading-none font-bold text-[#1A202C] dark:text-white">{t('landing.pricing.free')}</span>
+          <span className="text-4xl leading-none font-bold text-foreground">{t('landing.pricing.free')}</span>
         ) : (
           <>
-            <span className="text-4xl leading-none font-bold text-[#1A202C] dark:text-white">{formatCurrency(price)}</span>
-            <span className="text-sm text-[#4A5568] dark:text-[#94A3B8] ml-1">{t('landing.pricing.perMonth')}</span>
+            <span className="text-4xl leading-none font-bold text-foreground">{formatCurrency(price)}</span>
+            <span className="text-sm text-muted-foreground ml-1">{t('landing.pricing.perMonth')}</span>
           </>
         )}
       </div>
       <ul className="space-y-3 mb-6 flex-1">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Check className="w-4 h-4 text-[#4CAF50] mt-0.5 flex-shrink-0" strokeWidth={3} />
-            <span className="text-[#4A5568] dark:text-[#94A3B8]">{f}</span>
+            <Check className="w-4 h-4 text-success mt-0.5 flex-shrink-0" strokeWidth={3} />
+            <span className="text-muted-foreground">{f}</span>
           </li>
         ))}
       </ul>
       {plan.warning && (
-        <div className="flex items-center gap-2 text-xs text-warning dark:text-warning bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
+        <div className="flex items-center gap-2 text-xs text-warning bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
           <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
           {plan.warning}
         </div>
@@ -221,8 +221,8 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
         className={cn(
           'w-full rounded-full font-semibold transition-colors',
           accent
-            ? 'bg-[#2196F3] hover:bg-[#1E88E5] text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
-            : 'bg-white dark:bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'
+            ? 'bg-primary hover:bg-primary/90 text-white shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)]'
+            : 'bg-white dark:bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
         )}
       >
         {t('landing.pricing.start')}

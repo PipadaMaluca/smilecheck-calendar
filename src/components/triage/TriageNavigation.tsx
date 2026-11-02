@@ -23,12 +23,12 @@ export function TriageNavigation({
   const { t } = useTranslation();
 
   return (
-    <div className="flex items-center justify-between gap-3 pt-4 border-t border-[#1E3A5F]">
+    <div className="flex items-center justify-between gap-3 pt-4 border-t border-border">
       {currentStep === 1 ? (
         <Button
           variant="outline"
           onClick={onCancel}
-          className="flex-1 border-[#1E3A5F] hover:bg-[#1E3A5F]/50"
+          className="flex-1 border-border hover:bg-accent/50"
         >
           {t('triage.cancel')}
         </Button>
@@ -36,7 +36,7 @@ export function TriageNavigation({
         <Button
           variant="outline"
           onClick={onPrevious}
-          className="flex-1 border-[#1E3A5F] hover:bg-[#1E3A5F]/50"
+          className="flex-1 border-border hover:bg-accent/50"
         >
           <ChevronLeft className="w-4 h-4 mr-1" />
           {t('triage.previous')}

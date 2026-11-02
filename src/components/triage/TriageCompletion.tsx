@@ -55,7 +55,7 @@ export function TriageCompletion({ triageData, onFindDentists }: TriageCompletio
         <p className="text-muted-foreground">{t('triage.findDentist')}</p>
       </div>
 
-      <div className="w-full max-w-md bg-[#1E3A5F] rounded-xl p-4 text-left space-y-3">
+      <div className="w-full max-w-md bg-accent rounded-xl p-4 text-left space-y-3">
         <h3 className="text-sm font-semibold text-foreground border-b border-[#0A1929] pb-2">
           {t('triage.summary')}
         </h3>

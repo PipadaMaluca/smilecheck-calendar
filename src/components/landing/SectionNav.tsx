@@ -110,10 +110,10 @@ export function SectionNav({ isDark }: SectionNavProps) {
                       className={cn(
                         'inline-flex items-center text-2xs md:text-xs lg:text-sm whitespace-nowrap transition-colors duration-150 border-b-2',
                         isActive
-                          ? 'text-[#2196F3] font-semibold border-[#2196F3]'
+                          ? 'text-primary font-semibold border-primary'
                           : cn(
                               'border-transparent font-normal',
-                              isDark ? 'text-[#94A3B8] hover:text-white' : 'text-[#4A5568] hover:text-[#1A202C]'
+                              isDark ? 'text-muted-foreground hover:text-white' : 'text-muted-foreground hover:text-foreground'
                             )
                       )}
                     >

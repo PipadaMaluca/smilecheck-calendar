@@ -24,7 +24,7 @@ export function ScrollProgressBar() {
       className="fixed top-0 left-0 right-0 h-0.5 z-modal pointer-events-none motion-reduce:hidden"
     >
       <div
-        className="h-full bg-gradient-to-r from-[#2196F3] to-[#1565C0] origin-left transition-[width] duration-150 ease-out"
+        className="h-full bg-gradient-to-r from-primary to-primary/80 origin-left transition-[width] duration-150 ease-out"
         style={{ width: `${pct}%` }}
       />
     </div>

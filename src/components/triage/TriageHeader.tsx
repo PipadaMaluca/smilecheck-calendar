@@ -18,7 +18,7 @@ export function TriageHeader({ currentStep, totalSteps }: TriageHeaderProps) {
       </div>
 
       <div className="space-y-2">
-        <Progress value={progressPercent} className="h-2 bg-[#1E3A5F]" />
+        <Progress value={progressPercent} className="h-2 bg-accent" />
         <div className="flex items-center justify-between px-2">
           <span className="text-xs text-muted-foreground">
             {t('triage.step', { current: currentStep, total: totalSteps })}
@@ -33,7 +33,7 @@ export function TriageHeader({ currentStep, totalSteps }: TriageHeaderProps) {
                     ? 'bg-primary'
                     : index === currentStep
                     ? 'bg-primary/50'
-                    : 'bg-[#1E3A5F]'
+                    : 'bg-accent'
                 )}
               />
             ))}

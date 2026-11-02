@@ -118,7 +118,7 @@ export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
         ) : (
           <div className="space-y-6">
             <TriageHeader currentStep={currentStep} totalSteps={TOTAL_STEPS} />
-            <div className="bg-[#0D2137] rounded-2xl p-4 md:p-6 border border-[#1E3A5F]">
+            <div className="bg-card rounded-2xl p-4 md:p-6 border border-border">
               {renderStep()}
               <TriageNavigation
                 currentStep={currentStep}

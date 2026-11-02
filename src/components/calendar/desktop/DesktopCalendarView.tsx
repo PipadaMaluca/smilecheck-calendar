@@ -749,7 +749,7 @@ export function DesktopCalendarView() {
       case 'agenda':
         return (
           <>
-            {isNavExpanded && <div className="w-px bg-[#1E3A5F] flex-shrink-0" />}
+            {isNavExpanded && <div className="w-px bg-accent flex-shrink-0" />}
             {renderSidebar()}
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Agenda keeps original header height */}

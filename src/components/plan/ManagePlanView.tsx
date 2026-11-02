@@ -247,7 +247,7 @@ export function ManagePlanView({
   return (
     <div className="p-4 sm:p-6 w-full mx-auto space-y-6 pb-28">
       {/* Top summary bar: heading + current plan info inline */}
-      <div className="rounded-xl border border-[#D6E4F0] dark:border-[#1E3A5F] bg-[#EBF4FF] dark:bg-[#0A1929] px-4 py-3 sm:px-6 sm:py-4 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 flex-wrap">
+      <div className="rounded-xl border border-border bg-accent dark:bg-background px-4 py-3 sm:px-6 sm:py-4 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 flex-wrap">
         <div className="flex-1 min-w-0">
           <h2 className="text-lg sm:text-xl font-bold text-foreground leading-tight">{t('plan.title')}</h2>
           <p className="text-xs sm:text-sm text-muted-foreground">{t('plan.subtitle')}</p>
@@ -279,7 +279,7 @@ export function ManagePlanView({
           </Button>
           {currentPlan !== 'free' && (
             <button
-              className="text-xs text-[#EF5350] hover:underline"
+              className="text-xs text-destructive hover:underline"
               onClick={handleCancel}
             >
               {t('plan.cancelSubscription')}
@@ -351,9 +351,9 @@ export function ManagePlanView({
               className={cn(
                 'relative transition-colors duration-150 flex flex-col rounded-2xl',
                 isMobile && 'snap-center shrink-0 w-[85%]',
-                isPro && 'border-2 border-[#2196F3] shadow-[0_4px_16px_rgba(33,150,243,0.12)]',
+                isPro && 'border-2 border-primary shadow-[0_4px_16px_rgba(33,150,243,0.12)]',
                 isPremium && 'border-2 border-transparent bg-clip-padding [background-image:linear-gradient(hsl(var(--card)),hsl(var(--card))),linear-gradient(135deg,#2196F3,#1565C0)] [background-origin:border-box] [background-clip:padding-box,border-box]',
-                !isPro && !isPremium && 'border border-[#D6E4F0] dark:border-[#1E3A5F]',
+                !isPro && !isPremium && 'border border-border',
                 isCurrent && 'ring-2 ring-primary/30'
               )}>
 
@@ -404,7 +404,7 @@ export function ManagePlanView({
                       {feat.isInherited ?
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey, feat.params)}</span> :
                     <>
-                          <Check className="w-3.5 h-3.5 text-[#4CAF50] flex-shrink-0 mt-0.5" strokeWidth={3} />
+                          <Check className="w-3.5 h-3.5 text-success flex-shrink-0 mt-0.5" strokeWidth={3} />
                           <span className="text-foreground">{t(feat.textKey, feat.params)}</span>
                         </>
                     }
@@ -440,7 +440,7 @@ export function ManagePlanView({
                   <div className="mt-1.5 space-y-1">
                       {excludedFeatures.map((feat, i) =>
                     <div key={i} className="flex items-start gap-1.5 text-xs leading-[1.4]">
-                          <X className="w-3.5 h-3.5 text-[#EF5350] flex-shrink-0 mt-0.5" />
+                          <X className="w-3.5 h-3.5 text-destructive flex-shrink-0 mt-0.5" />
                           <span className="text-muted-foreground line-through">{t(feat.textKey, feat.params)}</span>
                         </div>
                     )}
@@ -450,9 +450,9 @@ export function ManagePlanView({
                 <Button
                   className={cn(
                     'w-full mt-4 h-10 rounded-full font-semibold text-sm',
-                    isPremium && !isCurrent && 'bg-gradient-to-r from-[#2196F3] to-[#1565C0] hover:from-[#1E88E5] hover:to-[#0D47A1] text-white border-0',
-                    isPro && !isCurrent && 'bg-[#2196F3] hover:bg-[#1E88E5] text-white border-0',
-                    !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-[#2196F3] text-[#2196F3] hover:bg-[#2196F3]/10'
+                    isPremium && !isCurrent && 'bg-gradient-to-r from-primary to-primary/80 hover:from-primary hover:to-primary/70 text-white border-0',
+                    isPro && !isCurrent && 'bg-primary hover:bg-primary/90 text-white border-0',
+                    !isPro && !isPremium && !isCurrent && 'bg-transparent border-2 border-primary text-primary hover:bg-primary/10'
                   )}
                   variant={isCurrent ? 'outline' : 'default'}
                   disabled={isCurrent}

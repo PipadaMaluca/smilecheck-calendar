@@ -124,7 +124,7 @@ export function DesktopCalendarSidebar({
     : undefined;
 
   return (
-    <aside className="h-full w-[220px] bg-[#0D2137] border-l border-[#1E3A5F] flex flex-col overflow-hidden flex-shrink-0">
+    <aside className="h-full w-[220px] bg-card border-l border-border flex flex-col overflow-hidden flex-shrink-0">
       <div className="contents transition-opacity duration-150 ease-in-out opacity-100">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
@@ -135,14 +135,14 @@ export function DesktopCalendarSidebar({
       </div>
 
       {/* Mini Calendar */}
-      <div className="px-3 pb-3 border-b border-[#1E3A5F] flex-shrink-0">
+      <div className="px-3 pb-3 border-b border-border flex-shrink-0">
         {/* Month Navigation */}
         <div className="flex items-center justify-between mb-2">
           <Button aria-label={t('a11y.previous')}
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
+            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-secondary"
           >
             <ChevronLeft className="w-3 h-3" />
           </Button>
@@ -153,7 +153,7 @@ export function DesktopCalendarSidebar({
             variant="ghost"
             size="icon"
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-[#152238]"
+            className="h-6 w-6 text-muted-foreground hover:text-foreground hover:bg-secondary"
           >
             <ChevronRight className="w-3 h-3" />
           </Button>
@@ -186,7 +186,7 @@ export function DesktopCalendarSidebar({
                 className={cn(
                   'relative flex flex-col items-center justify-center w-6 h-6 rounded text-2xs transition-colors',
                   !isCurrentMonth && 'text-muted-foreground/40',
-                  isCurrentMonth && 'text-foreground hover:bg-[#152238]',
+                  isCurrentMonth && 'text-foreground hover:bg-secondary',
                   isToday && 'bg-primary text-primary-foreground font-semibold',
                   isSelected && !isToday && 'bg-primary/20 text-primary ring-1 ring-primary'
                 )}
@@ -212,7 +212,7 @@ export function DesktopCalendarSidebar({
       ) : (
       <>
       {/* Agendas Section Header */}
-      <div className="p-3 border-b border-[#1E3A5F] flex-shrink-0">
+      <div className="p-3 border-b border-border flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-muted-foreground">
             Agendas ({selectedCount}/{totalDentists})
@@ -237,7 +237,7 @@ export function DesktopCalendarSidebar({
             placeholder={t('common.search')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-7 h-7 text-xs bg-[#152238] border-[#1E3A5F]"
+            className="pl-7 h-7 text-xs bg-secondary border-border"
           />
         </div>
       </div>
@@ -245,7 +245,7 @@ export function DesktopCalendarSidebar({
       {/* Clinics + Dentists List - Hierarchical */}
       <div className="flex-1 overflow-y-auto px-3 pb-3 scrollbar-hide">
         {/* Todas as Agendas */}
-        <div className="flex items-center gap-2 py-1.5 hover:bg-[#152238] rounded px-1.5 -mx-1.5">
+        <div className="flex items-center gap-2 py-1.5 hover:bg-secondary rounded px-1.5 -mx-1.5">
           <Checkbox
             checked={isTodosSelected}
             onCheckedChange={() => onToggleTodos?.()}
@@ -299,7 +299,7 @@ export function DesktopCalendarSidebar({
                   <span className="text-xs text-muted-foreground flex-1 truncate hover:text-primary">{clinic.name}</span>
                 </button>
                 <CollapsibleTrigger asChild>
-                  <button aria-label={t('a11y.expand')} className="p-0.5 hover:bg-[#152238] rounded" onClick={(e) => e.stopPropagation()}>
+                  <button aria-label={t('a11y.expand')} className="p-0.5 hover:bg-secondary rounded" onClick={(e) => e.stopPropagation()}>
                     <ChevronDown
                       className={cn(
                         'w-3 h-3 text-muted-foreground transition-transform',
@@ -319,7 +319,7 @@ export function DesktopCalendarSidebar({
                     <div
                       key={`${clinic.id}-${dentist.id}`}
                       className={cn(
-                        "flex items-center gap-2 py-1 hover:bg-[#152238] rounded px-1.5 -mx-1.5"
+                        "flex items-center gap-2 py-1 hover:bg-secondary rounded px-1.5 -mx-1.5"
                       )}
                     >
                       <Checkbox
@@ -356,7 +356,7 @@ export function DesktopCalendarSidebar({
         <Button
           variant="ghost"
           size="sm"
-          className="w-full justify-start gap-1.5 text-primary text-xs mt-1 h-7 hover:bg-[#152238]"
+          className="w-full justify-start gap-1.5 text-primary text-xs mt-1 h-7 hover:bg-secondary"
         >
           <Plus className="w-3 h-3" />
           {t('sweep.calendarSidebar.add')}
@@ -371,7 +371,7 @@ export function DesktopCalendarSidebar({
       )}
 
       {/* Footer */}
-      <div className="border-t border-[#1E3A5F] p-2 text-center flex-shrink-0">
+      <div className="border-t border-border p-2 text-center flex-shrink-0">
         <p className="text-2xs text-muted-foreground">SmileCheck © 2026</p>
       </div>
       </div>

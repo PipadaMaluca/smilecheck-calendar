@@ -76,7 +76,7 @@ export function TriageIntensityStep({
 
         <div className="relative h-4 rounded-full overflow-hidden bg-gradient-to-r from-green-500 via-yellow-500 to-red-500">
           <div
-            className="absolute top-0 left-0 h-full bg-[#0A1929]/80 transition-[transform,background-color,border-color,color,box-shadow]"
+            className="absolute top-0 left-0 h-full bg-background/80 transition-[transform,background-color,border-color,color,box-shadow]"
             style={{ left: `${painIntensity * 10}%`, right: 0 }}
           />
           <div
@@ -94,7 +94,7 @@ export function TriageIntensityStep({
       </div>
 
       <div role="button" tabIndex={0} onKeyDown={onActivateKey}
-        className="flex items-center gap-3 p-4 bg-[#1E3A5F] rounded-xl cursor-pointer press"
+        className="flex items-center gap-3 p-4 bg-accent rounded-xl cursor-pointer press"
         onClick={() => handleRoutineToggle(!isRoutineCheckup)}
       >
         <Checkbox

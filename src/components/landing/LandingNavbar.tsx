@@ -84,8 +84,8 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-colors duration-300 backdrop-blur-xl border-b',
         isDark
-          ? 'bg-[#0A1929]/80 border-[#1E3A5F]'
-          : 'bg-white/80 border-[#E2E8F0]',
+          ? 'bg-background/80 border-border'
+          : 'bg-white/80 border-border',
         scrolled && 'shadow-sm'
       )}
       style={{ WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' }}
@@ -147,7 +147,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
                 onClick={() => navigate('/login')}
                 className={cn(
                   'text-sm font-medium transition-colors whitespace-nowrap',
-                  isDark ? 'text-[#64B5F6] hover:text-white' : 'text-[#1565C0] hover:text-[#0D47A1]'
+                  isDark ? 'text-primary hover:text-white' : 'text-primary hover:text-primary'
                 )}
               >
                 {t('landing.navbar.login')}
@@ -155,7 +155,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
               <Button
                 size="sm"
                 onClick={() => navigate('/signup')}
-                className="rounded-full bg-[#2196F3] hover:bg-[#1E88E5] text-white text-sm font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
+                className="rounded-full bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-3.5 py-1.5 h-auto shadow-[0_4px_14px_rgba(33,150,243,0.3)] hover:shadow-[0_6px_20px_rgba(33,150,243,0.4)] transition-colors whitespace-nowrap"
               >
                 {t('landing.navbar.signup')}
               </Button>

@@ -173,7 +173,7 @@ export function TriageLocationStep({
         <p className="text-sm text-muted-foreground mt-1">{t('triage.location.subtitle')}</p>
       </div>
 
-      <div className="bg-[#1E3A5F]/40 rounded-xl p-2 md:p-4 mx-auto max-w-[540px]">
+      <div className="bg-accent/40 rounded-xl p-2 md:p-4 mx-auto max-w-[540px]">
         <div className="flex justify-between px-2 mb-0">
           <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperRight')}</span>
           <span className="text-2xs md:text-2xs text-muted-foreground font-medium uppercase tracking-wider">{t('triage.location.upperLeft')}</span>
@@ -268,7 +268,7 @@ export function TriageLocationStep({
       </div>
 
       <div role="button" tabIndex={0} onKeyDown={onActivateKey}
-        className="flex items-center gap-3 p-3 bg-[#1E3A5F] rounded-lg cursor-pointer press"
+        className="flex items-center gap-3 p-3 bg-accent rounded-lg cursor-pointer press"
         onClick={() => handleUnknownToggle(!unknownLocation)}
       >
         <Checkbox

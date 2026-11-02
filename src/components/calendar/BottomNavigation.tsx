@@ -65,7 +65,7 @@ export function BottomNavigation({ userRole, activeTab, onTabChange }: BottomNav
               onClick={() => handleTabChange(item.id)}
               className={cn(
                 'flex flex-col items-center justify-start gap-1 pt-2 px-3 min-w-11 min-h-11 transition-[transform,background-color,border-color,color,box-shadow] duration-150 relative overflow-visible active:scale-[0.98]',
-                isActive ? 'text-[#2196F3]' : 'text-[#94A3B8]'
+                isActive ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               <div className="relative overflow-visible">

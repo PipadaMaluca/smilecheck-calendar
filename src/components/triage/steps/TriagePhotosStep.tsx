@@ -56,7 +56,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
         onDragLeave={() => setDragActive(false)}
         className={cn(
           'relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors press',
-          dragActive ? 'border-primary bg-primary/10' : 'border-[#1E3A5F] hover:border-primary/50 bg-[#1E3A5F]/50',
+          dragActive ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50 bg-accent/50',
           photos.length >= MAX_PHOTOS && 'opacity-50 pointer-events-none'
         )}
       >
@@ -69,7 +69,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
           className="hidden"
         />
         <div className="flex flex-col items-center gap-3">
-          <div className="w-14 h-14 rounded-full bg-[#1E3A5F] flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
             <Camera className="w-7 h-7 text-primary" />
           </div>
           <div>
@@ -106,7 +106,7 @@ export function TriagePhotosStep({ photos, onPhotosChange }: TriagePhotosStepPro
         </div>
       )}
 
-      <div className="space-y-2 p-4 bg-[#1E3A5F]/50 rounded-xl">
+      <div className="space-y-2 p-4 bg-accent/50 rounded-xl">
         <h4 className="text-sm font-medium text-foreground flex items-center gap-2">
           <Lightbulb className="w-4 h-4 text-yellow-400" />
           {t('triage.photos.tips')}

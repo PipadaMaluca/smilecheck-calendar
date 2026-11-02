@@ -153,7 +153,7 @@ export function AvailabilityGridStep({
       return (
         <button
           onClick={() => toggleSlot(date, time)}
-          className="h-9 w-full rounded-md bg-[#2196F3] border border-[#2196F3] text-white text-2xs font-bold flex items-center justify-center gap-1 shadow-sm transition-transform hover:scale-[1.02]"
+          className="h-9 w-full rounded-md bg-primary border border-primary text-white text-2xs font-bold flex items-center justify-center gap-1 shadow-sm transition-transform hover:scale-[1.02]"
         >
           <Check className="w-3 h-3" />
           {time}
@@ -221,7 +221,7 @@ export function AvailabilityGridStep({
       <div className="flex flex-wrap items-center gap-3 text-2xs text-muted-foreground">
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-500/30 border border-emerald-500/50" /> {t('availabilityGrid.legendAvailable')}</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500/15 border border-red-500/30" /> {t('availabilityGrid.legendOccupied')}</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#2196F3]" /> {t('availabilityGrid.legendSelected')}</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-primary" /> {t('availabilityGrid.legendSelected')}</span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-muted/60 border border-border" /> {t('availabilityGrid.legendUnavailable')}</span>
       </div>
 

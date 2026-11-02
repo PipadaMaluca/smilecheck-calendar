@@ -170,7 +170,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               {t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}
             </span>
           </div>
-          <div className="w-full h-1 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+          <div className="w-full h-1 rounded-full bg-muted dark:bg-accent overflow-hidden">
             <div
               className={cn(
                 'h-full rounded-full transition-colors duration-300 ease-out',
@@ -228,7 +228,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
               <span className="text-sm text-muted-foreground tabular-nums flex-shrink-0 mx-2">{points.xp} XP</span>
               <span className="text-sm text-muted-foreground tabular-nums flex-shrink-0">×{formatDecimal1(multiplier)}</span>
             </div>
-            <div className="w-full h-1.5 rounded-full bg-[#E2E8F0] dark:bg-[#1E3A5F] overflow-hidden">
+            <div className="w-full h-1.5 rounded-full bg-muted dark:bg-accent overflow-hidden">
               <div
                 className={cn(
                   "h-full rounded-full transition-colors duration-300 ease-out",
