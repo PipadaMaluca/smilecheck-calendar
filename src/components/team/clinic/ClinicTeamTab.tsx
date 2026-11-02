@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Search, Users, Send, X } from 'lucide-react';
+import { Search, Users, Send, X, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,7 @@ import { RemoveModal } from '../shared/RemoveModal';
 import { InviteModal } from '../shared/InviteModal';
 import { clinicTeamMembers, pendingInvites } from '../shared/teamMockData';
 import { EmptyState } from '@/components/ui/empty-state';
+import { CLINIC_DENTIST_LIMIT, DEMO_CURRENT_PLAN, canInviteDentist } from '@/lib/planRules';
 
 type FilterType = 'all' | 'active' | 'paused' | 'pending';
 
@@ -44,6 +45,11 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
     { key: 'pending', label: t('team.pendingPlural') },
   ];
 
+  // Mock-only limit check (server validation comes later): active + pending count toward the plan limit.
+  const clinicPlan = DEMO_CURRENT_PLAN.clinic;
+  const dentistCount = clinicTeamMembers.length + pendingInvites.length;
+  const canInvite = canInviteDentist(clinicPlan, dentistCount);
+
   const permDentist = clinicTeamMembers.find((d) => d.id === permissionsFor);
   const removeDentist = clinicTeamMembers.find((d) => d.id === removeFor);
 
@@ -54,11 +60,17 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder={t('team.searchTeam')} value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
         </div>
-        <Button className="gap-2" onClick={() => setInviteOpen(true)}>
+        <Button className="gap-2 min-h-11" disabled={!canInvite} aria-describedby={!canInvite ? 'invite-limit-msg' : undefined} onClick={() => setInviteOpen(true)}>
           <Users className="w-4 h-4" />
           {t('team.inviteDentist')}
         </Button>
       </div>
+      {!canInvite && (
+        <p id="invite-limit-msg" role="status" className="flex items-start gap-2 text-sm text-muted-foreground rounded-lg border border-border bg-muted/50 p-3">
+          <Lock className="w-4 h-4 mt-0.5 shrink-0" />
+          {t('team.inviteLimitReached', { count: CLINIC_DENTIST_LIMIT[clinicPlan] ?? dentistCount })}
+        </p>
+      )}
 
       <div className="flex gap-2 flex-wrap">
         {filterOptions.map((f) => (
@@ -121,7 +133,7 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
         ))}
       </div>
 
-      <InviteModal open={inviteOpen} onClose={() => setInviteOpen(false)} />
+      <InviteModal open={inviteOpen && canInvite} onClose={() => setInviteOpen(false)} />
       {permDentist && <PermissionsModal open={!!permissionsFor} onClose={() => setPermissionsFor(null)} dentistName={permDentist.name} />}
       {removeDentist && <RemoveModal open={!!removeFor} onClose={() => setRemoveFor(null)} dentistName={removeDentist.name} otherDentists={clinicTeamMembers.filter((d) => d.id !== removeFor).map((d) => ({ id: d.id, name: d.name }))} />}
     </div>

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { CLINIC_DENTIST_LIMIT, commissionPercent, type PlanTier } from '@/lib/planRules';
 
 interface Plan {
   name: string;
@@ -24,6 +25,13 @@ export function PricingSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
+  const arr = (key: string) => t(key, { returnObjects: true }) as string[];
+  const tele = (tier: PlanTier) => [t('plan.features.teleCommission', { pct: commissionPercent(tier) }), ...arr(`landing.pricing.dentist${tier[0].toUpperCase()}${tier.slice(1)}`)];
+  const limit = (tier: PlanTier) => {
+    const n = CLINIC_DENTIST_LIMIT[tier];
+    return [n === null ? t('plan.features.unlimitedDentists') : t('plan.features.dentistLimit', { count: n }), ...arr(`landing.pricing.clinic${tier[0].toUpperCase()}${tier.slice(1)}`)];
+  };
+
   const patientPlans: Plan[] = [
     { name: 'Free', monthly: 0, annual: 0, features: t('landing.pricing.patientFree', { returnObjects: true }) as string[], warning: t('landing.pricing.patientFreeWarning') },
     { name: 'Pro', monthly: 4.99, annual: 4.24, badge: t('landing.pricing.popular'), features: t('landing.pricing.patientPro', { returnObjects: true }) as string[] },
@@ -31,15 +39,15 @@ export function PricingSection() {
   ];
 
   const dentistPlans: Plan[] = [
-    { name: 'Free', monthly: 0, annual: 0, features: t('landing.pricing.dentistFree', { returnObjects: true }) as string[], warning: t('landing.pricing.dentistFreeWarning') },
-    { name: 'Pro', monthly: 19.99, annual: 17.0, badge: t('landing.pricing.popular'), features: t('landing.pricing.dentistPro', { returnObjects: true }) as string[] },
-    { name: 'Premium', monthly: 29.99, annual: 25.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: t('landing.pricing.dentistPremium', { returnObjects: true }) as string[] },
+    { name: 'Free', monthly: 0, annual: 0, features: tele('free'), warning: t('landing.pricing.dentistFreeWarning') },
+    { name: 'Pro', monthly: 19.99, annual: 17.0, badge: t('landing.pricing.popular'), features: tele('pro') },
+    { name: 'Premium', monthly: 29.99, annual: 25.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: tele('premium') },
   ];
 
   const clinicPlans: Plan[] = [
-    { name: 'Free', monthly: 0, annual: 0, features: t('landing.pricing.clinicFree', { returnObjects: true }) as string[], warning: t('landing.pricing.clinicFreeWarning') },
-    { name: 'Pro', monthly: 39.99, annual: 34.0, badge: t('landing.pricing.popular'), features: t('landing.pricing.clinicPro', { returnObjects: true }) as string[] },
-    { name: 'Premium', monthly: 49.99, annual: 42.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: t('landing.pricing.clinicPremium', { returnObjects: true }) as string[] },
+    { name: 'Free', monthly: 0, annual: 0, features: limit('free'), warning: t('landing.pricing.clinicFreeWarning') },
+    { name: 'Pro', monthly: 39.99, annual: 34.0, badge: t('landing.pricing.popular'), features: limit('pro') },
+    { name: 'Premium', monthly: 49.99, annual: 42.49, badge: t('landing.pricing.best'), badgeColor: 'bg-amber-500/10 text-amber-500 border-amber-500/20', features: limit('premium') },
   ];
 
   useEffect(() => {

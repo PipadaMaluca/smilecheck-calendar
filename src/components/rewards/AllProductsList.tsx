@@ -9,6 +9,8 @@ interface AllProductsListProps {
   products: RewardProduct[];
   userPoints: number;
   onRedeem: (product: RewardProduct) => void;
+  /** Tier separators only make sense when the list is ordered by points. */
+  showTierSeparators?: boolean;
 }
 
 function getTier(points: number): number {
@@ -17,7 +19,7 @@ function getTier(points: number): number {
   return 2;
 }
 
-export function AllProductsList({ products, userPoints, onRedeem }: AllProductsListProps) {
+export function AllProductsList({ products, userPoints, onRedeem, showTierSeparators = true }: AllProductsListProps) {
   const { t } = useTranslation();
   let lastTier = -1;
 
@@ -31,7 +33,7 @@ export function AllProductsList({ products, userPoints, onRedeem }: AllProductsL
     <div className="w-full max-w-[700px] mx-auto space-y-0">
       {products.map((product, idx) => {
         const tier = getTier(product.points);
-        const showSeparator = tier !== lastTier;
+        const showSeparator = showTierSeparators && tier !== lastTier;
         lastTier = tier;
         const canAfford = userPoints >= product.points;
         const missing = product.points - userPoints;

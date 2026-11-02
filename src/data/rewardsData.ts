@@ -262,6 +262,16 @@ export const REWARD_TABS: Record<string, RewardsTabConfig[]> = {
 };
 
 /** Collect ALL products for a role, sorted by points ascending */
+/**
+ * Mock popularity score (0–100), deterministic per product id.
+ * Replace with real redemption counts when `redemptions` aggregates are exposed.
+ */
+export function getRewardPopularity(productId: string): number {
+  let h = 0;
+  for (let i = 0; i < productId.length; i++) h = (h * 31 + productId.charCodeAt(i)) >>> 0;
+  return h % 101;
+}
+
 export function getAllProductsForRole(role: string): RewardProduct[] {
   const tabs = REWARD_TABS[role] || REWARD_TABS.patient;
   const all: RewardProduct[] = [];

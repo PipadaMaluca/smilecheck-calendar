@@ -5,7 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { clinicDentistRevenue, dentistTeleconsultas, generateReceipt } from './billingMockData';
+import { clinicDentistRevenue, getDentistTeleconsultas, generateReceipt } from './billingMockData';
+import { DEMO_CURRENT_PLAN, TELECONSULT_PRICE, commissionPercent, teleconsultSplit } from '@/lib/planRules';
+
+// Commission is charged per teleconsultation at the rate of the dentist's plan.
+const DENTIST_PLAN = DEMO_CURRENT_PLAN.dentist;
+const dentistTeleconsultas = getDentistTeleconsultas(DENTIST_PLAN);
+const CLINIC_TELE_COUNT = 45;
+const CLINIC_TOTAL_REVENUE = 12800;
+const CLINIC_TELE_REVENUE = CLINIC_TELE_COUNT * TELECONSULT_PRICE;
+const CLINIC_COMMISSION = CLINIC_TELE_COUNT * teleconsultSplit(TELECONSULT_PRICE, DENTIST_PLAN).commission;
+const fmtEur = (v: number) => `€${v.toLocaleString('pt-PT', { maximumFractionDigits: 2 })}`;
 import { toast } from 'sonner';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -52,11 +62,11 @@ export function ClinicBillingView({ initialTab, onNavigate }: ClinicBillingViewP
           <TabsContent value="resumo" className="space-y-4 mt-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
-                { label: t('billing.totalRevenue'), value: '€12.800', color: '' },
-                { label: t('billing.teleconsultas'), value: '45 (€900)', color: '' },
-                { label: t('billing.commission'), value: '€135', color: 'text-destructive' },
+                { label: t('billing.totalRevenue'), value: fmtEur(CLINIC_TOTAL_REVENUE), color: '' },
+                { label: t('billing.teleconsultas'), value: `${CLINIC_TELE_COUNT} (${fmtEur(CLINIC_TELE_REVENUE)})`, color: '' },
+                { label: `${t('billing.commission')} (${commissionPercent(DENTIST_PLAN)}%)`, value: fmtEur(CLINIC_COMMISSION), color: 'text-destructive' },
                 { label: t('billing.plan'), value: 'Pro €39,99/' + t('billing.monthly').toLowerCase(), color: '' },
-                { label: t('billing.net'), value: '€12.665', color: 'text-primary' },
+                { label: t('billing.net'), value: fmtEur(CLINIC_TOTAL_REVENUE - CLINIC_COMMISSION), color: 'text-primary' },
               ].map((s, i) => (
                 <Card key={i} className="bg-card/80 backdrop-blur border-border">
                   <CardContent className="p-4 text-center">

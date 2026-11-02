@@ -429,14 +429,12 @@
         "Personalização completa"
       ],
       "clinicFree": [
-        "Até 2 dentistas",
         "Dashboard básico",
         "Relatórios mensais",
         "Gestão de equipa básica"
       ],
       "clinicFreeWarning": "Reset anual de pontos",
       "clinicPro": [
-        "Até 10 dentistas",
         "Dashboard completo",
         "Relatórios semanais",
         "Estatísticas avançadas",
@@ -444,7 +442,6 @@
         "Exportação PDF/Excel"
       ],
       "clinicPremium": [
-        "Dentistas ilimitados",
         "Tudo do Pro",
         "Teleconsultas de equipa",
         "API de integração",
@@ -1887,7 +1884,12 @@
     "viewDossier": "Ver Dossier",
     "noPatientsFound": "Nenhum paciente encontrado",
     "tryOtherTerms": "Tente pesquisar com outros termos.",
-    "nextLabel": "Próx"
+    "nextLabel": "Próx",
+    "viewList": "Lista",
+    "viewMap": "Mapa",
+    "viewModeLabel": "Modo de visualização",
+    "mapAria": "Mapa de dentistas",
+    "viewProfileBtn": "Ver perfil"
   },
   "history": {
     "consultationHistory": "Histórico de Consultas",
@@ -1957,7 +1959,20 @@
     "tabEquipamento": "Equipamento",
     "tabFormacao": "Formação",
     "tabSoftware": "Software",
-    "general": "Geral"
+    "general": "Geral",
+    "filters": "Filtros",
+    "sortBy": "Ordenar por",
+    "sortPopular": "Mais populares",
+    "sortPointsAsc": "Menos pontos",
+    "sortPointsDesc": "Mais pontos",
+    "pointsRange": "Intervalo de pontos",
+    "affordableOnly": "Só o que posso resgatar",
+    "clearFilters": "Limpar filtros",
+    "resultsCount_one": "{{count}} resultado",
+    "resultsCount_other": "{{count}} resultados",
+    "showResults": "Ver {{count}} resultados",
+    "noResultsTitle": "Nenhuma recompensa encontrada",
+    "noResultsDesc": "Ajuste os filtros para ver mais recompensas."
   },
   "billing": {
     "title": "Faturação",
@@ -2173,7 +2188,8 @@
     "confirmationLabel": "confirmação",
     "noTeleconsultations": "Sem teleconsultas",
     "noResultsTitle": "Nenhum membro encontrado",
-    "noResultsDesc": "Tente ajustar a pesquisa ou os filtros."
+    "noResultsDesc": "Tente ajustar a pesquisa ou os filtros.",
+    "inviteLimitReached": "Atingiu o limite de {{count}} dentistas do seu plano. Suba de plano para convidar mais dentistas."
   },
   "availability": {
     "selectClinic": "Selecionar clínica",
@@ -3080,7 +3096,9 @@
       "monthlyReports": "Relatórios mensais",
       "exportReportsPdfExcel": "Exportar relatórios (PDF, Excel)",
       "realtimeConfirmations": "Dashboard confirmações em tempo real",
-      "unlimitedDentists": "Dentistas ilimitados"
+      "unlimitedDentists": "Dentistas ilimitados",
+      "teleCommission": "Comissão de {{pct}}% por teleconsulta",
+      "dentistLimit": "Até {{count}} dentistas"
     },
     "badges": {
       "popular": "Popular",

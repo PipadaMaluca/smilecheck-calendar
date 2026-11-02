@@ -1,11 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Gift, ShoppingBag } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Gift, ShoppingBag, SlidersHorizontal, SearchX } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { EmptyState } from '@/components/ui/empty-state';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { RewardsFilters, RewardFilterState } from './RewardsFilters';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { UserRole } from '@/types/calendar';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { CardGridSkeleton } from '@/components/skeletons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { REWARD_TABS, RewardProduct, RedeemHistoryItem, MOCK_REDEEM_HISTORY, getAllProductsForRole } from '@/data/rewardsData';
+import { REWARD_TABS, RewardProduct, RedeemHistoryItem, MOCK_REDEEM_HISTORY, getAllProductsForRole, getRewardPopularity } from '@/data/rewardsData';
 import { ProductGrid } from './ProductGrid';
 import { BrandsList } from './BrandsList';
 import { RedeemModal } from './RedeemModal';
@@ -81,7 +86,58 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
   }, [isDemo, loadHistory]);
 
   const tabs = REWARD_TABS[userRole] || REWARD_TABS.patient;
-  const allProducts = getAllProductsForRole(userRole);
+  const allProducts = useMemo(() => getAllProductsForRole(userRole), [userRole]);
+  const isMobile = useIsMobile();
+
+  // ── Filters (range over the current catalogue, sort, affordable only) ──
+  const catalogMax = useMemo(() => allProducts.reduce((m, p) => Math.max(m, p.points), 0), [allProducts]);
+  const defaultFilters = useMemo<RewardFilterState>(() => ({ range: [0, catalogMax], sort: 'popular', affordableOnly: false }), [catalogMax]);
+  const [filters, setFilters] = useState<RewardFilterState>(defaultFilters);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  useEffect(() => { setFilters(defaultFilters); }, [defaultFilters]);
+  const [activeCategory, setActiveCategory] = useState('todos');
+
+  const isDirty = filters.sort !== 'popular' || filters.affordableOnly || filters.range[0] > 0 || filters.range[1] < catalogMax;
+  const clearFilters = () => setFilters(defaultFilters);
+
+  const applyFilters = useCallback((products: RewardProduct[]) => {
+    const [min, max] = filters.range;
+    const out = products.filter(p => p.points >= min && p.points <= max && (!filters.affordableOnly || userPoints >= p.points));
+    if (filters.sort === 'popular') out.sort((a, b) => getRewardPopularity(b.id) - getRewardPopularity(a.id));
+    else if (filters.sort === 'pointsAsc') out.sort((a, b) => a.points - b.points);
+    else out.sort((a, b) => b.points - a.points);
+    return out;
+  }, [filters, userPoints]);
+
+  const filteredAll = useMemo(() => applyFilters(allProducts), [applyFilters, allProducts]);
+  const filteredTabs = useMemo(() => tabs.map(tab => ({
+    ...tab,
+    products: tab.products ? applyFilters(tab.products) : undefined,
+    brands: tab.brands
+      ? tab.brands.map(b => ({ ...b, products: applyFilters(b.products) })).filter(b => b.products.length > 0)
+      : undefined,
+  })), [tabs, applyFilters]);
+
+  const resultCount = activeCategory === 'todos'
+    ? filteredAll.length
+    : (() => {
+        const tab = filteredTabs.find(tb => tb.key === activeCategory);
+        if (!tab) return 0;
+        return (tab.products?.length ?? 0) + (tab.brands?.reduce((n, b) => n + b.products.length, 0) ?? 0);
+      })();
+
+  const emptyResults = (
+    <EmptyState
+      icon={SearchX}
+      title={t('store.noResultsTitle')}
+      description={t('store.noResultsDesc')}
+      action={isDirty ? { label: t('store.clearFilters'), onClick: clearFilters, variant: 'outline' } : undefined}
+    />
+  );
+
+  const filterPanel = (
+    <RewardsFilters value={filters} max={catalogMax} onChange={setFilters} onClear={clearFilters} isDirty={isDirty} />
+  );
 
   const handleRedeem = (product: RewardProduct) => { setRedeemProduct(product); };
 
@@ -144,7 +200,15 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </TabsList>
 
         <TabsContent value="loja" className="mt-4">
-          <Tabs defaultValue="todos" className="w-full">
+          <div className="flex gap-6 items-start">
+            {!isMobile && (
+              <aside className="w-64 shrink-0 sticky top-4 rounded-xl border border-border bg-card p-4" aria-label={t('store.filters')}>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-4">{t('store.filters')}</h3>
+                {filterPanel}
+              </aside>
+            )}
+            <div className="flex-1 min-w-0">
+          <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-1">
               <TabsList className="w-max sm:w-full sm:grid h-auto" style={{ gridTemplateColumns: `repeat(${tabs.length + 1}, minmax(0, 1fr))` }}>
                 <TabsTrigger value="todos" className="text-xs sm:text-sm py-2 px-3 sm:px-4 whitespace-nowrap">{t('store.all')}</TabsTrigger>
@@ -156,26 +220,60 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
               </TabsList>
             </div>
 
+            <div className="flex items-center justify-between gap-3 mt-4">
+              <p className="text-sm text-muted-foreground" aria-live="polite">{t('store.resultsCount', { count: resultCount })}</p>
+              <div className="flex items-center gap-2">
+                {isDirty && !isMobile && (
+                  <Button type="button" variant="ghost" size="sm" onClick={clearFilters}>{t('store.clearFilters')}</Button>
+                )}
+                {isMobile && (
+                  <Button type="button" variant="outline" className="gap-2 min-h-11" onClick={() => setFiltersOpen(true)}>
+                    <SlidersHorizontal className="w-4 h-4" />
+                    {t('store.filters')}
+                    {isDirty && <span className="w-2 h-2 rounded-full bg-primary" aria-hidden />}
+                  </Button>
+                )}
+              </div>
+            </div>
+
             <TabsContent value="todos" className="mt-4">
-              <AllProductsList products={allProducts} userPoints={userPoints} onRedeem={handleRedeem} />
+              {filteredAll.length === 0 ? emptyResults : (
+                <AllProductsList products={filteredAll} userPoints={userPoints} onRedeem={handleRedeem} showTierSeparators={filters.sort !== 'popular'} />
+              )}
             </TabsContent>
 
-            {tabs.map(tab => (
+            {filteredTabs.map(tab => (
               <TabsContent key={tab.key} value={tab.key} className="mt-4">
                 {tab.type === 'brands' && tab.brands ? (
-                  <BrandsList brands={tab.brands} userPoints={userPoints} onRedeem={handleRedeem} />
+                  tab.brands.length === 0 ? emptyResults : <BrandsList brands={tab.brands} userPoints={userPoints} onRedeem={handleRedeem} />
                 ) : tab.products ? (
-                  <ProductGrid products={tab.products} userPoints={userPoints} onRedeem={handleRedeem} groupBySubcategory={tab.products.length > 10} />
+                  tab.products.length === 0 ? emptyResults : <ProductGrid products={tab.products} userPoints={userPoints} onRedeem={handleRedeem} groupBySubcategory={tab.products.length > 10} />
                 ) : null}
               </TabsContent>
             ))}
           </Tabs>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="historico" className="mt-4">
           <RewardsHistory items={history} loading={historyLoading} />
         </TabsContent>
       </Tabs>
+
+      {isMobile && (
+        <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
+          <SheetContent side="bottom" className="rounded-t-2xl max-h-[85vh] overflow-y-auto">
+            <SheetHeader className="mb-4">
+              <SheetTitle>{t('store.filters')}</SheetTitle>
+            </SheetHeader>
+            {filterPanel}
+            <Button type="button" className="w-full min-h-11 mt-3" onClick={() => setFiltersOpen(false)}>
+              {t('store.showResults', { count: resultCount })}
+            </Button>
+          </SheetContent>
+        </Sheet>
+      )}
 
       <RedeemModal product={redeemProduct} userPoints={userPoints} onClose={() => setRedeemProduct(null)} onConfirm={handleConfirmRedeem} />
       <CoachMark
