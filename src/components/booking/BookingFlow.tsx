@@ -93,7 +93,6 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       observation: '',
     },
   });
-  const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState<boolean | null>(null);
@@ -586,7 +585,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>{t('booking.receiptNumber')} {receiptId}</p>
               <p>{data.date?.toLocaleDateString(getActiveLocale())} — {formatCurrency(finalPrice)}</p>
-              <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
+              <p>{t('booking.method')}: {t('payments.demoNoPayment')}</p>
             </div>
           )}
           <div className="w-full space-y-2 text-left">
