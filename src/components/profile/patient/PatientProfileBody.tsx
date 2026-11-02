@@ -127,14 +127,15 @@ export function PatientProfileBody({
   isMobile,
   onEditProfile,
   viewerRole,
-  onNavigate
+  onNavigate,
+  patientId
 
 
 
 
 
 
-}: {userRole: UserRole;isMobile: boolean;onEditProfile: () => void;viewerRole?: UserRole;onNavigate?: (tab: string) => void;}) {
+}: {userRole: UserRole;isMobile: boolean;onEditProfile: () => void;viewerRole?: UserRole;onNavigate?: (tab: string) => void;patientId?: string;}) {
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [blockReason, setBlockReason] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
