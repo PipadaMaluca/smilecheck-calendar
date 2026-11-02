@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { X, Search, Pill, FileText, Check, Plus, QrCode, Download, Mail, Send, AlertTriangle } from 'lucide-react';
@@ -212,7 +213,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
             </div>
             <div className="flex items-center gap-2">
               <p className="text-xs text-muted-foreground">
-                {patient.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                {patient.lastDate.toLocaleDateString(getActiveLocale(), { day: '2-digit', month: '2-digit', year: 'numeric' })}
               </p>
               {selectedPatient?.id === patient.id && <Check className="w-5 h-5 text-primary" />}
             </div>
@@ -435,7 +436,7 @@ export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: Pres
         </div>
 
         <div className="text-xs text-gray-500">
-          {t('prescription.dateLabel')}: {today.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}
+          {t('prescription.dateLabel')}: {today.toLocaleDateString(getActiveLocale(), { day: '2-digit', month: 'long', year: 'numeric' })}
         </div>
 
         <div className="border-b border-gray-200 pb-2">

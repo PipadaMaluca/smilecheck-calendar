@@ -137,8 +137,8 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
           <CardContent>
             <RadioGroup value={format} onValueChange={setFormat} className="space-y-2">
               <div className="flex items-center gap-2"><RadioGroupItem value="pdf" id="fmt-pdf" /><Label htmlFor="fmt-pdf" className="text-sm cursor-pointer press">PDF</Label></div>
-              <div className="flex items-center gap-2"><RadioGroupItem value="excel" id="fmt-excel" /><Label htmlFor="fmt-excel" className="text-sm cursor-pointer press">Excel (.xlsx)</Label></div>
-              <div className="flex items-center gap-2"><RadioGroupItem value="csv" id="fmt-csv" /><Label htmlFor="fmt-csv" className="text-sm cursor-pointer press">CSV</Label></div>
+              <div className="flex items-center gap-2"><RadioGroupItem value="excel" id="fmt-excel" /><Label htmlFor="fmt-excel" className="text-sm cursor-pointer press">{t('i18nA.excelXlsx')}</Label></div>
+              <div className="flex items-center gap-2"><RadioGroupItem value="csv" id="fmt-csv" /><Label htmlFor="fmt-csv" className="text-sm cursor-pointer press">{t('i18nA.csv')}</Label></div>
             </RadioGroup>
           </CardContent>
         </Card>

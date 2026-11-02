@@ -16,8 +16,8 @@ interface ConnectedDevice {
 }
 
 const mockDevices: ConnectedDevice[] = [
-  { id: '1', type: 'desktop', name: 'PC Windows', browser: 'Chrome', location: 'Lisboa', lastActive: 'Ativo há 2h', ip: '192.168.XXX.XXX' },
-  { id: '2', type: 'tablet', name: 'Tablet iPad', browser: 'Safari', location: 'Lisboa', lastActive: 'Ativo há 3 dias', ip: '10.0.XXX.XXX' },
+  { id: '1', type: 'desktop', name: 'PC Windows', browser: 'Chrome', location: 'Lisboa', lastActive: 'i18nA.activeTwoHours', ip: '192.168.XXX.XXX' },
+  { id: '2', type: 'tablet', name: 'Tablet iPad', browser: 'Safari', location: 'Lisboa', lastActive: 'i18nA.activeThreeDays', ip: '10.0.XXX.XXX' },
 ];
 
 const deviceIcons = {
@@ -60,7 +60,7 @@ export function ConnectedDevicesSection() {
           name: 'PC Windows',
           browser: 'Chrome',
           location: 'Lisboa, Portugal',
-          lastActive: 'Ativo agora',
+          lastActive: 'i18nA.activeNow',
           ip: '192.168.XXX.XXX',
         },
       ]);
@@ -93,7 +93,7 @@ export function ConnectedDevicesSection() {
                       <Icon className="w-5 h-5 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium text-foreground">{device.name} — {device.location}</p>
-                        <p className="text-xs text-muted-foreground">{device.lastActive}</p>
+                        <p className="text-xs text-muted-foreground">{t(device.lastActive)}</p>
                       </div>
                     </div>
                     <button
@@ -129,7 +129,7 @@ export function ConnectedDevicesSection() {
               {scanPhase === 'authorized' && t('sweep.devices.connectedTitle')}
             </DialogTitle>
             <DialogDescription>
-              {scanPhase === 'scanning' && t('sweep.devices.scanDesc')}
+              {scanPhase === 'scanning' && t('i18nA.deviceInstructions')}
               {scanPhase === 'confirm' && t('sweep.devices.confirmDesc')}
               {scanPhase === 'authorized' && t('sweep.devices.authorizedDesc')}
             </DialogDescription>

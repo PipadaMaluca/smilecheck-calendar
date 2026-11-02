@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
+import { Languages } from 'lucide-react';
+import { LANGUAGE_CHOSEN_KEY } from '@/i18n';
 
 const logoSrc = '/assets/smilecheck-logo-blue.png';
 
@@ -8,19 +10,21 @@ interface LanguageSelectorProps {
   onSelect: (lang: string) => void;
 }
 
+// Language names are always shown in their own language (no flag emojis: they render as "PT"/"GB" on Windows).
 const languages = [
-  { code: 'pt', flag: '🇵🇹', label: 'Português' },
-  { code: 'fr', flag: '🇫🇷', label: 'Français' },
-  { code: 'en', flag: '🇬🇧', label: 'English' },
+  { code: 'pt', label: 'Português' },
+  { code: 'fr', label: 'Français' },
+  { code: 'en', label: 'English' },
 ];
 
 export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
   const [selected, setSelected] = useState<string | null>(null);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const handleSelect = (code: string) => {
     setSelected(code);
     i18n.changeLanguage(code);
+    localStorage.setItem(LANGUAGE_CHOSEN_KEY, '1');
     setTimeout(() => onSelect(code), 600);
   };
 
@@ -40,11 +44,12 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
         />
 
         <div className="text-center">
-          <p className="text-[hsl(220,15%,80%)] text-base">
-            Choose your language
+          <p className="text-[hsl(220,15%,80%)] text-base inline-flex items-center gap-2">
+            <Languages className="w-4 h-4" aria-hidden />
+            {t('language.title')}
           </p>
           <p className="text-[hsl(220,15%,55%)] text-sm mt-1">
-            Escolha o seu idioma · Choisissez votre langue
+            {t('language.subtitle')}
           </p>
         </div>
 
@@ -52,15 +57,15 @@ export function LanguageSelector({ onSelect }: LanguageSelectorProps) {
           {languages.map((lang) => (
             <button
               key={lang.code}
+              lang={lang.code}
               onClick={() => handleSelect(lang.code)}
               className={cn(
                 'group w-full h-16 rounded-2xl border-2 border-[hsl(220,20%,30%)] hover:border-[hsl(217,91%,60%)]',
                 'bg-gradient-to-r from-[hsl(220,30%,15%)] to-[hsl(220,30%,18%)]',
-                'flex items-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
+                'flex items-center justify-center gap-4 px-6 transition-[transform,background-color,border-color,color,box-shadow] duration-300',
                 'hover:scale-[1.02] hover:shadow-[0_0_30px_hsla(217,91%,60%,0.15)] active:scale-[0.98]'
               )}
             >
-              <span className="text-3xl">{lang.flag}</span>
               <span className="text-[hsl(220,15%,85%)] font-semibold text-lg group-hover:text-white transition-colors">
                 {lang.label}
               </span>

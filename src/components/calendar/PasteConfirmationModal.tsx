@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { X, Save, User, Clock, Calendar, Stethoscope } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { Consultation, ConsultationCategory } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -86,7 +87,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
             </div>
           </div>
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 space-y-2">
-            <div className="flex items-center gap-2 text-sm"><Calendar className="w-4 h-4 text-primary" /><span className="font-medium">{format(targetDate, "EEEE, d 'de' MMMM yyyy", { locale: pt })}</span></div>
+            <div className="flex items-center gap-2 text-sm"><Calendar className="w-4 h-4 text-primary" /><span className="font-medium">{format(targetDate, "EEEE, d 'de' MMMM yyyy", { locale: getDateFnsLocale() })}</span></div>
             <div className="flex items-center gap-2 text-sm"><Clock className="w-4 h-4 text-primary" /><span className="font-medium">{targetTime}</span></div>
             {targetDentistName && <div className="flex items-center gap-2 text-sm"><Stethoscope className="w-4 h-4 text-primary" /><span className="font-medium">{targetDentistName}</span></div>}
           </div>
@@ -95,7 +96,7 @@ export function PasteConfirmationModal({ consultation, targetDate, targetTime, t
             <Label>{t('common.duration')}</Label>
             <Select value={duration} onValueChange={setDuration}>
               <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
-              <SelectContent className="bg-card border-border">{DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}</SelectContent>
+              <SelectContent className="bg-card border-border">{DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{t('i18nB.duration', { count: Number(o.value) })}</SelectItem>)}</SelectContent>
             </Select>
           </div>
           <div className="space-y-2">

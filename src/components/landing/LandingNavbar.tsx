@@ -62,14 +62,14 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
           <button
             onClick={() => { if (isDark) onToggleTheme(); }}
             className={cn(btn, !isDark ? pillActive : pillInactive)}
-            aria-label="Light mode"
+            aria-label={t('i18nC.lightMode')}
           >
             <Sun className={iconSize} />
           </button>
           <button
             onClick={() => { if (!isDark) onToggleTheme(); }}
             className={cn(btn, isDark ? pillActive : pillInactive)}
-            aria-label="Dark mode"
+            aria-label={t('i18nC.darkMode')}
           >
             <Moon className={iconSize} />
           </button>

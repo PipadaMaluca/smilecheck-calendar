@@ -1,3 +1,4 @@
+import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
@@ -9,7 +10,7 @@ import { getMockLevelForName } from '@/lib/levelMock';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Consultation, CATEGORY_COLORS, STATUS_CONFIG, UserRole, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { toast } from 'sonner';
@@ -230,7 +231,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border/60 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5" />
-                {format(consultation.date, "d MMM yyyy", { locale: pt })}
+                {format(consultation.date, "d MMM yyyy", { locale: getDateFnsLocale() })}
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
@@ -269,7 +270,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
               {isTeleconsulta && (
                 <div className="flex items-center gap-2 text-[hsl(var(--teleconsulta))] font-semibold">
                   <span>
-<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: €{consultation.price}</span>
+<Glyph emoji="💰" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('consultationDetail.amountToReceive')}: {formatCurrency(consultation.price)}</span>
                 </div>
               )}
             </div>

@@ -1,3 +1,4 @@
+import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -15,7 +16,7 @@ import { StatsSkeleton } from '@/components/skeletons';
 import { EmptyState } from '@/components/ui/empty-state';
 import { ClipboardList } from 'lucide-react';
 import { format, isSameDay, isAfter, subWeeks, startOfMonth } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { LevelIcon } from '@/components/level/LevelIcon';
@@ -67,7 +68,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
             <LevelIcon levelKey={level.key} size={48} />
             <div className="flex-1">
               <h3 className="text-lg font-bold text-foreground">{t(LEVEL_TRANSLATION_KEYS[level.key] || level.name)}</h3>
-              <p className="text-2xl font-bold text-primary">{data.xp.toLocaleString()} XP</p>
+              <p className="text-2xl font-bold text-primary">{formatNumber(data.xp)} XP</p>
               <p className="text-xs text-muted-foreground mt-1">
                 <span className="font-semibold text-primary">×{multiplier.toFixed(1)} {t('level.multiplier')}</span>
                 {' · '}
@@ -79,13 +80,13 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
           <div className="space-y-2">
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{data.xp.toLocaleString()} XP</span>
-              <span>{xpProgress.target.toLocaleString()} XP</span>
+              <span>{formatNumber(data.xp)} XP</span>
+              <span>{formatNumber(xpProgress.target)} XP</span>
             </div>
             <Progress id="coachmark-xp-bar" value={xpProgress.percent} className="h-3" />
             {xpProgress.nextLevelKey && (
               <p className="text-xs text-muted-foreground">
-                {t('scores.missingFor')} <span className="font-bold text-primary">{xpProgress.remaining.toLocaleString()} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
+                {t('scores.missingFor')} <span className="font-bold text-primary">{formatNumber(xpProgress.remaining)} XP</span> {t('scores.for')} {t(LEVEL_TRANSLATION_KEYS[xpProgress.nextLevelKey] || xpProgress.nextLevelName || '')}
               </p>
             )}
           </div>
@@ -118,7 +119,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
           <div className="flex items-center gap-3">
             <Glyph emoji="⭐" className="w-8 h-8" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{data.rewardPoints.toLocaleString()} {t('scores.available')}</p>
+              <p className="text-2xl font-bold text-foreground">{formatNumber(data.rewardPoints)} {t('scores.available')}</p>
               <p className="text-xs text-muted-foreground">{planLabel}</p>
             </div>
           </div>
@@ -163,7 +164,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
                   <div className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 bg-muted/50 px-2 sm:px-3 py-2 text-[11px] font-semibold text-muted-foreground border-b border-border min-w-[280px]">
                     <span>{t('scores.action')}</span>
                     <span className="text-center">XP</span>
-                    <span className="text-center">Pts</span>
+                    <span className="text-center">{t('i18nC.points')}</span>
                   </div>
                   {earnActions.map((a, i) => (
                     <div key={i} className="grid grid-cols-[1fr_50px_50px] sm:grid-cols-[1fr_60px_60px] gap-0 px-2 sm:px-3 py-1.5 text-xs border-b border-border/50 last:border-0 min-w-[280px]">
@@ -245,7 +246,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
         <div className="space-y-1">
           {filteredHistory.map(entry => {
             const isToday = isSameDay(entry.date, DEMO_DATE);
-            const dateLabel = isToday ? t('scores.today') : format(entry.date, "d MMM", { locale: pt });
+            const dateLabel = isToday ? t('scores.today') : format(entry.date, "d MMM", { locale: getDateFnsLocale() });
             return (
               <div key={entry.id} className="flex items-center gap-3 py-2 border-b border-border/50 last:border-0">
                 <div className="flex-1 min-w-0">

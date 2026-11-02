@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { X, Search, Check, Star, Send, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
@@ -176,7 +177,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                   </div>
                   <div className="flex items-center gap-2">
                     <p className="text-xs text-muted-foreground">
-                      {p.lastDate.toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                      {p.lastDate.toLocaleDateString(getActiveLocale(), { day: '2-digit', month: '2-digit', year: 'numeric' })}
                     </p>
                     {selectedPatient?.id === p.id && <Check className="w-5 h-5 text-primary" />}
                   </div>
@@ -340,7 +341,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                 <p className="text-muted-foreground text-xs">{mockClinics[0].name}</p>
                 <p className="text-muted-foreground text-xs">{mockClinics[0].address}</p>
                 <p className="text-muted-foreground text-xs">{t('prescription.orderNumber')}: OMD-12345</p>
-                <p className="text-muted-foreground text-xs">{t('prescription.dateLabel')}: {new Date().toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="text-muted-foreground text-xs">{t('prescription.dateLabel')}: {new Date().toLocaleDateString(getActiveLocale(), { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
               <Separator />
               <div>

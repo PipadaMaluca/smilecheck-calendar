@@ -44,7 +44,7 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
             {getCategoryLabel(t, category)}
             {emoji && <Glyph emoji={emoji} className="w-3.5 h-3.5" />}
           </span>
-          <div className="text-[13px] capitalize text-[#64748B] dark:text-[#94A3B8]">
+          <div className="text-[13px] sentence-case text-[#64748B] dark:text-[#94A3B8]">
             {format(consultation.date, 'EEE d MMM', { locale })}
           </div>
           <div className="text-base font-bold text-[#0F172A] dark:text-[#E2E8F0]">
@@ -59,15 +59,15 @@ export function ConsultationHoverPreview({ consultation }: ConsultationHoverPrev
           </div>
           <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">{consultation.patient.phone}</div>
           <div className="text-[13px] text-[#64748B] dark:text-[#94A3B8]">
-            {consultation.patient.dateOfBirth || '—'}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}
+            {consultation.patient.dateOfBirth || '—'}{consultation.patient.age ? ` (${t('i18nB.age', { count: consultation.patient.age })})` : ''}
           </div>
         </section>
 
         <section className="pt-4 text-[13px] font-semibold">
           {isConfirmed ? (
-            <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Confirmada</span>
+            <span className="text-success inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" /> {t('i18nB.confirmed')}</span>
           ) : (
-            <span className="text-amber-500">⏳ Pendente</span>
+            <span className="text-amber-500">⏳ {t('i18nB.pending')}</span>
           )}
         </section>
 

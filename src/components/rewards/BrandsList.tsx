@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Gift } from 'lucide-react';
@@ -40,10 +41,10 @@ export function BrandsList({ brands, userPoints, onRedeem }: BrandsListProps) {
                     <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
                   </div>
                   <Badge variant="secondary" className="text-xs font-bold shrink-0">
-                    {product.points.toLocaleString()} pts
+                    {formatNumber(product.points)} pts
                   </Badge>
                   <Button size="sm" className="text-xs shrink-0" disabled={!canAfford} onClick={() => onRedeem(product)}>
-                    {canAfford ? t('store.redeemBtn') : `−${missing.toLocaleString()}`}
+                    {canAfford ? t('store.redeemBtn') : `−${formatNumber(missing)}`}
                   </Button>
                 </CardContent>
               </Card>

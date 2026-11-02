@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -36,24 +37,25 @@ interface HolidayClosure {
   date: string;
   endDate?: string;
   name: string;
+  nameKey?: string;
   type: 'national' | 'custom';
   reason: string;
   openDespite: boolean;
 }
 
 const defaultHolidays: HolidayClosure[] = [
-  { id: 'h1', date: '01 Jan 2026', name: 'Nouvel An', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h2', date: '21 Abr 2026', name: 'Lundi de Pâques', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h3', date: '01 Mai 2026', name: 'Fête du Travail', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h4', date: '08 Mai 2026', name: 'Victoire 1945', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h5', date: '14 Jul 2026', name: 'Fête Nationale', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h6', date: '15 Ago 2026', name: 'Assomption', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h7', date: '01 Nov 2026', name: 'Toussaint', type: 'national', reason: 'national', openDespite: false },
-  { id: 'h8', date: '25 Dez 2026', name: 'Noël', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h1', date: '01 Jan 2026', name: 'Nouvel An', nameKey: 'i18nA.newYear', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h2', date: '21 Abr 2026', name: 'Lundi de Pâques', nameKey: 'i18nA.easterMonday', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h3', date: '01 Mai 2026', name: 'Fête du Travail', nameKey: 'i18nA.labourDay', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h4', date: '08 Mai 2026', name: 'Victoire 1945', nameKey: 'i18nA.victoryDay', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h5', date: '14 Jul 2026', name: 'Fête Nationale', nameKey: 'i18nA.nationalDay', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h6', date: '15 Ago 2026', name: 'Assomption', nameKey: 'i18nA.assumption', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h7', date: '01 Nov 2026', name: 'Toussaint', nameKey: 'i18nA.allSaints', type: 'national', reason: 'national', openDespite: false },
+  { id: 'h8', date: '25 Dez 2026', name: 'Noël', nameKey: 'i18nA.christmas', type: 'national', reason: 'national', openDespite: false },
 ];
 
 const defaultCustomClosures: HolidayClosure[] = [
-  { id: 'c1', date: '15 Ago 2026', name: 'Obras', type: 'custom', reason: 'works', openDespite: false },
+  { id: 'c1', date: '15 Ago 2026', name: 'Obras', nameKey: 'i18nA.works', type: 'custom', reason: 'works', openDespite: false },
 ];
 
 export function ClinicScheduleTab() {
@@ -116,7 +118,7 @@ export function ClinicScheduleTab() {
   const formatDateLabel = (iso: string) => {
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
-    return d.toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString(getActiveLocale(), { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   const saveClosure = () => {
@@ -233,7 +235,7 @@ export function ClinicScheduleTab() {
                   <div key={h.id} className="flex items-center justify-between text-sm gap-2 flex-wrap">
                     <div className="flex items-center gap-2 min-w-0">
                       <Calendar className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                      <span className="truncate">{h.date} — {h.name}</span>
+                      <span className="truncate">{h.date} — {h.nameKey ? t(h.nameKey) : h.name}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       {h.openDespite ? (
@@ -265,7 +267,7 @@ export function ClinicScheduleTab() {
             <h4 className="text-sm font-medium">{t('team.customClosures')}</h4>
             {customClosures.map(c => (
               <div key={c.id} className="flex items-center justify-between text-sm gap-2">
-                <span>{c.date} — {c.name}</span>
+                <span>{c.date} — {c.nameKey ? t(c.nameKey) : c.name}</span>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline" className="text-[11px] bg-amber-500/10 text-amber-500 border-amber-500/30">
                     {t('team.encerrada')}

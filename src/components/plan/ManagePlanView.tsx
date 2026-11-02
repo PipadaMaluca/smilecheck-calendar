@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -219,11 +220,11 @@ export function ManagePlanView({
     if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
     if (isAnnual) {
       return {
-        main: `€${plan.annualPrice.toFixed(2)}/${t('plan.annual').toLowerCase()}`,
-        sub: `≈ €${(plan.annualPrice / 12).toFixed(2)}/${t('plan.monthly').toLowerCase()}`
+        main: `${formatCurrency(plan.annualPrice, { decimals: true })}${t('units.perYear')}`,
+        sub: `≈ ${formatCurrency((plan.annualPrice / 12), { decimals: true })}${t('units.perMonth')}`
       };
     }
-    return { main: `€${plan.monthlyPrice.toFixed(2)}`, sub: `/${t('plan.monthly').toLowerCase()}` };
+    return { main: `${formatCurrency(plan.monthlyPrice, { decimals: true })}`, sub: t('units.perMonth') };
   };
 
   const handleSubscribe = () => {
@@ -497,7 +498,7 @@ export function ManagePlanView({
             <div className="space-y-3">
                 <div><Label className="text-xs">{t('plan.cardNumber')}</Label><Input placeholder="4242 4242 4242 4242" /></div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder="MM/AA" /></div>
+                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder={t('i18nC.expiry')} /></div>
                   <div><Label className="text-xs">{t('plan.cvc')}</Label><Input placeholder="123" /></div>
                 </div>
               </div>
@@ -511,7 +512,7 @@ export function ManagePlanView({
                 <span className="font-medium text-foreground">{checkoutPlan && formatPrice(checkoutPlan).main}</span>
               </div>
               <div className="flex justify-between text-sm font-bold border-t border-border pt-1">
-                <span>Total</span>
+                <span>{t('i18nC.total')}</span>
                 <span>{checkoutPlan && formatPrice(checkoutPlan).main}</span>
               </div>
             </div>

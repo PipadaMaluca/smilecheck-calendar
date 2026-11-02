@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { supabase } from '@/integrations/supabase/client';
 import { awardPoints, type AwardResult } from '@/data/pointsWrites';
 import { checkAchievementsSilently } from '@/data/achievementsSource';
@@ -218,7 +219,7 @@ export async function fetchPendingFeedback(
       targetId,
       targetName,
       date,
-      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: date.toLocaleTimeString(getActiveLocale(), { hour: '2-digit', minute: '2-digit' }),
       consultationType: appt.consultation_type,
       contextLabel,
       appointmentId: appt.id,

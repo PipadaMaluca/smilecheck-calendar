@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft, Building2 } from 'lucide-react';
@@ -9,7 +10,7 @@ import { Dentist, UserRole } from '@/types/calendar';
 import type { Consultation } from '@/types/calendar';
 import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { useSyncedMonth } from '@/hooks/useSyncedMonth';
 import { AgendaFilterGroups } from '@/components/calendar/AgendaFilterGroups';
@@ -145,8 +146,8 @@ export function DesktopCalendarSidebar({
           >
             <ChevronLeft className="w-3 h-3" />
           </Button>
-          <span className="text-xs font-medium capitalize">
-            {format(currentMonth, 'MMMM yyyy', { locale: pt })}
+          <span className="text-xs font-medium sentence-case">
+            {format(currentMonth, 'MMMM yyyy', { locale: getDateFnsLocale() })}
           </span>
           <Button
             variant="ghost"

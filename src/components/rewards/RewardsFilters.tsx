@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
@@ -53,7 +54,7 @@ export function RewardsFilters({ value, max, onChange, onClear, isDirty }: Rewar
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-semibold text-foreground">{t('store.pointsRange')}</p>
           <span className="text-sm text-muted-foreground tabular-nums">
-            {value.range[0].toLocaleString()} – {t('store.points', { count: value.range[1].toLocaleString() })}
+            {formatNumber(value.range[0])} – {t('store.points', { count: value.range[1] })}
           </span>
         </div>
         <div className="py-3">

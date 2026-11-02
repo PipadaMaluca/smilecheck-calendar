@@ -1,4 +1,6 @@
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useState, useEffect } from 'react';
+import { LANGUAGE_CHOSEN_KEY } from '@/i18n';
 import { LanguageSelector } from '@/components/landing/LanguageSelector';
 import { ThemeSelector } from '@/components/landing/ThemeSelector';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
@@ -16,8 +18,9 @@ import { useGsapReveals } from '@/hooks/useGsapReveal';
 import { applyTheme, getInitialTheme, useTheme } from '@/hooks/useTheme';
 
 export default function Landing() {
+  useDocumentTitle(null);
   const [langSelected, setLangSelected] = useState(
-    () => localStorage.getItem('smilecheck-language') !== null
+    () => localStorage.getItem(LANGUAGE_CHOSEN_KEY) === '1' || localStorage.getItem('smilecheck-language') !== null
   );
   const [themeSelected, setThemeSelected] = useState(
     () => localStorage.getItem('sc-theme-set') === '1' || localStorage.getItem('sc:theme') !== null

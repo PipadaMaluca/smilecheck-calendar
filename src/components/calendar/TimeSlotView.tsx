@@ -78,7 +78,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
         // Patient info with age
         const patientAge = consultation?.patient.age;
         const patientNameWithAge = patientAge 
-          ? `${consultation?.patient.name} (${patientAge} anos)`
+          ? `${consultation?.patient.name} (${t('i18nB.age', { count: patientAge })})`
           : consultation?.patient.name;
 
         return (
@@ -102,7 +102,7 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
             </span>
 
             {slot.status === 'livre' && (
-              <span className="text-xs text-muted-foreground/60">Livre</span>
+              <span className="text-xs text-muted-foreground/60">{t('i18nB.free')}</span>
             )}
 
             {isBloqueado && (

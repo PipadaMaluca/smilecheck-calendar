@@ -80,7 +80,7 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
   const handleStartCall = useCallback(() => {
     setCallStartTime(Date.now());
     setState('in-call');
-    toast.success('Teleconsulta iniciada');
+    toast.success(t('i18nC.callStarted'));
     post('start');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -125,7 +125,7 @@ export function TeleconsultaManager({ userRole, children }: TeleconsultaManagerP
         isOpen={state === 'incoming'}
         dentistName={dentistName}
         onAccept={handleAcceptCall}
-        onReject={() => { setState('idle'); toast.info('Chamada recusada'); }}
+        onReject={() => { setState('idle'); toast.info(t('i18nC.callDeclined')); }}
       />
 
       <WaitingRoom

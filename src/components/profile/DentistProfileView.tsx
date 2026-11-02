@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileText, Stethoscope, Video, TrendingUp, Clock, Lock } from 'lucide-react';
@@ -354,7 +355,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.teleconsult')}</span>
-            <span className="font-medium">€{dentist.teleconsultaPrice}</span>
+            <span className="font-medium">{formatCurrency(dentist.teleconsultaPrice)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">{t('profile.inPersonConsult')}</span>
@@ -442,10 +443,10 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           <section className="space-y-3">
             <h4 className="text-sm font-semibold text-foreground">{t('profile.personalInfo')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Email</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
-              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Telefone</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
-              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nascimento</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
-              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">Nº Ordem</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.email')}</span><span>{DENTIST_EXTRA.personalInfo.email}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.phone')}</span><span>{DENTIST_EXTRA.personalInfo.phone}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.birth')}</span><span>{DENTIST_EXTRA.personalInfo.birthDate}</span></div>
+              <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('i18nB.orderNumber')}</span><span>{DENTIST_EXTRA.personalInfo.orderNumber}</span></div>
               <div className="flex justify-between py-1.5 border-b border-border/30"><span className="text-muted-foreground">{t('sweep.dentistProfileView.orderCountry')}</span><span>{DENTIST_EXTRA.personalInfo.orderCountry}</span></div>
             </div>
           </section>

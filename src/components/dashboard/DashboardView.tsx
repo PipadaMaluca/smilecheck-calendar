@@ -1,3 +1,4 @@
+import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
 import { demoDate, pickNextAppointment } from '@/lib/demoClock';
 import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -20,7 +21,7 @@ import { ConfirmationStatus } from '@/types/scoring';
 import { mockConsultations, mockDentists, mockClinics, mockFamilyMembers, mockPatientConsultations, getDentistsForClinic } from '@/data/mockData';
 import { mockConfirmations } from '@/types/scoring';
 import { isSameDay, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { PatientScoreHistory } from './PatientScoreHistory';
 import { PendingFeedbackCard } from '@/components/feedback/PendingFeedbackCard';
 import { getLevelForXP, getXPProgress, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS } from '@/data/pointsData';
@@ -166,7 +167,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       const nextPatientCon = pickNextAppointment(mockPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
-      format(nextPatientCon.date, "d 'de' MMMM", { locale: pt }) :
+      format(nextPatientCon.date, "d 'de' MMMM", { locale: getDateFnsLocale() }) :
       t('dashboard.bookConsultation');
       const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
       return [
@@ -319,7 +320,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       ) : (
                         <span className="text-[11px] text-muted-foreground tabular-nums truncate">
                           {'isPoints' in stat && (stat as any).isPoints
-                            ? `${pointsData.xp.toLocaleString()} XP`
+                            ? `${formatNumber(pointsData.xp)} XP`
                             : '\u00A0'}
                         </span>
                       )}
@@ -886,7 +887,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                       "consultation-row flex items-center gap-3 py-1.5",
                       !isLast && "border-b border-border"
                     )}>
-                      <span className="text-xs font-mono text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
+                      <span className="text-xs tabular-nums text-muted-foreground w-10 flex-shrink-0">{item.time}</span>
                       {catColor && <div className="w-1 h-8 rounded-full flex-shrink-0" style={{ backgroundColor: catColor.hex }} />}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">
@@ -934,8 +935,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <h1 className="t-h1 text-foreground text-center truncate max-w-full max-[499px]:text-[18px] max-[499px]:font-bold max-[499px]:mt-0">
               {greeting}, {userName}!
             </h1>
-            <p className="text-sm text-muted-foreground mt-1 capitalize text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
-              {DEMO_DATE.toLocaleDateString('pt-PT', {
+            <p className="text-sm text-muted-foreground mt-1 sentence-case text-center my-1.5 max-[499px]:text-[12px] max-[499px]:mt-0.5 max-[499px]:mb-0">
+              {DEMO_DATE.toLocaleDateString(getActiveLocale(), {
                 weekday: 'long',
                 day: 'numeric',
                 month: 'long',

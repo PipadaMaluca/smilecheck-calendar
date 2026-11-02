@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -92,7 +93,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
         </div>
         <div className="flex items-center gap-1.5">
           <Video className="w-4 h-4" />
-          <span>€{dentist.teleconsultaPrice}</span>
+          <span>{formatCurrency(dentist.teleconsultaPrice)}</span>
         </div>
       </div>
 

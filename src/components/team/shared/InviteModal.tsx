@@ -52,7 +52,7 @@ export function InviteModal({ open, onClose }: InviteModalProps) {
 
           <TabsContent value="email" className="space-y-3 mt-3">
             <div className="flex gap-2">
-              <Input placeholder="email@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1" />
+              <Input placeholder={t('i18nA.emailPlaceholder')} value={email} onChange={(e) => setEmail(e.target.value)} className="flex-1" />
               <Button size="sm" disabled={!email}>{t('team.send')}</Button>
             </div>
           </TabsContent>

@@ -279,7 +279,7 @@
     "level": "Niveau",
     "xp": "XP",
     "availablePoints": "Points",
-    "streak": "Streak",
+    "streak": "Série",
     "days": "jours"
   },
   "language": {
@@ -309,7 +309,7 @@
       "consultationsToday": "Rendez-vous du Jour",
       "level": "Niveau",
       "points": "Points",
-      "streak": "Streak",
+      "streak": "Série",
       "weeklyAgenda": "Agenda Hebdomadaire",
       "days": "jours"
     },
@@ -589,10 +589,10 @@
     "rewardsOpenDaily": "Ouvrez l'app tous les jours!",
     "rewardsReset": "Remise à zéro à",
     "rewardsResetTime": "9h",
-    "rewardsDontLose": "— ne perdez pas votre streak !",
+    "rewardsDontLose": "— ne perdez pas votre série !",
     "rewardsCheckin": "Check-in quotidien",
-    "rewardsStreak7": "Streak 7 jours",
-    "rewardsStreak30": "Streak 30 jours",
+    "rewardsStreak7": "Série 7 jours",
+    "rewardsStreak30": "Série 30 jours",
     "rankingsTitle": "CLASSEMENTS & COMPÉTITION",
     "rankingsTypes": "Types de Classements",
     "monthlyPrizes": "Prix Mensuels",
@@ -630,7 +630,7 @@
       "prescription": "Émettre une ordonnance",
       "referralLetter": "Lettre de référence",
       "rating5FromPatient": "Note 5 d'un patient",
-      "streak7days": "Streak 7 jours",
+      "streak7days": "Série 7 jours",
       "clinicConsultCompleted": "Rendez-vous terminé au cabinet",
       "clinicTeleconsult": "Téléconsultation réalisée",
       "clinicRating5": "Note 5 d'un patient",
@@ -674,7 +674,7 @@
     "upcomingConsultations": "Prochains Rendez-vous",
     "levelAndXp": "Niveau et XP",
     "availablePoints": "Points",
-    "streak": "Streak",
+    "streak": "Série",
     "presential": "En personne",
     "teleconsultations": "Téléconsultations",
     "total": "total",
@@ -713,14 +713,14 @@
     "pres": "Prés.",
     "tele": "Télé.",
     "nowBadge": "MAINTENANT",
-    "inMinutes_one": "dans {{count}} min",
-    "inMinutes_other": "dans {{count}} min",
-    "inHours_one": "dans {{count}} h",
-    "inHours_other": "dans {{count}} h",
-    "patients_one": "{{count}} patient",
-    "patients_other": "{{count}} patients",
-    "consultations_one": "{{count}} rendez-vous",
-    "consultations_other": "{{count}} rendez-vous"
+    "inMinutes_one": "dans {{count, number}} min",
+    "inMinutes_other": "dans {{count, number}} min",
+    "inHours_one": "dans {{count, number}} h",
+    "inHours_other": "dans {{count, number}} h",
+    "patients_one": "{{count, number}} patient",
+    "patients_other": "{{count, number}} patients",
+    "consultations_one": "{{count, number}} rendez-vous",
+    "consultations_other": "{{count, number}} rendez-vous"
   },
   "agenda": {
     "today": "Aujourd'hui",
@@ -923,8 +923,8 @@
     "blockPatient": "Bloquer",
     "blockConfirm": "Bloquer",
     "statusChanged": "Statut modifié",
-    "triagePhotos_one": "{{count}} photo",
-    "triagePhotos_other": "{{count}} photos"
+    "triagePhotos_one": "{{count, number}} photo",
+    "triagePhotos_other": "{{count, number}} photos"
   },
   "confirmationStates": {
     "confirmed24h": "Confirmé 24h",
@@ -1013,14 +1013,14 @@
     "blockNotify": "Le cabinet sera notifié de ce blocage.",
     "information": "Informations",
     "consultations": "rendez-vous",
-    "years_one": "{{count}} an",
-    "years_other": "{{count}} ans",
-    "reviews_one": "{{count}} avis",
-    "reviews_other": "{{count}} avis",
-    "consultations_one": "{{count}} rendez-vous",
-    "consultations_other": "{{count}} rendez-vous",
-    "experience_one": "{{count}} an d'expérience",
-    "experience_other": "{{count}} ans d'expérience"
+    "years_one": "{{count, number}} an",
+    "years_other": "{{count, number}} ans",
+    "reviews_one": "{{count, number}} avis",
+    "reviews_other": "{{count, number}} avis",
+    "consultations_one": "{{count, number}} rendez-vous",
+    "consultations_other": "{{count, number}} rendez-vous",
+    "experience_one": "{{count, number}} an d'expérience",
+    "experience_other": "{{count, number}} ans d'expérience"
   },
   "dossier": {
     "title": "Dossier du Patient",
@@ -1261,11 +1261,11 @@
         "desc": "Inviter 5 amis"
       },
       "f1": {
-        "name": "Streak 7",
+        "name": "Série 7",
         "desc": "7 jours consécutifs"
       },
       "f2": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours consécutifs"
       },
       "f3": {
@@ -1273,7 +1273,7 @@
         "desc": "1 an dans l'app"
       },
       "f4": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours consécutifs"
       },
       "f5": {
@@ -1371,19 +1371,19 @@
         "desc": "1ère place nationale"
       },
       "cs1": {
-        "name": "Streak 7",
+        "name": "Série 7",
         "desc": "7 jours consécutifs"
       },
       "cs2": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours consécutifs"
       },
       "cs3": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours consécutifs"
       },
       "cs4": {
-        "name": "Streak 365",
+        "name": "Série 365",
         "desc": "365 jours consécutifs"
       },
       "dso1": {
@@ -1423,7 +1423,7 @@
         "desc": "500 téléconsultations"
       },
       "dsec3": {
-        "name": "Streak Annuel",
+        "name": "Série Annuel",
         "desc": "365 jours consécutifs"
       }
     },
@@ -1525,15 +1525,15 @@
         "desc": "1ère place nationale"
       },
       "ccs1": {
-        "name": "Streak 30",
+        "name": "Série 30",
         "desc": "30 jours sans absences"
       },
       "ccs2": {
-        "name": "Streak 90",
+        "name": "Série 90",
         "desc": "90 jours sans absences"
       },
       "ccs3": {
-        "name": "Streak 365",
+        "name": "Série 365",
         "desc": "1 an sans absences"
       },
       "cf1": {
@@ -1576,7 +1576,7 @@
     "subtitleNoClass": "XP et points de récompense",
     "pointsTab": "Points",
     "classificationsTab": "Classements",
-    "dailyStreakTab": "Streak Quotidien",
+    "dailyStreakTab": "Série Quotidien",
     "levelAndXp": "Niveau et Expérience",
     "missingFor": "Il manque",
     "for": "pour",
@@ -1612,17 +1612,17 @@
     "planProLabel": "Plan Pro — Pas de remise à zéro annuelle",
     "planPremiumLabel": "Plan Premium — Pas de remise à zéro + 10% bonus",
     "patient2x": "Patient (2x)",
-    "currentStreak": "Streak Actuel",
-    "bestStreak": "Meilleur streak",
-    "resetAt": "Remise à zéro à 9h — ne perdez pas votre streak !",
+    "currentStreak": "Série Actuel",
+    "bestStreak": "Meilleur série",
+    "resetAt": "Remise à zéro à 9h — ne perdez pas votre série !",
     "dailyRewards": "Récompenses Quotidiennes",
     "nextRewardIn": "Prochaine récompense dans :",
     "openDaily": "Ouvrez l'app tous les jours !",
     "dailyCheckin": "Check-in quotidien",
-    "streak7days": "Streak 7 jours",
-    "streak30days": "Streak 30 jours",
+    "streak7days": "Série 7 jours",
+    "streak30days": "Série 30 jours",
     "calendar": "Calendrier",
-    "streakHistory": "Historique des Streaks",
+    "streakHistory": "Historique des Série",
     "active": "Actif",
     "days": "jours",
     "weekDays": [
@@ -1637,8 +1637,8 @@
     "levelXp": "Niveau et XP",
     "points": "Points",
     "streak": "Série",
-    "days_one": "{{count}} jour",
-    "days_other": "{{count}} jours"
+    "days_one": "{{count, number}} jour",
+    "days_other": "{{count, number}} jours"
   },
   "settings": {
     "title": "Paramètres",
@@ -1856,7 +1856,7 @@
     "dentistsTab": "Dentistes",
     "clinicsTab": "Cliniques",
     "jobOffersShort": "Offres",
-    "resultsFound": "{{count}} résultat(s) trouvé(s)",
+    "resultsFound": "{{count, number}} résultat(s) trouvé(s)",
     "noResultsFor": "Aucun résultat pour \"{{query}}\"",
     "viewAll": "Voir tout",
     "all": "Tous",
@@ -1886,9 +1886,9 @@
     "allDentists": "Tous les dentistes",
     "primaryDentist": "Principal",
     "yearsShort": "ans",
-    "reviewsCount": "{{count}} avis",
+    "reviewsCount": "{{count, number}} avis",
     "noReviews": "Sans avis",
-    "totalConsultations": "Total: {{count}} consultations",
+    "totalConsultations": "Total: {{count, number}} consultations",
     "viewDossier": "Voir Dossier",
     "noPatientsFound": "Aucun patient trouvé",
     "tryOtherTerms": "Essayez d'autres termes de recherche.",
@@ -1898,10 +1898,10 @@
     "viewModeLabel": "Mode d'affichage",
     "mapAria": "Carte des dentistes",
     "viewProfileBtn": "Voir le profil",
-    "dentistsFound_one": "{{count}} dentiste trouvé",
-    "dentistsFound_other": "{{count}} dentistes trouvés",
-    "yearsOld_one": "{{count}} an",
-    "yearsOld_other": "{{count}} ans"
+    "dentistsFound_one": "{{count, number}} dentiste trouvé",
+    "dentistsFound_other": "{{count, number}} dentistes trouvés",
+    "yearsOld_one": "{{count, number}} an",
+    "yearsOld_other": "{{count, number}} ans"
   },
   "history": {
     "consultationHistory": "Historique des Consultations",
@@ -1980,13 +1980,13 @@
     "pointsRange": "Plage de points",
     "affordableOnly": "Seulement ce que je peux échanger",
     "clearFilters": "Effacer les filtres",
-    "resultsCount_one": "{{count}} résultat",
-    "resultsCount_other": "{{count}} résultats",
-    "showResults": "Voir {{count}} résultats",
+    "resultsCount_one": "{{count, number}} résultat",
+    "resultsCount_other": "{{count, number}} résultats",
+    "showResults": "Voir {{count, number}} résultats",
     "noResultsTitle": "Aucune récompense trouvée",
     "noResultsDesc": "Ajustez les filtres pour voir plus de récompenses.",
-    "points_one": "{{count}} point",
-    "points_other": "{{count}} points"
+    "points_one": "{{count, number}} point",
+    "points_other": "{{count, number}} points"
   },
   "billing": {
     "title": "Facturation",
@@ -2064,8 +2064,8 @@
     "myPlan": "Mon Plan",
     "paymentsAndBilling": "Paiements et Facturation",
     "clinicBilling": "Facturation de la Clinique",
-    "consultations_one": "{{count}} consultation",
-    "consultations_other": "{{count}} consultations"
+    "consultations_one": "{{count, number}} consultation",
+    "consultations_other": "{{count, number}} consultations"
   },
   "team": {
     "title": "Gestion d'Équipe",
@@ -2205,9 +2205,9 @@
     "noTeleconsultations": "Pas de téléconsultations",
     "noResultsTitle": "Aucun membre trouvé",
     "noResultsDesc": "Essayez d'ajuster la recherche ou les filtres.",
-    "inviteLimitReached": "Vous avez atteint la limite de {{count}} dentistes de votre forfait. Passez à un forfait supérieur pour inviter plus de dentistes.",
-    "consultationsLabel_one": "{{count}} consultation",
-    "consultationsLabel_other": "{{count}} consultations"
+    "inviteLimitReached": "Vous avez atteint la limite de {{count, number}} dentistes de votre forfait. Passez à un forfait supérieur pour inviter plus de dentistes.",
+    "consultationsLabel_one": "{{count, number}} consultation",
+    "consultationsLabel_other": "{{count, number}} consultations"
   },
   "availability": {
     "selectClinic": "Sélectionner le cabinet",
@@ -2301,9 +2301,131 @@
     "createQuick": "Créer une Téléconsultation"
   },
   "legal": {
-    "terms": "Conditions d'Utilisation",
-    "privacy": "Politique de Confidentialité",
-    "lastUpdated": "Dernière mise à jour"
+    "terms": {
+      "sections": [
+        {
+          "id": "introducao",
+          "title": "1. Introduction",
+          "content": "SmileCheck est une plateforme de gestion de la santé bucco-dentaire qui relie patients, dentistes et cabinets. En utilisant nos services, vous acceptez les présentes conditions."
+        },
+        {
+          "id": "definicoes",
+          "title": "2. Définitions",
+          "content": "• « Utilisateur » : toute personne inscrite sur la plateforme\n• « Patient » : utilisateur recherchant des soins dentaires\n• « Dentiste » : professionnel de santé bucco-dentaire inscrit\n• « Cabinet » : établissement de santé bucco-dentaire inscrit\n• « Téléconsultation » : consultation réalisée par appel vidéo via la plateforme"
+        },
+        {
+          "id": "registo",
+          "title": "3. Inscription et compte",
+          "content": "• Exactitude des données fournies\n• Vérification téléphonique obligatoire\n• Responsabilité de la sécurité du compte\n• Un compte par personne/entité"
+        },
+        {
+          "id": "pontos",
+          "title": "4. Système de points et de récompenses",
+          "content": "• XP (expérience) : points permanents qui définissent le niveau\n• Points de récompense : échangeables dans la Boutique\n• Offre Free : remise à zéro annuelle le 1er janvier\n• Offre Pro/Premium : sans remise à zéro\n• SmileCheck se réserve le droit d'ajuster la valeur des points"
+        },
+        {
+          "id": "avaliacoes",
+          "title": "5. Évaluations et avis",
+          "content": "• Limite de 40 évaluations par jour\n• Les évaluations doivent être honnêtes et fondées sur des expériences réelles\n• Contestation possible jusqu'à 24 h après consultation\n• 3 contestations rejetées entraînent une pénalité de -5 points\n• Évaluations modifiables jusqu'à 24 h après leur envoi"
+        },
+        {
+          "id": "teleconsultas",
+          "title": "6. Téléconsultations",
+          "content": "• Coût : {{price}} par séance\n• Ne remplacent pas une consultation d'urgence en présentiel\n• Nécessitent une connexion internet stable\n• Enregistrement interdit sans consentement"
+        },
+        {
+          "id": "trabalho",
+          "title": "7. Offres d'emploi",
+          "content": "• Informations d'emploi visibles uniquement entre dentistes et cabinets\n• Les patients n'ont jamais accès aux informations de recrutement\n• SmileCheck n'est pas responsable des accords de travail"
+        },
+        {
+          "id": "cancelamentos",
+          "title": "8. Annulations et absences",
+          "content": "• Annulation plus de 24 h à l'avance : sans pénalité\n• Annulation moins de 24 h à l'avance : pénalité de points\n• Absence non justifiée : pénalité maximale\n• Absence justifiée : sans pénalité"
+        },
+        {
+          "id": "propriedade",
+          "title": "9. Propriété intellectuelle",
+          "content": "• Le contenu de la plateforme appartient à SmileCheck\n• Les données cliniques appartiennent aux professionnels concernés"
+        },
+        {
+          "id": "responsabilidade",
+          "title": "10. Limitation de responsabilité",
+          "content": "• La plateforme facilite la mise en relation des utilisateurs\n• Elle ne remplace ni un diagnostic ni un traitement médical"
+        },
+        {
+          "id": "modificacoes",
+          "title": "11. Modifications",
+          "content": "SmileCheck peut modifier ces conditions avec un préavis de 30 jours."
+        },
+        {
+          "id": "contacto",
+          "title": "12. Contact",
+          "content": "E-mail : legal@smilecheck.pt\nAdresse : Av. da Liberdade 123, Lisbonne, Portugal"
+        }
+      ]
+    },
+    "privacy": {
+      "sections": [
+        {
+          "id": "responsavel",
+          "title": "1. Responsable du traitement",
+          "content": "SmileCheck, Lda. — N° fiscal : 509 123 456"
+        },
+        {
+          "id": "dados-recolhidos",
+          "title": "2. Données collectées",
+          "content": "• Données d'identification (nom, e-mail, téléphone, date de naissance)\n• Données professionnelles (n° RPPS/ordre, spécialités — dentistes)\n• Données de santé (allergies, médicaments, pathologies — patients)\n• Données d'utilisation (consultations, points, évaluations)\n• Données techniques (IP, appareil, navigateur)"
+        },
+        {
+          "id": "finalidade",
+          "title": "3. Finalités du traitement",
+          "content": "• Gestion du compte et du profil\n• Prise de rendez-vous et téléconsultations\n• Système de points et de récompenses\n• Communication entre utilisateurs\n• Amélioration des services"
+        },
+        {
+          "id": "base-legal",
+          "title": "4. Base légale",
+          "content": "• Consentement de l'utilisateur\n• Exécution d'un contrat\n• Intérêt légitime\n• Obligation légale"
+        },
+        {
+          "id": "partilha",
+          "title": "5. Partage des données",
+          "content": "• Données de santé : partagées uniquement avec les dentistes/cabinets du patient\n• Données professionnelles : visibles selon les paramètres de confidentialité\n• Offres d'emploi : visibles uniquement entre dentistes et cabinets\n• Nous ne vendons jamais de données à des tiers"
+        },
+        {
+          "id": "retencao",
+          "title": "6. Conservation des données",
+          "content": "• Données de compte : tant que le compte est actif\n• Données cliniques : 10 ans (obligation légale)\n• Données d'utilisation : 3 ans après la dernière activité"
+        },
+        {
+          "id": "direitos",
+          "title": "7. Droits de l'utilisateur (RGPD)",
+          "content": "• Droit d'accès\n• Droit de rectification\n• Droit à l'effacement\n• Droit à la portabilité\n• Droit d'opposition\n\nContact DPO : dpo@smilecheck.pt"
+        },
+        {
+          "id": "seguranca",
+          "title": "8. Sécurité",
+          "content": "• Chiffrement des données en transit et au repos\n• Authentification à deux facteurs\n• Vérification téléphonique obligatoire\n• Surveillance des accès"
+        },
+        {
+          "id": "cookies",
+          "title": "9. Cookies",
+          "content": "• Cookies essentiels (session, authentification)\n• Cookies de préférence (thème, langue)\n• Aucun cookie publicitaire"
+        },
+        {
+          "id": "alteracoes",
+          "title": "10. Modifications",
+          "content": "Notification par e-mail en cas de modifications importantes."
+        }
+      ]
+    },
+    "lastUpdated": "Dernière mise à jour : {{date}}",
+    "termsTitle": "Conditions d'utilisation",
+    "privacyTitle": "Politique de confidentialité",
+    "toc": "Sommaire",
+    "draftNotice": "Version provisoire — sous réserve de validation juridique",
+    "print": "Imprimer le document",
+    "back": "Retour"
   },
   "errors": {
     "404title": "Page introuvable",
@@ -2356,8 +2478,8 @@
     "veryGood": "Très Bien",
     "excellent": "Excellent",
     "scaleHint": "1 = 0 pts · 2 = +3 · 3 = +6 · 4 = +10 · 5 = +15",
-    "points_one": "{{count}} point",
-    "points_other": "{{count}} points"
+    "points_one": "{{count, number}} point",
+    "points_other": "{{count, number}} points"
   },
   "bidirectionalFeedback": {
     "rate": "Évaluer",
@@ -2626,12 +2748,12 @@
     "slotTaken": "Ce créneau est déjà pris",
     "bookingFailed": "La réservation n’a pas pu être finalisée",
     "clickSlotsHint": "Cliquez sur les créneaux disponibles (verts) pour les sélectionner. Vous pouvez en choisir plusieurs.",
-    "caseMultiple": "Vous avez sélectionné {{count}} créneaux possibles. Le dentiste/cabinet en confirmera un.",
+    "caseMultiple": "Vous avez sélectionné {{count, number}} créneaux possibles. Le dentiste/cabinet en confirmera un.",
     "caseWaiting": "Vous serez ajouté à la liste d’attente et averti dès qu’une disponibilité se présente.",
     "caseMixed": "Les créneaux sélectionnés sont prioritaires. Les préférences générales servent d’alternative.",
     "urgentFee": "Urgent (+5 €)",
     "slotSelected": "Créneau sélectionné",
-    "slotsPossible": "{{count}} créneaux possibles",
+    "slotsPossible": "{{count, number}} créneaux possibles",
     "waitingPrefs": "Préférences (Liste d’attente)",
     "periodLabel": "Période",
     "daysLabel": "Jours",
@@ -2836,7 +2958,7 @@
       "maxPhotos": "Maximum {{max}} photos, {{size}} Mo chacune",
       "dragOrClick": "Glissez des photos ou cliquez pour sélectionner",
       "maxInfo": "Max. {{max}} photos, {{size}} Mo chacune (JPG, PNG)",
-      "count": "{{count}}/{{max}} photos",
+      "count": "{{count, number}}/{{max}} photos",
       "photoAlt": "Photo {{index}}",
       "tips": "Conseils",
       "tip1": "Prenez des photos avec un bon éclairage",
@@ -2852,7 +2974,7 @@
       "type": "Type",
       "routineCheckup": "Contrôle de routine",
       "photosAttached": "Photos jointes",
-      "photoCount": "{{count}} photo(s)"
+      "photoCount": "{{count, number}} photo(s)"
     },
     "ai": {
       "title": "Analyse intelligente",
@@ -3118,7 +3240,7 @@
       "realtimeConfirmations": "Tableau de bord confirmations en temps réel",
       "unlimitedDentists": "Dentistes illimités",
       "teleCommission": "Commission de {{pct}} % par téléconsultation",
-      "dentistLimit": "Jusqu'à {{count}} dentistes"
+      "dentistLimit": "Jusqu'à {{count, number}} dentistes"
     },
     "badges": {
       "popular": "Populaire",
@@ -3135,7 +3257,7 @@
     "confirmChange": "Confirmer le Changement",
     "confirmChangeTitle": "Confirmer le changement",
     "changeEffectImmediate": "Le changement prendra effet immédiatement.",
-    "showAllFeatures": "Voir tout (+{{count}})",
+    "showAllFeatures": "Voir tout (+{{count, number}})",
     "showLess": "Voir moins"
   },
   "health": {
@@ -3187,8 +3309,8 @@
     "father": "Père",
     "mother": "Mère",
     "other": "Autre",
-    "years_one": "{{count}} an",
-    "years_other": "{{count}} ans"
+    "years_one": "{{count, number}} an",
+    "years_other": "{{count, number}} ans"
   },
   "jobs": {
     "title": "Propositions de Travail",
@@ -3287,7 +3409,7 @@
     "meals": "Restauration",
     "acceptsNewPatients": "Accepte les nouveaux patients",
     "onlyFavorites": "Favoris uniquement",
-    "yearsExperience": "{{count}} ans d'expérience",
+    "yearsExperience": "{{count, number}} ans d'expérience",
     "availableForTeleconsultas": "Disponible pour téléconsultations",
     "published_2days": "il y a 2 jours",
     "published_3days": "il y a 3 jours",
@@ -3375,8 +3497,8 @@
     "rating": "Note",
     "performance": "Performance",
     "topPatients": "Top Patients",
-    "consultations_one": "{{count}} consultation",
-    "consultations_other": "{{count}} consultations"
+    "consultations_one": "{{count, number}} consultation",
+    "consultations_other": "{{count, number}} consultations"
   },
   "waitingList": {
     "patients": "patients",
@@ -3416,7 +3538,7 @@
       "added": "Ajouté",
       "today": "aujourd'hui",
       "yesterday": "hier",
-      "daysAgo": "il y a {{count}} jours",
+      "daysAgo": "il y a {{count, number}} jours",
       "assign": "Attribuer un créneau",
       "notify": "Notifier la disponibilité",
       "remove": "Retirer",
@@ -3443,10 +3565,10 @@
       "autoMatchDesc": "{{name}} a ce créneau dans ses préférences de liste d'attente.",
       "ignore": "Ignorer",
       "empty": "Aucun patient en liste d'attente",
-      "addedDays": "il y a {{count}}j"
+      "addedDays": "il y a {{count, number}}j"
     },
-    "patients_one": "{{count}} patient",
-    "patients_other": "{{count}} patients"
+    "patients_one": "{{count, number}} patient",
+    "patients_other": "{{count, number}} patients"
   },
   "confirmations": {
     "time": "Heure",
@@ -4074,8 +4196,8 @@
     "legendOccupied": "Occupé",
     "legendSelected": "Sélectionné",
     "legendUnavailable": "Indisponible",
-    "selectedCount_one": "<1>{{count}}</1> créneau sélectionné",
-    "selectedCount_other": "<1>{{count}}</1> créneaux sélectionnés",
+    "selectedCount_one": "<1>{{count, number}}</1> créneau sélectionné",
+    "selectedCount_other": "<1>{{count, number}}</1> créneaux sélectionnés",
     "clearSelection": "Effacer la sélection",
     "waitingPrefsTitle": "Préférences supplémentaires (Liste d’attente)",
     "waitingPrefsDesc": "Si aucun créneau ne vous convient, indiquez vos préférences générales et vous serez contacté dès qu’une disponibilité se présente",
@@ -4123,9 +4245,9 @@
     "headlineNoPoints": "Invitez des amis sur SmileCheck",
     "comingSoon": "Récompense bientôt",
     "subtitleComingSoon": "La récompense de parrainage sera bientôt disponible. Vous pouvez déjà partager votre code.",
-    "subtitlePoints_one": "Gagnez {{count}} point pour chaque personne inscrite",
-    "subtitlePoints_other": "Gagnez {{count}} points pour chaque personne inscrite",
-    "pointsShort": "+{{count}} pts"
+    "subtitlePoints_one": "Gagnez {{count, number}} point pour chaque personne inscrite",
+    "subtitlePoints_other": "Gagnez {{count, number}} points pour chaque personne inscrite",
+    "pointsShort": "+{{count, number}} pts"
   },
   "sweep": {
     "dentistProfile": {
@@ -4138,7 +4260,7 @@
       "bookAppointment": "Prendre Rendez-vous",
       "sendMessage": "Envoyer un Message",
       "title": "Profil du Dentiste",
-      "reviewsCount": "({{count}} avis)",
+      "reviewsCount": "({{count, number}} avis)",
       "noReviews": "Aucun avis"
     },
     "calendar": {
@@ -4175,7 +4297,7 @@
       "slotAvailable": "Créneau disponible !",
       "waitlistPreference": "{{name}} a cet horaire dans ses préférences de liste d'attente.",
       "urgent": "Urgent",
-      "othersWaiting": "+{{count}} autre(s) patient(s) en attente pour ce créneau",
+      "othersWaiting": "+{{count, number}} autre(s) patient(s) en attente pour ce créneau",
       "ignore": "Ignorer",
       "assign": "Attribuer"
     },
@@ -4205,9 +4327,9 @@
       "patients": "Patients",
       "dentists": "Dentistes",
       "clinics": "Cliniques",
-      "scheduledCount_one": "{{count}} planifié",
-      "scheduledCount_other": "{{count}} planifiés",
-      "totalLabel": "{{count}} au total",
+      "scheduledCount_one": "{{count, number}} planifié",
+      "scheduledCount_other": "{{count, number}} planifiés",
+      "totalLabel": "{{count, number}} au total",
       "showAllResults": "Afficher tous les résultats →",
       "noResultsFor": "Aucun résultat pour « {{query}} »",
       "generalist": "Généraliste"
@@ -4269,7 +4391,187 @@
     "conquistas": "Nouveau succès débloqué",
     "pontuacoes": "Nouveaux points reçus",
     "faturacao": "Un paiement est en attente",
-    "count_one": "{{count}} nouveauté",
-    "count_other": "{{count}} nouveautés"
+    "count_one": "{{count, number}} nouveauté",
+    "count_other": "{{count, number}} nouveautés"
+  },
+  "meta": {
+    "defaultTitle": "SmileCheck — Santé bucco-dentaire, rendez-vous et téléconsultations"
+  },
+  "units": {
+    "perMonth": "/mois",
+    "perYear": "/an",
+    "from": "À partir de {{price}}",
+    "perConsult": "/consultation"
+  },
+  "i18nA": {
+    "me": "Moi",
+    "teleconsultations": "Téléconsultations",
+    "inPerson": "Présentiel",
+    "emailPlaceholder": "email@exemple.fr",
+    "salaryExample": "Ex. : 2500",
+    "countExample": "Ex. : 8",
+    "excelCsv": "Excel (.csv)",
+    "excelXlsx": "Excel (.xlsx)",
+    "csv": "CSV",
+    "activeTwoHours": "Actif il y a 2 h",
+    "activeThreeDays": "Actif il y a 3 jours",
+    "activeNow": "Actif maintenant",
+    "deviceInstructions": "Sur l’appareil que vous souhaitez connecter, accédez à Paramètres → Associer un appareil et scannez le code QR affiché.",
+    "portuguese": "Portugais",
+    "french": "Français",
+    "english": "Anglais",
+    "eur": "€ EUR — Euro",
+    "usd": "$ USD — Dollar américain",
+    "gbp": "£ GBP — Livre sterling",
+    "brl": "R$ BRL — Réal brésilien",
+    "chf": "CHF — Franc suisse",
+    "utc": "UTC",
+    "lisbon": "Europe/Lisbonne (WET)",
+    "paris": "Europe/Paris (CET)",
+    "london": "Europe/Londres (GMT)",
+    "newYork": "Amérique/New York (EST)",
+    "saoPaulo": "Amérique/São Paulo (BRT)",
+    "tokyo": "Asie/Tokyo (JST)",
+    "newYear": "jour de l’an",
+    "easterMonday": "lundi de pâques",
+    "labourDay": "fête du travail",
+    "victoryDay": "victoire 1945",
+    "nationalDay": "fête nationale",
+    "assumption": "assomption",
+    "allSaints": "toussaint",
+    "christmas": "noël",
+    "works": "Travaux"
+  },
+  "i18nB": {
+    "personalData": "Informations personnelles",
+    "fullName": "Nom complet",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "birthDate": "Date de naissance",
+    "birth": "Naissance",
+    "other": "Autre",
+    "postalCode": "Code postal",
+    "city": "Ville",
+    "country": "Pays",
+    "address": "Adresse",
+    "taxId": "Numéro fiscal",
+    "website": "Site web",
+    "orderNumber": "Numéro d’inscription à l’Ordre",
+    "gender": "Genre",
+    "smsNotifications": "Notifications par SMS",
+    "variablePrice": "Variable selon le traitement",
+    "monFri": "lun - ven",
+    "monSat": "lun - sam",
+    "monSun": "lun - dim",
+    "compact": "Compact",
+    "compactDescription": "Journée entière visible sans défilement",
+    "normal": "Normal",
+    "normalDescription": "Par défaut — faites défiler pour voir toute la journée",
+    "expanded": "Étendu",
+    "expandedDescription": "Matin ou après-midi — plus de détails par consultation",
+    "today": "Aujourd’hui",
+    "free": "Libre",
+    "break": "Pause",
+    "menu": "Menu",
+    "patientDossier": "Dossier du patient",
+    "confirmed": "Confirmée",
+    "pending": "En attente",
+    "age_one": "{{count, number}} an",
+    "age_other": "{{count, number}} ans",
+    "duration": "{{count, number}} min",
+    "openConversation": "Ouverture de la conversation...",
+    "statusChanged": "Statut modifié",
+    "recipient": "Pour :",
+    "option1": "Dentisterie générale",
+    "option2": "Orthodontie",
+    "option3": "Implantologie",
+    "option4": "Endodontie",
+    "option5": "Parodontologie",
+    "option6": "Dentisterie pédiatrique",
+    "option7": "Chirurgie orale",
+    "option8": "Prothèse dentaire",
+    "option9": "Esthétique dentaire",
+    "option10": "Portugais",
+    "option11": "Anglais",
+    "option12": "Français",
+    "option13": "Espagnol",
+    "option14": "Allemand",
+    "option15": "Italien",
+    "option16": "Temps plein",
+    "option17": "Temps partiel",
+    "option18": "Indépendant",
+    "option19": "Remplacement",
+    "option20": "Matins",
+    "option21": "Après-midis",
+    "option22": "Soirs",
+    "option23": "Week-ends",
+    "option24": "Assurance maladie",
+    "option25": "Formation continue rémunérée",
+    "option26": "Participation aux congrès",
+    "option27": "Matériel clinique inclus",
+    "option28": "Stationnement",
+    "option29": "Repas",
+    "option30": "Carte",
+    "option31": "Espèces",
+    "option32": "Carte bancaire",
+    "option33": "Chèque",
+    "option34": "Virement",
+    "option35": "Accès en fauteuil roulant",
+    "option36": "Ascenseur",
+    "option37": "Toilettes adaptées",
+    "option38": "Stationnement réservé",
+    "option39": "Stationnement gratuit",
+    "option40": "Proche des transports en commun",
+    "option41": "Radiographie panoramique",
+    "option42": "Radiographie périapicale",
+    "option43": "Radiographie céphalométrique",
+    "option44": "Scanner dentaire",
+    "option45": "lundi",
+    "option46": "mardi",
+    "option47": "mercredi",
+    "option48": "jeudi",
+    "option49": "vendredi",
+    "option50": "samedi",
+    "option51": "dimanche",
+    "language_pt": "Portugais",
+    "language_fr": "Français",
+    "language_en": "Anglais",
+    "language_es": "Espagnol"
+  },
+  "i18nC": {
+    "total": "Total",
+    "cvv": "CVV",
+    "expiry": "MM/AA",
+    "lightMode": "Mode clair",
+    "darkMode": "Mode sombre",
+    "agenda": "Agenda • {{month}}",
+    "cleaning": "10:30 — Détartrage",
+    "confirmed": "Confirmée",
+    "achievements": "Réussites",
+    "unlocked": "{{unlocked, number}} sur {{total, number}} débloquées",
+    "top": "Top {{count, number}}",
+    "streak30": "Série {{count, number}}",
+    "vip": "VIP",
+    "premium": "Premium",
+    "precise": "Précis",
+    "fast": "Rapide",
+    "silverLevel": " — Niveau Argent",
+    "xp": "{{count, number}} XP",
+    "live": "EN DIRECT",
+    "you": "Vous",
+    "fixedPrice": "12:34 • {{price}} fixe",
+    "dateTime": "{{date}} à {{time}}",
+    "callStarted": "Téléconsultation démarrée",
+    "callDeclined": "Appel refusé",
+    "streak": "Série",
+    "points": "points",
+    "penicillin": "Pénicilline",
+    "latex": "Latex",
+    "warfarinWarning": "Warfarine — Risque avec les AINS",
+    "age_one": "{{count, number}} an",
+    "age_other": "{{count, number}} ans",
+    "portugal": "Portugal",
+    "qrCode": "Code QR",
+    "recommended": "Recommandé"
   }
 }

@@ -1,3 +1,5 @@
+import { formatDate } from '@/lib/formatters';
+import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -360,7 +362,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div>
               <p className="font-semibold text-foreground">{t('editConsultation.teleconsultation')}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{t('booking.videoConsultation')}</p>
-              <p className="text-xs text-primary mt-1">€{dentist.teleconsultaPrice}</p>
+              <p className="text-xs text-primary mt-1">{formatCurrency(dentist.teleconsultaPrice)}</p>
             </div>
           </div>
         </Button>
@@ -372,7 +374,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             />
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-destructive" />
-              <span className="text-sm text-foreground">{t('booking.isUrgent')} (+€5)</span>
+              <span className="text-sm text-foreground">{t('booking.isUrgent')} (+{formatCurrency(5)})</span>
             </div>
           </label>
         )}
@@ -461,7 +463,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
                 .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))
                 .map(s => (
                   <p key={s.key} className="text-xs text-foreground pl-6">
-                    • {s.date.toLocaleDateString(i18n.language, { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
+                    • {s.date.toLocaleDateString(getActiveLocale(), { weekday: 'short', day: 'numeric', month: 'short' })} · {s.time}
                   </p>
                 ))}
             </div>
@@ -490,7 +492,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex items-center justify-between p-3 rounded-xl bg-primary/10 border border-primary/20">
             <span className="text-sm font-semibold text-foreground">{t('booking.price')}</span>
             <span className="text-sm font-bold text-primary">
-              {data.consultationType === 'teleconsulta' ? `€${totalPrice}` : t('booking.payAtClinicLabel')}
+              {data.consultationType === 'teleconsulta' ? `${formatCurrency(totalPrice)}` : t('booking.payAtClinicLabel')}
             </span>
           </div>
         )}
@@ -505,29 +507,29 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
       <div className="p-3 rounded-xl bg-secondary border border-border space-y-1">
         <p className="text-sm font-medium text-foreground">{t('booking.teleconsultWith')} {dentist.name}</p>
         <p className="text-xs text-muted-foreground">
-<CalendarIcon className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} <Clock className="inline w-3.5 h-3.5 mx-1 -mt-0.5" />{data.time} (30 min)</p>
+<CalendarIcon className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.date?.toLocaleDateString(getActiveLocale())} <Clock className="inline w-3.5 h-3.5 mx-1 -mt-0.5" />{data.time} (30 min)</p>
         <p className="text-xs text-muted-foreground">
 <Glyph emoji="🏥" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{data.clinic?.name}</p>
         <div className="border-t border-border pt-1 mt-1 space-y-0.5">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">{t('editConsultation.teleconsultation')}</span>
-            <span className="text-foreground">€{dentist.teleconsultaPrice}</span>
+            <span className="text-foreground">{formatCurrency(dentist.teleconsultaPrice)}</span>
           </div>
           {data.isUrgent && (
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">{t('booking.urgencyFee')}</span>
-              <span className="text-foreground">€5</span>
+              <span className="text-foreground">{formatCurrency(5)}</span>
             </div>
           )}
           {discount > 0 && (
             <div className="flex justify-between text-sm text-success">
               <span>{t('booking.discount')} (-20%)</span>
-              <span>-€{discount.toFixed(2)}</span>
+              <span>-{formatCurrency(discount, { decimals: true })}</span>
             </div>
           )}
           <div className="border-t border-border pt-1 mt-1 flex justify-between text-sm font-bold">
-            <span className="text-foreground">Total</span>
-            <span className="text-primary">€{finalPrice.toFixed(2)}</span>
+            <span className="text-foreground">{t('i18nC.total')}</span>
+            <span className="text-primary">{formatCurrency(finalPrice, { decimals: true })}</span>
           </div>
         </div>
       </div>
@@ -609,7 +611,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           <div className="flex gap-3">
             <div className="flex-1">
               <Input
-                placeholder="MM/YY"
+                placeholder={t('i18nC.expiry')}
                 value={cardExpiry}
                 onChange={e => {
                   let val = e.target.value.replace(/\D/g, '').slice(0, 4);
@@ -624,7 +626,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             </div>
             <div className="w-24">
               <Input
-                placeholder="CVV"
+                placeholder={t('i18nC.cvv')}
                 value={cardCvv}
                 onChange={e => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
                 maxLength={3}
@@ -692,7 +694,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
         <div className="animate-fade-in p-3 rounded-xl bg-secondary border border-border space-y-2">
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.entity')}</span><span className="text-foreground font-mono">21 312</span></div>
           <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.reference')}</span><span className="text-foreground font-mono">123 456 789</span></div>
-          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">€{finalPrice.toFixed(2)}</span></div>
+          <div className="flex justify-between text-sm"><span className="text-muted-foreground">{t('booking.value')}</span><span className="text-foreground font-bold">{formatCurrency(finalPrice, { decimals: true })}</span></div>
           <p className="text-xs text-muted-foreground">{t('booking.validFor24h')}</p>
         </div>
       )}
@@ -762,7 +764,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="w-full p-3 rounded-xl bg-secondary border border-border text-left space-y-1 text-xs text-muted-foreground">
               <p className="font-medium text-foreground text-sm">{t('booking.receipt')}</p>
               <p>{t('booking.receiptNumber')} {receiptId}</p>
-              <p>{data.date?.toLocaleDateString(i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'pt-PT')} — €{finalPrice.toFixed(2)}</p>
+              <p>{data.date?.toLocaleDateString(getActiveLocale())} — {formatCurrency(finalPrice, { decimals: true })}</p>
               <p>{t('booking.method')}: {paymentMethod === 'card' ? 'Visa ****4532' : paymentMethod === 'mbway' ? 'MB WAY' : paymentMethod === 'pontos' ? 'Pontos SmileCheck' : 'Multibanco'}</p>
             </div>
           )}
@@ -774,7 +776,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
             <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary border border-border">
               <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
               <span className="text-sm text-foreground">
-                {data.date?.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long' })} às {data.time}
+                {t('i18nC.dateTime', { date: data.date ? formatDate(data.date, { weekday: 'long', day: 'numeric', month: 'long' }) : '', time: data.time })}
               </span>
             </div>
           </div>
@@ -835,7 +837,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
           </Button>
         ) : step === 'payment' ? (
           <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-            {t('booking.pay')} €{finalPrice.toFixed(2)}
+            {t('booking.pay')} {formatCurrency(finalPrice, { decimals: true })}
           </Button>
         ) : (
           <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>
@@ -896,7 +898,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             ) : step === 'payment' ? (
               <Button className="flex-1" onClick={handlePay} disabled={!canProceed()}>
-                {t('booking.pay')} €{finalPrice.toFixed(2)}
+                {t('booking.pay')} {formatCurrency(finalPrice, { decimals: true })}
               </Button>
             ) : (
               <Button className="flex-1" onClick={goNext} disabled={!canProceed()}>

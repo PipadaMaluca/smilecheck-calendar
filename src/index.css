@@ -1973,3 +1973,8 @@ input[type="checkbox"]:checked::after {
   color: hsl(var(--card-foreground));
 }
 .leaflet-container { font: inherit; background: hsl(var(--muted)); }
+
+/* Dates: only the first letter of the sentence is uppercase ("Sábado, 31 de janeiro de 2026"). */
+.sentence-case { text-transform: none; }
+.sentence-case::first-letter { text-transform: uppercase; }
+span.sentence-case { display: inline-block; }

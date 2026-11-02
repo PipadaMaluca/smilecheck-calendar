@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Glyph } from '@/components/ui/glyph';
 import { Gift } from 'lucide-react';
@@ -73,13 +74,13 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <Badge variant="secondary" className="text-xs font-bold whitespace-nowrap">
-                  {product.points.toLocaleString()} pts
+                  {formatNumber(product.points)} pts
                 </Badge>
                 <span className={cn(
                   'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap min-w-[90px] text-center',
                   canAfford ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground',
                 )}>
-                  {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${missing.toLocaleString()}`}
+                  {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
                 </span>
               </div>
             </button>

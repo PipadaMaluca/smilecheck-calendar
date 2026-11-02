@@ -1,6 +1,7 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
 import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import {
   Consultation, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS,
   ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel,
@@ -158,10 +159,10 @@ export function DesktopWeekView({
                   onClick={() => { onDateChange(day); onViewModeChange('day'); }}
                 >
                   <div className={cn('text-[11px] uppercase font-medium', isToday ? 'text-primary' : 'text-muted-foreground')}>
-                    {format(day, 'EEE', { locale: pt })}
+                    {format(day, 'EEE', { locale: getDateFnsLocale() })}
                   </div>
                   <div className={cn('text-xs font-semibold', isToday && 'text-primary')}>
-                    {format(day, "d MMM", { locale: pt })}
+                    {format(day, "d MMM", { locale: getDateFnsLocale() })}
                   </div>
                 </div>
                 {showSubHeaders && (

@@ -199,7 +199,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-xl p-2 text-left flex flex-col gap-1 min-h-[60px] active:bg-muted/40 transition-colors press"
         >
-          <span className="text-[11px] text-muted-foreground leading-none">Streak</span>
+          <span className="text-[11px] text-muted-foreground leading-none">{t('i18nC.streak')}</span>
           <div className="flex items-center gap-1 flex-1">
             <Flame className="w-3.5 h-3.5 text-orange-500 flex-shrink-0" />
             <span className="text-[12px] font-bold text-foreground tabular-nums truncate">
@@ -255,7 +255,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
           onClick={() => onNavigate('pontuacoes')}
           className="bg-card border border-border rounded-2xl shadow-sm p-3 text-left card-hover-lift hover:border-primary/40 transition-colors flex flex-col justify-between min-h-[80px]"
         >
-          <span className="text-[11px] text-muted-foreground">Streak</span>
+          <span className="text-[11px] text-muted-foreground">{t('i18nC.streak')}</span>
           <div className="flex items-center gap-1.5">
             <Flame className="w-[18px] h-[18px] text-orange-500" />
             <span className="text-[16px] font-bold text-foreground tabular-nums">

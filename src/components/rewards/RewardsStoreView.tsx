@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Gift, ShoppingBag, SlidersHorizontal, SearchX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -173,7 +174,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
         </div>
         <div id="coachmark-store-balance" className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 sm:px-4 py-2 self-start sm:self-auto">
           <Gift className="w-4 h-4 text-warning flex-shrink-0" />
-          <span className="font-bold text-warning">{userPoints.toLocaleString()}</span>
+          <span className="font-bold text-warning">{formatNumber(userPoints)}</span>
           <span className="text-xs text-warning/70 hidden sm:inline">{t('store.available')}</span>
           <span className="text-xs text-warning/70 sm:hidden">pts</span>
         </div>

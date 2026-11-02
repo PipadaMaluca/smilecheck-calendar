@@ -1,3 +1,4 @@
+import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
@@ -61,7 +62,7 @@ import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { ProfileNavigationProvider } from '@/contexts/ProfileNavigationContext';
 import { isSameDay, startOfWeek, addDays, addWeeks, subWeeks, format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { AgendaSearchBar } from './AgendaSearchBar';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
@@ -415,12 +416,12 @@ export function DesktopCalendarView() {
     if (viewMode === 'week') {
       const ws = startOfWeek(selectedDate, { weekStartsOn: 1 });
       const we = addDays(ws, 5);
-      return `Semana de ${format(ws, 'd', { locale: pt })} - ${format(we, 'd MMM yyyy', { locale: pt })}`;
+      return `Semana de ${format(ws, 'd', { locale: getDateFnsLocale() })} - ${format(we, 'd MMM yyyy', { locale: getDateFnsLocale() })}`;
     }
     if (viewMode === 'month') {
-      return format(selectedDate, 'MMMM yyyy', { locale: pt });
+      return format(selectedDate, 'MMMM yyyy', { locale: getDateFnsLocale() });
     }
-    return selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    return selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
 
   // Enforce single dentist for week/month
@@ -733,8 +734,8 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-[50px] border border-secondary pb-[50px] px-[30px]">
-              <span className="text-sm font-medium capitalize text-foreground">
-                {selectedDate.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              <span className="text-sm font-medium sentence-case text-foreground">
+                {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
                 <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
@@ -758,12 +759,12 @@ export function DesktopCalendarView() {
                     <Menu className="w-5 h-5" />
                   </Button>
                   <div className="h-6 w-px bg-border" />
-                  <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">Hoje</Button>
+                  <Button variant="secondary" size="sm" onClick={goToToday} className="font-medium">{t('i18nB.today')}</Button>
                   <div className="flex items-center gap-1">
                     <Button variant="ghost" size="icon" onClick={goToPrevious}><ChevronLeft className="w-4 h-4" /></Button>
                     <Button variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
-                  <span className="text-sm font-medium capitalize text-foreground">
+                  <span className="text-sm font-medium sentence-case text-foreground">
                     {getHeaderDateLabel()}
                   </span>
                 </div>

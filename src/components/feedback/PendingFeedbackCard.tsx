@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
@@ -102,7 +103,7 @@ export function PendingFeedbackCard({ userRole }: PendingFeedbackCardProps) {
               const dateLabel = item.time
                 ? `${item.time}`
                 : item.date
-                  ? item.date.toLocaleDateString()
+                  ? item.date.toLocaleDateString(getActiveLocale())
                   : '';
               const titleKey =
                 item.targetRole === 'patient' ? 'bidirectionalFeedback.evaluatePatient'

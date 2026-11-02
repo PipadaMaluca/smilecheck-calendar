@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { X, Calendar, Clock, User, Phone, Star, Save, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { Consultation, ConsultationCategory } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
@@ -112,7 +113,7 @@ export function EditConsultationModal({ consultation, isOpen, onClose, onSave, o
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal">
                 <Calendar className="mr-2 h-4 w-4" />
-                {format(selectedDate, "d 'de' MMMM yyyy", { locale: pt })}
+                {format(selectedDate, "d 'de' MMMM yyyy", { locale: getDateFnsLocale() })}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 bg-card border-border" align="start">
@@ -139,7 +140,7 @@ export function EditConsultationModal({ consultation, isOpen, onClose, onSave, o
           <Select value={duration} onValueChange={setDuration}>
             <SelectTrigger className="w-full"><SelectValue placeholder={t('editConsultation.selectDuration')} /></SelectTrigger>
             <SelectContent className="bg-card border-border">
-              {DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+              {DURATION_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{t('i18nB.duration', { count: Number(o.value) })}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>

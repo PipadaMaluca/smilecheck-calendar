@@ -1,3 +1,4 @@
+import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { computeKpis, inPeriod } from '@/data/kpis';
 import { useState, useMemo } from 'react';
@@ -231,7 +232,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     <TrendingUp className="w-4 h-4" />
                     <span className="text-[11px] font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
-                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">€{revenue.toLocaleString('pt-PT')}</span>
+                  <span className="text-[26px] font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
                 </CardContent>
               </Card>
             </div>
@@ -303,11 +304,11 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#2196F3' }}>{d.tele}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">tele</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.teleconsultations')}</div>
                         </div>
                         <div className="flex-shrink-0 text-center" style={{ width: 50 }}>
                           <div className="text-[11px] font-bold" style={{ color: '#10B981' }}>{d.pres}</div>
-                          <div className="text-[11px] text-muted-foreground leading-none">pres</div>
+                          <div className="text-[11px] text-muted-foreground leading-none">{t('i18nA.inPerson')}</div>
                         </div>
                       </li>
                     );

@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { X, Repeat } from 'lucide-react';
@@ -11,7 +12,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { UserRole } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { toast } from 'sonner';
 
 export interface TimeBlock {
@@ -111,7 +112,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                      {format(startDate, 'dd/MM/yyyy', { locale: pt })}
+                      {format(startDate, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -136,7 +137,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                      {format(endDate, 'dd/MM/yyyy', { locale: pt })}
+                      {format(endDate, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -205,7 +206,7 @@ export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate,
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                          {format(repeatUntil, 'dd/MM/yyyy', { locale: pt })}
+                          {format(repeatUntil, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">

@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { Fragment, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight, Check, ChevronDown, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -104,7 +105,7 @@ export function AvailabilityGridStep({
     });
   }, [weekStart]);
 
-  const monthShort = days[5].toLocaleDateString(i18n.language, { month: 'short' }).replace('.', '');
+  const monthShort = days[5].toLocaleDateString(getActiveLocale(), { month: 'short' }).replace('.', '');
   const weekLabel = `${days[0].getDate()} - ${days[5].getDate()} ${monthShort} ${days[5].getFullYear()}`;
 
   const selectedKeys = useMemo(() => new Set(selectedSlots.map(s => s.key)), [selectedSlots]);

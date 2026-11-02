@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent } from '@/components/ui/card';
@@ -39,7 +40,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
 
   // Calendar rendering
   const monthDate = new Date(2026, calendarMonth, 1);
-  const monthName = monthDate.toLocaleDateString('pt-PT', { month: 'long', year: 'numeric' });
+  const monthName = monthDate.toLocaleDateString(getActiveLocale(), { month: 'long', year: 'numeric' });
   const daysInMonth = new Date(2026, calendarMonth + 1, 0).getDate();
   const firstDayOfWeek = (monthDate.getDay() + 6) % 7; // Monday = 0
   const todayDay = calendarMonth === 0 ? 31 : -1;
@@ -96,7 +97,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             <Button variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m - 1)} disabled={calendarMonth <= -6}>
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <h3 className="text-sm font-bold text-foreground capitalize">{monthName}</h3>
+            <h3 className="text-sm font-bold text-foreground sentence-case">{monthName}</h3>
             <Button variant="ghost" size="icon-sm" onClick={() => setCalendarMonth(m => m + 1)} disabled={calendarMonth >= 0}>
               <ChevronRight className="w-4 h-4" />
             </Button>

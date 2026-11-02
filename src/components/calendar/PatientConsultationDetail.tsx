@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Consultation, CATEGORY_COLORS, STATUS_CONFIG, getCategoryBadgeStyle, getCategoryLabel } from '@/types/calendar';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
@@ -121,7 +122,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
               <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border/60 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5" />
-                  {format(consultation.date, "EEEE, d 'de' MMMM yyyy", { locale: pt })}
+                  {format(consultation.date, "EEEE, d 'de' MMMM yyyy", { locale: getDateFnsLocale() })}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5" />

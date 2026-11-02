@@ -1,3 +1,4 @@
+import { getActiveLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { Download, CheckCircle2, Loader2 } from 'lucide-react';
@@ -64,7 +65,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
     const ext = format === 'pdf' ? '.txt' : '.csv';
     const filename = `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${ext}`;
     
-    const content = `SmileCheck Report - ${new Date().toLocaleString()}`;
+    const content = `SmileCheck Report - ${new Date().toLocaleString(getActiveLocale())}`;
     const mimeType = format === 'pdf' ? 'text/plain' : 'text/csv';
     
     const blob = new Blob([content], { type: mimeType });
@@ -181,7 +182,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
                 </div>
                 <div className="flex items-center gap-2">
                   <RadioGroupItem value="excel" id="modal-fmt-excel" />
-                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer press">Excel (.csv)</Label>
+                  <Label htmlFor="modal-fmt-excel" className="text-sm cursor-pointer press">{t('i18nA.excelCsv')}</Label>
                 </div>
               </RadioGroup>
             </div>

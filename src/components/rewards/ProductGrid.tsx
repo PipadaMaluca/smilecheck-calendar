@@ -1,3 +1,4 @@
+import { formatNumber } from '@/lib/formatters';
 import { useTranslation } from 'react-i18next';
 import { Glyph } from '@/components/ui/glyph';
 import { Gift } from 'lucide-react';
@@ -68,10 +69,10 @@ function ProductCard({ product, userPoints, onRedeem }: { product: RewardProduct
           </Badge>
         )}
         <Badge variant="secondary" className="text-xs font-bold">
-          {product.points.toLocaleString()} pts
+          {formatNumber(product.points)} pts
         </Badge>
         <Button size="sm" className="w-full text-xs mt-1" disabled={!canAfford} onClick={() => onRedeem(product)}>
-          {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${missing.toLocaleString()} pts`}
+          {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)} pts`}
         </Button>
       </CardContent>
     </Card>

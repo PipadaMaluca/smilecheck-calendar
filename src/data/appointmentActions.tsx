@@ -1,8 +1,9 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { supabase } from '@/integrations/supabase/client';
 import { Consultation, ConsultationCategory, ConsultationStatus } from '@/types/calendar';
 import { useAgendaData } from '@/data/agendaSource';
@@ -195,7 +196,7 @@ export function AppointmentActionsProvider({ children }: { children: React.React
   const topMatch = matchState?.matches[0];
   const slotDate = matchState ? new Date(matchState.slot.scheduledAt) : null;
   const slotLabel = slotDate
-    ? `${format(slotDate, "EEEE d 'de' MMMM", { locale: pt })} · ${String(slotDate.getUTCHours()).padStart(2, '0')}:${String(slotDate.getUTCMinutes()).padStart(2, '0')}`
+    ? `${format(slotDate, "EEEE d 'de' MMMM", { locale: getDateFnsLocale() })} · ${String(slotDate.getUTCHours()).padStart(2, '0')}:${String(slotDate.getUTCMinutes()).padStart(2, '0')}`
     : '';
 
   const handleAssign = async () => {

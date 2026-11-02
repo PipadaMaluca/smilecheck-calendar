@@ -41,7 +41,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
   // Patient info with age
   const patientAge = consultation.patient.age;
   const patientNameWithAge = patientAge 
-    ? `${consultation.patient.name} (${patientAge} anos)` 
+    ? `${consultation.patient.name} (${t('i18nB.age', { count: patientAge })})` 
     : consultation.patient.name;
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -120,7 +120,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             <ConsultationTypePill category={consultation.category} label={categoryLabel} />
             {showFamilyMember && (
               <p className="text-xs font-medium text-primary">
-                Para: {consultation.patient.name}{consultation.patient.age ? ` (${consultation.patient.age} anos)` : ''}
+                {t('i18nB.recipient')} {consultation.patient.name}{consultation.patient.age ? ` (${t('i18nB.age', { count: consultation.patient.age })})` : ''}
               </p>
             )}
             <p className="text-xs text-muted-foreground">
@@ -214,11 +214,11 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
             if (s === 'visto') {
               onFeedback?.(c);
             }
-            toast.success(`Estado alterado para "${STATUS_CONFIG[s].label}"`);
+            toast.success(t('i18nB.statusChanged'));
           }}
           onCopy={(c) => onCopy?.(c)}
           onViewProfile={() => {}}
-          onSendMessage={() => toast.info('Abrir conversa...')}
+          onSendMessage={() => toast.info(t('i18nB.openConversation'))}
         />
       )}
     </>

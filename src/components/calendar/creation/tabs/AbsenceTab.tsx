@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Check } from 'lucide-react';
@@ -12,7 +13,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { UserRole } from '@/types/calendar';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -126,7 +127,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
-                          {format(startDate, 'dd/MM/yyyy', { locale: pt })}
+                          {format(startDate, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
@@ -150,7 +151,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
-                          {format(endDate, 'dd/MM/yyyy', { locale: pt })}
+                          {format(endDate, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
@@ -215,7 +216,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
-                        {format(repeatUntil, 'dd/MM/yyyy', { locale: pt })}
+                        {format(repeatUntil, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">

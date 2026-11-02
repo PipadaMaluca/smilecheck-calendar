@@ -1,8 +1,9 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 
 interface ThreeDayViewProps {
@@ -62,7 +63,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   'text-[11px]',
                   isToday ? 'text-primary font-semibold' : 'text-muted-foreground'
                 )}>
-                  {format(day, 'EEE', { locale: pt })}
+                  {format(day, 'EEE', { locale: getDateFnsLocale() })}
                 </p>
                 <p className={cn(
                   'text-sm font-bold',
@@ -74,7 +75,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                   'text-[11px]',
                   isToday ? 'text-primary' : 'text-muted-foreground'
                 )}>
-                  {format(day, 'MMM', { locale: pt })}
+                  {format(day, 'MMM', { locale: getDateFnsLocale() })}
                 </p>
               </div>
             );
@@ -184,7 +185,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         className="bg-[#607D8B]/30 rounded flex items-center justify-center"
                         style={{ gridRow: `${startIdx + 1} / span 1` }}
                       >
-                        <span className="text-muted-foreground/60 text-[11px]">Pausa</span>
+                        <span className="text-muted-foreground/60 text-[11px]">{t('i18nB.break')}</span>
                       </div>
                     );
                   }
@@ -228,7 +229,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                             {displayName}
                           </span>
                           <span className="text-[11px] text-muted-foreground whitespace-nowrap">
-                            ({consultation.patient.age} anos)
+                            ({t('i18nB.age', { count: consultation.patient.age })})
                           </span>
                         </div>
                         {/* Line 2: TYPE pill + notes */}

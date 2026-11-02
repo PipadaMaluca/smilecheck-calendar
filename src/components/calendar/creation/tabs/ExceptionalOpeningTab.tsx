@@ -1,3 +1,4 @@
+import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ import { UserRole } from '@/types/calendar';
 import { ConsultationReasonSelector } from '../ConsultationReasonSelector';
 import { mockDentists, mockClinics } from '@/data/mockData';
 import { format } from 'date-fns';
-import { pt } from 'date-fns/locale';
+
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -127,7 +128,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full justify-start text-xs mt-1">
-                      {format(date, 'dd/MM/yyyy', { locale: pt })}
+                      {format(date, 'dd/MM/yyyy', { locale: getDateFnsLocale() })}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
