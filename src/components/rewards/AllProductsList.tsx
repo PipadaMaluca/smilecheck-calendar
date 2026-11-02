@@ -37,7 +37,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
         const tier = getTier(product.points);
         const showSeparator = showTierSeparators && tier !== lastTier;
         lastTier = tier;
-        const canAfford = userPoints >= product.points;
+        const canAfford = !product.soon && userPoints >= product.points;
         const missing = product.points - userPoints;
 
         return (

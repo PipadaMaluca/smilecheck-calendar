@@ -134,7 +134,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
     <RewardsFilters value={filters} max={catalogMax} onChange={setFilters} onClear={clearFilters} isDirty={isDirty} />
   );
 
-  const handleRedeem = (product: RewardProduct) => { setRedeemProduct(product); };
+  const handleRedeem = (product: RewardProduct) => { if (product.soon) return; setRedeemProduct(product); };
 
   const handleConfirmRedeem = async (): Promise<{ code: string } | { error: string }> => {
     if (!redeemProduct) return { error: t('store.redeemFailed') };
