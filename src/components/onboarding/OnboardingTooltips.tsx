@@ -18,7 +18,7 @@ interface TooltipPosition {
 export const OnboardingTooltips = forwardRef<HTMLDivElement>(() => null);
 OnboardingTooltips.displayName = 'OnboardingTooltips';
 
-function _UnusedOnboardingTooltips() {
+function UnusedOnboardingTooltips() {
   const { t } = useTranslation();
   const { showTooltips, tooltipRole, finishTooltips } = useOnboarding();
   const [currentStep, setCurrentStep] = useState(0);
