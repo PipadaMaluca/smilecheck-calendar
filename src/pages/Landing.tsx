@@ -6,6 +6,7 @@ import { ThemeSelector } from '@/components/landing/ThemeSelector';
 import { LandingNavbar } from '@/components/landing/LandingNavbar';
 import { SectionNav } from '@/components/landing/SectionNav';
 import { HeroSection } from '@/components/landing/HeroSection';
+import { SHOW_TESTIMONIALS, SHOW_TRUST_BAR } from '@/lib/landingFlags';
 import { TrustBar } from '@/components/landing/TrustBar';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
 import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
@@ -60,11 +61,11 @@ export default function Landing() {
       <SectionNav isDark={isDark} />
       <main>
         <HeroSection />
-        <TrustBar />
+        {SHOW_TRUST_BAR && <TrustBar />}
         <FeaturesSection />
         <HowItWorksSection />
         <PricingSection />
-        <TestimonialsSection />
+        {SHOW_TESTIMONIALS && <TestimonialsSection />}
         <FAQSection />
       </main>
       <LandingFooter />

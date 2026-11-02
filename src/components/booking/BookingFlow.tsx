@@ -788,7 +788,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
               </Button>
             )}
             <div className="flex gap-3">
-              <Button variant="outline" className="flex-1 border-border" onClick={() => { onGoHome ? onGoHome() : onComplete(); }}>
+              <Button variant="outline" className="flex-1 border-border" onClick={() => { if (onGoHome) onGoHome(); else onComplete(); }}>
                 {t('booking.goHome')}
               </Button>
               <Button className="flex-1" onClick={onClose}>

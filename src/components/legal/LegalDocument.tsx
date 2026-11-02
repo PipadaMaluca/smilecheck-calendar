@@ -9,7 +9,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
 
-const logoSrc = '/assets/smilecheck-logo-horizontal.png';
+const logoSrc = '/assets/smilecheck-logo-horizontal.webp';
 const LAST_UPDATED = new Date(2026, 0, 1);
 
 interface Section { id: string; title: string; content: string }

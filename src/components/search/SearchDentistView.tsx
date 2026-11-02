@@ -17,7 +17,7 @@ import { DentistCard } from './DentistCard';
 import { DentistProfileModal } from './DentistProfileModal';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getVisibilityBoost } from '@/data/pointsData';
-import smileCheckIcon from '@/assets/smilecheck-icon.png';
+import smileCheckIcon from '@/assets/smilecheck-icon.webp';
 import { TriageData } from '@/types/triage';
 import { useTranslation } from 'react-i18next';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';

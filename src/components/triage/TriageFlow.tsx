@@ -52,7 +52,6 @@ export function TriageFlow() {
 
   const handleFindDentists = () => {
     // Navigate to dentist search with triage data
-    console.log('Triage data:', triageData);
     navigate('/');
   };
 

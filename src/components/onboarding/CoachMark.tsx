@@ -60,7 +60,7 @@ export const CoachMark = forwardRef<HTMLDivElement, CoachMarkProps>(() => null);
 CoachMark.displayName = 'CoachMark';
 
 // Legacy implementation preserved below but unreachable.
-function _UnusedCoachMark({ id, targetId, title, description, enabled = true }: CoachMarkProps) {
+function UnusedCoachMark({ id, targetId, title, description, enabled = true }: CoachMarkProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(`${LS_PREFIX}${id}`) === '1');

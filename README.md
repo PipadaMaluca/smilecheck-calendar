@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# SmileCheck
 
-## Project info
+Plataforma de teleodontologia para Portugal e França. Complementa o Doctolib: agenda de consultas, teleconsulta, dossier clínico e gamificação (XP, níveis, conquistas, loja de recompensas).
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Três perfis — **paciente**, **dentista** e **clínica** — em três línguas (PT-PT, FR, EN).
 
-## How can I edit this code?
+## Stack
 
-There are several ways of editing your application.
+- React 18 + Vite 5 + TypeScript 5
+- Tailwind CSS 3 + shadcn/ui (tokens semânticos em `src/index.css`)
+- i18next (`src/i18n/locales/{pt,fr,en}.json`)
+- Lovable Cloud (Postgres com RLS, autenticação, funções de servidor)
+- Leaflet + OpenStreetMap (mapa da pesquisa)
+- Vitest (testes de regras de negócio)
 
-**Use Lovable**
+## Como correr
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+bun install
+bun run dev      # http://localhost:8080
+bunx vitest run  # testes
+bun run build    # build de produção
 ```
 
-**Edit a file directly in GitHub**
+Modo demo: `/demo` ou `?demo=true` (perfis Paciente / Dentista / Clínica).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Estrutura
 
-**Use GitHub Codespaces**
+```text
+src/
+  components/   ecrãs e componentes por área (calendar, landing, rewards, ...)
+  components/ui primitivos partilhados (shadcn, empty/error states, PersonAvatar)
+  data/         fontes de dados (Cloud) e dados de demonstração (mock)
+  lib/          regras e utilitários (formatters, planRules, kpis, a11y, storeLinks)
+  i18n/         configuração e traduções PT/FR/EN
+  pages/        páginas de topo (Landing, App, Termos, Privacidade)
+supabase/
+  functions/    funções de servidor (ex.: triage-ai)
+  migrations/   esquema, RLS, triggers e funções SQL
+public/         logótipos otimizados (WebP + PNG), badges das lojas, vídeo de abertura
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Regras do projeto
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Segurança:** pontos, XP, níveis, conquistas e resgates só no servidor. Todas as tabelas com RLS. Os utilizadores não alteram o próprio perfil de acesso nem campos administrativos. Dados clínicos só para o paciente e quem o trata.
+- **i18n:** nenhum texto fixo; as três línguas têm sempre as mesmas chaves. Português europeu, tratamento formal.
+- **Formatação:** moeda, números e datas só via `src/lib/formatters.ts`.
+- **Design:** visual clínico e calmo nas áreas médicas; efeitos "gaming" apenas em pontuações, recompensas, rankings, conquistas e onboarding. Cores dos tipos de consulta são fixas. Ícones Lucide fora da gamificação.
+- **Layout:** tablet segue o desktop; alvos de toque ≥ 44px em mobile; escala de 4px e tokens Tailwind.
+- **Dados:** módulos ainda em mock mantêm o mock como fallback do modo demo.
+- Regras técnicas detalhadas: ver `AGENTS.md`.

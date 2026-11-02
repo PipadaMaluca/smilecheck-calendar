@@ -95,6 +95,13 @@ export type Database = {
             foreignKeyName: "achievements_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "achievements_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -167,6 +174,13 @@ export type Database = {
             foreignKeyName: "appointments_dentist_id_fkey"
             columns: ["dentist_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -175,6 +189,13 @@ export type Database = {
             columns: ["family_member_id"]
             isOneToOne: false
             referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -220,6 +241,13 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: false
             referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinic_members_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -288,6 +316,13 @@ export type Database = {
             foreignKeyName: "clinics_owner_profile_id_fkey"
             columns: ["owner_profile_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinics_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -313,6 +348,13 @@ export type Database = {
           profile_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "daily_checkins_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "daily_checkins_profile_id_fkey"
             columns: ["profile_id"]
@@ -358,6 +400,13 @@ export type Database = {
             foreignKeyName: "dentists_id_fkey"
             columns: ["id"]
             isOneToOne: true
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dentists_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -392,6 +441,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "family_members_primary_patient_id_fkey"
+            columns: ["primary_patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "family_members_primary_patient_id_fkey"
             columns: ["primary_patient_id"]
@@ -444,7 +500,21 @@ export type Database = {
             foreignKeyName: "feedback_from_profile_id_fkey"
             columns: ["from_profile_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_from_profile_id_fkey"
+            columns: ["from_profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedback_to_profile_id_fkey"
+            columns: ["to_profile_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -495,6 +565,13 @@ export type Database = {
             foreignKeyName: "notifications_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -536,6 +613,13 @@ export type Database = {
             foreignKeyName: "patients_id_fkey"
             columns: ["id"]
             isOneToOne: true
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -573,6 +657,13 @@ export type Database = {
           type?: Database["public"]["Enums"]["points_type"]
         }
         Relationships: [
+          {
+            foreignKeyName: "points_ledger_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "points_ledger_profile_id_fkey"
             columns: ["profile_id"]
@@ -709,6 +800,13 @@ export type Database = {
             foreignKeyName: "redemptions_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redemptions_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -825,6 +923,13 @@ export type Database = {
             foreignKeyName: "user_levels_id_fkey"
             columns: ["id"]
             isOneToOne: true
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_levels_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -885,7 +990,21 @@ export type Database = {
             foreignKeyName: "waiting_list_dentist_id_fkey"
             columns: ["dentist_id"]
             isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "waiting_list_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "waiting_list_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
             referencedColumns: ["id"]
           },
           {
@@ -899,7 +1018,30 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      professional_public_profiles: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          id: string | null
+          language: Database["public"]["Enums"]["app_language"] | null
+          role: Database["public"]["Enums"]["app_role"] | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string | null
+          language?: Database["public"]["Enums"]["app_language"] | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Update: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string | null
+          language?: Database["public"]["Enums"]["app_language"] | null
+          role?: Database["public"]["Enums"]["app_role"] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       apply_points: {
@@ -968,6 +1110,7 @@ export type Database = {
         Args: { _profile_id: string; _reward_key: string }
         Returns: Json
       }
+      refresh_seed_appointments: { Args: never; Returns: undefined }
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
         Returns: undefined

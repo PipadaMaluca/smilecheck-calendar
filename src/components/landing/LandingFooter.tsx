@@ -51,7 +51,7 @@ export function LandingFooter() {
           {/* Top: Brand block */}
           <div className="flex flex-col items-center text-center mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} theme="dark" /></span>
+              <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} theme="dark" lazy /></span>
             </div>
             <p className="text-base text-muted-foreground max-w-md [.light_&]:text-muted-foreground">{t('landing.footer.tagline')}</p>
             <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>

@@ -1,3 +1,4 @@
+import { SHOW_TESTIMONIALS } from '@/lib/landingFlags';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -15,7 +16,7 @@ export function SectionNav({ isDark }: SectionNavProps) {
   const links = [
     { id: 'funcionalidades', label: t('landing.navbar.features') },
     { id: 'planos', label: t('landing.navbar.plans') },
-    { id: 'testemunhos', label: t('landing.navbar.testimonials') },
+    ...(SHOW_TESTIMONIALS ? [{ id: 'testemunhos', label: t('landing.navbar.testimonials') }] : []),
     { id: 'faq', label: t('landing.navbar.faq') },
   ];
 

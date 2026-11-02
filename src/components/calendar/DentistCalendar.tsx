@@ -420,7 +420,7 @@ export function DentistCalendar() {
             consultation={selectedConsultation}
             onClose={() => setSelectedConsultation(null)}
             onNavigate={(tab) => { setSelectedConsultation(null); handleTabChange(tab); }}
-            onCopy={(c) => { console.log('Copy:', c); }}
+            onCopy={() => {}}
             onViewDossier={(id) => { setSelectedConsultation(null); setViewPatientDossier(id); }}
           />
         ) : activeTab === 'home' ? (
