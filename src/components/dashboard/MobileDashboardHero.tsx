@@ -1,4 +1,4 @@
-import { demoDate } from '@/lib/demoClock';
+import { pickNextAppointment, atTime } from '@/lib/demoClock';
 import { useMemo, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Star, Flame } from 'lucide-react';
@@ -11,7 +11,6 @@ import { getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress
 import { usePointsData } from '@/data/pointsSource';
 import { getQuickActions } from './quickActions';
 
-const DEMO_DATE = demoDate(2026, 0, 31);
 
 interface MobileDashboardHeroProps {
   userRole: UserRole;
@@ -31,34 +30,22 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
   const xpProgress = getXPProgress(points.xp);
 
   const next = useMemo(() => {
-    if (userRole === 'patient') {
-      const n = [...mockPatientConsultations]
-        .filter((c) => c.date >= DEMO_DATE)
-        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
-      if (!n) return null;
-      return {
-        id: n.id,
-        time: n.time,
-        name: (n as any).dentist?.name || mockDentists[0].name,
-        category: n.category,
-        catLabel: n.category ? getCategoryLabel(t, n.category) : '',
-        catColor: n.category ? CATEGORY_COLORS[n.category]?.hex : '#2196F3',
-        countdownMin: 0,
-      };
-    }
-    const cons = mockConsultations
-      .filter((c) => isSameDay(c.date, DEMO_DATE))
-      .filter((c) => userRole === 'clinic' ? true : c.dentist.id === mockDentists[0].id)
-      .sort((a, b) => a.time.localeCompare(b.time))[0];
-    if (!cons) return null;
+    const now = new Date();
+    const source = userRole === 'patient'
+      ? mockPatientConsultations
+      : mockConsultations.filter((c) => userRole === 'clinic' ? true : c.dentist.id === mockDentists[0].id);
+    const n = pickNextAppointment(source, now);
+    if (!n) return null;
+    const countdownMin = Math.max(0, Math.round((atTime(n.date, n.time).getTime() - now.getTime()) / 60000));
     return {
-      id: cons.id,
-      time: cons.time,
-      name: cons.patient.name,
-      category: cons.category,
-      catLabel: cons.category ? getCategoryLabel(t, cons.category) : cons.type,
-      catColor: cons.category ? CATEGORY_COLORS[cons.category]?.hex : '#2196F3',
-      countdownMin: 15,
+      id: n.id,
+      time: n.time,
+      name: userRole === 'patient' ? ((n as any).dentist?.name || mockDentists[0].name) : n.patient.name,
+      category: n.category,
+      catLabel: n.category ? getCategoryLabel(t, n.category) : '',
+      catColor: n.category ? CATEGORY_COLORS[n.category]?.hex : 'hsl(var(--primary))',
+      countdownMin,
+      isToday: isSameDay(n.date, now),
     };
   }, [userRole, t]);
 
@@ -104,13 +91,15 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
             )}
           </div>
           <div className="flex items-center pr-3 flex-shrink-0">
-            {next.countdownMin === 0 ? (
+            {!next.isToday ? null : next.countdownMin === 0 ? (
               <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
-                AGORA
+                {t('dashboard.nowBadge')}
               </span>
             ) : (
               <span className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
-                em {next.countdownMin} min
+                {next.countdownMin >= 60
+                  ? t('dashboard.inHours', { count: Math.round(next.countdownMin / 60) })
+                  : t('dashboard.inMinutes', { count: next.countdownMin })}
               </span>
             )}
           </div>
@@ -150,13 +139,15 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
                 </span>
               )}
               <div className="flex-shrink-0">
-                {next.countdownMin === 0 ? (
+                {!next.isToday ? null : next.countdownMin === 0 ? (
                   <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
-                    AGORA
+                    {t('dashboard.nowBadge')}
                   </span>
                 ) : (
                   <span className="px-2.5 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-semibold whitespace-nowrap">
-                    em {next.countdownMin} min
+                    {next.countdownMin >= 60
+                  ? t('dashboard.inHours', { count: Math.round(next.countdownMin / 60) })
+                  : t('dashboard.inMinutes', { count: next.countdownMin })}
                   </span>
                 )}
               </div>
