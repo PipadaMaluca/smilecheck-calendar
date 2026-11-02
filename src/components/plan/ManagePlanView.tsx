@@ -10,15 +10,12 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, X, Crown, Star, CreditCard, Smartphone, Wallet, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, X, Crown, Star, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from
 '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualTotalPrice, planHasPointsResetWarning, type PlanRole } from '@/lib/planRules';
@@ -139,9 +136,7 @@ export function ManagePlanView({
     setRealCheckoutPrice(planPriceId(userRole as 'patient' | 'dentist' | 'clinic', plan.id, isAnnual));
   };
   const [isAnnual, setIsAnnual] = useState(false);
-  const [checkoutPlan, setCheckoutPlan] = useState<Plan | null>(null);
   const [confirmPlan, setConfirmPlan] = useState<Plan | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState('card');
   const [expandedFeatures, setExpandedFeatures] = useState<Record<string, boolean>>({});
 
   const plans = PLANS_BY_ROLE[userRole] || PLANS_BY_ROLE.patient;
@@ -162,11 +157,6 @@ export function ManagePlanView({
     return { main: `${formatCurrency(plan.monthlyPrice)}`, sub: t('units.perMonth') };
   };
 
-  const handleSubscribe = () => {
-    toast.success(t('plan.planActivated', { plan: getPlanDisplayName(checkoutPlan!) }));
-    if (checkoutPlan) setCurrentPlan(checkoutPlan.id);
-    setCheckoutPlan(null);
-  };
 
   const handleConfirmChange = () => {
     if (!confirmPlan) return;
@@ -421,65 +411,6 @@ export function ManagePlanView({
         </DialogContent>
       </Dialog>
 
-      {/* Checkout Dialog */}
-      <Dialog open={!!checkoutPlan} onOpenChange={() => setCheckoutPlan(null)}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{t('plan.subscribeTo')} {checkoutPlan && getPlanDisplayName(checkoutPlan)}</DialogTitle>
-            <DialogDescription>
-              {checkoutPlan && formatPrice(checkoutPlan).main}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">{t('plan.paymentMethod')}</Label>
-              <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod} className="space-y-2">
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
-                  <RadioGroupItem value="card" id="card" />
-                  <CreditCard className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="card" className="flex-1 cursor-pointer text-sm press">{t('plan.cardLabel')}</Label>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
-                  <RadioGroupItem value="paypal" id="paypal" />
-                  <Wallet className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="paypal" className="flex-1 cursor-pointer text-sm press">PayPal</Label>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors press">
-                  <RadioGroupItem value="mbway" id="mbway" />
-                  <Smartphone className="w-4 h-4 text-muted-foreground" />
-                  <Label htmlFor="mbway" className="flex-1 cursor-pointer text-sm press">MB WAY</Label>
-                </div>
-              </RadioGroup>
-            </div>
-            {paymentMethod === 'card' &&
-            <div className="space-y-3">
-                <div><Label className="text-xs">{t('plan.cardNumber')}</Label><Input placeholder="4242 4242 4242 4242" /></div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div><Label className="text-xs">{t('plan.expiry')}</Label><Input placeholder={t('i18nC.expiry')} /></div>
-                  <div><Label className="text-xs">{t('plan.cvc')}</Label><Input placeholder="123" /></div>
-                </div>
-              </div>
-            }
-            {paymentMethod === 'mbway' &&
-            <div><Label className="text-xs">{t('plan.phoneNumber')}</Label><Input placeholder="+351 912 345 678" /></div>
-            }
-            <div className="bg-secondary/50 rounded-lg p-3 space-y-1">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{t('plan.planLabel')} {checkoutPlan && getPlanDisplayName(checkoutPlan)} ({isAnnual ? t('plan.annual').toLowerCase() : t('plan.monthly').toLowerCase()})</span>
-                <span className="font-medium text-foreground">{checkoutPlan && formatPrice(checkoutPlan).main}</span>
-              </div>
-              <div className="flex justify-between text-sm font-bold border-t border-border pt-1">
-                <span>{t('i18nC.total')}</span>
-                <span>{checkoutPlan && formatPrice(checkoutPlan).main}</span>
-              </div>
-            </div>
-          </div>
-          <DialogFooter className="gap-2">
-            <Button variant="outline" onClick={() => setCheckoutPlan(null)}>{t('common.cancel')}</Button>
-            <Button onClick={handleSubscribe}>{t('plan.subscribe')}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Quick confirm dialog — shown when user clicks a plan card */}
       <Dialog open={!!confirmPlan} onOpenChange={(o) => !o && setConfirmPlan(null)}>
@@ -507,6 +438,7 @@ export function ManagePlanView({
                   {getPlanDisplayName(confirmPlan)} — {formatPrice(confirmPlan).main}
                 </p>
               </div>
+              <p role="note" className="text-xs text-muted-foreground">{t('payments.demoNoPayment')}</p>
             </div>
           )}
           <DialogFooter className="gap-2">

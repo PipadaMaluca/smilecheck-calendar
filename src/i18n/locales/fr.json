@@ -2762,7 +2762,8 @@
     "receiptDownloaded": "Reçu téléchargé",
     "teleconsultReceipt": "Téléconsultation {{name}}",
     "joinWaitingList": "Rejoindre la liste d’attente",
-    "confirmBookingAction": "Confirmer la réservation"
+    "confirmBookingAction": "Confirmer la réservation",
+    "paymentSoon": "Le paiement de la téléconsultation sera bientôt disponible"
   },
   "timeBlock": {
     "editBlock": "Modifier le blocage",
@@ -5234,6 +5235,8 @@
     "checkoutTitle": "Finaliser l’abonnement",
     "checkoutDesc": "Paiement sécurisé. Vous pouvez résilier à tout moment.",
     "portalError": "Impossible d’ouvrir la gestion de l’abonnement.",
-    "endsOn": "L’abonnement se termine le {{date}} ; vous passerez ensuite à l’offre Free."
+    "endsOn": "L’abonnement se termine le {{date}} ; vous passerez ensuite à l’offre Free.",
+    "demoNoPayment": "Démonstration — sans paiement",
+    "methodsManagedSecurely": "Les données de paiement ne sont jamais saisies dans cette app : elles sont gérées dans l'environnement sécurisé de Stripe lors de l'abonnement ou de la gestion du forfait."
   }
 }
