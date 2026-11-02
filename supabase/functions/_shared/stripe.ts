@@ -1,4 +1,5 @@
 import { encode } from "https://deno.land/std@0.168.0/encoding/hex.ts";
+import { timingSafeEqual } from "./paymentsGuard.ts";
 import Stripe from "https://esm.sh/stripe@22.0.2";
 const getEnv = (key: string): string => {
   const value = Deno.env.get(key);
@@ -83,7 +84,7 @@ export async function verifyWebhook(req: Request, env: StripeEnv): Promise<{ typ
   );
   const expected = new TextDecoder().decode(encode(new Uint8Array(signed)));
 
-  if (!v1Signatures.includes(expected)) {
+  if (!v1Signatures.some((sig) => timingSafeEqual(sig, expected))) {
     throw new Error("Invalid webhook signature");
   }
 

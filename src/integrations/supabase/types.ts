@@ -912,6 +912,24 @@ export type Database = {
           },
         ]
       }
+      payment_settings: {
+        Row: {
+          active_env: string
+          id: boolean
+          updated_at: string
+        }
+        Insert: {
+          active_env?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Update: {
+          active_env?: string
+          id?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       points_ledger: {
         Row: {
           amount: number

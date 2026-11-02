@@ -26,3 +26,4 @@
 - The only service-worker registrar is `src/lib/pwa.ts` (refuses dev/preview/iframes); the worker caches the app shell and static assets only, never API/health data.
 - Cheque eligibility is server-enforced (`trg_guard_clinic_cheques`, PT only, country derived from timezone); demo clinics use `src/lib/cheques.ts`.
 - Reviews are only accepted after a `visto`/`concluida` appointment between both parties, one per appointment (`trg_guard_feedback_verified`).
+- Payments act only on the server's active environment (`PAYMENTS_ACTIVE_ENV` secret + `payment_settings.active_env`, kept equal; switch both at go-live); client `environment`/`returnUrl` are never trusted (`_shared/paymentsGuard.ts`) — so test cards can never grant a real plan.
