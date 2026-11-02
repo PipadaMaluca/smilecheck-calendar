@@ -45,6 +45,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
           <CustomCheckbox
             checked={isAllSelected}
             onChange={() => onMemberToggle('all', true)}
+            label={t('common.all')}
           />
           <button 
             className={cn(
@@ -65,6 +66,7 @@ export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterPr
               <CustomCheckbox
                 checked={isSelected}
                 onChange={() => onMemberToggle(member.id, true)}
+                label={member.name}
               />
               <button 
                 className={cn(
