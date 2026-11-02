@@ -1,3 +1,5 @@
+import { FearChip } from '@/components/fear/FearScale';
+import { OwnFearValue } from '@/components/fear/OwnFearValue';
 import { Star as StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -311,6 +313,9 @@ export function PatientProfileBody({
 
         {/* Resumo de Saúde */}
         <SectionCard title={t('profile.healthSummary')}>
+          <div className="mb-4">
+            {isOwnProfile ? <OwnFearValue /> : <FearChip patientId={patientId ?? 'demo'} />}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div className="space-y-4">
               <div className="flex items-center gap-2">

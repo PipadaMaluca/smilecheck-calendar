@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { FearScalePicker } from '@/components/fear/FearScale';
+import { fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
+import type { FearLevel } from '@/lib/fearScale';
+import { useState, useEffect } from 'react';
 import { X, ArrowLeft, User, Camera, Trash2, Building2, Plus, Search as SearchIcon, Briefcase, Lock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -307,6 +310,14 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
   const { t } = useTranslation();
+  const [fearLevel, setFearLevel] = useState<number | null>(null);
+  useEffect(() => {
+    if (userRole === 'patient') fetchOwnFearLevel().then((v) => setFearLevel(v ?? 0)).catch(() => setFearLevel(0));
+  }, [userRole]);
+  const handleFearChange = (lvl: FearLevel) => {
+    setFearLevel(lvl);
+    saveOwnFearLevel(lvl).then(() => toast.success(t('fear.saved'))).catch(() => toast.error(t('fear.saveError')));
+  };
   const isMobile = useIsMobile();
 
   // Patient state
@@ -444,6 +455,12 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           {/* ===== PATIENT FIELDS ===== */}
           {userRole === 'patient' &&
         <>
+              <SectionTitle>{t('fear.title')}</SectionTitle>
+              <div className="space-y-2">
+                <p id="fear-self-title" className="text-sm font-medium text-foreground">{t('fear.selfTitle')}</p>
+                <p className="text-xs text-muted-foreground">{t('fear.selfHint')}</p>
+                <FearScalePicker value={fearLevel} onChange={handleFearChange} labelledBy="fear-self-title" />
+              </div>
               <SectionTitle>{t('editProfile.personalData')}</SectionTitle>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FieldGroup label={t('editProfile.fullName')}>
