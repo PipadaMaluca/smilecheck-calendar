@@ -121,7 +121,7 @@
     "search": "Pesquisa",
     "scores": "Pontuações",
     "settings": "Config.",
-    "settingsFull": "Configurações",
+    "settingsFull": "Definições",
     "team": "Equipa",
     "referralLetter": "Carta de Referência",
     "prescribe": "Prescrever Receita",
@@ -146,9 +146,9 @@
     "signup": "Criar Conta",
     "logout": "Sair",
     "email": "Email",
-    "password": "Password",
-    "confirmPassword": "Confirmar Password",
-    "forgotPassword": "Esqueceu a password?",
+    "password": "Palavra-passe",
+    "confirmPassword": "Confirmar Palavra-passe",
+    "forgotPassword": "Esqueceu-se da palavra-passe?",
     "noAccount": "Não tem conta?",
     "hasAccount": "Já tem conta?",
     "createAccount": "Criar Conta",
@@ -164,12 +164,12 @@
     "tagline": "O seu sorriso, a nossa prioridade",
     "emailRequired": "Email é obrigatório",
     "emailInvalid": "Email inválido",
-    "passwordRequired": "Password é obrigatória",
+    "passwordRequired": "Palavra-passe é obrigatória",
     "nameRequired": "Nome é obrigatório",
     "phoneRequired": "Número de telemóvel é obrigatório",
     "phoneMin": "Mínimo 9 dígitos",
     "passwordMin": "Mínimo 6 caracteres",
-    "passwordsNoMatch": "Passwords não coincidem",
+    "passwordsNoMatch": "Palavra-passe não coincidem",
     "termsRequired": "Deve aceitar os termos",
     "orderNumberRequired": "Número da Ordem é obrigatório",
     "clinicNameRequired": "Nome da clínica é obrigatório",
@@ -190,13 +190,13 @@
     "chooseAccountType": "Escolha o tipo de conta",
     "createAccountOf": "Criar Conta de {{type}}",
     "qrCodeAlt": "Ou entre com QR Code",
-    "qrFast": "Rápido e sem password",
+    "qrFast": "Rápido e sem palavra-passe",
     "otherDevice": "Já tem conta noutro dispositivo? Entrar com QR Code →",
     "completeRegistration": "Completar Registo",
     "completeRegistrationDesc": "Quase lá! Confirme os seus dados e preencha os campos em falta.",
-    "backupPassword": "Password de backup",
-    "confirmBackupPassword": "Confirmar password de backup",
-    "backupPasswordNote": "Esta password permite aceder à sua conta mesmo sem {{provider}}. Recomendamos uma password diferente.",
+    "backupPassword": "Palavra-passe de backup",
+    "confirmBackupPassword": "Confirmar palavra-passe de backup",
+    "backupPasswordNote": "Esta palavra-passe permite aceder à sua conta mesmo sem {{provider}}. Recomendamos uma palavra-passe diferente.",
     "finishRegistration": "Concluir Registo",
     "verificationSentTo": "Enviámos um código de verificação para",
     "smsSentTo": "Enviámos um SMS para",
@@ -222,7 +222,7 @@
     "passwordStrengthWeak": "Fraca",
     "passwordStrengthMedium": "Média",
     "passwordStrengthStrong": "Forte",
-    "forgotPasswordTitle": "Recuperar Password",
+    "forgotPasswordTitle": "Recuperar Palavra-passe",
     "forgotPasswordDesc": "Introduza o seu email para receber instruções",
     "forgotPasswordEmailInvalid": "Introduza um email válido",
     "forgotPasswordSent": "Email Enviado",
@@ -279,12 +279,12 @@
     "level": "Nível",
     "xp": "XP",
     "availablePoints": "Pontos",
-    "streak": "Streak",
+    "streak": "Sequência",
     "days": "dias"
   },
   "language": {
     "title": "Escolha o seu idioma",
-    "subtitle": "Pode alterar mais tarde nas configurações",
+    "subtitle": "Pode alterar mais tarde nas definições",
     "pt": "Português",
     "fr": "Français",
     "en": "English"
@@ -309,7 +309,7 @@
       "consultationsToday": "Consultas Hoje",
       "level": "Nível",
       "points": "Pontos",
-      "streak": "Streak",
+      "streak": "Sequência",
       "weeklyAgenda": "Agenda Semanal",
       "days": "dias"
     },
@@ -322,7 +322,7 @@
       "patient1Title": "Agendar Consultas",
       "patient1Desc": "Marque presenciais e teleconsultas em segundos",
       "patient2Title": "Ganhar Pontos",
-      "patient2Desc": "Cada consulta e bom comportamento ganha pontos. 100 pts = €10",
+      "patient2Desc": "Cada consulta e bom comportamento dão pontos. 100 pts = 10 €",
       "patient3Title": "Conquistas",
       "patient3Desc": "35 conquistas para desbloquear e subir de nível",
       "patient4Title": "Recompensas",
@@ -330,7 +330,7 @@
       "patient5Title": "Saúde Oral",
       "patient5Desc": "Alergias, medicação, vacinas e documentos num só lugar",
       "patient6Title": "Teleconsultas",
-      "patient6Desc": "Consulte o seu dentista sem sair de casa por €20",
+      "patient6Desc": "Consulte o seu dentista sem sair de casa por 20 €",
       "dentist1Title": "Agenda Inteligente",
       "dentist1Desc": "Dia, semana, mês com drag-and-drop e filtros",
       "dentist2Title": "Confirmações",
@@ -341,22 +341,22 @@
       "dentist4Desc": "Gere cartas com QR code em segundos",
       "dentist5Title": "Estatísticas",
       "dentist5Desc": "Desempenho detalhado com exportação de relatórios",
-      "dentist6Title": "Rankings",
-      "dentist6Desc": "Compita no ranking nacional e ganhe prémios",
+      "dentist6Title": "Classificações",
+      "dentist6Desc": "Compita no classificação nacional e ganhe prémios",
       "clinic1Title": "Gestão de Equipa",
       "clinic1Desc": "Acompanhe cada dentista da sua clínica",
       "clinic2Title": "Dashboard Central",
       "clinic2Desc": "Visão geral de toda a operação num ecrã",
       "clinic3Title": "Relatórios",
       "clinic3Desc": "Estatísticas avançadas com exportação PDF/Excel",
-      "clinic4Title": "Rankings de Clínica",
-      "clinic4Desc": "Destaque-se no ranking nacional de clínicas",
+      "clinic4Title": "Classificações de Clínica",
+      "clinic4Desc": "Destaque-se no classificação nacional de clínicas",
       "clinic5Title": "Reputação",
       "clinic5Desc": "Avaliações e classificação pública da clínica",
       "clinic6Title": "Teleconsultas",
       "clinic6Desc": "Monitorize teleconsultas de toda a equipa",
       "teleEyebrow": "TELECONSULTAS",
-      "teleTitle": "Consultas à distância por apenas €20",
+      "teleTitle": "Consultas à distância por apenas 20 €",
       "teleDesc": "Fale com o seu dentista por videochamada, sem sair de casa. Pagamento seguro, receita digital incluída."
     },
     "howItWorks": {
@@ -391,7 +391,7 @@
         "Perfil de saúde básico",
         "Com anúncios"
       ],
-      "patientFreeWarning": "Reset anual de pontos",
+      "patientFreeWarning": "Reposição anual de pontos",
       "patientPro": [
         "Tudo do Free",
         "Sem anúncios",
@@ -414,14 +414,14 @@
         "Confirmações manuais",
         "Perfil público básico"
       ],
-      "dentistFreeWarning": "Reset anual de pontos",
+      "dentistFreeWarning": "Reposição anual de pontos",
       "dentistPro": [
         "Consultas ilimitadas",
         "Confirmações automáticas",
         "Receitas digitais",
         "Cartas de referência",
         "Estatísticas detalhadas",
-        "Rankings e conquistas"
+        "Classificações e conquistas"
       ],
       "dentistPremium": [
         "Tudo do Pro",
@@ -436,12 +436,12 @@
         "Relatórios mensais",
         "Gestão de equipa básica"
       ],
-      "clinicFreeWarning": "Reset anual de pontos",
+      "clinicFreeWarning": "Reposição anual de pontos",
       "clinicPro": [
         "Dashboard completo",
         "Relatórios semanais",
         "Estatísticas avançadas",
-        "Rankings de clínica",
+        "Classificações de clínica",
         "Exportação PDF/Excel"
       ],
       "clinicPremium": [
@@ -479,9 +479,9 @@
       "q1": "O SmileCheck é gratuito?",
       "a1": "Sim! O plano Free é gratuito para sempre. Pode fazer upgrade para Pro ou Premium a qualquer momento para desbloquear funcionalidades adicionais.",
       "q2": "Como funcionam os pontos?",
-      "a2": "Ganha pontos ao confirmar consultas, chegar a horas, manter boa higiene oral e muito mais. 100 pontos = €10 que pode trocar na Loja de Recompensas.",
+      "a2": "Ganhe pontos ao confirmar consultas, chegar a horas, manter boa higiene oral e muito mais. 100 pontos = 10 € que pode trocar na Loja de Recompensas.",
       "q3": "As teleconsultas são seguras?",
-      "a3": "Sim. As teleconsultas são realizadas através de videochamada encriptada diretamente na plataforma. Custa apenas €20 por consulta.",
+      "a3": "Sim. As teleconsultas são realizadas através de videochamada encriptada diretamente na plataforma. Custa apenas 20 € por consulta.",
       "q4": "Posso usar o SmileCheck em vários dispositivos?",
       "a4": "Sim! O SmileCheck funciona em qualquer dispositivo — computador, tablet ou telemóvel.",
       "q5": "Como funciona o sistema de níveis?",
@@ -546,10 +546,10 @@
     "start": "COMEÇAR!",
     "patient": {
       "welcomeTitle": "SmileCheck!",
-      "welcomeSubtitle": "A app que recompensa a tua saúde oral!",
-      "welcomeTagline": "Ganha pontos, sobe de nível e destaca-te!",
+      "welcomeSubtitle": "A app que recompensa a sua saúde oral!",
+      "welcomeTagline": "Ganhe pontos, suba de nível e destaque-se!",
       "pointsTitle": "GANHA XP & PONTOS",
-      "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
+      "pointsBottom": "Ganhe XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁS PRONTO!",
       "startBonus": "+5 pts por criar conta",
       "startStep1": "Completar perfil",
@@ -558,10 +558,10 @@
     },
     "dentist": {
       "welcomeTitle": "SmileCheck Pro!",
-      "welcomeSubtitle": "A plataforma que valoriza a tua prática clínica!",
-      "welcomeTagline": "Ganha pontos, sobe de nível e destaca-te!",
+      "welcomeSubtitle": "A plataforma que valoriza a sua prática clínica!",
+      "welcomeTagline": "Ganhe pontos, suba de nível e destaque-se!",
       "pointsTitle": "GANHA XP & PONTOS",
-      "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
+      "pointsBottom": "Ganhe XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁS PRONTO!",
       "startBonus": "+5 pts por criar conta",
       "startStep1": "Completar perfil",
@@ -571,9 +571,9 @@
     "clinic": {
       "welcomeTitle": "SmileCheck Clínica!",
       "welcomeSubtitle": "A plataforma que destaca a sua clínica!",
-      "welcomeTagline": "Acumule pontos, suba de nível e lidere o ranking!",
+      "welcomeTagline": "Acumule pontos, suba de nível e lidere o classificação!",
       "pointsTitle": "GANHE XP & PONTOS",
-      "pointsBottom": "Ganha XP para subir de nível e Pontos para trocar por recompensas!",
+      "pointsBottom": "Ganhe XP para subir de nível e Pontos para trocar por recompensas!",
       "startTitle": "ESTÁ PRONTO!",
       "startBonus": "+10 pts por criar conta",
       "startStep1": "Completar perfil da clínica",
@@ -583,21 +583,21 @@
     "welcomeTo": "Bem-vindo ao",
     "levelsTitle": "SOBE DE NÍVEL",
     "levelsBottom": "Acumula pontos e",
-    "levelsBottomHighlight": "mostra o teu estatuto!",
+    "levelsBottomHighlight": "mostra o seu estatuto!",
     "rewardsTitle": "RECOMPENSAS DIÁRIAS",
     "rewardsNextIn": "Próxima recompensa em:",
     "rewardsOpenDaily": "Abre a app todos os dias!",
-    "rewardsReset": "Reset às",
+    "rewardsReset": "Reposição às",
     "rewardsResetTime": "9h",
-    "rewardsDontLose": "— não percas o teu streak!",
+    "rewardsDontLose": "— não perca a sua sequência!",
     "rewardsCheckin": "Check-in diário",
-    "rewardsStreak7": "Streak 7 dias",
-    "rewardsStreak30": "Streak 30 dias",
+    "rewardsStreak7": "Sequência 7 dias",
+    "rewardsStreak30": "Sequência 30 dias",
     "rankingsTitle": "RANKINGS & COMPETIÇÃO",
-    "rankingsTypes": "Tipos de Rankings",
+    "rankingsTypes": "Tipos de Classificações",
     "monthlyPrizes": "Prémios Mensais",
     "annualHighlights": "Destaques Anuais",
-    "rankingsUpdate": "Rankings atualizam em tempo real",
+    "rankingsUpdate": "Classificações atualizam em tempo real",
     "rankingsTiebreak": "Em caso de empate: quem tem mais teleconsultas ganha",
     "ratingTitleYou": "A TUA CLASSIFICAÇÃO",
     "ratingTitleClinic": "A SUA CLASSIFICAÇÃO",
@@ -630,7 +630,7 @@
       "prescription": "Emitir receita",
       "referralLetter": "Carta de referência",
       "rating5FromPatient": "Avaliação 5 de paciente",
-      "streak7days": "Streak 7 dias",
+      "streak7days": "Sequência 7 dias",
       "clinicConsultCompleted": "Consulta concluída na clínica",
       "clinicTeleconsult": "Teleconsulta realizada",
       "clinicRating5": "Avaliação 5 de paciente",
@@ -656,13 +656,13 @@
       "clinicDesc": "Dentro da sua clínica",
       "regional": "Regional",
       "regionalDesc": "Na sua região",
-      "prize1": "€200 + badge exclusivo",
-      "prize2": "€100 + badge",
-      "prize3": "€50 + badge",
+      "prize1": "200 € + badge exclusivo",
+      "prize2": "100 € + badge",
+      "prize3": "50 € + badge",
       "annualGlobal": "Top 1 Global Anual",
-      "annualGlobalPrize": "€2000 + Bilhete de Congresso + 10% Desconto Pós-Graduação + Badge",
+      "annualGlobalPrize": "2000 € + Bilhete de Congresso + 10% Desconto Pós-Graduação + Badge",
       "annualNational": "Top 1 Nacional Anual",
-      "annualNationalPrize": "€1000 + Bilhete de Congresso + Badge"
+      "annualNationalPrize": "1000 € + Bilhete de Congresso + Badge"
     }
   },
   "dashboard": {
@@ -674,7 +674,7 @@
     "upcomingConsultations": "Próximas Consultas",
     "levelAndXp": "Nível e XP",
     "availablePoints": "Pontos",
-    "streak": "Streak",
+    "streak": "Sequência",
     "presential": "Presenciais",
     "teleconsultations": "Teleconsultas",
     "total": "total",
@@ -729,7 +729,7 @@
     "week": "Semana",
     "month": "Mês",
     "list": "Lista",
-    "modifyAgenda": "Configurações da Agenda",
+    "modifyAgenda": "Definições da Agenda",
     "searchPlaceholder": "Pesquisar pacientes, dentistas ou clínicas",
     "allAgendas": "Todas as Agendas",
     "filterPresent": "Filtrar Presentes",
@@ -879,7 +879,7 @@
     "message": "Mensagem",
     "messageTablet": "Mensagem",
     "messageFull": "Enviar Mensagem",
-    "recommend": "Recom.",
+    "recommend": "Recomendado",
     "recommendTablet": "Recomendar",
     "recommendFull": "Recomendar Paciente",
     "rescheduleAction": "Reagendar",
@@ -1135,7 +1135,7 @@
       "loyalty": "Fidelidade",
       "workVolume": "Volume de Trabalho",
       "quality": "Qualidade",
-      "rankings": "Rankings",
+      "rankings": "Classificações",
       "consistency": "Consistência",
       "teleconsult": "Teleconsulta",
       "foundation": "Fundação",
@@ -1151,7 +1151,7 @@
       "secrets": "Secretas",
       "workVolume": "Volume de Trabalho",
       "quality": "Qualidade",
-      "rankings": "Rankings",
+      "rankings": "Classificações",
       "consistency": "Consistência",
       "teleconsult": "Teleconsulta",
       "foundation": "Fundação",
@@ -1213,7 +1213,7 @@
         "desc": "6 consultas em 12 meses"
       },
       "c8": {
-        "name": "Globetrotter",
+        "name": "Viajante",
         "desc": "5 clínicas diferentes"
       },
       "c9": {
@@ -1277,11 +1277,11 @@
         "desc": "Convidar 5 amigos"
       },
       "f1": {
-        "name": "Streak 7",
+        "name": "Sequência 7",
         "desc": "7 dias consecutivos"
       },
       "f2": {
-        "name": "Streak 30",
+        "name": "Sequência 30",
         "desc": "30 dias consecutivos"
       },
       "f3": {
@@ -1289,7 +1289,7 @@
         "desc": "1 ano na app"
       },
       "f4": {
-        "name": "Streak 90",
+        "name": "Sequência 90",
         "desc": "90 dias consecutivos"
       },
       "f5": {
@@ -1387,19 +1387,19 @@
         "desc": "1º lugar nacional"
       },
       "cs1": {
-        "name": "Streak 7",
+        "name": "Sequência 7",
         "desc": "7 dias consecutivos"
       },
       "cs2": {
-        "name": "Streak 30",
+        "name": "Sequência 30",
         "desc": "30 dias consecutivos"
       },
       "cs3": {
-        "name": "Streak 90",
+        "name": "Sequência 90",
         "desc": "90 dias consecutivos"
       },
       "cs4": {
-        "name": "Streak 365",
+        "name": "Sequência 365",
         "desc": "365 dias consecutivos"
       },
       "dso1": {
@@ -1439,7 +1439,7 @@
         "desc": "500 teleconsultas"
       },
       "dsec3": {
-        "name": "Streak Anual",
+        "name": "Sequência Anual",
         "desc": "365 dias consecutivos"
       }
     },
@@ -1541,15 +1541,15 @@
         "desc": "1º lugar nacional"
       },
       "ccs1": {
-        "name": "Streak 30",
+        "name": "Sequência 30",
         "desc": "30 dias sem faltas"
       },
       "ccs2": {
-        "name": "Streak 90",
+        "name": "Sequência 90",
         "desc": "90 dias sem faltas"
       },
       "ccs3": {
-        "name": "Streak 365",
+        "name": "Sequência 365",
         "desc": "1 ano sem faltas"
       },
       "cf1": {
@@ -1582,7 +1582,7 @@
       },
       "csec5": {
         "name": "Nº 1 Nacional",
-        "desc": "1º lugar no ranking nacional"
+        "desc": "1º lugar no classificação nacional"
       }
     }
   },
@@ -1592,7 +1592,7 @@
     "subtitleNoClass": "XP e pontos de recompensa",
     "pointsTab": "Pontos",
     "classificationsTab": "Classificações",
-    "dailyStreakTab": "Streak Diário",
+    "dailyStreakTab": "Sequência Diário",
     "levelAndXp": "Nível e Experiência",
     "missingFor": "Faltam",
     "for": "para",
@@ -1601,9 +1601,9 @@
     "redeemInStore": "Trocar na Loja →",
     "howItWorks": "Como funcionam os pontos no SmileCheck?",
     "xpTitle": "XP (Experiência)",
-    "xpExplanation": "Cada ação positiva ganha XP que nunca são perdidos. O XP define o seu nível e posição nos rankings.",
+    "xpExplanation": "Cada ação positiva dá-lhe XP que nunca se perde. O XP define o seu nível e a sua posição nas classificações.",
     "rewardPointsTitle": "Pontos de Recompensa",
-    "rewardExplanation": "Ganha pontos da mesma forma que XP. Use-os para trocar por recompensas na Loja.",
+    "rewardExplanation": "Ganhe pontos da mesma forma que XP. Use-os para trocar por recompensas na Loja.",
     "planFree": "Plano Free: reset anual a 1 de janeiro",
     "planPro": "Plano Pro: pontos mantidos sem reset",
     "planPremium": "Plano Premium: pontos mantidos + 10% bónus no fim do ano",
@@ -1624,19 +1624,19 @@
     "thisMonth": "Este mês",
     "everything": "Tudo",
     "noResults": "Sem resultados.",
-    "planFreeLabel": "Plano Free — Reset a 1 Jan 2027",
+    "planFreeLabel": "Plano Free — Reposição a 1 Jan 2027",
     "planProLabel": "Plano Pro — Sem reset anual",
     "planPremiumLabel": "Plano Premium — Sem reset + 10% bónus",
     "patient2x": "Paciente (2x)",
-    "currentStreak": "Streak Atual",
-    "bestStreak": "Melhor streak",
-    "resetAt": "Reset às 9h — não percas o teu streak!",
+    "currentStreak": "Sequência Atual",
+    "bestStreak": "Melhor sequência",
+    "resetAt": "Reposição às 9h — não perca a sua sequência!",
     "dailyRewards": "Recompensas Diárias",
     "nextRewardIn": "Próxima recompensa em:",
     "openDaily": "Abre a app todos os dias!",
     "dailyCheckin": "Check-in diário",
-    "streak7days": "Streak 7 dias",
-    "streak30days": "Streak 30 dias",
+    "streak7days": "Sequência 7 dias",
+    "streak30days": "Sequência 30 dias",
     "calendar": "Calendário",
     "streakHistory": "Histórico de Streaks",
     "active": "Ativo",
@@ -1657,7 +1657,7 @@
     "days_other": "{{count, number}} dias"
   },
   "settings": {
-    "title": "Configurações",
+    "title": "Definições",
     "appearance": "Aparência",
     "regional": "Regional",
     "notifications": "Notificações",
@@ -1665,7 +1665,7 @@
     "notifCommunication": "Comunicação",
     "notifPointsReferral": "Pontos & Referral",
     "sync": "Sincronização",
-    "connectedDevices": "Dispositivos Conectados",
+    "connectedDevices": "Dispositivos Ligados",
     "helpAndSupport": "Ajuda & Suporte",
     "reviewTutorial": "Rever Tutorial",
     "reviewTips": "Rever Dicas",
@@ -1678,7 +1678,7 @@
     "termsOfService": "Termos de Utilização",
     "privacyPolicy": "Política de Privacidade",
     "security": "Segurança",
-    "changePassword": "Alterar Password",
+    "changePassword": "Alterar Palavra-passe",
     "deleteAccount": "Eliminar Conta",
     "logout": "Terminar Sessão",
     "deleteAccountTitle": "Eliminar conta?",
@@ -1783,7 +1783,7 @@
     "jobDescription": "Descrição da vaga",
     "jobDescPlaceholder": "Descreva a oportunidade...",
     "visibleToDentists": "Esta informação é visível apenas para dentistas na secção Propostas de Trabalho.",
-    "changePasswordBtn": "Alterar password",
+    "changePasswordBtn": "Alterar palavra-passe",
     "deleteAccountBtn": "Eliminar conta",
     "deleteAccountTitle": "Eliminar conta?",
     "deleteAccountDesc": "Esta ação é irreversível. Todos os seus dados serão permanentemente eliminados.",
@@ -1948,7 +1948,7 @@
     "available": "pontos disponíveis",
     "shop": "Loja",
     "all": "Todos",
-    "pointsEquiv": "100 pontos = €10",
+    "pointsEquiv": "100 pontos = 10 €",
     "confirmRedeem": "Confirmar resgate?",
     "cost": "Custo",
     "points": "pontos",
@@ -2076,7 +2076,7 @@
     "weekly": "Semanal",
     "totalRevenue": "Receita total",
     "consultations": "consultas",
-    "tele": "tele",
+    "tele": "Teleconsultas",
     "myPlan": "Meu Plano",
     "paymentsAndBilling": "Pagamentos e Faturação",
     "clinicBilling": "Faturação da Clínica",
@@ -2254,7 +2254,7 @@
     "patient": "Paciente",
     "dentistType": "Dentista",
     "clinicType": "Clínica",
-    "you": "Você",
+    "you": "Eu",
     "typing": "A escrever...",
     "newConversation": "Nova Conversa",
     "searchContact": "Pesquisar contacto...",
@@ -2767,7 +2767,7 @@
     "caseMultiple": "Seleccionou {{count, number}} horários possíveis. O dentista/clínica irá confirmar um deles.",
     "caseWaiting": "Será adicionado à lista de espera. Será notificado quando houver disponibilidade.",
     "caseMixed": "Os horários selecionados serão prioritários. As preferências genéricas servem como alternativa.",
-    "urgentFee": "Urgente (+€5)",
+    "urgentFee": "Urgente (+5 €)",
     "slotSelected": "Horário selecionado",
     "slotsPossible": "{{count, number}} horários possíveis",
     "waitingPrefs": "Preferências (Lista de Espera)",
@@ -2857,8 +2857,8 @@
     "sendMessage": "Enviar mensagem"
   },
   "agendaSettings": {
-    "title": "Configurações da Agenda",
-    "titleV2": "Configurações da Agenda",
+    "title": "Definições da Agenda",
+    "titleV2": "Definições da Agenda",
     "visualization": "Visualização",
     "showSundays": "Mostrar Domingos",
     "weekDaysVisible": "Dias visíveis na semana",
@@ -2882,8 +2882,8 @@
     "defaultDurationByType": "Duração padrão por tipo",
     "defaultDurationByTypeHint": "Duração predefinida ao criar uma nova consulta deste tipo",
     "resetDefault": "Repor Padrão",
-    "settingsSaved": "Configurações da agenda guardadas",
-    "settingsReset": "Configurações repostas ao padrão"
+    "settingsSaved": "Definições da agenda guardadas",
+    "settingsReset": "Definições repostas ao padrão"
   },
   "daySummary": {
     "title": "Resumo do Dia",
@@ -2904,7 +2904,7 @@
     "secrets": "Secretas",
     "workVolume": "Volume de Trabalho",
     "quality": "Qualidade",
-    "rankings": "Rankings",
+    "rankings": "Classificações",
     "consistency": "Consistência",
     "foundation": "Fundação",
     "teamCat": "Equipa",
@@ -3164,7 +3164,7 @@
     "notifAppPushEmail": "Notificações: App, Push, Email",
     "lightDarkTheme": "Tema claro/escuro",
     "fixedColors10": "10 cores de consulta (fixas)",
-    "annualReset": "Reset anual de pontos",
+    "annualReset": "Reposição anual de pontos",
     "noBonus": "Sem bónus de pontos",
     "withAds": "Com anúncios",
     "allFromFree": "Tudo do plano Free, mais:",
@@ -3214,7 +3214,7 @@
       "notifAppPushEmail": "Notificações: App, Push, Email",
       "lightDarkTheme": "Tema claro/escuro",
       "10fixedColors": "10 cores de consulta (fixas)",
-      "annualPointsReset": "Reset anual de pontos",
+      "annualPointsReset": "Reposição anual de pontos",
       "noPointsBonus": "Sem bónus de pontos",
       "withAds": "Com anúncios",
       "allFromFree": "Tudo do plano Free, mais:",
@@ -3615,7 +3615,7 @@
     "report_history": "Histórico de consultas",
     "report_scoring": "Pontuação e XP",
     "report_teamStats": "Estatísticas da equipa",
-    "report_rankings": "Rankings dos dentistas",
+    "report_rankings": "Classificações dos dentistas",
     "period_today": "Hoje",
     "period_thisWeek": "Esta semana",
     "period_thisMonth": "Este mês",
@@ -3639,7 +3639,7 @@
     "fullAgenda": "Agenda completa (todos os dentistas)",
     "teamStats": "Estatísticas da equipa",
     "confirmationRate": "Taxa de confirmação/faltas",
-    "dentistRankings": "Rankings dos dentistas",
+    "dentistRankings": "Classificações dos dentistas",
     "dentistReport": "Relatório por dentista",
     "syncTitle": "Sincronização",
     "syncDescription": "Sincronize a sua agenda com o seu calendário externo.",
@@ -3758,7 +3758,7 @@
     "viewStats": "Ver estatísticas da clínica",
     "viewBilling": "Ver tarifas e faturação",
     "inviteDentists": "Convidar dentistas",
-    "changeSettings": "Alterar configurações da clínica",
+    "changeSettings": "Alterar definições da clínica",
     "doTeleconsults": "Realizar teleconsultas",
     "presetDefault": "Padrão",
     "presetAdmin": "Administrador",
@@ -3778,7 +3778,7 @@
     "generateNew": "Gerar novo",
     "refreshIn": "Atualiza em:",
     "step1": "Abra o SmileCheck no seu telemóvel",
-    "step2": "Vá a Configurações → Conectar Dispositivo",
+    "step2": "Aceda a Definições → Ligar dispositivo",
     "step3": "Aponte a câmara para este código",
     "autoRefresh": "O código atualiza automaticamente a cada 60 segundos",
     "simulateDemo": "Simular autorização (demo)"
@@ -3799,7 +3799,7 @@
     "messageShort": "Msg",
     "recommendFull": "Recomendar Paciente",
     "recommendMed": "Recomendar",
-    "recommendShort": "Recom.",
+    "recommendShort": "Recomendado",
     "rescheduleFull": "Reagendar Consulta",
     "rescheduleMed": "Reagendar",
     "rescheduleShort": "Reagend.",
@@ -3843,7 +3843,7 @@
   },
   "coachmarks": {
     "dashboardTitle": "Os seus números",
-    "dashboardDesc": "Aqui vê o seu nível, pontos e streak de um relance.",
+    "dashboardDesc": "Aqui vê o seu nível, pontos e sequência de um relance.",
     "chatTitle": "As suas conversas",
     "chatDesc": "Fale com dentistas, pacientes e clínicas. Tudo num só lugar.",
     "achievementsTitle": "Conquistas",
@@ -3851,7 +3851,7 @@
     "scoresTitle": "Dois tipos de pontos",
     "scoresDesc": "XP define o seu nível (nunca desce). Pontos de Recompensa são para gastar na loja.",
     "storeTitle": "A sua moeda",
-    "storeDesc": "100 pontos = €10 de desconto. Gaste com sabedoria!",
+    "storeDesc": "100 pontos = 10 € de desconto. Gaste com sabedoria!",
     "profileTitle": "O seu cartão de visita",
     "profileDesc": "Arraste as conquistas para personalizar o que os outros vêem.",
     "agendaPatientTitle": "As suas consultas",
@@ -3878,7 +3878,7 @@
   "devices": {
     "disconnect": "Desconectar",
     "disconnectAll": "Desconectar todos os dispositivos",
-    "noDevices": "Nenhum dispositivo conectado"
+    "noDevices": "Nenhum dispositivo ligado"
   },
   "odontogram": {
     "title": "Odontograma",
@@ -4119,11 +4119,11 @@
       "dentist": {
         "basicProfile": "Perfil básico",
         "badges2": "2 badges em destaque",
-        "clinicRanking": "Ranking de clínica",
+        "clinicRanking": "Classificação de clínica",
         "badges3": "3 badges em destaque",
-        "nationalRankingView": "Acesso ao ranking nacional",
+        "nationalRankingView": "Acesso ao classificação nacional",
         "badges4": "4 badges em destaque",
-        "nationalRankingPosition": "Ver posição no ranking nacional",
+        "nationalRankingPosition": "Ver posição no classificação nacional",
         "basicStats": "Estatísticas básicas de desempenho",
         "badges6": "6 badges em destaque",
         "sealRecommended": "Selo \"Dentista Recomendado\"",
@@ -4233,8 +4233,8 @@
     "linkLabel": "Link de convite",
     "copied": "Copiado",
     "shareVia": "Partilhar via",
-    "shareMessage": "Experimenta o SmileCheck! Usa o meu código {{code}} ao registares-te e ganha pontos. {{link}}",
-    "emailSubject": "Experimenta o SmileCheck!",
+    "shareMessage": "Experimente o SmileCheck! Use o meu código {{code}} ao registar-se. {{link}}",
+    "emailSubject": "Experimente o SmileCheck!",
     "invited": "Convidadas",
     "confirmed": "Confirmadas",
     "pointsEarned": "Pontos ganhos",
@@ -4273,18 +4273,18 @@
       "consultationDetails": "Detalhes da Consulta"
     },
     "devices": {
-      "title": "Dispositivos Conectados",
-      "connectNew": "Conectar novo dispositivo",
+      "title": "Dispositivos Ligados",
+      "connectNew": "Ligar novo dispositivo",
       "scanTitle": "Aponte para o código QR",
       "newDeviceDetected": "Novo dispositivo detetado",
-      "connectedTitle": "Dispositivo conectado!",
+      "connectedTitle": "Dispositivo ligado!",
       "scanDesc": "Mostrado no ecrã do dispositivo onde quer entrar",
       "confirmDesc": "Verifique os detalhes antes de autorizar",
       "authorizedDesc": "Login autorizado com sucesso",
       "scanning": "A procurar código QR...",
       "warningRecognize": "Apenas autorize se reconhece este dispositivo",
       "authorizeLogin": "Autorizar Login",
-      "connectedSuccess": "Dispositivo conectado com sucesso!"
+      "connectedSuccess": "Dispositivo ligado com sucesso!"
     },
     "appointments": {
       "updateStatusError": "Não foi possível atualizar o estado",
@@ -4315,7 +4315,7 @@
       "paid": "Pago",
       "pending": "Pendente",
       "toPay": "A pagar",
-      "title": "Minhas Consultas",
+      "title": "As minhas consultas",
       "forPatient": "Para: {{name}}"
     },
     "consultationTab": {
@@ -4343,11 +4343,11 @@
     },
     "rankings": {
       "title": "Classificações",
-      "subtitle": "Veja a sua posição nos rankings",
-      "global": "Ranking Global",
-      "national": "Ranking Nacional",
+      "subtitle": "Veja a sua posição nos classificações",
+      "global": "Classificação Global",
+      "national": "Classificação Nacional",
       "of": "de {{total}}",
-      "you": "(Você)"
+      "you": "(Eu)"
     },
     "regional": {
       "language": "Idioma",
