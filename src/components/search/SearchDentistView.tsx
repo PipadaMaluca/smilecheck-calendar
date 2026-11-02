@@ -1,5 +1,10 @@
-import { useState, useMemo } from 'react';
-import { ArrowLeft, Stethoscope, SlidersHorizontal, X } from 'lucide-react';
+import { useState, useMemo, lazy, Suspense } from 'react';
+import { ArrowLeft, Stethoscope, SlidersHorizontal, X, List, Map as MapIcon, Star } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getDentistInitials } from '@/lib/avatarUtils';
+
+// Leaflet is only downloaded when the user switches to the map view.
+const DentistMapView = lazy(() => import('./DentistMapView'));
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -45,6 +50,8 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [maxPrice, setMaxPrice] = useState(50);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
+  const [focusedId, setFocusedId] = useState<string | null>(null);
 
   const SYMPTOM_KEY_MAP: Record<string, string> = {
     dor_dente: 'triage.symptoms.toothache', sensibilidade: 'triage.symptoms.sensitivity',
@@ -168,8 +175,74 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
             sortBy={sortBy}
             onSortChange={setSortBy}
           />
+          <div role="tablist" aria-label={t('search.viewModeLabel')} className="mt-3 inline-flex rounded-lg border border-border bg-secondary p-1">
+            {([
+              { key: 'list', icon: List, label: t('search.viewList') },
+              { key: 'map', icon: MapIcon, label: t('search.viewMap') },
+            ] as const).map(opt => (
+              <Button
+                key={opt.key}
+                type="button"
+                role="tab"
+                aria-selected={viewMode === opt.key}
+                variant={viewMode === opt.key ? 'default' : 'ghost'}
+                size="sm"
+                className="gap-2 min-h-11 px-4"
+                onClick={() => setViewMode(opt.key)}
+              >
+                <opt.icon className="w-4 h-4" />
+                {opt.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
+      {viewMode === 'map' ? (
+        <div className="flex-1 flex min-h-0 relative z-10">
+          {!isMobile && (
+            <div className="w-80 shrink-0 border-r border-border flex flex-col min-h-0">
+              <div className="flex items-center justify-between gap-2 p-4 border-b border-border">
+                <p className="text-xs text-muted-foreground">{filteredDentists.length} {t('search.dentistsFound')}</p>
+                <Button variant="outline" size="sm" className="gap-1.5 text-xs min-h-11" onClick={() => setShowMobileFilters(true)}>
+                  <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')}
+                </Button>
+              </div>
+              <ScrollArea className="flex-1">
+                <ul className="p-2 space-y-1">
+                  {filteredDentists.map(d => (
+                    <li key={d.id}>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        aria-pressed={focusedId === d.id}
+                        onClick={() => setFocusedId(d.id)}
+                        className={cn('w-full h-auto min-h-11 justify-start gap-3 p-2 font-normal', focusedId === d.id && 'bg-accent')}
+                      >
+                        <span className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-sm font-bold text-primary shrink-0">{getDentistInitials(d.name)}</span>
+                        <span className="flex-1 min-w-0 text-left">
+                          <span className="block text-sm font-medium truncate">{d.name}</span>
+                          <span className="block text-xs text-muted-foreground truncate">{d.specialties.join(', ')}</span>
+                        </span>
+                        <span className="flex items-center gap-1 text-xs shrink-0"><Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />{d.rating}</span>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </ScrollArea>
+            </div>
+          )}
+          <div className="flex-1 min-w-0 relative">
+            {isMobile && (
+              <Button variant="outline" size="sm" className="absolute top-3 right-3 z-20 gap-1.5 text-xs min-h-11 bg-card" onClick={() => setShowMobileFilters(true)}>
+                <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')} ({filteredDentists.length})
+              </Button>
+            )}
+            <Suspense fallback={<Skeleton className="h-full w-full rounded-none" />}>
+              <DentistMapView dentists={filteredDentists} onViewProfile={setSelectedDentist} focusedId={focusedId} />
+            </Suspense>
+          </div>
+        </div>
+      ) : (
       <div className="flex-1 flex overflow-hidden relative z-10">
         {!isMobile && (
           <div className="w-64 border-r border-border p-4 overflow-y-auto shrink-0">
@@ -212,7 +285,8 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           </div>
         </ScrollArea>
       </div>
-      {isMobile && showMobileFilters && (
+      )}
+      {showMobileFilters && (isMobile || viewMode === 'map') && (
         <>
           <div className="fixed inset-0 scrim z-modal" onClick={() => setShowMobileFilters(false)} />
           <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border rounded-t-2xl p-6 z-modal space-y-4 max-h-[70vh] overflow-y-auto">

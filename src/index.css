@@ -1965,3 +1965,11 @@ input[type="checkbox"]:checked::after {
   border-width: 0 2px 2px 0;
   transform: translate(-50%, -60%) rotate(45deg);
 }
+
+/* Leaflet popups follow the app theme */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+.leaflet-container { font: inherit; background: hsl(var(--muted)); }
