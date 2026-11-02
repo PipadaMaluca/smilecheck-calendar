@@ -1,3 +1,4 @@
+import { ACHIEVEMENTS_PER_ROLE } from '@/components/achievements/achievementData';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { useRef, useState, useEffect } from 'react';
@@ -19,7 +20,13 @@ function ScrollReveal({ children, className, delay = 0 }: { children: React.Reac
       { threshold: 0.1 }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    // Fallback: never leave on-screen content hidden if the observer is slow (background tab, slow device) or motion is reduced.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setVisible(true);
+    const fallback = window.setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) setVisible(true);
+    }, 1500);
+    return () => { obs.disconnect(); window.clearTimeout(fallback); };
   }, []);
 
   return (
@@ -89,7 +96,7 @@ function BadgesMockup() {
       <div className="flex items-center justify-between mb-5">
         <div>
           <div className="text-sm font-bold text-foreground">{t('i18nC.achievements')}</div>
-          <div className="text-xs text-muted-foreground">{t('i18nC.unlocked', { unlocked: 22, total: 40 })}</div>
+          <div className="text-xs text-muted-foreground">{t('i18nC.unlocked', { unlocked: 22, total: ACHIEVEMENTS_PER_ROLE })}</div>
         </div>
         <Glyph emoji="🏅" className="w-7 h-7" />
       </div>
@@ -117,8 +124,8 @@ function TeleconsultaMockup() {
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
           GP
         </div>
-        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-red-500/90 text-white text-2xs font-bold flex items-center gap-1">
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> {t('i18nC.live')}
+        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-secondary text-secondary-foreground text-2xs font-semibold">
+          {t('landing.features.teleSoon')}
         </div>
         <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-background border border-white/10 flex items-center justify-center text-2xs text-white/50">{t('i18nC.you')}</div>
       </div>
@@ -142,13 +149,14 @@ function FeatureRow({
 }: {
   reverse?: boolean; eyebrow: string; title: string; desc: string; bullets: string[]; visual: React.ReactNode;
 }) {
+  const { i18n } = useTranslation();
   return (
     <div className={cn('grid lg:grid-cols-2 gap-10 lg:gap-20 items-center sc-perspective', reverse && 'lg:[&>*:first-child]:order-2')}>
       <ScrollReveal className="text-center lg:text-left">
         <div data-reveal="left" className="inline-block px-3 py-1 rounded-full bg-accent dark:bg-accent/60 text-primary border border-border text-xs font-semibold mb-4 uppercase tracking-wide">
           {eyebrow}
         </div>
-        <h3 data-reveal="words" className="text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
+        <h3 key={i18n.language} data-reveal="words" className="text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
           {title}
         </h3>
         <p data-reveal="up" className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6 max-w-[90%] mx-auto lg:max-w-[480px] lg:mx-0">
@@ -235,6 +243,11 @@ export function FeaturesSection() {
               <div className="inline-block px-3 py-1 rounded-full bg-accent dark:bg-accent/60 text-primary border border-border text-xs font-semibold mb-4 uppercase tracking-wide">
 <Glyph emoji="📹" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('landing.features.teleEyebrow')}
               </div>
+              <div className="flex justify-center mb-4">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-semibold">
+                  {t('landing.features.teleSoon')}
+                </span>
+              </div>
               <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
                 {t('landing.features.teleTitle')}
               </h3>
@@ -289,7 +302,7 @@ function FeatureGrid({ features }: { features: { icon: string; titleKey: string;
         >
           <Glyph emoji={f.icon} className="w-8 h-8 mb-4 block" />
           <h3 className="font-semibold text-foreground mb-2">{t(f.titleKey)}</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">{t(f.descKey)}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(f.descKey, { count: ACHIEVEMENTS_PER_ROLE })}</p>
         </div>
       ))}
     </div>

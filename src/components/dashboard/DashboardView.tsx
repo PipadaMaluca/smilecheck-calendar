@@ -1,3 +1,4 @@
+import { demoText } from '@/lib/demoText';
 import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale, getActiveLocale, formatNumber } from '@/lib/formatters';
 import { demoDate, pickNextAppointment, atTime } from '@/lib/demoClock';
@@ -513,7 +514,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           {typeDot(c.category as ConsultationCategory)}
                           {c.notes && (
                             <span className="text-2xs text-muted-foreground truncate min-w-0 flex-shrink">
-                              {c.notes}
+                              {demoText(c.notes)}
                             </span>
                           )}
                         </div>
@@ -553,7 +554,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                           className="text-xs text-muted-foreground truncate min-w-0"
                           style={{ gridColumn: 2, gridRow: 2 }}
                         >
-                          {c.notes || '\u00A0'}
+                          {demoText(c.notes) || '\u00A0'}
                         </span>
                         <div className="justify-self-end self-center" style={{ gridColumn: 3, gridRow: 2 }}>
                           {getStatusBadge(consultationStatuses[c.id] || c.status)}
@@ -630,7 +631,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                 {dentistWaitlist.map((wl) =>
                 <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                     <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                    <span className="text-2xs text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                    <span className="text-2xs text-muted-foreground truncate min-w-0" title={demoText(wl.observation)}>— {demoText(wl.observation)}</span>
                   </div>
                 )}
               </div>
@@ -827,7 +828,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
                     {patients.slice(0, 2).map((wl) =>
                   <div key={wl.id} className="flex items-center gap-1.5 border-b border-border/50 last:border-0 py-1.5">
                         <span className="text-xs font-medium text-foreground truncate"><ClickablePatientName name={wl.patientName} className="text-xs font-medium text-foreground" /></span>
-                        <span className="text-2xs text-muted-foreground truncate min-w-0" title={wl.observation}>— {wl.observation}</span>
+                        <span className="text-2xs text-muted-foreground truncate min-w-0" title={demoText(wl.observation)}>— {demoText(wl.observation)}</span>
                       </div>
                   )}
                   </div>

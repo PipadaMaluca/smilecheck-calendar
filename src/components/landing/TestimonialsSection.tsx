@@ -23,7 +23,13 @@ export function TestimonialsSection() {
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
     obs.observe(el);
-    return () => obs.disconnect();
+    // Fallback: never leave on-screen content hidden if the observer is slow (background tab, slow device) or motion is reduced.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setVisible(true);
+    const fallback = window.setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) setVisible(true);
+    }, 1500);
+    return () => { obs.disconnect(); window.clearTimeout(fallback); };
   }, []);
 
   const initials = (name: string) => name.split(' ').filter(p => !/^dr\.?$/i.test(p)).slice(0, 2).map(s => s[0]).join('').toUpperCase();

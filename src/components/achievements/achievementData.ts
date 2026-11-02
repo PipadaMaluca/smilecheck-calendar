@@ -77,3 +77,6 @@ export const DEFAULT_SHOWCASED: Record<string, string[]> = {
   dentist: ['dp1', 'dp4', 'd1', 'd4', 'q4', 'q2', 'q1', 'r1'],
   clinic: ['cl1', 'cl5', 'cl2', 'eq1', 'eq2', 'v1', 'cq1', 'cq2'],
 };
+
+/** Achievements each role can unlock (mirrors `achievement_defs`: 40 per role). */
+export const ACHIEVEMENTS_PER_ROLE = 40;
