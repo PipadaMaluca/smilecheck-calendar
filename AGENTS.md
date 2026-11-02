@@ -20,3 +20,4 @@
 - Ad counters/timers and referral validation live server-side (`record_ad_view`, `referrals` + `try_validate_referral` triggers); the client never awards these points and never stores the counters locally.
 - Agenda wall-clock times use the clinic's IANA `clinics.timezone` via `zonedParts` — never the viewer's or UTC.
 - Brand fills with white text use `bg-primary-solid`; `--primary` stays the brand #2196F3.
+- Screen entrance animations come only from `ScreenEnter` (`src/components/motion/ScreenEnter.tsx`), keyed by the screen so they run once per entry; Button's default variant self-marks `data-enter="button"` — no per-screen animation code.
