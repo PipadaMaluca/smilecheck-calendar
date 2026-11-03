@@ -1,4 +1,6 @@
 import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
+import { RescheduleModal } from '@/components/calendar/RescheduleModal';
+import { SoonButton } from '@/components/ui/soon-button';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
@@ -61,6 +63,7 @@ function ResponsiveText({ full, med, short }: ResponsiveTextProps) {
 }
 
 export function MobileConsultationDetail({ consultation, onClose, onNavigate, onCopy, onViewDossier, userRole = 'dentist' }: MobileConsultationDetailProps) {
+  const [showReschedule, setShowReschedule] = useState(false);
   const { t } = useTranslation();
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
@@ -124,9 +127,10 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('referencia')}>
               <FileText className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('recommendFull', 'recommendMed', 'recommendShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0">
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0" onClick={() => setShowReschedule(true)}>
               <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
+            <RescheduleModal consultation={consultation} isOpen={showReschedule} onClose={() => setShowReschedule(false)} />
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto text-success border-emerald-500/30 min-w-0" onClick={handleUnblock}>
                 <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
@@ -155,9 +159,10 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0" onClick={() => onNavigate('conversas')}>
               <MessageCircle className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('messageFull', 'messageMed', 'messageShort')}
             </Button>
-            <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0">
+            <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto min-w-0" onClick={() => setShowReschedule(true)}>
               <RefreshCw className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
             </Button>
+            <RescheduleModal consultation={consultation} isOpen={showReschedule} onClose={() => setShowReschedule(false)} />
             {isBlocked ? (
               <Button variant="secondary" size="sm" className="gap-2 justify-start text-sm px-3 py-2 h-auto text-success border-emerald-500/30 min-w-0" onClick={handleUnblock}>
                 <Unlock className="w-3.5 h-3.5 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
@@ -288,7 +293,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Camera className="w-4 h-4" />
                     <span>{t('consultationDetail.triagePhotos', { count: consultation.triage.photos })}</span>
-                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">{t('consultationDetail.triageView')}</Button>
+                    <SoonButton variant="link" size="sm" className="h-auto p-0 text-xs">{t('consultationDetail.triageView')}</SoonButton>
                   </div>
                 )}
               </div>
