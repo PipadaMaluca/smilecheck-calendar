@@ -1,3 +1,4 @@
+import { PILL_CLASS } from '@/components/ui/badge';
 import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
@@ -144,8 +145,8 @@ export function PatientAppointmentsList({
                       {/* Category */}
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <span
-                          className="inline-flex items-center gap-1 text-2xs font-bold leading-none rounded-full whitespace-nowrap"
-                          style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+                          className={cn(PILL_CLASS, "text-2xs")}
+                          style={getCategoryBadgeStyle(colors.hex)}
                         >
                           {isTeleconsulta && <Video className="w-3 h-3" />}
                           {getCategoryLabel(t, category)}

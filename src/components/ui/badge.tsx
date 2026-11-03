@@ -33,4 +33,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant
 ));
 Badge.displayName = "Badge";
 
+/** Shared pill geometry (padding, height, radius) for hand-rolled pills such as consultation types/states. Never truncates. */
+export const PILL_CLASS = "inline-flex items-center justify-center gap-1 shrink-0 whitespace-nowrap rounded-md font-semibold leading-tight px-2 py-1 min-h-6";
+
 export { Badge, badgeVariants };
