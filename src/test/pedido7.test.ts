@@ -36,6 +36,6 @@ describe('Pedido 7 — conformidade', () => {
   it('AI triage result never talks about diagnosis, severity or analysis', () => {
     const txt = JSON.stringify(pt.triage.ai).toLowerCase();
     for (const w of ['análise', 'gravidade', 'avaliação clínica']) expect(txt).not.toContain(w);
-    expect(txt).not.toMatch(/"[^"]*diagnóstico[^"]*"/.source.includes('x') ? /x/ : /urgência (baixa|moderada)/);
+    expect((pt.triage.ai as Record<string, unknown>).urgency).toBeUndefined();
   });
 });
