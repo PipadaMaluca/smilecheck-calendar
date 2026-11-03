@@ -1,4 +1,5 @@
 import { getActiveLocale } from '@/lib/formatters';
+import { navigateApp } from '@/lib/deepLink';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { X, Search, Check, Star, Send, Paperclip, Upload, AlertTriangle, Plus } from 'lucide-react';
@@ -322,7 +323,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
               <AlertTitle className="text-sm font-semibold text-warning">{t('referral.omdMissing')}</AlertTitle>
               <AlertDescription className="text-xs text-muted-foreground">
                 {t('referral.omdMissingDesc')}
-                <button className="block mt-1 text-xs font-medium text-primary hover:underline">
+                <button type="button" onClick={() => navigateApp('editarPerfil')} className="block mt-1 text-xs font-medium text-primary hover:underline">
                   {t('referral.completeProfile')}
                 </button>
               </AlertDescription>

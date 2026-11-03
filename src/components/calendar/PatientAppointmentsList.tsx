@@ -181,7 +181,8 @@ export function PatientAppointmentsList({
                       className="flex-1 text-xs"
                       onClick={(e) => {
                         e.stopPropagation();
-                        // Handle reschedule
+                        // Reschedule lives in the consultation detail (RescheduleModal / RPC).
+                        onConsultationClick(consultation);
                       }}>
 
                         {t('agenda.reschedule')}
@@ -192,6 +193,8 @@ export function PatientAppointmentsList({
                       className="flex-1 text-xs text-destructive hover:text-destructive"
                       onClick={(e) => {
                         e.stopPropagation();
+                        // Cancelling needs the confirmation in the consultation detail.
+                        onConsultationClick(consultation);
                       }}>
 
                         {t('common.cancel')}

@@ -1,4 +1,5 @@
 import { PersonAvatar } from '@/components/ui/person-avatar';
+import { openChatWith } from '@/lib/deepLink';
 import { formatCurrency } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -199,7 +200,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
           <Calendar className="w-4 h-4 mr-2" />
           {t('sweep.dentistProfile.bookAppointment')}
         </Button>
-        <Button variant="outline" className="flex-1 border-border h-11">
+        <Button variant="outline" className="flex-1 border-border h-11" onClick={() => { openChatWith(dentist.name); onClose(); }}>
           <MessageCircle className="w-4 h-4 mr-2" />
           {t('sweep.dentistProfile.sendMessage')}
         </Button>

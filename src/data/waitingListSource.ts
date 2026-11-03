@@ -1,3 +1,4 @@
+import { buildTargetUrl } from '@/lib/notificationTargets';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -118,7 +119,7 @@ export async function notifyWaitingEntry(entry: WaitingEntry, message: string): 
     type: 'waiting_list',
     title: 'Vaga disponível',
     message,
-    action_url: '/app',
+    action_url: buildTargetUrl('agenda'),
     read: false,
   });
 }

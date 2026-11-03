@@ -1,3 +1,4 @@
+import { useDeepLink } from '@/lib/deepLink';
 import { formatDate } from '@/lib/formatters';
 import { demoText } from '@/lib/demoText';
 import React, { useState, useEffect, useRef } from 'react';
@@ -299,6 +300,12 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
     if (type === 'Clínica') return t('chat.clinicType');
     return type;
   };
+
+  useDeepLink('conversas', (link) => {
+    if (link.conversationName) return; // handled by the open-chat event below
+    const conv = conversations.find((c) => c.id === link.conversationId) ?? (link.conversationId ? conversations[0] : undefined);
+    if (conv) setSelectedConversation(conv);
+  });
 
   useEffect(() => {
     const handler = (e: Event) => {

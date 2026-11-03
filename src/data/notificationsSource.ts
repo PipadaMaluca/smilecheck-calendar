@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import i18n from '@/i18n';
 import type { Notification, NotificationType } from '@/components/notifications/notificationTypes';
+import { resolveTargetUrl, TYPE_TARGETS } from '@/lib/notificationTargets';
 
 /**
  * Final backend phase — notifications.
@@ -42,6 +43,13 @@ const TYPE_MAP: Record<string, NotificationType> = {
   level_up: 'pontos',
   streak: 'pontos',
   achievement: 'conquista',
+  achievement_unlocked: 'conquista',
+  referral: 'referral_usado',
+  referral_used: 'referral_usado',
+  prescription: 'receita',
+  referral_letter: 'referencia',
+  daily_summary: 'resumo_diario',
+  new_dentist: 'novo_dentista',
   feedback_pending: 'feedback',
   feedback_received: 'feedback_recebido',
   message: 'mensagem',
@@ -51,13 +59,13 @@ export function mapNotificationType(dbType: string | null): NotificationType {
   return (dbType && TYPE_MAP[dbType]) || 'pontos';
 }
 
-/** `/app?tab=pontuacoes` -> `pontuacoes` so the existing navigation keeps working. */
-export function actionFromUrl(actionUrl: string | null): string | undefined {
-  if (!actionUrl) return undefined;
-  const tab = /[?&]tab=([^&]+)/.exec(actionUrl);
-  if (tab) return decodeURIComponent(tab[1]);
-  if (actionUrl.startsWith('/app')) return 'agenda';
-  return undefined;
+/**
+ * Stored `action_url` -> destination URL. A specific known URL is kept; a
+ * missing, generic ("/app") or unknown one falls back to the type default, so
+ * a click always leads somewhere concrete.
+ */
+export function actionFromUrl(actionUrl: string | null, dbType: string | null = null): string {
+  return resolveTargetUrl(mapNotificationType(dbType), actionUrl);
 }
 
 function relativeTime(iso: string): string {
@@ -81,7 +89,7 @@ function toNotification(row: Row): Notification {
     description: row.message ?? '',
     time: relativeTime(row.created_at),
     read: row.read,
-    action: actionFromUrl(row.action_url),
+    action: actionFromUrl(row.action_url, row.type),
   };
 }
 
@@ -129,7 +137,7 @@ export async function notifyProfile(input: {
     type: input.type,
     title: input.title,
     message: input.message ?? null,
-    action_url: input.actionUrl ?? '/app?tab=agenda',
+    action_url: resolveTargetUrl(mapNotificationType(input.type), input.actionUrl ?? TYPE_TARGETS[mapNotificationType(input.type)]),
     read: false,
   });
   if (error) console.warn('[notifications] insert failed', error.message);

@@ -2050,3 +2050,10 @@ span.sentence-case { display: inline-block; }
 :root { --brand-glow: 207 90% 54%; }
 @media (prefers-reduced-motion: reduce) { .sc-logo-enter, .sc-halo, .sc-footer-glow { animation: none !important; } }
 .sc-brand-glow { filter: drop-shadow(0 0 24px hsl(var(--brand-glow) / 0.35)); }
+
+/* One-shot highlight for screens opened from a notification / deep link */
+.deeplink-highlight {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 4px;
+  transition: outline-color 0.6s ease;
+}

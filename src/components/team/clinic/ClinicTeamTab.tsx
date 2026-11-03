@@ -1,4 +1,5 @@
 import { formatDecimal1 } from '@/lib/formatters';
+import { SoonButton } from '@/components/ui/soon-button';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, Users, Send, X, Lock } from 'lucide-react';
@@ -107,8 +108,8 @@ export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
                     <p className="text-xs text-muted-foreground">{inv.email} · {t('team.sent')} {inv.sentAt}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="sm"><X className="w-3 h-3 mr-1" />{t('team.cancelInvite')}</Button>
-                    <Button variant="outline" size="sm"><Send className="w-3 h-3 mr-1" />{t('team.resend')}</Button>
+                    <SoonButton variant="ghost" size="sm"><X className="w-3 h-3 mr-1" />{t('team.cancelInvite')}</SoonButton>
+                    <SoonButton variant="outline" size="sm"><Send className="w-3 h-3 mr-1" />{t('team.resend')}</SoonButton>
                   </div>
                 </CardContent>
               </Card>

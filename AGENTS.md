@@ -27,3 +27,4 @@
 - Cheque eligibility is server-enforced (`trg_guard_clinic_cheques`, PT only, country derived from timezone); demo clinics use `src/lib/cheques.ts`.
 - Reviews are only accepted after a `visto`/`concluida` appointment between both parties, one per appointment (`trg_guard_feedback_verified`).
 - Payments act only on the server's active environment (`PAYMENTS_ACTIVE_ENV` secret + `payment_settings.active_env`, kept equal; switch both at go-live); client `environment`/`returnUrl` are never trusted (`_shared/paymentsGuard.ts`) — so test cards can never grant a real plan.
+- Notification destinations come only from `src/lib/notificationTargets.ts` (type → `/app?tab=…` URL, mirrored server-side by `trg_normalize_notification_target`); sub-targets are handed to screens via `useDeepLink` (`src/lib/deepLink.ts`); unbuilt features use `SoonButton` — so no click is ever a no-op.

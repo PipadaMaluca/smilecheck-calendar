@@ -1,4 +1,5 @@
 import { VerifiedReviewBadge } from '@/components/feedback/VerifiedReviewBadge';
+import { openChatWith } from '@/lib/deepLink';
 import { Star as StarIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { formatCurrency } from '@/lib/formatters';
@@ -211,7 +212,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
                   <FileText className="w-4 h-4 mr-1" /> {t('profile.referralLetter')}
                 </Button>
           }
-              <Button variant="outline" className="flex-1 min-h-11">
+              <Button variant="outline" className="flex-1 min-h-11" onClick={() => { openChatWith(dentist.name); onClose?.(); }}>
                 <MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}
               </Button>
               {canViewerRate && (

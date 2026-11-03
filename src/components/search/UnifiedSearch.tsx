@@ -1,4 +1,5 @@
 import { useState, useMemo, lazy, Suspense } from 'react';
+import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 import { useTranslation } from 'react-i18next';
 import { Search, X, Star, User, Building2, ChevronRight, List, Map as MapIcon } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -46,6 +47,7 @@ const MOCK_CLINIC_SEARCH = [
 ];
 
 export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile, onViewClinicProfile, favorites = [], onToggleFavorite, inline }: UnifiedSearchProps) {
+  const profileNav = useProfileNavigation();
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'patients' | 'dentists' | 'clinics'>('all');
@@ -177,7 +179,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
               </div>
               <div className="space-y-1">
                 {(activeFilter === 'all' ? filteredPatients.slice(0, 3) : filteredPatients).map(p => (
-                  <Button key={p.id} type="button" variant="ghost" className="w-full h-auto justify-start flex items-center gap-3 p-2.5 rounded-lg font-normal">
+                  <Button key={p.id} type="button" variant="ghost" onClick={() => profileNav?.openPatientProfile(p.id)} className="w-full h-auto justify-start flex items-center gap-3 p-2.5 rounded-lg font-normal">
                     <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <User className="w-4 h-4 text-primary" />
                     </div>

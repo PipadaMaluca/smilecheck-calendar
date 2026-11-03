@@ -1,5 +1,6 @@
 import { AdsPanel } from '@/components/ads/AdsPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDeepLink, revealElement } from '@/lib/deepLink';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/types/calendar';
@@ -18,6 +19,9 @@ interface PontuacoesViewProps {
 export function PontuacoesView({ userRole, initialTab = 'pontos', onNavigate }: PontuacoesViewProps) {
   const [activeTab, setActiveTab] = useState(initialTab);
   const { t } = useTranslation();
+  useDeepLink('pontuacoes', (link) => {
+    if (link.section === 'avaliacoes') { setActiveTab('pontos'); revealElement('scores-history'); }
+  });
 
   const showClassificacoes = userRole !== 'patient';
 

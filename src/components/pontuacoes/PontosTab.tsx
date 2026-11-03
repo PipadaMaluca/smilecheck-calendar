@@ -221,7 +221,7 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
 
       {/* Section D — Histórico de Pontos */}
       <div className="space-y-3">
-        <h3 className="text-sm font-bold text-foreground">{t('scores.pointsHistory')}</h3>
+        <h3 id="scores-history" className="text-sm font-bold text-foreground">{t('scores.pointsHistory')}</h3>
         <div className="flex flex-wrap gap-2">
           <div className="flex gap-1">
             {(['todos', 'ganhos', 'perdidos'] as const).map(f => (

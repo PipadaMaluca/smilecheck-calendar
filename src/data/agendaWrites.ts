@@ -1,6 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { notifyProfileSilently } from '@/data/notificationsSource';
+import { appointmentTargetUrl, buildTargetUrl } from '@/lib/notificationTargets';
 
 /** Stored timestamps are rendered from their UTC components (see `toUtcTimestamp`). */
 function formatSlot(iso: string): { date: string; time: string } {
@@ -172,7 +173,7 @@ export async function createAppointment(input: CreateAppointmentInput): Promise<
     type: 'appointment_created',
     title: 'Nova consulta agendada',
     message: `${slot.date} às ${slot.time}`,
-    actionUrl: '/app?tab=agenda',
+    actionUrl: appointmentTargetUrl(data.id),
   });
 
   return data.id;
@@ -326,7 +327,7 @@ export async function updateAppointment(input: UpdateAppointmentInput): Promise<
       type: 'appointment_changed',
       title: 'Consulta alterada',
       message: `Novo horário: ${slot.date} às ${slot.time}`,
-      actionUrl: '/app?tab=agenda',
+      actionUrl: appointmentTargetUrl(id),
     });
   }
 }
@@ -347,7 +348,7 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
         type: 'appointment_confirmed',
         title: 'Consulta confirmada',
         message: slot ? `${slot.date} às ${slot.time}` : undefined,
-        actionUrl: '/app?tab=agenda',
+        actionUrl: appointmentTargetUrl(id),
       });
     } else if (status === 'cancelada') {
       notifyProfileSilently({
@@ -355,7 +356,7 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
         type: 'appointment_cancelled',
         title: 'Consulta cancelada',
         message: slot ? `${slot.date} às ${slot.time}` : undefined,
-        actionUrl: '/app?tab=agenda',
+        actionUrl: appointmentTargetUrl(id),
       });
     } else {
       // Completed consultation -> ask the patient for the bidirectional rating.
@@ -364,7 +365,7 @@ export async function updateAppointmentStatus(id: string, uiStatus: string): Pro
         type: 'feedback_pending',
         title: 'Avalie a sua consulta',
         message: slot ? `Consulta de ${slot.date}` : undefined,
-        actionUrl: '/app?tab=pontuacoes',
+        actionUrl: buildTargetUrl('pontuacoes', { appointment: id }),
       });
     }
   }
@@ -386,7 +387,7 @@ export async function cancelAppointment(id: string, options?: { silent?: boolean
       type: 'appointment_cancelled',
       title: 'Consulta cancelada',
       message: `${slot.date} às ${slot.time}`,
-      actionUrl: '/app?tab=agenda',
+      actionUrl: appointmentTargetUrl(id),
     });
   }
 }
@@ -564,7 +565,7 @@ export async function assignWaitingMatch(
       type: 'appointment',
       title: 'Horário confirmado',
       message: notificationMessage,
-      action_url: '/app',
+      action_url: appointmentTargetUrl(appointmentId),
       read: false,
     })
     .then(({ error }) => {

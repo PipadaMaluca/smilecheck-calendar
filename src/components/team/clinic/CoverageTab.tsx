@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { SoonButton } from '@/components/ui/soon-button';
 import { Glyph } from '@/components/ui/glyph';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -141,9 +142,9 @@ export function CoverageTab() {
         </CardContent>
       </Card>
 
-      <Button variant="outline" className="gap-2 w-full sm:w-auto">
+      <SoonButton variant="outline" className="gap-2 w-full sm:w-auto">
         <FileText className="w-4 h-4" />{t('team.exportSchedules')}
-      </Button>
+      </SoonButton>
     </div>
   );
 }

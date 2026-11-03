@@ -1545,6 +1545,7 @@ export type Database = {
         Args: { _patient_id: string; _section: string }
         Returns: boolean
       }
+      notification_default_target: { Args: { _type: string }; Returns: string }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
       recompute_profile_rating: {
         Args: { _profile_id: string }

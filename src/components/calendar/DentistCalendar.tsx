@@ -334,8 +334,9 @@ export function DentistCalendar() {
       const consultation = agendaConsultations.find(c => c.id === consultationId);
       if (consultation) {
         setSelectedConsultation(consultation);
+        return;
       }
-      return;
+      tab = 'agenda';
     }
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
@@ -343,10 +344,12 @@ export function DentistCalendar() {
       const dentistCons = agendaConsultations
         .filter(c => c.dentist.id === mockDentists[0].id && c.date.toDateString() === DEMO_DATE.toDateString())
         .sort((a, b) => a.time.localeCompare(b.time));
-      const next = dentistCons[0];
-      if (next) {
-        setSelectedConsultation(next);
-      }
+      const next = dentistCons[0] ?? [...agendaConsultations]
+        .filter(c => c.dentist.id === mockDentists[0].id && c.date.getTime() >= new Date().setHours(0, 0, 0, 0))
+        .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
+      setShowSearch(false); setShowProfile(false); setShowInvite(false);
+      setActiveTab('agenda');
+      if (next) setSelectedConsultation(next);
       return;
     }
     // Clear ALL overlay/sub-screen states so navigation is always direct
@@ -501,7 +504,7 @@ export function DentistCalendar() {
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="dentist" /></div>
         ) : activeTab === 'notificacoes' ? (
-          <NotificationsFullView onBack={() => setActiveTab('home')} />
+          <NotificationsFullView userRole="dentist" onNavigate={handleTabChange} onBack={() => setActiveTab('home')} />
         ) : activeTab === 'plano' ? (
           <ManagePlanView userRole="dentist" />
         ) : activeTab === 'loja' ? (

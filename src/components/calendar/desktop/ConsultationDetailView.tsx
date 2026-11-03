@@ -1,5 +1,7 @@
 import { formatCurrency } from '@/lib/formatters';
 import { useEffect, useState } from 'react';
+import { RescheduleModal } from '@/components/calendar/RescheduleModal';
+import { SoonButton } from '@/components/ui/soon-button';
 import { Glyph } from '@/components/ui/glyph';
 import { User, Calendar, Clock, MapPin, Video, Camera, MessageCircle, FileText, RefreshCw, Copy, ArrowLeft, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -67,6 +69,7 @@ function ResponsiveText({ full, med, short }: ResponsiveTextProps) {
 
 export function ConsultationDetailView({ consultation, onClose, onViewDossier, onNavigate, onCopy, userRole = 'dentist' }: ConsultationDetailViewProps) {
   const { t, i18n } = useTranslation();
+  const [showReschedule, setShowReschedule] = useState(false);
   const [generalNotes, setGeneralNotes] = useState('');
   const [consultationNotes, setConsultationNotes] = useState(consultation.notes || '');
   const [showHistory, setShowHistory] = useState(true);
@@ -205,7 +208,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Camera className="w-4 h-4" />
                     <span>{t('consultationDetail.triagePhotos', { count: consultation.triage.photos })}</span>
-                    <Button variant="link" size="sm" className="h-auto p-0 text-primary text-xs">{t('consultationDetail.triageView')}</Button>
+                    <SoonButton variant="link" size="sm" className="h-auto p-0 text-xs">{t('consultationDetail.triageView')}</SoonButton>
                   </div>
                 )}
               </div>
@@ -301,9 +304,10 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0" onClick={() => onNavigate('referencia')}>
                   <FileText className="w-4 h-4 flex-shrink-0" /> {actionText('recommendFull', 'recommendMed', 'recommendShort')}
                 </Button>
-                <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0">
+                <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0" onClick={() => setShowReschedule(true)}>
                   <RefreshCw className="w-4 h-4 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
                 </Button>
+                <RescheduleModal consultation={consultation} isOpen={showReschedule} onClose={() => setShowReschedule(false)} />
                 {isBlocked ? (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-success min-w-0" onClick={handleUnblock}>
                     <Unlock className="w-4 h-4 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
@@ -328,9 +332,10 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0" onClick={() => onNavigate('conversas')}>
                   <MessageCircle className="w-4 h-4 flex-shrink-0" /> {actionText('messageFull', 'messageMed', 'messageShort')}
                 </Button>
-                <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0">
+                <Button variant="secondary" size="sm" className="gap-2 justify-start min-w-0" onClick={() => setShowReschedule(true)}>
                   <RefreshCw className="w-4 h-4 flex-shrink-0" /> {actionText('rescheduleFull', 'rescheduleMed', 'rescheduleShort')}
                 </Button>
+                <RescheduleModal consultation={consultation} isOpen={showReschedule} onClose={() => setShowReschedule(false)} />
                 {isBlocked ? (
                   <Button variant="secondary" size="sm" className="gap-2 justify-start text-success min-w-0" onClick={handleUnblock}>
                     <Unlock className="w-4 h-4 flex-shrink-0" /> {actionText('unblockFull', 'unblockTablet', 'unblock', 'consultationDetail')}
@@ -352,9 +357,10 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
                 <Button variant="secondary" size="sm" className="gap-2 flex-1" onClick={() => onNavigate('conversas')}>
                   <MessageCircle className="w-4 h-4" /> {t('consultationDetail.message')}
                 </Button>
-                <Button variant="secondary" size="sm" className="gap-2 flex-1">
+                <Button variant="secondary" size="sm" className="gap-2 flex-1" onClick={() => setShowReschedule(true)}>
                   <RefreshCw className="w-4 h-4" /> {t('consultationDetail.rescheduleAction')}
                 </Button>
+                <RescheduleModal consultation={consultation} isOpen={showReschedule} onClose={() => setShowReschedule(false)} />
                 <Button variant="outline" size="sm" disabled={actionPending} onClick={handleCancelConsultation} className="gap-2 flex-1 border-destructive/30 text-destructive hover:bg-destructive/10">
                   <X className="w-4 h-4" /> {t('consultationDetail.cancelAction')}
                 </Button>
