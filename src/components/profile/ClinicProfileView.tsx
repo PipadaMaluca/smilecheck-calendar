@@ -319,7 +319,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
               <Button className="flex-1 min-h-11" onClick={() => { navigateApp('pesquisa'); onClose(); }}><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
-              <Button variant="outline" className="flex-1 min-h-11" onClick={() => { openChatWith(data.name); onClose(); }}><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
+              <Button variant="outline" className="flex-1 min-h-11" onClick={() => { openChatWith(clinic?.name ?? ''); onClose(); }}><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
               <Button variant="outline" className="flex-1 min-h-11" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
