@@ -3848,7 +3848,7 @@
     "typeLabel": "Saisissez {{word}}",
     "deleteForever": "Supprimer le compte",
     "deleted": "Votre compte a été supprimé.",
-    "deleteError": "Impossible de résilier votre abonnement, nous n'avons donc rien supprimé. Nous réessaierons automatiquement et le support a été prévenu."
+    "deleteError": "Nous n'avons pas pu résilier votre abonnement pour le moment. Votre demande de suppression a été enregistrée et nous réessaierons automatiquement ; vous ne serez pas facturé entre-temps."
   },
   "permissions": {
     "title": "Permissions",
