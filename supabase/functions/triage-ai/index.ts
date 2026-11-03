@@ -57,13 +57,12 @@ Deno.serve(async (req) => {
     const { error: logError } = await admin.from("triage_ai_usage").insert({ profile_id: userId });
     if (logError) return json({ error: "Usage log failed" }, 500);
 
-    const system = `You are a careful dental triage assistant for a patient app. You never diagnose; you give a preliminary orientation.
+    const system = `You help a patient prepare for a dental appointment. This is GENERAL GUIDANCE ONLY, not a medical device.
+Strict rules: never give a diagnosis, never name or suggest a disease or condition, never rate clinical severity or urgency level, never recommend a treatment, medication or dose, never name a specialty.
 Reply ONLY with a JSON object (no markdown) with keys:
-"urgency": one of "low" | "moderate" | "urgent",
-"specialty": short name of the recommended dental specialty,
-"summary": 1-2 plain sentences explaining what the symptoms may suggest, calm tone, no scary terms,
-"tips": array of 2-4 short, safe self-care tips until the appointment,
-"seekEmergency": boolean, true only for red flags (facial swelling spreading, fever, trouble breathing/swallowing, trauma with heavy bleeding).
+"symptomSummary": 1-3 neutral sentences that restate what the patient reported (where, how long, pain from 0 to 10), written so the patient can show it to their dentist. Only restate facts given; add nothing.
+"generalTips": array of 2-4 short general hygiene/comfort tips (e.g. gentle brushing, avoid very hot or cold food), never medication.
+"seekUrgentHelp": boolean, true only if the patient reported red flags (facial swelling, fever, trouble breathing or swallowing, trauma with heavy bleeding).
 Write all text in ${LANG[d.language]}.`;
 
     const user = `Triage data:
@@ -120,12 +119,11 @@ Write all text in ${LANG[d.language]}.`;
     const match = out.match(/\{[\s\S]*\}/);
     if (!match) return json({ error: "Empty AI response" }, 502);
     const result = JSON.parse(match[0]);
+    const clean = (v: unknown) => String(v ?? "").slice(0, 600);
     return json({
-      urgency: ["low", "moderate", "urgent"].includes(result.urgency) ? result.urgency : "moderate",
-      specialty: String(result.specialty ?? ""),
-      summary: String(result.summary ?? ""),
-      tips: Array.isArray(result.tips) ? result.tips.slice(0, 4).map(String) : [],
-      seekEmergency: Boolean(result.seekEmergency),
+      symptomSummary: clean(result.symptomSummary),
+      generalTips: Array.isArray(result.generalTips) ? result.generalTips.slice(0, 4).map(clean) : [],
+      seekUrgentHelp: Boolean(result.seekUrgentHelp),
     });
   } catch (e) {
     console.error(e);

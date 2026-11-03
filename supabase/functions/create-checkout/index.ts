@@ -15,6 +15,8 @@ const Body = z.object({
   returnUrl: z.string().max(500).optional(),
   environment: z.enum(["sandbox", "live"]).optional(),
   locale: z.enum(["pt", "fr", "en"]).optional(),
+  // Consumers (patients) must request immediate start and acknowledge losing the 14-day withdrawal right.
+  withdrawalWaiver: z.boolean().optional(),
 });
 
 const json = (data: unknown, status = 200) =>
@@ -67,6 +69,9 @@ Deno.serve(async (req) => {
     // A user can only buy plans of their own role (patient/dentist/clinic).
     const { data: profile } = await admin.from("profiles").select("role").eq("id", user.id).maybeSingle();
     if (!profile || !priceId.startsWith(`${profile.role}_`)) return json({ error: "Plan not available for this role" }, 403);
+    const isConsumer = profile.role === "patient";
+    if (isConsumer && parsed.data.withdrawalWaiver !== true) return json({ error: "withdrawal_waiver_required" }, 400);
+    const waiverAt = isConsumer ? new Date().toISOString() : "";
 
     const stripe = createStripeClient(environment);
     const prices = await stripe.prices.list({ lookup_keys: [priceId] });
@@ -88,7 +93,7 @@ Deno.serve(async (req) => {
       ...(locale && { locale }),
       managed_payments: { enabled: true },
       metadata: { userId: user.id, managed_payments: "true" },
-      subscription_data: { metadata: { userId: user.id } },
+      subscription_data: { metadata: { userId: user.id, ...(waiverAt && { withdrawalWaiverAt: waiverAt }) } },
     } as any);
     return json({ clientSecret: session.client_secret });
   } catch (e) {
