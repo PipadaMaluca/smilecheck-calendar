@@ -117,6 +117,8 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   const viewerRole = getViewerRole();
   const canViewerRate = !isOwnProfile && viewerRole === 'clinic';
   const levelCfg = LEVEL_CONFIG[dentist.level];
+  // Levels, seals, plan and highlighted achievements: only the professional and their clinic (pending the Ordem's opinion).
+  const showProStatus = !!isOwnProfile || viewerRole === 'clinic';
   const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
   const realRating = useRealRatingForMockId('dentist', dentist.id);
   const mockReviews = getReviewsForDentist(dentist.id);
@@ -161,9 +163,13 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
   <div className="max-w-3xl mx-auto space-y-6">
       {/* Profile Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-        <AvatarFrame levelKey={dentist.level} className="w-24 h-24">
-          <PersonAvatar name={dentist.name} photo={photo} className="!w-full !h-full text-3xl" />
-        </AvatarFrame>
+        {showProStatus ? (
+          <AvatarFrame levelKey={dentist.level} className="w-24 h-24">
+            <PersonAvatar name={dentist.name} photo={photo} className="!w-full !h-full text-3xl" />
+          </AvatarFrame>
+        ) : (
+          <PersonAvatar name={dentist.name} photo={photo} className="!w-24 !h-24 text-3xl" />
+        )}
         <div className="flex-1 text-center md:text-left">
           <h3 className="text-xl font-bold text-foreground">{dentist.name}</h3>
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mt-1">
@@ -174,11 +180,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-warning" />
-              <span className={cn('text-sm font-bold', levelCfg.color)}>{displayRating}</span>
+              <span className={cn('text-sm font-bold', showProStatus ? levelCfg.color : 'text-foreground')}>{displayRating}</span>
               <span className="text-xs text-muted-foreground">({t('profile.reviews', { count: displayReviewCount })})</span>
             </div>
           </div>
-          <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
+          {showProStatus && <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[dentist.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
@@ -186,7 +192,7 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
 <Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{planCfg.label}
             </span>
-          </div>
+          </div>}
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             <Badge variant={DENTIST_EXTRA.acceptsNewPatients ? 'default' : 'destructive'} className="text-xs">
               {DENTIST_EXTRA.acceptsNewPatients ? t('profile.acceptsNewPatients') : t('profile.notAcceptingPatients')}
@@ -243,11 +249,11 @@ export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onTog
 
       <Separator />
 
-      {/* Badge Showcase */}
-      <BadgeShowcase
+      {/* Badge Showcase — only for the professional and their clinic */}
+      {showProStatus && <BadgeShowcase
       userRole="dentist"
       categories={getAchievementCategories('dentist', t)}
-      isOwnProfile={isOwnProfile} />
+      isOwnProfile={isOwnProfile} />}
     
       {isOwnProfile && <NextLevelBenefits userRole="dentist" />}
 
