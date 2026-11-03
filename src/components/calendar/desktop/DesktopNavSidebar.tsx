@@ -161,10 +161,10 @@ export function DesktopNavSidebar({
       )}
     >
       {/* Logo + Pro Badge */}
-      <div className="flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-3 gap-1.5 px-0">
+      <div data-sidebar-logo-block className="h-app-header box-border flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 gap-1 px-0 overflow-hidden">
         <Logo
           variant="icon"
-          size={isExpanded ? 48 : 40}
+          size={userRole === 'patient' ? (isExpanded ? 58 : 52) : (isExpanded ? 38 : 34)}
           enter="app"
           className="transition-colors duration-300"
         />

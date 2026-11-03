@@ -604,7 +604,7 @@ export function DesktopCalendarView() {
 
   // Helper to render standard header (taller, aligned with logo block) for non-agenda screens
   const renderStandardHeader = (title: string) =>
-  <header className="h-[104px] bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+  <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
       <span className="text-sm font-medium text-foreground">{title}</span>
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
@@ -742,7 +742,7 @@ export function DesktopCalendarView() {
       case 'home':
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
-            <header className="h-[104px] bg-card/50 backdrop-blur border-b items-center justify-between flex-shrink-0 flex flex-row gap-0 py-12 border border-secondary pb-12 px-7">
+            <header className="h-app-header bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row gap-0 px-7">
               <span className="text-sm font-medium sentence-case text-foreground">
                 {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
@@ -761,8 +761,8 @@ export function DesktopCalendarView() {
             {isNavExpanded && <div className="w-px bg-accent flex-shrink-0" />}
             {renderSidebar()}
             <div className="flex-1 flex flex-col overflow-hidden">
-              {/* Agenda keeps original header height */}
-              <header className="h-16 bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-1 pr-3.5 relative z-20">
+              {/* Same shared height as every header so the sidebar logo line aligns */}
+              <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-1 pr-3.5 relative z-20">
                 <div className="flex items-center gap-3">
                   <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
