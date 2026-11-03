@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
+import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, planVatMode, type VatMode, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
 
 interface Plan {
   name: string;
@@ -17,6 +17,7 @@ interface Plan {
   badge?: string;
   features: PlanFeature[];
   warning?: string;
+  vat: VatMode;
 }
 
 export function PricingSection() {
