@@ -1,5 +1,5 @@
 import { consumeDeepLink, revealElement } from '@/lib/deepLink';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { useAchievements } from '@/data/achievementsSource';
