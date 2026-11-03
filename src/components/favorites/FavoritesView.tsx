@@ -279,7 +279,6 @@ export function FavoritesView({
       ) : (
         <div className={cn('grid gap-3', isMobile ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3')}>
           {filteredResults.dentists.map(d => {
-            const levelCfg = LEVEL_CONFIG[d.level];
             const initials = getDentistInitials(d.name);
             const photo = DENTIST_AVATAR_PHOTOS[d.id];
             const isFav = favorites.includes(d.id);
@@ -307,20 +306,8 @@ export function FavoritesView({
                     <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
-                      <span className={cn('text-2xs font-semibold px-1.5 py-0 rounded border', levelCfg.bg, levelCfg.color)}>
-                        {t(levelCfg.labelKey)}
-                      </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
-                    <MiniBadges
-                      achievements={getShowcasedAchievements(
-                        getAchievementCategories('dentist', t).flatMap(c => c.achievements),
-                        'dentist',
-                        3
-                      )}
-                      maxVisible={3}
-                      className="mt-1"
-                    />
                     {d.clinics[0] && (
                       <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground min-w-0">
                         <MapPin className="w-3 h-3 shrink-0" />
