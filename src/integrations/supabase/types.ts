@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_deletion_requests: {
+        Row: {
+          completed_at: string | null
+          detail: Json
+          id: string
+          profile_id: string
+          requested_at: string
+          status: string
+        }
+        Insert: {
+          completed_at?: string | null
+          detail?: Json
+          id?: string
+          profile_id: string
+          requested_at?: string
+          status?: string
+        }
+        Update: {
+          completed_at?: string | null
+          detail?: Json
+          id?: string
+          profile_id?: string
+          requested_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       achievement_defs: {
         Row: {
           achievement_key: string
@@ -1037,6 +1064,8 @@ export type Database = {
           referral_code: string | null
           role: Database["public"]["Enums"]["app_role"]
           showcased_achievements: string[]
+          terms_accepted_at: string | null
+          terms_version: string | null
           updated_at: string
         }
         Insert: {
@@ -1054,6 +1083,8 @@ export type Database = {
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           showcased_achievements?: string[]
+          terms_accepted_at?: string | null
+          terms_version?: string | null
           updated_at?: string
         }
         Update: {
@@ -1071,6 +1102,8 @@ export type Database = {
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           showcased_achievements?: string[]
+          terms_accepted_at?: string | null
+          terms_version?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -1249,11 +1282,13 @@ export type Database = {
           id: string
           price_id: string
           product_id: string
+          renewal_notified_for: string | null
           status: string
           stripe_customer_id: string
           stripe_subscription_id: string
           updated_at: string
           user_id: string
+          withdrawal_waiver_at: string | null
         }
         Insert: {
           cancel_at_period_end?: boolean
@@ -1264,11 +1299,13 @@ export type Database = {
           id?: string
           price_id: string
           product_id: string
+          renewal_notified_for?: string | null
           status?: string
           stripe_customer_id: string
           stripe_subscription_id: string
           updated_at?: string
           user_id: string
+          withdrawal_waiver_at?: string | null
         }
         Update: {
           cancel_at_period_end?: boolean
@@ -1279,11 +1316,13 @@ export type Database = {
           id?: string
           price_id?: string
           product_id?: string
+          renewal_notified_for?: string | null
           status?: string
           stripe_customer_id?: string
           stripe_subscription_id?: string
           updated_at?: string
           user_id?: string
+          withdrawal_waiver_at?: string | null
         }
         Relationships: [
           {
@@ -1469,7 +1508,7 @@ export type Database = {
           id?: string | null
           language?: Database["public"]["Enums"]["app_language"] | null
           role?: Database["public"]["Enums"]["app_role"] | null
-          showcased_achievements?: string[] | null
+          showcased_achievements?: never
         }
         Update: {
           avatar_url?: string | null
@@ -1477,12 +1516,13 @@ export type Database = {
           id?: string | null
           language?: Database["public"]["Enums"]["app_language"] | null
           role?: Database["public"]["Enums"]["app_role"] | null
-          showcased_achievements?: string[] | null
+          showcased_achievements?: never
         }
         Relationships: []
       }
     }
     Functions: {
+      anonymize_account: { Args: { _uid: string }; Returns: Json }
       apply_points: {
         Args: {
           _multiplier?: number
@@ -1530,6 +1570,7 @@ export type Database = {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
+      export_my_data: { Args: never; Returns: Json }
       generate_redemption_code: { Args: never; Returns: string }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_untrusted_caller: { Args: never; Returns: boolean }
@@ -1562,6 +1603,7 @@ export type Database = {
         Args: { _appointment_id: string; _new_time: string }
         Returns: undefined
       }
+      send_annual_renewal_reminders: { Args: never; Returns: number }
       sync_profile_plan: {
         Args: { _env: string; _user_id: string }
         Returns: string

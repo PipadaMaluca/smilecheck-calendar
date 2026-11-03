@@ -24,6 +24,7 @@ import Triagem from "./pages/Triagem";
 import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
 import Acessibilidade from "./pages/Acessibilidade";
+import TermosProfissionais from "./pages/TermosProfissionais";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/termos" element={<Termos />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/acessibilidade" element={<Acessibilidade />} />
+            <Route path="/termos-profissionais" element={<TermosProfissionais />} />
             <Route path="/" element={<Index />} />
             <Route path="/landing" element={<Landing />} />
             <Route path="/app" element={<ProtectedRoute><AppPage /></ProtectedRoute>} />

@@ -1,3 +1,4 @@
+import { AccountDataSection } from '@/components/settings/AccountDataSection';
 import { ClinicChequesSettings } from '@/components/clinic/ClinicChequesSettings';
 import { SoonButton } from '@/components/ui/soon-button';
 import { FearScalePicker } from '@/components/fear/FearScale';
@@ -415,10 +416,6 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
     onSave();
   };
 
-  const handleDeleteAccount = () => {
-    toast.error(t('editProfile.accountDeleted'));
-    onClose();
-  };
 
   const addFamilyMember = () => {
     setFamilyMembers((prev) => [...prev, { name: '', age: '', relation: '' }]);
@@ -884,27 +881,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
           {/* Security section */}
           <div className="space-y-3">
             <Button variant="outline" className="w-full" onClick={() => window.location.assign('/forgot-password')}>{t('editProfile.changePasswordBtn')}</Button>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <SoonButton variant="destructive" className="w-full gap-2">
-                  <Trash2 className="w-4 h-4" /> {t('editProfile.deleteAccountBtn')}
-                </SoonButton>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('editProfile.deleteAccountTitle')}</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {t('editProfile.deleteAccountDesc')}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                    Eliminar
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <AccountDataSection />
           </div>
         </div>
       </ScrollArea>

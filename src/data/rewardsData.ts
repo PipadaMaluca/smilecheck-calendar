@@ -138,8 +138,6 @@ const patientBrands: Brand[] = [
 // ═══════════════════════════════════════
 
 const dentistSubscricao: RewardProduct[] = [
-  { id: 'dd1', name: 'Destaque no perfil 1 semana', points: 300, category: 'Subscrição', emoji: '📍' },
-  { id: 'dd2', name: 'Destaque no perfil 1 mês', points: 1000, category: 'Subscrição', emoji: '📍' },
   { id: 'ds1', name: '1 mês Pro grátis', points: 2000, category: 'Subscrição', emoji: '⭐' },
   { id: 'ds2', name: '1 mês Premium grátis', points: 3000, category: 'Subscrição', emoji: '👑' },
 ];
@@ -188,8 +186,6 @@ const dentistFormacao: RewardProduct[] = [
 // ═══════════════════════════════════════
 
 const clinicSubscricao: RewardProduct[] = [
-  { id: 'cd1', name: 'Destaque nos resultados 1 semana', points: 500, category: 'Subscrição', emoji: '📍' },
-  { id: 'cd2', name: 'Destaque nos resultados 1 mês', points: 1800, category: 'Subscrição', emoji: '📍' },
   { id: 'cs1', name: '1 mês Pro grátis', points: 4000, category: 'Subscrição', emoji: '⭐' },
   { id: 'cs2', name: '1 mês Premium grátis', points: 5000, category: 'Subscrição', emoji: '👑' },
 ];

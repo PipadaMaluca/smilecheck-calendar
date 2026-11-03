@@ -18,7 +18,8 @@ import {
 '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualTotalPrice, planHasPointsResetWarning, type PlanRole } from '@/lib/planRules';
+import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualTotalPrice, planHasPointsResetWarning, planVatMode, type PlanRole } from '@/lib/planRules';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ManagePlanViewProps {
   userRole: UserRole;
@@ -95,6 +96,9 @@ export function ManagePlanView({
   const [realCheckoutPrice, setRealCheckoutPrice] = useState<string | null>(null);
   const [sub, setSub] = useState<{ status: string; current_period_end: string | null; cancel_at_period_end: boolean } | null>(null);
   const [portalBusy, setPortalBusy] = useState(false);
+  const isConsumer = userRole === 'patient';
+  const [waiverAccepted, setWaiverAccepted] = useState(false);
+  const vatMode = planVatMode(userRole as PlanRole);
 
   // Real accounts: plan always comes from the server (profiles.plan, written only by the payments webhook).
   useEffect(() => {
@@ -133,6 +137,7 @@ export function ManagePlanView({
     // Existing subscribers change or cancel in the billing portal (upgrade = immediate, prorated; cancel/downgrade to free = end of period).
     if (hasActiveSub) { void openPortal(); return; }
     if (plan.id === 'free') return;
+    setWaiverAccepted(false);
     setRealCheckoutPrice(planPriceId(userRole as 'patient' | 'dentist' | 'clinic', plan.id, isAnnual));
   };
   const [isAnnual, setIsAnnual] = useState(false);
@@ -148,13 +153,15 @@ export function ManagePlanView({
 
   const formatPrice = (plan: Plan) => {
     if (plan.monthlyPrice === 0) return { main: t('plan.free'), sub: '' };
+    // Consumers see VAT-inclusive prices; professionals (B2B) see "+ VAT". Same numeric values.
+    const vat = vatMode === 'plus' ? ` ${t('plan.plusVat')}` : '';
     if (isAnnual) {
       return {
-        main: `${formatCurrency(plan.annualPrice)}${t('units.perYear')}`,
-        sub: `≈ ${formatCurrency((plan.annualPrice / 12))}${t('units.perMonth')}`
+        main: `${formatCurrency(plan.annualPrice)}${vat}${t('units.perYear')}`,
+        sub: `≈ ${formatCurrency((plan.annualPrice / 12))}${vat}${t('units.perMonth')}`
       };
     }
-    return { main: `${formatCurrency(plan.monthlyPrice)}`, sub: t('units.perMonth') };
+    return { main: `${formatCurrency(plan.monthlyPrice)}${vat}`, sub: t('units.perMonth') };
   };
 
 
@@ -207,16 +214,20 @@ export function ManagePlanView({
           >
             {t('billing.changePlan')}
           </Button>
-          {currentPlan !== 'free' && (!realMode || hasActiveSub) && (
-            <button
-              className="text-xs text-destructive hover:underline"
-              onClick={handleCancel}
-            >
-              {t('plan.cancelSubscription')}
-            </button>
-          )}
         </div>
       </div>
+
+      {currentPlan !== 'free' && (!realMode || hasActiveSub) && (
+        <section id="cancel-subscription" aria-labelledby="cancel-sub-title" className="rounded-xl border border-border bg-card px-4 py-3 sm:px-6 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex-1 min-w-0">
+            <h3 id="cancel-sub-title" className="text-sm font-semibold text-foreground">{t('plan.cancelSubscription')}</h3>
+            <p className="text-xs text-muted-foreground">{t('plan.cancelConditions')}</p>
+          </div>
+          <Button variant="outline" size="sm" className="border-destructive/50 text-destructive hover:bg-destructive/10" disabled={portalBusy} onClick={handleCancel}>
+            {t('plan.cancelSubscription')}
+          </Button>
+        </section>
+      )}
 
       {/* Billing toggle */}
       <div className="flex justify-center">
@@ -324,6 +335,9 @@ export function ManagePlanView({
                       {price.sub}
                     </span>
                   }
+                  {plan.monthlyPrice > 0 && vatMode === 'included' && (
+                    <span className="block text-xs text-muted-foreground mt-0.5">{t('plan.vatIncluded')}</span>
+                  )}
                 </div>
               </CardHeader>
               <CardContent className="flex flex-col flex-1 pt-2 px-6 pb-5">
@@ -402,8 +416,18 @@ export function ManagePlanView({
             <DialogDescription>{t('payments.checkoutDesc')}</DialogDescription>
           </DialogHeader>
           <PaymentTestModeBanner />
-          {realCheckoutPrice && (
+          {realCheckoutPrice && isConsumer && (
+            <label className="flex items-start gap-3 rounded-lg border border-border p-3 text-sm text-foreground cursor-pointer">
+              <Checkbox checked={waiverAccepted} onCheckedChange={(v) => setWaiverAccepted(v === true)} className="mt-0.5" aria-required />
+              <span>
+                {t('payments.withdrawalWaiver')}{' '}
+                <a href="/termos#retratacao" target="_blank" rel="noopener noreferrer" className="text-primary underline">{t('payments.withdrawalTermsLink')}</a>
+              </span>
+            </label>
+          )}
+          {realCheckoutPrice && (!isConsumer || waiverAccepted) && (
             <StripeEmbeddedCheckout
+              withdrawalWaiver={isConsumer && waiverAccepted}
               priceId={realCheckoutPrice}
               returnUrl={`${window.location.origin}${window.location.pathname}?${new URLSearchParams({ ...Object.fromEntries(new URLSearchParams(window.location.search)) }).toString()}&session_id={CHECKOUT_SESSION_ID}`}
             />

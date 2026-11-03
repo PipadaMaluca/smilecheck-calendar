@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockDentists, mockClinics, mockConsultations } from '@/data/mockData';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -224,7 +224,6 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
             </div>
             <div className="space-y-2">
               {filteredDentists.map((d) => {
-                const levelCfg = LEVEL_CONFIG[d.level];
                 const isFav = favorites.includes(d.id);
                 const nameParts = d.name.split(' ').filter((n) => n.toLowerCase() !== 'dr.' && n.toLowerCase() !== 'dr' && n.toLowerCase() !== 'dra.' && n.toLowerCase() !== 'dra');
                 const initials = nameParts.filter((_, i, a) => i === 0 || i === a.length - 1).map((n) => n[0]).join('');
@@ -246,7 +245,7 @@ export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggle
                       </div>
                       <div className="flex items-center gap-1.5 mt-0.5">
                         <Star className="w-3 h-3 fill-amber-400 text-warning" />
-                        <span className={cn('text-xs font-medium', levelCfg.color)}>{d.rating}</span>
+                        <span className="text-xs font-medium text-foreground">{d.rating}</span>
                         <span className="text-xs text-muted-foreground">· {d.clinics[0]?.name}</span>
                         <span className="text-xs text-muted-foreground">· {d.distance} km</span>
                       </div>

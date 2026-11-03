@@ -32,6 +32,8 @@ async function upsertSubscription(sub: any, env: StripeEnv) {
     current_period_start: iso(periodStart),
     current_period_end: iso(periodEnd),
     cancel_at_period_end: sub.cancel_at_period_end || false,
+    ...(typeof sub.metadata?.withdrawalWaiverAt === "string" && !Number.isNaN(Date.parse(sub.metadata.withdrawalWaiverAt))
+      && { withdrawal_waiver_at: new Date(sub.metadata.withdrawalWaiverAt).toISOString() }),
     environment: env,
     updated_at: new Date().toISOString(),
   }, { onConflict: "stripe_subscription_id" });

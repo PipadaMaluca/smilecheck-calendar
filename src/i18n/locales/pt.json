@@ -362,7 +362,7 @@
       "clinic4Title": "Classificações de clínica",
       "clinic4Desc": "Destaque-se na classificação nacional de clínicas",
       "clinic5Title": "Reputação",
-      "clinic5Desc": "Avaliações e classificação pública da clínica",
+      "clinic5Desc": "Avaliações verificadas dos pacientes",
       "clinic6Title": "Teleconsultas",
       "clinic6Desc": "Monitorize teleconsultas de toda a equipa",
       "teleEyebrow": "TELECONSULTAS",
@@ -461,7 +461,10 @@
       "cookies": "Cookies",
       "copyright": "Todos os direitos reservados",
       "madeWith": "Feito com amor em Portugal",
-      "accessibility": "Acessibilidade"
+      "accessibility": "Acessibilidade",
+      "manageSubscription": "Gerir/cancelar subscrição",
+      "disputes": "Resolução de litígios",
+      "complaintsBook": "Livro de Reclamações"
     },
     "navbar": {
       "features": "Funcionalidades",
@@ -1881,7 +1884,11 @@
     "yearsOld_one": "{{count, number}} ano",
     "yearsOld_other": "{{count, number}} anos",
     "resultsFound_one": "{{count, number}} resultado encontrado",
-    "resultsFound_other": "{{count, number}} resultados encontrados"
+    "resultsFound_other": "{{count, number}} resultados encontrados",
+    "sort": {
+      "distance": "Distância",
+      "price": "Preço"
+    }
   },
   "history": {
     "consultationHistory": "Histórico de consultas",
@@ -2285,63 +2292,73 @@
       "sections": [
         {
           "id": "introducao",
-          "title": "1. Introdução",
-          "content": "O SmileCheck é uma plataforma de gestão de saúde oral que liga pacientes, dentistas e clínicas. Ao utilizar os nossos serviços, concorda com os presentes termos."
+          "title": "1. Quem somos e âmbito",
+          "content": "Estes termos regulam a utilização da SmileCheck por pacientes, que são consumidores.\n\nA SmileCheck é explorada por [denominação social — a preencher], sociedade portuguesa com sede em [morada — a preencher], NIPC [a preencher]. Contacto: {{email}}.\n\nDentistas e clínicas têm termos próprios: «Termos para profissionais»."
         },
         {
-          "id": "definicoes",
-          "title": "2. Definições",
-          "content": "• \"Utilizador\": qualquer pessoa registada na plataforma\n• \"Paciente\": utilizador que procura serviços dentários\n• \"Dentista\": profissional de saúde oral registado\n• \"Clínica\": estabelecimento de saúde oral registado\n• \"Teleconsulta\": consulta realizada por videochamada através da plataforma"
+          "id": "servico",
+          "title": "2. O serviço",
+          "content": "A SmileCheck permite marcar consultas, comunicar com profissionais, guardar informação de saúde oral e participar num programa de pontos.\n\nA SmileCheck não presta cuidados de saúde. Os cuidados são prestados pelos dentistas e clínicas, que são os únicos responsáveis pelos atos clínicos. A teleconsulta ainda não está disponível («Em breve»)."
         },
         {
-          "id": "registo",
-          "title": "3. Registo e conta",
-          "content": "• Veracidade dos dados fornecidos\n• Verificação telefónica obrigatória\n• Responsabilidade pela segurança da conta\n• Uma conta por pessoa/entidade"
+          "id": "conta",
+          "title": "3. Conta e idade mínima",
+          "content": "Deve indicar dados verdadeiros e manter a palavra-passe em segredo.\n\nIdade mínima para criar conta sozinho: 13 anos em Portugal e 15 anos em França. Abaixo dessa idade, a conta é gerida pelo titular das responsabilidades parentais, através de um perfil familiar."
         },
         {
-          "id": "pontos",
-          "title": "4. Sistema de pontos e recompensas",
-          "content": "• XP (experiência): pontos permanentes que definem o nível\n• Pontos de recompensa: podem ser trocados na Loja\n• Plano Free: reposição anual a 1 de janeiro\n• Plano Pro/Premium: sem reposição\n• O SmileCheck reserva-se o direito de ajustar os valores dos pontos"
+          "id": "triagem",
+          "title": "4. Triagem por inteligência artificial",
+          "content": "A triagem por IA dá apenas orientação geral. Não é um dispositivo médico: não dá diagnóstico, não indica doenças, não avalia a gravidade e não recomenda tratamentos nem medicamentos.\n\nO resultado é um resumo dos sintomas que indicou, para mostrar ao seu dentista, com conselhos gerais de higiene e conforto. Em caso de urgência, ligue 112 (Portugal) ou 15 (França). Está limitada a 10 pedidos por dia."
         },
         {
           "id": "avaliacoes",
-          "title": "5. Avaliações e feedback",
-          "content": "• Limite de 40 avaliações por dia\n• As avaliações devem ser honestas e baseadas em experiências reais\n• Contestação disponível até 24 h após a visualização\n• 3 contestações rejeitadas resultam numa penalização de -5 pontos\n• Avaliações editáveis até 24 h após a submissão"
+          "title": "5. Avaliações",
+          "content": "Só pode avaliar depois de uma consulta realizada entre as duas partes, e apenas uma vez por consulta.\n\nComo verificamos: o nosso servidor confirma automaticamente que a consulta existe, que terminou e que envolve quem avalia e quem é avaliado; só então a avaliação é aceite e aparece com a indicação «Avaliação verificada». Pode editá-la durante 24 horas. Podemos retirar avaliações ilícitas, ofensivas ou sem relação com a consulta."
         },
         {
-          "id": "teleconsultas",
-          "title": "6. Teleconsultas",
-          "content": "• Custo: {{price}} por sessão\n• Não substituem consultas presenciais de urgência\n• Requerem ligação estável à internet\n• Gravação não permitida sem consentimento"
+          "id": "pontos",
+          "title": "6. Pontos, níveis e anúncios",
+          "content": "Há dois tipos de pontos: XP, que define o nível e nunca se gasta, e pontos de recompensa, que se trocam na loja.\n\nGanha-se pontos com ações na app (por exemplo, comparecer a consultas, enviar avaliações, convites confirmados). Só contam com o telemóvel verificado. Perde-se pontos ao trocá-los na loja e por penalizações (por exemplo, faltar sem avisar).\n\nNo plano Free, os pontos de recompensa são repostos a zero uma vez por ano, com aviso prévio na app. Nos planos pagos não se perdem.\n\nOs pontos não têm valor em dinheiro: não são reembolsáveis, convertíveis nem transmissíveis.\n\nNo plano Free há anúncios, que nunca usam dados de saúde e só são personalizados com o seu consentimento. 5 vídeos dão 8 horas sem anúncios; 10 anúncios dão 2 pontos de recompensa, uma vez por dia."
         },
         {
-          "id": "trabalho",
-          "title": "7. Propostas de trabalho",
-          "content": "• Informações de emprego visíveis apenas entre dentistas e clínicas\n• Os pacientes nunca têm acesso a informações de recrutamento\n• O SmileCheck não é responsável por acordos laborais"
+          "id": "planos",
+          "title": "7. Planos, preços e renovação",
+          "content": "Planos Free, Pro e Premium, mensais ou anuais (anual com 15% de desconto). Os preços para pacientes incluem IVA.\n\nO pagamento é feito pelo Stripe; a SmileCheck nunca vê nem guarda os dados do seu cartão. A subscrição renova-se automaticamente. Nos planos anuais, avisamos na app e por e-mail 30 dias antes da renovação."
         },
         {
-          "id": "cancelamentos",
-          "title": "8. Cancelamentos e faltas",
-          "content": "• Cancelamento com mais de 24 h de antecedência: sem penalização\n• Cancelamento com menos de 24 h: penalização de pontos\n• Falta não justificada: penalização máxima\n• Falta justificada: sem penalização"
+          "id": "retratacao",
+          "title": "8. Direito de livre resolução (14 dias)",
+          "content": "Como consumidor, tem em regra 14 dias para desistir de um contrato celebrado à distância.\n\nAo subscrever um plano pago, pede que o serviço comece de imediato e reconhece que perde o direito de livre resolução a partir do início do serviço. Guardamos a data e a hora desse pedido."
         },
         {
-          "id": "propriedade",
-          "title": "9. Propriedade intelectual",
-          "content": "• O conteúdo da plataforma pertence ao SmileCheck\n• Os dados clínicos pertencem aos respetivos profissionais"
+          "id": "cancelamento",
+          "title": "9. Cancelar a subscrição e consultas",
+          "content": "Pode cancelar a subscrição a qualquer momento em Plano › «Cancelar subscrição» (ou no rodapé, «Gerir/cancelar subscrição»), no portal seguro do Stripe. O plano mantém-se até ao fim do período já pago e não volta a ser cobrado.\n\nConsultas: cancele com pelo menos 24 horas de antecedência."
+        },
+        {
+          "id": "eliminar",
+          "title": "10. Eliminar conta e descarregar dados",
+          "content": "Em Definições › Segurança pode descarregar os seus dados (ficheiro JSON) e eliminar a conta, com dupla confirmação. Ao eliminar, cancelamos as subscrições e apagamos ou anonimizamos os dados de conta, pontos, convites, preferências, consentimentos e mensagens.\n\nO dossier clínico não é apagado: fica com o profissional responsável, desligado da sua conta, porque a lei obriga a conservá-lo."
         },
         {
           "id": "responsabilidade",
-          "title": "10. Limitação de responsabilidade",
-          "content": "• A plataforma facilita a ligação entre utilizadores\n• Não substitui diagnóstico nem tratamento médico"
+          "title": "11. Responsabilidade",
+          "content": "Fazemos o possível para manter a app disponível e segura, mas pode haver interrupções. Não respondemos pelos atos clínicos dos profissionais. Nada nestes termos limita os direitos que a lei lhe garante como consumidor."
         },
         {
-          "id": "modificacoes",
-          "title": "11. Modificações",
-          "content": "O SmileCheck pode alterar estes termos com aviso prévio de 30 dias."
+          "id": "alteracoes",
+          "title": "12. Alterações",
+          "content": "Se mudarmos estes termos, avisamos na app e por e-mail com antecedência razoável. Se não concordar, pode eliminar a conta."
+        },
+        {
+          "id": "litigios",
+          "title": "13. Reclamações e resolução de litígios",
+          "content": "Reclamações: {{email}}.\n\nLivro de Reclamações eletrónico: {{complaintsUrl}}\n\nPortugal — entidade de resolução alternativa de litígios de consumo: [nome, morada e sítio — a preencher].\n\nFrança — mediador de consumo: [nome, morada e sítio — a preencher].\n\nAplica-se a lei portuguesa, sem prejuízo das regras imperativas do país onde reside."
         },
         {
           "id": "contacto",
-          "title": "12. Contacto",
-          "content": "Email: legal@smilecheck.pt\nMorada: Av. da Liberdade 123, Lisboa, Portugal"
+          "title": "14. Contacto",
+          "content": "{{email}}"
         }
       ]
     },
@@ -2350,52 +2367,62 @@
         {
           "id": "responsavel",
           "title": "1. Responsável pelo tratamento",
-          "content": "SmileCheck, Lda. — NIF: 509 123 456"
+          "content": "A SmileCheck — [denominação social, morada e NIPC — a preencher] — é responsável pelos dados de conta, pontos, anúncios, convites, preferências, consentimentos e pagamentos.\n\nEncarregado da proteção de dados (DPO): [nome — a preencher]. Contacto: {{email}}."
+        },
+        {
+          "id": "papeis",
+          "title": "2. Dados clínicos: quem é responsável",
+          "content": "O dossier clínico (notas, alergias registadas pelo profissional, avaliações de medo feitas pelo profissional, receitas, cartas de referência) é da responsabilidade do dentista ou da clínica que o regista. A SmileCheck trata esses dados como subcontratante (artigo 28.º do RGPD), apenas segundo as instruções do profissional.\n\nPode pedir acesso ao seu dossier ao profissional ou a nós; nesse caso encaminhamos o pedido."
         },
         {
           "id": "dados-recolhidos",
-          "title": "2. Dados recolhidos",
-          "content": "• Dados de identificação (nome, email, telefone, data de nascimento)\n• Dados profissionais (n.º de ordem, especialidades — dentistas)\n• Dados de saúde (alergias, medicação, condições — pacientes)\n• Dados de utilização (consultas, pontos, avaliações)\n• Dados técnicos (IP, dispositivo, navegador)"
+          "title": "3. Que dados tratamos",
+          "content": "• Conta: nome, e-mail, telemóvel, língua, data de nascimento.\n• Saúde (dados sensíveis, artigo 9.º do RGPD): respostas da triagem, alergias, autoavaliação do medo, consultas.\n• Programa de pontos: pontos, níveis, conquistas, convites, anúncios vistos (contadores).\n• Pagamentos: plano e estado da subscrição (os dados do cartão ficam só no Stripe).\n• Técnicos: dispositivo, registos de segurança e de acesso ao dossier.\n• Consentimentos e preferências."
         },
         {
           "id": "finalidade",
-          "title": "3. Finalidade do tratamento",
-          "content": "• Gestão de conta e perfil\n• Marcação de consultas e teleconsultas\n• Sistema de pontos e recompensas\n• Comunicação entre utilizadores\n• Melhoria dos serviços"
-        },
-        {
-          "id": "base-legal",
-          "title": "4. Base legal",
-          "content": "• Consentimento do utilizador\n• Execução de contrato\n• Interesse legítimo\n• Obrigação legal"
+          "title": "4. Finalidades e fundamentos",
+          "content": "• Prestar o serviço e gerir a conta — execução do contrato.\n• Dados de saúde — consentimento explícito e prestação de cuidados por profissionais sujeitos a sigilo (artigo 9.º, n.º 2, alíneas a) e h), do RGPD).\n• Faturação — obrigação legal.\n• Segurança e prevenção de abusos — interesse legítimo.\n• Estatísticas e anúncios personalizados — só com o seu consentimento; por defeito, recusado."
         },
         {
           "id": "partilha",
-          "title": "5. Partilha de dados",
-          "content": "• Dados de saúde: partilhados apenas com os dentistas/clínicas do paciente\n• Dados profissionais: visíveis conforme a configuração de privacidade\n• Propostas de trabalho: visíveis apenas entre dentistas e clínicas\n• Nunca vendemos dados a terceiros"
+          "title": "5. Subcontratantes",
+          "content": "• Alojamento e base de dados: [fornecedor — a preencher], [país, UE — a preencher].\n• Pagamentos: Stripe Payments Europe, Ltd., Irlanda (UE).\n• Inteligência artificial (triagem): [fornecedor — a confirmar], [país — a preencher]; recebe só os sintomas indicados, sem nome nem contactos.\n• E-mail: [fornecedor — a preencher], [país — a preencher].\n\nTransferências para fora do Espaço Económico Europeu só com garantias adequadas (por exemplo, cláusulas contratuais-tipo). O alojamento certificado para dados de saúde em França (HDS) está em validação."
         },
         {
           "id": "retencao",
-          "title": "6. Conservação de dados",
-          "content": "• Dados de conta: enquanto a conta estiver ativa\n• Dados clínicos: 10 anos (obrigação legal)\n• Dados de utilização: 3 anos após a última atividade"
+          "title": "6. Conservação",
+          "content": "• Conta: enquanto estiver ativa.\n• Ao eliminar a conta: dados de conta, pontos, convites, preferências, consentimentos e notificações são apagados ou anonimizados de imediato.\n• Dossier clínico: conservado pelo profissional responsável durante o prazo legal [prazo — a confirmar por país].\n• Faturação: pelo prazo fiscal legal [a confirmar].\n• Registos de acesso ao dossier: [prazo — a preencher].\n• Pedidos de triagem por IA: guardamos só a hora do pedido, para o limite diário."
         },
         {
           "id": "direitos",
-          "title": "7. Direitos do utilizador (RGPD)",
-          "content": "• Direito de acesso\n• Direito de retificação\n• Direito ao apagamento\n• Direito à portabilidade\n• Direito de oposição\n\nContacto do EPD: dpo@smilecheck.pt"
+          "title": "7. Os seus direitos",
+          "content": "Acesso, retificação, apagamento, limitação, portabilidade e oposição; pode retirar o consentimento a qualquer momento, sem afetar o que foi feito antes.\n\nNa app: Definições › Segurança › «Descarregar os meus dados» e «Eliminar conta»; Definições › Privacidade para consentimentos. Outros pedidos: {{email}}. Respondemos no prazo de um mês."
+        },
+        {
+          "id": "reclamacao",
+          "title": "8. Reclamação à autoridade de controlo",
+          "content": "Pode reclamar à CNPD (Portugal) — https://www.cnpd.pt — ou à CNIL (França) — https://www.cnil.fr."
+        },
+        {
+          "id": "menores",
+          "title": "9. Menores",
+          "content": "Idade mínima para consentir sozinho: 13 anos em Portugal e 15 anos em França. Abaixo disso, a conta é gerida pelo titular das responsabilidades parentais (perfil familiar)."
         },
         {
           "id": "seguranca",
-          "title": "8. Segurança",
-          "content": "• Cifragem de dados em trânsito e em repouso\n• Autenticação de dois fatores\n• Verificação telefónica obrigatória\n• Monitorização de acessos"
+          "title": "10. Segurança",
+          "content": "Ligações cifradas, controlo de acessos por perfil, registo de quem consulta o dossier e acesso ao dossier apenas na relação clínica ativa."
         },
         {
           "id": "cookies",
-          "title": "9. Cookies",
-          "content": "• Cookies essenciais (sessão, autenticação)\n• Cookies de preferência (tema, idioma)\n• Sem cookies de publicidade"
+          "title": "11. Cookies e armazenamento local",
+          "content": "Usamos apenas o armazenamento essencial ao funcionamento. Estatísticas e anúncios personalizados só com o seu consentimento, que pode mudar em Definições › Privacidade."
         },
         {
           "id": "alteracoes",
-          "title": "10. Alterações",
-          "content": "Notificação por email em caso de alterações significativas."
+          "title": "12. Alterações",
+          "content": "Se mudarmos esta política, avisamos na app e por e-mail."
         }
       ]
     },
@@ -2438,6 +2465,76 @@
           "id": "revisao",
           "title": "6. Última revisão",
           "content": "Esta declaração foi revista a {{date}}."
+        }
+      ]
+    },
+    "proTermsTitle": "Termos para profissionais",
+    "proTerms": {
+      "sections": [
+        {
+          "id": "ambito",
+          "title": "1. Âmbito",
+          "content": "Estes termos aplicam-se a dentistas e clínicas que usam a SmileCheck no exercício da sua atividade (relação entre empresas). Complementam os Termos de serviço. Prestador: [denominação social, morada e NIPC — a preencher]."
+        },
+        {
+          "id": "verificacao",
+          "title": "2. Verificação",
+          "content": "As contas novas ficam pendentes até verificarmos a inscrição profissional (Ordem dos Médicos Dentistas / RPPS) e, nas clínicas, a licença. Só contas aprovadas aparecem na pesquisa."
+        },
+        {
+          "id": "pesquisa",
+          "title": "3. Como funciona a pesquisa",
+          "content": "Os resultados mostram apenas profissionais verificados que correspondem ao que o paciente procura: especialidade, distância à morada indicada e disponibilidade. O paciente pode ordenar por distância (por defeito) ou por preço.\n\nNão há destaque pago: o plano, o nível, os pontos e as classificações não influenciam a ordem, e nenhuma recompensa da loja compra visibilidade."
+        },
+        {
+          "id": "classificacoes",
+          "title": "4. Classificações, níveis e distintivos",
+          "content": "Até haver parecer da Ordem dos Médicos Dentistas, as classificações, os níveis, os selos e as conquistas em destaque de cada profissional são visíveis apenas ao próprio e à sua clínica. Os pacientes nunca os veem, nem na pesquisa nem nos perfis. Nas tabelas de classificação, os outros profissionais aparecem anónimos."
+        },
+        {
+          "id": "dossier",
+          "title": "5. Dados clínicos",
+          "content": "O profissional é responsável pelo tratamento dos dados do dossier clínico; a SmileCheck é subcontratante (artigo 28.º do RGPD) e trata-os apenas segundo as suas instruções [acordo de subcontratação — anexo a preencher]. O acesso ao dossier exige uma relação clínica ativa e fica registado. Quando um paciente elimina a conta, o dossier mantém-se consigo, desligado da conta."
+        },
+        {
+          "id": "avaliacoes",
+          "title": "6. Avaliações",
+          "content": "Os pacientes só podem avaliar depois de uma consulta realizada consigo, uma vez por consulta; o servidor verifica automaticamente a consulta antes de aceitar a avaliação («Avaliação verificada»). Pode pedir a revisão de uma avaliação através das reclamações internas."
+        },
+        {
+          "id": "pontos",
+          "title": "7. Pontos e anúncios",
+          "content": "Ganha pontos com ações na app (consultas, avaliações, convites confirmados — só com telemóvel verificado e conta aprovada) e perde-os ao trocá-los e por penalizações. No plano Free os pontos de recompensa são repostos uma vez por ano e há anúncios (sem dados de saúde). Os pontos não têm valor em dinheiro."
+        },
+        {
+          "id": "planos",
+          "title": "8. Planos, preços e comissões",
+          "content": "Preços sem IVA (acresce IVA à taxa legal). Comissão da SmileCheck sobre teleconsultas: 15% (Free), 10% (Pro), 5% (Premium) — a teleconsulta ainda não está disponível. Dentistas por clínica: 2 (Free), 5 (Pro), ilimitado (Premium). Renovação automática; o cancelamento produz efeito no fim do período pago."
+        },
+        {
+          "id": "suspensao",
+          "title": "9. Restrição, suspensão e cessação",
+          "content": "Se restringirmos ou suspendermos a sua conta, enviamos-lhe por e-mail, antes ou no momento em que isso acontece, as razões por escrito: os factos e as regras aplicadas. Pode responder e pedir reapreciação. Para cessar o serviço, damos pelo menos 30 dias de aviso, salvo obrigação legal ou infração grave."
+        },
+        {
+          "id": "alteracoes",
+          "title": "10. Alterações a estes termos",
+          "content": "Avisamos por e-mail com pelo menos 15 dias de antecedência, indicando o que muda. Se não concordar, pode cessar o contrato antes da entrada em vigor."
+        },
+        {
+          "id": "reclamacoes",
+          "title": "11. Reclamações internas",
+          "content": "Gratuitas, por {{email}}. Analisamos cada reclamação e respondemos por escrito no prazo de [prazo — a preencher]."
+        },
+        {
+          "id": "mediacao",
+          "title": "12. Mediação",
+          "content": "Se a reclamação não resolver a questão, pode recorrer a mediação. Mediadores designados: [nome e contacto de pelo menos dois mediadores independentes — a preencher]. Participamos de boa-fé."
+        },
+        {
+          "id": "lei",
+          "title": "13. Lei aplicável",
+          "content": "Lei portuguesa e Regulamento (UE) 2019/1150 relativo às plataformas em linha."
         }
       ]
     }
@@ -2997,19 +3094,17 @@
       "photoCount_other": "{{count, number}} fotos"
     },
     "ai": {
-      "title": "Análise inteligente",
-      "analyzing": "A analisar os seus sintomas…",
-      "error": "Não foi possível obter a análise agora. Pode continuar a marcação.",
-      "errorAuth": "Inicie sessão para obter a análise inteligente.",
-      "errorLimit": "Atingiu o limite de 10 análises por dia. Tente novamente amanhã.",
-      "tips": "Até à consulta:",
-      "disclaimer": "Orientação preliminar gerada por IA. Não substitui a avaliação do dentista.",
-      "emergency": "Os sinais indicam que deve procurar atendimento urgente hoje. Em caso de emergência, ligue 112 (Portugal) ou 15 (França).",
-      "urgency": {
-        "low": "Urgência baixa",
-        "moderate": "Urgência moderada",
-        "urgent": "Urgente"
-      }
+      "title": "Resumo dos sintomas para o seu dentista",
+      "analyzing": "A preparar o resumo dos seus sintomas…",
+      "error": "Não foi possível preparar o resumo agora. Pode continuar a marcação.",
+      "errorAuth": "Inicie sessão para obter o resumo dos sintomas.",
+      "errorLimit": "Atingiu o limite de 10 resumos por dia. Tente novamente amanhã.",
+      "tips": "Conselhos gerais até à consulta:",
+      "disclaimer": "Orientação geral gerada por IA. Não é um diagnóstico nem substitui a consulta com o dentista.",
+      "emergency": "Indicou sinais que justificam ajuda urgente hoje. Em caso de emergência, ligue 112 (Portugal) ou 15 (França).",
+      "summaryLabel": "O que indicou (para mostrar ao dentista):",
+      "whenUrgent": "Procure ajuda urgente se tiver inchaço na cara, febre, dificuldade em respirar ou engolir, ou uma pancada com muito sangue: ligue 112 (Portugal) ou 15 (França).",
+      "book": "Marque uma consulta para o dentista avaliar."
     }
   },
   "consultationReasons": {
@@ -3144,11 +3239,11 @@
     "monthly": "Mensal",
     "annual": "Anual",
     "free": "Grátis",
-    "currentPlan": "Plano actual",
+    "currentPlan": "Plano atual",
     "nextRenewal": "Próxima renovação",
     "cancelSubscription": "Cancelar subscrição",
     "cancelled": "Subscrição cancelada. Voltará ao plano Free no final do período.",
-    "currentPlanBtn": "Plano actual",
+    "currentPlanBtn": "Plano atual",
     "subscribe": "Subscrever",
     "choose": "Escolher",
     "subscribeTo": "Subscrever",
@@ -3278,7 +3373,10 @@
     "confirmChangeTitle": "Confirmar alteração",
     "changeEffectImmediate": "A alteração será efetiva imediatamente.",
     "showAllFeatures": "Ver todas (+{{count, number}})",
-    "showLess": "Ver menos"
+    "showLess": "Ver menos",
+    "plusVat": "+ IVA",
+    "vatIncluded": "IVA incluído",
+    "cancelConditions": "Pode cancelar a qualquer momento. O plano mantém-se até ao fim do período já pago e não volta a ser cobrado."
   },
   "health": {
     "title": "A minha saúde",
@@ -3291,7 +3389,7 @@
     "conditions": "Condições médicas",
     "noConditions": "Nenhuma condição registada",
     "newCondition": "Nova condição...",
-    "currentMedication": "Medicação actual",
+    "currentMedication": "Medicação atual",
     "noMedication": "Nenhuma medicação registada",
     "medication": "Medicamento...",
     "dosage": "Dosagem...",
@@ -3459,7 +3557,7 @@
     "medName": "Nome do medicamento",
     "dosagePlaceholder": "Dosagem (ex: 500mg)",
     "add": "Adicionar",
-    "currentPrescription": "Receita actual",
+    "currentPrescription": "Receita atual",
     "addMedsToRx": "Adicione medicamentos à receita",
     "posologyPlaceholder": "Posologia (ex: 1 comprimido de 8 em 8 horas durante 7 dias)",
     "preview": "Pré-visualização da receita",
@@ -3493,7 +3591,7 @@
     "interactionWith": "Interação com",
     "risk": "Risco",
     "prescribeWithCaution": "Pode prescrever com precaução",
-    "currentPatientMeds": "Medicação actual do paciente"
+    "currentPatientMeds": "Medicação atual do paciente"
   },
   "statistics": {
     "title": "Estatísticas",
@@ -3702,7 +3800,7 @@
     "dateOfBirth": "Data nascimento",
     "family": "Família",
     "addMember": "Adicionar membro",
-    "currentPlan": "Plano actual",
+    "currentPlan": "Plano atual",
     "active": "Activo",
     "upgrade": "Fazer upgrade",
     "professionalProfile": "Perfil profissional",
@@ -3751,7 +3849,22 @@
     "logout": "Terminar sessão",
     "patient": "Paciente",
     "dentist": "Dentista",
-    "clinic": "Clínica"
+    "clinic": "Clínica",
+    "download": "Descarregar os meus dados",
+    "exportDone": "Os seus dados foram descarregados.",
+    "exportError": "Não foi possível descarregar os dados. Tente novamente.",
+    "demoOnly": "No modo de demonstração esta ação não faz nada. Numa conta real, funciona de imediato.",
+    "step1Title": "Eliminar a sua conta?",
+    "willDelete": "Vamos apagar ou anonimizar os seus dados de conta, pontos, convites, preferências, consentimentos e mensagens. Não é possível desfazer.",
+    "dossierKept": "O seu dossier clínico não é apagado: fica com o profissional responsável, desligado da sua conta, porque a lei obriga a conservá-lo.",
+    "subscriptionsCanceled": "As subscrições pagas são canceladas. Se quiser, descarregue antes os seus dados.",
+    "continue": "Continuar",
+    "step2Title": "Confirmação final",
+    "typeToConfirm": "Para confirmar, escreva {{word}}.",
+    "typeLabel": "Escreva {{word}}",
+    "deleteForever": "Eliminar conta",
+    "deleted": "A sua conta foi eliminada.",
+    "deleteError": "Não foi possível eliminar a conta. Tente novamente ou contacte o suporte."
   },
   "permissions": {
     "title": "Permissões",
@@ -5237,6 +5350,11 @@
     "portalError": "Não foi possível abrir a gestão da subscrição.",
     "endsOn": "A subscrição termina a {{date}}; depois passa ao plano Free.",
     "demoNoPayment": "Demonstração — sem pagamento",
-    "methodsManagedSecurely": "Os dados de pagamento nunca são introduzidos nesta app: são geridos no ambiente seguro do Stripe ao subscrever ou gerir o plano."
+    "methodsManagedSecurely": "Os dados de pagamento nunca são introduzidos nesta app: são geridos no ambiente seguro do Stripe ao subscrever ou gerir o plano.",
+    "withdrawalWaiver": "Peço o início imediato e reconheço que perco o direito de retratação de 14 dias após o início.",
+    "withdrawalTermsLink": "Ver termos"
+  },
+  "rankings": {
+    "anonymousPeer": "Profissional"
   }
 }

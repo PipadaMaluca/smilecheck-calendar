@@ -115,3 +115,7 @@ export const PLAN_FEATURES: Record<PlanRole, Record<PlanTier, PlanFeature[]>> = 
 
 /** Free plans of every role carry the yearly points-reset warning. */
 export const planHasPointsResetWarning = (tier: PlanTier) => tier === 'free';
+
+/** Patients are consumers (prices shown VAT included); dentists and clinics are B2B (prices shown "+ VAT"). */
+export type VatMode = 'included' | 'plus';
+export const planVatMode = (role: PlanRole): VatMode => (role === 'patient' ? 'included' : 'plus');

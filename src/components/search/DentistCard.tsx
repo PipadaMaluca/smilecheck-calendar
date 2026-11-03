@@ -5,14 +5,10 @@ import { onActivateKey } from '@/lib/a11y';
 import { formatCurrency } from '@/lib/formatters';
 import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DentistSearchResult, LEVEL_CONFIG, getAvailabilityForDentist } from '@/data/mockDentistSearch';
+import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { useTranslation } from 'react-i18next';
-import { AvatarFrame } from '@/components/level/AvatarFrame';
-import { getVisibilityBoost } from '@/data/pointsData';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { LevelIcon } from '@/components/level/LevelIcon';
 
 interface DentistCardProps {
   dentist: DentistSearchResult;
@@ -22,11 +18,8 @@ interface DentistCardProps {
 
 export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCardProps) {
   const { t } = useTranslation();
-  const levelCfg = LEVEL_CONFIG[dentist.level];
   const initials = getDentistInitials(dentist.name);
   const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
-  const boost = getVisibilityBoost(dentist.level, dentist.plan);
-  const showBoost = boost >= 20;
 
   // Pull next 3 available slot chips for one-tap booking
   const nextSlotChips = (() => {
@@ -50,27 +43,12 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
       onClick={() => onViewProfile(dentist)}
     >
       <div className="flex gap-3">
-        <AvatarFrame levelKey={dentist.level} variant={showBoost ? 'full' : 'auto'} size={56} className="w-14 h-14">
-          <PersonAvatar name={dentist.name} photo={photo} className="!w-full !h-full text-lg" />
-        </AvatarFrame>
+        {/* Professionals' levels, frames and highlights are never shown to patients (pending the Ordem's opinion). */}
+        <PersonAvatar name={dentist.name} photo={photo} className="!w-14 !h-14 text-lg" />
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-semibold text-foreground text-sm truncate min-w-0 flex-1" title={dentist.name}>{dentist.name}</h3>
             <div className="flex items-center gap-1 shrink-0">
-              {showBoost && (
-                <TooltipProvider delayDuration={150}>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <span className="inline-flex items-center gap-0.5 text-2xs font-semibold px-1.5 py-0.5 rounded-full bg-amber-400/20 text-amber-500 border border-amber-400/30 cursor-help">
-                        <Star className="w-2.5 h-2.5 fill-amber-500" /> {t('level.featuredShort', t('level.featured'))}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="max-w-[220px] text-xs">
-                      {t('level.featuredTooltip', 'Este profissional tem destaque baseado no seu nível e plano.')}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
               {dentist.previousPatient && (
                 <span className="text-2xs font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
                   {t('search.previousPatient')}
@@ -84,9 +62,6 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
               <span className="text-xs font-semibold text-foreground">{dentist.rating}</span>
               <span className="text-2xs text-muted-foreground">({dentist.reviewCount})</span>
             </div>
-            <span className={cn('inline-flex items-center gap-1 text-2xs font-semibold px-1.5 py-0.5 rounded-full border', levelCfg.bg, levelCfg.color)}>
-              <LevelIcon levelKey={dentist.level} size={10} inheritColor /> {t(levelCfg.labelKey)}
-            </span>
           </div>
           <div className="flex flex-wrap gap-1 mt-1.5">
             {dentist.specialties.map((s) => (

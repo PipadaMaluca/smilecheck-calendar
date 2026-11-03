@@ -271,6 +271,8 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
   const [showRateModal, setShowRateModal] = useState(false);
   const [hasPendingRating, setHasPendingRating] = useState(true);
   const viewerRole = getViewerRole();
+  // Levels, seals, plan and highlighted achievements: only the clinic itself (pending the Ordem's opinion).
+  const showProStatus = !!isOwnProfile;
   const canViewerRate = !isOwnProfile && viewerRole === 'dentist';
 
   if (!isOpen || !clinic) return null;
@@ -279,7 +281,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-        <AvatarFrame levelKey={data.level} shape="square" className="w-24 h-24">
+        <AvatarFrame levelKey={showProStatus ? data.level : 'none'} shape="square" className="w-24 h-24">
           <div className="w-full h-full rounded-2xl bg-primary/10 flex items-center justify-center">
             <span className="text-3xl font-bold text-primary">
               {clinic.name.split(/[\s-]+/).filter(Boolean).map(w => w[0]).join('').toUpperCase().slice(0, 2)}
@@ -294,7 +296,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className="text-sm font-bold">{displayRating}</span>
             <span className="text-xs text-muted-foreground">({t('profile.reviews', { count: displayReviewCount })})</span>
           </div>
-          <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
+          {showProStatus && <div className="flex items-center justify-center md:justify-start gap-2 mt-1.5">
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color, LEVEL_GLOW[data.level] || '')}>
               {t(levelCfg.labelKey)}
             </span>
@@ -302,7 +304,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
             <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', planCfg.bg, planCfg.color)}>
 <Glyph emoji="📋" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{planCfg.label}
             </span>
-          </div>
+          </div>}
           <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
             {data.acceptsNewPatients && (
               <Badge variant="default" className="text-xs">
@@ -351,12 +353,12 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 
       <Separator />
 
-      {/* Badge Showcase */}
-      <BadgeShowcase
+      {/* Badge Showcase — own profile only */}
+      {showProStatus && <BadgeShowcase
         userRole="clinic"
         categories={getAchievementCategories('clinic', t)}
         isOwnProfile={isOwnProfile}
-      />
+      />}
 
       {isOwnProfile && <NextLevelBenefits userRole="clinic" />}
 

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
-import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
+import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, planVatMode, type VatMode, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
 
 interface Plan {
   name: string;
@@ -17,6 +17,7 @@ interface Plan {
   badge?: string;
   features: PlanFeature[];
   warning?: string;
+  vat: VatMode;
 }
 
 export function PricingSection() {
@@ -33,6 +34,7 @@ export function PricingSection() {
     badge: tier === 'pro' ? t('landing.pricing.popular') : tier === 'premium' ? t('landing.pricing.best') : undefined,
     features: PLAN_FEATURES[role][tier],
     warning: planHasPointsResetWarning(tier) ? t('plans.pointsResetWarning') : undefined,
+    vat: planVatMode(role),
   }));
   const patientPlans = build('patient');
   const dentistPlans = build('dentist');
@@ -193,7 +195,8 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
         ) : (
           <>
             <span className="text-4xl leading-none font-bold text-foreground">{formatCurrency(price)}</span>
-            <span className="text-sm text-muted-foreground ml-1">{t('landing.pricing.perMonth')}</span>
+            <span className="text-sm text-muted-foreground ml-1">{plan.vat === 'plus' && `${t('plan.plusVat')}`}{t('landing.pricing.perMonth')}</span>
+            {plan.vat === 'included' && <span className="block text-xs text-muted-foreground mt-1">{t('plan.vatIncluded')}</span>}
           </>
         )}
       </div>

@@ -138,7 +138,7 @@ export function DentistFilters({
             </SelectTrigger>
             <SelectContent className="bg-popover border-border z-50">
               {SORT_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                <SelectItem key={o.value} value={o.value}>{t(o.labelKey)}</SelectItem>
               ))}
             </SelectContent>
           </Select>

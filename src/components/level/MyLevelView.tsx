@@ -45,7 +45,7 @@ export function MyLevelView({ userRole }: MyLevelViewProps) {
                 {formatNumber(data.xp)} / {formatNumber(MAX_XP)} XP · ×{formatDecimal1(multiplier)} {t('level.multiplier')}
               </p>
             </div>
-            <Badge variant="secondary" className="shrink-0"><Zap className="w-3 h-3 inline mr-1" />+{boost}%</Badge>
+            {boost > 0 && <Badge variant="secondary" className="shrink-0"><Zap className="w-3 h-3 inline mr-1" />+{boost}%</Badge>}
           </div>
           <Progress value={progress.percent} className="h-3" />
         </CardContent>
