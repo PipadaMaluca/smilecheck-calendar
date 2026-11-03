@@ -109,6 +109,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                 key={tab.id}
                 data-subtab={tab.id}
                 onClick={() => setActiveSubTab(tab.id)}
+                aria-pressed={activeSubTab === tab.id}
                 className={cn(
                   'px-4 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex-1 sm:flex-none',
                   activeSubTab === tab.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'text-muted-foreground hover:text-foreground'
@@ -131,6 +132,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                   <button
                     key={p.id}
                     onClick={() => setPeriod(p.id)}
+                    aria-pressed={period === p.id}
                     className={cn(
                       'px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
                       period === p.id ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'text-muted-foreground hover:text-foreground'
