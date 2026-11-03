@@ -13,9 +13,9 @@ const badgeVariants = cva(
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
       },
-      // Same inner padding/height as the consultation-type pills; `count` = circular number-only counter.
+      // Same inner padding/height as the consultation-type pills (24px total, border included); `count` = circular number-only counter.
       shape: {
-        pill: "px-2 py-1 min-h-6",
+        pill: "px-2 h-6",
         count: "min-w-6 h-6 px-1.5 rounded-full tabular-nums",
       },
     },
@@ -34,6 +34,6 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant
 Badge.displayName = "Badge";
 
 /** Shared pill geometry (padding, height, radius) for hand-rolled pills such as consultation types/states. Never truncates. */
-export const PILL_CLASS = "inline-flex items-center justify-center gap-1 shrink-0 whitespace-nowrap rounded-md font-semibold leading-tight px-2 py-1 min-h-6";
+export const PILL_CLASS = "inline-flex items-center justify-center gap-1 shrink-0 whitespace-nowrap rounded-md font-semibold leading-tight px-2 h-6";
 
 export { Badge, badgeVariants };
