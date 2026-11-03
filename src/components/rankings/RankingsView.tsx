@@ -262,7 +262,8 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={cn('text-sm truncate', entry.isCurrentUser ? 'font-bold text-primary' : 'text-foreground')}>
-                    {entry.name}
+                    {/* Other professionals stay anonymous: rankings are visible only to each professional (pending the Ordem's opinion). */}
+                    {entry.isCurrentUser ? entry.name : t('rankings.anonymousPeer')}
                     {entry.isCurrentUser && <span className="text-xs ml-1">{t('sweep.rankings.you')}</span>}
                   </p>
                 </div>
