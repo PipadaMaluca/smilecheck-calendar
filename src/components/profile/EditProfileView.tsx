@@ -416,10 +416,6 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
     onSave();
   };
 
-  const handleDeleteAccount = () => {
-    toast.error(t('editProfile.accountDeleted'));
-    onClose();
-  };
 
   const addFamilyMember = () => {
     setFamilyMembers((prev) => [...prev, { name: '', age: '', relation: '' }]);
