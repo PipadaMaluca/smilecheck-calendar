@@ -1,4 +1,5 @@
 import { ChequeBadges } from '@/components/clinic/ChequeBadges';
+import { navigateApp, openChatWith } from '@/lib/deepLink';
 import { chequesForClinic } from '@/lib/cheques';
 import { Star as StarIcon } from 'lucide-react';
 import { PersonAvatar } from '@/components/ui/person-avatar';
@@ -317,8 +318,8 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         ) : (
           <div className={cn('flex items-center gap-4', isMobile ? 'w-full' : '')}>
             <div className={cn('flex gap-2', isMobile ? 'flex-1 flex-col' : 'flex-col')}>
-              <Button className="flex-1 min-h-11"><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
-              <Button variant="outline" className="flex-1 min-h-11"><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
+              <Button className="flex-1 min-h-11" onClick={() => { navigateApp('pesquisa'); onClose(); }}><Calendar className="w-4 h-4 mr-1" /> {t('profile.bookAppointment')}</Button>
+              <Button variant="outline" className="flex-1 min-h-11" onClick={() => { openChatWith(data.name); onClose(); }}><MessageCircle className="w-4 h-4 mr-1" /> {t('profile.message')}</Button>
               <Button variant="outline" className="flex-1 min-h-11" onClick={() => window.open(`tel:${data.phone}`)}>
                 <Phone className="w-4 h-4 mr-1" /> {t('profile.call')}
               </Button>
@@ -416,7 +417,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
 <Glyph emoji="♿" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{a}</Badge>
                 ))}
               </div>
-              <Button size="sm" variant="outline" className="w-full text-xs">
+              <Button size="sm" variant="outline" className="w-full text-xs" onClick={() => { navigateApp('pesquisa'); onClose(); }}>
                 {t('profile.bookHere')}
               </Button>
             </div>

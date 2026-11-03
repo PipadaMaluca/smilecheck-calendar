@@ -11,6 +11,7 @@ export interface DeepLink {
   conversationId?: string;
   achievementKey?: string;
   patientId?: string;
+  conversationName?: string;
 }
 
 let pending: DeepLink | null = null;
@@ -47,4 +48,16 @@ export function revealElement(id: string) {
     window.setTimeout(tick, 100);
   };
   window.setTimeout(tick, 50);
+}
+
+/** Open Conversations on the thread with `name` (creates a draft thread when new). */
+export function openChatWith(name: string) {
+  setPendingDeepLink({ tab: 'conversas', conversationName: name });
+  window.dispatchEvent(new CustomEvent('smilecheck:navigate', { detail: 'conversas' }));
+  window.setTimeout(() => window.dispatchEvent(new CustomEvent('smilecheck:open-chat', { detail: name })), 150);
+}
+
+/** Generic shell navigation from deep inside a screen. */
+export function navigateApp(tab: string) {
+  window.dispatchEvent(new CustomEvent('smilecheck:navigate', { detail: tab }));
 }

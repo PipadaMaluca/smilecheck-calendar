@@ -304,6 +304,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
   useEffect(() => {
     const link = consumeDeepLink('conversas');
     if (!link) return;
+    if (link.conversationName) return; // handled by the open-chat event below
     const conv = conversations.find((c) => c.id === link.conversationId) ?? (link.conversationId ? conversations[0] : undefined);
     if (conv) setSelectedConversation(conv);
     // eslint-disable-next-line react-hooks/exhaustive-deps
