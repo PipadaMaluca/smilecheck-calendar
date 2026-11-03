@@ -358,7 +358,7 @@ export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProf
         userRole="clinic"
         categories={getAchievementCategories('clinic', t)}
         isOwnProfile={isOwnProfile}
-      />
+      />}
 
       {isOwnProfile && <NextLevelBenefits userRole="clinic" />}
 
