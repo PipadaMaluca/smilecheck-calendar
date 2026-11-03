@@ -540,7 +540,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                       >
                         {/* Avatar with online dot */}
                         <div className="relative flex-shrink-0">
-                          <AvatarFrame levelKey={getMockLevelForName(conversation.name)} className="w-10 h-10">
+                          <AvatarFrame levelKey={conversation.type === 'Paciente' ? getMockLevelForName(conversation.name) : 'none'} className="w-10 h-10">
                             <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
                               <User className="w-5 h-5 text-primary" />
                             </div>
@@ -611,7 +611,7 @@ export function ConversationsView({ userRole, onNavigate }: ConversationsViewPro
                   </Button>
                 )}
                 <div className="relative flex-shrink-0">
-                  <AvatarFrame levelKey={getMockLevelForName(selectedConversation.name)} className="w-8 h-8">
+                  <AvatarFrame levelKey={selectedConversation.type === 'Paciente' ? getMockLevelForName(selectedConversation.name) : 'none'} className="w-8 h-8">
                     <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
                       <User className="w-4 h-4 text-primary" />
                     </div>
