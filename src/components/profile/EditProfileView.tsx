@@ -447,11 +447,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                 {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
               </div>
-              <button aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
+              <button type="button" disabled aria-disabled data-soon="" title={t('common.comingSoon')} aria-label={`${t('a11y.camera')} — ${t('common.comingSoon')}`} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center shadow-lg cursor-not-allowed">
                 <Camera className="w-4 h-4" />
               </button>
             </div>
-            <span className="text-xs text-muted-foreground">{userRole === 'clinic' ? t('editProfile.changeLogo') : t('editProfile.changePhoto')}</span>
+            <span className="text-xs text-muted-foreground">{userRole === 'clinic' ? t('editProfile.changeLogo') : t('editProfile.changePhoto')} · {t('common.comingSoon')}</span>
           </div>
 
           {/* ===== PATIENT FIELDS ===== */}
@@ -883,7 +883,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
           {/* Security section */}
           <div className="space-y-3">
-            <Button variant="outline" className="w-full">{t('editProfile.changePasswordBtn')}</Button>
+            <Button variant="outline" className="w-full" onClick={() => window.location.assign('/forgot-password')}>{t('editProfile.changePasswordBtn')}</Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <SoonButton variant="destructive" className="w-full gap-2">

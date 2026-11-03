@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+import { SUPPORT_EMAIL } from '@/lib/support';
 import { useAuth } from '@/contexts/AuthContext';
 import { OPEN_CONSENT_EVENT } from '@/lib/consent';
 import { InstallAppButton } from '@/components/pwa/InstallPrompt';
@@ -120,8 +121,8 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
             <LinkRow icon={BookOpen} label={t('settings.reviewTutorial')} onClick={() => replayFull(userRole)} />
             <LinkRow icon={HelpCircle} label={t('settings.reviewTips')} onClick={() => { resetAllCoachMarks(); replayTooltips(userRole); toast.success(t('settings.tipsReset')); }} />
             <LinkRow icon={BookOpen} label={t('settings.resetCoachMarks')} onClick={() => { resetAllCoachMarks(); toast.success(t('settings.coachMarksReset')); }} />
-            <LinkRow icon={Mail} label={t('settings.contactSupport')} />
-            <LinkRow icon={FAQ} label={t('settings.faq')} />
+            <LinkRow icon={Mail} label={t('settings.contactSupport')} onClick={() => { window.location.href = `mailto:${SUPPORT_EMAIL}`; }} />
+            <LinkRow icon={FAQ} label={t('settings.faq')} onClick={() => window.location.assign('/landing#faq')} />
           </CardContent>
         </Card>
 
@@ -139,13 +140,14 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardHeader className="pb-2"><CardTitle size="compact">{t('settings.security')}</CardTitle></CardHeader>
           <CardContent className="space-y-0">
-            <LinkRow icon={Lock} label={t('settings.changePassword')} />
+            <LinkRow icon={Lock} label={t('settings.changePassword')} onClick={() => window.location.assign('/forgot-password')} />
             <Separator className="my-3" />
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <button className="flex items-center gap-3 py-3 w-full text-left hover:opacity-80 transition-opacity">
+                <button type="button" disabled aria-disabled data-soon="" title={t('common.comingSoon')} className="flex items-center gap-3 py-3 w-full text-left opacity-60 cursor-not-allowed">
                   <Trash2 className="w-4 h-4 text-destructive" />
                   <span className="text-sm text-destructive font-medium">{t('settings.deleteAccount')}</span>
+                  <span className="rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium text-muted-foreground">{t('common.comingSoon')}</span>
                 </button>
               </AlertDialogTrigger>
               <AlertDialogContent>
