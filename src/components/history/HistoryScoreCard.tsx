@@ -68,22 +68,22 @@ export function HistoryScoreCard({ score, isExpanded, onToggle, onGiveFeedback, 
         <p className="text-xs text-muted-foreground truncate">{score.clinicName}</p>
       )}
       {isPending && (
-        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-amber-500/30 text-warning bg-amber-500/10">
+        <Badge variant="outline" className="text-2xs border-amber-500/30 text-warning bg-amber-500/10">
           <Clock className="w-2.5 h-2.5 mr-0.5" /> {t('confirmationStates.pending')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints < 0 && (
-        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-destructive/30 text-destructive bg-destructive/10">
+        <Badge variant="outline" className="text-2xs border-destructive/30 text-destructive bg-destructive/10">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.missed')}
         </Badge>
       )}
       {score.feedbackStatus === 'completed' && score.totalPoints >= 0 && (
-        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-primary/30 text-primary bg-primary/10">
+        <Badge variant="outline" className="text-2xs border-primary/30 text-primary bg-primary/10">
           <CheckCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.completed')}
         </Badge>
       )}
       {isExpired && (
-        <Badge variant="outline" className="text-2xs px-1.5 py-0 h-4 border-muted-foreground/30 text-muted-foreground bg-muted">
+        <Badge variant="outline" className="text-2xs border-muted-foreground/30 text-muted-foreground bg-muted">
           <AlertCircle className="w-2.5 h-2.5 mr-0.5" /> {t('sweep.history.expired')}
         </Badge>
       )}
