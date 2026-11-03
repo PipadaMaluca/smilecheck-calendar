@@ -28,6 +28,7 @@ import { SUPPORT_EMAIL } from '@/lib/support';
 import { useAuth } from '@/contexts/AuthContext';
 import { OPEN_CONSENT_EVENT } from '@/lib/consent';
 import { InstallAppButton } from '@/components/pwa/InstallPrompt';
+import { AccountDataSection } from '@/components/settings/AccountDataSection';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -132,6 +133,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           <CardContent className="space-y-0 divide-y divide-border">
             <LinkRow icon={FileText} label={t('settings.termsOfService')} onClick={() => window.open('/termos', '_blank')} />
             <LinkRow icon={Shield} label={t('settings.privacyPolicy')} onClick={() => window.open('/privacidade', '_blank')} />
+            {userRole !== 'patient' && <LinkRow icon={FileText} label={t('legal.proTermsTitle')} onClick={() => window.open('/termos-profissionais', '_blank')} />}
             <LinkRow icon={Accessibility} label={t('settings.accessibilityStatement')} onClick={() => window.open('/acessibilidade', '_blank')} />
           </CardContent>
         </Card>
@@ -142,30 +144,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
           <CardContent className="space-y-0">
             <LinkRow icon={Lock} label={t('settings.changePassword')} onClick={() => window.location.assign('/forgot-password')} />
             <Separator className="my-3" />
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button type="button" disabled aria-disabled data-soon="" title={t('common.comingSoon')} className="flex items-center gap-3 py-3 w-full text-left opacity-60 cursor-not-allowed">
-                  <Trash2 className="w-4 h-4 text-destructive" />
-                  <span className="text-sm text-destructive font-medium">{t('settings.deleteAccount')}</span>
-                  <span className="rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium text-muted-foreground">{t('common.comingSoon')}</span>
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{t('settings.deleteAccountTitle')}</AlertDialogTitle>
-                  <AlertDialogDescription>{t('settings.deleteAccountDesc')}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={() => toast.success(t('settings.accountDeleted'))}
-                  >
-                    {t('common.confirm')}
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <AccountDataSection />
             <LinkRow icon={LogOut} label={t('settings.logout')} danger onClick={async () => { await signOut(); window.location.href = '/login'; }} />
           </CardContent>
         </Card>
