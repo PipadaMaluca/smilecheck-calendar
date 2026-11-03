@@ -582,8 +582,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             persistKey="dentist:confirmacoes"
           >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
-                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">24h</span>
-                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">1h</span>
+                <span className="text-2xs font-semibold text-muted-foreground min-w-5 whitespace-nowrap text-center">24h</span>
+                <span className="text-2xs font-semibold text-muted-foreground min-w-5 whitespace-nowrap text-center">1h</span>
               </div>
               <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c, idx) => {
