@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockDentists, mockClinics, mockConsultations } from '@/data/mockData';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
