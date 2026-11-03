@@ -13,6 +13,7 @@ export default {
       },
     },
     extend: {
+      height: { "app-header": "var(--app-header-h)" },
       fontSize: {
         // Typographic scale — use these instead of arbitrary px values.
         "2xs": ["11px", { lineHeight: "16px" }],
