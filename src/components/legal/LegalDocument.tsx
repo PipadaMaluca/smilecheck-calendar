@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Info, Printer } from 'lucide-react';
@@ -33,6 +34,10 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibili
   const sections = t(`legal.${doc}.sections`, { returnObjects: true, price: formatCurrency(TELECONSULT_PRICE), email: SUPPORT_EMAIL, complaintsUrl: COMPLAINTS_BOOK_URL, date: formatDate(ACCESSIBILITY_REVIEWED_AT) }) as Section[];
   const list = Array.isArray(sections) ? sections : [];
 
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (id) window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }), 100);
+  }, []);
   const scrollToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (

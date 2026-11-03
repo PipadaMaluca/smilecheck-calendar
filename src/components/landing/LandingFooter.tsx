@@ -1,3 +1,4 @@
+import { COMPLAINTS_BOOK_URL } from '@/lib/support';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Instagram, Facebook, Linkedin, Heart } from 'lucide-react';
@@ -111,6 +112,10 @@ export function LandingFooter() {
                 <li><a href="/privacidade#direitos" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.gdpr')}</a></li>
                 <li><a href="/privacidade#cookies" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.cookies')}</a></li>
                 <li><a href="/acessibilidade" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.accessibility')}</a></li>
+                <li><a href="/termos-profissionais" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('legal.proTermsTitle')}</a></li>
+                <li><a href="/app?tab=plano" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.manageSubscription')}</a></li>
+                <li><a href="/termos#litigios" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.disputes')}</a></li>
+                <li><a href={COMPLAINTS_BOOK_URL} target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{t('landing.footer.complaintsBook')}</a></li>
               </ul>
             </div>
           </div>
