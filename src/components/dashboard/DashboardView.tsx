@@ -374,10 +374,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
     return (
       <span
-        className={cn('inline-flex items-center min-w-0 max-w-full rounded-md font-semibold', size === 'sm' ? 'px-1.5 py-0.5 text-2xs' : 'px-2 py-1 text-xs')}
+        className={cn('inline-flex items-center justify-center shrink-0 whitespace-nowrap rounded-md font-semibold leading-tight px-2 py-1 min-h-6', size === 'sm' ? 'text-2xs' : 'text-xs')}
         style={getCategoryBadgeStyle(color)}
       >
-        <span className="truncate">{getCategoryLabel(t, category)}</span>
+        {getCategoryLabel(t, category)}
       </span>
     );
   };
@@ -580,15 +580,10 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             cardId="onboarding-confirmacoes"
             title={t('dashboard.confirmations')}
             persistKey="dentist:confirmacoes"
-            liveBadge={
-              <Badge variant="outline" className="text-2xs gap-1 border-primary/30 text-primary">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-              </Badge>
-            }
           >
               <div className="flex items-center justify-end gap-3 pb-1 border-b border-border/50">
-                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">24h</span>
-                <span className="text-2xs font-semibold text-muted-foreground w-5 text-center">1h</span>
+                <span className="text-2xs font-semibold text-muted-foreground min-w-5 whitespace-nowrap text-center">24h</span>
+                <span className="text-2xs font-semibold text-muted-foreground min-w-5 whitespace-nowrap text-center">1h</span>
               </div>
               <div className="flex-1 overflow-y-auto md:overflow-y-hidden mt-1">
                 {dentistConfirmations.map((c, idx) => {
@@ -625,7 +620,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
               cardId="onboarding-lista-espera"
               title={t('dashboard.waitingList')}
               persistKey="dentist:lista-espera"
-              badge={<Badge variant="outline" className="text-2xs">{dentistWaitlist.length}</Badge>}
+              badge={<Badge variant="outline" shape="count" className="text-2xs">{dentistWaitlist.length}</Badge>}
             >
               <div className="space-y-0 flex-1">
                 {dentistWaitlist.length === 0 && (
@@ -768,11 +763,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             cardId="onboarding-confirmacoes"
             title={t('dashboard.confirmations')}
             persistKey="clinic:confirmacoes"
-            liveBadge={
-              <Badge variant="outline" className="text-2xs gap-1 border-primary/30 text-primary">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" /> {t('dashboard.live')}
-              </Badge>
-            }
           >
               {(() => {
                 let rowIndex = 0;

@@ -1,3 +1,4 @@
+import { PILL_CLASS } from '@/components/ui/badge';
 import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
 import { RescheduleModal } from '@/components/calendar/RescheduleModal';
 import { SoonButton } from '@/components/ui/soon-button';
@@ -227,7 +228,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
                       {categoryLabel}
                     </span>
                   )}
-                  <span className={cn('text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
+                  <span className={cn(PILL_CLASS, 'text-xs', statusConfig.bg, statusConfig.color)}>
                     <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
                   </span>
                 </div>

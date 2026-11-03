@@ -1,3 +1,4 @@
+import { PILL_CLASS } from '@/components/ui/badge';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -112,7 +113,7 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
                         {categoryLabel}
                       </span>
                     )}
-                    <span className={cn('text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1', statusConfig.bg, statusConfig.color)}>
+                    <span className={cn(PILL_CLASS, 'text-xs', statusConfig.bg, statusConfig.color)}>
                       <Glyph emoji={statusConfig.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {statusConfig.label}
                     </span>
                   </div>

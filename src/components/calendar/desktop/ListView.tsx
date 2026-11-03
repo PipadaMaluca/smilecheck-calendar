@@ -1,3 +1,4 @@
+import { PILL_CLASS } from '@/components/ui/badge';
 import { MoreHorizontal, User } from 'lucide-react';
 import { Glyph } from '@/components/ui/glyph';
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,7 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
     const status = consultation.status || 'agendada';
     const config = STATUS_CONFIG[status];
     return (
-      <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs', config.bg, config.color)}>
+      <span className={cn(PILL_CLASS, 'text-xs', config.bg, config.color)}>
         <Glyph emoji={config.icon} className="inline w-3.5 h-3.5 mr-1 -mt-0.5" /> {config.label}
       </span>
     );
@@ -139,8 +140,8 @@ export function ListView({ consultations, dentists, onConsultationClick, onConsu
                   <TableCell className="py-2">
                     <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className="inline-flex items-center text-2xs font-bold leading-none rounded-full whitespace-nowrap flex-shrink-0"
-                        style={{ ...getCategoryBadgeStyle(colors.hex), padding: '2px 10px' }}
+                        className={cn(PILL_CLASS, "text-2xs")}
+                        style={getCategoryBadgeStyle(colors.hex)}
                       >
                         {getCategoryLabel(t, category)}
                         {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
