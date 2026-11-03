@@ -1,4 +1,5 @@
 import { ClinicChequesSettings } from '@/components/clinic/ClinicChequesSettings';
+import { SoonButton } from '@/components/ui/soon-button';
 import { FearScalePicker } from '@/components/fear/FearScale';
 import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
 import type { FearLevel } from '@/lib/fearScale';
@@ -885,9 +886,9 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
             <Button variant="outline" className="w-full">{t('editProfile.changePasswordBtn')}</Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" className="w-full gap-2">
+                <SoonButton variant="destructive" className="w-full gap-2">
                   <Trash2 className="w-4 h-4" /> {t('editProfile.deleteAccountBtn')}
-                </Button>
+                </SoonButton>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>

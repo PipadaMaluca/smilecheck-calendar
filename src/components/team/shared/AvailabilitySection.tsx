@@ -1,4 +1,5 @@
 import { X as XIcon } from 'lucide-react';
+import { SoonButton } from '@/components/ui/soon-button';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -167,9 +168,9 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
             <span>25 Dez 2026 — {t('team.unavailable')}</span>
             <Badge variant="outline" className="text-2xs bg-destructive/10 text-destructive border-destructive/30"><XIcon className="w-3 h-3" aria-label={t('team.unavailable')} /></Badge>
           </div>
-          <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
+          <SoonButton variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
             <Plus className="w-3 h-3" />{t('team.addException')}
-          </Button>
+          </SoonButton>
         </CardContent>
       </Card>
 
@@ -185,21 +186,21 @@ export function AvailabilitySection({ dentistName, showSaveButton = true }: Avai
               15 Jul — 31 Jul 2026 (17 {t('points.days')})
             </span>
             <div className="flex gap-1">
-              <Button variant="ghost" size="sm" className="h-7 text-xs">{t('common.edit')}</Button>
-              <Button aria-label={t('a11y.remove')} variant="ghost" size="sm" className="h-7 text-xs text-destructive"><Trash2 className="w-3 h-3" /></Button>
+              <SoonButton variant="ghost" size="sm" className="h-7 text-xs">{t('common.edit')}</SoonButton>
+              <SoonButton aria-label={t('a11y.remove')} variant="ghost" size="sm" className="h-7 text-xs text-destructive"><Trash2 className="w-3 h-3" /></SoonButton>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">{t('team.autoReschedule')}</p>
-          <Button variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
+          <SoonButton variant="outline" size="sm" className="gap-1 w-full sm:w-auto">
             <Plus className="w-3 h-3" />{t('team.addVacation')}
-          </Button>
+          </SoonButton>
         </CardContent>
       </Card>
 
       {showSaveButton && (
-        <Button className="gap-2 w-full sm:w-auto">
+        <SoonButton className="gap-2 w-full sm:w-auto">
           <Save className="w-4 h-4" />{t('team.save')}
-        </Button>
+        </SoonButton>
       )}
     </div>
   );
