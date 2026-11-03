@@ -46,7 +46,7 @@ export function AccountDataSection() {
     setBusy(true);
     const { data, error } = await supabase.functions.invoke('delete-account', { body: { confirm: word } });
     setBusy(false);
-    if (error || !data?.ok) { toast.error(t('account.deleteError')); return; }
+    if (error || !data?.ok) { toast.error(t('account.deleteError'), { duration: 10000 }); setStep(0); return; }
     toast.success(t('account.deleted'));
     await signOut();
     window.location.href = '/';
