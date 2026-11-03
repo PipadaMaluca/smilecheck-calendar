@@ -26,6 +26,7 @@ import Privacidade from "./pages/Privacidade";
 import Acessibilidade from "./pages/Acessibilidade";
 import TermosProfissionais from "./pages/TermosProfissionais";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
+import { TermsGate } from "@/components/legal/TermsGate";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
@@ -48,6 +49,7 @@ const App = () => (
         <AuthProvider>
           <DemoModeBadge />
           <ConsentBanner />
+          <TermsGate />
           <AnimatedRoutes>
           <Routes>
             <Route path="/login" element={<LoginScreen />} />

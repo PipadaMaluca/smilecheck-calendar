@@ -33,76 +33,6 @@ const clinicRankings = {
   national: { position: 3, total: 85, trend: 'up' as const, change: 1 },
 };
 
-// Top 10 per ranking view
-const leaderboards: Record<string, { position: number; name: string; xp: number; isCurrentUser: boolean }[]> = {
-  global: [
-    { position: 1, name: 'Dr. Ricardo Mendes', xp: 15200, isCurrentUser: false },
-    { position: 2, name: 'Dra. Ana Ferreira', xp: 14800, isCurrentUser: false },
-    { position: 3, name: 'Dr. Manuel Costa', xp: 14100, isCurrentUser: false },
-    { position: 4, name: 'Dra. Sofia Lopes', xp: 13500, isCurrentUser: false },
-    { position: 5, name: 'Dr. Carlos Santos', xp: 12900, isCurrentUser: false },
-    { position: 6, name: 'Dra. Catarina Reis', xp: 12400, isCurrentUser: false },
-    { position: 7, name: 'Dr. André Gomes', xp: 11800, isCurrentUser: false },
-    { position: 8, name: 'Dra. Helena Nunes', xp: 11200, isCurrentUser: false },
-    { position: 9, name: 'Dr. Tiago Moreira', xp: 10600, isCurrentUser: false },
-    { position: 10, name: 'Dra. Beatriz Nunes', xp: 10100, isCurrentUser: false },
-  ],
-  national: [
-    { position: 1, name: 'Dr. Ricardo Mendes', xp: 9850, isCurrentUser: false },
-    { position: 2, name: 'Dra. Ana Ferreira', xp: 9420, isCurrentUser: false },
-    { position: 3, name: 'Dr. Manuel Costa', xp: 9100, isCurrentUser: false },
-    { position: 4, name: 'Dra. Sofia Lopes', xp: 8750, isCurrentUser: false },
-    { position: 5, name: 'Dr. Carlos Santos', xp: 8500, isCurrentUser: false },
-    { position: 6, name: 'Dra. Catarina Reis', xp: 8200, isCurrentUser: false },
-    { position: 7, name: 'Dr. André Gomes', xp: 7950, isCurrentUser: false },
-    { position: 8, name: mockDentists[0].name, xp: 7800, isCurrentUser: true },
-    { position: 9, name: 'Dra. Helena Nunes', xp: 7650, isCurrentUser: false },
-    { position: 10, name: 'Dr. Tiago Moreira', xp: 7400, isCurrentUser: false },
-  ],
-  'clinic-smilecheck': [
-    { position: 1, name: mockDentists[0].name, xp: 7800, isCurrentUser: true },
-    { position: 2, name: 'Dr. Alexandre Bernardo', xp: 6200, isCurrentUser: false },
-    { position: 3, name: 'Dr. Gil Santos', xp: 5900, isCurrentUser: false },
-  ],
-  'clinic-mitry': [
-    { position: 1, name: 'Dr. Pierre Dupont', xp: 8100, isCurrentUser: false },
-    { position: 2, name: mockDentists[0].name, xp: 7800, isCurrentUser: true },
-    { position: 3, name: 'Dra. Marie Laurent', xp: 6500, isCurrentUser: false },
-  ],
-  'clinic-montfermeil': [
-    { position: 1, name: mockDentists[0].name, xp: 7800, isCurrentUser: true },
-    { position: 2, name: 'Dr. Jean Martin', xp: 5400, isCurrentUser: false },
-    { position: 3, name: 'Dra. Claire Moreau', xp: 4900, isCurrentUser: false },
-  ],
-};
-
-const clinicLeaderboards: Record<string, { position: number; name: string; xp: number; isCurrentUser: boolean }[]> = {
-  global: [
-    { position: 1, name: 'Clínica DentPro', xp: 12500, isCurrentUser: false },
-    { position: 2, name: 'Clínica OralCare', xp: 11800, isCurrentUser: false },
-    { position: 3, name: mockClinics[0].name, xp: 11200, isCurrentUser: true },
-    { position: 4, name: 'Clínica SorrirMais', xp: 10900, isCurrentUser: false },
-    { position: 5, name: 'Clínica DentaVida', xp: 10500, isCurrentUser: false },
-    { position: 6, name: 'Clínica SaúdOral', xp: 10100, isCurrentUser: false },
-    { position: 7, name: 'Clínica DentExpress', xp: 9800, isCurrentUser: false },
-    { position: 8, name: 'Clínica SmilePlus', xp: 9500, isCurrentUser: false },
-    { position: 9, name: 'Clínica OralTop', xp: 9200, isCurrentUser: false },
-    { position: 10, name: 'Clínica DentCare', xp: 8900, isCurrentUser: false },
-  ],
-  national: [
-    { position: 1, name: 'Clínica DentPro', xp: 12500, isCurrentUser: false },
-    { position: 2, name: 'Clínica OralCare', xp: 11800, isCurrentUser: false },
-    { position: 3, name: mockClinics[0].name, xp: 11200, isCurrentUser: true },
-    { position: 4, name: 'Clínica SorrirMais', xp: 10900, isCurrentUser: false },
-    { position: 5, name: 'Clínica DentaVida', xp: 10500, isCurrentUser: false },
-    { position: 6, name: 'Clínica SaúdOral', xp: 10100, isCurrentUser: false },
-    { position: 7, name: 'Clínica DentExpress', xp: 9800, isCurrentUser: false },
-    { position: 8, name: 'Clínica SmilePlus', xp: 9500, isCurrentUser: false },
-    { position: 9, name: 'Clínica OralTop', xp: 9200, isCurrentUser: false },
-    { position: 10, name: 'Clínica DentCare', xp: 8900, isCurrentUser: false },
-  ],
-};
-
 function TrendIcon({ trend, change }: { trend: 'up' | 'down' | 'same'; change: number }) {
   if (trend === 'up') return (
     <span className="flex items-center gap-1 text-success text-xs font-medium">
@@ -147,14 +77,9 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
     });
   }
 
-  // Get leaderboard for selected view
-  const allLeaderboards = isClinic ? clinicLeaderboards : leaderboards;
-  const currentLeaderboard = allLeaderboards[selectedView] || allLeaderboards['national'];
-  
-  // Check if current user is in top 10
-  const userInTop10 = currentLeaderboard.some(e => e.isCurrentUser);
+  // Rankings stay private: each professional sees only their own position and score, never other names.
   const currentUserXP = 7800;
-  const currentUserGlobalPos = isClinic ? 15 : 42;
+  const selectedCard = cards.find(c => c.id === selectedView) ?? cards[1];
 
   const content = (
     <div className={cn(inline ? 'space-y-6' : 'p-4 md:p-6 max-w-4xl mx-auto space-y-6 pb-32')}>
@@ -236,88 +161,27 @@ export function RankingsView({ userRole, inline }: RankingsViewProps) {
 
       <Separator />
 
-      {/* Leaderboard */}
+      {/* Own position only */}
       <div>
-        <h2 className="text-base font-semibold text-foreground mb-4">
-          {cards.find(c => c.id === selectedView)?.title || t('sweep.rankings.national')}
-        </h2>
+        <h2 className="text-base font-semibold text-foreground mb-4">{selectedCard.title}</h2>
         <Card className="bg-card/80 backdrop-blur border-border">
           <CardContent className="p-0">
-            {currentLeaderboard.map((entry, i) => (
-              <div
-                key={entry.position}
-                className={cn(
-                  'flex items-center gap-3 px-4 py-3 transition-colors',
-                  i < currentLeaderboard.length - 1 && 'border-b border-border',
-                  entry.isCurrentUser && 'bg-primary/10'
-                )}
-              >
-                <MedalEmoji position={entry.position} />
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  {isClinic ? (
-                    <Building2 className="w-4 h-4 text-primary" />
-                  ) : (
-                    <User className="w-4 h-4 text-primary" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className={cn('text-sm truncate', entry.isCurrentUser ? 'font-bold text-primary' : 'text-foreground')}>
-                    {/* Other professionals stay anonymous: rankings are visible only to each professional (pending the Ordem's opinion). */}
-                    {entry.isCurrentUser ? entry.name : t('rankings.anonymousPeer')}
-                    {entry.isCurrentUser && <span className="text-xs ml-1">{t('sweep.rankings.you')}</span>}
-                  </p>
-                </div>
-                <span className="text-sm font-medium text-muted-foreground">
-                  {formatNumber(entry.xp)} XP
-                </span>
+            <div className="flex items-center gap-3 px-4 py-3 bg-primary/10">
+              <MedalEmoji position={selectedCard.position} />
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                {isClinic ? <Building2 className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-primary" />}
               </div>
-            ))}
-
-            {/* Show current user below top 10 if not in it */}
-            {!userInTop10 && selectedView !== 'global' && (
-              <>
-                <div className="flex items-center justify-center py-2 border-b border-border">
-                  <span className="text-xs text-muted-foreground">• • •</span>
-                </div>
-                <div className="flex items-center gap-3 px-4 py-3 bg-primary/10">
-                  <span className="text-sm font-bold text-muted-foreground w-6 text-center">#{currentUserGlobalPos}</span>
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    {isClinic ? <Building2 className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-primary" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-primary truncate">
-                      {mockDentists[0].name} <span className="text-xs">{t('sweep.rankings.you')}</span>
-                    </p>
-                  </div>
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {formatNumber(currentUserXP)} XP
-                  </span>
-                </div>
-              </>
-            )}
-            {!userInTop10 && selectedView === 'global' && (
-              <>
-                <div className="flex items-center justify-center py-2 border-b border-border">
-                  <span className="text-xs text-muted-foreground">• • •</span>
-                </div>
-                <div className="flex items-center gap-3 px-4 py-3 bg-primary/10">
-                  <span className="text-sm font-bold text-muted-foreground w-6 text-center">#{currentUserGlobalPos}</span>
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    {isClinic ? <Building2 className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-primary" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-primary truncate">
-                      {isClinic ? mockClinics[0].name : mockDentists[0].name} <span className="text-xs">{t('sweep.rankings.you')}</span>
-                    </p>
-                  </div>
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {formatNumber(currentUserXP)} XP
-                  </span>
-                </div>
-              </>
-            )}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-primary truncate">
+                  {isClinic ? mockClinics[0].name : mockDentists[0].name} <span className="text-xs">{t('sweep.rankings.you')}</span>
+                </p>
+                <p className="text-2xs text-muted-foreground">{t('sweep.rankings.of', { total: formatNumber(selectedCard.total) })}</p>
+              </div>
+              <span className="text-sm font-medium text-muted-foreground">{formatNumber(currentUserXP)} XP</span>
+            </div>
           </CardContent>
         </Card>
+        <p className="text-xs text-muted-foreground mt-3">{t('rankings.privateNote')}</p>
       </div>
     </div>
   );

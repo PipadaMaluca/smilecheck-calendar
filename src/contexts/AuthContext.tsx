@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import type { UserRole } from '@/types/calendar';
+import { TERMS_VERSION } from '@/lib/support';
 
 const DEMO_KEY = 'sc:demo-role';
 
@@ -16,6 +17,7 @@ export interface AuthProfile {
   language: string;
   plan?: 'free' | 'pro' | 'premium';
   referral_code?: string | null;
+  terms_version?: string | null;
 }
 
 interface AuthContextValue {
@@ -30,9 +32,21 @@ interface AuthContextValue {
   enterDemo: (role: UserRole) => void;
   exitDemo: () => void;
   signOut: () => Promise<void>;
+  /** True when a signed-in, non-demo user still has to accept the current terms. */
+  needsTermsAcceptance: boolean;
+  acceptTerms: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+// Referral code typed at sign-up is registered server-side once the account has accepted the terms.
+function registerPendingReferral() {
+  const pendingCode = localStorage.getItem(PENDING_REFERRAL_KEY);
+  if (!pendingCode) return;
+  void supabase.rpc('register_referral', { _code: pendingCode }).then(({ error }) => {
+    if (!error) localStorage.removeItem(PENDING_REFERRAL_KEY);
+  });
+}
 
 function readDemoRole(): UserRole | null {
   if (typeof localStorage === 'undefined') return null;
@@ -68,21 +82,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     supabase
       .from('profiles')
-      .select('id, role, full_name, email, avatar_url, language, plan, referral_code')
+      .select('id, role, full_name, email, avatar_url, language, plan, referral_code, terms_version')
       .eq('id', userId)
       .maybeSingle()
       .then(({ data }) => {
-        if (!cancelled && data) setProfile(data as AuthProfile);
+        if (!cancelled && data) {
+          setProfile(data as AuthProfile);
+          if (data.terms_version === TERMS_VERSION) registerPendingReferral();
+        }
       });
-    // Referral code typed at sign-up is registered server-side once the account has a session.
-    const pendingCode = localStorage.getItem(PENDING_REFERRAL_KEY);
-    if (pendingCode) {
-      void supabase.rpc('register_referral', { _code: pendingCode }).then(() => localStorage.removeItem(PENDING_REFERRAL_KEY));
-    }
     return () => {
       cancelled = true;
     };
   }, [session?.user?.id]);
+
+  const acceptTerms = useCallback(async () => {
+    const { error } = await supabase.rpc('accept_terms', { _version: TERMS_VERSION });
+    if (error) return false;
+    setProfile((p) => (p ? { ...p, terms_version: TERMS_VERSION } : p));
+    registerPendingReferral();
+    return true;
+  }, []);
 
   const enterDemo = useCallback((role: UserRole) => {
     localStorage.setItem(DEMO_KEY, role);
@@ -115,8 +135,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       enterDemo,
       exitDemo,
       signOut,
+      needsTermsAcceptance: Boolean(session && profile && demoRole === null && profile.terms_version !== TERMS_VERSION),
+      acceptTerms,
     }),
-    [session, profile, demoRole, loading, enterDemo, exitDemo, signOut]
+    [session, profile, demoRole, loading, enterDemo, exitDemo, signOut, acceptTerms]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
