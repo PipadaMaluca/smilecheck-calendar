@@ -75,9 +75,9 @@ export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
               <p className="text-2xl font-bold text-primary">{formatNumber(data.xp)} XP</p>
               <p className="text-xs text-muted-foreground mt-1">
                 <span className="font-semibold text-primary">×{formatDecimal1(multiplier)} {t('level.multiplier')}</span>
-                {' · '}
+                {boost > 0 && <>{' · '}
                 <span>
-<Glyph emoji="⚡" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('level.visibility')}: +{boost}%</span>
+<Glyph emoji="⚡" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('level.visibility')}: +{boost}%</span></>}
               </p>
             </div>
           </div>

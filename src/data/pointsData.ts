@@ -85,7 +85,7 @@ export const LEVEL_UNLOCKS: Record<UserRole, Record<string, LevelUnlock[]>> = {
     lata:       [{ key: 'basicProfile' }, { key: 'badges2', badgeSlots: 2 }, { key: 'clinicRanking' }],
     bronze:     [{ key: 'badges3', badgeSlots: 3 }, { key: 'nationalRankingView' }],
     prata:      [{ key: 'badges4', badgeSlots: 4 }, { key: 'nationalRankingPosition' }, { key: 'basicStats' }],
-    ouro:       [{ key: 'badges6', badgeSlots: 6 }, { key: 'sealRecommended' }, { key: 'searchHighlight' }],
+    ouro:       [{ key: 'badges6', badgeSlots: 6 }, { key: 'sealRecommended' }],
     platina:    [{ key: 'badges8', badgeSlots: 8 }, { key: 'sealTop' }, { key: 'searchPriority' }, { key: 'advancedStats' }],
     diamante:   [{ key: 'badgesUnlimited' }, { key: 'sealDiamond' }, { key: 'premiumHighlight' }, { key: 'earlyAccess' }],
     adamantino: [{ key: 'animatedSeal' }, { key: 'goldenFrame' }, { key: 'vipSupport' }, { key: 'betaInvites' }],
@@ -94,7 +94,7 @@ export const LEVEL_UNLOCKS: Record<UserRole, Record<string, LevelUnlock[]>> = {
     lata:       [{ key: 'basicProfile' }, { key: 'badges2', badgeSlots: 2 }, { key: 'basicTeam' }],
     bronze:     [{ key: 'badges3', badgeSlots: 3 }, { key: 'basicStats' }],
     prata:      [{ key: 'badges4', badgeSlots: 4 }, { key: 'anonComparison' }, { key: 'monthlyReports' }],
-    ouro:       [{ key: 'badges6', badgeSlots: 6 }, { key: 'sealRecommended' }, { key: 'searchHighlight' }],
+    ouro:       [{ key: 'badges6', badgeSlots: 6 }, { key: 'sealRecommended' }],
     platina:    [{ key: 'badges8', badgeSlots: 8 }, { key: 'sealTop' }, { key: 'advancedReports' }, { key: 'maxSearchPriority' }],
     diamante:   [{ key: 'badgesUnlimited' }, { key: 'sealDiamond' }, { key: 'premiumHighlight' }, { key: 'advancedAnalytics' }],
     adamantino: [{ key: 'animatedSeal' }, { key: 'goldenFrame' }, { key: 'vipSupport' }, { key: 'consultancyBadge' }],
@@ -103,13 +103,9 @@ export const LEVEL_UNLOCKS: Record<UserRole, Record<string, LevelUnlock[]>> = {
 
 // ===== PRIORITY × SUBSCRIPTION PLAN =====
 /** Boost percentage used for search ranking. */
-export function getVisibilityBoost(levelKey: string, plan: 'free' | 'pro' | 'premium'): number {
-  const isLow = levelKey === 'lata' || levelKey === 'bronze' || levelKey === 'prata';
-  const isMid = levelKey === 'ouro' || levelKey === 'platina';
-  // high = diamante / adamantino
-  if (isLow) return plan === 'premium' ? 20 : plan === 'pro' ? 10 : 0;
-  if (isMid) return plan === 'premium' ? 40 : plan === 'pro' ? 20 : 5;
-  return plan === 'premium' ? 60 : plan === 'pro' ? 35 : 15;
+/** Search visibility never depends on level or plan (no paid highlight, P2B neutrality). Always 0. */
+export function getVisibilityBoost(_levelKey: string, _plan: 'free' | 'pro' | 'premium'): number {
+  return 0;
 }
 
 // Map from level key to translation key
