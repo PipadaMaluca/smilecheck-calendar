@@ -374,7 +374,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     const color = CATEGORY_COLORS[category]?.hex || '#2196F3';
     return (
       <span
-        className={cn('inline-flex items-center justify-center shrink-0 whitespace-nowrap rounded-md font-semibold leading-tight px-2 py-1 min-h-6', size === 'sm' ? 'text-2xs' : 'text-xs')}
+        className={cn(PILL_CLASS, size === 'sm' ? 'text-2xs' : 'text-xs')}
         style={getCategoryBadgeStyle(color)}
       >
         {getCategoryLabel(t, category)}
