@@ -69,6 +69,9 @@ Deno.serve(async (req) => {
     // A user can only buy plans of their own role (patient/dentist/clinic).
     const { data: profile } = await admin.from("profiles").select("role").eq("id", user.id).maybeSingle();
     if (!profile || !priceId.startsWith(`${profile.role}_`)) return json({ error: "Plan not available for this role" }, 403);
+    // Current terms must be accepted before any purchase (server-enforced).
+    const { data: termsOk } = await admin.rpc("has_accepted_terms", { _uid: user.id });
+    if (termsOk !== true) return json({ error: "terms_not_accepted" }, 403);
     const isConsumer = profile.role === "patient";
     if (isConsumer && parsed.data.withdrawalWaiver !== true) return json({ error: "withdrawal_waiver_required" }, 400);
     const waiverAt = isConsumer ? new Date().toISOString() : "";
