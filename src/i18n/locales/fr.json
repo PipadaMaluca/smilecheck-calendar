@@ -3848,7 +3848,7 @@
     "typeLabel": "Saisissez {{word}}",
     "deleteForever": "Supprimer le compte",
     "deleted": "Votre compte a été supprimé.",
-    "deleteError": "Impossible de supprimer le compte. Réessayez ou contactez le support."
+    "deleteError": "Impossible de résilier votre abonnement, nous n'avons donc rien supprimé. Nous réessaierons automatiquement et le support a été prévenu."
   },
   "permissions": {
     "title": "Permissions",
@@ -5355,6 +5355,15 @@
     "withdrawalTermsLink": "Voir les conditions"
   },
   "rankings": {
-    "anonymousPeer": "Professionnel"
+    "anonymousPeer": "Professionnel",
+    "privateNote": "Les classements sont privés : vous ne voyez que votre position. Les patients et les autres professionnels ne les voient pas."
+  },
+  "termsGate": {
+    "title": "Conditions mises à jour",
+    "body": "Pour continuer à utiliser SmileCheck, veuillez lire et accepter la version actuelle des conditions et de la politique de confidentialité.",
+    "checkbox": "J'ai lu et j'accepte les conditions et la politique de confidentialité.",
+    "accept": "Accepter et continuer",
+    "signOut": "Se déconnecter",
+    "error": "Impossible d'enregistrer votre acceptation. Réessayez."
   }
 }

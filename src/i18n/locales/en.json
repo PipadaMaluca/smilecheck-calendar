@@ -3864,7 +3864,7 @@
     "typeLabel": "Type {{word}}",
     "deleteForever": "Delete account",
     "deleted": "Your account has been deleted.",
-    "deleteError": "Couldn't delete your account. Try again or contact support."
+    "deleteError": "Couldn't cancel your subscription, so nothing was deleted. We'll retry automatically and support has been notified."
   },
   "permissions": {
     "title": "Permissions",
@@ -5355,6 +5355,15 @@
     "withdrawalTermsLink": "See terms"
   },
   "rankings": {
-    "anonymousPeer": "Professional"
+    "anonymousPeer": "Professional",
+    "privateNote": "Rankings are private: you only see your own position. Patients and other professionals cannot see them."
+  },
+  "termsGate": {
+    "title": "Updated terms",
+    "body": "To keep using SmileCheck, please read and accept the current terms and privacy policy.",
+    "checkbox": "I have read and accept the terms and privacy policy.",
+    "accept": "Accept and continue",
+    "signOut": "Sign out",
+    "error": "Couldn't save your acceptance. Please try again."
   }
 }
