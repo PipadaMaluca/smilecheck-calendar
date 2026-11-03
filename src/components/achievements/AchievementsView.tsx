@@ -1,4 +1,4 @@
-import { consumeDeepLink, revealElement } from '@/lib/deepLink';
+import { useDeepLink, revealElement } from '@/lib/deepLink';
 import { useEffect, useMemo, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
@@ -424,8 +424,9 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
 
   const simulatedLoading = useSimulatedLoading(1200, 'achievements');
   const isLoading = isDemo ? simulatedLoading : dbLoading;
-  const [focusKey] = useState(() => consumeDeepLink('conquistas')?.achievementKey ?? null);
-  useEffect(() => { if (focusKey && !isLoading) revealElement(`achievement-${focusKey}`); }, [focusKey, isLoading]);
+  const [focusKey, setFocusKey] = useState<string | null>(null);
+  useDeepLink('conquistas', (link) => setFocusKey(link.achievementKey ?? null));
+  useEffect(() => { if (focusKey && !isLoading) { revealElement(`achievement-${focusKey}`); setFocusKey(null); } }, [focusKey, isLoading]);
 
   const progressPercent = totalAchievements
     ? Math.round((unlockedAchievements / totalAchievements) * 100)

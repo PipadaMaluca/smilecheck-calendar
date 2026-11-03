@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 /**
  * One-shot "deep link" handed from a notification (or any shortcut) to the
  * screen it opens: e.g. Health › Prescriptions, a specific conversation, an
@@ -60,4 +61,26 @@ export function openChatWith(name: string) {
 /** Generic shell navigation from deep inside a screen. */
 export function navigateApp(tab: string) {
   window.dispatchEvent(new CustomEvent('smilecheck:navigate', { detail: tab }));
+}
+
+/**
+ * Run `handler` for deep links aimed at `tab`: once on mount and again when a
+ * new link arrives while the screen is already open.
+ */
+export function useDeepLink(tab: string, handler: (link: DeepLink) => void) {
+  const ref = useRef(handler);
+  ref.current = handler;
+  useEffect(() => {
+    const first = consumeDeepLink(tab);
+    if (first) ref.current(first);
+    const onLink = (e: Event) => {
+      if ((e as CustomEvent<DeepLink>).detail?.tab !== tab) return;
+      window.setTimeout(() => {
+        const link = consumeDeepLink(tab);
+        if (link) ref.current(link);
+      }, 50);
+    };
+    window.addEventListener('smilecheck:deeplink', onLink);
+    return () => window.removeEventListener('smilecheck:deeplink', onLink);
+  }, [tab]);
 }
