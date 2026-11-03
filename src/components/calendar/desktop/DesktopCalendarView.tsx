@@ -540,6 +540,7 @@ export function DesktopCalendarView() {
         setPendingOverlapMove(null);
         return;
       }
+      tab = 'consulta-detalhe';
     }
 
     // Map mobile tab names to desktop tab names
@@ -1078,7 +1079,7 @@ export function DesktopCalendarView() {
           <div className="flex-1 flex flex-col overflow-hidden">
             {renderStandardHeader(t('notifications.title'))}
             <div className="flex-1 overflow-y-auto p-4">
-              <NotificationsFullView inline onFeedbackAction={handleNotificationFeedback} />
+              <NotificationsFullView inline userRole={activeRole} onNavigate={handleNavTabChange} onFeedbackAction={handleNotificationFeedback} />
             </div>
           </div>);
 

@@ -276,9 +276,11 @@ export function ClinicCalendar() {
       const consultation = agendaConsultations.find(c => c.id === consultationId);
       if (consultation) {
         setSelectedConsultation(consultation);
+        return;
       }
-      return;
+      tab = 'agenda';
     }
+    if (tab === 'consulta-detalhe') tab = 'agenda';
     // Clear ALL overlay/sub-screen states so navigation is always direct
     setShowReferral(false);
     setShowSearch(false);
@@ -459,7 +461,7 @@ export function ClinicCalendar() {
       ) : activeTab === 'conquistas' ? (
         <div className="px-0"><AchievementsView userRole="clinic" /></div>
       ) : activeTab === 'notificacoes' ? (
-        <NotificationsFullView onBack={() => setActiveTab('home')} />
+        <NotificationsFullView userRole="clinic" onNavigate={handleTabChange} onBack={() => setActiveTab('home')} />
       ) : activeTab === 'plano' ? (
         <ManagePlanView userRole="clinic" />
       ) : activeTab === 'loja' ? (

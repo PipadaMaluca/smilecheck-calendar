@@ -115,7 +115,20 @@ export function PatientCalendar() {
     return () => window.removeEventListener('smilecheck:navigate', navHandler);
   }, []);
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (rawTab: string) => {
+    let tab = rawTab;
+    if (tab.startsWith('consulta-detalhe:')) {
+      const found = patientAgendaConsultations.find(c => c.id === tab.split(':')[1]);
+      if (found) {
+        setShowTriage(false); setShowProfile(false); setShowEditProfile(false); setShowInvite(false);
+        setViewDentistProfile(null); setViewClinicProfile(null); setShowFullHistory(false);
+        setSelectedConsultation(found);
+        setActiveTab('agenda');
+        return;
+      }
+      tab = 'consulta-detalhe';
+    }
+    if (tab === 'agenda') tab = 'consultas';
     // Card 1: open next consultation detail — navigate to consultas tab with pre-selection
     if (tab === 'consulta-detalhe') {
       const nextConsultation = [...patientAgendaConsultations]
@@ -275,7 +288,7 @@ export function PatientCalendar() {
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="patient" /></div>
         ) : activeTab === 'notificacoes' ? (
-          <NotificationsFullView onBack={() => handleTabChange('home')} />
+          <NotificationsFullView userRole="patient" onNavigate={handleTabChange} onBack={() => handleTabChange('home')} />
         ) : activeTab === 'plano' ? (
           <ManagePlanView userRole="patient" />
         ) : activeTab === 'loja' ? (

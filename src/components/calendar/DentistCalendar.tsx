@@ -334,8 +334,9 @@ export function DentistCalendar() {
       const consultation = agendaConsultations.find(c => c.id === consultationId);
       if (consultation) {
         setSelectedConsultation(consultation);
+        return;
       }
-      return;
+      tab = 'agenda';
     }
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
@@ -501,7 +502,7 @@ export function DentistCalendar() {
         ) : activeTab === 'conquistas' ? (
           <div className="px-0"><AchievementsView userRole="dentist" /></div>
         ) : activeTab === 'notificacoes' ? (
-          <NotificationsFullView onBack={() => setActiveTab('home')} />
+          <NotificationsFullView userRole="dentist" onNavigate={handleTabChange} onBack={() => setActiveTab('home')} />
         ) : activeTab === 'plano' ? (
           <ManagePlanView userRole="dentist" />
         ) : activeTab === 'loja' ? (
