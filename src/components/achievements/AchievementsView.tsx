@@ -1,3 +1,4 @@
+import { consumeDeepLink, revealElement } from '@/lib/deepLink';
 import { useMemo, useState } from 'react';
 import { CoachMark } from '@/components/onboarding/CoachMark';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
@@ -423,6 +424,8 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
 
   const simulatedLoading = useSimulatedLoading(1200, 'achievements');
   const isLoading = isDemo ? simulatedLoading : dbLoading;
+  const [focusKey] = useState(() => consumeDeepLink('conquistas')?.achievementKey ?? null);
+  useEffect(() => { if (focusKey && !isLoading) revealElement(`achievement-${focusKey}`); }, [focusKey, isLoading]);
 
   const progressPercent = totalAchievements
     ? Math.round((unlockedAchievements / totalAchievements) * 100)
@@ -469,13 +472,14 @@ export function AchievementsView({ userRole }: AchievementsViewProps) {
             )}
             <div className="grid gap-3 grid-cols-2 lg:grid-cols-3">
               {category.achievements.map(achievement => (
+                <div key={achievement.id} id={`achievement-${achievement.id}`} className="rounded-xl">
                 <AchievementCard
-                  key={achievement.id}
                   achievement={achievement}
                   isShowcased={showcasedIds.includes(achievement.id)}
                   onClickCompleted={showClickHandler && achievement.unlocked ? () => handleClickCompleted(achievement) : undefined}
                   onToggleShowcase={achievement.unlocked ? () => handleClickCompleted(achievement) : undefined}
                 />
+                </div>
               ))}
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { consumeDeepLink, revealElement } from '@/lib/deepLink';
 import type * as React from "react";
 import { formatDate } from '@/lib/formatters';
 import { useState, useEffect } from 'react';
@@ -50,6 +51,10 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   // Real reward comes from points_rules; while the server suspends the action, promise nothing.
   const suspended = SUSPENDED_ACTIONS.includes(REFERRAL_ACTION_KEY);
   const [rulePoints, setRulePoints] = useState<number | null>(null);
+  useEffect(() => {
+    if (consumeDeepLink('convidar')) revealElement('invite-history');
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     void supabase.from('points_rules').select('points').eq('role', role).eq('action_key', REFERRAL_ACTION_KEY).maybeSingle()
