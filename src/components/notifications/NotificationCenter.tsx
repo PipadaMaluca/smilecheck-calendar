@@ -8,6 +8,7 @@ import { mockScoreHistory } from '@/types/scoring';
 import { useTranslation } from 'react-i18next';
 
 import { useNotifications } from '@/data/notificationsSource';
+import { TYPE_TARGETS, appointmentTargetUrl, buildTargetUrl, resolveTargetUrl, prepareNavigation } from '@/lib/notificationTargets';
 import type { Notification, NotificationType } from '@/components/notifications/notificationTypes';
 
 export type { Notification, NotificationType };
@@ -41,8 +42,8 @@ import i18n from '@/i18n';
 const tn = (k: string, opts?: Record<string, unknown>) => i18n.t(`notifMock.${k}`, opts);
 
 const buildPatientNotifications = (): Notification[] => [
-  { id: 'p1', type: 'lembrete_24h', title: tn('p1Title'), description: tn('p1Desc'), time: tn('time5min'), read: false, actionLabel: i18n.t('swipeActions.confirm'), action: 'agenda' },
-  { id: 'p2', type: 'lembrete_1h', title: tn('p2Title'), description: tn('p2Desc'), time: tn('time30min'), read: false, action: 'agenda' },
+  { id: 'p1', type: 'lembrete_24h', title: tn('p1Title'), description: tn('p1Desc'), time: tn('time5min'), read: false, actionLabel: i18n.t('swipeActions.confirm'), action: appointmentTargetUrl(null) },
+  { id: 'p2', type: 'lembrete_1h', title: tn('p2Title'), description: tn('p2Desc'), time: tn('time30min'), read: false, action: appointmentTargetUrl(null) },
   ...mockScoreHistory
     .filter((s) => s.feedbackStatus === 'pending')
     .map((s, i) => ({
@@ -54,39 +55,39 @@ const buildPatientNotifications = (): Notification[] => [
       read: false,
       actionLabel: tn('fbAction') as string,
       linkedScoreId: s.id,
-      action: 'feedback',
+      action: TYPE_TARGETS.feedback,
     })),
-  { id: 'p3', type: 'mensagem', title: tn('p3Title'), description: tn('p3Desc'), time: tn('time15min'), read: false, action: 'conversas' },
-  { id: 'p4', type: 'pontos', title: tn('p4Title'), description: tn('p4Desc'), time: tn('time1h'), read: false },
-  { id: 'p5', type: 'consulta_alterada', title: tn('p5Title'), description: tn('p5Desc'), time: tn('time2h'), read: true, action: 'agenda' },
-  { id: 'p6', type: 'conquista', title: tn('p6Title'), description: tn('p6Desc'), time: tn('time3h'), read: true },
-  { id: 'p7', type: 'receita', title: tn('p7Title'), description: tn('p7Desc'), time: tn('time5h'), read: true, action: 'saude_receitas' },
-  { id: 'p8', type: 'referencia', title: tn('p8Title'), description: tn('p8Desc'), time: tn('yesterday'), read: true, action: 'saude_referencias' },
-  { id: 'p9', type: 'consulta_cancelada', title: tn('p9Title'), description: tn('p9Desc'), time: tn('yesterday'), read: true },
-  { id: 'p10', type: 'referral_usado', title: tn('p10Title'), description: tn('p10Desc'), time: tn('days2'), read: true },
-  { id: 'p11', type: 'mensagem', title: tn('p11Title'), description: tn('p11Desc'), time: tn('days2'), read: true, action: 'conversas' },
+  { id: 'p3', type: 'mensagem', title: tn('p3Title'), description: tn('p3Desc'), time: tn('time15min'), read: false, action: buildTargetUrl('conversas', { conversation: 'p1' }) },
+  { id: 'p4', type: 'pontos', title: tn('p4Title'), description: tn('p4Desc'), time: tn('time1h'), read: false, action: TYPE_TARGETS.pontos },
+  { id: 'p5', type: 'consulta_alterada', title: tn('p5Title'), description: tn('p5Desc'), time: tn('time2h'), read: true, action: appointmentTargetUrl(null) },
+  { id: 'p6', type: 'conquista', title: tn('p6Title'), description: tn('p6Desc'), time: tn('time3h'), read: true, action: buildTargetUrl('conquistas', { achievement: 'p6' }) },
+  { id: 'p7', type: 'receita', title: tn('p7Title'), description: tn('p7Desc'), time: tn('time5h'), read: true, action: TYPE_TARGETS.receita },
+  { id: 'p8', type: 'referencia', title: tn('p8Title'), description: tn('p8Desc'), time: tn('yesterday'), read: true, action: TYPE_TARGETS.referencia },
+  { id: 'p9', type: 'consulta_cancelada', title: tn('p9Title'), description: tn('p9Desc'), time: tn('yesterday'), read: true, action: appointmentTargetUrl(null) },
+  { id: 'p10', type: 'referral_usado', title: tn('p10Title'), description: tn('p10Desc'), time: tn('days2'), read: true, action: TYPE_TARGETS.referral_usado },
+  { id: 'p11', type: 'mensagem', title: tn('p11Title'), description: tn('p11Desc'), time: tn('days2'), read: true, action: buildTargetUrl('conversas', { conversation: 'p2' }) },
 ];
 
 const buildDentistNotifications = (): Notification[] => [
-  { id: 'd1', type: 'novo_agendamento', title: tn('d1Title'), description: tn('d1Desc'), time: tn('time10min'), read: false, action: 'agenda' },
-  { id: 'd2', type: 'paciente_confirmou', title: tn('d2Title'), description: tn('d2Desc'), time: tn('time20min'), read: false, action: 'agenda' },
-  { id: 'd3', type: 'paciente_cancelou', title: tn('d3Title'), description: tn('d3Desc'), time: tn('time1h'), read: false, action: 'agenda' },
-  { id: 'd4', type: 'sala_espera', title: tn('d4Title'), description: tn('d4Desc'), time: tn('time5min'), read: false, action: 'agenda' },
-  { id: 'd5', type: 'feedback_recebido', title: tn('d5Title'), description: tn('d5Desc'), time: tn('time2h'), read: false },
-  { id: 'd6', type: 'mensagem', title: tn('d6Title'), description: tn('d6Desc'), time: tn('time3h'), read: true, action: 'conversas' },
-  { id: 'd7', type: 'pontos', title: tn('d7Title'), description: tn('d7Desc'), time: tn('time5h'), read: true },
-  { id: 'd8', type: 'referral_usado', title: tn('d8Title'), description: tn('d8Desc'), time: tn('yesterday'), read: true },
-  { id: 'd9', type: 'referenciou_paciente', title: tn('d9Title'), description: tn('d9Desc'), time: tn('days2'), read: true },
+  { id: 'd1', type: 'novo_agendamento', title: tn('d1Title'), description: tn('d1Desc'), time: tn('time10min'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'd2', type: 'paciente_confirmou', title: tn('d2Title'), description: tn('d2Desc'), time: tn('time20min'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'd3', type: 'paciente_cancelou', title: tn('d3Title'), description: tn('d3Desc'), time: tn('time1h'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'd4', type: 'sala_espera', title: tn('d4Title'), description: tn('d4Desc'), time: tn('time5min'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'd5', type: 'feedback_recebido', title: tn('d5Title'), description: tn('d5Desc'), time: tn('time2h'), read: false, action: TYPE_TARGETS.feedback_recebido },
+  { id: 'd6', type: 'mensagem', title: tn('d6Title'), description: tn('d6Desc'), time: tn('time3h'), read: true, action: buildTargetUrl('conversas', { conversation: 'd1' }) },
+  { id: 'd7', type: 'pontos', title: tn('d7Title'), description: tn('d7Desc'), time: tn('time5h'), read: true, action: TYPE_TARGETS.pontos },
+  { id: 'd8', type: 'referral_usado', title: tn('d8Title'), description: tn('d8Desc'), time: tn('yesterday'), read: true, action: TYPE_TARGETS.referral_usado },
+  { id: 'd9', type: 'referenciou_paciente', title: tn('d9Title'), description: tn('d9Desc'), time: tn('days2'), read: true, action: TYPE_TARGETS.referenciou_paciente },
 ];
 
 const buildClinicNotifications = (): Notification[] => [
-  { id: 'c1', type: 'novo_agendamento', title: tn('c1Title'), description: tn('c1Desc'), time: tn('time10min'), read: false, action: 'agenda' },
-  { id: 'c2', type: 'paciente_confirmou', title: tn('c2Title'), description: tn('c2Desc'), time: tn('time30min'), read: false },
-  { id: 'c3', type: 'paciente_cancelou', title: tn('c3Title'), description: tn('c3Desc'), time: tn('time1h'), read: false },
-  { id: 'c4', type: 'resumo_diario', title: tn('c4Title'), description: tn('c4Desc'), time: tn('time2h'), read: false, actionLabel: tn('c4Action') as string, action: 'estatisticas' },
-  { id: 'c5', type: 'novo_dentista', title: tn('c5Title'), description: tn('c5Desc'), time: tn('time4h'), read: true },
-  { id: 'c6', type: 'mensagem', title: tn('c6Title'), description: tn('c6Desc'), time: tn('time5h'), read: true, action: 'conversas' },
-  { id: 'c7', type: 'referral_usado', title: tn('c7Title'), description: tn('c7Desc'), time: tn('yesterday'), read: true },
+  { id: 'c1', type: 'novo_agendamento', title: tn('c1Title'), description: tn('c1Desc'), time: tn('time10min'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'c2', type: 'paciente_confirmou', title: tn('c2Title'), description: tn('c2Desc'), time: tn('time30min'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'c3', type: 'paciente_cancelou', title: tn('c3Title'), description: tn('c3Desc'), time: tn('time1h'), read: false, action: appointmentTargetUrl(null) },
+  { id: 'c4', type: 'resumo_diario', title: tn('c4Title'), description: tn('c4Desc'), time: tn('time2h'), read: false, actionLabel: tn('c4Action') as string, action: TYPE_TARGETS.resumo_diario },
+  { id: 'c5', type: 'novo_dentista', title: tn('c5Title'), description: tn('c5Desc'), time: tn('time4h'), read: true, action: TYPE_TARGETS.novo_dentista },
+  { id: 'c6', type: 'mensagem', title: tn('c6Title'), description: tn('c6Desc'), time: tn('time5h'), read: true, action: buildTargetUrl('conversas', { conversation: 'c1' }) },
+  { id: 'c7', type: 'referral_usado', title: tn('c7Title'), description: tn('c7Desc'), time: tn('yesterday'), read: true, action: TYPE_TARGETS.referral_usado },
 ];
 
 const getNotificationsForRole = (role: UserRole): Notification[] => {
@@ -278,16 +279,12 @@ export function NotificationDropdown({ onViewAll, onClose, onFeedbackAction, onN
     e.stopPropagation();
     markRead(notification.id);
 
-    if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
+    if (notification.type === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
       onClose();
       return;
     }
-    if (notification.action && onNavigate) {
-      onNavigate(notification.action);
-      onClose();
-      return;
-    }
+    if (onNavigate) onNavigate(prepareNavigation(resolveTargetUrl(notification.type, notification.action), userRole));
     onClose();
   };
 
@@ -422,14 +419,12 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
   const filteredNotifications = useMemo(() => filterNotifications(notifications, activeFilter), [notifications, activeFilter]);
 
   const handleClick = (notification: Notification) => {
-    if (notification.action === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
+    markRead(notification.id);
+    if (notification.type === 'feedback' && notification.linkedScoreId && onFeedbackAction) {
       onFeedbackAction(notification.linkedScoreId);
       return;
     }
-    markRead(notification.id);
-    if (notification.action && onNavigate) {
-      onNavigate(notification.action);
-    }
+    if (onNavigate) onNavigate(prepareNavigation(resolveTargetUrl(notification.type, notification.action), userRole));
   };
 
 
@@ -477,6 +472,7 @@ export function NotificationsFullView({ onBack, inline, onFeedbackAction, onNavi
               role="button"
               tabIndex={0}
               onClick={() => handleClick(notification)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(notification); } }}
               className={cn(
                 'flex items-start gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors press',
                 'hover:bg-accent/40 active:bg-accent/60 press',
