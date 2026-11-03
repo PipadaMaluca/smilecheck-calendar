@@ -1,26 +1,18 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Sparkles, AlertTriangle, Stethoscope } from 'lucide-react';
+import { Sparkles, AlertTriangle, CalendarPlus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
 import { AiLabel, AiNotice } from '@/components/ai/AiNotice';
 import { TriageData } from '@/types/triage';
 
+/** General guidance only (not a medical device): no diagnosis, severity or treatment. */
 interface AiResult {
-  urgency: 'low' | 'moderate' | 'urgent';
-  specialty: string;
-  summary: string;
-  tips: string[];
-  seekEmergency: boolean;
+  symptomSummary: string;
+  generalTips: string[];
+  seekUrgentHelp: boolean;
 }
-
-const URGENCY_STYLE: Record<AiResult['urgency'], string> = {
-  low: 'bg-green-500/15 text-green-600 dark:text-green-400',
-  moderate: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
-  urgent: 'bg-destructive/15 text-destructive',
-};
 
 export function TriageAiAnalysisCard({ triageData, symptomLabels, durationLabel }: {
   triageData: TriageData;
@@ -85,31 +77,28 @@ export function TriageAiAnalysisCard({ triageData, symptomLabels, durationLabel 
 
       {result && (
         <>
-          <div className="flex flex-wrap items-center gap-2">
-            <span className={cn('text-xs font-semibold px-2 py-1 rounded-full', URGENCY_STYLE[result.urgency])}>
-              {t(`triage.ai.urgency.${result.urgency}`)}
-            </span>
-            {result.specialty && (
-              <span className="text-xs bg-primary/15 text-primary px-2 py-1 rounded-full inline-flex items-center gap-1">
-                <Stethoscope className="w-3 h-3" />{result.specialty}
-              </span>
-            )}
-          </div>
-          {result.seekEmergency && (
-            <div className="flex gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-              <span>{t('triage.ai.emergency')}</span>
+          {result.symptomSummary && (
+            <div>
+              <p className="text-xs text-muted-foreground mb-1">{t('triage.ai.summaryLabel')}</p>
+              <p className="text-sm text-foreground">{result.symptomSummary}</p>
             </div>
           )}
-          <p className="text-sm text-foreground">{result.summary}</p>
-          {result.tips.length > 0 && (
+          {result.generalTips.length > 0 && (
             <div>
               <p className="text-xs text-muted-foreground mb-1">{t('triage.ai.tips')}</p>
               <ul className="list-disc pl-5 space-y-1 text-sm text-foreground">
-                {result.tips.map((tip, i) => <li key={i}>{tip}</li>)}
+                {result.generalTips.map((tip, i) => <li key={i}>{tip}</li>)}
               </ul>
             </div>
           )}
+          <div className={result.seekUrgentHelp ? 'flex gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive' : 'flex gap-2 rounded-lg bg-muted p-3 text-sm text-foreground'}>
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden />
+            <span>{t(result.seekUrgentHelp ? 'triage.ai.emergency' : 'triage.ai.whenUrgent')}</span>
+          </div>
+          <p className="flex gap-2 text-sm text-foreground">
+            <CalendarPlus className="w-4 h-4 shrink-0 mt-0.5 text-primary" aria-hidden />
+            <span>{t('triage.ai.book')}</span>
+          </p>
           <p className="text-xs text-muted-foreground">{t('triage.ai.disclaimer')}</p>
         </>
       )}
