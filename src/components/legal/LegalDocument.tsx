@@ -9,21 +9,28 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { formatCurrency, formatDate } from '@/lib/formatters';
 import { TELECONSULT_PRICE } from '@/lib/planRules';
-import { ACCESSIBILITY_REVIEWED_AT, SUPPORT_EMAIL } from '@/lib/support';
+import { ACCESSIBILITY_REVIEWED_AT, COMPLAINTS_BOOK_URL, LEGAL_UPDATED_AT, SUPPORT_EMAIL } from '@/lib/support';
 
-const LAST_UPDATED = new Date(2026, 0, 1);
 
 interface Section { id: string; title: string; content: string }
 
+/** Turns https:// URLs inside legal text into links (e.g. the complaints book). */
+function linkify(text: string) {
+  return text.split(/(https:\/\/[^\s)]+)/g).map((part, i) =>
+    part.startsWith('https://')
+      ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-primary underline">{part}</a>
+      : part);
+}
+
 /** Terms / Privacy page. All text lives in i18n (legal.<doc>.sections) for PT, EN and FR. */
-export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibility' }) {
+export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibility' | 'proTerms' }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const watermarkSrc = useWatermarkSrc();
-  const titleKey = doc === 'terms' ? 'legal.termsTitle' : doc === 'privacy' ? 'legal.privacyTitle' : 'legal.accessibilityTitle';
-  const updated = doc === 'accessibility' ? ACCESSIBILITY_REVIEWED_AT : LAST_UPDATED;
+  const titleKey = doc === 'terms' ? 'legal.termsTitle' : doc === 'privacy' ? 'legal.privacyTitle' : doc === 'proTerms' ? 'legal.proTermsTitle' : 'legal.accessibilityTitle';
+  const updated = doc === 'accessibility' ? ACCESSIBILITY_REVIEWED_AT : LEGAL_UPDATED_AT;
   useDocumentTitle(titleKey);
-  const sections = t(`legal.${doc}.sections`, { returnObjects: true, price: formatCurrency(TELECONSULT_PRICE), email: SUPPORT_EMAIL, date: formatDate(ACCESSIBILITY_REVIEWED_AT) }) as Section[];
+  const sections = t(`legal.${doc}.sections`, { returnObjects: true, price: formatCurrency(TELECONSULT_PRICE), email: SUPPORT_EMAIL, complaintsUrl: COMPLAINTS_BOOK_URL, date: formatDate(ACCESSIBILITY_REVIEWED_AT) }) as Section[];
   const list = Array.isArray(sections) ? sections : [];
 
   const scrollToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -67,7 +74,7 @@ export function LegalDocument({ doc }: { doc: 'terms' | 'privacy' | 'accessibili
                 <AccordionItem key={section.id} value={section.id} id={section.id} className="bg-card/80 rounded-xl border border-border px-4">
                   <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-4">{section.title}</AccordionTrigger>
                   <AccordionContent className="pb-4">
-                    <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{section.content}</p>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{linkify(section.content)}</p>
                   </AccordionContent>
                 </AccordionItem>
               ))}
