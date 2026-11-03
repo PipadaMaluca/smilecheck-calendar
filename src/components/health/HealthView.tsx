@@ -3,6 +3,7 @@ import { consumeDeepLink, revealElement } from '@/lib/deepLink';
 import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { SoonButton } from '@/components/ui/soon-button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -412,16 +413,16 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                           <p className="text-xs text-muted-foreground">{doc.date}</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                      <SoonButton variant="ghost" size="sm" className="gap-1 text-xs">
                         <Eye className="w-3.5 h-3.5" /> {t('health.viewBtn')}
-                      </Button>
+                      </SoonButton>
                     </div>
                   ))}
                 </div>
               )}
-              <Button variant="outline" size="sm" className="w-full gap-1.5">
+              <SoonButton variant="outline" size="sm" className="w-full gap-1.5">
                 <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
-              </Button>
+              </SoonButton>
             </CardContent>
           </Card>
 
@@ -442,9 +443,9 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         <span className="text-xs text-muted-foreground">{rx.date}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">{rx.medications}</p>
-                      <Button variant="ghost" size="sm" className="gap-1 text-xs h-7 px-2 mt-1">
+                      <SoonButton variant="ghost" size="sm" className="gap-1 text-xs h-7 px-2 mt-1">
                         <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
-                      </Button>
+                      </SoonButton>
                     </div>
                   ))}
                 </div>
@@ -473,16 +474,16 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                         <p className="text-xs text-muted-foreground">{ref.reason}</p>
                         <p className="text-xs text-muted-foreground">{ref.date}</p>
                       </div>
-                      <Button variant="ghost" size="sm" className="gap-1 text-xs">
+                      <SoonButton variant="ghost" size="sm" className="gap-1 text-xs">
                         <Eye className="w-3.5 h-3.5" /> {t('health.viewPdf')}
-                      </Button>
+                      </SoonButton>
                     </div>
                   ))}
                 </div>
               )}
-              <Button variant="outline" size="sm" className="w-full gap-1.5">
+              <SoonButton variant="outline" size="sm" className="w-full gap-1.5">
                 <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
-              </Button>
+              </SoonButton>
             </CardContent>
           </Card>
         </div>
