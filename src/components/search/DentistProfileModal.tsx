@@ -10,7 +10,6 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { cn } from '@/lib/utils';
 import {
   DentistSearchResult,
-  LEVEL_CONFIG,
   getReviewsForDentist,
   getAvailabilityForDentist,
 } from '@/data/mockDentistSearch';

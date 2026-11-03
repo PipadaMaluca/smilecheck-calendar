@@ -5,14 +5,10 @@ import { onActivateKey } from '@/lib/a11y';
 import { formatCurrency } from '@/lib/formatters';
 import { Star, MapPin, Clock, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DentistSearchResult, LEVEL_CONFIG, getAvailabilityForDentist } from '@/data/mockDentistSearch';
+import { DentistSearchResult, getAvailabilityForDentist } from '@/data/mockDentistSearch';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
 import { useTranslation } from 'react-i18next';
-import { AvatarFrame } from '@/components/level/AvatarFrame';
-import { getVisibilityBoost } from '@/data/pointsData';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { LevelIcon } from '@/components/level/LevelIcon';
 
 interface DentistCardProps {
   dentist: DentistSearchResult;
