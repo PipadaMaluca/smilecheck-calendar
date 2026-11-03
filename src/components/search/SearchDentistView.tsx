@@ -46,7 +46,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [specialty, setSpecialty] = useState('Todas');
   const [distance, setDistance] = useState(0);
   const [availability, setAvailability] = useState('any');
-  const [sortBy, setSortBy] = useState('recommended');
+  const [sortBy, setSortBy] = useState('distance');
   const [selectedDentist, setSelectedDentist] = useState<DentistSearchResult | null>(null);
   const [acceptsNewPatients, setAcceptsNewPatients] = useState(false);
   const [chequeDentista, setChequeDentista] = useState(false);
@@ -88,19 +88,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     }
     if (chequeDentista) results = results.filter(d => d.clinics.some(c => chequesForClinic(c.id).dentista));
     if (chequeProtese) results = results.filter(d => d.clinics.some(c => chequesForClinic(c.id).protese));
-    // Recommended order = priority score (level + plan boost), then distance
-    results.sort((a, b) => {
-      const ba = 1 + getVisibilityBoost(a.level, a.plan) / 100;
-      const bb = 1 + getVisibilityBoost(b.level, b.plan) / 100;
-      // Higher boost first (use rating as base relevance proxy)
-      const sa = a.rating * ba;
-      const sb = b.rating * bb;
-      if (sb !== sa) return sb - sa;
-      return a.distance - b.distance;
-    });
-    if (sortBy === 'distance') results.sort((a, b) => a.distance - b.distance);
-    else if (sortBy === 'rating') results.sort((a, b) => b.rating - a.rating);
-    else if (sortBy === 'price') results.sort((a, b) => a.teleconsultaPrice - b.teleconsultaPrice);
+    // Neutral order only (P2B): distance, then price. Never by rating, level or plan; no paid highlight.
+    results.sort((a, b) => a.distance - b.distance);
+    if (sortBy === 'price') results.sort((a, b) => a.teleconsultaPrice - b.teleconsultaPrice || a.distance - b.distance);
     return results;
   }, [searchQuery, specialty, distance, sortBy, maxPrice, acceptsNewPatients, selectedLanguages, chequeDentista, chequeProtese]);
   // Cheque filters only make sense when the search covers clinics in Portugal.

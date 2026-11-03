@@ -270,10 +270,8 @@ export const AVAILABILITY_FILTERS: AvailabilityFilter[] = [
 ];
 
 export const SORT_OPTIONS = [
-  { label: 'Recomendados', value: 'recommended' },
-  { label: 'Distância', value: 'distance' },
-  { label: 'Rating', value: 'rating' },
-  { label: 'Preço', value: 'price' },
+  { labelKey: 'search.sort.distance', value: 'distance' },
+  { labelKey: 'search.sort.price', value: 'price' },
 ];
 
 export const LEVEL_CONFIG: Record<string, { labelKey: string; label: string; color: string; bg: string }> = {

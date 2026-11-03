@@ -29,7 +29,6 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
-  const levelCfg = LEVEL_CONFIG[dentist.level];
   const reviews = getReviewsForDentist(dentist.id);
   const availability = getAvailabilityForDentist(dentist.id);
 
@@ -60,9 +59,6 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
               <span className="text-sm font-semibold text-foreground">{dentist.rating}</span>
               <span className="text-xs text-muted-foreground">{t('sweep.dentistProfile.reviewsCount', { count: dentist.reviewCount })}</span>
             </div>
-            <span className={cn('text-xs font-semibold px-2 py-0.5 rounded border', levelCfg.bg, levelCfg.color)}>
-              {t(levelCfg.labelKey)}
-            </span>
           </div>
           {dentist.previousPatient && (
             <span className="inline-block mt-2 text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30">
