@@ -16,25 +16,34 @@ export type Database = {
     Tables: {
       account_deletion_requests: {
         Row: {
+          attempts: number
           completed_at: string | null
           detail: Json
           id: string
+          last_attempt_at: string | null
+          last_error: string | null
           profile_id: string
           requested_at: string
           status: string
         }
         Insert: {
+          attempts?: number
           completed_at?: string | null
           detail?: Json
           id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
           profile_id: string
           requested_at?: string
           status?: string
         }
         Update: {
+          attempts?: number
           completed_at?: string | null
           detail?: Json
           id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
           profile_id?: string
           requested_at?: string
           status?: string
@@ -1522,6 +1531,7 @@ export type Database = {
       }
     }
     Functions: {
+      accept_terms: { Args: { _version: string }; Returns: undefined }
       anonymize_account: { Args: { _uid: string }; Returns: Json }
       apply_points: {
         Args: {
@@ -1570,8 +1580,10 @@ export type Database = {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
+      current_terms_version: { Args: never; Returns: string }
       export_my_data: { Args: never; Returns: Json }
       generate_redemption_code: { Args: never; Returns: string }
+      has_accepted_terms: { Args: { _uid: string }; Returns: boolean }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_untrusted_caller: { Args: never; Returns: boolean }
       level_for_xp: {

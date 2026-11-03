@@ -85,6 +85,13 @@
       "when": 1793668709540,
       "tag": "0011_pedido7_compliance",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793671443050,
+      "tag": "0012_terms_enforcement_and_deletion_retry",
+      "breakpoints": true
     }
   ]
 }
