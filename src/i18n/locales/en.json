@@ -3864,7 +3864,7 @@
     "typeLabel": "Type {{word}}",
     "deleteForever": "Delete account",
     "deleted": "Your account has been deleted.",
-    "deleteError": "Couldn't cancel your subscription, so nothing was deleted. We'll retry automatically and support has been notified."
+    "deleteError": "We couldn't cancel your subscription right now. Your deletion request has been recorded and we'll retry automatically; you won't be charged in the meantime."
   },
   "permissions": {
     "title": "Permissions",

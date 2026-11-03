@@ -3864,7 +3864,7 @@
     "typeLabel": "Escreva {{word}}",
     "deleteForever": "Eliminar conta",
     "deleted": "A sua conta foi eliminada.",
-    "deleteError": "Não foi possível cancelar a sua subscrição, por isso não eliminámos nada. Vamos tentar de novo automaticamente e o suporte foi avisado."
+    "deleteError": "Não conseguimos cancelar a sua subscrição neste momento. O pedido de eliminação ficou registado e vamos tentar de novo automaticamente; não será cobrado entretanto."
   },
   "permissions": {
     "title": "Permissões",
