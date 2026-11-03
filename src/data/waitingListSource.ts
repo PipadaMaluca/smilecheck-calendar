@@ -119,7 +119,7 @@ export async function notifyWaitingEntry(entry: WaitingEntry, message: string): 
     type: 'waiting_list',
     title: 'Vaga disponível',
     message,
-    action_url: buildTargetUrl('pesquisa'),
+    action_url: buildTargetUrl('agenda'),
     read: false,
   });
 }
