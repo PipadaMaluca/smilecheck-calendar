@@ -226,7 +226,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
       </div>
 
       {/* History */}
-      <Card className="bg-card/80 backdrop-blur border-border">
+      <Card id="invite-history" className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2"><CardTitle size="compact">{t('invite.history')}</CardTitle></CardHeader>
         <CardContent className="space-y-0 divide-y divide-border px-3 md:px-6">
           {history.length === 0 && <p className="py-4 text-sm text-muted-foreground">{t('invite.noInvitesYet')}</p>}

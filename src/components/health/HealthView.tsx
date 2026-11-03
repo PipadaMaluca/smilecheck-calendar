@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { consumeDeepLink, revealElement } from '@/lib/deepLink';
 import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -108,6 +109,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const [newVaccineName, setNewVaccineName] = useState('');
   const [newVaccineDate, setNewVaccineDate] = useState('');
   const [docFilter, setDocFilter] = useState('todos');
+  useEffect(() => {
+    const link = consumeDeepLink('saude');
+    if (link?.section === 'receitas') revealElement('health-prescriptions');
+    if (link?.section === 'referencias') revealElement('health-referrals');
+  }, []);
 
   const data = healthData[selectedMemberId] || emptyHealthData();
 
@@ -420,7 +426,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           </Card>
 
           {/* ROW 4 LEFT: Receitas Médicas */}
-          <Card>
+          <Card id="health-prescriptions">
             <CardHeader className="pb-3">
               <CardTitle><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
             </CardHeader>
@@ -447,7 +453,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
           </Card>
 
           {/* ROW 4 RIGHT: Cartas de Referência */}
-          <Card>
+          <Card id="health-referrals">
             <CardHeader className="pb-3">
               <CardTitle><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
             </CardHeader>
