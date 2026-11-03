@@ -1,4 +1,5 @@
 import { formatCurrency } from '@/lib/formatters';
+import { SoonButton } from '@/components/ui/soon-button';
 import { useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { User, Phone, Mail, MapPin, MessageCircle, FileText, AlertTriangle, Pill, Camera, ChevronDown, ChevronUp, Upload, Eye, ArrowLeft, Video, Calendar as CalendarIcon, Check, SkipForward } from 'lucide-react';
@@ -163,18 +164,18 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('referencia')}>
                     <FileText className="w-3.5 h-3.5" /> {t('dossier.recommendPatient')}
                   </Button>
-                  <Button size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                  <SoonButton size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
                     <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.blockPatient')}
-                  </Button>
+                  </SoonButton>
                 </>
               ) : isClinic ? (
                 <>
                   <Button size="sm" variant="secondary" className="gap-1.5 w-full md:justify-start" onClick={() => onNavigate('conversas')}>
                     <MessageCircle className="w-3.5 h-3.5" /> {t('dossier.sendMessage')}
                   </Button>
-                  <Button size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
+                  <SoonButton size="sm" variant="outline" className="gap-1.5 w-full md:justify-start border-destructive/30 text-destructive hover:bg-destructive/10">
                     <AlertTriangle className="w-3.5 h-3.5" /> {t('dossier.blockPatient')}
-                  </Button>
+                  </SoonButton>
                 </>
               ) : null}
             </div>
@@ -567,7 +568,7 @@ export function PatientDossierView({ patientId, onClose, onNavigate, userRole }:
                 <Upload className="w-8 h-8 text-muted-foreground/30" />
                 <p className="text-sm text-muted-foreground">{t('dossier.dragOrClick')}</p>
               </div>
-              <Button className="w-full">{t('dossier.doUpload')}</Button>
+              <SoonButton className="w-full">{t('dossier.doUpload')}</SoonButton>
             </div>
           </div>
         </>

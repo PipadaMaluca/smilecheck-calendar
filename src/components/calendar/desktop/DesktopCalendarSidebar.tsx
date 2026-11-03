@@ -1,4 +1,6 @@
 import { getDateFnsLocale } from '@/lib/formatters';
+import { navigateApp } from '@/lib/deepLink';
+import { SoonButton } from '@/components/ui/soon-button';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronRight, Plus, ChevronLeft, Building2 } from 'lucide-react';
@@ -128,10 +130,10 @@ export function DesktopCalendarSidebar({
       <div className="contents transition-opacity duration-150 ease-in-out opacity-100">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
-        <Button className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
+        <SoonButton className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
           <Search className="w-4 h-4" />
           {t('sweep.calendarSidebar.findSlot')}
-        </Button>
+        </SoonButton>
       </div>
 
       {/* Mini Calendar */}
@@ -360,6 +362,7 @@ export function DesktopCalendarSidebar({
           variant="ghost"
           size="sm"
           className="w-full justify-start gap-1.5 text-primary text-xs mt-1 h-7 hover:bg-secondary"
+          onClick={() => navigateApp('equipa')}
         >
           <Plus className="w-3 h-3" />
           {t('sweep.calendarSidebar.add')}
