@@ -6,6 +6,7 @@ import { ArrowLeft, User, Stethoscope, Building2, Eye, EyeOff, Loader2, Mail, Ph
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { TERMS_VERSION } from '@/lib/support';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { AuthBackground } from './AuthBackground';
 import { PhoneInput } from './PhoneInput';
@@ -111,6 +112,9 @@ export function SignUpScreen() {
           rpps_number: orderNumber.trim() || null,
           clinic_name: clinicName.trim() || null,
           address: address.trim() || null,
+          // Stored server-side (profiles.terms_accepted_at = sign-up time) by the new-user trigger.
+          terms_accepted: acceptedTerms ? 'true' : 'false',
+          terms_version: TERMS_VERSION,
         },
       },
     });
@@ -408,7 +412,7 @@ export function SignUpScreen() {
               <label className="text-xs text-muted-foreground leading-relaxed">
                 {t('auth.termsAccept')}{' '}
                 <Link to="/termos" target="_blank" className="text-primary hover:underline">{t('auth.termsOfService')}</Link> {t('common.and')}{' '}
-                <Link to="/privacidade" target="_blank" className="text-primary hover:underline">{t('auth.privacyPolicy')}</Link>
+                <Link to="/privacidade" target="_blank" className="text-primary hover:underline">{t('auth.privacyPolicy')}</Link>{accountType !== 'paciente' && <>{', '}<Link to="/termos-profissionais" target="_blank" className="text-primary hover:underline">{t('legal.proTermsTitle')}</Link></>}
               </label>
             </div>
             {errors.terms && <p className="text-destructive text-xs">{errors.terms}</p>}
@@ -531,7 +535,7 @@ export function SignUpScreen() {
             <label className="text-xs text-muted-foreground leading-relaxed">
               {t('auth.termsAccept')}{' '}
               <Link to="/termos" target="_blank" className="text-primary hover:underline">{t('auth.termsOfService')}</Link> {t('common.and')}{' '}
-              <Link to="/privacidade" target="_blank" className="text-primary hover:underline">{t('auth.privacyPolicy')}</Link>
+              <Link to="/privacidade" target="_blank" className="text-primary hover:underline">{t('auth.privacyPolicy')}</Link>{accountType !== 'paciente' && <>{', '}<Link to="/termos-profissionais" target="_blank" className="text-primary hover:underline">{t('legal.proTermsTitle')}</Link></>}
             </label>
           </div>
           {errors.terms && <p className="text-destructive text-xs">{errors.terms}</p>}
