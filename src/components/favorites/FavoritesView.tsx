@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { MOCK_DENTIST_RESULTS, LEVEL_CONFIG, DentistSearchResult } from '@/data/mockDentistSearch';
+import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { mockClinics } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,8 +16,6 @@ import { getDentistInitials, getClinicInitials, DENTIST_AVATAR_PHOTOS } from '@/
 import { toast } from 'sonner';
 import { UserRole } from '@/types/calendar';
 import { JobMarketView } from '@/components/jobs/JobMarketView';
-import { MiniBadges, getShowcasedAchievements } from '@/components/achievements/MiniBadges';
-import { getAchievementCategories } from '@/components/achievements/AchievementsView';
 import { PatientsTab } from '@/components/search/PatientsTab';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
