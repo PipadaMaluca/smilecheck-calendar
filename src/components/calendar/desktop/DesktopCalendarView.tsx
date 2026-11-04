@@ -775,11 +775,11 @@ export function DesktopCalendarView() {
                   </div>
                   {/* One line always: short date on narrower screens ("seg., 2 nov."), long on wide ones. */}
                   <span className="text-base font-medium sentence-case text-foreground whitespace-nowrap">
-                    <span className="xl:hidden">{getHeaderDateLabel(true)}</span>
-                    <span className="hidden xl:inline">{getHeaderDateLabel()}</span>
+                    <span className="2xl:hidden">{getHeaderDateLabel(true)}</span>
+                    <span className="hidden 2xl:inline">{getHeaderDateLabel()}</span>
                   </span>
                 </div>
-                <div className="items-center gap-4 flex flex-row">
+                <div className="items-center gap-3 flex flex-row flex-1 min-w-0 justify-end mx-3">
                   {(activeRole === 'clinic' || activeRole === 'dentist') && (
                     <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
                   )}
@@ -800,14 +800,14 @@ export function DesktopCalendarView() {
                       aria-label={t('agenda.modifyAgenda')}
                     >
                       <CalendarClock className="w-4 h-4 flex-shrink-0" />
-                      <span className="hidden xl:inline">{t('agenda.modifyAgenda')}</span>
-                      <span className="hidden lg:inline xl:hidden">{t('agenda.modifyAgenda').split(' ')[0]}</span>
+                      <span className="hidden 2xl:inline">{t('agenda.modifyAgenda')}</span>
+                      <span className="hidden">{t('agenda.modifyAgenda').split(' ')[0]}</span>
                     </Button>
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
                   <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
-                  <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
+                  <UserAvatarDropdown compactText userRole={activeRole} onNavigate={handleNavTabChange} />
                 </div>
               </header>
               {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}

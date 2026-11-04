@@ -26,6 +26,8 @@ import { useAuth } from '@/contexts/AuthContext';
 interface UserAvatarDropdownProps {
   userRole: UserRole;
   onNavigate: (tab: string) => void;
+  /** Hide name/role text below 2xl (crowded headers such as the Agenda). */
+  compactText?: boolean;
 }
 
 function getUserInfo(userRole: UserRole, xp: number, t: (key: string) => string) {
@@ -40,7 +42,7 @@ function getUserInfo(userRole: UserRole, xp: number, t: (key: string) => string)
   }
 }
 
-export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownProps) {
+export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAvatarDropdownProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -76,7 +78,7 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
         className="flex items-center gap-3 p-1 hover:opacity-80 transition-opacity"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="text-right">
+        <div className={cn('text-right', compactText && 'hidden 2xl:block')}>
           <p className="text-base font-bold text-foreground">{userInfo.name}</p>
           <p className="text-sm text-muted-foreground">{userInfo.subtitle}</p>
         </div>
