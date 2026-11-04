@@ -1,6 +1,6 @@
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { openChatWith } from '@/lib/deepLink';
-import { formatCurrency } from '@/lib/formatters';
+import { formatCurrency, formatDecimal1 } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { isRealResult } from '@/data/searchSource';
