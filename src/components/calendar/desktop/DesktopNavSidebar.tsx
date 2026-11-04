@@ -92,7 +92,7 @@ export function DesktopNavSidebar({
   const navRef = useRef<HTMLElement>(null);
   const [btnSize, setBtnSize] = useState(88);
   const [navGap, setNavGap] = useState(6);
-  const NAV_PAD_Y = 16;
+  const NAV_PAD_Y = 8;
   useLayoutEffect(() => {
     const el = navRef.current;
     if (!el) return;
@@ -208,7 +208,7 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
-        isExpanded ? 'w-[113px]' : 'w-[65px]'
+        isExpanded ? 'w-[calc(var(--app-header-h)+1px)]' : 'w-[65px]'
       )}
     >
       {/* Logo with Pro seal overlaid bottom-right */}
@@ -234,7 +234,7 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Navigation */}
-      <nav ref={navRef} style={{ gap: navGap }} className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 overflow-y-auto">
+      <nav ref={navRef} style={{ gap: navGap }} className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-1 px-3 overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
