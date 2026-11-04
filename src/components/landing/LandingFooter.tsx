@@ -20,6 +20,7 @@ export function LandingFooter() {
 
   type InPageLink = { label: string; section: string; title: string; tab?: PricingTab };
   const productLinks: InPageLink[] = [
+    { label: t('landing.footer.home'), section: 'inicio', title: 'inicio' },
     { label: t('landing.footer.features'), section: 'funcionalidades', title: 'funcionalidades-title' },
     { label: t('landing.footer.plansAndPricing'), section: 'planos', title: 'planos-title' },
     { label: t('landing.footer.teleconsultations'), section: 'teleconsultas', title: 'teleconsultas-title' },
@@ -39,6 +40,7 @@ export function LandingFooter() {
         className={linkCls}
         onClick={(e) => {
           e.preventDefault();
+          if (l.section === 'inicio') { window.scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', '/'); return; }
           if (l.tab) selectPricingTab(l.tab);
           requestAnimationFrame(() => scrollToLandingSection(l.section, l.title));
         }}

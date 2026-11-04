@@ -19,7 +19,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-14 overflow-hidden bg-gradient-to-b from-background to-white dark:to-background">
+    <section id="inicio" className="relative flex flex-col items-center justify-start px-6 md:px-10 pt-10 pb-10 sm:pb-14 overflow-hidden bg-gradient-to-b from-background to-white dark:to-background">
       <div className="relative z-10 max-w-5xl mx-auto text-center">
         <AppIconTile />
 

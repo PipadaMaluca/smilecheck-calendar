@@ -443,6 +443,7 @@
       "noCommitment": "Sem compromisso. Grátis para sempre."
     },
     "footer": {
+      "home": "Início",
       "tagline": "A app que recompensa a sua saúde oral",
       "product": "Produto",
       "support": "Suporte",
@@ -467,6 +468,7 @@
       "complaintsBook": "Livro de Reclamações"
     },
     "navbar": {
+      "home": "Início",
       "features": "Funcionalidades",
       "plans": "Planos",
       "testimonials": "Testemunhos",
