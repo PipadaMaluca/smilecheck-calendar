@@ -605,7 +605,7 @@ export function DesktopCalendarView() {
   // Helper to render standard header (taller, aligned with logo block) for non-agenda screens
   const renderStandardHeader = (title: string) =>
   <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-      <span className="text-sm font-medium text-foreground">{title}</span>
+      <span className="text-base font-medium text-foreground">{title}</span>
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
         <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
@@ -743,7 +743,7 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="h-app-header bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row gap-0 px-7">
-              <span className="text-sm font-medium sentence-case text-foreground">
+              <span className="text-base font-medium sentence-case text-foreground">
                 {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
@@ -774,7 +774,7 @@ export function DesktopCalendarView() {
                     <Button aria-label={t('a11y.next')} variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
                   {/* One line always: short date on narrower screens ("seg., 2 nov."), long on wide ones. */}
-                  <span className="text-sm font-medium sentence-case text-foreground whitespace-nowrap">
+                  <span className="text-base font-medium sentence-case text-foreground whitespace-nowrap">
                     <span className="xl:hidden">{getHeaderDateLabel(true)}</span>
                     <span className="hidden xl:inline">{getHeaderDateLabel()}</span>
                   </span>
@@ -786,15 +786,15 @@ export function DesktopCalendarView() {
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
-                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
-                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
-                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
+                      <ToggleGroupItem value="list" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
                     </ToggleGroup>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-xs gap-2 text-muted-foreground flex-shrink-0"
+                      className="text-sm gap-2 text-muted-foreground flex-shrink-0"
                       onClick={() => setShowSettings(true)}
                       title={t('agenda.modifyAgenda')}
                       aria-label={t('agenda.modifyAgenda')}

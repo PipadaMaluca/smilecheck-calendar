@@ -77,8 +77,8 @@ export function UserAvatarDropdown({ userRole, onNavigate }: UserAvatarDropdownP
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="text-right">
-          <p className="text-sm font-bold text-foreground">{userInfo.name}</p>
-          <p className="text-xs text-muted-foreground">{userInfo.subtitle}</p>
+          <p className="text-base font-bold text-foreground">{userInfo.name}</p>
+          <p className="text-sm text-muted-foreground">{userInfo.subtitle}</p>
         </div>
         <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9 overflow-visible">
           <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
