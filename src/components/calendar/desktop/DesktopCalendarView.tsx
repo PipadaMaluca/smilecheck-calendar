@@ -605,7 +605,7 @@ export function DesktopCalendarView() {
   // Helper to render standard header (taller, aligned with logo block) for non-agenda screens
   const renderStandardHeader = (title: string) =>
   <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0">
-      <span className="text-sm font-medium text-foreground">{title}</span>
+      <span className="text-base font-medium text-foreground">{title}</span>
       <div className="flex items-center gap-2">
         <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
         <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
@@ -743,7 +743,7 @@ export function DesktopCalendarView() {
         return (
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="h-app-header bg-card/50 backdrop-blur border-b border-border items-center justify-between flex-shrink-0 flex flex-row gap-0 px-7">
-              <span className="text-sm font-medium sentence-case text-foreground">
+              <span className="text-base font-medium sentence-case text-foreground">
                 {selectedDate.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
               </span>
               <div id="onboarding-level-points" className="flex items-center gap-2.5 border-0">
@@ -763,7 +763,7 @@ export function DesktopCalendarView() {
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Same shared height as every header so the sidebar logo line aligns */}
               <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-1 pr-3.5 relative z-20">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-shrink-0">
                   <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
                   </Button>
@@ -774,40 +774,40 @@ export function DesktopCalendarView() {
                     <Button aria-label={t('a11y.next')} variant="ghost" size="icon" onClick={goToNext}><ChevronRight className="w-4 h-4" /></Button>
                   </div>
                   {/* One line always: short date on narrower screens ("seg., 2 nov."), long on wide ones. */}
-                  <span className="text-sm font-medium sentence-case text-foreground whitespace-nowrap">
-                    <span className="xl:hidden">{getHeaderDateLabel(true)}</span>
-                    <span className="hidden xl:inline">{getHeaderDateLabel()}</span>
+                  <span className="text-base font-medium sentence-case text-foreground whitespace-nowrap">
+                    <span className="2xl:hidden">{getHeaderDateLabel(true)}</span>
+                    <span className="hidden 2xl:inline">{getHeaderDateLabel()}</span>
                   </span>
                 </div>
-                <div className="items-center gap-4 flex flex-row">
+                <div className="items-center gap-2 2xl:gap-3 flex flex-row flex-1 min-w-0 justify-end mx-2">
                   {(activeRole === 'clinic' || activeRole === 'dentist') && (
                     <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
                   )}
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                      <ToggleGroupItem value="list" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
-                      <ToggleGroupItem value="day" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
-                      <ToggleGroupItem value="week" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
-                      <ToggleGroupItem value="month" className="px-3 py-1 text-xs data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
+                      <ToggleGroupItem value="list" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
                     </ToggleGroup>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-xs gap-2 text-muted-foreground flex-shrink-0"
+                      className="text-sm gap-2 text-muted-foreground flex-shrink-0"
                       onClick={() => setShowSettings(true)}
                       title={t('agenda.modifyAgenda')}
                       aria-label={t('agenda.modifyAgenda')}
                     >
                       <CalendarClock className="w-4 h-4 flex-shrink-0" />
-                      <span className="hidden xl:inline">{t('agenda.modifyAgenda')}</span>
-                      <span className="hidden lg:inline xl:hidden">{t('agenda.modifyAgenda').split(' ')[0]}</span>
+                      <span className="hidden 2xl:inline">{t('agenda.modifyAgenda')}</span>
+                      <span className="hidden">{t('agenda.modifyAgenda').split(' ')[0]}</span>
                     </Button>
                   </>}
                 </div>
                 <div className="flex items-center gap-2">
                   <NotificationBell onClick={() => setShowNotificationDropdown((prev) => !prev)} userRole={activeRole} />
-                  <UserAvatarDropdown userRole={activeRole} onNavigate={handleNavTabChange} />
+                  <UserAvatarDropdown compactText userRole={activeRole} onNavigate={handleNavTabChange} />
                 </div>
               </header>
               {(activeRole === 'clinic' || activeRole === 'dentist') && <CategoryLegend />}

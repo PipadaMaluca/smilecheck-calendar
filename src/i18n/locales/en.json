@@ -4407,7 +4407,8 @@
       "removedFavorite": "Removed from favorites",
       "addedFavorite": "Added to favorites",
       "blockDeleted": "Block deleted",
-      "consultationDetails": "Appointment details"
+      "consultationDetails": "Appointment details",
+      "pastSlot": "You cannot move to a past time"
     },
     "devices": {
       "title": "Connected devices",
@@ -5369,7 +5370,7 @@
     "error": "Couldn't save your acceptance. Please try again."
   },
   "navSidebar": {
-    "rewardsStore": "Rewards store",
+    "rewardsStore": "Store",
     "conversations": "Conver­sations",
     "achievements": "Achieve­ments",
     "statistics": "Statis­tics",

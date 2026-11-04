@@ -18,6 +18,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { useThreeDayDragMove } from './useThreeDayDragMove';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -60,6 +61,7 @@ const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOn
 
 export function DentistCalendar() {
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
+  const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
@@ -267,6 +269,7 @@ export function DentistCalendar() {
           selectedDate={selectedDate}
           getSlots={getSlots}
           onSlotClick={handleSlotClick}
+          onDragMove={threeDayDrag.onDragMove}
         />
       );
     }
@@ -383,6 +386,7 @@ export function DentistCalendar() {
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 relative overflow-x-hidden">
+      {threeDayDrag.modals}
       {/* Live preview style overrides driven by AgendaSettings */}
       <AgendaSettingsStyle />
       {/* Consultation Mode Top Bar */}

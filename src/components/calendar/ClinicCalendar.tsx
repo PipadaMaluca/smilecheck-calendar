@@ -14,6 +14,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { useThreeDayDragMove } from './useThreeDayDragMove';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -54,6 +55,7 @@ const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).m
 
 export function ClinicCalendar() {
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
+  const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
@@ -309,6 +311,7 @@ export function ClinicCalendar() {
       onOpenPatientProfile={(id) => setViewPatientDossier(id)}
     >
     <div className="min-h-screen bg-background pb-24 overflow-x-hidden relative max-w-[100vw]">
+      {threeDayDrag.modals}
       {/* Background Watermark Logo */}
       <div 
         className="fixed inset-0 pointer-events-none flex items-center justify-center opacity-[0.025] z-0"
@@ -384,6 +387,7 @@ export function ClinicCalendar() {
                 selectedDate={selectedDate}
                 getSlots={getSlots}
                 onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
+                onDragMove={threeDayDrag.onDragMove}
               />
             ) : viewMode === 'list' ? (
               <TimeSlotView 
