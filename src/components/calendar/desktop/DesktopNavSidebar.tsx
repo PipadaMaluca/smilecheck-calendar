@@ -29,7 +29,7 @@ export function DesktopNavSidebar({
   onTabChange,
   userRole
 }: DesktopNavSidebarProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { badges, clearBadge } = useNotificationBadges();
 
   // Patient: 10 items | Dentist: 12 items | Clinic: 12 items
@@ -73,14 +73,18 @@ export function DesktopNavSidebar({
     ],
   };
 
-  const TWO_LINE_LABELS: Record<string, [string, string]> = {
-    'loja': [t('nav.rewardsStoreLine1'), t('nav.rewardsStoreLine2')],
-    'estatisticas': [t('nav.statistics'), ''],
-    'conquistas': [t('nav.achievements'), ''],
-    'pontuacoes': [t('nav.scores'), ''],
-    'faturacao': [t('nav.billing'), ''],
-    'conversas': [t('nav.conversations'), ''],
+  // Sidebar-only labels carry soft hyphens (&shy;) so long words can break with a hyphen.
+  const SIDEBAR_LABEL_KEYS: Record<string, string> = {
+    loja: 'navSidebar.rewardsStore',
+    estatisticas: 'navSidebar.statistics',
+    conquistas: 'navSidebar.achievements',
+    pontuacoes: 'navSidebar.scores',
+    faturacao: 'navSidebar.billing',
+    conversas: 'navSidebar.conversations',
   };
+  const visibleLabel = (item: { id: string; label: string }) =>
+    SIDEBAR_LABEL_KEYS[item.id] ? t(SIDEBAR_LABEL_KEYS[item.id]) : item.label;
+  const LABEL_CLASS = 'text-2xs font-medium text-center leading-tight w-full [hyphens:manual] [overflow-wrap:normal]';
 
   const items = NAV_ITEMS_BY_ROLE[userRole];
 
@@ -107,8 +111,29 @@ export function DesktopNavSidebar({
     ro.observe(el);
     return () => ro.disconnect();
   }, [items.length, isExpanded]);
-  const iconOnly = btnSize < 64;
   const tight = btnSize < 76;
+  const BTN_PAD = 2; // p-0.5
+  const ICON_GAP = tight ? 2 : 4;
+  const ICON_SIZE = tight ? 16 : 20;
+
+  // Measured decision: labels show only if EVERY label fits whole (no clipping, ≤2 lines) in the square.
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [labelsFit, setLabelsFit] = useState(true);
+  useLayoutEffect(() => {
+    const box = measureRef.current;
+    if (!box) return;
+    const check = () => {
+      const spans = Array.from(box.children) as HTMLElement[];
+      if (!spans.length) return;
+      const lineH = parseFloat(getComputedStyle(spans[0]).lineHeight) || 14;
+      const maxH = Math.min(lineH * 2 + 0.5, btnSize - BTN_PAD * 2 - ICON_SIZE - ICON_GAP);
+      const ok = spans.every((sp) => sp.scrollWidth <= sp.clientWidth && sp.scrollHeight <= maxH);
+      setLabelsFit((prev) => (prev === ok ? prev : ok));
+    };
+    check();
+    document.fonts?.ready.then(check).catch(() => {});
+  }, [btnSize, i18n.language, items.length, ICON_SIZE, ICON_GAP]);
+  const iconOnly = !labelsFit;
 
   const onboardingIdMap: Record<string, string> = {
     'agenda': 'onboarding-nav-agenda',
@@ -138,7 +163,6 @@ export function DesktopNavSidebar({
   const renderNavButton = (item: { id: string; icon: React.ElementType; label: string; }) => {
     const Icon = item.icon;
     const isActive = activeTab === item.id;
-    const twoLine = TWO_LINE_LABELS[item.id];
     const badge = getBadgeInfo(item.id);
 
     return (
@@ -151,7 +175,7 @@ export function DesktopNavSidebar({
         title={iconOnly || !isExpanded ? item.label : undefined}
         style={{ width: btnSize, height: btnSize }}
         className={cn(
-          'flex flex-col items-center justify-center p-1 mx-auto shrink-0',
+          'flex flex-col items-center justify-center p-0.5 mx-auto shrink-0',
           tight ? 'gap-0.5' : 'gap-1',
           ' transition-colors duration-150 relative rounded-xl overflow-hidden',
           isActive
@@ -172,13 +196,8 @@ export function DesktopNavSidebar({
           )}
         </div>
         {isExpanded && !iconOnly && (
-          <span aria-hidden="true" className={cn(
-            'text-2xs font-medium text-center leading-tight w-full px-0 break-words line-clamp-2',
-            isActive && 'text-primary'
-          )}>
-            {twoLine && twoLine[1]
-              ? <>{twoLine[0]}<br />{twoLine[1]}</>
-              : item.label}
+          <span aria-hidden="true" lang={i18n.language} className={cn(LABEL_CLASS, isActive && 'text-primary')}>
+            {visibleLabel(item)}
           </span>
         )}
       </Button>
@@ -219,8 +238,19 @@ export function DesktopNavSidebar({
         {items.map((item) => renderNavButton(item))}
       </nav>
 
+      {/* Hidden measurer: same width/typography as the visible labels */}
+      {isExpanded && (
+        <div ref={measureRef} aria-hidden="true" className="fixed -left-[9999px] top-0 invisible pointer-events-none flex flex-col">
+          {items.map((item) => (
+            <span key={item.id} lang={i18n.language} className={cn(LABEL_CLASS, 'block overflow-hidden')} style={{ width: btnSize - BTN_PAD * 2 }}>
+              {visibleLabel(item)}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Bottom: Demo controls (Config moved to avatar dropdown) */}
-      <div className="border-t border-sidebar-border flex-shrink-0 px-3 pt-3 pb-2 flex flex-col items-stretch gap-1">
+      <div className="border-t border-sidebar-border flex-shrink-0 px-3 py-1.5 flex flex-col items-stretch gap-1">
         {isExpanded && <DemoControlsPanel className="w-full mx-0" compact />}
       </div>
     </aside>

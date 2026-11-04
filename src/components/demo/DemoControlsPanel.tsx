@@ -56,7 +56,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-[26px] rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
+    'flex-1 h-8 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
   const active = 'bg-card text-foreground shadow-sm';
   const inactive = 'bg-transparent text-muted-foreground hover:text-foreground';
 
@@ -77,7 +77,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
 
   const Divider = () => (
     <div
-      className="h-px my-1 rounded-full bg-border" 
+      className={cn('h-px rounded-full bg-border', compact ? 'my-0.5' : 'my-1')}
       aria-hidden="true"
     />
   );
@@ -86,7 +86,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
     <div
       className={cn(
         'rounded-lg border border-border bg-muted/60 backdrop-blur-md mx-1',
-        'p-1.5',
+        compact ? 'p-1' : 'p-1.5',
         className
       )}
     >
