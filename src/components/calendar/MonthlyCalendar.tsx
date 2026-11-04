@@ -1,6 +1,7 @@
 import i18n from '@/i18n';
 import { getDateFnsLocale, weekdayLabels } from '@/lib/formatters';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
@@ -19,6 +20,7 @@ export function MonthlyCalendar({
   onDateSelect,
   appointmentDates
 }: MonthlyCalendarProps) {
+  useTranslation(); // re-render on language change
   const [currentMonth, setCurrentMonth] = useSyncedMonth(selectedDate);
   const today = new Date();
 
