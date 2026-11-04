@@ -84,7 +84,7 @@ export function DesktopNavSidebar({
   };
   const visibleLabel = (item: { id: string; label: string }) =>
     SIDEBAR_LABEL_KEYS[item.id] ? t(SIDEBAR_LABEL_KEYS[item.id]) : item.label;
-  const LABEL_CLASS = 'text-2xs font-medium text-center leading-tight w-full [hyphens:manual] [overflow-wrap:normal]';
+  const LABEL_CLASS = 'text-2xs font-medium text-center leading-tight w-full whitespace-normal [hyphens:manual] [overflow-wrap:normal]';
 
   const items = NAV_ITEMS_BY_ROLE[userRole];
 
