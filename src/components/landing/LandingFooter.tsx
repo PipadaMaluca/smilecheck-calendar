@@ -119,6 +119,7 @@ export function LandingFooter() {
                 </a>
               ))}
             </div>
+            )}
           </div>
 
           <div className="border-t border-border mb-8 [.light_&]:border-border" />
