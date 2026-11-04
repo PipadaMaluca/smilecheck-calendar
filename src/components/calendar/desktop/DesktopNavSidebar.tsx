@@ -203,7 +203,7 @@ export function DesktopNavSidebar({
               data-sidebar-pro-seal
               className="absolute -bottom-1 -right-2 rounded-full bg-sidebar px-0.5 py-0.5 leading-none"
             >
-              <span className="block rounded-full bg-warning/20 text-warning border border-warning/40 font-bold text-2xs px-1.5 py-0.5 leading-none">
+              <span className="block rounded-full bg-amber-500/20 text-warning border border-amber-500/30 font-bold text-2xs px-1.5 py-0.5 leading-none">
                 Pro
               </span>
             </span>
