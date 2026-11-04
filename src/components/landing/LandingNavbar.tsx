@@ -94,7 +94,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         {/* Mobile (<768): logo + sign-up + compact menu (language, theme, login). Fits at 360px. */}
         <div className="md:hidden">
           <div className="flex items-center justify-between h-14 gap-2 min-w-0">
-            <a href="#" className="flex-shrink min-w-0 flex items-center min-h-11" aria-label="SmileCheck">
+            <a href="/" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', '/'); }} className="flex-shrink min-w-0 flex items-center min-h-11" aria-label="SmileCheck">
               <Logo variant="icon" size={32} />
             </a>
             <div className="flex items-center gap-1 flex-shrink-0">
@@ -133,7 +133,7 @@ export function LandingNavbar({ isDark, onToggleTheme }: LandingNavbarProps) {
         {/* Tablet/Desktop (≥768): single row */}
         <div className="hidden md:block">
           <div className="relative flex items-center justify-between h-16 lg:h-20 gap-3">
-            <a href="#" className="flex-shrink-0 flex items-center gap-2 relative z-10 h-full py-1">
+            <a href="/" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); history.replaceState(null, '', '/'); }} aria-label="SmileCheck" className="flex-shrink-0 flex items-center gap-2 relative z-10 h-full py-1">
               <span className="lg:hidden"><Logo variant="horizontal" size={160} /></span>
               <span className="hidden lg:inline-flex"><Logo variant="horizontal" size={200} /></span>
             </a>

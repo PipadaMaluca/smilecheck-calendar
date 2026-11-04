@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Instagram, Facebook, Linkedin, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { SHOW_X_SOCIAL } from '@/lib/landingFlags';
+import { scrollToLandingSection, selectPricingTab, type PricingTab } from '@/lib/landingNav';
 
 export function LandingFooter() {
   const navigate = useNavigate();
@@ -13,8 +15,36 @@ export function LandingFooter() {
     { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/smilecheck' },
     { name: 'Facebook', Icon: Facebook, href: 'https://facebook.com/smilecheck' },
     { name: 'LinkedIn', Icon: Linkedin, href: 'https://linkedin.com/company/smilecheck' },
-    { name: 'X', Icon: null, href: 'https://x.com/smilecheck' },
+    ...(SHOW_X_SOCIAL ? [{ name: 'X', Icon: null, href: 'https://x.com/smilecheck' }] : []),
   ];
+
+  type InPageLink = { label: string; section: string; title: string; tab?: PricingTab };
+  const productLinks: InPageLink[] = [
+    { label: t('landing.footer.features'), section: 'funcionalidades', title: 'funcionalidades-title' },
+    { label: t('landing.footer.plansAndPricing'), section: 'planos', title: 'planos-title' },
+    { label: t('landing.footer.teleconsultations'), section: 'teleconsultas', title: 'teleconsultas-title' },
+    { label: t('landing.footer.forDentists'), section: 'planos', title: 'planos-title', tab: 'dentist' },
+    { label: t('landing.footer.forClinics'), section: 'planos', title: 'planos-title', tab: 'clinic' },
+  ];
+  const supportLinks: InPageLink[] = [
+    { label: t('landing.footer.faq'), section: 'faq', title: 'faq-title' },
+    { label: t('landing.footer.contact'), section: 'contacto', title: 'contacto-title' },
+    { label: t('landing.footer.helpCenter'), section: 'faq', title: 'faq-title' },
+  ];
+  const linkCls = 'text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary';
+  const renderInPage = (l: InPageLink) => (
+    <li key={l.label}>
+      <a
+        href={`#${l.section}`}
+        className={linkCls}
+        onClick={(e) => {
+          e.preventDefault();
+          if (l.tab) selectPricingTab(l.tab);
+          requestAnimationFrame(() => scrollToLandingSection(l.section, l.title));
+        }}
+      >{l.label}</a>
+    </li>
+  );
 
   return (
     <>
@@ -35,7 +65,7 @@ export function LandingFooter() {
                 />
               ))}
             </div>
-            <h2 key={i18n.language} data-reveal="words" className="relative text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">{t('landing.ctaFinal.title')}</h2>
+            <h2 id="contacto-title" key={i18n.language} data-reveal="words" className="relative text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">{t('landing.ctaFinal.title')}</h2>
             <p data-reveal="up" className="relative text-white/85 text-base sm:text-lg font-light mb-6 sm:mb-8 max-w-[90%] sm:max-w-xl mx-auto">{t('landing.ctaFinal.subtitle')}</p>
             <Button size="lg" className="sc-pulse-cta relative rounded-full bg-white text-primary hover:bg-white/95 hover:-translate-y-0.5 text-base font-semibold w-full sm:w-auto px-10 h-12 shadow-xl transition-[transform,background-color,border-color,color,box-shadow]" onClick={() => navigate('/signup')}>
               {t('landing.ctaFinal.cta')}
@@ -89,18 +119,14 @@ export function LandingFooter() {
             <div>
               <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide [.light_&]:text-primary">{t('landing.footer.product')}</h4>
               <ul className="space-y-3">
-                {[t('landing.footer.features'), t('landing.footer.plansAndPricing'), t('landing.footer.teleconsultations'), t('landing.footer.forDentists'), t('landing.footer.forClinics')].map((l) => (
-                  <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{l}</a></li>
-                ))}
+                {productLinks.map(renderInPage)}
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold text-white text-sm mb-4 uppercase tracking-wide [.light_&]:text-primary">{t('landing.footer.support')}</h4>
               <ul className="space-y-3">
-                {[t('landing.footer.faq'), t('landing.footer.contact'), t('landing.footer.helpCenter')].map((l) => (
-                  <li key={l}><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors [.light_&]:text-muted-foreground [.light_&]:hover:text-primary">{l}</a></li>
-                ))}
+                {supportLinks.map(renderInPage)}
               </ul>
             </div>
 
