@@ -1,4 +1,3 @@
-import { onActivateKey } from '@/lib/a11y';
 import { Users, Languages, MapPin, Gift } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -59,7 +58,7 @@ export function HeroSection() {
 
         <p className="text-sm text-muted-foreground animate-fade-in text-center" style={{ marginBottom: 32 }}>
           {t('landing.hero.hasAccount')}{' '}
-          <a role="button" tabIndex={0} onKeyDown={onActivateKey} onClick={() => navigate('/login')} className="text-primary hover:underline cursor-pointer font-medium">
+          <a href="/login" onClick={(e) => { e.preventDefault(); navigate('/login'); }} className="text-primary hover:underline cursor-pointer font-medium">
             {t('auth.login')}
           </a>
         </p>

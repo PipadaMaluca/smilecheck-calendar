@@ -2,6 +2,7 @@ import { PaymentTestModeBanner } from '@/components/PaymentTestModeBanner';
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PRICING_TAB_EVENT, type PricingTab } from '@/lib/landingNav';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,6 +25,12 @@ export function PricingSection() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [annual, setAnnual] = useState(false);
+  const [tab, setTab] = useState<PricingTab>('patient');
+  useEffect(() => {
+    const onTab = (e: Event) => setTab((e as CustomEvent<PricingTab>).detail);
+    window.addEventListener(PRICING_TAB_EVENT, onTab);
+    return () => window.removeEventListener(PRICING_TAB_EVENT, onTab);
+  }, []);
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -105,7 +112,7 @@ export function PricingSection() {
           </div>
         </div>
 
-        <Tabs defaultValue="patient" className="w-full">
+        <Tabs value={tab} onValueChange={(v) => setTab(v as PricingTab)} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-6 h-auto bg-transparent p-0 border-b border-border rounded-none gap-0">
             <TabsTrigger
               value="patient"

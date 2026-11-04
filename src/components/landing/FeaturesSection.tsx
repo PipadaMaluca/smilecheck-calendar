@@ -239,7 +239,7 @@ export function FeaturesSection() {
           />
 
           <ScrollReveal>
-            <div className="text-center max-w-3xl mx-auto">
+            <div id="teleconsultas" className="text-center max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 rounded-full bg-accent dark:bg-accent/60 text-primary border border-border text-xs font-semibold mb-4 uppercase tracking-wide">
 <Glyph emoji="📹" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('landing.features.teleEyebrow')}
               </div>
@@ -248,7 +248,7 @@ export function FeaturesSection() {
                   {t('landing.features.teleSoon')}
                 </span>
               </div>
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
+              <h3 id="teleconsultas-title" className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
                 {t('landing.features.teleTitle')}
               </h3>
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-[560px] mx-auto">
