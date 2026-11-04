@@ -443,6 +443,7 @@
       "noCommitment": "No commitment. Free forever."
     },
     "footer": {
+      "home": "Home",
       "tagline": "The app that rewards your oral health",
       "product": "Product",
       "support": "Support",
@@ -467,6 +468,7 @@
       "complaintsBook": "Portuguese complaints book"
     },
     "navbar": {
+      "home": "Home",
       "features": "Features",
       "plans": "Plans",
       "testimonials": "Testimonials",

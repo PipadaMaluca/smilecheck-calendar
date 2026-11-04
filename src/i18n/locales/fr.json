@@ -443,6 +443,7 @@
       "noCommitment": "Sans engagement. Gratuit pour toujours."
     },
     "footer": {
+      "home": "Accueil",
       "tagline": "L'app qui récompense votre santé bucco-dentaire",
       "product": "Produit",
       "support": "Support",
@@ -467,6 +468,7 @@
       "complaintsBook": "Livre de réclamations (Portugal)"
     },
     "navbar": {
+      "home": "Accueil",
       "features": "Fonctionnalités",
       "plans": "Plans",
       "testimonials": "Témoignages",

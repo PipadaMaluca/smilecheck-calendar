@@ -9,11 +9,12 @@ interface SectionNavProps {
 
 export function SectionNav({ isDark }: SectionNavProps) {
   const { t } = useTranslation();
-  const [active, setActive] = useState<string>('funcionalidades');
+  const [active, setActive] = useState<string>('inicio');
   const scrollerRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
   const links = [
+    { id: 'inicio', label: t('landing.navbar.home') },
     { id: 'funcionalidades', label: t('landing.navbar.features') },
     { id: 'planos', label: t('landing.navbar.plans') },
     ...(SHOW_TESTIMONIALS ? [{ id: 'testemunhos', label: t('landing.navbar.testimonials') }] : []),
@@ -81,6 +82,11 @@ export function SectionNav({ isDark }: SectionNavProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     setActive(id);
+    if (id === 'inicio') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, '', '/');
+      return;
+    }
     const heading = document.getElementById(`${id}-title`) || document.getElementById(id);
     if (heading) heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
