@@ -763,7 +763,7 @@ export function DesktopCalendarView() {
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Same shared height as every header so the sidebar logo line aligns */}
               <header className="h-app-header bg-card/50 backdrop-blur border-b border-border flex items-center justify-between px-6 flex-shrink-0 pl-1 pr-3.5 relative z-20">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-shrink-0">
                   <Button aria-label={t('a11y.openMenu')} variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => setIsNavExpanded(!isNavExpanded)}>
                     <Menu className="w-5 h-5" />
                   </Button>
