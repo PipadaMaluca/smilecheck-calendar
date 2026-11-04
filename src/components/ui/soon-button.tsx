@@ -24,7 +24,7 @@ export const SoonButton = React.forwardRef<HTMLButtonElement, ButtonProps & { hi
       >
         {children}
         {!hideBadge && (
-          <span className="rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium text-muted-foreground">{soon}</span>
+          <span className="shrink-0 whitespace-nowrap rounded-full bg-muted px-1.5 py-0.5 text-2xs font-medium text-muted-foreground">{soon}</span>
         )}
       </Button>
     );
