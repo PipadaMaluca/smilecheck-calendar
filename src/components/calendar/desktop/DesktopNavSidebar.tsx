@@ -212,18 +212,18 @@ export function DesktopNavSidebar({
       )}
     >
       {/* Logo with Pro seal overlaid bottom-right */}
-      <div data-sidebar-logo-block className="h-app-header box-border flex items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 px-3">
+      <div data-sidebar-logo-block className="h-app-header box-border flex items-center justify-center border-b border-sidebar-border flex-shrink-0 px-3">
         <div className="relative">
           <Logo
             variant="icon"
-            size={isExpanded ? 60 : 44}
+            size={isExpanded ? 88 : 44}
             enter="app"
             className="transition-colors duration-300"
           />
           {userRole !== 'patient' && (
             <span
               data-sidebar-pro-seal
-              className="absolute -bottom-1 -right-2 rounded-full bg-sidebar px-0.5 py-0.5 leading-none"
+              className="absolute -bottom-0.5 -right-0.5 rounded-full bg-sidebar px-0.5 py-0.5 leading-none"
             >
               <span className="block rounded-full bg-amber-500/20 text-warning border border-amber-500/30 font-bold text-2xs px-1.5 py-0.5 leading-none">
                 Pro

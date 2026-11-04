@@ -23,7 +23,7 @@
 @layer base {
   :root {
     /* Shared height of the desktop top header and the sidebar logo block (lines must align). */
-    --app-header-h: 5rem;
+    --app-header-h: 113px; /* = expanded sidebar width → square logo block */
     --background: 214 50% 10%;
     --foreground: 210 40% 98%;
 
