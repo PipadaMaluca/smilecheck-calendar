@@ -1890,6 +1890,14 @@
     "sort": {
       "distance": "Distance",
       "price": "Price"
+    },
+    "real": {
+      "cityOrPostal": "City or postcode",
+      "loadMore": "Load more",
+      "teleconsultFilter": "Teleconsultation",
+      "loadError": "We couldn't load the search. Please try again.",
+      "noDistance": "No location",
+      "sortName": "Name"
     }
   },
   "history": {
