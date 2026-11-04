@@ -779,17 +779,17 @@ export function DesktopCalendarView() {
                     <span className="hidden 2xl:inline">{getHeaderDateLabel()}</span>
                   </span>
                 </div>
-                <div className="items-center gap-3 flex flex-row flex-1 min-w-0 justify-end mx-3">
+                <div className="items-center gap-2 2xl:gap-3 flex flex-row flex-1 min-w-0 justify-end mx-2">
                   {(activeRole === 'clinic' || activeRole === 'dentist') && (
                     <AgendaSearchBar onNavigateSearch={() => setActiveNavTab('pesquisa')} />
                   )}
                   {(activeRole === 'clinic' || activeRole === 'dentist') && <>
                     <div className="h-6 w-px bg-border" />
                     <ToggleGroup type="single" value={viewMode} onValueChange={(val) => val && setViewMode(val as ViewMode)} className="bg-secondary/50 rounded-lg p-1">
-                      <ToggleGroupItem value="list" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
-                      <ToggleGroupItem value="day" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
-                      <ToggleGroupItem value="week" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
-                      <ToggleGroupItem value="month" className="px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
+                      <ToggleGroupItem value="list" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.list')}</ToggleGroupItem>
+                      <ToggleGroupItem value="day" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.day')}</ToggleGroupItem>
+                      <ToggleGroupItem value="week" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.week')}</ToggleGroupItem>
+                      <ToggleGroupItem value="month" className="px-2 2xl:px-3 py-1 text-sm data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">{t('agenda.month')}</ToggleGroupItem>
                     </ToggleGroup>
                     <Button
                       variant="ghost"
