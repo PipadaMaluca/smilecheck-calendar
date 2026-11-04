@@ -83,7 +83,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
         {(!real || dentist.hasDistance) && <div className="flex items-center gap-1.5">
           <MapPin className="w-4 h-4" />
-          <span>{dentist.distance} km</span>
+          <span>{formatDecimal1(dentist.distance)} km</span>
         </div>}
         {!real && <div className="flex items-center gap-1.5">
           <Video className="w-4 h-4" />
