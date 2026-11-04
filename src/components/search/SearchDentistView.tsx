@@ -343,6 +343,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                 <Button variant="outline" onClick={real.loadMore} disabled={real.loading}>{t('search.real.loadMore')}</Button>
               </div>
             )}
+            {isReal && filteredDentists.some(d => isRealResult(d) && d.hasDistance) && (
+              <p className="text-xs text-muted-foreground text-center mt-4">{t('search.osmAttribution')}</p>
+            )}
           </div>
         </ScrollArea>
       </div>
