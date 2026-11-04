@@ -1,5 +1,5 @@
 import i18n from '@/i18n';
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, weekdayLabels } from '@/lib/formatters';
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -41,7 +41,7 @@ export function MonthlyCalendar({
   }
 
   const hasAppointment = (date: Date) => appointmentDates.some(d => isSameDay(d, date));
-  const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  const weekDays = weekdayLabels('short');
 
   return (
     <div className="px-4">

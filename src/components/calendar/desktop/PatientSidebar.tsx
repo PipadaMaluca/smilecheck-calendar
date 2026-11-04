@@ -1,5 +1,5 @@
 import { onActivateKey } from '@/lib/a11y';
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, weekdayLabels } from '@/lib/formatters';
 import { useState } from 'react';
 import { Search, ChevronDown, ChevronLeft, ChevronRight, Plus, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -73,7 +73,7 @@ export function PatientSidebar({
 
   const hasAppointment = (date: Date) =>
   appointmentDates.some((d) => isSameDay(d, date));
-  const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
+  const weekDays = weekdayLabels('narrow');
 
   return (
     <aside className="h-full w-[400px] bg-card border-l border-border flex-col overflow-hidden flex-shrink-0 flex">
