@@ -282,6 +282,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "appointments_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "appointments_dentist_id_fkey"
             columns: ["dentist_id"]
             isOneToOne: false
@@ -355,6 +362,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "clinic_members_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "clinic_members_dentist_id_fkey"
             columns: ["dentist_id"]
             isOneToOne: false
@@ -382,12 +396,15 @@ export type Database = {
           email: string | null
           hds_certified: boolean
           id: string
+          latitude: number | null
+          longitude: number | null
           name: string
           opening_hour: string | null
           owner_profile_id: string | null
           phone: string | null
           postal_code: string | null
           rating: number | null
+          teleconsultation_available: boolean
           timezone: string
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
@@ -403,12 +420,15 @@ export type Database = {
           email?: string | null
           hds_certified?: boolean
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           name: string
           opening_hour?: string | null
           owner_profile_id?: string | null
           phone?: string | null
           postal_code?: string | null
           rating?: number | null
+          teleconsultation_available?: boolean
           timezone?: string
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -424,12 +444,15 @@ export type Database = {
           email?: string | null
           hds_certified?: boolean
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           name?: string
           opening_hour?: string | null
           owner_profile_id?: string | null
           phone?: string | null
           postal_code?: string | null
           rating?: number | null
+          teleconsultation_available?: boolean
           timezone?: string
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -534,6 +557,7 @@ export type Database = {
           rating: number | null
           rpps_number: string | null
           specialties: Json
+          spoken_languages: string[]
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
@@ -544,6 +568,7 @@ export type Database = {
           rating?: number | null
           rpps_number?: string | null
           specialties?: Json
+          spoken_languages?: string[]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -554,6 +579,7 @@ export type Database = {
           rating?: number | null
           rpps_number?: string | null
           specialties?: Json
+          spoken_languages?: string[]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -1471,6 +1497,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "waiting_list_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "waiting_list_dentist_id_fkey"
             columns: ["dentist_id"]
             isOneToOne: false
@@ -1526,6 +1559,51 @@ export type Database = {
           language?: Database["public"]["Enums"]["app_language"] | null
           role?: Database["public"]["Enums"]["app_role"] | null
           showcased_achievements?: never
+        }
+        Relationships: []
+      }
+      public_clinic_directory: {
+        Row: {
+          accepts_cheque_dentista: boolean | null
+          accepts_cheque_protese: boolean | null
+          address: string | null
+          city: string | null
+          country: string | null
+          id: string | null
+          latitude: number | null
+          longitude: number | null
+          name: string | null
+          postal_code: string | null
+          teleconsultation_available: boolean | null
+          timezone: string | null
+        }
+        Insert: {
+          accepts_cheque_dentista?: boolean | null
+          accepts_cheque_protese?: boolean | null
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          id?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name?: string | null
+          postal_code?: string | null
+          teleconsultation_available?: boolean | null
+          timezone?: string | null
+        }
+        Update: {
+          accepts_cheque_dentista?: boolean | null
+          accepts_cheque_protese?: boolean | null
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          id?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          name?: string | null
+          postal_code?: string | null
+          teleconsultation_available?: boolean | null
+          timezone?: string | null
         }
         Relationships: []
       }
@@ -1586,6 +1664,10 @@ export type Database = {
       has_accepted_terms: { Args: { _uid: string }; Returns: boolean }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_untrusted_caller: { Args: never; Returns: boolean }
+      km_between: {
+        Args: { _lat1: number; _lat2: number; _lng1: number; _lng2: number }
+        Returns: number
+      }
       level_for_xp: {
         Args: { _xp: number }
         Returns: Database["public"]["Enums"]["level_tier"]
@@ -1597,6 +1679,10 @@ export type Database = {
       log_dossier_access: {
         Args: { _patient_id: string; _section: string }
         Returns: boolean
+      }
+      next_free_slot: {
+        Args: { _clinic: string; _dentist: string }
+        Returns: string
       }
       notification_default_target: { Args: { _type: string }; Returns: string }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
@@ -1614,6 +1700,34 @@ export type Database = {
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
         Returns: undefined
+      }
+      search_professionals: {
+        Args: {
+          _available?: string
+          _city_or_postal?: string
+          _cursor?: number
+          _kind?: string
+          _language?: string
+          _lat?: number
+          _limit?: number
+          _lng?: number
+          _max_km?: number
+          _q?: string
+          _sort?: string
+          _specialty?: string
+        }
+        Returns: {
+          avatar_url: string
+          clinics: Json
+          distance_km: number
+          id: string
+          kind: string
+          languages: string[]
+          name: string
+          next_slot: string
+          specialties: Json
+          total: number
+        }[]
       }
       send_annual_renewal_reminders: { Args: never; Returns: number }
       sync_profile_plan: {

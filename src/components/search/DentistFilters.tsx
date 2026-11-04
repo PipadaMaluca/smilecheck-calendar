@@ -31,6 +31,7 @@ interface DentistFiltersProps {
   onAvailabilityChange: (a: string) => void;
   sortBy: string;
   onSortChange: (s: string) => void;
+  sortOptions?: { labelKey: string; value: string }[];
 }
 
 export function DentistFilters({
@@ -44,6 +45,7 @@ export function DentistFilters({
   onAvailabilityChange,
   sortBy,
   onSortChange,
+  sortOptions = SORT_OPTIONS,
 }: DentistFiltersProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -137,7 +139,7 @@ export function DentistFilters({
               <SelectValue placeholder={t('search.sortBy')} />
             </SelectTrigger>
             <SelectContent className="bg-popover border-border z-50">
-              {SORT_OPTIONS.map((o) => (
+              {sortOptions.map((o) => (
                 <SelectItem key={o.value} value={o.value}>{t(o.labelKey)}</SelectItem>
               ))}
             </SelectContent>

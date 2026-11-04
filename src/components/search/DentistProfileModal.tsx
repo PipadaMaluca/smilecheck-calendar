@@ -1,8 +1,9 @@
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { openChatWith } from '@/lib/deepLink';
-import { formatCurrency } from '@/lib/formatters';
+import { formatCurrency, formatDecimal1 } from '@/lib/formatters';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
+import { isRealResult } from '@/data/searchSource';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Video, X, Calendar, MessageCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -28,11 +29,13 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
-  const reviews = getReviewsForDentist(dentist.id);
-  const availability = getAvailabilityForDentist(dentist.id);
+  // Real accounts: third-party ratings/reviews and mock slots are never shown.
+  const real = isRealResult(dentist);
+  const reviews = real ? [] : getReviewsForDentist(dentist.id);
+  const availability = real ? [] : getAvailabilityForDentist(dentist.id);
 
   const initials = getDentistInitials(dentist.name);
-  const photo = DENTIST_AVATAR_PHOTOS[dentist.id];
+  const photo = real ? dentist.avatar : DENTIST_AVATAR_PHOTOS[dentist.id];
 
   if (showBooking) {
     return (
@@ -52,13 +55,13 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
         <PersonAvatar name={dentist.name} photo={photo} size="xl" />
         <div>
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
-          <div className="flex items-center justify-center gap-2 mt-1">
+          {!real && <div className="flex items-center justify-center gap-2 mt-1">
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-warning" />
               <span className="text-sm font-semibold text-foreground">{dentist.rating}</span>
               <span className="text-xs text-muted-foreground">{t('sweep.dentistProfile.reviewsCount', { count: dentist.reviewCount })}</span>
             </div>
-          </div>
+          </div>}
           {dentist.previousPatient && (
             <span className="inline-block mt-2 text-xs font-semibold px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30">
               {t('sweep.dentistProfile.alreadyConsulted')}
@@ -78,21 +81,21 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
 
       {/* Info row */}
       <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-        <div className="flex items-center gap-1.5">
+        {(!real || dentist.hasDistance) && <div className="flex items-center gap-1.5">
           <MapPin className="w-4 h-4" />
-          <span>{dentist.distance} km</span>
-        </div>
-        <div className="flex items-center gap-1.5">
+          <span>{formatDecimal1(dentist.distance)} km</span>
+        </div>}
+        {!real && <div className="flex items-center gap-1.5">
           <Video className="w-4 h-4" />
           <span>{formatCurrency(dentist.teleconsultaPrice)}</span>
-        </div>
+        </div>}
       </div>
 
       {/* Bio */}
-      <div className="bg-secondary rounded-xl p-4">
+      {dentist.bio && <div className="bg-secondary rounded-xl p-4">
         <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.about')}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">{dentist.bio}</p>
-      </div>
+      </div>}
 
       {/* Clinics */}
       <div>
@@ -111,7 +114,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       </div>
 
       {/* Availability */}
-      <div>
+      {!real && <div>
         <h3 className="text-sm font-semibold text-foreground mb-2">{t('search.availableSlots')}</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
           {availability.map((day) => {
@@ -163,10 +166,10 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
         >
           {t('sweep.dentistProfile.showMoreSlots')}
         </button>
-      </div>
+      </div>}
 
       {/* Reviews */}
-      <div>
+      {!real && <div>
         <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.recentReviews')}</h3>
         {reviews.length === 0 && (
           <EmptyState size="sm" icon={Star} title={t('sweep.dentistProfile.noReviews', 'Sem avaliações')} />
@@ -187,7 +190,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
             </div>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* Action buttons */}
       <div className="flex gap-3 pt-3 pb-2">

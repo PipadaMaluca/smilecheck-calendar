@@ -1890,6 +1890,14 @@
     "sort": {
       "distance": "Distância",
       "price": "Preço"
+    },
+    "real": {
+      "cityOrPostal": "Cidade ou código postal",
+      "loadMore": "Carregar mais",
+      "teleconsultFilter": "Teleconsulta",
+      "loadError": "Não foi possível carregar a pesquisa. Tente novamente.",
+      "noDistance": "Sem localização",
+      "sortName": "Nome"
     }
   },
   "history": {

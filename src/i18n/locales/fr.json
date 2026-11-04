@@ -1874,6 +1874,14 @@
     "sort": {
       "distance": "Distance",
       "price": "Prix"
+    },
+    "real": {
+      "cityOrPostal": "Ville ou code postal",
+      "loadMore": "Charger plus",
+      "teleconsultFilter": "Téléconsultation",
+      "loadError": "Impossible de charger la recherche. Réessayez.",
+      "noDistance": "Sans localisation",
+      "sortName": "Nom"
     }
   },
   "history": {

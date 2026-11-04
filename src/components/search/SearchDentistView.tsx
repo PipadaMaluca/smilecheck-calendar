@@ -1,5 +1,8 @@
 import { formatCurrency } from '@/lib/formatters';
-import { useState, useMemo, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useProfessionalSearch, mapAvailability, isRealResult } from '@/data/searchSource';
+import { Input } from '@/components/ui/input';
 import { chequesForClinic } from '@/lib/cheques';
 import { ArrowLeft, Stethoscope, SlidersHorizontal, X, List, Map as MapIcon, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -55,6 +58,30 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [focusedId, setFocusedId] = useState<string | null>(null);
+  const { demoMode } = useAuth();
+  const isReal = !demoMode;
+  const [cityOrPostal, setCityOrPostal] = useState('');
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  useEffect(() => {
+    if (!isReal || typeof navigator === 'undefined' || !navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (p) => setCoords({ lat: p.coords.latitude, lng: p.coords.longitude }),
+      () => setCoords(null),
+      { maximumAge: 600000, timeout: 8000 },
+    );
+  }, [isReal]);
+  const real = useProfessionalSearch({
+    q: searchQuery,
+    kind: 'dentist',
+    specialty: specialty !== 'Todas' ? specialty : null,
+    cityOrPostal,
+    lat: coords?.lat ?? null,
+    lng: coords?.lng ?? null,
+    maxKm: distance > 0 ? distance : null,
+    language: selectedLanguages[0] ?? null,
+    available: mapAvailability(availability),
+    sort: sortBy === 'name' || !coords ? 'name' : 'distance',
+  }, isReal);
 
   const SYMPTOM_KEY_MAP: Record<string, string> = {
     dor_dente: 'triage.symptoms.toothache', sensibilidade: 'triage.symptoms.sensitivity',
@@ -68,7 +95,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     ? triageData.symptoms.map(id => SYMPTOM_KEY_MAP[id] ? t(SYMPTOM_KEY_MAP[id]) : id).filter(Boolean).join(', ')
     : null;
 
-  const filteredDentists = useMemo(() => {
+  const mockDentists = useMemo(() => {
     let results = [...MOCK_DENTIST_RESULTS];
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -92,15 +119,34 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
     if (sortBy === 'price') results.sort((a, b) => a.teleconsultaPrice - b.teleconsultaPrice || a.distance - b.distance);
     return results;
   }, [searchQuery, specialty, distance, sortBy, maxPrice, acceptsNewPatients, selectedLanguages, chequeDentista, chequeProtese]);
+  const filteredDentists = isReal ? real.items : mockDentists;
+  const resultCount = isReal ? real.total : mockDentists.length;
+  const mapDentists = filteredDentists.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lng));
   // Cheque filters only make sense when the search covers clinics in Portugal.
-  const searchIncludesPortugal = MOCK_DENTIST_RESULTS.some(d => d.clinics.some(c => chequesForClinic(c.id).country === 'PT'));
+  const searchIncludesPortugal = !isReal && MOCK_DENTIST_RESULTS.some(d => d.clinics.some(c => chequesForClinic(c.id).country === 'PT'));
 
   const toggleLanguage = (code: string) => {
-    setSelectedLanguages(prev => prev.includes(code) ? prev.filter(l => l !== code) : [...prev, code]);
+    setSelectedLanguages(prev => isReal ? (prev.includes(code) ? [] : [code]) : prev.includes(code) ? prev.filter(l => l !== code) : [...prev, code]);
   };
 
   const renderAdvancedFilters = () => (
     <div className="space-y-4">
+      {isReal && (
+        <>
+          <div className="space-y-2">
+            <label htmlFor="search-city" className="text-sm">{t('search.real.cityOrPostal')}</label>
+            <Input id="search-city" value={cityOrPostal} onChange={(e) => setCityOrPostal(e.target.value)} placeholder={t('search.real.cityOrPostal')} className="h-11" />
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-sm">{t('search.real.teleconsultFilter')}</span>
+            <span className="flex items-center gap-2">
+              <span className="text-2xs font-semibold px-2 py-0.5 rounded-full bg-secondary text-muted-foreground whitespace-nowrap">{t('common.soon')}</span>
+              <Switch aria-label={`${t('search.real.teleconsultFilter')} — ${t('common.soon')}`} checked={false} disabled />
+            </span>
+          </div>
+        </>
+      )}
+      {!isReal && (<>
       <div className="flex items-center justify-between">
         <span className="text-sm">{t('search.acceptsNew')}</span>
         <Switch aria-label={t('search.acceptsNew')} checked={acceptsNewPatients} onCheckedChange={setAcceptsNewPatients} />
@@ -124,6 +170,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
         </div>
         <Slider value={[maxPrice]} onValueChange={([v]) => setMaxPrice(v)} min={5} max={50} step={5} />
       </div>
+      </>)}
       <div className="space-y-2">
         <span className="text-sm">{t('search.languages')}</span>
         <div className="flex flex-wrap gap-2">
@@ -183,6 +230,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
             onAvailabilityChange={setAvailability}
             sortBy={sortBy}
             onSortChange={setSortBy}
+            sortOptions={isReal ? [{ labelKey: 'search.sort.distance', value: 'distance' }, { labelKey: 'search.real.sortName', value: 'name' }] : undefined}
           />
           <div role="tablist" aria-label={t('search.viewModeLabel')} className="mt-3 inline-flex rounded-lg border border-border bg-secondary p-1">
             {([
@@ -211,7 +259,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           {!isMobile && (
             <div className="w-80 shrink-0 border-r border-border flex flex-col min-h-0">
               <div className="flex items-center justify-between gap-2 p-4 border-b border-border">
-                <p className="text-xs text-muted-foreground">{t('search.dentistsFound', { count: filteredDentists.length })}</p>
+                <p className="text-xs text-muted-foreground">{t('search.dentistsFound', { count: resultCount })}</p>
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs min-h-11" onClick={() => setShowMobileFilters(true)}>
                   <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')}
                 </Button>
@@ -232,7 +280,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                           <span className="block text-sm font-medium truncate">{d.name}</span>
                           <span className="block text-xs text-muted-foreground truncate">{d.specialties.join(', ')}</span>
                         </span>
-                        <span className="flex items-center gap-1 text-xs shrink-0"><Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />{d.rating}</span>
+                        {!isRealResult(d) && <span className="flex items-center gap-1 text-xs shrink-0"><Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />{d.rating}</span>}
                       </Button>
                     </li>
                   ))}
@@ -243,11 +291,11 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           <div className="flex-1 min-w-0 relative">
             {isMobile && (
               <Button variant="outline" size="sm" className="absolute top-3 right-3 z-20 gap-1.5 text-xs min-h-11 bg-card" onClick={() => setShowMobileFilters(true)}>
-                <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')} ({filteredDentists.length})
+                <SlidersHorizontal className="w-3.5 h-3.5" /> {t('search.filterTitle')} ({resultCount})
               </Button>
             )}
             <Suspense fallback={<Skeleton className="h-full w-full rounded-none" />}>
-              <DentistMapView dentists={filteredDentists} onViewProfile={setSelectedDentist} focusedId={focusedId} />
+              <DentistMapView dentists={mapDentists} onViewProfile={setSelectedDentist} focusedId={focusedId} />
             </Suspense>
           </div>
         </div>
@@ -263,7 +311,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           <div className="max-w-4xl mx-auto p-4 md:p-6 pb-28">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs text-muted-foreground">
-                {t('search.dentistsFound', { count: filteredDentists.length })}
+                {t('search.dentistsFound', { count: resultCount })}
               </p>
               {isMobile && (
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => setShowMobileFilters(true)}>
@@ -271,8 +319,13 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                 </Button>
               )}
             </div>
-            {isLoading ? (
+            {(isReal ? real.loading && filteredDentists.length === 0 : isLoading) ? (
               <CardGridSkeleton cards={isMobile ? 3 : 6} columns={isMobile ? 'grid-cols-1' : 'grid-cols-2'} />
+            ) : isReal && real.error ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center gap-3">
+                <p className="text-sm text-muted-foreground max-w-xs">{t('search.real.loadError')}</p>
+                <Button variant="outline" onClick={() => real.retry()}>{t('common.retry', { defaultValue: t('search.applyFilters') })}</Button>
+              </div>
             ) : filteredDentists.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <Stethoscope className="w-12 h-12 text-muted-foreground/30 mb-4" />
@@ -289,6 +342,11 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                     onQuickBook={onQuickBook ? (d, day, slot) => onQuickBook(d, day, slot) : undefined}
                   />
                 ))}
+              </div>
+            )}
+            {isReal && real.hasMore && filteredDentists.length > 0 && (
+              <div className="flex justify-center mt-6">
+                <Button variant="outline" onClick={real.loadMore} disabled={real.loading}>{t('search.real.loadMore')}</Button>
               </div>
             )}
           </div>
