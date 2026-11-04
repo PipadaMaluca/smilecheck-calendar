@@ -369,7 +369,7 @@ export function MultiDentistGrid({
                             </span>
                           )}
                           {!smallMobileMulti && consultation.notes && (
-                            <span data-notes className={cn("text-[#8B9CB6] truncate min-w-0 flex-1", isSingleColumn ? "text-2xs" : D.notes)}>
+                            <span data-notes title={consultation.notes} className={cn("text-[#8B9CB6] truncate min-w-0 flex-1", isSingleColumn ? "text-2xs" : D.notes)}>
                               {consultation.notes}
                             </span>
                           )}
