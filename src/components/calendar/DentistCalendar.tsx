@@ -61,6 +61,7 @@ const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOn
 
 export function DentistCalendar() {
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
+  const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
