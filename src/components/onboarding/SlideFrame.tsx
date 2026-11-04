@@ -37,7 +37,7 @@ export function SlideFrame({ title, children }: SlideFrameProps) {
       <div ref={areaRef} className="flex-1 min-h-0 w-full flex items-center justify-center">
         <div
           ref={contentRef}
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center text-center [&_h1]:text-balance [&_h2]:text-balance [&_p]:text-pretty"
           style={{ transform: scale < 1 ? `scale(${scale})` : undefined, transformOrigin: 'center' }}
         >
           {children}

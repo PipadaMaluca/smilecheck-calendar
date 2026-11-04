@@ -121,10 +121,10 @@ export function DesktopNavSidebar({
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
         className={cn(
-          'flex flex-col gap-0.5 h-auto py-1.5 px-1 w-full transition-colors duration-150 relative rounded-none border-l-[3px]',
+          'flex flex-col items-center justify-center gap-1 h-auto aspect-square p-1 w-full shrink-0 transition-colors duration-150 relative rounded-xl overflow-hidden',
           isActive
-            ? 'border-l-[#2196F3] text-sidebar-foreground bg-transparent hover:bg-sidebar-accent/40'
-            : 'border-l-transparent text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/40'
+            ? 'bg-primary/15 text-sidebar-foreground hover:bg-primary/20'
+            : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/40'
         )}
       >
         <div className="relative">
@@ -141,7 +141,7 @@ export function DesktopNavSidebar({
         </div>
         {isExpanded && (
           <span className={cn(
-            'text-2xs font-medium text-center leading-[1.1] w-full px-0 break-words hyphens-auto',
+            'text-2xs font-medium text-center leading-tight w-full px-0 break-words line-clamp-2',
             isActive && 'text-primary'
           )}>
             {twoLine && twoLine[1]
@@ -157,14 +157,14 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
-        isExpanded ? 'w-[100px]' : 'w-16'
+        isExpanded ? 'w-[113px]' : 'w-[65px]'
       )}
     >
       {/* Logo + Pro Badge */}
-      <div data-sidebar-logo-block className="h-app-header box-border flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 gap-1 px-0 overflow-hidden">
+      <div data-sidebar-logo-block className="h-app-header box-border flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 gap-1 px-3 overflow-hidden">
         <Logo
           variant="icon"
-          size={userRole === 'patient' ? (isExpanded ? 58 : 52) : (isExpanded ? 38 : 34)}
+          size={userRole === 'patient' ? (isExpanded ? 60 : 52) : (isExpanded ? 38 : 34)}
           enter="app"
           className="transition-colors duration-300"
         />
@@ -179,13 +179,13 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 items-stretch justify-start flex flex-col py-2 px-0 gap-1 overflow-y-auto">
+      <nav className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 gap-1.5 overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
       {/* Bottom: Demo controls (Config moved to avatar dropdown) */}
-      <div className="border-t border-sidebar-border flex-shrink-0 px-1 pt-3 pb-2 mt-2 flex flex-col items-stretch gap-1">
-        {isExpanded && <DemoControlsPanel className="w-full" compact />}
+      <div className="border-t border-sidebar-border flex-shrink-0 px-3 pt-3 pb-2 flex flex-col items-stretch gap-1">
+        {isExpanded && <DemoControlsPanel className="w-full mx-0" compact />}
       </div>
     </aside>
   );
