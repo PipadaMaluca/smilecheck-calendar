@@ -1,5 +1,6 @@
 import { Home, Calendar, Users, MessageCircle, Award, Gift, BarChart3, Search, TrendingUp, Receipt, Gift as GiftIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Logo } from '@/components/branding/Logo';
@@ -83,6 +84,29 @@ export function DesktopNavSidebar({
 
   const items = NAV_ITEMS_BY_ROLE[userRole];
 
+  // Square size adapts to the available nav height so every button fits without scrolling.
+  const navRef = useRef<HTMLElement>(null);
+  const [btnSize, setBtnSize] = useState(88);
+  const NAV_GAP = 6;
+  const NAV_PAD_Y = 16;
+  useLayoutEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const compute = () => {
+      const n = items.length;
+      const avail = el.clientHeight - NAV_PAD_Y - NAV_GAP * (n - 1);
+      const maxW = el.clientWidth - 24;
+      const next = Math.max(44, Math.min(88, maxW, Math.floor(avail / n)));
+      setBtnSize((prev) => (prev === next ? prev : next));
+    };
+    compute();
+    const ro = new ResizeObserver(compute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [items.length, isExpanded]);
+  const iconOnly = btnSize < 64;
+  const tight = btnSize < 76;
+
   const onboardingIdMap: Record<string, string> = {
     'agenda': 'onboarding-nav-agenda',
     'saude': 'onboarding-nav-saude',
@@ -120,15 +144,20 @@ export function DesktopNavSidebar({
         id={onboardingIdMap[item.id]}
         variant="ghost"
         onClick={() => handleTabChange(item.id)}
+        aria-label={item.label}
+        title={iconOnly || !isExpanded ? item.label : undefined}
+        style={{ width: btnSize, height: btnSize }}
         className={cn(
-          'flex flex-col items-center justify-center gap-1 h-auto aspect-square p-1 w-full shrink-0 transition-colors duration-150 relative rounded-xl overflow-hidden',
+          'flex flex-col items-center justify-center p-1 mx-auto shrink-0',
+          tight ? 'gap-0.5' : 'gap-1',
+          ' transition-colors duration-150 relative rounded-xl overflow-hidden',
           isActive
             ? 'bg-primary/15 text-sidebar-foreground hover:bg-primary/20'
             : 'text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/40'
         )}
       >
         <div className="relative">
-          <Icon className={cn('w-5 h-5 flex-shrink-0', isActive && 'text-primary')} />
+          <Icon className={cn(tight ? 'w-4 h-4' : 'w-5 h-5', 'flex-shrink-0', isActive && 'text-primary')} />
           {badge && (
             badge.type === 'count' ? (
             <span role="status" aria-label={t('sidebarBadges.count', { count: Number(badge.value) })} className="absolute -top-1.5 -right-2.5 min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center text-2xs font-semibold tabular-nums bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-2 border-sidebar">
@@ -139,8 +168,8 @@ export function DesktopNavSidebar({
           )
           )}
         </div>
-        {isExpanded && (
-          <span className={cn(
+        {isExpanded && !iconOnly && (
+          <span aria-hidden="true" className={cn(
             'text-2xs font-medium text-center leading-tight w-full px-0 break-words line-clamp-2',
             isActive && 'text-primary'
           )}>
@@ -160,26 +189,30 @@ export function DesktopNavSidebar({
         isExpanded ? 'w-[113px]' : 'w-[65px]'
       )}
     >
-      {/* Logo + Pro Badge */}
-      <div data-sidebar-logo-block className="h-app-header box-border flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 gap-1 px-3 overflow-hidden">
-        <Logo
-          variant="icon"
-          size={userRole === 'patient' ? (isExpanded ? 60 : 52) : (isExpanded ? 38 : 34)}
-          enter="app"
-          className="transition-colors duration-300"
-        />
-        {userRole !== 'patient' && (
-          <span className={cn(
-            'font-bold rounded-full bg-amber-500/20 text-warning border border-amber-500/30 text-center',
-            isExpanded ? 'text-2xs px-2.5 py-0.5' : 'text-2xs px-1.5 py-0'
-          )}>
-            Pro
-          </span>
-        )}
+      {/* Logo with Pro seal overlaid bottom-right */}
+      <div data-sidebar-logo-block className="h-app-header box-border flex items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 px-3">
+        <div className="relative">
+          <Logo
+            variant="icon"
+            size={isExpanded ? 60 : 44}
+            enter="app"
+            className="transition-colors duration-300"
+          />
+          {userRole !== 'patient' && (
+            <span
+              data-sidebar-pro-seal
+              className="absolute -bottom-1 -right-2 rounded-full bg-sidebar px-0.5 py-0.5 leading-none"
+            >
+              <span className="block rounded-full bg-warning/20 text-warning border border-warning/40 font-bold text-2xs px-1.5 py-0.5 leading-none">
+                Pro
+              </span>
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 gap-1.5 overflow-y-auto">
+      <nav ref={navRef} className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 gap-1.5 overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
