@@ -5,7 +5,9 @@ import { z } from "npm:zod@3";
 // Saves a clinic's address (owner only) and geocodes it server-side with Nominatim (OpenStreetMap).
 // Usage policy: max 1 request/second (global DB throttle), identifying User-Agent, cache = only
 // re-query when the address changes (clinics.geocoded_address). Only clinic (professional) addresses are sent.
-const USER_AGENT = "SmileCheck/1.0 (clinic address geocoding)";
+const APP_URL = "https://id-preview--32406e4d-a317-44f1-9a40-adff5c8d9619.lovable.app";
+const USER_AGENT = `SmileCheck/1.0 (+${APP_URL})`;
+const HEADERS = { "User-Agent": USER_AGENT, "Referer": APP_URL, "Accept-Language": "pt,fr,en" };
 const NOMINATIM = "https://nominatim.openstreetmap.org/search";
 
 const Save = z.object({
@@ -32,17 +34,17 @@ async function geocode(admin: SupabaseClient, c: Clinic): Promise<{ lat: number;
   if (c.postal_code) params.set("postalcode", c.postal_code);
   if (c.city) params.set("city", c.city);
   let res: Response;
-  try { res = await fetch(`${NOMINATIM}?${params}`, { headers: { "User-Agent": USER_AGENT, "Accept-Language": "pt,fr,en" } }); }
+  try { res = await fetch(`${NOMINATIM}?${params}`, { headers: HEADERS }); }
   catch (e) { console.error("Nominatim fetch failed:", String(e)); return "error"; }
-  if (!res.ok) { console.error(`Nominatim [${res.status}]`); return "error"; }
+  if (!res.ok) { console.error(`Nominatim [${res.status}]: ${(await res.text()).slice(0, 300)}`); return "error"; }
   let rows = await res.json() as { lat: string; lon: string }[];
   if (!rows.length) {
     // Free-text fallback (e.g. "Rue de Paris 45, Mitry-Mory" stored in one field).
     await admin.rpc("claim_geocode_slot");
     const q = [c.address, c.postal_code, c.city].filter(Boolean).join(", ");
     res = await fetch(`${NOMINATIM}?${new URLSearchParams({ format: "jsonv2", limit: "1", countrycodes: country, q })}`,
-      { headers: { "User-Agent": USER_AGENT } });
-    if (!res.ok) { console.error(`Nominatim [${res.status}]`); return "error"; }
+      { headers: HEADERS });
+    if (!res.ok) { console.error(`Nominatim [${res.status}]: ${(await res.text()).slice(0, 300)}`); return "error"; }
     rows = await res.json();
   }
   if (!rows.length) return null;
