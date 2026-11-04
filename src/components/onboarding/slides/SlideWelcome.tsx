@@ -24,11 +24,11 @@ export const SlideWelcome = ({ isActive, userRole }: SlideWelcomeProps) => {
         <Sparkles className={`absolute -top-2 -right-2 w-8 h-8 text-gaming-gold`} />
         <Sparkles className={`absolute bottom-2 -left-4 w-6 h-6 text-gaming-diamond`} style={{ animationDelay: '0.5s' }} />
       </div>
-      <h1 className="font-gaming text-3xl md:text-4xl text-foreground mb-3">
+      <h1 className="font-gaming text-3xl md:text-4xl text-foreground mb-3 text-center text-balance max-w-xl mx-auto">
         {t('onboarding.welcomeTo')}{' '}<span className="text-gaming-diamond">{keepHyphenated(title)}</span>
       </h1>
-      <p className="text-xl text-muted-foreground mb-6">{keepHyphenated(subtitle)}</p>
-      <div className="glass-card p-6 max-w-sm">
+      <p className="text-xl text-muted-foreground mb-6 text-center text-balance max-w-xl mx-auto">{keepHyphenated(subtitle)}</p>
+      <div className="glass-card p-6 max-w-sm mx-auto text-center">
         <p className="text-foreground/90 leading-relaxed">
           <span className="text-gaming-gold font-semibold">{keepHyphenated(tagline.split(',')[0])}</span>
           {tagline.includes(',') && <>, <span className="text-gaming-diamond font-semibold">{keepHyphenated(tagline.split(',').slice(1).join(',').trim())}</span></>}
