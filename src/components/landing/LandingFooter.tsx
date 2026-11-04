@@ -4,19 +4,25 @@ import { Button } from '@/components/ui/button';
 import { Instagram, Facebook, Linkedin, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
-import { SHOW_X_SOCIAL } from '@/lib/landingFlags';
+import { SHOW_SOCIAL_LINKS, SOCIAL_LINKS } from '@/lib/landingFlags';
 import { scrollToLandingSection, selectPricingTab, type PricingTab } from '@/lib/landingNav';
 
 export function LandingFooter() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
-  const socials = [
-    { name: 'Instagram', Icon: Instagram, href: 'https://instagram.com/smilecheck' },
-    { name: 'Facebook', Icon: Facebook, href: 'https://facebook.com/smilecheck' },
-    { name: 'LinkedIn', Icon: Linkedin, href: 'https://linkedin.com/company/smilecheck' },
-    ...(SHOW_X_SOCIAL ? [{ name: 'X', Icon: null, href: 'https://x.com/smilecheck' }] : []),
-  ];
+  // Only render accounts whose URL the owner has filled in (see landingFlags).
+  const socials = (SHOW_SOCIAL_LINKS
+    ? [
+        { key: 'instagram' as const, name: 'Instagram', Icon: Instagram },
+        { key: 'facebook' as const, name: 'Facebook', Icon: Facebook },
+        { key: 'linkedin' as const, name: 'LinkedIn', Icon: Linkedin },
+        { key: 'x' as const, name: 'X', Icon: null },
+      ]
+    : []
+  )
+    .map((s) => ({ ...s, href: SOCIAL_LINKS[s.key].trim() }))
+    .filter((s) => s.href !== '');
 
   type InPageLink = { label: string; section: string; title: string; tab?: PricingTab };
   const productLinks: InPageLink[] = [
@@ -87,6 +93,7 @@ export function LandingFooter() {
               <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} lazy /></span>
             </div>
             <p className="text-base text-muted-foreground max-w-md [.light_&]:text-muted-foreground">{t('landing.footer.tagline')}</p>
+            {socials.length > 0 && (
             <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
               {socials.map(({ name, Icon, href }) => (
                 <a
@@ -112,6 +119,7 @@ export function LandingFooter() {
                 </a>
               ))}
             </div>
+            )}
           </div>
 
           <div className="border-t border-border mb-8 [.light_&]:border-border" />
