@@ -240,7 +240,7 @@ export function DesktopNavSidebar({
 
       {/* Hidden measurer: same width/typography as the visible labels */}
       {isExpanded && (
-        <div ref={measureRef} aria-hidden="true" className="fixed -left-[9999px] top-0 invisible pointer-events-none flex flex-col">
+        <div ref={measureRef} aria-hidden="true" className="fixed left-0 top-0 invisible pointer-events-none flex flex-col">
           {items.map((item) => (
             <span key={item.id} lang={i18n.language} className={cn(LABEL_CLASS, 'block overflow-hidden')} style={{ width: btnSize - BTN_PAD * 2 }}>
               {visibleLabel(item)}
