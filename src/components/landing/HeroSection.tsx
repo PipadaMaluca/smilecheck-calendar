@@ -1,4 +1,3 @@
-import { onActivateKey } from '@/lib/a11y';
 import { Users, Languages, MapPin, Gift } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
