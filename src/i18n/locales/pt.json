@@ -5365,5 +5365,13 @@
     "accept": "Aceitar e continuar",
     "signOut": "Terminar sessão",
     "error": "Não foi possível guardar a aceitação. Tente novamente."
+  },
+  "navSidebar": {
+    "rewardsStore": "Loja de recom­pensas",
+    "conversations": "Conver­sas",
+    "achievements": "Conquis­tas",
+    "statistics": "Estatís­ticas",
+    "billing": "Fatura­ção",
+    "scores": "Pontua­ções"
   }
 }

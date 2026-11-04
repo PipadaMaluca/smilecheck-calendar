@@ -56,7 +56,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
   const isDark = theme === 'dark';
 
   const baseBtn =
-    'flex-1 h-[26px] rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
+    'flex-1 h-8 rounded-md text-2xs font-semibold transition-colors flex items-center justify-center px-0.5 uppercase';
   const active = 'bg-card text-foreground shadow-sm';
   const inactive = 'bg-transparent text-muted-foreground hover:text-foreground';
 
@@ -77,7 +77,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
 
   const Divider = () => (
     <div
-      className="h-px my-1 rounded-full bg-border" 
+      className={cn('h-px rounded-full bg-border', compact ? 'my-0.5' : 'my-1')}
       aria-hidden="true"
     />
   );
@@ -86,7 +86,7 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
     <div
       className={cn(
         'rounded-lg border border-border bg-muted/60 backdrop-blur-md mx-1',
-        'p-1.5',
+        compact ? 'p-1' : 'p-1.5',
         className
       )}
     >
@@ -112,6 +112,20 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
                 </Tooltip>
               );
             })}
+            {compact && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                    className={cn(baseBtn, inactive)}
+                    aria-label={isDark ? t('demoTooltips.themeLight') : t('demoTooltips.themeDark')}
+                  >
+                    {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top">{isDark ? t('demoTooltips.themeLight') : t('demoTooltips.themeDark')}</TooltipContent>
+              </Tooltip>
+            )}
           </Row>
         </TooltipProvider>
 
@@ -131,22 +145,25 @@ export function DemoControlsPanel({ className, compact = false }: DemoControlsPa
           ))}
         </Row>
 
-        <Divider />
-
-        {/* Theme */}
-        <Row>
-          {themes.map((tt) => (
-            <button
-              key={tt.id}
-              onClick={() => setTheme(tt.id)}
-              className={cn(baseBtn, theme === tt.id ? active : inactive)}
-              aria-label={tt.id}
-              aria-pressed={theme === tt.id}
-            >
-              <tt.Icon className="w-3.5 h-3.5" />
-            </button>
-          ))}
-        </Row>
+        {!compact && (
+          <>
+            <Divider />
+            {/* Theme */}
+            <Row>
+              {themes.map((tt) => (
+                <button
+                  key={tt.id}
+                  onClick={() => setTheme(tt.id)}
+                  className={cn(baseBtn, theme === tt.id ? active : inactive)}
+                  aria-label={tt.tip}
+                  aria-pressed={theme === tt.id}
+                >
+                  <tt.Icon className="w-3.5 h-3.5" />
+                </button>
+              ))}
+            </Row>
+          </>
+        )}
       </div>
     </div>
   );

@@ -395,7 +395,7 @@ export function DesktopTimeline({
                                 {pillEmoji && <span style={{ fontSize: 'inherit', lineHeight: 1 }}>{pillEmoji}</span>}
                               </span>
                               {consultation.notes && (
-                                <span data-notes className="text-2xs text-[#8B9CB6]">
+                                <span data-notes title={consultation.notes} className="text-2xs text-[#8B9CB6]">
                                   {consultation.notes}
                                 </span>
                               )}

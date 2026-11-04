@@ -130,7 +130,7 @@ export function DesktopCalendarSidebar({
       <div className="contents transition-opacity duration-150 ease-in-out opacity-100">
       {/* Find Slot Button */}
       <div className="p-3 flex-shrink-0">
-        <SoonButton className="w-full gap-2 bg-primary hover:bg-primary/90 font-semibold text-xs">
+        <SoonButton className="w-full h-auto min-h-10 py-1.5 flex-wrap gap-x-2 gap-y-1 whitespace-normal text-center bg-primary hover:bg-primary/90 font-semibold text-xs">
           <Search className="w-4 h-4" />
           {t('sweep.calendarSidebar.findSlot')}
         </SoonButton>

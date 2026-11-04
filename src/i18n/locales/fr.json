@@ -5365,5 +5365,13 @@
     "accept": "Accepter et continuer",
     "signOut": "Se déconnecter",
     "error": "Impossible d'enregistrer votre acceptation. Réessayez."
+  },
+  "navSidebar": {
+    "rewardsStore": "Boutique de récom­penses",
+    "conversations": "Conver­sations",
+    "achievements": "Suc­cès",
+    "statistics": "Statis­tiques",
+    "billing": "Factu­ration",
+    "scores": "Scores"
   }
 }

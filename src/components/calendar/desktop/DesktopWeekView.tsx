@@ -345,7 +345,7 @@ export function DesktopWeekView({
                                 <span className={cn('font-mono text-muted-foreground flex-shrink-0', scaleCfg.timeFs)}>
                                   {slot.time}
                                 </span>
-                                <span className={cn('font-semibold truncate text-white', scaleCfg.nameFs)}>
+                                <span className={cn('font-semibold truncate text-white', scaleCfg.nameFs)} title={c.notes ? `${displayName} · ${c.notes}` : displayName}>
                                   {displayName}
                                 </span>
                               </div>

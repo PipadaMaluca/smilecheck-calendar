@@ -5365,5 +5365,13 @@
     "accept": "Accept and continue",
     "signOut": "Sign out",
     "error": "Couldn't save your acceptance. Please try again."
+  },
+  "navSidebar": {
+    "rewardsStore": "Rewards store",
+    "conversations": "Conver­sations",
+    "achievements": "Achieve­ments",
+    "statistics": "Statis­tics",
+    "billing": "Billing",
+    "scores": "Scores"
   }
 }

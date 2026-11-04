@@ -130,7 +130,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               <ClickableClinicName name={consultation.clinic.name} className="text-xs text-muted-foreground" />
             </p>
             {consultation.notes && (
-              <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>
+              <p className="text-xs text-[#8B9CB6] truncate" title={consultation.notes}>{consultation.notes}</p>
             )}
           </>
         ) : (
@@ -143,7 +143,7 @@ export function ConsultationCard({ consultation, userRole, onClick, showFamilyMe
               {showFearDotOnCard(consultation.patient.fearLevel) && <span className="ml-1.5 align-middle"><FearDot level={consultation.patient.fearLevel!} /></span>}
             </p>
             {consultation.notes && (
-              <p className="text-xs text-[#8B9CB6] truncate">{consultation.notes}</p>
+              <p className="text-xs text-[#8B9CB6] truncate" title={consultation.notes}>{consultation.notes}</p>
             )}
             <p className="text-xs text-muted-foreground">
 <Glyph emoji="⭐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{consultation.patient.rating} | 🥈 {consultation.patient.level}
