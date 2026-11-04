@@ -157,14 +157,14 @@ export function DesktopNavSidebar({
     <aside
       className={cn(
         'h-full bg-sidebar text-sidebar-foreground flex flex-col transition-colors duration-300 z-40 flex-shrink-0 border-r border-sidebar-border',
-        isExpanded ? 'w-28' : 'w-16'
+        isExpanded ? 'w-[113px]' : 'w-[65px]'
       )}
     >
       {/* Logo + Pro Badge */}
       <div data-sidebar-logo-block className="h-app-header box-border flex flex-col items-center justify-center border-b border-sidebar-border flex-shrink-0 py-2.5 gap-1 px-3 overflow-hidden">
         <Logo
           variant="icon"
-          size={userRole === 'patient' ? (isExpanded ? 58 : 52) : (isExpanded ? 38 : 34)}
+          size={userRole === 'patient' ? (isExpanded ? 60 : 52) : (isExpanded ? 38 : 34)}
           enter="app"
           className="transition-colors duration-300"
         />
