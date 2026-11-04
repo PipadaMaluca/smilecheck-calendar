@@ -26,12 +26,14 @@ export const addressKey = (c: { address?: string | null; postal_code?: string | 
 
 async function geocode(admin: SupabaseClient, c: Clinic): Promise<{ lat: number; lng: number } | null | "error"> {
   const { error: slotErr } = await admin.rpc("claim_geocode_slot");
-  if (slotErr) return "error";
+  if (slotErr) { console.error("geocode slot failed:", slotErr.message); return "error"; }
   const country = (c.country || "PT").toLowerCase();
   const params = new URLSearchParams({ format: "jsonv2", limit: "1", countrycodes: country, street: c.address ?? "" });
   if (c.postal_code) params.set("postalcode", c.postal_code);
   if (c.city) params.set("city", c.city);
-  let res = await fetch(`${NOMINATIM}?${params}`, { headers: { "User-Agent": USER_AGENT, "Accept-Language": "pt,fr,en" } });
+  let res: Response;
+  try { res = await fetch(`${NOMINATIM}?${params}`, { headers: { "User-Agent": USER_AGENT, "Accept-Language": "pt,fr,en" } }); }
+  catch (e) { console.error("Nominatim fetch failed:", String(e)); return "error"; }
   if (!res.ok) { console.error(`Nominatim [${res.status}]`); return "error"; }
   let rows = await res.json() as { lat: string; lon: string }[];
   if (!rows.length) {
