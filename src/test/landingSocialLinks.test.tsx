@@ -29,7 +29,7 @@ describe('landing footer social links', () => {
   it('keeps the footer content when the social block is hidden', () => {
     const { container } = renderFooter();
     // The real links are still there and nothing empty is left in their place.
-    expect(screen.getByText(/Termos/i)).toBeTruthy();
+    expect(container.querySelector('a[href="/termos"]')).toBeTruthy();
     expect(container.querySelectorAll('a').length).toBeGreaterThan(10);
     const socialRow = Array.from(container.querySelectorAll('div')).find(
       (d) => d.style.gap === '12px' && d.style.marginTop === '16px',
