@@ -4407,7 +4407,8 @@
       "removedFavorite": "Removido dos favoritos",
       "addedFavorite": "Adicionado aos favoritos",
       "blockDeleted": "Bloqueio eliminado",
-      "consultationDetails": "Detalhes da consulta"
+      "consultationDetails": "Detalhes da consulta",
+      "pastSlot": "Não é possível mover para um horário passado"
     },
     "devices": {
       "title": "Dispositivos ligados",
@@ -5369,7 +5370,7 @@
     "error": "Não foi possível guardar a aceitação. Tente novamente."
   },
   "navSidebar": {
-    "rewardsStore": "Loja de recom­pensas",
+    "rewardsStore": "Loja",
     "conversations": "Conver­sas",
     "achievements": "Conquis­tas",
     "statistics": "Estatís­ticas",

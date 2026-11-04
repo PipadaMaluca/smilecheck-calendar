@@ -4407,7 +4407,8 @@
       "removedFavorite": "Retiré des favoris",
       "addedFavorite": "Ajouté aux favoris",
       "blockDeleted": "Blocage supprimé",
-      "consultationDetails": "Détails du rendez-vous"
+      "consultationDetails": "Détails du rendez-vous",
+      "pastSlot": "Impossible de déplacer vers un horaire passé"
     },
     "devices": {
       "title": "Appareils connectés",
@@ -5369,7 +5370,7 @@
     "error": "Impossible d'enregistrer votre acceptation. Réessayez."
   },
   "navSidebar": {
-    "rewardsStore": "Boutique de récom­penses",
+    "rewardsStore": "Boutique",
     "conversations": "Conver­sations",
     "achievements": "Suc­cès",
     "statistics": "Statis­tiques",
