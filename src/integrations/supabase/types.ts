@@ -394,6 +394,9 @@ export type Database = {
           country: string
           created_at: string
           email: string | null
+          geocode_status: string | null
+          geocoded_address: string | null
+          geocoded_at: string | null
           hds_certified: boolean
           id: string
           latitude: number | null
@@ -418,6 +421,9 @@ export type Database = {
           country?: string
           created_at?: string
           email?: string | null
+          geocode_status?: string | null
+          geocoded_address?: string | null
+          geocoded_at?: string | null
           hds_certified?: boolean
           id?: string
           latitude?: number | null
@@ -442,6 +448,9 @@ export type Database = {
           country?: string
           created_at?: string
           email?: string | null
+          geocode_status?: string | null
+          geocoded_address?: string | null
+          geocoded_at?: string | null
           hds_certified?: boolean
           id?: string
           latitude?: number | null
@@ -832,6 +841,21 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      geocode_throttle: {
+        Row: {
+          id: boolean
+          last_request_at: string
+        }
+        Insert: {
+          id?: boolean
+          last_request_at?: string
+        }
+        Update: {
+          id?: boolean
+          last_request_at?: string
+        }
+        Relationships: []
       }
       notification_preferences: {
         Row: {
@@ -1640,6 +1664,7 @@ export type Database = {
       }
       can_read_dossier: { Args: { _patient_id: string }; Returns: boolean }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
+      claim_geocode_slot: { Args: never; Returns: undefined }
       confirm_phone_verification: {
         Args: { _profile_id: string }
         Returns: undefined
