@@ -93,6 +93,7 @@ export function LandingFooter() {
               <span className="sc-footer-glow inline-flex"><Logo variant="horizontal" size={220} lazy /></span>
             </div>
             <p className="text-base text-muted-foreground max-w-md [.light_&]:text-muted-foreground">{t('landing.footer.tagline')}</p>
+            {socials.length > 0 && (
             <div style={{ display: 'flex', gap: '12px', marginTop: '16px' }}>
               {socials.map(({ name, Icon, href }) => (
                 <a
