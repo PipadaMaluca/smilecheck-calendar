@@ -87,16 +87,19 @@ export function DesktopNavSidebar({
   // Square size adapts to the available nav height so every button fits without scrolling.
   const navRef = useRef<HTMLElement>(null);
   const [btnSize, setBtnSize] = useState(88);
-  const NAV_GAP = 6;
+  const [navGap, setNavGap] = useState(6);
   const NAV_PAD_Y = 16;
   useLayoutEffect(() => {
     const el = navRef.current;
     if (!el) return;
     const compute = () => {
       const n = items.length;
-      const avail = el.clientHeight - NAV_PAD_Y - NAV_GAP * (n - 1);
       const maxW = el.clientWidth - 24;
-      const next = Math.max(44, Math.min(88, maxW, Math.floor(avail / n)));
+      const fit = (gap: number) => Math.floor((el.clientHeight - NAV_PAD_Y - gap * (n - 1)) / n);
+      // Shrink the gap before giving up and scrolling at the 44px touch-target minimum.
+      const gap = fit(6) >= 44 ? 6 : 2;
+      const next = Math.max(44, Math.min(88, maxW, fit(gap)));
+      setNavGap((prev) => (prev === gap ? prev : gap));
       setBtnSize((prev) => (prev === next ? prev : next));
     };
     compute();
@@ -212,7 +215,7 @@ export function DesktopNavSidebar({
       </div>
 
       {/* Navigation */}
-      <nav ref={navRef} className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 gap-1.5 overflow-y-auto">
+      <nav ref={navRef} style={{ gap: navGap }} className="flex-1 min-h-0 items-stretch justify-start flex flex-col py-2 px-3 overflow-y-auto">
         {items.map((item) => renderNavButton(item))}
       </nav>
 
