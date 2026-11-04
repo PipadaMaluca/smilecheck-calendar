@@ -18,6 +18,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { useThreeDayDragMove } from './useThreeDayDragMove';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -267,6 +268,7 @@ export function DentistCalendar() {
           selectedDate={selectedDate}
           getSlots={getSlots}
           onSlotClick={handleSlotClick}
+          onDragMove={threeDayDrag.onDragMove}
         />
       );
     }

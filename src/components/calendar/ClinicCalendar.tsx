@@ -14,6 +14,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { MobileHeader } from './mobile/MobileHeader';
 import { MobileSidebar } from './mobile/MobileSidebar';
 import { ThreeDayView } from './mobile/ThreeDayView';
+import { useThreeDayDragMove } from './useThreeDayDragMove';
 import { DashboardView } from '@/components/dashboard/DashboardView';
 import { SettingsView } from '@/components/settings/SettingsView';
 import { InviteView } from '@/components/settings/InviteView';
@@ -384,6 +385,7 @@ export function ClinicCalendar() {
                 selectedDate={selectedDate}
                 getSlots={getSlots}
                 onSlotClick={(slot) => slot.consultation && setSelectedConsultation(slot.consultation)}
+                onDragMove={threeDayDrag.onDragMove}
               />
             ) : viewMode === 'list' ? (
               <TimeSlotView 
