@@ -39,6 +39,7 @@ import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
 import { generateTimeSlots } from '@/data/mockData';
+import { useAgendaAvailability } from '@/data/agendaAvailability';
 import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
@@ -63,6 +64,7 @@ const getPresentDentistMobileKeys = (d: Directory) => d.clinicDentists.filter(cd
 
 export function DentistCalendar() {
   const dir = useDirectory();
+  const availVersion = useAgendaAvailability(!dir.isDemo);
   const { clinics: mockClinics, dentists: mockDentists, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } = dir;
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
   const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
@@ -130,13 +132,13 @@ export function DentistCalendar() {
         const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
-        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        const slots = generateTimeSlots(selectedDate, dentistConsultations, { dentistId: dentist.id, clinicId: clinic.id });
         result.push({ dentist, clinic, worksToday, slots });
       });
     });
     
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
 
   /**
    * Mobile pills row: include ALL dentists from any clinic that has at least
@@ -152,12 +154,12 @@ export function DentistCalendar() {
         const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
-        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        const slots = generateTimeSlots(selectedDate, dentistConsultations, { dentistId: dentist.id, clinicId: clinic.id });
         result.push({ dentist, clinic, worksToday, slots });
       });
     });
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
 
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
@@ -207,7 +209,7 @@ export function DentistCalendar() {
       const clinicId = parts[0];
       const dentistId = parts.slice(1).join('-') || parts[0];
       const consultations = agendaConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId);
-      return generateTimeSlots(date, consultations);
+      return generateTimeSlots(date, consultations, { dentistId, clinicId });
     }
     // Default to first dentist
     const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1');
