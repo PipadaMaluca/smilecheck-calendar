@@ -1,3 +1,4 @@
+import { takePendingTriage } from '@/lib/pendingTriage';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { notifyProfileSilently } from '@/data/notificationsSource';
@@ -166,6 +167,8 @@ export async function createAppointment(input: CreateAppointmentInput): Promise<
     .single();
 
   if (error) throw error;
+
+  await attachPendingTriage(data.id, input.patientId);
 
   const slot = formatSlot(input.scheduledAt);
   notifyProfileSilently({
@@ -588,4 +591,17 @@ export async function requestReschedule(id: string, scheduledAt: string): Promis
     if (error.message?.includes('slot_taken')) throw new SlotTakenError();
     throw error;
   }
+}
+
+/** Links the triage just answered in this tab to the appointment the patient booked (own bookings only). */
+async function attachPendingTriage(appointmentId: string, patientId: string) {
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user || auth.user.id !== patientId) return;
+  const answers = takePendingTriage();
+  if (!answers) return;
+  const { data: appt } = await supabase.from('appointments').select('family_member_id').eq('id', appointmentId).maybeSingle();
+  await supabase.from('triage_responses').insert({
+    appointment_id: appointmentId, patient_id: patientId,
+    family_member_id: appt?.family_member_id ?? null, answers: answers as never,
+  });
 }

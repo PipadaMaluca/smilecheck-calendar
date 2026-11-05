@@ -1,3 +1,4 @@
+import { savePendingTriage } from '@/lib/pendingTriage';
 import { AiNotice } from '@/components/ai/AiNotice';
 import { useState } from 'react';
 import { TriageHeader } from './TriageHeader';
@@ -33,6 +34,7 @@ export function TriageInline({ onClose, onGoHome }: TriageInlineProps) {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
     } else {
+      savePendingTriage(triageData);
       setIsCompleted(true);
     }
   };

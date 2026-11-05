@@ -1,3 +1,4 @@
+import { savePendingTriage } from '@/lib/pendingTriage';
 import { AiNotice } from '@/components/ai/AiNotice';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +38,7 @@ export function TriageFlow() {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
     } else {
+      savePendingTriage(triageData);
       setIsCompleted(true);
     }
   };
