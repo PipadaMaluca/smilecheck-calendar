@@ -120,7 +120,7 @@ const DEMO_TEXT_FIELDS = ['notes', 'triage.symptom', 'triage.duration'];
 // Dashboard, Agenda, desktop, tablet, and mobile must all render this same data.
 export const mockPatientConsultations: Consultation[] = localizeDemoObjects(([
   // João Silva's own history and upcoming visits: at most one per day, always with his
-  // dentists at Clínica SmileCheck, in-person only (teleconsultation is "Em breve").
+  // dentists at Clínica SmileCheck, in-person only (teleconsultation not built yet).
   {
     id: 'pat-1',
     type: 'presencial',

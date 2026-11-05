@@ -8,7 +8,7 @@ export interface RewardProduct {
   brand?: string;
   discount?: string;
   emoji?: string;
-  /** Not redeemable yet (feature doesn't exist) — shown with "Em breve". */
+  /** Not redeemable yet (feature doesn't exist) — opens the under-construction pop-up. */
   soon?: boolean;
 }
 

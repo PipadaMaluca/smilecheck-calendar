@@ -10,7 +10,7 @@ import { UserRole } from '@/types/calendar';
 
 export const NOTIF_TYPES = ['reminders', 'confirmations', 'points', 'news'] as const;
 export const NOTIF_CHANNELS = ['email', 'push', 'sms', 'whatsapp'] as const;
-/** Only e-mail works today; the other channels are "Em breve" and the server refuses enabling them. */
+/** Only e-mail works today; the other channels open the under-construction pop-up and the server refuses enabling them. */
 export const AVAILABLE_CHANNELS: ReadonlySet<string> = new Set(['email']);
 const DEFAULT_ON: ReadonlySet<string> = new Set(['reminders', 'confirmations']);
 
