@@ -5773,7 +5773,10 @@
     "saved": "Photo mise à jour",
     "error": "Impossible de mettre à jour la photo.",
     "badImage": "Choisissez une image JPG, PNG ou WebP.",
-    "tooBig": "L’image est trop lourde (2 Mo max.)."
+    "tooBig": "L’image est trop lourde (2 Mo max.).",
+    "photoVisibility": "Photo visible par",
+    "photoVisibilityPublic": "Tout le monde",
+    "photoVisibilityContacts": "Mes contacts uniquement"
   },
   "safetyReal": {
     "riskWith": "risque avec {{tags}} ({{risk}})",

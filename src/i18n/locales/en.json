@@ -5773,7 +5773,10 @@
     "saved": "Photo updated",
     "error": "Could not update the photo.",
     "badImage": "Choose a JPG, PNG or WebP image.",
-    "tooBig": "The image is too large (max. 2 MB)."
+    "tooBig": "The image is too large (max. 2 MB).",
+    "photoVisibility": "Photo visible to",
+    "photoVisibilityPublic": "Everyone",
+    "photoVisibilityContacts": "Only my contacts"
   },
   "safetyReal": {
     "riskWith": "risk with {{tags}} ({{risk}})",
