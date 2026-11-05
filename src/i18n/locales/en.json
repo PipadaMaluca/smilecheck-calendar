@@ -5635,5 +5635,91 @@
       "prescription": "Prescription",
       "referral_letter": "Referral letter"
     }
+  },
+  "dossierReal": {
+    "ownNotesOnly": "No active relationship with this patient: you only see your own notes.",
+    "safetyAlerts": "Clinical safety alerts",
+    "selfDeclared": "Declared by the patient",
+    "declaredByPatient": "Self-declared",
+    "allergies": "Allergies",
+    "conditions": "Conditions",
+    "medications": "Medication",
+    "vaccines": "Vaccines",
+    "bloodType": "Blood type",
+    "clinicalNotes": "Clinical notes per appointment",
+    "noAppointments": "No appointments with this patient yet.",
+    "addNote": "Add note",
+    "correctNote": "Correct note",
+    "noteSaved": "Note saved",
+    "editedOn": "edited on {{date}}",
+    "versionHint": "Every correction is saved as a new version; previous versions are never deleted.",
+    "saveError": "Could not save.",
+    "appointment": "Appointment",
+    "plans": "Treatment plans",
+    "noPlans": "No treatment plans yet.",
+    "internalNotes": "Internal notes",
+    "internalNotesPlaceholder": "Internal notes (not visible to the patient)",
+    "planTitle": "Plan title",
+    "newPlan": "New plan",
+    "procedure": "Procedure",
+    "estimatedPrice": "Estimated price",
+    "itemStatus": "Procedure status",
+    "familyDocsSelfOnly": "Clinical documents are only available for the account holder.",
+    "itemStatusValue": {
+      "planeado": "Planned",
+      "feito": "Done",
+      "cancelado": "Cancelled"
+    },
+    "note": {
+      "motivo": "Reason",
+      "observacoes": "Observations",
+      "diagnostico": "Diagnosis",
+      "tratamento": "Treatment performed",
+      "proximos_passos": "Next steps"
+    },
+    "errors": {
+      "edit_window_closed": "More than 12 months since the last appointment: editing is closed.",
+      "no_active_relationship": "No active relationship with this patient.",
+      "not_clinic_professional": "You are not part of this appointment's clinic."
+    },
+    "odoStatus": {
+      "saudavel": "Healthy",
+      "carie": "Cavity",
+      "restauracao": "Restoration",
+      "endodontia": "Root canal",
+      "coroa": "Crown",
+      "implante": "Implant",
+      "extracao": "Extraction",
+      "ausente": "Missing",
+      "fratura": "Fracture",
+      "selante": "Sealant",
+      "protese": "Prosthesis",
+      "a_tratar": "To treat",
+      "outro": "Other"
+    },
+    "docs": {
+      "title": "Clinical documents",
+      "uploaded": "Document uploaded",
+      "uploadError": "Could not upload the document.",
+      "openError": "Could not open the document.",
+      "byPatient": "Uploaded by the patient",
+      "typeLabel": "Document type",
+      "hint": "PDF, JPG, PNG or WebP, up to 15 MB.",
+      "badType": "File type not allowed. Use PDF, JPG, PNG or WebP.",
+      "tooBig": "The file is larger than 15 MB.",
+      "type": {
+        "radiografia": "X-ray",
+        "relatorio": "Report",
+        "consentimento": "Consent",
+        "outro": "Other"
+      }
+    },
+    "triage": {
+      "empty": "No triage answers for this appointment.",
+      "teeth": "Teeth",
+      "unknown": "Unknown location",
+      "summary": "Summary",
+      "answeredOn": "Answered on {{date}}"
+    }
   }
 }

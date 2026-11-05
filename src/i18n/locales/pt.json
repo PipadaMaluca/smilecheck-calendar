@@ -5635,5 +5635,91 @@
       "prescription": "Receita médica",
       "referral_letter": "Carta de referenciação"
     }
+  },
+  "dossierReal": {
+    "ownNotesOnly": "Sem relação ativa com este paciente: vê apenas as suas próprias notas.",
+    "safetyAlerts": "Avisos de segurança clínica",
+    "selfDeclared": "Declarado pelo paciente",
+    "declaredByPatient": "Autodeclarado",
+    "allergies": "Alergias",
+    "conditions": "Condições",
+    "medications": "Medicação",
+    "vaccines": "Vacinas",
+    "bloodType": "Grupo sanguíneo",
+    "clinicalNotes": "Notas clínicas por consulta",
+    "noAppointments": "Ainda sem consultas com este paciente.",
+    "addNote": "Adicionar nota",
+    "correctNote": "Corrigir nota",
+    "noteSaved": "Nota guardada",
+    "editedOn": "editada em {{date}}",
+    "versionHint": "Cada correção fica guardada como nova versão; as versões anteriores não são apagadas.",
+    "saveError": "Não foi possível guardar.",
+    "appointment": "Consulta",
+    "plans": "Planos de tratamento",
+    "noPlans": "Ainda sem planos de tratamento.",
+    "internalNotes": "Notas internas",
+    "internalNotesPlaceholder": "Notas internas (não visíveis ao paciente)",
+    "planTitle": "Título do plano",
+    "newPlan": "Novo plano",
+    "procedure": "Procedimento",
+    "estimatedPrice": "Preço estimado",
+    "itemStatus": "Estado do procedimento",
+    "familyDocsSelfOnly": "Os documentos clínicos estão disponíveis apenas para o titular da conta.",
+    "itemStatusValue": {
+      "planeado": "Planeado",
+      "feito": "Feito",
+      "cancelado": "Cancelado"
+    },
+    "note": {
+      "motivo": "Motivo",
+      "observacoes": "Observações",
+      "diagnostico": "Diagnóstico",
+      "tratamento": "Tratamento realizado",
+      "proximos_passos": "Próximos passos"
+    },
+    "errors": {
+      "edit_window_closed": "Já passaram mais de 12 meses desde a última consulta: a edição está fechada.",
+      "no_active_relationship": "Sem relação ativa com este paciente.",
+      "not_clinic_professional": "Não pertence à clínica desta consulta."
+    },
+    "odoStatus": {
+      "saudavel": "Saudável",
+      "carie": "Cárie",
+      "restauracao": "Restauração",
+      "endodontia": "Endodontia",
+      "coroa": "Coroa",
+      "implante": "Implante",
+      "extracao": "Extração",
+      "ausente": "Ausente",
+      "fratura": "Fratura",
+      "selante": "Selante",
+      "protese": "Prótese",
+      "a_tratar": "A tratar",
+      "outro": "Outro"
+    },
+    "docs": {
+      "title": "Documentos clínicos",
+      "uploaded": "Documento carregado",
+      "uploadError": "Não foi possível carregar o documento.",
+      "openError": "Não foi possível abrir o documento.",
+      "byPatient": "Carregado pelo paciente",
+      "typeLabel": "Tipo de documento",
+      "hint": "PDF, JPG, PNG ou WebP, até 15 MB.",
+      "badType": "Tipo de ficheiro não permitido. Use PDF, JPG, PNG ou WebP.",
+      "tooBig": "O ficheiro excede 15 MB.",
+      "type": {
+        "radiografia": "Radiografia",
+        "relatorio": "Relatório",
+        "consentimento": "Consentimento",
+        "outro": "Outro"
+      }
+    },
+    "triage": {
+      "empty": "Sem respostas de triagem para esta consulta.",
+      "teeth": "Dentes",
+      "unknown": "Localização desconhecida",
+      "summary": "Resumo",
+      "answeredOn": "Respondida em {{date}}"
+    }
   }
 }

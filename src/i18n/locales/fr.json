@@ -5635,5 +5635,91 @@
       "prescription": "Ordonnance",
       "referral_letter": "Lettre d'adressage"
     }
+  },
+  "dossierReal": {
+    "ownNotesOnly": "Aucune relation active avec ce patient : vous ne voyez que vos propres notes.",
+    "safetyAlerts": "Alertes de sécurité clinique",
+    "selfDeclared": "Déclaré par le patient",
+    "declaredByPatient": "Autodéclaré",
+    "allergies": "Allergies",
+    "conditions": "Pathologies",
+    "medications": "Médicaments",
+    "vaccines": "Vaccins",
+    "bloodType": "Groupe sanguin",
+    "clinicalNotes": "Notes cliniques par consultation",
+    "noAppointments": "Aucune consultation avec ce patient pour l’instant.",
+    "addNote": "Ajouter une note",
+    "correctNote": "Corriger la note",
+    "noteSaved": "Note enregistrée",
+    "editedOn": "modifiée le {{date}}",
+    "versionHint": "Chaque correction est enregistrée comme nouvelle version ; les versions précédentes ne sont pas supprimées.",
+    "saveError": "Impossible d’enregistrer.",
+    "appointment": "Consultation",
+    "plans": "Plans de traitement",
+    "noPlans": "Aucun plan de traitement pour l’instant.",
+    "internalNotes": "Notes internes",
+    "internalNotesPlaceholder": "Notes internes (non visibles par le patient)",
+    "planTitle": "Titre du plan",
+    "newPlan": "Nouveau plan",
+    "procedure": "Acte",
+    "estimatedPrice": "Prix estimé",
+    "itemStatus": "Statut de l’acte",
+    "familyDocsSelfOnly": "Les documents cliniques ne sont disponibles que pour le titulaire du compte.",
+    "itemStatusValue": {
+      "planeado": "Prévu",
+      "feito": "Réalisé",
+      "cancelado": "Annulé"
+    },
+    "note": {
+      "motivo": "Motif",
+      "observacoes": "Observations",
+      "diagnostico": "Diagnostic",
+      "tratamento": "Traitement réalisé",
+      "proximos_passos": "Prochaines étapes"
+    },
+    "errors": {
+      "edit_window_closed": "Plus de 12 mois depuis la dernière consultation : la modification est fermée.",
+      "no_active_relationship": "Aucune relation active avec ce patient.",
+      "not_clinic_professional": "Vous n’appartenez pas au cabinet de cette consultation."
+    },
+    "odoStatus": {
+      "saudavel": "Sain",
+      "carie": "Carie",
+      "restauracao": "Restauration",
+      "endodontia": "Endodontie",
+      "coroa": "Couronne",
+      "implante": "Implant",
+      "extracao": "Extraction",
+      "ausente": "Absente",
+      "fratura": "Fracture",
+      "selante": "Scellement",
+      "protese": "Prothèse",
+      "a_tratar": "À traiter",
+      "outro": "Autre"
+    },
+    "docs": {
+      "title": "Documents cliniques",
+      "uploaded": "Document envoyé",
+      "uploadError": "Impossible d’envoyer le document.",
+      "openError": "Impossible d’ouvrir le document.",
+      "byPatient": "Envoyé par le patient",
+      "typeLabel": "Type de document",
+      "hint": "PDF, JPG, PNG ou WebP, 15 Mo maximum.",
+      "badType": "Type de fichier non autorisé. Utilisez PDF, JPG, PNG ou WebP.",
+      "tooBig": "Le fichier dépasse 15 Mo.",
+      "type": {
+        "radiografia": "Radiographie",
+        "relatorio": "Compte rendu",
+        "consentimento": "Consentement",
+        "outro": "Autre"
+      }
+    },
+    "triage": {
+      "empty": "Aucune réponse de triage pour cette consultation.",
+      "teeth": "Dents",
+      "unknown": "Localisation inconnue",
+      "summary": "Résumé",
+      "answeredOn": "Répondu le {{date}}"
+    }
   }
 }
