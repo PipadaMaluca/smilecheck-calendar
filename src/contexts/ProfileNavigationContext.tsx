@@ -1,6 +1,7 @@
 import { createContext, useContext, useCallback } from 'react';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useDirectory } from '@/data/directorySource';
+import { fetchPublicDentist, isUuid } from '@/data/publicProfiles';
 
 interface ProfileNavigationContextType {
   openDentistProfile: (dentistNameOrResult: string | DentistSearchResult) => void;
@@ -24,6 +25,14 @@ export function ProfileNavigationProvider({
   const dir = useDirectory();
   const { clinics: mockClinics } = dir;
   const openDentistProfile = useCallback((nameOrResult: string | DentistSearchResult) => {
+    if (typeof nameOrResult === 'string' && !dir.isDemo) {
+      // Real: uuid or a directory name → public-only profile from the server.
+      const id = isUuid(nameOrResult)
+        ? nameOrResult
+        : dir.dentists.find((d) => d.name.toLowerCase() === nameOrResult.toLowerCase())?.id;
+      if (id) void fetchPublicDentist(id).then((d) => { if (d) onOpenDentistProfile(d); });
+      return;
+    }
     if (typeof nameOrResult === 'string') {
       const dentist = MOCK_DENTIST_RESULTS.find(
         (d) => d.name.toLowerCase() === nameOrResult.toLowerCase()
@@ -32,7 +41,7 @@ export function ProfileNavigationProvider({
     } else {
       onOpenDentistProfile(nameOrResult);
     }
-  }, [onOpenDentistProfile]);
+  }, [onOpenDentistProfile, dir]);
 
   const openClinicProfile = useCallback((nameOrId: string) => {
     const byId = mockClinics.find((c) => c.id === nameOrId);
@@ -42,7 +51,7 @@ export function ProfileNavigationProvider({
       const byName = mockClinics.find((c) => c.name.toLowerCase() === nameOrId.toLowerCase());
       if (byName) onOpenClinicProfile(byName.id);
     }
-  }, [onOpenClinicProfile]);
+  }, [onOpenClinicProfile, mockClinics]);
 
   const openPatientProfile = useCallback((patientId: string) => {
     onOpenPatientProfile?.(patientId);
