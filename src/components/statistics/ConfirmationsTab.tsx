@@ -134,6 +134,9 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
         })}
       </div>
 
+      {dentistsToShow.length === 0 && (
+        <EmptyState icon={CheckCircle} title={t('emptyStates.confirmationsTitle')} description={t('emptyStates.confirmationsDesc')} />
+      )}
       {dentistsToShow.map(dentist => {
         const dCons = todayConsultations
           .filter(c => dentistKey(c) === dentist.id)
