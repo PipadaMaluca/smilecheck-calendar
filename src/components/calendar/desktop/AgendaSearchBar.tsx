@@ -5,7 +5,7 @@ import { Search, X, User, Stethoscope, Building2, Phone, CalendarPlus, CheckCirc
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
@@ -44,6 +44,8 @@ interface AgendaSearchBarProps {
 }
 
 export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics } = dir;
   const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
   const [query, setQuery] = useState('');

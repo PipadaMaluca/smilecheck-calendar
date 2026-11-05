@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { UserRole } from '@/types/calendar';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { format } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -42,6 +42,8 @@ interface Props {
 }
 
 export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, userRole, onClose }: Props) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const [selectedAgendas, setSelectedAgendas] = useState<string[]>(dentistKey ? [dentistKey] : ['1-1']);
   const [startDate, setStartDate] = useState<Date>(initialDate);

@@ -31,6 +31,7 @@ import { InstallAppButton } from '@/components/pwa/InstallPrompt';
 import { AccountDataSection } from '@/components/settings/AccountDataSection';
 import { ClinicAddressSection } from '@/components/settings/ClinicAddressSection';
 import { DentistLanguagesSection } from '@/components/settings/DentistLanguagesSection';
+import { WorkingHoursSection } from '@/components/settings/WorkingHoursSection';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -77,6 +78,7 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {userRole === 'clinic' && <ClinicAddressSection />}
         {userRole === 'dentist' && <DentistLanguagesSection />}
+        {userRole === 'dentist' && <WorkingHoursSection />}
 
         {/* 3. Notificações (collapsible) */}
         <Card className="bg-card/80 backdrop-blur border-border">

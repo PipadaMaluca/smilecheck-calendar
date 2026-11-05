@@ -18,7 +18,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
+import { FamilyMembersSection } from '@/components/profile/FamilyMembersSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import {
@@ -312,6 +313,8 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const [fearLevel, setFearLevel] = useState<number | null>(null);
   useEffect(() => {
@@ -346,7 +349,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   );
 
   // Dentist state
-  const [dentistName, setDentistName] = useState(mockDentists[0].name);
+  const [dentistName, setDentistName] = useState(dir.isDemo ? mockDentists[0]?.name ?? '' : dir.selfName);
   const [dentistEmail, setDentistEmail] = useState('goncalo.pipo@smilecheck.pt');
   const [dentistPhone, setDentistPhone] = useState('+351 910 000 000');
   const [dentistBirthDate, setDentistBirthDate] = useState('1985-07-22');
@@ -371,11 +374,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
   );
 
   // Clinic state
-  const [clinicName, setClinicName] = useState(mockClinics[0].name);
+  const [clinicName, setClinicName] = useState(mockClinics[0]?.name ?? dir.selfName);
   const [clinicEmail, setClinicEmail] = useState('info@smilecheck.pt');
   const [clinicPhone, setClinicPhone] = useState('+351 211 000 000');
   const [clinicNif, setClinicNif] = useState('509 123 456');
-  const [clinicAddress, setClinicAddress] = useState(mockClinics[0].address);
+  const [clinicAddress, setClinicAddress] = useState(mockClinics[0]?.address ?? '');
   const [clinicPostalCode, setClinicPostalCode] = useState('1250-096');
   const [clinicCity, setClinicCity] = useState('Lisboa');
   const [clinicCountry, setClinicCountry] = useState('Portugal');
@@ -525,6 +528,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
 
               <Separator />
               <SectionTitle>{t('editProfile.family')}</SectionTitle>
+              {dir.isDemo ? (
               <div className="space-y-3">
             {familyMembers.map((fm, idx) =>
             <div key={idx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
@@ -538,6 +542,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
             )}
                 <Button variant="outline" size="sm" onClick={addFamilyMember} className="gap-1"><Plus className="w-3 h-3" /> {t('editProfile.addFamily')}</Button>
               </div>
+              ) : <FamilyMembersSection />}
 
               <Separator />
               <SectionTitle>{t('editProfile.notifications')}</SectionTitle>

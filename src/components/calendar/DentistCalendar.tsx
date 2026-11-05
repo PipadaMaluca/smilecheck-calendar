@@ -38,7 +38,8 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
-import { mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { generateTimeSlots } from '@/data/mockData';
+import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
@@ -56,10 +57,12 @@ import { ContestationView } from '@/components/contestation/ContestationView';
 import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Helper functions for filter state
-const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+const getAllDentistMobileKeys = (d: Directory) => d.clinics.flatMap(c => d.getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentDentistMobileKeys = (d: Directory) => d.clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function DentistCalendar() {
+  const dir = useDirectory();
+  const { clinics: mockClinics, dentists: mockDentists, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } = dir;
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
   const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
@@ -73,7 +76,9 @@ export function DentistCalendar() {
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys());
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys(dir));
+  // Real accounts: the directory loads after mount — select the present dentists once it arrives.
+  useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentDentistMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -101,11 +106,11 @@ export function DentistCalendar() {
     }
   }, [activeTab]);
   useEffect(() => () => { agendaSettingsStore.reset(); }, []);
-  const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === mockDentists[0].id) || MOCK_DENTIST_RESULTS[0];
+  const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === dir.selfId) || MOCK_DENTIST_RESULTS[0];
 
   // Consultation mode
   const dentistConsultations = useMemo(() =>
-    agendaConsultations.filter((c) => c.dentist.id === mockDentists[0].id), [agendaConsultations]);
+    agendaConsultations.filter((c) => c.dentist.id === dir.selfId), [agendaConsultations]);
   const consultationMode = useConsultationMode(dentistConsultations);
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -156,7 +161,7 @@ export function DentistCalendar() {
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) {
-      return agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && passesAgendaFilters(c));
+      return agendaConsultations.filter(c => c.dentist.id === dir.selfId && passesAgendaFilters(c));
     }
     return agendaConsultations.filter(c => {
       const key = `${c.clinic.id}-${c.dentist.id}`;
@@ -204,19 +209,19 @@ export function DentistCalendar() {
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1');
+    const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1');
     return generateTimeSlots(date, consultations);
   };
 
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       // "Filtrar Presentes" - select only working dentists
-      setSelectedDentistIds(getPresentDentistMobileKeys());
+      setSelectedDentistIds(getPresentDentistMobileKeys(dir));
       return;
     }
     if (dentistId === 'all') {
       // "Todas as Agendas" - select ALL including non-working
-      setSelectedDentistIds(getAllDentistMobileKeys());
+      setSelectedDentistIds(getAllDentistMobileKeys(dir));
       return;
     }
     const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
@@ -345,10 +350,10 @@ export function DentistCalendar() {
     if (tab === 'consulta-detalhe') {
       const DEMO_DATE = demoDate(2026, 0, 31);
       const dentistCons = agendaConsultations
-        .filter(c => c.dentist.id === mockDentists[0].id && c.date.toDateString() === DEMO_DATE.toDateString())
+        .filter(c => c.dentist.id === dir.selfId && c.date.toDateString() === DEMO_DATE.toDateString())
         .sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0] ?? [...agendaConsultations]
-        .filter(c => c.dentist.id === mockDentists[0].id && c.date.getTime() >= new Date().setHours(0, 0, 0, 0))
+        .filter(c => c.dentist.id === dir.selfId && c.date.getTime() >= new Date().setHours(0, 0, 0, 0))
         .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
       setShowSearch(false); setShowProfile(false); setShowInvite(false);
       setActiveTab('agenda');
@@ -453,7 +458,7 @@ export function DentistCalendar() {
                   onDentistToggle={handleDentistToggle}
                   onClinicToggle={handleMobileClinicToggle}
                   viewMode={viewMode}
-                  currentDentistId={mockDentists[0].id}
+                  currentDentistId={dir.selfId}
                   columns={mobileColumns}
                   activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
                   onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
@@ -462,7 +467,7 @@ export function DentistCalendar() {
             ) : (
               <>
                 <DentistAgendaDropdown
-                  currentDentistId={mockDentists[0].id}
+                  currentDentistId={dir.selfId}
                   selectedDentistIds={selectedDentistIds}
                   onDentistToggle={handleDentistToggle}
                   onClinicToggle={handleMobileClinicToggle}

@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 interface FamilyMember {
   id: string;
   name: string;
-  age: number;
+  age?: number;
   relation: string;
 }
 
@@ -210,7 +210,7 @@ export function PatientSidebar({
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className={cn('text-sm truncate', isSelected && 'font-medium')}>
-                      {member.name} {t('sweep.patientSidebar.ageYears', { age: member.age })}
+                      {member.name}{member.age !== undefined && <> {t('sweep.patientSidebar.ageYears', { age: member.age })}</>}
                     </span>
                     <span className="text-xs text-muted-foreground">{member.relation}</span>
                   </div>

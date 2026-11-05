@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Filter, ChevronDown, ChevronUp, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { mockClinics, getDentistsForClinic, clinicDentists } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -77,6 +77,8 @@ export function MobileAgendaFilter({
   activeKey,
   onActiveKeyChange,
 }: MobileAgendaFilterProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics, getDentistsForClinic, clinicDentists } = dir;
   const { t } = useTranslation();
   const filters = useAgendaFilters();
   const [open, setOpen] = useState(false);

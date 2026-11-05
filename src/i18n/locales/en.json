@@ -2216,7 +2216,15 @@
     "noResultsDesc": "Try adjusting your search or filters.",
     "inviteLimitReached": "You have reached your plan limit of {{count, number}} dentists. Upgrade your plan to invite more dentists.",
     "consultationsLabel_one": "{{count, number}} appointment",
-    "consultationsLabel_other": "{{count, number}} appointments"
+    "consultationsLabel_other": "{{count, number}} appointments",
+    "errors": {
+      "invalid_email": "Invalid email.",
+      "already_member": "This dentist already belongs to the clinic.",
+      "already_invited": "There's already a pending invitation for this email.",
+      "last_clinic": "You can't leave your last clinic.",
+      "not_dentist": "Only dentist accounts can accept clinic invitations.",
+      "generic": "Couldn't complete this. Please try again."
+    }
   },
   "availability": {
     "selectClinic": "Select clinic",
@@ -4810,7 +4818,8 @@
     "freeSlotAt": "Free slot at {{time}} — {{name}}",
     "copyCode": "Copy code",
     "previousSlide": "Previous slide",
-    "nextSlide": "Next slide"
+    "nextSlide": "Next slide",
+    "save": "Save"
   },
   "demoText": {
     "abcesso": "Abscess",
@@ -5422,5 +5431,60 @@
     "save": "Save languages",
     "saved": "Languages saved",
     "saveError": "Couldn't save the languages. Please try again."
+  },
+  "directory": {
+    "invites": {
+      "title": "Clinic invitations",
+      "sentOn": "Received on {{date}}",
+      "accept": "Accept",
+      "decline": "Decline",
+      "accepted": "You joined the clinic",
+      "declined": "Invitation declined",
+      "toast_one": "You have {{count}} clinic invitation waiting",
+      "toast_other": "You have {{count}} clinic invitations waiting",
+      "view": "View"
+    },
+    "leave": {
+      "button": "Leave clinic",
+      "lastClinic": "You can't leave your last clinic.",
+      "title": "Leave {{clinic}}?",
+      "description": "You'll no longer appear at this clinic. Appointments already recorded are not deleted.",
+      "confirm": "Leave",
+      "done": "You left the clinic"
+    },
+    "team": {
+      "inviteHint": "The dentist gets the invitation when signing in to the app and is only added after accepting.",
+      "inviteSent": "Invitation sent",
+      "emptyTitle": "No dentists yet",
+      "emptyDesc": "Invite dentists by email to build your team.",
+      "noClinicTitle": "No clinic registered",
+      "noClinicDesc": "Register your clinic to manage the team.",
+      "removeTitle": "Remove {{name}} from the clinic?",
+      "removeDesc": "The dentist will no longer belong to the clinic. Appointments already recorded are not deleted.",
+      "removeConfirm": "Remove",
+      "removed": "Dentist removed from the clinic"
+    },
+    "hours": {
+      "title": "Working hours",
+      "start": "Start",
+      "end": "End",
+      "lunch": "Lunch break",
+      "lunchStart": "Break start",
+      "lunchEnd": "Break end",
+      "save": "Save hours",
+      "saved": "Hours saved",
+      "invalid": "Check the times: start must be before end and the break within working hours.",
+      "notSet": "Hours not set"
+    },
+    "family": {
+      "birthDate": "Date of birth",
+      "empty": "You haven't added any family members yet.",
+      "saved": "Family member saved",
+      "removeTitle": "Remove {{name}}?",
+      "removeDesc": "Appointments already booked for this family member are kept."
+    }
+  },
+  "family": {
+    "saveError": "Couldn't save. Please try again."
   }
 }

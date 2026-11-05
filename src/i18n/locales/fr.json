@@ -2200,7 +2200,15 @@
     "noResultsDesc": "Essayez d'ajuster la recherche ou les filtres.",
     "inviteLimitReached": "Vous avez atteint la limite de {{count, number}} dentistes de votre forfait. Passez à un forfait supérieur pour inviter plus de dentistes.",
     "consultationsLabel_one": "{{count, number}} consultation",
-    "consultationsLabel_other": "{{count, number}} consultations"
+    "consultationsLabel_other": "{{count, number}} consultations",
+    "errors": {
+      "invalid_email": "E-mail invalide.",
+      "already_member": "Ce dentiste fait déjà partie du cabinet.",
+      "already_invited": "Une invitation est déjà en attente pour cet e-mail.",
+      "last_clinic": "Vous ne pouvez pas quitter votre dernier cabinet.",
+      "not_dentist": "Seuls les comptes dentiste peuvent accepter une invitation de cabinet.",
+      "generic": "Impossible de terminer. Veuillez réessayer."
+    }
   },
   "availability": {
     "selectClinic": "Sélectionner le cabinet",
@@ -4810,7 +4818,8 @@
     "freeSlotAt": "Créneau libre à {{time}} — {{name}}",
     "copyCode": "Copier le code",
     "previousSlide": "Diapositive précédente",
-    "nextSlide": "Diapositive suivante"
+    "nextSlide": "Diapositive suivante",
+    "save": "Enregistrer"
   },
   "demoText": {
     "abcesso": "Abcès",
@@ -5422,5 +5431,60 @@
     "save": "Enregistrer les langues",
     "saved": "Langues enregistrées",
     "saveError": "Impossible d'enregistrer les langues. Veuillez réessayer."
+  },
+  "directory": {
+    "invites": {
+      "title": "Invitations de cabinets",
+      "sentOn": "Reçue le {{date}}",
+      "accept": "Accepter",
+      "decline": "Refuser",
+      "accepted": "Vous avez rejoint le cabinet",
+      "declined": "Invitation refusée",
+      "toast_one": "Vous avez {{count}} invitation de cabinet en attente",
+      "toast_other": "Vous avez {{count}} invitations de cabinet en attente",
+      "view": "Voir"
+    },
+    "leave": {
+      "button": "Quitter le cabinet",
+      "lastClinic": "Vous ne pouvez pas quitter votre dernier cabinet.",
+      "title": "Quitter {{clinic}} ?",
+      "description": "Vous n'apparaîtrez plus dans ce cabinet. Les rendez-vous déjà enregistrés ne sont pas supprimés.",
+      "confirm": "Quitter",
+      "done": "Vous avez quitté le cabinet"
+    },
+    "team": {
+      "inviteHint": "Le dentiste reçoit l'invitation en se connectant à l'app et n'est ajouté qu'après l'avoir acceptée.",
+      "inviteSent": "Invitation envoyée",
+      "emptyTitle": "Aucun dentiste pour l'instant",
+      "emptyDesc": "Invitez des dentistes par e-mail pour constituer votre équipe.",
+      "noClinicTitle": "Aucun cabinet enregistré",
+      "noClinicDesc": "Enregistrez votre cabinet pour gérer l'équipe.",
+      "removeTitle": "Retirer {{name}} du cabinet ?",
+      "removeDesc": "Le dentiste ne fera plus partie du cabinet. Les rendez-vous déjà enregistrés ne sont pas supprimés.",
+      "removeConfirm": "Retirer",
+      "removed": "Dentiste retiré du cabinet"
+    },
+    "hours": {
+      "title": "Horaires de travail",
+      "start": "Début",
+      "end": "Fin",
+      "lunch": "Pause déjeuner",
+      "lunchStart": "Début de la pause",
+      "lunchEnd": "Fin de la pause",
+      "save": "Enregistrer les horaires",
+      "saved": "Horaires enregistrés",
+      "invalid": "Vérifiez les heures : le début doit précéder la fin et la pause être dans l'horaire.",
+      "notSet": "Horaires à définir"
+    },
+    "family": {
+      "birthDate": "Date de naissance",
+      "empty": "Vous n'avez encore ajouté aucun proche.",
+      "saved": "Proche enregistré",
+      "removeTitle": "Retirer {{name}} ?",
+      "removeDesc": "Les rendez-vous déjà pris pour ce proche sont conservés."
+    }
+  },
+  "family": {
+    "saveError": "Impossible d'enregistrer. Veuillez réessayer."
   }
 }

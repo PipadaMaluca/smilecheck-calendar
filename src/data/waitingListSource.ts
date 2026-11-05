@@ -4,8 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Database } from '@/integrations/supabase/types';
 import { assignWaitingMatch, type FreedSlot, type WaitingMatch } from '@/data/agendaWrites';
-import { SEED_DENTIST_ID_BY_UUID } from '@/data/seedIds';
-import { mockDentists } from '@/data/mockData';
+import { fetchDisplayNames } from '@/data/displayNames';
 
 /**
  * Phase 4 — waiting-list management panel: real READ + actions.
@@ -46,11 +45,6 @@ interface Row {
   created_at: string;
 }
 
-function dentistNameFor(uuid: string | null): string {
-  if (!uuid) return '—';
-  const mockId = SEED_DENTIST_ID_BY_UUID[uuid];
-  return mockDentists.find((d) => d.id === mockId)?.name ?? '—';
-}
 
 /** RLS scopes this to the entries the signed-in dentist / clinic may manage. */
 export async function fetchWaitingEntries(): Promise<WaitingEntry[]> {
@@ -73,6 +67,7 @@ export async function fetchWaitingEntries(): Promise<WaitingEntry[]> {
     .select('id, full_name')
     .in('id', [...new Set(rows.map((r) => r.patient_id))]);
   const names = new Map((profiles ?? []).map((p) => [p.id, p.full_name ?? 'Paciente']));
+  const dentistNames = await fetchDisplayNames(rows.map((r) => r.dentist_id ?? '').filter(Boolean));
 
   const entries: WaitingEntry[] = rows.map((row) => {
     const prefs = (row.generic_preferences ?? {}) as { periods?: string[]; weekdays?: number[] };
@@ -81,7 +76,7 @@ export async function fetchWaitingEntries(): Promise<WaitingEntry[]> {
       patientId: row.patient_id,
       patientName: names.get(row.patient_id) ?? 'Paciente',
       dentistId: row.dentist_id,
-      dentistName: dentistNameFor(row.dentist_id),
+      dentistName: (row.dentist_id && dentistNames.get(row.dentist_id)) || '—',
       clinicId: row.clinic_id,
       consultationType: row.consultation_type,
       preferredSlots: Array.isArray(row.preferred_slots)

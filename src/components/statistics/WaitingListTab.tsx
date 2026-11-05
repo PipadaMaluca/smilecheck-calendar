@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getDentistsForClinic } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ConsultationTypePill } from '@/components/ui/ConsultationTypePill';
@@ -213,10 +213,12 @@ interface WaitingListTabProps {
 }
 
 export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProps) {
+  const dir = useDirectory();
+  const { getDentistsForClinic } = dir;
   const { t } = useTranslation();
   const { user } = useAuth();
   const { entries: realEntries, loading, isDemo, refresh, error: waitingError } = useWaitingList();
-  const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
+  const clinicDentists = useMemo(() => getDentistsForClinic(dir.clinics[0]?.id ?? ''), [dir]);
 
   const dentistsToShow = useMemo(() => {
     if (userRole === 'dentist') return clinicDentists.filter((d) => d.id === '1');

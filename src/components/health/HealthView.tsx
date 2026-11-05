@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
 import { useDeepLink, revealElement } from '@/lib/deepLink';
 import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
+import { addFamilyMember } from '@/data/directoryWrites';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +30,7 @@ interface HealthViewProps {
 interface FamilyMember {
   id: string;
   name: string;
-  age: number;
+  age?: number;
   relation: string;
 }
 
@@ -90,11 +92,18 @@ const emptyHealthData = (): MemberHealthData => ({
 });
 
 export function HealthView({ userRole, onNavigate }: HealthViewProps) {
+  const dir = useDirectory();
+  const { familyMembers: mockFamilyMembers } = dir;
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 
   const [members, setMembers] = useState<FamilyMember[]>([...mockFamilyMembers]);
-  const [selectedMemberId, setSelectedMemberId] = useState(members[0].id);
+  const [selectedMemberId, setSelectedMemberId] = useState(members[0]?.id ?? '');
+  useEffect(() => {
+    if (dir.isDemo) return;
+    setMembers([...mockFamilyMembers]);
+    setSelectedMemberId((cur) => (mockFamilyMembers.some((m) => m.id === cur) ? cur : mockFamilyMembers[0]?.id ?? ''));
+  }, [dir.isDemo, mockFamilyMembers]);
   const [healthData, setHealthData] = useState<Record<string, MemberHealthData>>(defaultHealthData);
   const [profileChanged, setProfileChanged] = useState(false);
 
@@ -129,6 +138,16 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const addMember = () => {
     if (!newMemberName.trim() || !newMemberRelation) return;
     const age = newMemberBirthYear ? new Date().getFullYear() - parseInt(newMemberBirthYear) : 0;
+    if (!dir.isDemo) {
+      void addFamilyMember({ name: newMemberName.trim(), relation: newMemberRelation, dateOfBirth: null })
+        .then(() => dir.refresh())
+        .catch(() => toast.error(t('family.saveError')));
+      setShowAddModal(false);
+      setNewMemberName('');
+      setNewMemberBirthYear('');
+      setNewMemberRelation('');
+      return;
+    }
     const newId = `fm-${Date.now()}`;
     setMembers(prev => [...prev, { id: newId, name: newMemberName.trim(), age, relation: newMemberRelation }]);
     setHealthData(prev => ({ ...prev, [newId]: emptyHealthData() }));
@@ -187,8 +206,8 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               >
                 <span className="text-sm font-medium whitespace-nowrap">{member.name}</span>
                 <div className="flex items-center gap-1 mt-0.5">
-                  <span className="text-2xs text-muted-foreground">{t('health.years', { count: member.age })}</span>
-                  {member.age < 18 && (
+                  {member.age !== undefined && <span className="text-2xs text-muted-foreground">{t('health.years', { count: member.age })}</span>}
+                  {member.age !== undefined && member.age < 18 && (
                     <Badge variant="secondary" className="text-2xs px-1 py-0 h-3.5 bg-amber-500/20 text-warning border-amber-500/30">
                       {t('health.minor')}
                     </Badge>

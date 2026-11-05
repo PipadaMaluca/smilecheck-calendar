@@ -8,7 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
-import { mockClinics, clinicDentists, getDentistsForClinic } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
+import { DentistInvitesCard, LeaveClinicButton, DirectorySkeleton, scheduleSummary } from '@/components/team/real/RealTeam';
 import { cn } from '@/lib/utils';
 import { EmptyState } from '@/components/ui/empty-state';
 
@@ -41,14 +42,16 @@ const levelColors: Record<string, string> = {
 };
 
 export function DentistTeamTab() {
+  const dir = useDirectory();
+  const { clinics: mockClinics, clinicDentists, getDentistsForClinic } = dir;
   const { t } = useTranslation();
-  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
+  const [expandedClinics, setExpandedClinics] = useState<string[]>([dir.clinics[0]?.id ?? '1']);
 
   const myClinics = clinicDentists
-    .filter((cd) => cd.dentistId === '1')
+    .filter((cd) => cd.dentistId === dir.selfId)
     .map((cd) => {
       const clinic = mockClinics.find((c) => c.id === cd.clinicId)!;
-      const colleagues = getDentistsForClinic(cd.clinicId).filter((d) => d.id !== '1');
+      const colleagues = getDentistsForClinic(cd.clinicId).filter((d) => d.id !== dir.selfId);
       return { clinic, colleagues };
     });
 
@@ -58,8 +61,14 @@ export function DentistTeamTab() {
     );
   };
 
+  if (!dir.isDemo && dir.loading) return <DirectorySkeleton />;
+
   return (
     <div className="space-y-4">
+      {!dir.isDemo && <DentistInvitesCard />}
+      {!dir.isDemo && myClinics.length === 0 && (
+        <EmptyState icon={User} title={t('noClinic.title')} description={t('noClinic.description')} />
+      )}
       {myClinics.map(({ clinic, colleagues }) => {
         const isExpanded = expandedClinics.includes(clinic.id);
         return (
@@ -85,6 +94,9 @@ export function DentistTeamTab() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {colleagues.sort((a, b) => (dentistExtras[b.id]?.rating || 0) - (dentistExtras[a.id]?.rating || 0)).map((d) => {
                     const extras = dentistExtras[d.id] || { rating: 4.0, level: 'Lata', scheduleSummary: '' };
+                    // Real accounts: third-party ratings/levels are private; schedule comes from saved hours.
+                    const real = !dir.isDemo;
+                    const realSchedule = real ? scheduleSummary(dir.getWorkingHours(d.id, clinic.id)) : '';
                     return (
                       <Card key={d.id} className="border-border/50">
                         <CardContent className="p-3 flex items-start gap-3">
@@ -94,7 +106,7 @@ export function DentistTeamTab() {
                           <div className="flex-1 min-w-0">
                             <ClickableDentistName name={d.name} className="font-semibold text-sm text-foreground" />
                             <p className="text-xs text-muted-foreground">{d.specialty}</p>
-                            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                            {!real && <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                               <div className="flex items-center gap-0.5">
                                 {[1, 2, 3, 4, 5].map((i) => (
                                   <Star key={i} className={cn('w-3 h-3', i <= Math.round(extras.rating) ? 'fill-amber-400 text-warning' : 'text-muted-foreground/30')} />
@@ -104,10 +116,10 @@ export function DentistTeamTab() {
                               <Badge variant="outline" className={cn('text-2xs px-1.5 py-0', levelColors[extras.level])}>
                                 <Award className="w-2.5 h-2.5 mr-0.5" />{t(LEVEL_KEY_MAP[extras.level] || extras.level)}
                               </Badge>
-                            </div>
-                            {extras.scheduleSummary && (
+                            </div>}
+                            {(real ? realSchedule : extras.scheduleSummary) && (
                               <p className="text-2xs text-muted-foreground mt-1">
-<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{extras.scheduleSummary}</p>
+<Glyph emoji="🕐" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{real ? realSchedule : extras.scheduleSummary}</p>
                             )}
                           </div>
                         </CardContent>
@@ -118,6 +130,7 @@ export function DentistTeamTab() {
                 {colleagues.length === 0 && (
                   <EmptyState size="sm" icon={User} title={t('sweep.team.noColleagues')} />
                 )}
+                {!dir.isDemo && <LeaveClinicButton clinicId={clinic.id} clinicName={clinic.name} />}
               </CardContent>
             )}
           </Card>

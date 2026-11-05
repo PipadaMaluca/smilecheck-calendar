@@ -5,7 +5,7 @@ import { Ban } from 'lucide-react';
 import { Consultation, Dentist, TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, STATUS_CONFIG, ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel as getCatLabel } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { toast } from 'sonner';
@@ -77,6 +77,8 @@ export function DesktopTimeline({
   onDragMove,
   onConsultationHover,
 }: DesktopTimelineProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
   const timelineRef = useRef<HTMLDivElement>(null);

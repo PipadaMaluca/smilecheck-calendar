@@ -1,7 +1,7 @@
 import { BarChart3, Video, MapPin, Users } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { mockClinics, getDentistsForClinic } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useTranslation } from 'react-i18next';
 
 interface DynamicDaySummaryProps {
@@ -17,6 +17,8 @@ export function DynamicDaySummary({
   selectedClinics,
   className 
 }: DynamicDaySummaryProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics, getDentistsForClinic } = dir;
   const { t } = useTranslation();
 
   const getTitle = (): string => {

@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { UserRole } from '@/types/calendar';
 import { ConsultationReasonSelector } from '../ConsultationReasonSelector';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { format } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -34,6 +34,8 @@ interface Props {
 }
 
 export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, dentistName, userRole, onClose }: Props) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState('#4CAF50');

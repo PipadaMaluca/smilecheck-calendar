@@ -29,7 +29,7 @@ import { RewardsStoreView } from '@/components/rewards/RewardsStoreView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, ViewMode } from '@/types/calendar';
-import { mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { DentistSearchResult } from '@/data/mockDentistSearch';
@@ -44,6 +44,8 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 const DEMO_DATE = demoDate(2026, 0, 31);
 
 export function PatientCalendar() {
+  const dir = useDirectory();
+  const { familyMembers: mockFamilyMembers } = dir;
   const { patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { t } = useTranslation();
   const smileIcon = useWatermarkSrc();

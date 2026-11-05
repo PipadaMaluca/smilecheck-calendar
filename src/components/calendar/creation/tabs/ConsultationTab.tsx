@@ -13,7 +13,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserRole } from '@/types/calendar';
 import { ConsultationReasonSelector } from '../ConsultationReasonSelector';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { format } from 'date-fns';
 
 import { toast } from 'sonner';
@@ -54,6 +54,8 @@ interface Props {
 }
 
 export function ConsultationTab({ initialDate, initialTime, dentistKey, dentistName, userRole, onClose }: Props) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const [selectedDentist, setSelectedDentist] = useState(dentistKey || '1-1');
   const [reason, setReason] = useState('');

@@ -33,7 +33,8 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
-import { mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { generateTimeSlots } from '@/data/mockData';
+import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
@@ -50,10 +51,12 @@ import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
 import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
 
 // Helper functions for filter state
-const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+const getAllMobileKeys = (d: Directory) => d.clinics.flatMap(c => d.getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentMobileKeys = (d: Directory) => d.clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const dir = useDirectory();
+  const { clinics: mockClinics, dentists: mockDentists, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } = dir;
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
   const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
@@ -61,7 +64,9 @@ export function ClinicCalendar() {
   const { t } = useTranslation();
   useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys(dir));
+  // Real accounts: the directory loads after mount — select the present dentists once it arrives.
+  useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);
@@ -153,12 +158,12 @@ export function ClinicCalendar() {
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       // "Filtrar Presentes" - select only working dentists
-      setSelectedDentistIds(getPresentMobileKeys());
+      setSelectedDentistIds(getPresentMobileKeys(dir));
       return;
     }
     if (dentistId === 'all') {
       // "Todas as Agendas" - select ALL including non-working
-      setSelectedDentistIds(getAllMobileKeys());
+      setSelectedDentistIds(getAllMobileKeys(dir));
       return;
     }
     const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;
@@ -215,7 +220,7 @@ export function ClinicCalendar() {
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1' && passesAgendaFilters(c));
+    const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1' && passesAgendaFilters(c));
     return generateTimeSlots(date, consultations);
   };
 

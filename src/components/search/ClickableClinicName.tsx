@@ -1,7 +1,7 @@
 import { onActivateKey } from '@/lib/a11y';
 import { cn } from '@/lib/utils';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
-import { mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 
 interface ClickableClinicNameProps {
   name: string;
@@ -15,6 +15,8 @@ interface ClickableClinicNameProps {
  * Uses ProfileNavigationContext to navigate at the top level — never renders inline.
  */
 export function ClickableClinicName({ name, clinicId, className, children }: ClickableClinicNameProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics } = dir;
   const nav = useProfileNavigation();
 
   const clinic = clinicId

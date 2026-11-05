@@ -325,6 +325,68 @@ export type Database = {
           },
         ]
       }
+      clinic_invites: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          email: string
+          email_sent_at: string | null
+          id: string
+          invited_by: string
+          responded_at: string | null
+          status: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          email: string
+          email_sent_at?: string | null
+          id?: string
+          invited_by: string
+          responded_at?: string | null
+          status?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          email?: string
+          email_sent_at?: string | null
+          id?: string
+          invited_by?: string
+          responded_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clinic_invites_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinic_invites_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinic_invites_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinic_invites_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clinic_members: {
         Row: {
           clinic_id: string
@@ -1666,6 +1728,7 @@ export type Database = {
         Returns: boolean
       }
       can_read_dossier: { Args: { _patient_id: string }; Returns: boolean }
+      cancel_clinic_invite: { Args: { _invite_id: string }; Returns: undefined }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
       claim_geocode_slot: { Args: never; Returns: undefined }
       confirm_phone_verification: {
@@ -1690,6 +1753,10 @@ export type Database = {
       export_my_data: { Args: never; Returns: Json }
       generate_redemption_code: { Args: never; Returns: string }
       has_accepted_terms: { Args: { _uid: string }; Returns: boolean }
+      invite_dentist: {
+        Args: { _clinic_id: string; _email: string }
+        Returns: string
+      }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_untrusted_caller: { Args: never; Returns: boolean }
       km_between: {
@@ -1727,6 +1794,10 @@ export type Database = {
       register_referral: { Args: { _code: string }; Returns: Json }
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
+        Returns: undefined
+      }
+      respond_clinic_invite: {
+        Args: { _accept: boolean; _invite_id: string }
         Returns: undefined
       }
       search_professionals: {

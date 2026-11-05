@@ -8,7 +8,8 @@ import {
   ConsultationStatus, getCategoryBadgeStyle, getCategoryLabel,
 } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { mockDentists, generateTimeSlots } from '@/data/mockData';
+import { generateTimeSlots } from '@/data/mockData';
+import type { Dentist } from '@/types/calendar';
 import { useAgendaData } from '@/data/agendaSource';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
 import { getDentistInitials } from '@/lib/avatarUtils';
@@ -16,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { useSlotHeight } from '@/stores/agendaSettingsStore';
 
 interface DentistColumn {
-  dentist: typeof mockDentists[number];
+  dentist: Dentist;
   clinicId: string;
   worksToday: boolean;
   key: string;
