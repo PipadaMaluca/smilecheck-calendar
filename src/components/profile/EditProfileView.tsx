@@ -19,6 +19,7 @@ import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
 import { useDirectory } from '@/data/directorySource';
+import { RealAvatarPicker } from '@/components/profile/RealAvatarPicker';
 import { FamilyMembersSection } from '@/components/profile/FamilyMembersSection';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
@@ -442,6 +443,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
       <ScrollArea className="flex-1">
         <div className="mx-auto w-full max-w-3xl px-6 md:px-10 py-6 space-y-6 pb-32 md:pb-6">
           {/* Photo */}
+          {!dir.isDemo ? <RealAvatarPicker isClinic={userRole === 'clinic'} /> : (
           <div className="flex flex-col items-center gap-3">
             <div className="relative">
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
@@ -453,6 +455,7 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
             </div>
             <span className="text-xs text-muted-foreground">{userRole === 'clinic' ? t('editProfile.changeLogo') : t('editProfile.changePhoto')} · {t('common.comingSoon')}</span>
           </div>
+          )}
 
           {/* ===== PATIENT FIELDS ===== */}
           {userRole === 'patient' &&
