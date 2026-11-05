@@ -1,6 +1,5 @@
 import { zonedParts } from '@/lib/formatters';
 import { effectiveFear } from '@/lib/fearScale';
-import { demoDate } from '@/lib/demoClock';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -23,7 +22,7 @@ import { SEED_CLINIC_ID_BY_UUID, SEED_DENTIST_ID_BY_UUID } from '@/data/seedIds'
  * appointments from the backend. Writes (create/edit/cancel) are untouched.
  */
 
-const DB_TYPE_TO_CATEGORY: Record<string, ConsultationCategory> = {
+export const DB_TYPE_TO_CATEGORY: Record<string, ConsultationCategory> = {
   primeira_consulta: 'primeira_consulta',
   destartarizacao: 'destartarizacao',
   cirurgia: 'cirurgia',
