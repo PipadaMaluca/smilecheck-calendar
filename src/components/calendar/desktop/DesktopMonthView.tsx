@@ -1,3 +1,7 @@
+import { useSyncExternalStore } from 'react';
+import { useDirectory } from '@/data/directorySource';
+import { useAgendaAvailability, agendaAvailabilityStore, exceptionsOnDay, appliesTo, zoneFor, splitAgendaKey } from '@/data/agendaAvailability';
+import { AgendaExceptionBlock, AgendaOpeningBand } from '../AgendaExceptionBlock';
 import { weekdayLabels } from '@/lib/formatters';
 import { useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -25,9 +29,12 @@ export function DesktopMonthView({
   const { t } = useTranslation();
 
   const [clinicId, dentistId] = useMemo(() => {
-    const parts = selectedDentistKey.split('-');
-    return [parts[0], parts.slice(1).join('-') || parts[0]];
+    const k = splitAgendaKey(selectedDentistKey);
+    return [k.clinicId, k.dentistId];
   }, [selectedDentistKey]);
+  const isDemoDir = useDirectory().isDemo;
+  useAgendaAvailability(!isDemoDir);
+  const avail = useSyncExternalStore(agendaAvailabilityStore.subscribe, agendaAvailabilityStore.get);
 
   const today = new Date();
   const monthStart = startOfMonth(selectedDate);
@@ -82,6 +89,9 @@ export function DesktopMonthView({
           const dayConsults = consultationsByDay[dayKey] || [];
           const hasUrgent = dayConsults.some(c => c.category === 'urgencia');
           const count = dayConsults.length;
+          const dayExc = avail.active && isCurrentMonth
+            ? exceptionsOnDay(date, [dentistId], avail.exceptions, zoneFor(clinicId)).filter(e => appliesTo(e, dentistId, clinicId))
+            : [];
 
           return (
             <button
@@ -103,6 +113,13 @@ export function DesktopMonthView({
                 {format(date, 'd')}
               </div>
               
+              {dayExc.length > 0 && (
+                <div className="space-y-0.5 mb-0.5">
+                  {dayExc.slice(0, 2).map(e => e.kind === 'ausencia'
+                    ? <AgendaExceptionBlock key={e.id} compact slot={{ time: '', status: 'bloqueado', blockReason: e.reason, blockColor: e.color ?? undefined, exceptionKind: 'ausencia' }} className="h-5" />
+                    : <AgendaOpeningBand key={e.id} reason={e.reason} color={e.color ?? undefined} className="h-5" />)}
+                </div>
+              )}
               {count > 0 && isCurrentMonth && (
                 <div className="space-y-0.5">
                   <div className="text-2xs text-muted-foreground font-medium">

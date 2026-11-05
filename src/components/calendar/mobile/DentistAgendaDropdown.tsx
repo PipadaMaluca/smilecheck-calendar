@@ -1,3 +1,4 @@
+import { splitAgendaKey } from '@/data/agendaAvailability';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Building2, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -47,7 +48,7 @@ export function DentistAgendaDropdown({
     if (isAll) return `${currentDentist.name} (${t('agenda.me')}) — ${t('agenda.all')}`;
     const selectedKeys = selectedDentistIds.filter(id => id.includes(`-${currentDentistId}`));
     if (selectedKeys.length === 1) {
-      const clinicId = selectedKeys[0].split('-')[0];
+      const { clinicId } = splitAgendaKey(selectedKeys[0]);
       const clinic = mockClinics.find(c => c.id === clinicId);
       return `${currentDentist.name} (${t('agenda.me')}) — ${clinic?.name.replace('Clínica ', '') || ''}`;
     }

@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+import { availabilityErrorKey } from '@/data/agendaAvailability';
 import { takePendingTriage } from '@/lib/pendingTriage';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
@@ -34,6 +36,15 @@ async function appointmentTarget(id: string) {
 type DbConsultationType = Database['public']['Enums']['consultation_type'];
 type DbPaymentStatus = Database['public']['Enums']['payment_status'];
 type DbWaitingUrgency = Database['public']['Enums']['waiting_urgency'];
+
+/** Server refused: inside an absence / outside working hours (`trg_guard_appointment_availability`). Message is already localised. */
+export class UnavailableSlotError extends Error {
+  constructor(public key: string) {
+    super(i18n.t(key));
+    this.name = 'UnavailableSlotError';
+  }
+}
+const availabilityOr = (error: unknown) => { const k = availabilityErrorKey(error); return k ? new UnavailableSlotError(k) : error; };
 
 export class SlotTakenError extends Error {
   constructor() {
@@ -166,7 +177,7 @@ export async function createAppointment(input: CreateAppointmentInput): Promise<
     .select('id')
     .single();
 
-  if (error) throw error;
+  if (error) throw availabilityOr(error);
 
   await attachPendingTriage(data.id, input.patientId);
 
@@ -320,7 +331,7 @@ export async function updateAppointment(input: UpdateAppointmentInput): Promise<
   if (!Object.keys(patch).length) return;
 
   const { error } = await supabase.from('appointments').update(patch).eq('id', id);
-  if (error) throw error;
+  if (error) throw availabilityOr(error);
 
   if (rest.scheduledAt) {
     const target = await appointmentTarget(id);
@@ -458,6 +469,13 @@ export async function findWaitingMatches(slot: FreedSlot): Promise<WaitingMatch[
 
   if (slot.dentistId) query = query.or(`dentist_id.eq.${slot.dentistId},dentist_id.is.null`);
 
+  // Never offer a freed slot that falls inside an absence / outside hours.
+  if (slot.dentistId) {
+    const end = new Date(new Date(slot.scheduledAt).getTime() + slot.durationMinutes * 60000).toISOString();
+    const { data: avail } = await supabase.rpc('slot_availability', { _dentist: slot.dentistId, _clinic: slot.clinicId as string, _start: slot.scheduledAt, _end: end });
+    if (avail && avail !== 'ok') return [];
+  }
+
   const { data, error } = await query.returns<WaitingRow[]>();
   if (error) throw error;
 
@@ -589,7 +607,7 @@ export async function requestReschedule(id: string, scheduledAt: string): Promis
   });
   if (error) {
     if (error.message?.includes('slot_taken')) throw new SlotTakenError();
-    throw error;
+    throw availabilityOr(error);
   }
 }
 

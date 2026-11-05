@@ -5808,7 +5808,8 @@
     "absence": "Absence",
     "delete": "Supprimer l’absence",
     "pickAgenda": "Choisissez au moins un agenda.",
-    "capped": "{{count}} occurrences au maximum ont été créées."
+    "capped": "{{count}} occurrences au maximum ont été créées.",
+    "opening": "Ouverture exceptionnelle"
   },
   "streakReal": {
     "perDay": "+{{points}} pts/jour",
@@ -5824,5 +5825,14 @@
     "family": "Famille",
     "visits": "Consultations effectuées",
     "teleVisits": "Téléconsultations"
+  },
+  "availabilityReal": {
+    "inAbsence": "Ce créneau se trouve pendant une absence du dentiste.",
+    "outsideHours": "Ce créneau est en dehors des horaires du dentiste.",
+    "conflictsTitle_one": "{{count}} rendez-vous se trouve déjà pendant cette absence",
+    "conflictsTitle_other": "{{count}} rendez-vous se trouvent déjà pendant cette absence",
+    "conflictsHint": "Ils n’ont pas été annulés. Contactez les patients pour les reprogrammer.",
+    "andMore_one": "… et {{count}} autre",
+    "andMore_other": "… et {{count}} autres"
   }
 }

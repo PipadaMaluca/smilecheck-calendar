@@ -2059,3 +2059,16 @@ span.sentence-case { display: inline-block; }
   outline-offset: 4px;
   transition: outline-color 0.6s ease;
 }
+
+/* Real agenda exceptions: absences = diagonal stripes (colour picked by the user, default muted); openings = soft success band. */
+.agenda-exception-block {
+  --exc-color: hsl(var(--muted-foreground));
+  border-left-color: var(--exc-color);
+  background-color: color-mix(in srgb, var(--exc-color) 12%, transparent);
+  background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--exc-color) 28%, transparent) 0 6px, transparent 6px 12px);
+}
+.agenda-opening-band {
+  --exc-color: hsl(var(--success));
+  border: 1px dashed color-mix(in srgb, var(--exc-color) 60%, transparent);
+  background-color: color-mix(in srgb, var(--exc-color) 10%, transparent);
+}

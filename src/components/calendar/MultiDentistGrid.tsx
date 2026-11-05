@@ -1,3 +1,4 @@
+import { AgendaExceptionBlock, AgendaOpeningBand, openingRuns } from './AgendaExceptionBlock';
 import { onActivateKey } from '@/lib/a11y';
 import { useEffect, useState } from 'react';
 import { Dentist, Clinic, TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_LABELS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
@@ -220,9 +221,9 @@ export function MultiDentistGrid({
                   if (!isCovered) {
                     primarySlots.push({ slot, startIdx, spanCount });
                   }
-                } else if (slot.status === 'bloqueado') {
+                } else if (slot.status === 'bloqueado' && !slot.blockHidden) {
                   const startIdx = timeToSlotIndex(slot.time);
-                  primarySlots.push({ slot, startIdx, spanCount: 1 });
+                  primarySlots.push({ slot, startIdx, spanCount: slot.blockSpan ?? 1 });
                 }
               });
 
@@ -279,11 +280,19 @@ export function MultiDentistGrid({
                     );
                   })}
                   
+                  {openingRuns(col.slots).map(r => (
+                    <AgendaOpeningBand key={`open-${r.time}`} reason={r.reason} color={r.color}
+                      style={{ gridRow: `${timeToSlotIndex(r.time) + 1} / span ${r.span}`, gridColumn: 1 }} />
+                  ))}
+
                   {/* Consultation blocks using grid-row span */}
                   {primarySlots.map(({ slot, startIdx, spanCount }) => {
                     const isBlocked = slot.status === 'bloqueado';
                     const consultation = slot.consultation;
                     
+                    if (isBlocked && slot.exceptionKind) {
+                      return <AgendaExceptionBlock key={`exc-${slot.time}`} slot={slot} compact={columns.length > 3} style={{ gridRow: `${startIdx + 1} / span ${spanCount}` }} />;
+                    }
                     if (isBlocked) {
                       return (
                         <div

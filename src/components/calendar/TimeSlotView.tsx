@@ -1,3 +1,4 @@
+import { AgendaExceptionBlock, AgendaOpeningBand, openingRuns } from './AgendaExceptionBlock';
 import { onActivateKey } from '@/lib/a11y';
 import { Video, MapPin, Lock } from 'lucide-react';
 import { TimeSlot, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
@@ -44,9 +45,11 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
       }
     } else if (slot.status === 'bloqueado') {
       const startIdx = timeToSlotIndex(slot.time);
+      if (slot.blockHidden) { occupiedIndices.add(startIdx); return; }
       if (!occupiedIndices.has(startIdx)) {
-        primarySlots.push({ slot, startIdx, spanCount: 1 });
-        occupiedIndices.add(startIdx);
+        const span = slot.blockSpan ?? 1;
+        primarySlots.push({ slot, startIdx, spanCount: span });
+        for (let i = 0; i < span; i++) occupiedIndices.add(startIdx + i);
       }
     } else if (slot.status === 'livre') {
       const startIdx = timeToSlotIndex(slot.time);
@@ -68,7 +71,14 @@ export function TimeSlotView({ slots, onSlotClick, showNotes = true }: TimeSlotV
         gap: '4px',
       }}
     >
+      {openingRuns(slots).map(r => (
+        <AgendaOpeningBand key={`open-${r.time}`} reason={r.reason} color={r.color}
+          style={{ gridRow: `${timeToSlotIndex(r.time) + 1} / span ${r.span}`, gridColumn: 1 }} />
+      ))}
       {primarySlots.map(({ slot, startIdx, spanCount }, idx) => {
+        if (slot.status === 'bloqueado' && slot.exceptionKind) {
+          return <AgendaExceptionBlock key={`exc-${slot.time}-${idx}`} slot={slot} style={{ gridRow: `${startIdx + 1} / span ${spanCount}` }} />;
+        }
         const isOcupado = slot.status === 'ocupado';
         const isBloqueado = slot.status === 'bloqueado';
         const consultation = slot.consultation;

@@ -1,3 +1,4 @@
+import { splitAgendaKey } from '@/data/agendaAvailability';
 import { BarChart3, Video, MapPin, Users } from 'lucide-react';
 import { Consultation } from '@/types/calendar';
 import { cn } from '@/lib/utils';
@@ -37,12 +38,7 @@ export function DynamicDaySummary({
     
     if (selectedDentistIds.length === 1) {
       const key = selectedDentistIds[0];
-      const parts = key.split('-');
-      let dentistId = key;
-      
-      if (parts.length >= 2) {
-        dentistId = parts.slice(1).join('-');
-      }
+      const { dentistId } = splitAgendaKey(key);
       
       const allDentists = mockClinics.flatMap(c => getDentistsForClinic(c.id));
       const dentist = allDentists.find(d => d.id === dentistId);
@@ -55,10 +51,7 @@ export function DynamicDaySummary({
     const clinicsFromSelection = new Set<string>();
     
     selectedDentistIds.forEach(key => {
-      const parts = key.split('-');
-      if (parts.length >= 2) {
-        clinicsFromSelection.add(parts[0]);
-      }
+      if (key.includes('-')) clinicsFromSelection.add(splitAgendaKey(key).clinicId);
     });
     
     if (clinicsFromSelection.size === 1) {

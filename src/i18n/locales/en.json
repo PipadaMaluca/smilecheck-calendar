@@ -5808,7 +5808,8 @@
     "absence": "Absence",
     "delete": "Remove absence",
     "pickAgenda": "Choose at least one agenda.",
-    "capped": "At most {{count}} occurrences were created."
+    "capped": "At most {{count}} occurrences were created.",
+    "opening": "Exceptional opening"
   },
   "streakReal": {
     "perDay": "+{{points}} pts/day",
@@ -5824,5 +5825,14 @@
     "family": "Family",
     "visits": "Completed appointments",
     "teleVisits": "Teleconsultations"
+  },
+  "availabilityReal": {
+    "inAbsence": "This time falls within the dentist’s absence.",
+    "outsideHours": "This time is outside the dentist’s working hours.",
+    "conflictsTitle_one": "{{count}} appointment is already inside this absence",
+    "conflictsTitle_other": "{{count}} appointments are already inside this absence",
+    "conflictsHint": "They were not cancelled. Contact the patients to reschedule.",
+    "andMore_one": "… and {{count}} more",
+    "andMore_other": "… and {{count}} more"
   }
 }

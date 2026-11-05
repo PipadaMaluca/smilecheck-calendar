@@ -1,3 +1,4 @@
+import { agendaAvailabilityStore, applyExceptions, zoneFor } from './agendaAvailability';
 import { localizeDemoObjects } from '@/lib/demoText';
 import { demoDate, liveDemoStatus } from '@/lib/demoClock';
 import { Consultation, Dentist, Clinic, TimeSlot, ConsultationStatus } from '@/types/calendar';
@@ -1765,8 +1766,10 @@ export const mockConsultations: Consultation[] = localizeDemoObjects(([
   .map(withRequiredConsultationFields), DEMO_TEXT_FIELDS);
 
 // Generate time slots for a given date and dentist consultations
-export const generateTimeSlots = (date: Date, consultations: Consultation[]): TimeSlot[] => {
+export const generateTimeSlots = (date: Date, consultations: Consultation[], ids?: { dentistId: string; clinicId: string }): TimeSlot[] => {
   const slots: TimeSlot[] = [];
+  // Real agendas: no demo lunch block; absences/openings come from the real exceptions store.
+  const real = agendaAvailabilityStore.get();
   
   // Generate slots from 08:00 to 21:30
   for (let hour = 8; hour < 22; hour++) {
@@ -1782,7 +1785,7 @@ export const generateTimeSlots = (date: Date, consultations: Consultation[]): Ti
       // Lunch break — every weekday (Sunday no work)
       const dow = date.getDay();
       const isWeekday = dow !== 0;
-      if (isWeekday && (time === '13:00' || time === '13:30')) {
+      if (!real.active && isWeekday && (time === '13:00' || time === '13:30')) {
         slots.push({
           time,
           status: 'bloqueado',
@@ -1803,5 +1806,6 @@ export const generateTimeSlots = (date: Date, consultations: Consultation[]): Ti
     }
   }
   
+  if (real.active && ids) return applyExceptions(slots, date, ids.dentistId, ids.clinicId, real.exceptions, zoneFor(ids.clinicId));
   return slots;
 };

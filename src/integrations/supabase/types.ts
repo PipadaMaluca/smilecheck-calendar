@@ -3078,6 +3078,21 @@ export type Database = {
         }
         Returns: Json
       }
+      appointments_in_range: {
+        Args: {
+          _clinic: string
+          _dentist: string
+          _end: string
+          _start: string
+        }
+        Returns: {
+          clinic_id: string
+          duration_minutes: number
+          id: string
+          patient_id: string
+          scheduled_at: string
+        }[]
+      }
       assert_can_issue: {
         Args: { _clinic: string; _family: string; _patient: string }
         Returns: undefined
@@ -3154,6 +3169,19 @@ export type Database = {
         Returns: Json
       }
       export_my_data: { Args: never; Returns: Json }
+      free_slots: {
+        Args: {
+          _clinic: string
+          _count?: number
+          _days?: number
+          _dentist: string
+        }
+        Returns: {
+          clinic_id: string
+          dentist_id: string
+          slot: string
+        }[]
+      }
       generate_redemption_code: { Args: never; Returns: string }
       has_accepted_terms: { Args: { _uid: string }; Returns: boolean }
       invite_dentist: {
@@ -3349,6 +3377,15 @@ export type Database = {
         Returns: undefined
       }
       short_person_name: { Args: { _full: string }; Returns: string }
+      slot_availability: {
+        Args: {
+          _clinic: string
+          _dentist: string
+          _end: string
+          _start: string
+        }
+        Returns: string
+      }
       start_conversation: { Args: { _other: string }; Returns: string }
       sync_profile_plan: {
         Args: { _env: string; _user_id: string }

@@ -34,6 +34,7 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { generateTimeSlots } from '@/data/mockData';
+import { useAgendaAvailability, splitAgendaKey } from '@/data/agendaAvailability';
 import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
@@ -57,6 +58,7 @@ const getPresentMobileKeys = (d: Directory) => d.clinicDentists.filter(cd => cd.
 
 export function ClinicCalendar() {
   const dir = useDirectory();
+  const availVersion = useAgendaAvailability(!dir.isDemo);
   const { clinics: mockClinics, dentists: mockDentists, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } = dir;
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
   const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
@@ -105,13 +107,13 @@ export function ClinicCalendar() {
         const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
-        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        const slots = generateTimeSlots(selectedDate, dentistConsultations, { dentistId: dentist.id, clinicId: clinic.id });
         result.push({ dentist, clinic, worksToday, slots });
       });
     });
     
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   /**
    * Mobile-only column list for the dentist pills row:
@@ -120,7 +122,7 @@ export function ClinicCalendar() {
    */
   const mobileColumns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
-    const selectedClinicIds = new Set(selectedDentistIds.map(k => k.split('-')[0]));
+    const selectedClinicIds = new Set(selectedDentistIds.map(k => splitAgendaKey(k).clinicId));
     mockClinics.forEach(clinic => {
       if (!selectedClinicIds.has(clinic.id)) return;
       getDentistsForClinic(clinic.id).forEach(dentist => {
@@ -128,12 +130,12 @@ export function ClinicCalendar() {
         const dentistConsultations = agendaConsultations.filter(
           c => c.dentist.id === dentist.id && c.clinic.id === clinic.id && passesAgendaFilters(c)
         );
-        const slots = generateTimeSlots(selectedDate, dentistConsultations);
+        const slots = generateTimeSlots(selectedDate, dentistConsultations, { dentistId: dentist.id, clinicId: clinic.id });
         result.push({ dentist, clinic, worksToday, slots });
       });
     });
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   // Day consultations for summary
   const allDayConsultations = agendaConsultations.filter(
@@ -214,11 +216,9 @@ export function ClinicCalendar() {
     // For 3-day view or list view, use selected dentist
     if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
       // Parse composite ID (clinicId-dentistId)
-      const parts = selectedDentistIds[0].split('-');
-      const clinicId = parts[0];
-      const dentistId = parts.slice(1).join('-') || parts[0];
+      const { clinicId, dentistId } = splitAgendaKey(selectedDentistIds[0]);
       const consultations = agendaConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId && passesAgendaFilters(c));
-      return generateTimeSlots(date, consultations);
+      return generateTimeSlots(date, consultations, { dentistId, clinicId });
     }
     // Default to first dentist
     const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1' && passesAgendaFilters(c));

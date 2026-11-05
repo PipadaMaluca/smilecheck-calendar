@@ -1,3 +1,5 @@
+import { AgendaExceptionBlock, AgendaOpeningBand, openingRuns } from '../AgendaExceptionBlock';
+import { useDirectory } from '@/data/directorySource';
 import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
@@ -9,6 +11,7 @@ import {
 } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { generateTimeSlots } from '@/data/mockData';
+import { useAgendaAvailability } from '@/data/agendaAvailability';
 import type { Dentist } from '@/types/calendar';
 import { useAgendaData } from '@/data/agendaSource';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -85,6 +88,8 @@ export function DesktopWeekView({
   const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
+  const isDemoDir = useDirectory().isDemo;
+  const availVersion = useAgendaAvailability(!isDemoDir);
 
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const numDays = includeSunday ? 7 : 6;
@@ -111,7 +116,7 @@ export function DesktopWeekView({
       m[dayKey] = {};
       const isSunday = day.getDay() === 0;
       dentists.forEach(({ dentist, clinicId, key }) => {
-        if (isSunday) {
+        if (isSunday && isDemoDir) {
           // Sunday: no in-person; just generate empty slots (no lunch either)
           m[dayKey][key] = [];
           return;
@@ -119,11 +124,11 @@ export function DesktopWeekView({
         const dc = agendaConsultations.filter(
           c => isSameDay(c.date, day) && c.dentist.id === dentist.id && c.clinic.id === clinicId
         );
-        m[dayKey][key] = generateTimeSlots(day, dc);
+        m[dayKey][key] = generateTimeSlots(day, dc, { dentistId: dentist.id, clinicId });
       });
     });
     return m;
-  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|'), agendaConsultations]);
+  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|'), agendaConsultations, availVersion]);
 
   const handleContextMenu = (e: React.MouseEvent, c: Consultation) => {
     e.preventDefault();
@@ -230,9 +235,11 @@ export function DesktopWeekView({
                     } else if (slot.status === 'bloqueado') {
                       const [h, m] = slot.time.split(':').map(Number);
                       const startIdx = (h - 8) * 2 + (m >= 30 ? 1 : 0);
+                      if (slot.blockHidden) { occupied.add(startIdx); return; }
                       if (!occupied.has(startIdx)) {
-                        primary.push({ slot, startIdx, spanCount: 1 });
-                        occupied.add(startIdx);
+                        const span = slot.blockSpan ?? 1;
+                        primary.push({ slot, startIdx, spanCount: span });
+                        for (let i = 0; i < span; i++) occupied.add(startIdx + i);
                       }
                     }
                   });
@@ -291,8 +298,19 @@ export function DesktopWeekView({
                         );
                       })}
 
+                      {openingRuns(slots).map(r => {
+                        const [oh, om] = r.time.split(':').map(Number);
+                        const oi = (oh - 8) * 2 + (om >= 30 ? 1 : 0);
+                        return <AgendaOpeningBand key={`open-${r.time}`} reason={r.reason} color={r.color} className="absolute left-0.5 right-0.5"
+                          style={{ top: oi * SLOT_HEIGHT + 1, height: r.span * SLOT_HEIGHT - 2 }} />;
+                      })}
+
                       {/* Blocks + appointments */}
                       {primary.map(({ slot, startIdx, spanCount }) => {
+                        if (slot.status === 'bloqueado' && slot.exceptionKind) {
+                          return <AgendaExceptionBlock key={`exc-${slot.time}`} slot={slot} compact className="absolute left-0.5 right-0.5"
+                            style={{ top: startIdx * SLOT_HEIGHT + 1, height: spanCount * SLOT_HEIGHT - 2 }} />;
+                        }
                         if (slot.status === 'bloqueado') {
                           return (
                             <div
