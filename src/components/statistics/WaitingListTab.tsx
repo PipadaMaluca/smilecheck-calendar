@@ -1,3 +1,4 @@
+import { UnavailableSlotError } from '@/data/agendaWrites';
 import { demoText } from '@/lib/demoText';
 import { getActiveLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
@@ -48,7 +49,7 @@ import {
   assignWaitingEntry,
   notifyWaitingEntry,
   removeWaitingEntry,
-  upcomingSlotOptions,
+  fetchFreeSlotOptions,
   useWaitingList,
   type WaitingEntry,
 } from '@/data/waitingListSource';
@@ -241,10 +242,17 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     { slot: PreferredSlot; entry: WaitlistEntry; dentistName: string; dentistId: string } | null
   >(null);
 
-  const realSlotOptions = useMemo(
-    () => upcomingSlotOptions().map((s) => ({ day: formatSlotDay(s.date), time: s.time, date: s.date })),
-    []
-  );
+  // Real: free slots from the server for this entry's dentist/clinic (skips absences, follows hours).
+  const [realSlotOptions, setRealSlotOptions] = useState<{ day: string; time: string; date: string; iso?: string }[]>([]);
+  useEffect(() => {
+    const real = assignTarget?.entry.real;
+    if (!real) { setRealSlotOptions([]); return; }
+    let alive = true;
+    void fetchFreeSlotOptions(real.dentistId ?? (userRole === 'dentist' ? user?.id ?? null : null), real.clinicId).then((opts) => {
+      if (alive) setRealSlotOptions(opts.map((s) => ({ day: formatSlotDay(s.date), time: s.time, date: s.date, iso: s.iso })));
+    });
+    return () => { alive = false; };
+  }, [assignTarget, userRole, user?.id]);
 
   const formatAdded = (days: number) => {
     if (days === 0) return t('waitingList.mgmt.today');
@@ -319,7 +327,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
       toast.success(t('waitingList.mgmt.notified'), { description: entry.name });
       refresh();
     } catch (e) {
-      toast.error(t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
+      toast.error(e instanceof UnavailableSlotError ? e.message : t('waitingList.mgmt.actionFailed', 'Não foi possível concluir a ação'));
     } finally {
       setBusyId(null);
     }
@@ -344,7 +352,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
     try {
       await assignWaitingEntry(
         entry.real,
-        { date: slot.date, time: slot.time },
+        { date: slot.date, time: slot.time, iso: (slot as { iso?: string }).iso },
         userRole === 'dentist' ? user?.id ?? null : null,
         `${slot.day} · ${slot.time}`
       );

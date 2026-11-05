@@ -1,3 +1,4 @@
+import { zonedParts } from '@/lib/formatters';
 import { buildTargetUrl } from '@/lib/notificationTargets';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
@@ -134,13 +135,13 @@ export async function removeWaitingEntry(id: string): Promise<void> {
  */
 export async function assignWaitingEntry(
   entry: WaitingEntry,
-  slot: { date: string; time: string },
+  slot: { date: string; time: string; iso?: string },
   fallbackDentistId: string | null,
   message: string
 ): Promise<string> {
   const [y, m, d] = slot.date.split('-').map(Number);
   const [hh, mm] = slot.time.split(':').map(Number);
-  const scheduledAt = new Date(Date.UTC(y, m - 1, d, hh, mm, 0, 0)).toISOString();
+  const scheduledAt = slot.iso ?? new Date(Date.UTC(y, m - 1, d, hh, mm, 0, 0)).toISOString();
 
   const freed: FreedSlot = {
     scheduledAt,
@@ -165,7 +166,23 @@ export async function assignWaitingEntry(
   return assignWaitingMatch(match, freed, message);
 }
 
-/** Next weekday slots offered as alternatives when assigning manually. */
+/**
+ * Real alternatives when assigning manually: the server's next free slots for that
+ * dentist/clinic (working hours + openings, minus absences and booked time), in the clinic's zone.
+ */
+export async function fetchFreeSlotOptions(dentistId: string | null, clinicId: string | null, count = 4): Promise<{ date: string; time: string; iso: string }[]> {
+  const { data, error } = await supabase.rpc('free_slots', { _dentist: dentistId as string, _clinic: clinicId as string, _count: count, _days: 21 });
+  if (error || !data) return [];
+  const { data: zones } = await supabase.from('clinics').select('id, timezone').in('id', [...new Set(data.map((r) => r.clinic_id))]);
+  const tz = new Map((zones ?? []).map((z) => [z.id, z.timezone]));
+  return data.map((r) => {
+    const p = zonedParts(r.slot, tz.get(r.clinic_id) ?? 'Europe/Lisbon');
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return { date: `${p.year}-${pad(p.month)}-${pad(p.day)}`, time: `${pad(p.hour)}:${pad(p.minute)}`, iso: r.slot };
+  });
+}
+
+/** Next weekday slots offered as alternatives when assigning manually (fallback when the server has none). */
 export function upcomingSlotOptions(count = 4): { date: string; time: string }[] {
   const times = ['09:00', '11:00', '14:30', '16:00'];
   const out: { date: string; time: string }[] = [];
