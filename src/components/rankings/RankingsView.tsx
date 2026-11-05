@@ -63,8 +63,8 @@ function MedalEmoji({ position }: { position: number }) {
 /** Demo: mock cards. Real: private server ranking for professionals; patients never see professional rankings. */
 export function RankingsView(props: RankingsViewProps) {
   const { isDemo } = useDirectory();
-  if (props.userRole === 'patient') return null;
   if (!isDemo) {
+    if (props.userRole === 'patient') return null;
     if (props.inline) return <RealRankings inline />;
     return <ScrollArea className="flex-1"><RealRankings /></ScrollArea>;
   }

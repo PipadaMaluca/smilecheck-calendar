@@ -1,3 +1,5 @@
+import { useDeepLink } from '@/lib/deepLink';
+import { LettersInbox } from '@/components/clinical/LettersInbox';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
@@ -74,6 +76,12 @@ export function FavoritesView({
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
   const [inviteMessage, setInviteMessage] = useState('');
   const [showJobs, setShowJobs] = useState(false);
+  const [showLetters, setShowLetters] = useState(false);
+  useDeepLink('pesquisa', (link) => {
+    if (userRole === 'patient') return;
+    if (link.section === 'emprego') setShowJobs(true);
+    if (link.section === 'cartas') setShowLetters(true);
+  });
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   const filteredResults = useMemo(() => {
@@ -107,6 +115,7 @@ export function FavoritesView({
     setInviteMessage('');
   };
 
+  if (showLetters && real) return <LettersInbox onBack={() => setShowLetters(false)} />;
   if (showJobs) {
     return <JobMarketView userRole={userRole} onBack={() => setShowJobs(false)} onSendMessage={onSendMessage} />;
   }
