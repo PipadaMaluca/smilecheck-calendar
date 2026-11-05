@@ -1248,6 +1248,7 @@ export type Database = {
           full_name: string | null
           id: string
           is_seed: boolean
+          is_test: boolean
           language: Database["public"]["Enums"]["app_language"]
           phone: string | null
           phone_verified_at: string | null
@@ -1267,6 +1268,7 @@ export type Database = {
           full_name?: string | null
           id: string
           is_seed?: boolean
+          is_test?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
           phone_verified_at?: string | null
@@ -1286,6 +1288,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_seed?: boolean
+          is_test?: boolean
           language?: Database["public"]["Enums"]["app_language"]
           phone?: string | null
           phone_verified_at?: string | null
