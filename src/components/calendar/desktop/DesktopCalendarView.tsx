@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, appToday } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { UserAvatarDropdown } from '@/components/header/UserAvatarDropdown';
@@ -106,7 +106,7 @@ export function DesktopCalendarView() {
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys(dir));
@@ -624,7 +624,7 @@ export function DesktopCalendarView() {
     if (activeNavTab === 'consulta-detalhe') {
       if (activeRole === 'patient') {
         // Navigate to consultas tab with next consultation pre-selected
-        const PATIENT_DEMO_DATE = demoDate(2026, 0, 31);
+        const PATIENT_DEMO_DATE = appToday(dir.isDemo);
         const nextConsultation = [...patientAgendaConsultations]
           .filter(c => c.date >= PATIENT_DEMO_DATE)
           .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
@@ -637,7 +637,7 @@ export function DesktopCalendarView() {
         return null;
       } else if (activeRole === 'dentist') {
         // Find next consultation for today for this dentist
-        const DEMO_DATE = demoDate(2026, 0, 31);
+        const DEMO_DATE = appToday(dir.isDemo);
         const dentistCons = agendaConsultations
           .filter((c) => c.dentist.id === (mockDentists[0]?.id ?? '') && isSameDay(c.date, DEMO_DATE))
           .sort((a, b) => a.time.localeCompare(b.time));

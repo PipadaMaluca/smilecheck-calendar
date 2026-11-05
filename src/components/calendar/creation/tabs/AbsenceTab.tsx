@@ -1,5 +1,6 @@
 import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
+import { addMonths } from 'date-fns';
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -54,7 +55,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
   const [repeat, setRepeat] = useState<'yes' | 'no'>('no');
   const [frequency, setFrequency] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
   const [weekdays, setWeekdays] = useState<number[]>([]);
-  const [repeatUntil, setRepeatUntil] = useState<Date>(demoDate(2026, 2, 31));
+  const [repeatUntil, setRepeatUntil] = useState<Date>(() => (dir.isDemo ? demoDate(2026, 2, 31) : addMonths(new Date(), 2)));
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
   const [selectedColor, setSelectedColor] = useState('#9E9E9E');

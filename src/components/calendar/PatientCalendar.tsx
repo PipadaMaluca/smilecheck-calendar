@@ -1,7 +1,7 @@
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { demoDate } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
@@ -41,15 +41,15 @@ import { CalendarX } from 'lucide-react';
 import { EmptyState } from '@/components/ui/empty-state';
 
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
-const DEMO_DATE = demoDate(2026, 0, 31);
 
 export function PatientCalendar() {
   const dir = useDirectory();
+  const DEMO_DATE = appToday(dir.isDemo);
   const { familyMembers: mockFamilyMembers } = dir;
   const { patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { t } = useTranslation();
   const smileIcon = useWatermarkSrc();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);

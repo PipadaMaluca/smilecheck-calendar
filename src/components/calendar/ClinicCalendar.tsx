@@ -1,6 +1,6 @@
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, appToday } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
@@ -63,7 +63,7 @@ export function ClinicCalendar() {
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys(dir));
   // Real accounts: the directory loads after mount — select the present dentists once it arrives.
   useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
