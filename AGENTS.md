@@ -37,7 +37,7 @@
 - `delete-account` cancels Stripe first (tested); failures stay `pending` for the `retry-account-deletions` cron.
 - Real search only via `search_professionals` RPC (`searchSource.ts`: approved, public columns, neutral order); demo keeps mock — no rating/plan leaks.
 - Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check, provider fallback, 1 req/s throttle, address cache); a trigger blocks client writes.
-- Spoken languages: closed list in `spokenLanguages.ts` (mirrored server-side); weekdays via `weekdayLabels()`.
+- Spoken languages: closed list in `spokenLanguages.ts` (server-mirrored); weekdays via `weekdayLabels()`.
 - Directory data only via `useDirectory()`: demo=mock, real=RLS.
 - Clinical docs, rankings, jobs: writes only via RPCs/RLS (`issue_*`, `void_clinical_document`, `my_ranking`, `job_*` tables); public QR = anon `verify_document`; real screens are `Real*` beside untouched demo ones (`useDirectory().isDemo`).
 - Social sign-ups pick role once via `choose_initial_role` (`role_pending`, trigger-guarded) — no client role changes.
