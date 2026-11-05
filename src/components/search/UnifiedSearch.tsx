@@ -86,8 +86,8 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
 
   const filteredClinics = useMemo<{ id: string; lat?: number; lng?: number; name: string; address: string; rating?: number; reviewCount?: number; distance?: number }[]>(() => {
     if (!dir.isDemo) return query.trim() ? proSearch.items.filter(i => i.kind === 'clinic').map(i => ({
-      id: i.id, name: i.name, address: [i.clinics?.[0]?.address, i.clinics?.[0]?.city].filter(Boolean).join(', '),
-      lat: i.clinics?.[0]?.lat ?? undefined, lng: i.clinics?.[0]?.lng ?? undefined,
+      id: i.id, name: i.name, address: i.clinics?.[0]?.address ?? '',
+      lat: (i as { lat?: number }).lat, lng: (i as { lng?: number }).lng,
     })) : [];
     if (!query.trim()) return MOCK_CLINIC_SEARCH.slice(0, 3);
     return MOCK_CLINIC_SEARCH.filter(c => 
