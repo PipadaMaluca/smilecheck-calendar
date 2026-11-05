@@ -19,6 +19,8 @@ import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { awardPointsSilently } from '@/data/pointsWrites';
+import { useDirectory } from '@/data/directorySource';
+import { RealReferralFlow } from './RealReferralFlow';
 
 interface ReferralLetterFlowProps {
   onClose: () => void;
@@ -70,7 +72,14 @@ const SPECIALTY_KEYS: Record<string, string> = {
   'Prostodontia Removível': 'removableProsthodontics',
 };
 
-export function ReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite, preSelectedDentist }: ReferralLetterFlowProps) {
+/** Demo keeps the mock flow untouched; real accounts issue real, immutable referral letters. */
+export function ReferralLetterFlow(props: ReferralLetterFlowProps) {
+  const { isDemo } = useDirectory();
+  if (!isDemo) return <RealReferralFlow onClose={props.onClose} onGoHome={props.onGoHome} />;
+  return <DemoReferralLetterFlow {...props} />;
+}
+
+function DemoReferralLetterFlow({ onClose, onGoHome, favorites = [], onToggleFavorite, preSelectedDentist }: ReferralLetterFlowProps) {
   const { t } = useTranslation();
   const { demoMode, user } = useAuth();
   const isMobile = useIsMobile();

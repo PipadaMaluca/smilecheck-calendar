@@ -10,6 +10,8 @@ import { mockDentists, mockClinics } from '@/data/mockData';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { useDirectory } from '@/data/directorySource';
+import { RealRankings } from './RealRankings';
 
 interface RankingsViewProps {
   userRole: UserRole;
@@ -58,7 +60,18 @@ function MedalEmoji({ position }: { position: number }) {
   return <span className="text-sm font-bold text-muted-foreground w-6 text-center">#{position}</span>;
 }
 
-export function RankingsView({ userRole, inline }: RankingsViewProps) {
+/** Demo: mock cards. Real: private server ranking for professionals; patients never see professional rankings. */
+export function RankingsView(props: RankingsViewProps) {
+  const { isDemo } = useDirectory();
+  if (props.userRole === 'patient') return null;
+  if (!isDemo) {
+    if (props.inline) return <RealRankings inline />;
+    return <ScrollArea className="flex-1"><RealRankings /></ScrollArea>;
+  }
+  return <DemoRankingsView {...props} />;
+}
+
+function DemoRankingsView({ userRole, inline }: RankingsViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [selectedView, setSelectedView] = useState<RankingView>('national');
