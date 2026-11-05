@@ -18,18 +18,6 @@ export const openUnderConstruction = () => set(true);
 export const closeUnderConstruction = () => set(false);
 const subscribe = (l: () => void) => { listeners.add(l); return () => { listeners.delete(l); }; };
 
-function Body({ onOk }: { onOk: () => void }) {
-  const { t } = useTranslation();
-  return (
-    <div className="flex flex-col items-center gap-4 text-center">
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10" aria-hidden>
-        <Smile className="h-9 w-9 text-primary" />
-      </span>
-      <Button className="w-full sm:w-auto sm:min-w-32" onClick={onOk}>{t('underConstruction.ok')}</Button>
-    </div>
-  );
-}
-
 export function UnderConstructionDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -71,6 +59,3 @@ export function UnderConstructionHost() {
   const open = useSyncExternalStore(subscribe, () => isOpen, () => false);
   return <UnderConstructionDialog open={open} onOpenChange={set} />;
 }
-
-// Kept for callers that render the body inline (none today).
-export { Body as UnderConstructionBody };
