@@ -1,9 +1,9 @@
-import { demoDate, appToday } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchRealHistory, type RealHistoryItem } from '@/data/historySource';
 import { submitFeedback } from '@/data/feedbackWrites';
 import { toast } from 'sonner';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ArrowLeft, Trophy, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,6 @@ import { subMonths, isAfter, isSameDay } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
 type PeriodFilter = 'all' | '1month' | '3months' | '6months' | 'year';
-const DEMO_DATE = demoDate(2026, 0, 31);
 const ITEMS_PER_PAGE = 10;
 
 interface FullHistoryViewProps {
