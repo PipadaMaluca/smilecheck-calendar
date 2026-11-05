@@ -19,6 +19,8 @@ import { cn } from '@/lib/utils';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { toast } from 'sonner';
 import { useAppointmentActions } from '@/data/appointmentActions';
+import { useConsultationContext, hasAlerts } from '@/data/consultationContext';
+import { useDirectory } from '@/data/directorySource';
 
 interface ConsultationDetailViewProps {
   consultation: Consultation;
@@ -79,6 +81,8 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
   const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
   const { cancelConsultation, pending: actionPending } = useAppointmentActions();
+  const isReal = !useDirectory().isDemo;
+  const realCtx = useConsultationContext(consultation, isReal, 'professional', t);
 
   const handleCancelConsultation = async () => {
     const ok = await cancelConsultation(consultation);
@@ -112,8 +116,9 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
   const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('consultationTypes.teleconsultation');
-  const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
-  const history = MOCK_HISTORY.default;
+  const healthAlerts = isReal ? realCtx.alerts : MOCK_HEALTH_ALERTS[consultation.patient.id];
+  const history = isReal ? realCtx.history : MOCK_HISTORY.default;
+  const histRows = history;
   const dateLocale = DATE_LOCALES[i18n.language] || pt;
 
   return (
@@ -218,7 +223,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
           )}
 
           {/* Health Alerts */}
-          {healthAlerts && (healthAlerts.allergies.length > 0 || healthAlerts.medications.some(m => m.interaction)) && (
+          {healthAlerts && hasAlerts(healthAlerts) && (
             <div className="bg-destructive/10 rounded-xl border border-destructive/30 p-4 space-y-3">
               <h3 className="text-xs font-semibold text-destructive uppercase flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
@@ -275,6 +280,7 @@ export function ConsultationDetailView({ consultation, onClose, onViewDossier, o
             </button>
             {showHistory && (
               <div className="space-y-2">
+                {histRows.length === 0 && <p className="text-sm text-muted-foreground">{t('consultationDetail.noHistory')}</p>}
                 {history.map((h, i) => (
                   <div key={i} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
                     <div className="flex items-center gap-2">

@@ -1,4 +1,6 @@
 import { PILL_CLASS } from '@/components/ui/badge';
+import { useConsultationContext, hasAlerts } from '@/data/consultationContext';
+import { useDirectory } from '@/data/directorySource';
 import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
 import { RescheduleModal } from '@/components/calendar/RescheduleModal';
 import { SoonButton } from '@/components/ui/soon-button';
@@ -75,6 +77,9 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const [isBlocked, setIsBlocked] = useState(false);
   const startTeleconsulta = useTeleconsulta();
   const { cancelConsultation, pending: actionPending } = useAppointmentActions();
+  const isReal = !useDirectory().isDemo;
+  const realCtx = useConsultationContext(consultation, isReal, 'professional', t);
+  const histRows = isReal ? realCtx.history : MOCK_HISTORY;
 
   const handleCancelConsultation = async () => {
     const ok = await cancelConsultation(consultation);
@@ -89,7 +94,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
   const statusConfig = STATUS_CONFIG[status];
   const categoryColor = consultation.category ? CATEGORY_COLORS[consultation.category] : null;
   const categoryLabel = consultation.category ? getCategoryLabel(t, consultation.category) : t('nav.consultations');
-  const healthAlerts = MOCK_HEALTH_ALERTS[consultation.patient.id];
+  const healthAlerts = isReal ? realCtx.alerts : MOCK_HEALTH_ALERTS[consultation.patient.id];
   const isDentist = userRole === 'dentist';
   const isClinic = userRole === 'clinic';
 
@@ -304,7 +309,7 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           )}
 
           {/* Health Alerts */}
-          {healthAlerts && (healthAlerts.allergies.length > 0 || healthAlerts.medications.some(m => m.interaction)) && (
+          {healthAlerts && hasAlerts(healthAlerts) && (
             <div className="bg-destructive/10 rounded-xl border border-destructive/30 p-4 space-y-3">
               <h3 className="text-xs font-semibold text-destructive uppercase flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
@@ -361,7 +366,8 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
             </button>
             {showHistory && (
               <div className="space-y-2">
-                {MOCK_HISTORY.map((h, i) => {
+                {histRows.length === 0 && <p className="text-sm text-muted-foreground">{t('consultationDetail.noHistory')}</p>}
+                {histRows.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
                   return (
                     <div key={i} className="flex flex-col gap-0.5 py-1.5 border-b border-border/50 last:border-0">
