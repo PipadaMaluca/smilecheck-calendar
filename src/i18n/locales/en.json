@@ -3647,7 +3647,8 @@
     "topPatients": "Top patients",
     "consultations_one": "{{count, number}} appointment",
     "consultations_other": "{{count, number}} appointments",
-    "colConsultations": "Appointments"
+    "colConsultations": "Appointments",
+    "occupancy": "Occupancy"
   },
   "waitingList": {
     "patients": "patients",
@@ -3819,6 +3820,11 @@
       "type": "Type",
       "status": "Status",
       "price": "Price"
+    },
+    "pdf": {
+      "period": "Period",
+      "generatedAt": "Generated on",
+      "empty": "No appointments in this period"
     }
   },
   "demo": {
@@ -5496,5 +5502,22 @@
   },
   "family": {
     "saveError": "Couldn't save. Please try again."
+  },
+  "publicProfile": {
+    "notEnoughReviews": "Not enough reviews yet",
+    "starsLabel_one": "{{count}} star",
+    "starsLabel_other": "{{count}} stars",
+    "addFavorite": "Add to favourites",
+    "removeFavorite": "Remove from favourites",
+    "dentistsHere": "Dentists at this clinic",
+    "noDentists": "No approved dentists at this clinic yet.",
+    "chooseDentist": "Choose a dentist above",
+    "notFound": "Profile unavailable",
+    "noFavoritesTitle": "No favourites yet",
+    "noFavoritesDesc": "Tap the star on a dentist or clinic to save it here.",
+    "patientSearchPlaceholder": "Search by name, phone or date of birth",
+    "lastVisit": "Last visit",
+    "nextVisit": "Next",
+    "openDossier": "Open file"
   }
 }

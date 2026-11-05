@@ -3647,7 +3647,8 @@
     "topPatients": "Top pacientes",
     "consultations_one": "{{count, number}} consulta",
     "consultations_other": "{{count, number}} consultas",
-    "colConsultations": "Consultas"
+    "colConsultations": "Consultas",
+    "occupancy": "Ocupação"
   },
   "waitingList": {
     "patients": "pacientes",
@@ -3819,6 +3820,11 @@
       "type": "Tipo",
       "status": "Estado",
       "price": "Preço"
+    },
+    "pdf": {
+      "period": "Período",
+      "generatedAt": "Gerado em",
+      "empty": "Sem consultas neste período"
     }
   },
   "demo": {
@@ -5496,5 +5502,22 @@
   },
   "family": {
     "saveError": "Não foi possível guardar. Tente de novo."
+  },
+  "publicProfile": {
+    "notEnoughReviews": "Ainda sem avaliações suficientes",
+    "starsLabel_one": "{{count}} estrela",
+    "starsLabel_other": "{{count}} estrelas",
+    "addFavorite": "Adicionar aos favoritos",
+    "removeFavorite": "Remover dos favoritos",
+    "dentistsHere": "Dentistas nesta clínica",
+    "noDentists": "Ainda sem dentistas aprovados nesta clínica.",
+    "chooseDentist": "Escolha um dentista acima",
+    "notFound": "Perfil indisponível",
+    "noFavoritesTitle": "Ainda sem favoritos",
+    "noFavoritesDesc": "Toque na estrela de um dentista ou clínica para o guardar aqui.",
+    "patientSearchPlaceholder": "Pesquisar por nome, telemóvel ou data de nascimento",
+    "lastVisit": "Última consulta",
+    "nextVisit": "Próxima",
+    "openDossier": "Abrir ficha"
   }
 }

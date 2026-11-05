@@ -3631,7 +3631,8 @@
     "topPatients": "Top patients",
     "consultations_one": "{{count, number}} consultation",
     "consultations_other": "{{count, number}} consultations",
-    "colConsultations": "Consultations"
+    "colConsultations": "Consultations",
+    "occupancy": "Taux d’occupation"
   },
   "waitingList": {
     "patients": "patients",
@@ -3803,6 +3804,11 @@
       "type": "Type",
       "status": "Statut",
       "price": "Prix"
+    },
+    "pdf": {
+      "period": "Période",
+      "generatedAt": "Généré le",
+      "empty": "Aucun rendez-vous sur cette période"
     }
   },
   "demo": {
@@ -5496,5 +5502,22 @@
   },
   "family": {
     "saveError": "Impossible d'enregistrer. Veuillez réessayer."
+  },
+  "publicProfile": {
+    "notEnoughReviews": "Pas encore assez d’avis",
+    "starsLabel_one": "{{count}} étoile",
+    "starsLabel_other": "{{count}} étoiles",
+    "addFavorite": "Ajouter aux favoris",
+    "removeFavorite": "Retirer des favoris",
+    "dentistsHere": "Dentistes de ce cabinet",
+    "noDentists": "Aucun dentiste approuvé dans ce cabinet pour l’instant.",
+    "chooseDentist": "Choisissez un dentiste ci-dessus",
+    "notFound": "Profil indisponible",
+    "noFavoritesTitle": "Pas encore de favoris",
+    "noFavoritesDesc": "Touchez l’étoile d’un dentiste ou d’un cabinet pour l’enregistrer ici.",
+    "patientSearchPlaceholder": "Rechercher par nom, téléphone ou date de naissance",
+    "lastVisit": "Dernier rendez-vous",
+    "nextVisit": "Prochain",
+    "openDossier": "Ouvrir le dossier"
   }
 }
