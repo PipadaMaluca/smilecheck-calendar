@@ -18,6 +18,8 @@ export interface AuthProfile {
   plan?: 'free' | 'pro' | 'premium';
   referral_code?: string | null;
   terms_version?: string | null;
+  /** Social sign-up that has not picked patient/dentist/clinic yet. */
+  role_pending?: boolean;
 }
 
 interface AuthContextValue {
@@ -84,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     supabase
       .from('profiles')
-      .select('id, role, full_name, email, avatar_url, language, plan, referral_code, terms_version')
+      .select('id, role, full_name, email, avatar_url, language, plan, referral_code, terms_version, role_pending')
       .eq('id', userId)
       .maybeSingle()
       .then(({ data }) => {
@@ -139,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       enterDemo,
       exitDemo,
       signOut,
-      needsTermsAcceptance: Boolean(session && profile && demoRole === null && profile.terms_version !== TERMS_VERSION),
+      needsTermsAcceptance: Boolean(session && profile && demoRole === null && !profile.role_pending && profile.terms_version !== TERMS_VERSION),
       acceptTerms,
       patchProfile,
     }),
