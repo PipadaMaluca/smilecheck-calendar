@@ -32,7 +32,7 @@
 - "Download my data" is the `export_my_data()` RPC (own rows only, never `fear_assessments`).
 - Professionals' levels, seals, plan badges and highlighted achievements render only for the owner (and, for dentists, their clinic); `professional_public_profiles.showcased_achievements` is always empty; search order is distance/price only (`getVisibilityBoost` is 0) — P2B neutrality pending the dental council's opinion.
 - Consumer (patient) checkout requires `withdrawalWaiver`, enforced in `create-checkout` and stored via subscription metadata → `subscriptions.withdrawal_waiver_at`; VAT display comes from `planVatMode` in `planRules.ts`.
-- Annual renewal reminders run daily in SQL (`send_annual_renewal_reminders`, pg_cron) as in-app notifications.
+- Annual renewal reminders: daily SQL `send_annual_renewal_reminders` (pg_cron), in-app only.
 - Terms acceptance is server-enforced: `require_terms_accepted` triggers (appointments, feedback, waiting_list, referrals, redemptions) and `create-checkout` check `has_accepted_terms()` against `current_terms_version()`; bump that SQL function and `TERMS_VERSION` together (tested) and `TermsGate` re-asks on next sign-in.
 - `delete-account` cancels Stripe first (`process.ts`, tested); failures stay `pending` and the `retry-account-deletions` cron retries them.
 - Real professional search goes only through the `search_professionals` RPC (`src/data/searchSource.ts`, approved profiles, public columns, neutral order); demo mode keeps the mock — so third-party ratings/plans can never leak into search.
