@@ -53,7 +53,7 @@ export function RealPatientProfile({ onEditProfile }: { onEditProfile: () => voi
         <PersonAvatar name={me.full_name ?? ''} photo={me.avatar_url ?? undefined} size="xl" />
         <div className="flex-1 min-w-0">
           <h2 className="text-lg font-bold text-foreground truncate">{me.full_name || t('patientProfileReal.noName')}</h2>
-          <p className="text-sm text-muted-foreground">{t('patientProfileReal.levelLine', { level: t(`levels.${level.key}`, { defaultValue: level.key }), xp: formatNumber(points.xp), points: formatNumber(points.rewardPoints) })}</p>
+          <p className="text-sm text-muted-foreground">{t('patientProfileReal.levelLine', { level: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), xp: formatNumber(points.xp), points: formatNumber(points.rewardPoints) })}</p>
         </div>
         <Button variant="outline" size="sm" className="gap-2" onClick={onEditProfile}><Pencil className="w-4 h-4" />{t('profile.editProfile')}</Button>
       </section>
