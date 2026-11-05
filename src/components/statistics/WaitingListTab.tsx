@@ -1,7 +1,7 @@
 import { UnavailableSlotError } from '@/data/agendaWrites';
 import { demoText } from '@/lib/demoText';
 import { getActiveLocale } from '@/lib/formatters';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, BellRing, CalendarCheck, Loader2, Trash2, Users, Zap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
