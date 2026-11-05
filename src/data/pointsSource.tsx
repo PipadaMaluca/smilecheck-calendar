@@ -190,7 +190,7 @@ export function usePointsData(role: UserRole): PointsSourceValue {
   return useMemo(() => {
     // Real account still loading / failed: show zeros, never the demo numbers.
     if (!isDemo && !data) {
-      return { ...mock, xp: 0, rewardPoints: 0, streak: 0, bestStreak: 0, levelKey: '', plan: realPlan, todayConsultations: 0, history: [], loading, error, isDemo };
+      return { ...mock, xp: 0, rewardPoints: 0, streak: 0, bestStreak: 0, levelKey: '', plan: realPlan, todayConsultations: { presencial: 0, teleconsulta: 0 }, history: [], loading, error, isDemo };
     }
     if (isDemo || !data) {
       return {
@@ -209,7 +209,7 @@ export function usePointsData(role: UserRole): PointsSourceValue {
       bestStreak: data.bestStreak,
       levelKey: data.levelKey,
       plan: realPlan,
-      todayConsultations: 0,
+      todayConsultations: { presencial: 0, teleconsulta: 0 },
       history: data.history,
       loading,
       error,
