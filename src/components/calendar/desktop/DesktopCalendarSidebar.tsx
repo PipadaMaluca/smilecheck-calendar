@@ -1,4 +1,4 @@
-import { getDateFnsLocale } from '@/lib/formatters';
+import { getDateFnsLocale, weekdayLabels } from '@/lib/formatters';
 import { navigateApp } from '@/lib/deepLink';
 import { SoonButton } from '@/components/ui/soon-button';
 import { useTranslation } from 'react-i18next';
@@ -95,7 +95,7 @@ export function DesktopCalendarSidebar({
 
   const hasAppointment = (date: Date) =>
     appointmentDates.some((d) => isSameDay(d, date));
-  const weekDays = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
+  const weekDays = weekdayLabels('narrow');
 
   // Check if a dentist is selected for a specific clinic using composite key
   const isDentistSelected = (dentistId: string, clinicId: string) => {

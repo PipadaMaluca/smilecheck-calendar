@@ -83,3 +83,13 @@ export function zonedParts(instant: Date | string | number, timeZone: string) {
   const get = (t: string) => Number(parts.find((p) => p.type === t)?.value ?? 0);
   return { year: get('year'), month: get('month'), day: get('day'), hour: get('hour'), minute: get('minute') };
 }
+
+/** Weekday labels Monday→Sunday in the active language ("S T Q…" / "L M M…" / "M T W…" for narrow; "seg"/"lun"/"Mon" for short). */
+export function weekdayLabels(style: 'narrow' | 'short' | 'long' = 'short'): string[] {
+  const fmt = new Intl.DateTimeFormat(getActiveLocale(), { weekday: style });
+  // 2024-01-01 is a Monday.
+  return Array.from({ length: 7 }, (_, i) => {
+    const s = fmt.format(new Date(Date.UTC(2024, 0, 1 + i, 12)));
+    return style === 'short' ? capitalizeFirst(s.replace(/\.$/, '')) : s.toUpperCase();
+  });
+}

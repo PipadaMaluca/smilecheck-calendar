@@ -1,3 +1,4 @@
+import { weekdayLabels } from '@/lib/formatters';
 import { useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useTranslation } from 'react-i18next';
@@ -59,7 +60,7 @@ export function DesktopMonthView({
     return map;
   }, [selectedDentistKey, agendaConsultations]);
 
-  const weekDays = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+  const weekDays = weekdayLabels('short');
 
   return (
     <div className="flex-1 overflow-auto p-4">

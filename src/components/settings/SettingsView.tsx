@@ -29,6 +29,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { OPEN_CONSENT_EVENT } from '@/lib/consent';
 import { InstallAppButton } from '@/components/pwa/InstallPrompt';
 import { AccountDataSection } from '@/components/settings/AccountDataSection';
+import { ClinicAddressSection } from '@/components/settings/ClinicAddressSection';
+import { DentistLanguagesSection } from '@/components/settings/DentistLanguagesSection';
 
 interface SettingsViewProps {
   userRole: UserRole;
@@ -72,6 +74,9 @@ export function SettingsView({ userRole, onNavigate, onInvite }: SettingsViewPro
 
         {/* 2. Regional (includes language — unified, no separate language section) */}
         <RegionalSection />
+
+        {userRole === 'clinic' && <ClinicAddressSection />}
+        {userRole === 'dentist' && <DentistLanguagesSection />}
 
         {/* 3. Notificações (collapsible) */}
         <Card className="bg-card/80 backdrop-blur border-border">

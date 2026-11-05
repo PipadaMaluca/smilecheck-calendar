@@ -36,3 +36,5 @@
 - Terms acceptance is server-enforced: `require_terms_accepted` triggers (appointments, feedback, waiting_list, referrals, redemptions) and `create-checkout` check `has_accepted_terms()` against `current_terms_version()`; bump that SQL function and `TERMS_VERSION` together (tested) and `TermsGate` re-asks on next sign-in.
 - `delete-account` cancels Stripe subscriptions before anything else (`process.ts`, tested); any failure leaves the request `pending` with attempts/last_error, retried daily by the `retry-account-deletions` cron (`{"mode":"retry"}`, only completes already-confirmed requests).
 - Real professional search goes only through the `search_professionals` RPC (`src/data/searchSource.ts`, approved profiles, public columns, neutral order); demo mode keeps the mock — so third-party ratings/plans can never leak into search.
+- Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check, 1 req/s DB throttle, cache by address); a trigger blocks client writes.
+- Spoken languages: closed list in `spokenLanguages.ts`, mirrored server-side; weekday labels only via `weekdayLabels()`.

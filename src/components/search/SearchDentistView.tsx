@@ -1,3 +1,4 @@
+import { sortedSpokenLanguages } from '@/lib/spokenLanguages';
 import { formatCurrency } from '@/lib/formatters';
 import { useState, useMemo, lazy, Suspense, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -33,12 +34,6 @@ interface SearchDentistViewProps {
   onQuickBook?: (dentist: DentistSearchResult, dayLabel: string, slot: string) => void;
 }
 
-const LANGUAGES = [
-  { code: 'pt', label: 'Português', flag: '🇵🇹' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-];
 
 export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }: SearchDentistViewProps) {
   const { t } = useTranslation();
@@ -174,7 +169,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
       <div className="space-y-2">
         <span className="text-sm">{t('search.languages')}</span>
         <div className="flex flex-wrap gap-2">
-          {LANGUAGES.map(lang => (
+          {sortedSpokenLanguages().map(lang => (
             <Button
               key={lang.code}
               type="button"
@@ -189,8 +184,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
                   : 'bg-secondary text-muted-foreground border-border hover:bg-accent'
               )}
             >
-              <span>{lang.flag}</span>
-              <span>{t(`i18nB.language_${lang.code}`)}</span>
+              <span>{lang.name}</span>
             </Button>
           ))}
         </div>
@@ -348,6 +342,9 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
               <div className="flex justify-center mt-6">
                 <Button variant="outline" onClick={real.loadMore} disabled={real.loading}>{t('search.real.loadMore')}</Button>
               </div>
+            )}
+            {isReal && filteredDentists.some(d => isRealResult(d) && d.hasDistance) && (
+              <p className="text-xs text-muted-foreground text-center mt-4">{t('search.osmAttribution')}</p>
             )}
           </div>
         </ScrollArea>

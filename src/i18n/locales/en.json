@@ -1898,7 +1898,8 @@
       "loadError": "We couldn't load the search. Please try again.",
       "noDistance": "No location",
       "sortName": "Name"
-    }
+    },
+    "osmAttribution": "Distances calculated with data © OpenStreetMap contributors"
   },
   "history": {
     "consultationHistory": "Consultation history",
@@ -5384,5 +5385,31 @@
     "statistics": "Statis­tics",
     "billing": "Billing",
     "scores": "Scores"
+  },
+  "clinicAddress": {
+    "title": "Clinic address",
+    "street": "Street and number",
+    "postalCode": "Postcode",
+    "city": "City",
+    "country": "Country",
+    "countryHint": "The country follows the clinic's time zone.",
+    "countries": {
+      "PT": "Portugal",
+      "FR": "France"
+    },
+    "save": "Save address",
+    "saved": "Address saved",
+    "saveError": "Couldn't save the address. Please try again.",
+    "required": "Enter the street and number.",
+    "notFound": "We couldn't find this address on the map. Check the postcode.",
+    "located": "Found on the map",
+    "privacy": "To work out distances in search, only the clinic's address is sent to OpenStreetMap."
+  },
+  "dentistLanguages": {
+    "title": "Languages spoken",
+    "hint": "Choose the languages you can see patients in. They appear in dentist search.",
+    "save": "Save languages",
+    "saved": "Languages saved",
+    "saveError": "Couldn't save the languages. Please try again."
   }
 }

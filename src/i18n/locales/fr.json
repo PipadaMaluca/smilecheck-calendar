@@ -1882,7 +1882,8 @@
       "loadError": "Impossible de charger la recherche. Réessayez.",
       "noDistance": "Sans localisation",
       "sortName": "Nom"
-    }
+    },
+    "osmAttribution": "Distances calculées avec des données © OpenStreetMap contributors"
   },
   "history": {
     "consultationHistory": "Historique des consultations",
@@ -5384,5 +5385,31 @@
     "statistics": "Statis­tiques",
     "billing": "Factu­ration",
     "scores": "Scores"
+  },
+  "clinicAddress": {
+    "title": "Adresse de la clinique",
+    "street": "Rue et numéro",
+    "postalCode": "Code postal",
+    "city": "Ville",
+    "country": "Pays",
+    "countryHint": "Le pays suit le fuseau horaire de la clinique.",
+    "countries": {
+      "PT": "Portugal",
+      "FR": "France"
+    },
+    "save": "Enregistrer l'adresse",
+    "saved": "Adresse enregistrée",
+    "saveError": "Impossible d'enregistrer l'adresse. Veuillez réessayer.",
+    "required": "Indiquez la rue et le numéro.",
+    "notFound": "Nous n'avons pas pu localiser cette adresse sur la carte. Vérifiez le code postal.",
+    "located": "Localisée sur la carte",
+    "privacy": "Pour calculer la distance dans la recherche, seule l'adresse de la clinique est envoyée à OpenStreetMap."
+  },
+  "dentistLanguages": {
+    "title": "Langues parlées",
+    "hint": "Choisissez les langues dans lesquelles vous pouvez consulter. Elles apparaissent dans la recherche de dentistes.",
+    "save": "Enregistrer les langues",
+    "saved": "Langues enregistrées",
+    "saveError": "Impossible d'enregistrer les langues. Veuillez réessayer."
   }
 }
