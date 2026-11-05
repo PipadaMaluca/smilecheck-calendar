@@ -1,3 +1,5 @@
+import { isUuid } from '@/data/publicProfiles';
+import { RealClinicProfile } from './RealClinicProfile';
 import { ChequeBadges } from '@/components/clinic/ChequeBadges';
 import { navigateApp, openChatWith } from '@/lib/deepLink';
 import { chequesForClinic } from '@/lib/cheques';
@@ -244,7 +246,15 @@ const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients:
   '3': { totalConsultations: '2 400+', activePatients: '620+', confirmationRate: '95%', activeDentists: 3 },
 };
 
-export function ClinicProfileView({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
+/** Real clinic ids (uuid) render the public-only profile; demo ids keep the mock view. */
+export function ClinicProfileView(props: ClinicProfileViewProps) {
+  if (isUuid(props.clinicId) && !props.isOwnProfile) {
+    return <RealClinicProfile clinicId={props.clinicId} onClose={props.onClose} onViewDentist={(d) => props.onViewDentistProfile?.(d.id)} />;
+  }
+  return <ClinicProfileViewInner {...props} />;
+}
+
+function ClinicProfileViewInner({ clinicId, isOpen, onClose, onViewDentistProfile, inline, isFavorite, onToggleFavorite, isOwnProfile, onEditProfile }: ClinicProfileViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const clinic = mockClinics.find(c => c.id === clinicId);

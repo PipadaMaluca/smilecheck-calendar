@@ -1,3 +1,5 @@
+import { isRealResult } from '@/data/searchSource';
+import { DentistProfileModal } from '@/components/search/DentistProfileModal';
 import { VerifiedReviewBadge } from '@/components/feedback/VerifiedReviewBadge';
 import { openChatWith } from '@/lib/deepLink';
 import { Star as StarIcon } from 'lucide-react';
@@ -108,7 +110,15 @@ const DENTIST_EXTRA = {
 
 };
 
-export function DentistProfileView({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline, isOwnProfile, onEditProfile, onReferralLetter }: DentistProfileViewProps) {
+/** Real accounts viewing a third party get the public-only profile (no mock extras, verified reviews). */
+export function DentistProfileView(props: DentistProfileViewProps) {
+  if (isRealResult(props.dentist) && !props.isOwnProfile) {
+    return <DentistProfileModal dentist={props.dentist} onClose={props.onClose} onGoHome={props.onGoHome} />;
+  }
+  return <DentistProfileViewInner {...props} />;
+}
+
+function DentistProfileViewInner({ dentist, isOpen, onClose, isFavorite, onToggleFavorite, onGoHome, inline, isOwnProfile, onEditProfile, onReferralLetter }: DentistProfileViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [showBooking, setShowBooking] = useState(false);
