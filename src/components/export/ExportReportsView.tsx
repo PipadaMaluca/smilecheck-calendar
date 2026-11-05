@@ -11,6 +11,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { UserRole } from '@/types/calendar';
 import { mockDentists } from '@/data/mockData';
 import { toast } from 'sonner';
+import { useKpiData } from '@/data/kpiSource';
+import { useDirectory } from '@/data/directorySource';
+import { buildReport, downloadBlob, normalizePeriod, selectReportRows } from '@/lib/reportExport';
 
 interface ExportReportsViewProps {
   userRole: UserRole;
@@ -18,6 +21,9 @@ interface ExportReportsViewProps {
 
 export function ExportReportsView({ userRole }: ExportReportsViewProps) {
   const { t } = useTranslation();
+  const kpi = useKpiData(userRole);
+  const dir = useDirectory();
+  const real = !kpi.isDemo;
 
   const DENTIST_REPORTS = [
     { id: 'agenda', label: t('export.agendaReport') },
@@ -57,6 +63,20 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
   const handleExport = () => {
     if (selectedReports.length === 0) {
       toast.error(t('export.selectAtLeast'));
+      return;
+    }
+    if (real) {
+      // Only the role-scoped appointments this account can read (RLS), scheduling columns only.
+      const rows = selectReportRows(kpi.consultations, {
+        period: normalizePeriod(period), today: kpi.today, from: startDate, to: endDate,
+        dentistId: userRole === 'clinic' && dentistFilter !== 'todos' ? dentistFilter : undefined,
+      });
+      const csv = format !== 'pdf';
+      downloadBlob(
+        new Blob([buildReport(rows, userRole, t, csv ? 'csv' : 'text')], { type: csv ? 'text/csv;charset=utf-8' : 'text/plain;charset=utf-8' }),
+        `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.txt'}`,
+      );
+      toast.success(t('export.exportSuccess'), { icon: <CheckCircle2 className="w-4 h-4 text-primary" /> });
       return;
     }
     const ext = format === 'pdf' ? '.pdf' : format === 'excel' ? '.xlsx' : '.csv';
@@ -122,7 +142,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
                   <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="todos">{t('export.allDentists')}</SelectItem>
-                    {mockDentists.map(d => (
+                    {(real ? dir.dentists : mockDentists).map(d => (
                       <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
                     ))}
                   </SelectContent>

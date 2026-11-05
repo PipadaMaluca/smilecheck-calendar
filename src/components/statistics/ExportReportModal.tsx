@@ -12,6 +12,9 @@ import { mockDentists } from '@/data/mockData';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
+import { useKpiData } from '@/data/kpiSource';
+import { useDirectory } from '@/data/directorySource';
+import { buildReport, normalizePeriod, selectReportRows } from '@/lib/reportExport';
 
 interface ExportReportModalProps {
   isOpen: boolean;
@@ -36,6 +39,9 @@ interface ExportReportModalProps {
 export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportModalProps) {
   const { t } = useTranslation();
   const reportKeys = REPORT_KEYS[userRole] || REPORT_KEYS.dentist;
+  const kpi = useKpiData(userRole);
+  const dir = useDirectory();
+  const real = !kpi.isDemo;
   const [selectedReports, setSelectedReports] = useState<string[]>([]);
   const [period, setPeriod] = useState('thisMonth');
   const [startDate, setStartDate] = useState('');
@@ -60,6 +66,20 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
     }
     
     setExporting(true);
+    if (real) {
+      // Only the role-scoped appointments this account can read (RLS), scheduling columns only.
+      const rows = selectReportRows(kpi.consultations, {
+        period: normalizePeriod(period), today: kpi.today, from: startDate, to: endDate,
+        dentistId: userRole === 'clinic' && dentistFilter !== 'all' ? dentistFilter : undefined,
+      });
+      const csv = format !== 'pdf';
+      const blob = new Blob([buildReport(rows, userRole, t, csv ? 'csv' : 'text')], { type: csv ? 'text/csv;charset=utf-8' : 'text/plain;charset=utf-8' });
+      setGeneratedBlob(blob);
+      setGeneratedFilename(`relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.txt'}`);
+      setExporting(false);
+      setExportDone(true);
+      return;
+    }
     await new Promise(r => setTimeout(r, 2000));
     
     const ext = format === 'pdf' ? '.txt' : '.csv';
@@ -165,7 +185,7 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{t('statistics.allDentists')}</SelectItem>
-                    {mockDentists.map(d => (
+                    {(real ? dir.dentists : mockDentists).map(d => (
                       <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
                     ))}
                   </SelectContent>

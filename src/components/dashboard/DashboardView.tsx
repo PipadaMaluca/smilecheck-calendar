@@ -36,6 +36,8 @@ import { MobileDashboardHero } from './MobileDashboardHero';
 import { NoClinicNotice } from '@/components/clinic/NoClinicNotice';
 import { AdBanner } from '@/components/ads/AdsPanel';
 import { useWaitingList } from '@/data/waitingListSource';
+import { useKpiData } from '@/data/kpiSource';
+import { useDirectory } from '@/data/directorySource';
 
 interface DashboardViewProps {
   userRole: UserRole;
@@ -122,7 +124,18 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const { t } = useTranslation();
   const { toast } = useToast();
   const isLoading = useSimulatedLoading(1200, `dashboard:${userRole}`);
-  const userName = getUserName(userRole);
+  // Real accounts: role-scoped appointments, clinic-time-zone "today"; demo keeps the mock below.
+  const kpi = useKpiData(userRole);
+  const dir = useDirectory();
+  const real = !kpi.isDemo;
+  const srcConsultations = real ? kpi.consultations : mockConsultations;
+  const srcPatientConsultations = real ? kpi.consultations : mockPatientConsultations;
+  const refDay = real ? kpi.today : DEMO_DATE;
+  const selfDentistName = real ? dir.selfName : mockDentists[0].name;
+  const srcConfirmations = real ? kpi.confirmationsToday : mockConfirmations;
+  const userName = real
+    ? (userRole === 'clinic' ? dir.clinics[0]?.name || dir.selfName : userRole === 'patient' ? dir.selfName.split(' ')[0] : dir.selfName)
+    : getUserName(userRole);
   // Waiting-list summary: real rows for authenticated users, mock in demo mode.
   const { entries: dbWaitingEntries, isDemo: waitingIsDemo } = useWaitingList();
   const dentistWaitlist = waitingIsDemo
@@ -157,8 +170,8 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   }, [t]);
 
   const todayConsultations = useMemo(() =>
-  mockConsultations.filter((c) => isSameDay(c.date, DEMO_DATE)),
-  []);
+  srcConsultations.filter((c) => isSameDay(c.date, refDay)),
+  [srcConsultations, refDay]);
 
   // Dual points data
   const pointsData = usePointsData(userRole);
@@ -168,12 +181,12 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const stats = useMemo(() => {
     if (userRole === 'patient') {
-      const nextPatientCon = pickNextAppointment(mockPatientConsultations);
+      const nextPatientCon = pickNextAppointment(srcPatientConsultations);
       const nextValue = nextPatientCon ? nextPatientCon.time : t('dashboard.noConsultations');
       const nextSubtitle = nextPatientCon ?
       formatDate(nextPatientCon.date, { day: 'numeric', month: 'long' }) :
       t('dashboard.bookConsultation');
-      const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || mockDentists[0].name : '';
+      const nextDentistName = nextPatientCon ? (nextPatientCon as any).dentist?.name || (real ? '' : mockDentists[0].name) : '';
       return [
       { label: t('dashboard.nextConsultation'), value: nextValue, subtitle: nextSubtitle, extraLine: nextDentistName, icon: Calendar, clickTab: 'consulta-detalhe', isHero: true, category: (nextPatientCon as any)?.category as ConsultationCategory | undefined, primaryName: nextDentistName },
       { label: t('dashboard.levelAndXp'), value: t(LEVEL_TRANSLATION_KEYS[level.key] || level.name), icon: Award, clickTab: 'pontuacoes', isLevel: true },
@@ -182,7 +195,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     }
     if (userRole === 'dentist') {
       // "Next" = first appointment at/after now that is still agendada/confirmada.
-      const next = pickNextAppointment(mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id));
+      const next = pickNextAppointment(real ? srcConsultations : mockConsultations.filter((c) => c.dentist.id === mockDentists[0].id));
       const nextCatLabel = next?.category ? getCategoryLabel(t, next.category) : next?.type || '';
       return [
       { label: t('dashboard.nextConsultation'), value: next ? (isSameDay(next.date, new Date()) ? next.time : `${formatDate(next.date, { weekday: 'short', day: 'numeric', month: 'short' })} · ${next.time}`) : '', subtitle: next ? next.patient.name : t('dashboard.noMoreToday'), extraLine: nextCatLabel, icon: Calendar, clickTab: next ? 'consulta-detalhe' : undefined, isHero: true, category: next?.category, primaryName: next?.patient.name || '', isEmpty: !next },
@@ -198,7 +211,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
       { label: t('dashboard.streak'), value: pointsData.streak, icon: Flame, clickTab: 'pontuacoes-streak', isStreak: true }];
     }
     return null;
-  }, [userRole, todayConsultations, level, pointsData, t]);
+  }, [userRole, todayConsultations, level, pointsData, t, real, srcConsultations, srcPatientConsultations]);
 
   // Shared stats cards renderer
   const renderStatsCards = () => {
@@ -431,13 +444,13 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   const renderDentistDashboard = () => {
     const dentistCons = todayConsultations.
-    filter((c) => c.dentist.id === mockDentists[0].id).
+    filter((c) => real || c.dentist.id === mockDentists[0].id).
     sort((a, b) => a.time.localeCompare(b.time));
 
     // Morning consultations (before 13:00)
     const morningCons = dentistCons.filter((c) => c.time < '13:00');
 
-    const dentistConfirmations = mockConfirmations.filter((c) => c.dentistName === mockDentists[0].name);
+    const dentistConfirmations = srcConfirmations.filter((c) => real || c.dentistName === selfDentistName);
 
     return (
       <div className="space-y-6">
@@ -653,7 +666,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
 
   // ─── Clinic dashboard ───
   const renderClinicDashboard = () => {
-    const clinicDentists = getDentistsForClinic('1');
+    const clinicDentists = real ? dir.dentists : getDentistsForClinic('1');
     const clinicTodayConsultations = [...todayConsultations]
       .sort((a, b) => a.time.localeCompare(b.time))
       .slice(0, 7);
@@ -662,7 +675,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
     // Group confirmations by dentist
     const confirmationsByDentist = clinicDentists.map((d) => ({
       dentist: d,
-      confirmations: mockConfirmations.filter((c) => c.dentistName === d.name)
+      confirmations: srcConfirmations.filter((c) => c.dentistName === d.name)
     })).filter((g) => g.confirmations.length > 0);
 
     // Waitlist grouped by dentist — mock in demo, real DB rows otherwise.
@@ -714,7 +727,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             <CardContent className="border-0 flex flex-col flex-1 py-2.5 px-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="t-h3 text-foreground">{t('dashboard.todayConsultations')}</h3>
-                <Badge variant="outline" className="text-2xs">54 {t('dashboard.total')}</Badge>
+                <Badge variant="outline" className="text-2xs">{real ? formatNumber(todayConsultations.length) : 54} {t('dashboard.total')}</Badge>
               </div>
               <div className="space-y-0 flex-1 overflow-y-auto md:overflow-y-hidden">
                 {clinicTodayConsultations.length === 0 && (
@@ -846,7 +859,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const renderPatientDashboard = () => {
     // Use the SAME source + ordering on every viewport (mobile / tablet / desktop).
     // Non-mutating copy, future-only, sorted by full date+time.
-    const upcomingItems = [...mockPatientConsultations]
+    const upcomingItems = [...srcPatientConsultations]
       // Only truly upcoming: starts at/after now and still scheduled/confirmed (never "Visto").
       .filter((c) => atTime(c.date, c.time) >= new Date() && (!c.status || c.status === 'agendada' || c.status === 'confirmada'))
       .sort((a, b) => {
@@ -933,7 +946,7 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
             </h1>
             {/* Desktop/tablet show the date in the top bar; only mobile (no top-bar date) shows it here. */}
             <p className="md:hidden text-xs text-muted-foreground mt-0.5 sentence-case text-center">
-              {DEMO_DATE.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}
+              {refDay.toLocaleDateString(getActiveLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { mockConsultations, mockDentists, mockPatientConsultations } from '@/dat
 import { isSameDay } from 'date-fns';
 import { getLevelForXP, LEVEL_TRANSLATION_KEYS, LEVEL_MULTIPLIERS, getXPProgress } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
+import { useKpiData } from '@/data/kpiSource';
 import { getQuickActions } from './quickActions';
 
 
@@ -30,9 +31,10 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
   const multiplier = LEVEL_MULTIPLIERS[level.key];
   const xpProgress = getXPProgress(points.xp);
 
+  const kpi = useKpiData(userRole);
   const next = useMemo(() => {
     const now = new Date();
-    const source = userRole === 'patient'
+    const source = !kpi.isDemo ? kpi.consultations : userRole === 'patient'
       ? mockPatientConsultations
       : mockConsultations.filter((c) => userRole === 'clinic' ? true : c.dentist.id === mockDentists[0].id);
     const n = pickNextAppointment(source, now);
@@ -41,7 +43,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
     return {
       id: n.id,
       time: n.time,
-      name: userRole === 'patient' ? ((n as any).dentist?.name || mockDentists[0].name) : n.patient.name,
+      name: userRole === 'patient' ? ((n as any).dentist?.name || (kpi.isDemo ? mockDentists[0].name : '')) : n.patient.name,
       category: n.category,
       catLabel: n.category ? getCategoryLabel(t, n.category) : '',
       catColor: n.category ? CATEGORY_COLORS[n.category]?.hex : 'hsl(var(--primary))',
@@ -49,7 +51,7 @@ export function MobileDashboardHero({ userRole, onNavigate, onStartTriage }: Mob
       isToday: isSameDay(n.date, now),
       dayLabel: isSameDay(n.date, now) ? '' : formatDate(n.date, { weekday: 'short', day: 'numeric', month: 'short' }),
     };
-  }, [userRole, t]);
+  }, [userRole, t, kpi]);
 
   // ONE canonical row of four actions per role, same order at every width.
   const pills = useMemo(() => getQuickActions(userRole, t), [userRole, t]);

@@ -1,7 +1,9 @@
 import { formatDecimal1 } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
-import { computeKpis, inPeriod } from '@/data/kpis';
+import { computeKpis, inPeriod, clinicKey, dentistKey } from '@/data/kpis';
+import { useKpiData } from '@/data/kpiSource';
+import { useDirectory } from '@/data/directorySource';
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,6 +15,7 @@ import { mockConsultations, getDentistsForClinic, mockClinics, mockDentists } fr
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { EmptyState } from '@/components/ui/empty-state';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole } from '@/types/calendar';
@@ -37,11 +40,18 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   const [selectedDentist, setSelectedDentist] = useState('all');
   const [activeSubTab, setActiveSubTab] = useState<SubTab>('geral');
   const [showExportModal, setShowExportModal] = useState(false);
+  // Real accounts read role-scoped appointments + directory; demo keeps the mock arrays.
+  const kpi = useKpiData(userRole);
+  const dir = useDirectory();
+  const real = !kpi.isDemo;
+  const srcClinics = real ? dir.clinics : mockClinics;
+  const srcDentists = real ? dir.dentists : mockDentists;
+  const dentistsOf = real ? dir.getDentistsForClinic : getDentistsForClinic;
 
   const availableDentists = useMemo(() => {
-    if (selectedClinic === 'all') return mockDentists;
-    return getDentistsForClinic(selectedClinic);
-  }, [selectedClinic]);
+    if (selectedClinic === 'all') return srcDentists;
+    return dentistsOf(selectedClinic);
+  }, [selectedClinic, srcDentists, dentistsOf]);
 
   const handleClinicChange = (clinicId: string) => {
     setSelectedClinic(clinicId);
@@ -49,14 +59,14 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   };
 
   const filteredConsultations = useMemo(() => {
-    let cons = mockConsultations.filter((c) => {
-      if (selectedClinic !== 'all' && c.clinic.id !== selectedClinic) return false;
+    let cons = (real ? kpi.consultations : mockConsultations).filter((c) => {
+      if (selectedClinic !== 'all' && clinicKey(c) !== selectedClinic) return false;
       return true;
     });
-    cons = cons.filter((c) => inPeriod(c, period, DEMO_DATE));
-    if (selectedDentist !== 'all') cons = cons.filter((c) => c.dentist.id === selectedDentist);
+    cons = cons.filter((c) => inPeriod(c, period, real ? kpi.today : DEMO_DATE));
+    if (selectedDentist !== 'all') cons = cons.filter((c) => dentistKey(c) === selectedDentist);
     return cons;
-  }, [period, selectedDentist, selectedClinic]);
+  }, [period, selectedDentist, selectedClinic, real, kpi]);
 
   // All KPIs come from the shared definition in data/kpis (also used by Equipa).
   const kpis = computeKpis(filteredConsultations);
@@ -70,18 +80,20 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
   const dentistStats = useMemo(() => {
     // Every dentist present in the filtered set, so the per-dentist rows always add up to the total.
-    const ids = new Set(filteredConsultations.map((c) => c.dentist.id));
-    const dentistsToUse = mockDentists.filter((d) => ids.has(d.id));
+    const ids = new Set(filteredConsultations.map((c) => dentistKey(c)));
+    const dentistsToUse = real
+      ? [...ids].map((id) => srcDentists.find((d) => d.id === id) ?? { id, name: filteredConsultations.find((c) => dentistKey(c) === id)?.dentist.name ?? '—' })
+      : mockDentists.filter((d) => ids.has(d.id));
     return dentistsToUse.map((d) => {
-      const dCons = filteredConsultations.filter((c) => c.dentist.id === d.id);
+      const dCons = filteredConsultations.filter((c) => dentistKey(c) === d.id);
       const dK = computeKpis(dCons);
       const dFaltas = dK.absences;
       const dTele = dK.tele;
       const dPres = dK.presencial;
       const clinicName = dCons[0]?.clinic?.name?.replace('Clínica ', '') ?? '';
-      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: formatDecimal1(4 + (Number(d.id) || 1) * 0.13 % 0.9) };
+      return { ...d, consultations: dCons.length, faltas: dFaltas, tele: dTele, pres: dPres, clinicName, rating: real ? '—' : formatDecimal1(4 + (Number(d.id) || 1) * 0.13 % 0.9) };
     }).filter((d) => d.consultations > 0).sort((a, b) => b.consultations - a.consultations);
-  }, [filteredConsultations, clinicDentistsList, selectedClinic]);
+  }, [filteredConsultations, clinicDentistsList, selectedClinic, real, srcDentists]);
 
   const topPatients = useMemo(() => {
     const map = new Map<string, {name: string;count: number;rating: number;}>();
@@ -151,7 +163,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t('statistics.allClinics')}</SelectItem>
-                {mockClinics.map((c) =>
+                {srcClinics.map((c) =>
                   <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
                 )}
               </SelectContent>
@@ -164,8 +176,8 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
               <SelectContent>
                 <SelectItem value="all">{t('statistics.allDentists')}</SelectItem>
                 {selectedClinic === 'all' ?
-                  mockClinics.map((clinic) => {
-                    const dentists = getDentistsForClinic(clinic.id);
+                  srcClinics.map((clinic) => {
+                    const dentists = dentistsOf(clinic.id);
                     return (
                       <SelectGroup key={clinic.id}>
                         <SelectLabel className="text-xs text-muted-foreground">{clinic.name}</SelectLabel>
@@ -242,6 +254,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-3">{t('statistics.byDentist')}</h2>
+              {real && dentistStats.length === 0 &&
+                <EmptyState icon={Calendar} size="sm" title={t('dashboard.noConsultations')} />
+              }
               {/* Desktop / tablet table (>= 500px) */}
               <Card className="bg-card/80 border-border overflow-hidden max-[499px]:hidden">
                 <div className="overflow-x-auto">

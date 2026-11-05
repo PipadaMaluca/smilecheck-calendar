@@ -3793,7 +3793,17 @@
     "appleStep4": "Confirmez avec \"S'abonner\" et choisissez les options de synchronisation",
     "outlookStep4": "Nommez le calendrier et cliquez sur \"Importer\"",
     "tryAgain": "Réessayer",
-    "syncError": "Erreur de synchronisation"
+    "syncError": "Erreur de synchronisation",
+    "columns": {
+      "date": "Date",
+      "time": "Heure",
+      "patient": "Patient",
+      "dentist": "Dentiste",
+      "clinic": "Cabinet",
+      "type": "Type",
+      "status": "Statut",
+      "price": "Prix"
+    }
   },
   "demo": {
     "title": "Mode démo",

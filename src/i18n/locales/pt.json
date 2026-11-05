@@ -3809,7 +3809,17 @@
     "appleStep4": "Confirme em \"Subscrever\" e escolha as opções de sincronização",
     "outlookStep4": "Dê um nome ao calendário e clique em \"Importar\"",
     "tryAgain": "Tentar novamente",
-    "syncError": "Erro de sincronização"
+    "syncError": "Erro de sincronização",
+    "columns": {
+      "date": "Data",
+      "time": "Hora",
+      "patient": "Paciente",
+      "dentist": "Dentista",
+      "clinic": "Clínica",
+      "type": "Tipo",
+      "status": "Estado",
+      "price": "Preço"
+    }
   },
   "demo": {
     "title": "Modo demo",

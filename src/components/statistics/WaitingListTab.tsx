@@ -269,7 +269,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
       userRole === 'dentist'
         ? user?.id ?? null
         : selectedDentist !== 'all'
-          ? SEED_DENTIST_UUID_BY_ID[selectedDentist] ?? null
+          ? SEED_DENTIST_UUID_BY_ID[selectedDentist] ?? selectedDentist
           : null;
 
     const filtered = wantedUuid
