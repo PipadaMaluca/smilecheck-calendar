@@ -2216,7 +2216,15 @@
     "noResultsDesc": "Tente ajustar a pesquisa ou os filtros.",
     "inviteLimitReached": "Atingiu o limite de {{count, number}} dentistas do seu plano. Suba de plano para convidar mais dentistas.",
     "consultationsLabel_one": "{{count, number}} consulta",
-    "consultationsLabel_other": "{{count, number}} consultas"
+    "consultationsLabel_other": "{{count, number}} consultas",
+    "errors": {
+      "invalid_email": "E-mail inválido.",
+      "already_member": "Este dentista já pertence à clínica.",
+      "already_invited": "Já existe um convite pendente para este e-mail.",
+      "last_clinic": "Não pode sair da sua última clínica.",
+      "not_dentist": "Só contas de dentista podem aceitar convites de clínica.",
+      "generic": "Não foi possível concluir. Tente de novo."
+    }
   },
   "availability": {
     "selectClinic": "Selecionar clínica",
@@ -4810,7 +4818,8 @@
     "freeSlotAt": "Vaga livre às {{time}} — {{name}}",
     "copyCode": "Copiar código",
     "previousSlide": "Diapositivo anterior",
-    "nextSlide": "Diapositivo seguinte"
+    "nextSlide": "Diapositivo seguinte",
+    "save": "Guardar"
   },
   "demoText": {
     "abcesso": "Abcesso",
@@ -5422,5 +5431,60 @@
     "save": "Guardar línguas",
     "saved": "Línguas guardadas",
     "saveError": "Não foi possível guardar as línguas. Tente de novo."
+  },
+  "directory": {
+    "invites": {
+      "title": "Convites de clínicas",
+      "sentOn": "Recebido a {{date}}",
+      "accept": "Aceitar",
+      "decline": "Recusar",
+      "accepted": "Juntou-se à clínica",
+      "declined": "Convite recusado",
+      "toast_one": "Tem {{count}} convite de clínica por responder",
+      "toast_other": "Tem {{count}} convites de clínica por responder",
+      "view": "Ver"
+    },
+    "leave": {
+      "button": "Sair da clínica",
+      "lastClinic": "Não pode sair da sua última clínica.",
+      "title": "Sair de {{clinic}}?",
+      "description": "Deixa de aparecer nesta clínica. As consultas já registadas não são apagadas.",
+      "confirm": "Sair",
+      "done": "Saiu da clínica"
+    },
+    "team": {
+      "inviteHint": "O dentista recebe o convite ao entrar na app e só é adicionado depois de aceitar.",
+      "inviteSent": "Convite enviado",
+      "emptyTitle": "Ainda sem dentistas",
+      "emptyDesc": "Convide dentistas pelo e-mail para formar a sua equipa.",
+      "noClinicTitle": "Sem clínica registada",
+      "noClinicDesc": "Registe a sua clínica para gerir a equipa.",
+      "removeTitle": "Remover {{name}} da clínica?",
+      "removeDesc": "O dentista deixa de pertencer à clínica. As consultas já registadas não são apagadas.",
+      "removeConfirm": "Remover",
+      "removed": "Dentista removido da clínica"
+    },
+    "hours": {
+      "title": "Horário de trabalho",
+      "start": "Entrada",
+      "end": "Saída",
+      "lunch": "Pausa de almoço",
+      "lunchStart": "Início da pausa",
+      "lunchEnd": "Fim da pausa",
+      "save": "Guardar horário",
+      "saved": "Horário guardado",
+      "invalid": "Verifique as horas: a entrada tem de ser antes da saída e a pausa dentro do horário.",
+      "notSet": "Horário por definir"
+    },
+    "family": {
+      "birthDate": "Data de nascimento",
+      "empty": "Ainda não adicionou familiares.",
+      "saved": "Familiar guardado",
+      "removeTitle": "Remover {{name}}?",
+      "removeDesc": "As consultas já marcadas para este familiar mantêm-se."
+    }
+  },
+  "family": {
+    "saveError": "Não foi possível guardar. Tente de novo."
   }
 }
