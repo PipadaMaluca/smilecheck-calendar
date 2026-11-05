@@ -9,12 +9,13 @@ import { useDirectory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
+import { usePatientSearch, dobDisplay } from '@/data/publicProfiles';
 
 interface PatientResult {
   type: 'patient';
   id: string;
   name: string;
-  gender: 'M' | 'F';
+  gender: 'M' | 'F' | '';
   dob: string;
   phone: string;
   dentistName: string;
@@ -84,7 +85,15 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     };
   }, []);
 
+  // Real accounts: patients come from the server search (active relationship only).
+  const realHits = usePatientSearch(query, !dir.isDemo);
+  const realPatients = useMemo<PatientResult[]>(() => realHits.map((h) => ({
+    type: 'patient', id: h.id, name: h.full_name ?? '—', gender: '', dob: dobDisplay(h.date_of_birth),
+    phone: h.phone ?? '', dentistName: '', scheduledCount: h.next_visit ? 1 : 0, totalCount: h.last_visit ? 1 : 0,
+  })), [realHits]);
+
   const allPatients = useMemo(() => {
+    if (!dir.isDemo) return [] as PatientResult[];
     const seen = new Map<string, PatientResult>();
     agendaConsultations.forEach((c) => {
       if (!seen.has(c.patient.id)) {
@@ -104,9 +113,10 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       }
     });
     return Array.from(seen.values());
-  }, [agendaConsultations]);
+  }, [agendaConsultations, dir.isDemo]);
 
   const allDentists = useMemo<DentistResult[]>(() =>
+    !dir.isDemo ? dir.dentists.map((d) => ({ type: 'dentist' as const, id: d.id, name: d.name, specialties: '', clinicName: '' })) :
     MOCK_DENTIST_RESULTS.map((d) => ({
       type: 'dentist' as const,
       id: d.id,
@@ -114,7 +124,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       specialties: d.specialties.join(', ') || t('sweep.search.generalist'),
       clinicName: d.clinics[0]?.name || '',
     })),
-  []);
+  [dir]);
 
   const allClinics = useMemo<ClinicResult[]>(() =>
     mockClinics.map((c) => ({
@@ -123,7 +133,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       name: c.name,
       address: c.address,
     })),
-  []);
+  [mockClinics]);
 
   const results = useMemo(() => {
     if (query.length < 2) return { patients: [], dentists: [], clinics: [] };
@@ -137,11 +147,11 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
       r.name.toLowerCase().includes(q) || r.address.toLowerCase().includes(q);
 
     return {
-      patients: allPatients.filter(matchPatient).slice(0, 5),
+      patients: dir.isDemo ? allPatients.filter(matchPatient).slice(0, 5) : realPatients,
       dentists: allDentists.filter(matchDentist).slice(0, 5),
       clinics: allClinics.filter(matchClinic).slice(0, 5),
     };
-  }, [query, allPatients, allDentists, allClinics]);
+  }, [query, allPatients, allDentists, allClinics, realPatients, dir.isDemo]);
 
   const hasResults = results.patients.length + results.dentists.length + results.clinics.length > 0;
   const showDropdown = isOpen && query.length >= 2;
@@ -176,6 +186,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     if (result.type === 'patient' && nav) {
       nav.openPatientProfile(result.id);
     } else if (result.type === 'dentist' && nav) {
+      if (!dir.isDemo) { nav.openDentistProfile(result.id); return; }
       const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === result.id);
       if (d) nav.openDentistProfile(d);
     } else if (result.type === 'clinic' && nav) {
@@ -267,7 +278,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
                         </p>
                         <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
                           <span className="flex items-center gap-1">
-                            <User className="w-3 h-3" /> {p.gender}, {highlightMatch(p.dob)}
+                            <User className="w-3 h-3" /> {p.gender ? `${p.gender}, ` : ''}{highlightMatch(p.dob)}
                           </span>
                           <span className="flex items-center gap-1">
                             <Phone className="w-3 h-3" /> {highlightMatch(p.phone)}

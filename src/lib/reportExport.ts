@@ -83,3 +83,25 @@ export function downloadBlob(blob: Blob, filename: string) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+/** Real PDF (jsPDF + autotable): SmileCheck header, report name, period, generation date, same columns. */
+export async function buildReportPdf(
+  rows: Consultation[], role: UserRole, t: TFunction,
+  meta: { title: string; period: string },
+): Promise<Blob> {
+  const [{ jsPDF }, { default: autoTable }] = await Promise.all([import('jspdf'), import('jspdf-autotable')]);
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
+  const [header, ...body] = reportTable(rows, role, t);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18);
+  doc.text('SmileCheck', 40, 48);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(12);
+  doc.text(meta.title, 40, 70);
+  doc.setFontSize(10);
+  doc.text(`${t('export.pdf.period')}: ${meta.period}`, 40, 88);
+  doc.text(`${t('export.pdf.generatedAt')}: ${formatDate(new Date(), { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`, 40, 102);
+  autoTable(doc, {
+    startY: 118, head: [header], body: body.length ? body : [[t('export.pdf.empty'), ...header.slice(1).map(() => '')]],
+    styles: { fontSize: 9 }, headStyles: { fillColor: [33, 150, 243] },
+  });
+  return doc.output('blob');
+}

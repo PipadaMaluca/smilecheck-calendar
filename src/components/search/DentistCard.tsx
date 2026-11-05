@@ -1,3 +1,4 @@
+import { RealFavoriteButton } from '@/components/profile/RealProfileParts';
 import { ChequeBadges } from '@/components/clinic/ChequeBadges';
 import { chequesForClinic } from '@/lib/cheques';
 import { PersonAvatar } from '@/components/ui/person-avatar';
@@ -50,6 +51,7 @@ export function DentistCard({ dentist, onViewProfile, onQuickBook }: DentistCard
         <PersonAvatar name={dentist.name} photo={photo} className="!w-14 !h-14 text-lg" />
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
+            {real && <RealFavoriteButton kind={dentist.kind} id={dentist.id} className="order-last -mt-2 -mr-2 shrink-0" />}
             <h3 className="font-semibold text-foreground text-sm truncate min-w-0 flex-1" title={dentist.name}>{dentist.name}</h3>
             <div className="flex items-center gap-1 shrink-0">
               {dentist.previousPatient && (

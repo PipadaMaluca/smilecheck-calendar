@@ -1,7 +1,7 @@
 import { formatDecimal1 } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
-import { computeKpis, inPeriod, clinicKey, dentistKey } from '@/data/kpis';
+import { computeKpis, inPeriod, clinicKey, dentistKey, occupancyRate } from '@/data/kpis';
 import { useKpiData } from '@/data/kpiSource';
 import { useDirectory } from '@/data/directorySource';
 import { useState, useMemo } from 'react';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
-import { Download, Calendar, CheckCircle2, XCircle, Star, TrendingUp } from 'lucide-react';
+import { Download, Calendar, CheckCircle2, XCircle, Star, TrendingUp, Gauge } from 'lucide-react';
 import { mockConsultations, getDentistsForClinic, mockClinics, mockDentists } from '@/data/mockData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
@@ -75,6 +75,16 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
   const confirmRate = kpis.confirmRate;
   const faltaRate = kpis.absenceRate;
   const revenue = kpis.revenue;
+
+  // Occupancy from saved working hours (clinic_members.working_hours); "—" without hours.
+  const occupancy = useMemo(() => {
+    const members = dir.clinicDentists
+      .filter((m) => (userRole === 'dentist' ? m.dentistId === dir.selfId : true))
+      .filter((m) => selectedClinic === 'all' || m.clinicId === selectedClinic)
+      .filter((m) => selectedDentist === 'all' || m.dentistId === selectedDentist)
+      .map((m) => ({ dentistId: m.dentistId, clinicId: m.clinicId, hours: m.workingHours }));
+    return occupancyRate(filteredConsultations, members, period, real ? kpi.today : DEMO_DATE);
+  }, [dir, userRole, selectedClinic, selectedDentist, filteredConsultations, period, real, kpi.today]);
 
   const clinicDentistsList = useMemo(() => getDentistsForClinic('1'), []);
 
@@ -207,7 +217,7 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
         {activeSubTab === 'geral' &&
           <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <Card className="bg-card/80 border-border">
                 <CardContent className="p-4 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-muted-foreground">
@@ -248,6 +258,20 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
                     <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.estimatedRevenue')}</span>
                   </div>
                   <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{formatCurrency(revenue)}</span>
+                </CardContent>
+              </Card>
+              <Card className="bg-card/80 border-border" data-testid="kpi-occupancy">
+                <CardContent className="p-4 flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Gauge className="w-4 h-4" />
+                    <span className="text-2xs font-semibold uppercase tracking-[0.06em]">{t('statistics.occupancy')}</span>
+                  </div>
+                  {occupancy === null
+                    ? <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">—</span>
+                    : <div className="flex items-center gap-2">
+                        <span className="text-2xl font-semibold text-foreground tabular-nums leading-none">{occupancy}%</span>
+                        <Progress value={occupancy} className="h-2 flex-1" />
+                      </div>}
                 </CardContent>
               </Card>
             </div>

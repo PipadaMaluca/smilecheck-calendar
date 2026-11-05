@@ -17,6 +17,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BookingFlow } from '@/components/booking/BookingFlow';
 import { getDentistInitials, DENTIST_AVATAR_PHOTOS } from '@/lib/avatarUtils';
+import { RealFavoriteButton, RealReviewsSection } from '@/components/profile/RealProfileParts';
 
 interface DentistProfileModalProps {
   dentist: DentistSearchResult;
@@ -51,7 +52,8 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
   const content = (
     <div className="space-y-6">
       {/* Header with avatar */}
-      <div className="flex flex-col items-center text-center space-y-3 pt-2">
+      <div className="relative flex flex-col items-center text-center space-y-3 pt-2">
+        {real && <RealFavoriteButton kind={dentist.kind} id={dentist.id} className="absolute top-0 right-0" />}
         <PersonAvatar name={dentist.name} photo={photo} size="xl" />
         <div>
           <h2 className="text-xl font-bold text-foreground">{dentist.name}</h2>
@@ -169,6 +171,7 @@ export function DentistProfileModal({ dentist, onClose, onGoHome, onQuickBook }:
       </div>}
 
       {/* Reviews */}
+      {real && <RealReviewsSection {...(dentist.kind === 'clinic' ? { clinicId: dentist.id } : { dentistId: dentist.id })} />}
       {!real && <div>
         <h3 className="text-sm font-semibold text-foreground mb-2">{t('sweep.dentistProfile.recentReviews')}</h3>
         {reviews.length === 0 && (
