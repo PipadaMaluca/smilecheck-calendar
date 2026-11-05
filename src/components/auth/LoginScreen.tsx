@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { supabase } from '@/integrations/supabase/client';
-import { lovable } from '@/integrations/lovable/index';
+import { runGoogleSignIn } from '@/lib/googleSignIn';
 import { useAuth } from '@/contexts/AuthContext';
 import type { UserRole } from '@/types/calendar';
 
