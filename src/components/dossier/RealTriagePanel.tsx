@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchTriage, type TriageResponse } from '@/data/dossierSource';
 import { formatDate } from '@/lib/formatters';
+import { SYMPTOM_KEYS, DURATION_KEYS } from '@/components/triage/TriageCompletion';
 
 /** Read-only triage answers saved for a real appointment; empty state otherwise. */
 export function RealTriagePanel({ appointmentId }: { appointmentId: string }) {
@@ -16,9 +17,9 @@ export function RealTriagePanel({ appointmentId }: { appointmentId: string }) {
   const a = (row?.answers ?? {}) as Record<string, unknown>;
   const list = (v: unknown) => (Array.isArray(v) ? v.map(String).join(', ') : v ? String(v) : '');
   const fields: [string, string][] = row ? ([
-    [t('consultationDetail.triageSymptoms'), [list(a.symptoms), a.otherSymptom ? String(a.otherSymptom) : ''].filter(Boolean).join(', ')],
+    [t('consultationDetail.triageSymptoms'), [(Array.isArray(a.symptoms) ? a.symptoms.map((x) => (SYMPTOM_KEYS[String(x)] ? t(SYMPTOM_KEYS[String(x)]) : String(x))).join(', ') : ''), a.otherSymptom ? String(a.otherSymptom) : ''].filter(Boolean).join(', ')],
     [t('dossierReal.triage.teeth'), a.unknownLocation ? t('dossierReal.triage.unknown') : list(a.selectedTeeth)],
-    [t('consultationDetail.triageDuration'), list(a.duration)],
+    [t('consultationDetail.triageDuration'), DURATION_KEYS[String(a.duration ?? '')] ? t(DURATION_KEYS[String(a.duration)]) : list(a.duration)],
     [t('consultationDetail.triageIntensity'), a.painIntensity != null && a.painIntensity !== '' ? `${a.painIntensity}/10` : ''],
   ] as [string, string][]).filter(([, v]) => v) : [];
   return (

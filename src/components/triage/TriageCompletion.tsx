@@ -9,7 +9,7 @@ interface TriageCompletionProps {
   onFindDentists: () => void;
 }
 
-const SYMPTOM_KEYS: Record<string, string> = {
+export const SYMPTOM_KEYS: Record<string, string> = {
   dor_dente: 'triage.symptoms.toothache',
   sensibilidade: 'triage.symptoms.sensitivity',
   sangramento: 'triage.symptoms.bleedingGums',
@@ -21,7 +21,7 @@ const SYMPTOM_KEYS: Record<string, string> = {
   outro: 'triage.symptoms.other',
 };
 
-const DURATION_KEYS: Record<string, string> = {
+export const DURATION_KEYS: Record<string, string> = {
   menos_24h: 'triage.duration.lessThan24h',
   '1_3_dias': 'triage.duration.1to3days',
   '4_7_dias': 'triage.duration.4to7days',

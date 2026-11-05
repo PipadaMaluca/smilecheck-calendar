@@ -13,6 +13,7 @@ function AnimatedRoutes({ children }: { children: React.ReactNode }) {
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { NotificationBadgeProvider } from "@/contexts/NotificationBadgeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { RealUnreadSync } from "@/components/conversations/RealUnreadSync";
 import { DirectoryProvider } from "@/data/directorySource";
 import { FavoritesProvider } from "@/data/favoritesSource";
 import { ClinicInviteNotifier } from "@/components/team/real/RealTeam";
@@ -54,6 +55,7 @@ const App = () => (
         <DirectoryProvider>
         <FavoritesProvider>
           <ClinicInviteNotifier />
+          <RealUnreadSync />
           <DemoModeBadge />
           <ConsentBanner />
           <TermsGate />

@@ -2,7 +2,7 @@ import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -29,6 +29,42 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
   const { t } = useTranslation();
   const [draggedConsultation, setDraggedConsultation] = useState<{ consultation: Consultation; fromDate: Date; fromTime: string } | null>(null);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
+  // Touch drag (HTML5 drag events don't fire on touch screens): long-press 300 ms, move, release on a free slot.
+  const touchRef = useRef<{ timer: number | null; active: boolean; data: { consultation: Consultation; fromDate: Date; fromTime: string } | null }>({ timer: null, active: false, data: null });
+  const slotAt = (x: number, y: number) => {
+    const el = document.elementFromPoint(x, y)?.closest('[data-3d-slot]') as HTMLElement | null;
+    return el ? { id: el.dataset['3dSlot'] as string, day: Number(el.dataset.dayIdx), time: el.dataset.time as string } : null;
+  };
+  useEffect(() => {
+    if (!draggedConsultation || !touchRef.current.active) return;
+    const block = (e: TouchEvent) => e.preventDefault();
+    document.addEventListener('touchmove', block, { passive: false });
+    return () => document.removeEventListener('touchmove', block);
+  }, [draggedConsultation]);
+  const onTouchStartBlock = (data: { consultation: Consultation; fromDate: Date; fromTime: string }) => {
+    const r = touchRef.current;
+    if (r.timer) window.clearTimeout(r.timer);
+    r.data = data; r.active = false;
+    r.timer = window.setTimeout(() => { r.active = true; setDraggedConsultation(data); navigator.vibrate?.(20); }, 300);
+  };
+  const onTouchMoveBlock = (e: React.TouchEvent) => {
+    const r = touchRef.current;
+    if (!r.active) { if (r.timer) { window.clearTimeout(r.timer); r.timer = null; } return; }
+    const tch = e.touches[0];
+    setDragOverSlot(slotAt(tch.clientX, tch.clientY)?.id ?? null);
+  };
+  const onTouchEndBlock = (e: React.TouchEvent) => {
+    const r = touchRef.current;
+    if (r.timer) { window.clearTimeout(r.timer); r.timer = null; }
+    if (r.active && r.data) {
+      e.preventDefault();
+      const tch = e.changedTouches[0];
+      const target = slotAt(tch.clientX, tch.clientY);
+      if (target && onDragMove) onDragMove(r.data.consultation, r.data.fromDate, r.data.fromTime, days[target.day], target.time);
+    }
+    r.active = false; r.data = null;
+    setDragOverSlot(null); setDraggedConsultation(null);
+  };
   const days = [
     subDays(selectedDate, 1),
     selectedDate,
@@ -158,6 +194,7 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                           dragOverSlot === slotId && 'bg-primary/20 border-primary/50'
                         )}
                         style={{ gridRow: `${slotIdx + 1} / span 1` }}
+                        data-3d-slot={slotId} data-day-idx={dayIdx} data-time={time}
                         onDragOver={(e) => { e.preventDefault(); setDragOverSlot(slotId); }}
                         onDragLeave={() => setDragOverSlot(null)}
                         onDrop={(e) => {
@@ -212,6 +249,10 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
                         setDraggedConsultation({ consultation, fromDate: day, fromTime: slot.time });
                       }}
                       onDragEnd={() => setDraggedConsultation(null)}
+                      onTouchStart={onDragMove ? () => onTouchStartBlock({ consultation, fromDate: day, fromTime: slot.time }) : undefined}
+                      onTouchMove={onDragMove ? onTouchMoveBlock : undefined}
+                      onTouchEnd={onDragMove ? onTouchEndBlock : undefined}
+                      onContextMenu={onDragMove ? (e) => e.preventDefault() : undefined}
                       onClick={() => onSlotClick?.(slot)}
                       className={cn(
                         "appt-block rounded cursor-grab active:cursor-grabbing hover:opacity-80 transition-colors overflow-hidden px-0.5",

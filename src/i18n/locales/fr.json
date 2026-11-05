@@ -5721,5 +5721,56 @@
       "summary": "Résumé",
       "answeredOn": "Répondu le {{date}}"
     }
+  },
+  "chatReal": {
+    "title": "Conversations",
+    "new": "Nouvelle conversation",
+    "empty": "Aucune conversation pour l’instant",
+    "emptyHint": "Vous pouvez échanger avec les professionnels avec qui vous avez un rendez-vous prévu ou passé.",
+    "pick": "Choisissez une conversation",
+    "voided": "Message annulé",
+    "attachment": "Pièce jointe",
+    "read": "Lu",
+    "sent": "Envoyé",
+    "void": "Annuler",
+    "attach": "Joindre un fichier",
+    "send": "Envoyer",
+    "placeholder": "Écrivez un message…",
+    "noContacts": "Aucun contact disponible pour l’instant.",
+    "sendError": "Impossible d’envoyer le message.",
+    "role": {
+      "patient": "Patient",
+      "dentist": "Dentiste",
+      "clinic": "Cabinet"
+    },
+    "errors": {
+      "no_relationship": "Vous ne pouvez échanger qu’avec une personne avec qui vous avez un rendez-vous prévu ou passé.",
+      "void_window_closed": "Vous ne pouvez annuler un message que dans les 5 minutes suivant son envoi.",
+      "empty_message": "Écrivez un message ou joignez un fichier.",
+      "invalid_attachment": "La pièce jointe n’est pas valide."
+    }
+  },
+  "availReal": {
+    "dentistTitle": "Disponibilités pour remplacements",
+    "dentistHint": "Publiez les créneaux où vous pouvez effectuer des remplacements. Seuls les cabinets approuvés les voient.",
+    "none": "Vous n’avez encore publié aucune disponibilité.",
+    "to": "Jusqu’à",
+    "city": "Ville",
+    "radiusLabel": "Rayon (km)",
+    "notes": "Notes (facultatif)",
+    "publish": "Publier",
+    "published": "Disponibilité publiée",
+    "saveError": "Impossible d’enregistrer.",
+    "radius": "rayon de {{km}} km",
+    "clinicTitle": "Dentistes disponibles pour remplacements",
+    "clinicNone": "Aucune disponibilité publiée.",
+    "contact": "Contacter",
+    "from": "Du"
+  },
+  "editProfileReal": {
+    "saved": "Photo mise à jour",
+    "error": "Impossible de mettre à jour la photo.",
+    "badImage": "Choisissez une image JPG, PNG ou WebP.",
+    "tooBig": "L’image est trop lourde (2 Mo max.)."
   }
 }
