@@ -5,6 +5,7 @@ import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SoonButton } from '@/components/ui/soon-button';
+import { RealHealthClinical } from '@/components/dossier/RealHealthClinical';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -463,6 +464,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle><SectionIcon icon={FileText} label={t('health.medicalDocuments')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              {real ? (
+                mockFamilyMembers.find((m) => m.id === selectedMemberId)?.self
+                  ? <RealHealthClinical patientId={selectedMemberId} />
+                  : <p className="text-sm text-muted-foreground italic py-4 text-center">{t('dossierReal.familyDocsSelfOnly')}</p>
+              ) : (<>
               <Tabs value={docFilter} onValueChange={setDocFilter}>
                 <TabsList className="h-8">
                   <TabsTrigger value="todos" className="text-xs px-3 h-7">{t('health.all')}</TabsTrigger>
@@ -496,6 +502,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <SoonButton variant="outline" size="sm" className="w-full gap-1.5">
                 <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
               </SoonButton>
+              </>)}
             </CardContent>
           </Card>
 
@@ -562,9 +569,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
                   ))}
                 </div>
               )}
+              {!real && (
               <SoonButton variant="outline" size="sm" className="w-full gap-1.5">
                 <Upload className="w-4 h-4" /> {t('health.uploadDocument')}
               </SoonButton>
+              )}
             </CardContent>
           </Card>
         </div>
