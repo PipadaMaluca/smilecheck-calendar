@@ -5,6 +5,55 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
+import { useDirectory } from '@/data/directorySource';
+import { supabase } from '@/integrations/supabase/client';
+import { SoonButton } from '@/components/ui/soon-button';
+import { toast } from 'sonner';
+
+/** Device kind + browser of *this* browser only (no API lists other sessions). */
+export function describeThisDevice(ua: string): { type: 'desktop' | 'tablet' | 'mobile'; browser: string } {
+  const type = /iPad|Tablet/i.test(ua) ? 'tablet' : /Mobi|Android|iPhone/i.test(ua) ? 'mobile' : 'desktop';
+  const browser = /Edg\//.test(ua) ? 'Edge' : /Firefox\//.test(ua) ? 'Firefox' : /Chrome\//.test(ua) ? 'Chrome' : /Safari\//.test(ua) ? 'Safari' : '';
+  return { type, browser };
+}
+
+/** Real accounts: only "this device" + sign out everywhere else — never an invented device list. */
+function RealConnectedDevices() {
+  const { t } = useTranslation();
+  const [busy, setBusy] = useState(false);
+  const me = describeThisDevice(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+  const Icon = deviceIcons[me.type];
+  const signOutOthers = async () => {
+    setBusy(true);
+    const { error } = await supabase.auth.signOut({ scope: 'others' });
+    setBusy(false);
+    if (error) toast.error(t('devicesReal.failed')); else toast.success(t('devicesReal.done'));
+  };
+  return (
+    <Card className="bg-card/80 backdrop-blur border-border">
+      <CardHeader className="pb-2">
+        <CardTitle size="compact" className="flex items-center gap-2">
+          <Link2 className="w-4 h-4 text-primary" />
+          {t('sweep.devices.title')}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 border border-border/50">
+          <Icon className="w-5 h-5 text-muted-foreground" />
+          <div>
+            <p className="text-sm font-medium text-foreground">{t('devicesReal.thisDevice')}{me.browser ? ` — ${me.browser}` : ''}</p>
+            <p className="text-xs text-muted-foreground">{t('i18nA.activeNow')}</p>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground">{t('devicesReal.othersHint')}</p>
+        <Button variant="outline" className="w-full" disabled={busy} onClick={signOutOthers}>
+          {busy && <Loader2 className="w-4 h-4 animate-spin" />} {t('devicesReal.signOutOthers')}
+        </Button>
+        <SoonButton variant="secondary" className="w-full gap-2"><Camera className="w-4 h-4" /> {t('sweep.devices.connectNew')}</SoonButton>
+      </CardContent>
+    </Card>
+  );
+}
 
 interface ConnectedDevice {
   id: string;
@@ -30,6 +79,11 @@ const deviceIcons = {
 type ScanPhase = 'idle' | 'scanning' | 'confirm' | 'authorized';
 
 export function ConnectedDevicesSection() {
+  const isDemo = useDirectory().isDemo;
+  return isDemo ? <DemoConnectedDevices /> : <RealConnectedDevices />;
+}
+
+function DemoConnectedDevices() {
   const { t } = useTranslation();
   const [devices, setDevices] = useState<ConnectedDevice[]>(mockDevices);
   const [scanPhase, setScanPhase] = useState<ScanPhase>('idle');
