@@ -6,7 +6,7 @@ import { isAvatarEndpoint } from '@/lib/avatarImage';
  * Photos from the `avatar` function are fetched with the viewer's session so
  * "contacts only" photos reach related people; a 404 falls back to initials.
  */
-function useAvatarSrc(photo?: string | null) {
+export function useAvatarSrc(photo?: string | null) {
   const stable = isAvatarEndpoint(photo);
   const [src, setSrc] = useState<string | null | undefined>(stable ? undefined : photo);
   useEffect(() => {
