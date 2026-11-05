@@ -241,7 +241,10 @@
     "enterDemoMode": "Entrer en mode démo",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
-    "demoModeActive": "Mode démo actif"
+    "demoModeActive": "Mode démo actif",
+    "qrLogin": "Se connecter avec un code QR",
+    "qrCodeAlt": "Ou connectez-vous avec un code QR",
+    "qrFast": "Rapide et sans mot de passe"
   },
   "roles": {
     "patient": "Patient",
@@ -4447,7 +4450,18 @@
       "pastSlot": "Impossible de déplacer vers un horaire passé"
     },
     "devices": {
-      "title": "Appareils connectés"
+      "title": "Appareils connectés",
+      "connectNew": "Connecter un nouvel appareil",
+      "scanTitle": "Pointez vers le code QR",
+      "newDeviceDetected": "Nouvel appareil détecté",
+      "connectedTitle": "Appareil connecté !",
+      "scanDesc": "Affiché sur l'écran de l'appareil sur lequel vous voulez vous connecter",
+      "confirmDesc": "Vérifiez les détails avant d'autoriser",
+      "authorizedDesc": "Connexion autorisée avec succès",
+      "scanning": "Recherche du code QR...",
+      "warningRecognize": "N'autorisez que si vous reconnaissez cet appareil",
+      "authorizeLogin": "Autoriser la connexion",
+      "connectedSuccess": "Appareil connecté avec succès !"
     },
     "appointments": {
       "updateStatusError": "Impossible de mettre à jour le statut",
@@ -4602,7 +4616,8 @@
     "assumption": "assomption",
     "allSaints": "toussaint",
     "christmas": "noël",
-    "works": "Travaux"
+    "works": "Travaux",
+    "deviceInstructions": "Sur l’appareil que vous souhaitez connecter, accédez à Paramètres → Associer un appareil et scannez le code QR affiché."
   },
   "i18nB": {
     "personalData": "Informations personnelles",

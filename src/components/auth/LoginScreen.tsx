@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { SoonButton } from '@/components/ui/soon-button';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, User, Stethoscope, Building2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2, QrCode, ChevronDown, ChevronUp, User, Stethoscope, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AuthBackground } from './AuthBackground';
+import { QRCodeDisplay } from './QRCodeDisplay';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
+import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { supabase } from '@/integrations/supabase/client';
 import { runGoogleSignIn } from '@/lib/googleSignIn';
 import { useAuth } from '@/contexts/AuthContext';
@@ -16,12 +19,15 @@ import type { UserRole } from '@/types/calendar';
 export function LoginScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
+  const watermarkSrc = useWatermarkSrc();
   const { enterDemo, exitDemo } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
+  const [qrExpanded, setQrExpanded] = useState(false);
 
   const validate = () => {
     const e: typeof errors = {};
@@ -83,6 +89,10 @@ export function LoginScreen() {
     { role: 'dentist', label: t('demo.dentist', { defaultValue: 'Dentista' }), Icon: Stethoscope },
     { role: 'clinic', label: t('demo.clinic', { defaultValue: 'Clínica' }), Icon: Building2 },
   ];
+
+  const handleQRAuthorized = () => {
+    navigate('/app');
+  };
 
 
   const loginForm = (
@@ -173,9 +183,47 @@ export function LoginScreen() {
   );
 
 
+  const qrSection = (
+    <div className="flex flex-col items-center">
+      <div className="flex items-center gap-2 mb-1">
+        <QrCode className="w-6 h-6 text-primary" />
+        <h2 className="text-xl font-bold text-foreground">{t('auth.qrLogin')}</h2>
+      </div>
+      <p className="text-muted-foreground mb-6 text-sm">{t('auth.qrFast')}</p>
+      <QRCodeDisplay onAuthorized={handleQRAuthorized} />
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <AuthBackground>
+        <div className="space-y-6">
+          {loginForm}
+          <div className="border-t border-border pt-4">
+            <Button type="button" variant="ghost" onClick={() => setQrExpanded(!qrExpanded)}
+              className="flex items-center justify-center gap-2 w-full h-auto py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <QrCode className="w-4 h-4" />
+              <span>{t('auth.qrCodeAlt')}</span>
+              {qrExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </Button>
+            {qrExpanded && <div className="mt-4 animate-fade-in">{qrSection}</div>}
+          </div>
+        </div>
+      </AuthBackground>
+    );
+  }
+
   return (
-    <AuthBackground>
-      <div className="mx-auto w-full max-w-md">{loginForm}</div>
-    </AuthBackground>
+    <div className="min-h-screen bg-background flex relative overflow-hidden">
+      <img src={watermarkSrc} alt="" aria-hidden="true"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-none opacity-[0.025] pointer-events-none z-0 object-contain" />
+      <div className="w-1/2 md:w-[55%] lg:w-1/2 flex items-center justify-center p-8 z-10 relative">
+        <div className="w-full max-w-md">{loginForm}</div>
+      </div>
+      <div className="w-px bg-gradient-to-b from-transparent via-border to-transparent z-10" />
+      <div className="w-1/2 md:w-[45%] lg:w-1/2 flex items-center justify-center p-8 z-10 relative">
+        <div className="w-full max-w-sm bg-card/30 backdrop-blur-sm rounded-2xl p-8 border border-border/50">{qrSection}</div>
+      </div>
+    </div>
   );
 }
