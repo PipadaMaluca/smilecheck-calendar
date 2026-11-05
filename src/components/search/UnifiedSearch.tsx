@@ -243,8 +243,8 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                           {isFav && <Star className="w-3 h-3 fill-amber-400 text-warning flex-shrink-0" />}
                           <span className="text-sm font-medium text-foreground truncate min-w-0" title={d.name}>{d.name}</span>
                         </div>
-                        <p className="text-xs text-muted-foreground truncate" title={`${d.specialties.join(', ')} · ${d.rating}`}>
-                          {d.specialties.join(', ')} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{d.rating}
+                        <p className="text-xs text-muted-foreground truncate" title={dir.isDemo ? `${d.specialties.join(', ')} · ${d.rating}` : d.specialties.join(', ')}>
+                          {d.specialties.join(', ')}{dir.isDemo && <> · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{d.rating}</>}
                         </p>
                       </div>
                       <Button aria-label={t('a11y.favorite')}
