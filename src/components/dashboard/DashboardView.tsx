@@ -131,7 +131,6 @@ export function DashboardView({ userRole, onNavigate, onStartTriage, onViewFullH
   const srcConsultations = real ? kpi.consultations : mockConsultations;
   const srcPatientConsultations = real ? kpi.consultations : mockPatientConsultations;
   const refDay = real ? kpi.today : DEMO_DATE;
-  const selfDentistId = real ? dir.selfId : mockDentists[0].id;
   const selfDentistName = real ? dir.selfName : mockDentists[0].name;
   const srcConfirmations = real ? kpi.confirmationsToday : mockConfirmations;
   const userName = real
