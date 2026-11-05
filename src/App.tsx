@@ -32,6 +32,7 @@ import Acessibilidade from "./pages/Acessibilidade";
 import TermosProfissionais from "./pages/TermosProfissionais";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { TermsGate } from "@/components/legal/TermsGate";
+import { RoleChoiceGate } from "@/components/auth/RoleChoiceGate";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import { LoginScreen } from "./components/auth/LoginScreen";
@@ -58,6 +59,7 @@ const App = () => (
           <RealUnreadSync />
           <DemoModeBadge />
           <ConsentBanner />
+          <RoleChoiceGate />
           <TermsGate />
           <AnimatedRoutes>
           <Routes>

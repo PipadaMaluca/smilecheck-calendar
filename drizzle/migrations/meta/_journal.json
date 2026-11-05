@@ -218,6 +218,20 @@
       "when": 1793851149234,
       "tag": "0030_agenda_availability_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1793852692792,
+      "tag": "0031_google_signin_role_choice",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1793852705386,
+      "tag": "0032_guard_role_pending",
+      "breakpoints": true
     }
   ]
 }
