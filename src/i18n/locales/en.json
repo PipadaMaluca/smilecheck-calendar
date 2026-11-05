@@ -914,7 +914,8 @@
     "blockConfirm": "Block",
     "statusChanged": "Status changed",
     "triagePhotos_one": "{{count, number}} photo",
-    "triagePhotos_other": "{{count, number}} photos"
+    "triagePhotos_other": "{{count, number}} photos",
+    "noHistory": "No previous appointments."
   },
   "confirmationStates": {
     "confirmed24h": "Confirmed 24h",
@@ -1930,7 +1931,8 @@
     "noResults": "No results.",
     "back": "Back",
     "ratingGiven": "Rating given:",
-    "ratingReceived": "Rating received:"
+    "ratingReceived": "Rating received:",
+    "feedbackFailed": "Could not save the rating."
   },
   "store": {
     "title": "Rewards store",
@@ -5772,5 +5774,55 @@
     "error": "Could not update the photo.",
     "badImage": "Choose a JPG, PNG or WebP image.",
     "tooBig": "The image is too large (max. 2 MB)."
+  },
+  "safetyReal": {
+    "riskWith": "risk with {{tags}} ({{risk}})",
+    "allergyConflict": "conflicts with declared allergy: {{allergy}}",
+    "interactsWith": "interaction with {{med}} ({{risk}})",
+    "risk": {
+      "bleeding": "increased bleeding risk",
+      "renal": "increased renal risk",
+      "antihypertensive": "reduces antihypertensive effect",
+      "serotonin": "risk of serotonin syndrome"
+    }
+  },
+  "devicesReal": {
+    "thisDevice": "This device",
+    "othersHint": "For security we don’t list other devices. You can sign out of all the others at once.",
+    "signOutOthers": "Sign out of other devices",
+    "done": "Signed out of other devices.",
+    "failed": "Could not end the other sessions."
+  },
+  "exceptionsReal": {
+    "loadFailed": "Could not load absences.",
+    "endBeforeStart": "The end must be after the start.",
+    "saved": "Absence saved.",
+    "saveFailed": "Could not save.",
+    "deleted": "Absence removed.",
+    "allClinics": "All clinics",
+    "reason": "Reason",
+    "clinic": "Clinic",
+    "notePlaceholder": "Note (optional)",
+    "add": "Add absence",
+    "empty": "No absences recorded",
+    "absence": "Absence",
+    "delete": "Remove absence",
+    "pickAgenda": "Choose at least one agenda.",
+    "capped": "At most {{count}} occurrences were created."
+  },
+  "streakReal": {
+    "perDay": "+{{points}} pts/day",
+    "points": "+{{points}} pts"
+  },
+  "patientProfileReal": {
+    "none": "Not provided",
+    "noName": "No name",
+    "levelLine": "{{level}} level · {{xp}} XP · {{points}} pts",
+    "selfDeclared": "Health (self-declared)",
+    "conditions": "Conditions",
+    "medications": "Medication",
+    "family": "Family",
+    "visits": "Completed appointments",
+    "teleVisits": "Teleconsultations"
   }
 }

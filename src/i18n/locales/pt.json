@@ -914,7 +914,8 @@
     "blockConfirm": "Bloquear",
     "statusChanged": "Estado alterado",
     "triagePhotos_one": "{{count, number}} foto",
-    "triagePhotos_other": "{{count, number}} fotos"
+    "triagePhotos_other": "{{count, number}} fotos",
+    "noHistory": "Sem consultas anteriores."
   },
   "confirmationStates": {
     "confirmed24h": "Confirmado 24h",
@@ -1930,7 +1931,8 @@
     "noResults": "Sem resultados.",
     "back": "Voltar",
     "ratingGiven": "Avaliação dada:",
-    "ratingReceived": "Avaliação recebida:"
+    "ratingReceived": "Avaliação recebida:",
+    "feedbackFailed": "Não foi possível guardar a avaliação."
   },
   "store": {
     "title": "Loja de recompensas",
@@ -5772,5 +5774,55 @@
     "error": "Não foi possível atualizar a fotografia.",
     "badImage": "Escolha uma imagem JPG, PNG ou WebP.",
     "tooBig": "A imagem é demasiado grande (máx. 2 MB)."
+  },
+  "safetyReal": {
+    "riskWith": "risco com {{tags}} ({{risk}})",
+    "allergyConflict": "conflito com alergia declarada: {{allergy}}",
+    "interactsWith": "interação com {{med}} ({{risk}})",
+    "risk": {
+      "bleeding": "aumento do risco de hemorragia",
+      "renal": "aumento do risco renal",
+      "antihypertensive": "reduz a eficácia do anti-hipertensor",
+      "serotonin": "risco de síndrome serotoninérgica"
+    }
+  },
+  "devicesReal": {
+    "thisDevice": "Este dispositivo",
+    "othersHint": "Por segurança, não mostramos uma lista de outros dispositivos. Pode terminar a sessão em todos os outros de uma vez.",
+    "signOutOthers": "Terminar sessão nos outros dispositivos",
+    "done": "Sessão terminada nos outros dispositivos.",
+    "failed": "Não foi possível terminar as outras sessões."
+  },
+  "exceptionsReal": {
+    "loadFailed": "Não foi possível carregar as ausências.",
+    "endBeforeStart": "O fim tem de ser depois do início.",
+    "saved": "Ausência guardada.",
+    "saveFailed": "Não foi possível guardar.",
+    "deleted": "Ausência removida.",
+    "allClinics": "Todas as clínicas",
+    "reason": "Motivo",
+    "clinic": "Clínica",
+    "notePlaceholder": "Nota (opcional)",
+    "add": "Adicionar ausência",
+    "empty": "Sem ausências registadas",
+    "absence": "Ausência",
+    "delete": "Remover ausência",
+    "pickAgenda": "Escolha pelo menos uma agenda.",
+    "capped": "Foram criadas no máximo {{count}} ocorrências."
+  },
+  "streakReal": {
+    "perDay": "+{{points}} pts/dia",
+    "points": "+{{points}} pts"
+  },
+  "patientProfileReal": {
+    "none": "Não indicado",
+    "noName": "Sem nome",
+    "levelLine": "Nível {{level}} · {{xp}} XP · {{points}} pts",
+    "selfDeclared": "Saúde (declarado por si)",
+    "conditions": "Condições",
+    "medications": "Medicação",
+    "family": "Família",
+    "visits": "Consultas realizadas",
+    "teleVisits": "Teleconsultas"
   }
 }
