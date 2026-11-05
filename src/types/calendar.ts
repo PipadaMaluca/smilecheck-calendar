@@ -98,6 +98,14 @@ export interface TimeSlot {
   status: 'livre' | 'ocupado' | 'bloqueado';
   consultation?: Consultation;
   blockReason?: string;
+  /** Real agenda exceptions (absence drawn as a striped block; opening keeps the slot bookable). */
+  exceptionKind?: 'ausencia' | 'abertura';
+  exceptionId?: string;
+  blockColor?: string;
+  /** First slot of a merged absence: how many 30-min rows it covers. */
+  blockSpan?: number;
+  /** Covered by the previous slot's merged absence block — not drawn on its own. */
+  blockHidden?: boolean;
 }
 
 export interface DaySummary {
