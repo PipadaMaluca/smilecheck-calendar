@@ -84,9 +84,13 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
           <p className="text-sm text-muted-foreground">{userInfo.subtitle}</p>
         </div>
         <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9 overflow-visible">
+          {!demoMode && profile?.avatar_url ? (
+            <img src={profile.avatar_url} alt="" className="h-full w-full rounded-full object-cover" />
+          ) : (
           <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
             <User className="w-5 h-5 text-primary" />
           </div>
+          )}
         </AvatarFrame>
       </button>
 

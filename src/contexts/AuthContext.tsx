@@ -35,6 +35,8 @@ interface AuthContextValue {
   /** True when a signed-in, non-demo user still has to accept the current terms. */
   needsTermsAcceptance: boolean;
   acceptTerms: () => Promise<boolean>;
+  /** Updates the cached own profile after a successful server write (e.g. new avatar). */
+  patchProfile: (patch: Partial<AuthProfile>) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -122,6 +124,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setProfile(null);
   }, []);
 
+  const patchProfile = useCallback((patch: Partial<AuthProfile>) => setProfile((p) => (p ? { ...p, ...patch } : p)), []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,
@@ -137,8 +141,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       signOut,
       needsTermsAcceptance: Boolean(session && profile && demoRole === null && profile.terms_version !== TERMS_VERSION),
       acceptTerms,
+      patchProfile,
     }),
-    [session, profile, demoRole, loading, enterDemo, exitDemo, signOut, acceptTerms]
+    [session, profile, demoRole, loading, enterDemo, exitDemo, signOut, acceptTerms, patchProfile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
