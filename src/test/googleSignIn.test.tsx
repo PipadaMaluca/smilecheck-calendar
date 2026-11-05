@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 const h = vi.hoisted(() => ({
@@ -109,6 +109,38 @@ describe('Google sign-in on "create account"', () => {
     openSignUpForm();
     fireEvent.click(screen.getByRole('button', { name: /auth.continueWithGoogle/ }));
     await waitFor(() => expect(h.navigate).toHaveBeenCalledWith('/app?role=patient'));
+  });
+});
+
+describe('Apple and Facebook on "create account" stay "soon"', () => {
+  beforeEach(() => {
+    h.signInWithOAuth.mockReset();
+    h.getUser.mockReset();
+    h.maybeSingle.mockReset();
+    h.navigate.mockReset();
+  });
+
+  it('Apple is disabled, shows the "soon" badge and starts nothing', () => {
+    openSignUpForm();
+    const btn = screen.getByRole('button', { name: /auth\.continueWithApple/ });
+    expect(btn).toBeDisabled();
+    expect(btn.getAttribute('data-soon')).toBe('');
+    expect(within(btn).getByText('common.comingSoon')).toBeTruthy();
+    fireEvent.click(btn);
+    expect(h.signInWithOAuth).not.toHaveBeenCalled();
+    expect(h.navigate).not.toHaveBeenCalled();
+    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
+  });
+
+  it('Facebook is disabled, shows the "soon" badge and starts nothing', () => {
+    openSignUpForm();
+    const btn = screen.getByRole('button', { name: /auth\.continueWithFacebook/ });
+    expect(btn).toBeDisabled();
+    expect(btn.getAttribute('data-soon')).toBe('');
+    fireEvent.click(btn);
+    expect(h.signInWithOAuth).not.toHaveBeenCalled();
+    expect(h.navigate).not.toHaveBeenCalled();
+    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
   });
 });
 
