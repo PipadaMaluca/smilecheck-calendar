@@ -2162,6 +2162,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          avatar_visibility: string | null
           created_at: string
           date_of_birth: string | null
           email: string | null
@@ -2183,6 +2184,7 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          avatar_visibility?: string | null
           created_at?: string
           date_of_birth?: string | null
           email?: string | null
@@ -2204,6 +2206,7 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          avatar_visibility?: string | null
           created_at?: string
           date_of_birth?: string | null
           email?: string | null
@@ -3128,6 +3131,10 @@ export type Database = {
       }
       can_upload_conversation_folder: {
         Args: { _folder: string }
+        Returns: boolean
+      }
+      can_view_avatar: {
+        Args: { _owner: string; _viewer: string }
         Returns: boolean
       }
       cancel_clinic_invite: { Args: { _invite_id: string }; Returns: undefined }

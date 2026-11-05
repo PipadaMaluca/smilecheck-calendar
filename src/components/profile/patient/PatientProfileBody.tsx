@@ -3,6 +3,7 @@ import { OwnFearValue } from '@/components/fear/OwnFearValue';
 import { Star as StarIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_GLOW, PATIENT_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import {
@@ -183,7 +184,7 @@ export function PatientProfileBody({
       return (
         <div className="mt-4 space-y-2">
           <div className={cn('grid gap-2', isMobile ? 'grid-cols-1' : 'grid-cols-2')}>
-            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => toast.info(t('sweep.teleconsulta.comingSoon'))}>
+            <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={openUnderConstruction}>
               <Video className="w-4 h-4" /> {t('profile.startTeleconsult')}
             </Button>
             <Button variant="secondary" className="gap-2 text-xs justify-start" onClick={() => onNavigate?.('conversas')}>

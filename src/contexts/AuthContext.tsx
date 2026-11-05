@@ -14,6 +14,7 @@ export interface AuthProfile {
   full_name: string | null;
   email: string | null;
   avatar_url: string | null;
+  avatar_visibility?: 'public' | 'contacts' | null;
   language: string;
   plan?: 'free' | 'pro' | 'premium';
   referral_code?: string | null;
@@ -86,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     supabase
       .from('profiles')
-      .select('id, role, full_name, email, avatar_url, language, plan, referral_code, terms_version, role_pending')
+      .select('id, role, full_name, email, avatar_url, avatar_visibility, language, plan, referral_code, terms_version, role_pending')
       .eq('id', userId)
       .maybeSingle()
       .then(({ data }) => {

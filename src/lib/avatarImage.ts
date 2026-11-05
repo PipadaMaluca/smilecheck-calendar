@@ -1,7 +1,11 @@
 /** Avatar rules: WebP, longest side ≤ 512 px, ≤ 2 MB — resized in the browser before upload. */
 export const AVATAR_MAX_PX = 512;
 export const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
-export const AVATAR_SIGNED_SECONDS = 60 * 60 * 24 * 365;
+/** Stable, non-expiring photo URL served by the `avatar` function (visibility checked server-side). */
+export function avatarStableUrl(base: string, profileId: string, version: number | string) {
+  return `${base.replace(/\/$/, '')}/functions/v1/avatar?u=${profileId}&v=${version}`;
+}
+export const isAvatarEndpoint = (url?: string | null) => !!url && /\/functions\/v1\/avatar\?u=/.test(url);
 
 export function fitWithin(w: number, h: number, max = AVATAR_MAX_PX) {
   const s = Math.min(1, max / Math.max(w, h));

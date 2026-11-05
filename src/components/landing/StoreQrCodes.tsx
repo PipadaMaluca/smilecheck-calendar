@@ -23,7 +23,6 @@ export function StoreQrCodes() {
           </a>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground">{t('landing.stores.comingSoonLine')}</p>
     </div>
   );
 }

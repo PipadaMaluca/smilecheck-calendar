@@ -105,8 +105,7 @@
     "from": "From",
     "to": "To",
     "weeksAgo": "{{n}} weeks ago",
-    "retry": "Try again",
-    "comingSoon": "Coming soon"
+    "retry": "Try again"
   },
   "nav": {
     "home": "Home",
@@ -160,7 +159,6 @@
     "verifyEmail": "Verify your email",
     "verifySms": "Verify your phone",
     "demo": "Demo",
-    "qrLogin": "Log in with QR code",
     "scanQr": "Point your camera at this code",
     "tagline": "Your smile, our priority",
     "emailRequired": "Email is required",
@@ -190,8 +188,6 @@
     "privacyPolicy": "Privacy policy",
     "chooseAccountType": "Choose your account type",
     "createAccountOf": "Create {{type}} account",
-    "qrCodeAlt": "Or log in with QR code",
-    "qrFast": "Fast and password-free",
     "otherDevice": "Already have an account on another device? Log in with QR code →",
     "completeRegistration": "Complete registration",
     "completeRegistrationDesc": "Almost there! Confirm your details and fill in the missing fields.",
@@ -292,7 +288,7 @@
   },
   "landing": {
     "hero": {
-      "badge": "Teleconsultations coming soon",
+      "badge": "Teleconsultations in preparation",
       "title": "Your smile deserves",
       "titleHighlight": "the best",
       "subtitle": "Appointment management, teleconsultations, points and rewards in one platform. For patients, dentists and clinics.",
@@ -340,7 +336,7 @@
       "patient5Title": "Oral health",
       "patient5Desc": "Allergies, medication, vaccines and documents in one place",
       "patient6Title": "Teleconsultations",
-      "patient6Desc": "Coming soon: see your dentist by video call, from home",
+      "patient6Desc": "Teleconsultation in preparation: see your dentist by video call, from home",
       "dentist1Title": "Smart schedule",
       "dentist1Desc": "Day, week, month views with drag-and-drop and filters",
       "dentist2Title": "Confirmations",
@@ -366,9 +362,8 @@
       "clinic6Title": "Teleconsultations",
       "clinic6Desc": "Monitor your entire team's teleconsultations",
       "teleEyebrow": "TELECONSULTATIONS",
-      "teleTitle": "Coming soon: video consultations",
-      "teleDesc": "Coming soon: talk to your dentist by video call, from home. A digital prescription will be included.",
-      "teleSoon": "Coming soon"
+      "teleTitle": "Video consultations",
+      "teleDesc": "In preparation: talk to your dentist by video call, from home. A digital prescription will be included."
     },
     "howItWorks": {
       "title": "As simple as smiling",
@@ -426,7 +421,7 @@
       "q2": "How do points work?",
       "a2": "You earn points by confirming appointments, arriving on time, maintaining good oral hygiene and much more. 100 points = €10 that you can spend in the rewards store.",
       "q3": "Are teleconsultations secure?",
-      "a3": "Coming soon. Teleconsultations will run over encrypted video call directly on the platform, for €20 each.",
+      "a3": "Teleconsultations are in preparation. They will run over encrypted video call directly on the platform, for €20 each.",
       "q4": "Can I use SmileCheck on multiple devices?",
       "a4": "Yes! SmileCheck works on any device — computer, tablet or mobile.",
       "q5": "How does the level system work?",
@@ -489,12 +484,10 @@
       ]
     },
     "stores": {
-      "soon": "Coming soon",
-      "appStoreAria": "Download on the App Store — coming soon",
-      "playAria": "Get it on Google Play — coming soon",
+      "appStoreAria": "Download on the App Store",
+      "playAria": "Get it on Google Play",
       "appStoreAlt": "Download on the App Store",
-      "playAlt": "Get it on Google Play",
-      "comingSoonLine": "Coming soon to the App Store and Google Play"
+      "playAlt": "Get it on Google Play"
     }
   },
   "onboarding": {
@@ -1833,7 +1826,6 @@
     "copyNumber": "Copy number",
     "numberCopied": "Number copied!",
     "callNow": "Call now",
-    "messagingSoon": "Messaging feature coming soon!",
     "inviteSent": "Invite sent to {{name}}!",
     "inviteToTeamTitle": "Invite to team",
     "inviteToTeamDesc": "Invite <1>{{name}}</1> to {{clinic}}?",
@@ -2330,7 +2322,7 @@
         {
           "id": "servico",
           "title": "2. The service",
-          "content": "SmileCheck lets you book appointments, talk to professionals, keep oral-health information and take part in a points programme.\n\nSmileCheck does not provide healthcare. Care is provided by dentists and clinics, who are solely responsible for clinical acts. Teleconsultation is not available yet (“Coming soon”)."
+          "content": "SmileCheck lets you book appointments, talk to professionals, keep oral-health information and take part in a points programme.\n\nSmileCheck does not provide healthcare. Care is provided by dentists and clinics, who are solely responsible for clinical acts. Teleconsultation is not available yet."
         },
         {
           "id": "conta",
@@ -2908,7 +2900,7 @@
     "teleconsultReceipt": "Teleconsultation {{name}}",
     "joinWaitingList": "Join the waiting list",
     "confirmBookingAction": "Confirm booking",
-    "paymentSoon": "Teleconsultation payment coming soon"
+    "paymentSoon": "Online teleconsultation payment is in preparation."
   },
   "timeBlock": {
     "editBlock": "Edit block",
@@ -3547,7 +3539,6 @@
     "sendProposalBtn": "Send proposal",
     "step": "Step",
     "of": "of",
-    "messagingSoon": "Messaging feature coming soon!",
     "availableForTeleconsult": "Available for teleconsultations",
     "availableSince": "Available since",
     "experience": "experience",
@@ -4001,7 +3992,7 @@
     "searchTitle": "No results found",
     "searchDesc": "Try searching with different terms.",
     "inviteTitle": "Invite your friends!",
-    "inviteDesc": "Share your invite code. The referral reward is coming soon.",
+    "inviteDesc": "Share your invite code with friends and colleagues.",
     "inviteAction": "Share code",
     "waitlistTitle": "No patients waiting",
     "waitlistDesc": "No patients want to reschedule earlier at the moment.",
@@ -4026,7 +4017,7 @@
     "agendaDentistTitle": "Filter by dentist",
     "agendaDentistDesc": "Use the filters to view individual or team schedules.",
     "inviteTitle": "Earn extra points!",
-    "inviteDesc": "Share your invite code. The referral reward is coming soon.",
+    "inviteDesc": "Share your invite code with friends and colleagues.",
     "gotIt": "Got it!"
   },
   "consultationMode": {
@@ -4410,8 +4401,7 @@
     "statusConfirmed": "Validated",
     "statusPending": "Pending",
     "headlineNoPoints": "Invite friends to SmileCheck",
-    "comingSoon": "Reward coming soon",
-    "subtitleComingSoon": "The referral reward will be available soon. You can already share your code.",
+    "subtitleComingSoon": "The referral reward isn't active yet. You can already share your code.",
     "subtitlePoints_one": "Earn {{count, number}} point for every confirmed invite",
     "subtitlePoints_other": "Earn {{count, number}} points for every confirmed invite",
     "pointsShort": "+{{count, number}} pts",
@@ -4457,18 +4447,7 @@
       "pastSlot": "You cannot move to a past time"
     },
     "devices": {
-      "title": "Connected devices",
-      "connectNew": "Connect new device",
-      "scanTitle": "Point at the QR code",
-      "newDeviceDetected": "New device detected",
-      "connectedTitle": "Device connected!",
-      "scanDesc": "Shown on the screen of the device you want to sign in on",
-      "confirmDesc": "Check the details before authorizing",
-      "authorizedDesc": "Login authorized successfully",
-      "scanning": "Looking for QR code...",
-      "warningRecognize": "Only authorize if you recognize this device",
-      "authorizeLogin": "Authorize login",
-      "connectedSuccess": "Device connected successfully!"
+      "title": "Connected devices"
     },
     "appointments": {
       "updateStatusError": "Could not update the status",
@@ -4564,7 +4543,6 @@
       "orderCountry": "Board country"
     },
     "teleconsulta": {
-      "comingSoon": "Teleconsultation coming soon...",
       "quickCreated": "Quick teleconsultation created. Starting..."
     },
     "team": {
@@ -4601,7 +4579,6 @@
     "activeTwoHours": "Active 2 hours ago",
     "activeThreeDays": "Active 3 days ago",
     "activeNow": "Active now",
-    "deviceInstructions": "On the device you want to connect, go to Settings → Link device and scan the QR code shown.",
     "portuguese": "Portuguese",
     "french": "French",
     "english": "English",
@@ -5208,9 +5185,9 @@
       "teamTeleconsults": "Team teleconsultations",
       "dedicatedSupport": "Dedicated support"
     },
-    "soon": "Coming soon",
     "pointsResetWarning": "Reward points are reset every year",
-    "billedAnnually": "{{total}} per year"
+    "billedAnnually": "{{total}} per year",
+    "inPreparation": "Feature in preparation"
   },
   "fear": {
     "title": "Fear scale",
@@ -5773,7 +5750,10 @@
     "saved": "Photo updated",
     "error": "Could not update the photo.",
     "badImage": "Choose a JPG, PNG or WebP image.",
-    "tooBig": "The image is too large (max. 2 MB)."
+    "tooBig": "The image is too large (max. 2 MB).",
+    "photoVisibility": "Photo visible to",
+    "photoVisibilityPublic": "Everyone",
+    "photoVisibilityContacts": "Only my contacts"
   },
   "safetyReal": {
     "riskWith": "risk with {{tags}} ({{risk}})",
@@ -5847,5 +5827,10 @@
     "confirm": "Continue",
     "error": "Could not save. Please try again.",
     "googleError": "Could not sign in with Google. Please try again."
+  },
+  "underConstruction": {
+    "title": "Under construction",
+    "body": "We're getting this ready for you. Check back soon!",
+    "ok": "OK"
   }
 }

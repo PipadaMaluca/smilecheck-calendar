@@ -232,6 +232,13 @@
       "when": 1793852705386,
       "tag": "0032_guard_role_pending",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1793922321939,
+      "tag": "0033_avatar_visibility_stable_url",
+      "breakpoints": true
     }
   ]
 }

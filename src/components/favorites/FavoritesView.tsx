@@ -5,6 +5,7 @@ import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -129,7 +130,7 @@ export function FavoritesView({
           <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookDentist?.(d); }}>
             <Calendar className="w-3 h-3" /> {t('search.bookAppointment')}
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); }}>
             <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
         </div>
@@ -138,7 +139,7 @@ export function FavoritesView({
     if (userRole === 'dentist') {
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); }}>
             <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
           <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onRecommendPatient?.(d); }}>
@@ -150,7 +151,7 @@ export function FavoritesView({
     // clinic
     return (
       <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); toast.info(t('search.messagingSoon')); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(d.name); }}>
           <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
         </Button>
         <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); setInviteTarget(d); setInviteMessage(t('search.inviteDefaultMessage')); }}>
@@ -167,7 +168,7 @@ export function FavoritesView({
           <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); toast.info(t('search.selectDentistFromClinic')); }}>
             <Calendar className="w-3 h-3" /> {t('search.bookAppointment')}
           </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info(t('search.messagingSoon')); }}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); }}>
             <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
         </div>
@@ -176,7 +177,7 @@ export function FavoritesView({
     if (userRole === 'dentist') {
       return (
         <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); toast.info(t('search.messagingSoon')); }}>
+          <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); }}>
             <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
           </Button>
           <Button size="sm" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onBookClinic?.(c.id); }}>
@@ -188,10 +189,10 @@ export function FavoritesView({
     // clinic viewing clinic
     return (
       <div className={cn('gap-2 mt-2', isMobile ? 'flex flex-col' : 'flex')}>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info(t('search.messagingSoon')); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); onSendMessage?.(c.name); }}>
           <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); if (real) { toast.info(t('search.messagingSoon')); return; } const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); if (real) { openUnderConstruction(); return; } const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
           <Phone className="w-3 h-3" /> {t('search.call')}
         </Button>
       </div>

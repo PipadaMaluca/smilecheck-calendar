@@ -1,13 +1,11 @@
 import { demoText } from '@/lib/demoText';
 import { useState } from 'react';
-import { Monitor, Tablet, Smartphone, X, Link2, Camera, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
+import { Monitor, Tablet, Smartphone, X, Link2, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { useTranslation } from 'react-i18next';
 import { useDirectory } from '@/data/directorySource';
 import { supabase } from '@/integrations/supabase/client';
-import { SoonButton } from '@/components/ui/soon-button';
 import { toast } from 'sonner';
 
 /** Device kind + browser of *this* browser only (no API lists other sessions). */
@@ -49,7 +47,6 @@ function RealConnectedDevices() {
         <Button variant="outline" className="w-full" disabled={busy} onClick={signOutOthers}>
           {busy && <Loader2 className="w-4 h-4 animate-spin" />} {t('devicesReal.signOutOthers')}
         </Button>
-        <SoonButton variant="secondary" className="w-full gap-2"><Camera className="w-4 h-4" /> {t('sweep.devices.connectNew')}</SoonButton>
       </CardContent>
     </Card>
   );
@@ -76,8 +73,6 @@ const deviceIcons = {
   mobile: Smartphone,
 };
 
-type ScanPhase = 'idle' | 'scanning' | 'confirm' | 'authorized';
-
 export function ConnectedDevicesSection() {
   const isDemo = useDirectory().isDemo;
   return isDemo ? <DemoConnectedDevices /> : <RealConnectedDevices />;
@@ -86,8 +81,6 @@ export function ConnectedDevicesSection() {
 function DemoConnectedDevices() {
   const { t } = useTranslation();
   const [devices, setDevices] = useState<ConnectedDevice[]>(mockDevices);
-  const [scanPhase, setScanPhase] = useState<ScanPhase>('idle');
-  const [showScanner, setShowScanner] = useState(false);
 
   const disconnectDevice = (id: string) => {
     setDevices(prev => prev.filter(d => d.id !== id));
@@ -97,35 +90,7 @@ function DemoConnectedDevices() {
     setDevices([]);
   };
 
-  const startScan = () => {
-    setShowScanner(true);
-    setScanPhase('scanning');
-    // Simulate QR detection after 2 seconds
-    setTimeout(() => setScanPhase('confirm'), 2000);
-  };
-
-  const authorizeDevice = () => {
-    setScanPhase('authorized');
-    setTimeout(() => {
-      setDevices(prev => [
-        ...prev,
-        {
-          id: String(Date.now()),
-          type: 'desktop',
-          name: 'PC Windows',
-          browser: 'Chrome',
-          location: demoText('Lisboa, Portugal'),
-          lastActive: 'i18nA.activeNow',
-          ip: '192.168.XXX.XXX',
-        },
-      ]);
-      setShowScanner(false);
-      setScanPhase('idle');
-    }, 1500);
-  };
-
   return (
-    <>
       <Card className="bg-card/80 backdrop-blur border-border">
         <CardHeader className="pb-2">
           <CardTitle size="compact" className="flex items-center gap-2">
@@ -134,10 +99,6 @@ function DemoConnectedDevices() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Button onClick={startScan} className="w-full gap-2">
-            <Camera className="w-4 h-4" /> {t('sweep.devices.connectNew')}
-          </Button>
-
           {devices.length > 0 ? (
             <div className="space-y-2">
               {devices.map(device => {
@@ -173,72 +134,5 @@ function DemoConnectedDevices() {
           )}
         </CardContent>
       </Card>
-
-      {/* Scanner Dialog */}
-      <Dialog open={showScanner} onOpenChange={(open) => { if (!open) { setShowScanner(false); setScanPhase('idle'); } }}>
-        <DialogContent className="max-w-sm">
-          <DialogHeader>
-            <DialogTitle>
-              {scanPhase === 'scanning' && t('sweep.devices.scanTitle')}
-              {scanPhase === 'confirm' && t('sweep.devices.newDeviceDetected')}
-              {scanPhase === 'authorized' && t('sweep.devices.connectedTitle')}
-            </DialogTitle>
-            <DialogDescription>
-              {scanPhase === 'scanning' && t('i18nA.deviceInstructions')}
-              {scanPhase === 'confirm' && t('sweep.devices.confirmDesc')}
-              {scanPhase === 'authorized' && t('sweep.devices.authorizedDesc')}
-            </DialogDescription>
-          </DialogHeader>
-
-          {scanPhase === 'scanning' && (
-            <div className="flex flex-col items-center gap-4 py-6">
-              {/* Simulated camera view */}
-              <div className="w-56 h-56 rounded-xl bg-muted/30 border-2 border-dashed border-primary/50 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-4 border-2 border-primary rounded-lg" />
-                <Camera className="w-10 h-10 text-muted-foreground" />
-              </div>
-              <Loader2 className="w-5 h-5 animate-spin text-primary" />
-              <p className="text-xs text-muted-foreground">{t('sweep.devices.scanning')}</p>
-            </div>
-          )}
-
-          {scanPhase === 'confirm' && (
-            <div className="space-y-4 py-4">
-              <div className="space-y-2 p-3 rounded-lg bg-secondary/50 border border-border/50">
-                <div className="flex items-center gap-2">
-                  <Monitor className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">{demoText('PC Windows — Chrome')}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">{demoText('Lisboa, Portugal')}</p>
-                <p className="text-xs text-muted-foreground font-mono">IP: 192.168.XXX.XXX</p>
-              </div>
-
-              <div className="flex items-start gap-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                <p className="text-xs text-yellow-500/90">{t('sweep.devices.warningRecognize')}</p>
-              </div>
-
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1" onClick={() => { setShowScanner(false); setScanPhase('idle'); }}>
-                  {t('common.cancel')}
-                </Button>
-                <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white" onClick={authorizeDevice}>
-                  {t('sweep.devices.authorizeLogin')}
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {scanPhase === 'authorized' && (
-            <div className="flex flex-col items-center gap-4 py-6 animate-fade-in">
-              <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
-              </div>
-              <p className="text-sm font-medium text-foreground">{t('sweep.devices.connectedSuccess')}</p>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
   );
 }

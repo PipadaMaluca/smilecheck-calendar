@@ -27,17 +27,17 @@
 - Cheque eligibility is server-enforced (`trg_guard_clinic_cheques`, PT only, country derived from timezone); demo clinics use `src/lib/cheques.ts`.
 - Reviews are only accepted after a `visto`/`concluida` appointment between both parties, one per appointment (`trg_guard_feedback_verified`).
 - Payments act only on the server's active environment (`PAYMENTS_ACTIVE_ENV` secret + `payment_settings.active_env`, kept equal; switch both at go-live); client `environment`/`returnUrl` are never trusted (`_shared/paymentsGuard.ts`) — so test cards can never grant a real plan.
-- Notification destinations come only from `src/lib/notificationTargets.ts` (type → `/app?tab=…` URL, mirrored server-side by `trg_normalize_notification_target`); sub-targets are handed to screens via `useDeepLink` (`src/lib/deepLink.ts`); unbuilt features use `SoonButton` — so no click is ever a no-op.
+- Notification destinations come only from `src/lib/notificationTargets.ts` (type → `/app?tab=…` URL, mirrored server-side by `trg_normalize_notification_target`); sub-targets are handed to screens via `useDeepLink` (`src/lib/deepLink.ts`); unbuilt features use `SoonButton`/`openUnderConstruction()` (shared pop-up, no "soon" labels) — so no click is a no-op.
 - Account deletion goes through the `delete-account` edge function (logs `account_deletion_requests`, cancels Stripe subs, calls service-role `anonymize_account`, bans the auth user) — profiles are anonymised, never deleted, because appointments/dossier cascade from them and must be retained.
 - "Download my data" is the `export_my_data()` RPC (own rows only, never `fear_assessments`).
 - Professionals' levels, seals, plan badges and highlighted achievements render only for the owner (and, for dentists, their clinic); `professional_public_profiles.showcased_achievements` is always empty; search order is distance/price only (`getVisibilityBoost` is 0) — P2B neutrality pending the dental council's opinion.
 - Consumer (patient) checkout requires `withdrawalWaiver`, enforced in `create-checkout` and stored via subscription metadata → `subscriptions.withdrawal_waiver_at`; VAT display comes from `planVatMode` in `planRules.ts`.
-- Annual renewal reminders: daily cron `send_annual_renewal_reminders`, in-app.
+- Annual renewal reminders: daily cron `send_annual_renewal_reminders`.
 - Terms acceptance is server-enforced: `require_terms_accepted` triggers (appointments, feedback, waiting_list, referrals, redemptions) and `create-checkout` check `has_accepted_terms()` against `current_terms_version()`; bump that SQL function and `TERMS_VERSION` together (tested) and `TermsGate` re-asks on next sign-in.
-- `delete-account` cancels Stripe first (`process.ts`, tested); failures stay `pending` and the `retry-account-deletions` cron retries them.
+- `delete-account` cancels Stripe first (tested); failures stay `pending` for the `retry-account-deletions` cron.
 - Real search only via `search_professionals` RPC (`searchSource.ts`: approved, public columns, neutral order); demo keeps mock — no rating/plan leaks.
 - Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check, provider fallback, 1 req/s throttle, address cache); a trigger blocks client writes.
-- Spoken languages: closed list in `spokenLanguages.ts` (mirrored server-side); weekdays via `weekdayLabels()`.
+- Spoken languages: closed list in `spokenLanguages.ts` (server-mirrored); weekdays via `weekdayLabels()`.
 - Directory data only via `useDirectory()`: demo=mock, real=RLS.
 - Clinical docs, rankings, jobs: writes only via RPCs/RLS (`issue_*`, `void_clinical_document`, `my_ranking`, `job_*` tables); public QR = anon `verify_document`; real screens are `Real*` beside untouched demo ones (`useDirectory().isDemo`).
 - Social sign-ups pick role once via `choose_initial_role` (`role_pending`, trigger-guarded) — no client role changes.

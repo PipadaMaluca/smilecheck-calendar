@@ -1,4 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { isAvatarEndpoint } from '@/lib/avatarImage';
+
+/**
+ * Photos from the `avatar` function are fetched with the viewer's session so
+ * "contacts only" photos reach related people; a 404 falls back to initials.
+ */
+export function useAvatarSrc(photo?: string | null) {
+  const stable = isAvatarEndpoint(photo);
+  const [src, setSrc] = useState<string | null | undefined>(stable ? undefined : photo);
+  useEffect(() => {
+    if (!stable) { setSrc(photo); return; }
+    let url: string | null = null;
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        if (!token) { if (!cancelled) setSrc(photo); return; }
+        const res = await fetch(photo!, { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) { if (!cancelled) setSrc(null); return; }
+        url = URL.createObjectURL(await res.blob());
+        if (!cancelled) setSrc(url);
+      } catch { if (!cancelled) setSrc(null); }
+    })();
+    return () => { cancelled = true; if (url) URL.revokeObjectURL(url); };
+  }, [photo, stable]);
+  return src;
+}
 import { cn } from '@/lib/utils';
 import { getDentistInitials, getClinicInitials } from '@/lib/avatarUtils';
 
@@ -24,11 +53,13 @@ interface PersonAvatarProps {
 /** Single avatar used for dentists, patients and clinics: same size scale, ring and initials style. */
 export function PersonAvatar({ name, photo, kind = 'person', size = 'sm', className }: PersonAvatarProps) {
   const [failed, setFailed] = useState(false);
+  const src = useAvatarSrc(photo);
+  useEffect(() => setFailed(false), [src]);
   const initials = kind === 'clinic' ? getClinicInitials(name) : getDentistInitials(name);
   const hue = hueFor(name);
   const base = cn('relative inline-flex shrink-0 items-center justify-center rounded-full ring-1 ring-border overflow-hidden font-semibold select-none', SIZES[size], className);
-  if (photo && !failed) {
-    return <img src={photo} alt={name} onError={() => setFailed(true)} className={cn(base, 'object-cover')} />;
+  if (src && !failed) {
+    return <img src={src} alt={name} onError={() => setFailed(true)} className={cn(base, 'object-cover')} />;
   }
   return (
     <span

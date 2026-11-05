@@ -522,6 +522,7 @@ export function DentistCalendar() {
           <RewardsStoreView userRole="dentist" />
         ) : activeTab === 'pesquisa' ? (
           <FavoritesView
+            onSendMessage={() => handleTabChange('conversas')}
             favorites={favorites}
             onToggleFavorite={id => {
               setFavorites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);

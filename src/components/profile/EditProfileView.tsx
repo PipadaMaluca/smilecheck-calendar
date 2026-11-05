@@ -1,6 +1,6 @@
 import { AccountDataSection } from '@/components/settings/AccountDataSection';
 import { ClinicChequesSettings } from '@/components/clinic/ClinicChequesSettings';
-import { SoonButton } from '@/components/ui/soon-button';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { FearScalePicker } from '@/components/fear/FearScale';
 import { DEMO_FEAR, fetchOwnFearLevel, saveOwnFearLevel } from '@/data/fearSource';
 import type { FearLevel } from '@/lib/fearScale';
@@ -449,11 +449,11 @@ export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: E
               <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center">
                 {userRole === 'clinic' ? <Building2 className="w-10 h-10 text-primary" /> : <User className="w-10 h-10 text-primary" />}
               </div>
-              <button type="button" disabled aria-disabled data-soon="" title={t('common.comingSoon')} aria-label={`${t('a11y.camera')} — ${t('common.comingSoon')}`} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center shadow-lg cursor-not-allowed">
+              <button type="button" onClick={openUnderConstruction} aria-label={t('a11y.camera')} className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full bg-primary-solid text-primary-foreground flex items-center justify-center shadow-lg">
                 <Camera className="w-4 h-4" />
               </button>
             </div>
-            <span className="text-xs text-muted-foreground">{userRole === 'clinic' ? t('editProfile.changeLogo') : t('editProfile.changePhoto')} · {t('common.comingSoon')}</span>
+            <span className="text-xs text-muted-foreground">{userRole === 'clinic' ? t('editProfile.changeLogo') : t('editProfile.changePhoto')}</span>
           </div>
           )}
 

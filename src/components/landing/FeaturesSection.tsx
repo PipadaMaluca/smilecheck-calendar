@@ -124,9 +124,6 @@ function TeleconsultaMockup() {
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
           GP
         </div>
-        <div className="absolute top-3 left-3 px-2 py-1 rounded-md bg-secondary text-secondary-foreground text-2xs font-semibold">
-          {t('landing.features.teleSoon')}
-        </div>
         <div className="absolute bottom-3 right-3 w-20 h-14 rounded-lg bg-background border border-white/10 flex items-center justify-center text-2xs text-white/50">{t('i18nC.you')}</div>
       </div>
       <div className="px-5 py-4 flex items-center justify-between bg-background">
@@ -242,11 +239,6 @@ export function FeaturesSection() {
             <div id="teleconsultas" className="text-center max-w-3xl mx-auto">
               <div className="inline-block px-3 py-1 rounded-full bg-accent dark:bg-accent/60 text-primary border border-border text-xs font-semibold mb-4 uppercase tracking-wide">
 <Glyph emoji="📹" className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />{t('landing.features.teleEyebrow')}
-              </div>
-              <div className="flex justify-center mb-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-semibold">
-                  {t('landing.features.teleSoon')}
-                </span>
               </div>
               <h3 id="teleconsultas-title" className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] mb-5">
                 {t('landing.features.teleTitle')}

@@ -10,7 +10,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, X, Crown, Star, AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, X, Crown, Star, AlertTriangle, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { UserRole } from '@/types/calendar';
 import { cn } from '@/lib/utils';
 import {
@@ -349,7 +350,7 @@ export function ManagePlanView({
                     <span className="text-muted-foreground text-xs italic">{t(feat.textKey, feat.params)}</span> :
                     <>
                           <Check className="w-3.5 h-3.5 text-success flex-shrink-0 mt-0.5" strokeWidth={3} />
-                          <span className="text-foreground">{t(feat.textKey, feat.params)}{feat.soon && <Badge variant="outline" className="ml-1.5 align-middle text-2xs py-0 px-1.5 font-medium">{t('plans.soon')}</Badge>}</span>
+                          <span className="text-foreground">{t(feat.textKey, feat.params)}{feat.soon && <button type="button" onClick={openUnderConstruction} aria-label={t('plans.inPreparation')} title={t('plans.inPreparation')} className="ml-1.5 inline-flex align-middle text-muted-foreground hover:text-foreground"><Info className="h-3.5 w-3.5" /></button>}</span>
                         </>
                     }
                     </div>

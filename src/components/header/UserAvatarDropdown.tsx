@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAvatarSrc } from '@/components/ui/person-avatar';
 
 
 interface UserAvatarDropdownProps {
@@ -49,6 +50,7 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const { signOut, demoMode, profile } = useAuth();
+  const ownPhoto = useAvatarSrc(demoMode ? null : profile?.avatar_url);
   const stats = usePointsData(userRole);
 
 
@@ -84,8 +86,8 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
           <p className="text-sm text-muted-foreground">{userInfo.subtitle}</p>
         </div>
         <AvatarFrame levelKey={userInfo.level} variant="full" size={36} className="h-9 w-9 overflow-visible">
-          {!demoMode && profile?.avatar_url ? (
-            <img src={profile.avatar_url} alt="" className="h-full w-full rounded-full object-cover" />
+          {!demoMode && ownPhoto ? (
+            <img src={ownPhoto} alt="" className="h-full w-full rounded-full object-cover" />
           ) : (
           <div className="h-full w-full rounded-full bg-primary/10 flex items-center justify-center">
             <User className="w-5 h-5 text-primary" />

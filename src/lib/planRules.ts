@@ -82,7 +82,7 @@ export interface PlanFeature {
   /** i18n key under `plans.f.` */
   key: string;
   params?: Record<string, unknown>;
-  /** Not available yet → shown with "Em breve". */
+  /** Not available yet → info icon opens the under-construction pop-up. */
   soon?: boolean;
   /** Muted "Tudo do Free/Pro" line. */
   inherited?: boolean;

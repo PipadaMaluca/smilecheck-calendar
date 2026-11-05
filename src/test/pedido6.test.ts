@@ -41,7 +41,7 @@ describe('subscription prices match the payment catalogue', () => {
 });
 
 describe('notification channels', () => {
-  it('only e-mail is available; push, SMS and WhatsApp are coming soon', () => {
+  it('only e-mail is available; push, SMS and WhatsApp are not built yet', () => {
     expect([...AVAILABLE_CHANNELS]).toEqual(['email']);
   });
 });
