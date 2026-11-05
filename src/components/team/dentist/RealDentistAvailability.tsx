@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Trash2, Loader2 } from 'lucide-react';
+import { Plus, Trash2, Loader2, CalendarOff } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -84,7 +84,7 @@ export function RealDentistAvailability() {
           <Button onClick={add} disabled={busy || !form.start} className="gap-2">{busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}{t('exceptionsReal.add')}</Button>
 
           {rows === null ? <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /> : rows.length === 0 ? (
-            <EmptyState title={t('exceptionsReal.empty')} />
+            <EmptyState icon={CalendarOff} size="sm" title={t('exceptionsReal.empty')} />
           ) : (
             <ul className="space-y-2">
               {rows.map((r) => (

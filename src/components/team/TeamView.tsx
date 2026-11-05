@@ -13,6 +13,7 @@ import { CoverageTab } from './clinic/CoverageTab';
 
 // Dentist tabs
 import { DentistAvailabilityTab } from './dentist/DentistAvailabilityTab';
+import { RealDentistAvailability } from './dentist/RealDentistAvailability';
 import { DentistTeamTab } from './dentist/DentistTeamTab';
 import { useDirectory } from '@/data/directorySource';
 import { DentistSubstitutionAvailability, ClinicSubstitutionAvailability } from './RealSubstitutionAvailability';
@@ -94,7 +95,7 @@ function DentistTeamView() {
         </ScrollableTabsList>
 
         <TabsContent value="disponibilidade" className="mt-4">
-          <DentistAvailabilityTab />
+          {isDemo ? <DentistAvailabilityTab /> : <RealDentistAvailability />}
           {!isDemo && <div className="mt-4"><DentistSubstitutionAvailability /></div>}
         </TabsContent>
         <TabsContent value="equipa" className="mt-4">
