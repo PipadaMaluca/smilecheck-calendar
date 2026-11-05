@@ -11,7 +11,7 @@
 - Clinical/attachment files open only via the `sign-file` edge function (user RPC authorises + logs, then service role signs 60 s); no client SELECT policy on those buckets.
 - Conversations: only via RPCs (`start_conversation` needs a patient↔professional appointment, same clinic, or an approved clinic contacting a dentist with published availability; `send_message`, `void_message` author-only ≤5 min); tables are SELECT-only for clients.
 - Dentist substitution availability: dentist manages own rows; only approved clinics read (`dentist_availability` RLS).
-- Avatars: private `avatars` bucket (public buckets blocked in workspace), own folder only, WebP ≤512 px/≤2 MB, stored as long-lived signed URL validated by trigger.
+- Avatars: private `avatars` bucket, own folder only, WebP ≤512 px/≤2 MB; served only via the `avatar` edge function at a stable `?u=&v=` URL (trigger-validated) that applies `profiles.avatar_visibility` through `can_view_avatar` (404 → initials); `PersonAvatar` fetches it with the session.
 - Security tests: `supabase/tests/conversations_rls_rollback.sql`.
 - Consultation details (real): alerts come only from `useConsultationContext` (`can_read_dossier` gate → self-declared + professional + prescriptions of the last 30 days, `buildHealthAlerts`, tested); history = real past visits. No data → no alert.
 - "Today" for any screen is `appToday(isDemo)`; never `demoDate(...)` outside demo branches.
