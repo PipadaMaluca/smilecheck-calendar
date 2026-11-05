@@ -59,6 +59,7 @@ import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, ConsultationStatus, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
 import { generateTimeSlots } from '@/data/mockData';
+import { useAgendaAvailability } from '@/data/agendaAvailability';
 import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { useAppointmentActions } from '@/data/appointmentActions';
@@ -101,6 +102,7 @@ const getPresentDentistKeys = (d: Directory) => {
 
 export function DesktopCalendarView() {
   const dir = useDirectory();
+  const availVersion = useAgendaAvailability(!dir.isDemo);
   const { dentists: mockDentists, familyMembers: mockFamilyMembers, clinics: mockClinics, getDentistsForClinic, dentistWorksOnDemo } = dir;
   const { consultations: agendaConsultations, patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { changeStatus, rescheduleConsultation, cancelConsultation } = useAppointmentActions();
@@ -229,10 +231,10 @@ export function DesktopCalendarView() {
     const result: Record<string, TimeSlot[]> = {};
     filteredDentists.forEach(({ dentist, clinicId, key }) => {
       const dentistConsultations = agendaConsultations.filter((c) => c.dentist.id === dentist.id && c.clinic.id === clinicId);
-      result[key] = generateTimeSlots(selectedDate, dentistConsultations);
+      result[key] = generateTimeSlots(selectedDate, dentistConsultations, { dentistId: dentist.id, clinicId });
     });
     return result;
-  }, [selectedDate, filteredDentists, agendaConsultations]);
+  }, [selectedDate, filteredDentists, agendaConsultations, availVersion]);
 
   const dayConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) return [];

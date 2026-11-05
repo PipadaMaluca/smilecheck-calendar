@@ -1,3 +1,4 @@
+import { useDirectory } from '@/data/directorySource';
 import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { useMemo, useState } from 'react';
@@ -9,6 +10,7 @@ import {
 } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
 import { generateTimeSlots } from '@/data/mockData';
+import { useAgendaAvailability } from '@/data/agendaAvailability';
 import type { Dentist } from '@/types/calendar';
 import { useAgendaData } from '@/data/agendaSource';
 import { ConsultationContextMenu } from '../ConsultationContextMenu';
@@ -85,6 +87,8 @@ export function DesktopWeekView({
   const { consultations: agendaConsultations } = useAgendaData();
   const { t } = useTranslation();
   const SLOT_HEIGHT = useSlotHeight(BASE_SLOT_HEIGHT);
+  const isDemoDir = useDirectory().isDemo;
+  const availVersion = useAgendaAvailability(!isDemoDir);
 
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
   const numDays = includeSunday ? 7 : 6;
@@ -111,7 +115,7 @@ export function DesktopWeekView({
       m[dayKey] = {};
       const isSunday = day.getDay() === 0;
       dentists.forEach(({ dentist, clinicId, key }) => {
-        if (isSunday) {
+        if (isSunday && isDemoDir) {
           // Sunday: no in-person; just generate empty slots (no lunch either)
           m[dayKey][key] = [];
           return;
@@ -119,11 +123,11 @@ export function DesktopWeekView({
         const dc = agendaConsultations.filter(
           c => isSameDay(c.date, day) && c.dentist.id === dentist.id && c.clinic.id === clinicId
         );
-        m[dayKey][key] = generateTimeSlots(day, dc);
+        m[dayKey][key] = generateTimeSlots(day, dc, { dentistId: dentist.id, clinicId });
       });
     });
     return m;
-  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|'), agendaConsultations]);
+  }, [weekDays.map(d => d.toISOString()).join('|'), dentists.map(d => d.key).join('|'), agendaConsultations, availVersion]);
 
   const handleContextMenu = (e: React.MouseEvent, c: Consultation) => {
     e.preventDefault();

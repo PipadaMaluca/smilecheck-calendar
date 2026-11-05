@@ -113,7 +113,7 @@ export function ClinicCalendar() {
     });
     
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   /**
    * Mobile-only column list for the dentist pills row:
@@ -135,7 +135,7 @@ export function ClinicCalendar() {
       });
     });
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   // Day consultations for summary
   const allDayConsultations = agendaConsultations.filter(

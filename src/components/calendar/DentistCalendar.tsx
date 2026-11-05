@@ -138,7 +138,7 @@ export function DentistCalendar() {
     });
     
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   /**
    * Mobile pills row: include ALL dentists from any clinic that has at least
@@ -159,7 +159,7 @@ export function DentistCalendar() {
       });
     });
     return result;
-  }, [selectedDate, selectedDentistIds, agendaConsultations], availVersion]);
+  }, [selectedDate, selectedDentistIds, agendaConsultations, availVersion]);
 
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
