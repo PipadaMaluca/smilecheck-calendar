@@ -97,3 +97,20 @@ export async function searchMyPatients(q: string, offset = 0, limit = 20): Promi
   const items = (data ?? []) as unknown as PatientHit[];
   return { items, total: Number(items[0]?.total ?? 0) };
 }
+
+/** Debounced server patient search (≥2 chars) for quick-search boxes; disabled in demo. */
+export function usePatientSearch(query: string, enabled: boolean, limit = 5) {
+  const [items, setItems] = useState<PatientHit[]>([]);
+  useEffect(() => {
+    if (!enabled || query.trim().length < 2) { setItems([]); return; }
+    let alive = true;
+    const h = setTimeout(() => {
+      void searchMyPatients(query, 0, limit).then((r) => { if (alive) setItems(r.items); }).catch(() => { if (alive) setItems([]); });
+    }, 250);
+    return () => { alive = false; clearTimeout(h); };
+  }, [query, enabled, limit]);
+  return items;
+}
+
+/** "1980-05-02" → "02/05/1980" (date only, never converted). */
+export const dobDisplay = (iso: string | null) => (iso ? iso.split('-').reverse().join('/') : '');
