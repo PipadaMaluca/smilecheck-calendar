@@ -69,7 +69,7 @@ export function RealReferralFlow({ onClose, onGoHome }: { onClose: () => void; o
         toExternal: rec.kind === 'external' ? rec.name : null,
       });
       setIssuedId(id); setStep('success');
-      if (user) awardPointsSilently(user.id, 'referenciar_paciente');
+      if (user) awardPointsSilently(user.id, 'carta_referencia');
     } catch { toast.error(t('docs.issueError')); } finally { setBusy(false); }
   };
 
