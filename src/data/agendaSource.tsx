@@ -82,7 +82,7 @@ interface PatientInfo {
   fearLevel?: number;
 }
 
-function ageFrom(dob?: string, reference = demoDate(2026, 0, 31)) {
+function ageFrom(dob?: string, reference = new Date()) {
   if (!dob) return undefined;
   const [d, m, y] = dob.split('/').map(Number);
   let age = reference.getFullYear() - y;
