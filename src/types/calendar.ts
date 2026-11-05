@@ -78,6 +78,8 @@ export interface Consultation {
   triage?: Triage;
   notes?: string;
   isUrgentTeleconsulta?: boolean;
+  /** Real (non-demo) rows only: raw backend ids/status and the clinic's IANA time zone. */
+  ref?: { dentistId: string | null; clinicId: string | null; dbStatus: string; tz: string };
 }
 
 // Consultation status colors and labels

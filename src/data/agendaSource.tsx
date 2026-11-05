@@ -143,6 +143,7 @@ function mapRow(row: AppointmentRow, patients: Map<string, PatientInfo>, zones: 
     price: row.price ?? 0,
     isPaid: row.payment_status === 'pago',
     notes: row.notes ?? undefined,
+    ref: { dentistId: row.dentist_id, clinicId: row.clinic_id, dbStatus: row.status, tz },
   };
 }
 
