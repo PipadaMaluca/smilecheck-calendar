@@ -111,12 +111,6 @@ Deno.serve(async (req) => {
     return json({ processed: Object.keys(out).length, results: out });
   }
 
-  // TEMP_PROBE
-  if (body?.mode === "probe" && typeof body.address === "string") {
-    const c = { id: "", address: body.address, postal_code: null, city: null, country: body.country ?? "PT", geocoded_address: null } as Clinic;
-    return json({ result: await geocode(admin, c) });
-  }
-  // END_TEMP_PROBE
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
   if (!token) return json({ error: "Unauthorized" }, 401);
   const { data: { user } } = await admin.auth.getUser(token);
