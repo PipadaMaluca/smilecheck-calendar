@@ -1,10 +1,12 @@
+import { useDeepLink } from '@/lib/deepLink';
+import { LettersInbox } from '@/components/clinical/LettersInbox';
 import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState } from '@/components/ui/empty-state';
 import { useTranslation } from 'react-i18next';
-import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon } from 'lucide-react';
+import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -74,6 +76,12 @@ export function FavoritesView({
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
   const [inviteMessage, setInviteMessage] = useState('');
   const [showJobs, setShowJobs] = useState(false);
+  const [showLetters, setShowLetters] = useState(false);
+  useDeepLink('pesquisa', (link) => {
+    if (userRole === 'patient') return;
+    if (link.section === 'emprego') setShowJobs(true);
+    if (link.section === 'cartas') setShowLetters(true);
+  });
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   const filteredResults = useMemo(() => {
@@ -107,6 +115,7 @@ export function FavoritesView({
     setInviteMessage('');
   };
 
+  if (showLetters && real) return <LettersInbox onBack={() => setShowLetters(false)} />;
   if (showJobs) {
     return <JobMarketView userRole={userRole} onBack={() => setShowJobs(false)} onSendMessage={onSendMessage} />;
   }
@@ -221,6 +230,11 @@ export function FavoritesView({
           {userRole !== 'patient' && (
             <Button size="sm" className="gap-1.5 text-xs" onClick={() => setShowJobs(true)}>
               <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t('search.jobOffers')}</span><span className="sm:hidden">{t('search.jobOffersShort')}</span>
+            </Button>
+          )}
+          {userRole !== 'patient' && real && (
+            <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={() => setShowLetters(true)}>
+              <Mail className="w-3.5 h-3.5" /> {t('docs.lettersShort')}
             </Button>
           )}
           {typeFilter !== 'patients' && (

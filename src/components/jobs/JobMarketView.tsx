@@ -21,6 +21,8 @@ import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { UserRole } from '@/types/calendar';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useDirectory } from '@/data/directorySource';
+import { RealJobMarket } from './RealJobMarket';
 
 // Mock job data - clinic offers (seen by dentists)
 const MOCK_CLINIC_OFFERS = [
@@ -254,7 +256,17 @@ function ClinicPublishPanel({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-export function JobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewProps) {
+/** Demo: mock market. Real: job_posts/job_applications (RLS); never shown to patients. */
+export function JobMarketView(props: JobMarketViewProps) {
+  const { isDemo } = useDirectory();
+  if (!isDemo) {
+    if (props.userRole === 'patient') return null;
+    return <RealJobMarket userRole={props.userRole} onBack={props.onBack} />;
+  }
+  return <DemoJobMarketView {...props} />;
+}
+
+function DemoJobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [contractFilter, setContractFilter] = useState('allTypes');

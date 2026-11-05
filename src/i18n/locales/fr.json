@@ -5519,5 +5519,121 @@
     "lastVisit": "Dernier rendez-vous",
     "nextVisit": "Prochain",
     "openDossier": "Ouvrir le dossier"
+  },
+  "docs": {
+    "clinic": "Clinique",
+    "date": "Date",
+    "dob": "Date de naissance",
+    "downloadPdf": "Télécharger le PDF",
+    "externalNote": "Destinataire externe : remettez la lettre au patient ou envoyez-la par vos propres moyens.",
+    "externalPlaceholder": "Nom et adresse du praticien ou de la clinique externe",
+    "externalRecipient": "Ou saisissez un destinataire hors de l'application",
+    "forWhom": "Pour qui ?",
+    "immutableNote": "Une fois émis, le document ne peut plus être modifié ; il peut seulement être annulé avec un motif.",
+    "issueError": "Impossible d'émettre le document. Vérifiez que vous suivez ce patient.",
+    "item": {
+      "medicamento": "Médicament",
+      "dosagem": "Dosage",
+      "posologia": "Posologie",
+      "duracao": "Durée",
+      "quantidade": "Quantité"
+    },
+    "letterDetails": "Détails de la lettre",
+    "letterSent": "Lettre envoyée",
+    "lettersShort": "Lettres",
+    "lettersTitle": "Lettres d'adressage",
+    "loadError": "Impossible de charger les documents.",
+    "noClinic": "Vous devez appartenir à une clinique pour émettre des documents.",
+    "noPatients": "Vous n'avez pas encore de patients suivis.",
+    "noneReceived": "Vous n'avez reçu aucune lettre.",
+    "noneSent": "Vous n'avez envoyé aucune lettre.",
+    "notes": "Notes",
+    "number": "N°",
+    "orderNumber": "N° RPPS",
+    "patient": "Patient",
+    "pdfError": "Impossible de générer le PDF.",
+    "qrNote": "Le PDF comporte un code QR de vérification (code uniquement).",
+    "reason": "Motif",
+    "received": "Reçues",
+    "recipientNote": "Le destinataire est notifié et ne peut lire que cette lettre.",
+    "searchRecipient": "Rechercher un dentiste ou une clinique",
+    "sent": "Envoyées",
+    "signature": "Signature du chirurgien-dentiste",
+    "summary": "Résumé clinique",
+    "to": "À",
+    "toWhom": "À qui adressez-vous le patient ?",
+    "urgency": "Urgence",
+    "urgencyLevel": {
+      "normal": "Normale",
+      "urgente": "Urgente"
+    },
+    "verifyCode": "Code de vérification",
+    "void": "Annuler",
+    "voidDescription": "L'annulation est enregistrée avec la date et le motif et ne peut pas être défaite.",
+    "voidError": "Impossible d'annuler le document.",
+    "voidReason": "Motif d'annulation",
+    "voidReasonPlaceholder": "Indiquez le motif (obligatoire)",
+    "voidTitle": "Annuler le document",
+    "voided": "ANNULÉ",
+    "voidedOk": "Document annulé",
+    "whichPatient": "Quel patient ?",
+    "rxTitle": "Ordonnance",
+    "letterTitle": "Lettre d'adressage",
+    "status": {
+      "emitida": "Valide",
+      "anulada": "Annulée"
+    }
+  },
+  "jobsReal": {
+    "applications_one": "{{count}} candidature",
+    "applications_other": "{{count}} candidatures",
+    "applied": "Candidature envoyée",
+    "apply": "Postuler",
+    "applyError": "Impossible d'envoyer la candidature.",
+    "applyTo": "Candidature : {{title}}",
+    "city": "Ville",
+    "clinicNotApproved": "Votre clinique doit être approuvée pour publier des offres.",
+    "close": "Clôturer l'offre",
+    "contract": "Type de contrat",
+    "days": "Jours",
+    "description": "Description",
+    "messagePlaceholder": "Message pour la clinique (facultatif)",
+    "newPost": "Publier une offre",
+    "noOwnPosts": "Vous n'avez pas encore publié d'offres.",
+    "noPosts": "Aucune offre ouverte pour le moment.",
+    "postTitle": "Titre",
+    "publish": "Publier",
+    "publishError": "Impossible d'enregistrer l'offre.",
+    "published": "Offre publiée",
+    "reopen": "Rouvrir l'offre",
+    "status": {
+      "aberta": "Ouverte",
+      "fechada": "Clôturée"
+    },
+    "title": "Marché de l'emploi",
+    "withdraw": "Retirer la candidature",
+    "youApplied": "Vous avez postulé"
+  },
+  "rankReal": {
+    "changeNote": "L'évolution compare votre position à celle d'il y a 7 jours.",
+    "error": "Impossible de charger votre classement.",
+    "yourXp": "Votre XP : {{xp}}"
+  },
+  "realHealth": {
+    "saveError": "Impossible d'enregistrer les modifications."
+  },
+  "verify": {
+    "title": "Vérification de document",
+    "error": "Impossible de vérifier le document.",
+    "privacy": "Par respect de la vie privée, cette page n'affiche jamais de données du patient.",
+    "status": {
+      "emitida": "Document valide",
+      "anulada": "Document annulé",
+      "not_found": "Document introuvable"
+    },
+    "kind": {
+      "prescription": "Ordonnance",
+      "referral_letter": "Lettre d'adressage"
+    }
   }
 }

@@ -674,6 +674,39 @@ export type Database = {
           },
         ]
       }
+      document_counters: {
+        Row: {
+          clinic_id: string
+          kind: string
+          last_no: number
+        }
+        Insert: {
+          clinic_id: string
+          kind: string
+          last_no?: number
+        }
+        Update: {
+          clinic_id?: string
+          kind?: string
+          last_no?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_counters_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_counters_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dossier_access_log: {
         Row: {
           accessed_at: string
@@ -732,6 +765,7 @@ export type Database = {
           created_at: string
           date_of_birth: string | null
           full_name: string
+          health: Json
           id: string
           primary_patient_id: string
           relationship: string | null
@@ -741,6 +775,7 @@ export type Database = {
           created_at?: string
           date_of_birth?: string | null
           full_name: string
+          health?: Json
           id?: string
           primary_patient_id: string
           relationship?: string | null
@@ -750,6 +785,7 @@ export type Database = {
           created_at?: string
           date_of_birth?: string | null
           full_name?: string
+          health?: Json
           id?: string
           primary_patient_id?: string
           relationship?: string | null
@@ -989,6 +1025,123 @@ export type Database = {
         }
         Relationships: []
       }
+      job_applications: {
+        Row: {
+          created_at: string
+          dentist_id: string
+          id: string
+          message: string | null
+          post_id: string
+        }
+        Insert: {
+          created_at?: string
+          dentist_id: string
+          id?: string
+          message?: string | null
+          post_id: string
+        }
+        Update: {
+          created_at?: string
+          dentist_id?: string
+          id?: string
+          message?: string | null
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_applications_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_applications_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "job_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_posts: {
+        Row: {
+          city: string | null
+          clinic_id: string
+          contract_type: string
+          created_at: string
+          created_by: string
+          days: string[]
+          description: string | null
+          id: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          clinic_id: string
+          contract_type: string
+          created_at?: string
+          created_by: string
+          days?: string[]
+          description?: string | null
+          id?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          clinic_id?: string
+          contract_type?: string
+          created_at?: string
+          created_by?: string
+          days?: string[]
+          description?: string | null
+          id?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_posts_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_posts_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_posts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_posts_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_preferences: {
         Row: {
           channel: string
@@ -1089,6 +1242,7 @@ export type Database = {
           is_seed: boolean
           medical_notes: string | null
           rating: number | null
+          self_health: Json
           updated_at: string
         }
         Insert: {
@@ -1100,6 +1254,7 @@ export type Database = {
           is_seed?: boolean
           medical_notes?: string | null
           rating?: number | null
+          self_health?: Json
           updated_at?: string
         }
         Update: {
@@ -1111,6 +1266,7 @@ export type Database = {
           is_seed?: boolean
           medical_notes?: string | null
           rating?: number | null
+          self_health?: Json
           updated_at?: string
         }
         Relationships: [
@@ -1239,6 +1395,131 @@ export type Database = {
         }
         Relationships: []
       }
+      prescriptions: {
+        Row: {
+          appointment_id: string | null
+          clinic_id: string
+          created_at: string
+          dentist_id: string
+          family_member_id: string | null
+          id: string
+          items: Json
+          notes: string | null
+          number: number
+          patient_id: string
+          status: string
+          verification_code: string
+          void_reason: string | null
+          voided_at: string | null
+          voided_by: string | null
+        }
+        Insert: {
+          appointment_id?: string | null
+          clinic_id: string
+          created_at?: string
+          dentist_id: string
+          family_member_id?: string | null
+          id?: string
+          items: Json
+          notes?: string | null
+          number: number
+          patient_id: string
+          status?: string
+          verification_code: string
+          void_reason?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Update: {
+          appointment_id?: string | null
+          clinic_id?: string
+          created_at?: string
+          dentist_id?: string
+          family_member_id?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          number?: number
+          patient_id?: string
+          status?: string
+          verification_code?: string
+          void_reason?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prescriptions_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_voided_by_fkey"
+            columns: ["voided_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prescriptions_voided_by_fkey"
+            columns: ["voided_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1350,6 +1631,171 @@ export type Database = {
           {
             foreignKeyName: "redemptions_profile_id_fkey"
             columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_letters: {
+        Row: {
+          appointment_id: string | null
+          clinic_id: string
+          clinical_summary: string | null
+          created_at: string
+          dentist_id: string
+          family_member_id: string | null
+          id: string
+          number: number
+          patient_id: string
+          reason: string
+          status: string
+          to_clinic_id: string | null
+          to_dentist_id: string | null
+          to_external: string | null
+          urgency: string
+          verification_code: string
+          void_reason: string | null
+          voided_at: string | null
+          voided_by: string | null
+        }
+        Insert: {
+          appointment_id?: string | null
+          clinic_id: string
+          clinical_summary?: string | null
+          created_at?: string
+          dentist_id: string
+          family_member_id?: string | null
+          id?: string
+          number: number
+          patient_id: string
+          reason: string
+          status?: string
+          to_clinic_id?: string | null
+          to_dentist_id?: string | null
+          to_external?: string | null
+          urgency?: string
+          verification_code: string
+          void_reason?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Update: {
+          appointment_id?: string | null
+          clinic_id?: string
+          clinical_summary?: string | null
+          created_at?: string
+          dentist_id?: string
+          family_member_id?: string | null
+          id?: string
+          number?: number
+          patient_id?: string
+          reason?: string
+          status?: string
+          to_clinic_id?: string | null
+          to_dentist_id?: string | null
+          to_external?: string | null
+          urgency?: string
+          verification_code?: string
+          void_reason?: string | null
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_letters_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_to_clinic_id_fkey"
+            columns: ["to_clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_to_clinic_id_fkey"
+            columns: ["to_clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_to_dentist_id_fkey"
+            columns: ["to_dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_to_dentist_id_fkey"
+            columns: ["to_dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_voided_by_fkey"
+            columns: ["voided_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_letters_voided_by_fkey"
+            columns: ["voided_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1781,6 +2227,10 @@ export type Database = {
         }
         Returns: Json
       }
+      assert_can_issue: {
+        Args: { _clinic: string; _family: string; _patient: string }
+        Returns: undefined
+      }
       award_points: {
         Args: {
           _action_key: string
@@ -1801,6 +2251,7 @@ export type Database = {
       cancel_clinic_invite: { Args: { _invite_id: string }; Returns: undefined }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
       claim_geocode_slot: { Args: never; Returns: undefined }
+      clinical_document: { Args: { _id: string; _kind: string }; Returns: Json }
       confirm_phone_verification: {
         Args: { _profile_id: string }
         Returns: undefined
@@ -1820,6 +2271,10 @@ export type Database = {
         Returns: boolean
       }
       current_terms_version: { Args: never; Returns: string }
+      dossier_safety: {
+        Args: { _family_member_id?: string; _patient_id: string }
+        Returns: Json
+      }
       export_my_data: { Args: never; Returns: Json }
       generate_redemption_code: { Args: never; Returns: string }
       has_accepted_terms: { Args: { _uid: string }; Returns: boolean }
@@ -1827,8 +2282,36 @@ export type Database = {
         Args: { _clinic_id: string; _email: string }
         Returns: string
       }
+      is_approved_dentist: { Args: never; Returns: boolean }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
       is_untrusted_caller: { Args: never; Returns: boolean }
+      issue_prescription: {
+        Args: {
+          _appointment_id?: string
+          _clinic_id: string
+          _family_member_id?: string
+          _items: Json
+          _notes?: string
+          _patient_id: string
+        }
+        Returns: string
+      }
+      issue_referral_letter: {
+        Args: {
+          _appointment_id?: string
+          _clinic_id: string
+          _clinical_summary?: string
+          _family_member_id?: string
+          _patient_id: string
+          _reason: string
+          _to_clinic_id?: string
+          _to_dentist_id?: string
+          _to_external?: string
+          _urgency?: string
+        }
+        Returns: string
+      }
+      job_post_open: { Args: { _post: string }; Returns: boolean }
       km_between: {
         Args: { _lat1: number; _lat2: number; _lng1: number; _lng2: number }
         Returns: number
@@ -1846,12 +2329,19 @@ export type Database = {
         Returns: boolean
       }
       my_favorites: { Args: never; Returns: Json }
+      my_ranking: { Args: never; Returns: Json }
+      new_verification_code: { Args: never; Returns: string }
+      next_document_number: {
+        Args: { _clinic: string; _kind: string }
+        Returns: number
+      }
       next_free_slot: {
         Args: { _clinic: string; _dentist: string }
         Returns: string
       }
       notification_default_target: { Args: { _type: string }; Returns: string }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
+      owns_job_post: { Args: { _post: string }; Returns: boolean }
       professional_reviews: {
         Args: { _clinic?: string; _dentist?: string }
         Returns: Json
@@ -1925,6 +2415,11 @@ export type Database = {
       }
       treats_patient: { Args: { _patient_id: string }; Returns: boolean }
       try_validate_referral: { Args: { _invitee: string }; Returns: undefined }
+      verify_document: { Args: { _code: string }; Returns: Json }
+      void_clinical_document: {
+        Args: { _id: string; _kind: string; _reason: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_language: "pt" | "fr" | "en"

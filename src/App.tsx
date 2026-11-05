@@ -25,6 +25,7 @@ import AppPage from "./pages/AppPage";
 import Landing from "./pages/Landing";
 import Triagem from "./pages/Triagem";
 import Termos from "./pages/Termos";
+import VerifyDocument from "./pages/VerifyDocument";
 import Privacidade from "./pages/Privacidade";
 import Acessibilidade from "./pages/Acessibilidade";
 import TermosProfissionais from "./pages/TermosProfissionais";
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/demo" element={<DemoSelector />} />
+            <Route path="/verificar/:code" element={<VerifyDocument />} />
             <Route path="/termos" element={<Termos />} />
             <Route path="/privacidade" element={<Privacidade />} />
             <Route path="/acessibilidade" element={<Acessibilidade />} />

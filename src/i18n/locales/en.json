@@ -5519,5 +5519,121 @@
     "lastVisit": "Last visit",
     "nextVisit": "Next",
     "openDossier": "Open file"
+  },
+  "docs": {
+    "clinic": "Clinic",
+    "date": "Date",
+    "dob": "Date of birth",
+    "downloadPdf": "Download PDF",
+    "externalNote": "External recipient: hand the letter to the patient or send it yourself.",
+    "externalPlaceholder": "Name and address of the external professional or clinic",
+    "externalRecipient": "Or type a recipient outside the app",
+    "forWhom": "Who is it for?",
+    "immutableNote": "Once issued, the document cannot be changed; it can only be voided with a reason.",
+    "issueError": "Could not issue the document. Check that you have an active relationship with this patient.",
+    "item": {
+      "medicamento": "Medicine",
+      "dosagem": "Dosage",
+      "posologia": "Directions",
+      "duracao": "Duration",
+      "quantidade": "Quantity"
+    },
+    "letterDetails": "Letter details",
+    "letterSent": "Letter sent",
+    "lettersShort": "Letters",
+    "lettersTitle": "Referral letters",
+    "loadError": "Could not load the documents.",
+    "noClinic": "You need to belong to a clinic to issue documents.",
+    "noPatients": "You have no patients with an active relationship yet.",
+    "noneReceived": "You have not received any letters yet.",
+    "noneSent": "You have not sent any letters yet.",
+    "notes": "Notes",
+    "number": "No.",
+    "orderNumber": "Licence no.",
+    "patient": "Patient",
+    "pdfError": "Could not generate the PDF.",
+    "qrNote": "The PDF includes a verification QR code (code only).",
+    "reason": "Reason",
+    "received": "Received",
+    "recipientNote": "The recipient is notified and can read this letter only.",
+    "searchRecipient": "Search for a dentist or clinic",
+    "sent": "Sent",
+    "signature": "Dentist's signature",
+    "summary": "Clinical summary",
+    "to": "To",
+    "toWhom": "Who are you referring to?",
+    "urgency": "Urgency",
+    "urgencyLevel": {
+      "normal": "Normal",
+      "urgente": "Urgent"
+    },
+    "verifyCode": "Verification code",
+    "void": "Void",
+    "voidDescription": "Voiding is recorded with the date and reason and cannot be undone.",
+    "voidError": "Could not void the document.",
+    "voidReason": "Reason for voiding",
+    "voidReasonPlaceholder": "Enter the reason (required)",
+    "voidTitle": "Void document",
+    "voided": "VOID",
+    "voidedOk": "Document voided",
+    "whichPatient": "Which patient?",
+    "rxTitle": "Prescription",
+    "letterTitle": "Referral letter",
+    "status": {
+      "emitida": "Valid",
+      "anulada": "Voided"
+    }
+  },
+  "jobsReal": {
+    "applications_one": "{{count}} application",
+    "applications_other": "{{count}} applications",
+    "applied": "Application sent",
+    "apply": "Apply",
+    "applyError": "Could not send the application.",
+    "applyTo": "Application: {{title}}",
+    "city": "City",
+    "clinicNotApproved": "Your clinic must be approved to publish job posts.",
+    "close": "Close post",
+    "contract": "Contract type",
+    "days": "Days",
+    "description": "Description",
+    "messagePlaceholder": "Message to the clinic (optional)",
+    "newPost": "Publish a job post",
+    "noOwnPosts": "You have not published any job posts yet.",
+    "noPosts": "There are no open job posts right now.",
+    "postTitle": "Title",
+    "publish": "Publish",
+    "publishError": "Could not save the job post.",
+    "published": "Job post published",
+    "reopen": "Reopen post",
+    "status": {
+      "aberta": "Open",
+      "fechada": "Closed"
+    },
+    "title": "Job market",
+    "withdraw": "Withdraw application",
+    "youApplied": "You applied"
+  },
+  "rankReal": {
+    "changeNote": "The change compares your position with 7 days ago.",
+    "error": "Could not load your ranking.",
+    "yourXp": "Your XP: {{xp}}"
+  },
+  "realHealth": {
+    "saveError": "Could not save your changes."
+  },
+  "verify": {
+    "title": "Document verification",
+    "error": "Could not verify the document.",
+    "privacy": "For privacy, this page never shows patient data.",
+    "status": {
+      "emitida": "Valid document",
+      "anulada": "Voided document",
+      "not_found": "Document not found"
+    },
+    "kind": {
+      "prescription": "Prescription",
+      "referral_letter": "Referral letter"
+    }
   }
 }

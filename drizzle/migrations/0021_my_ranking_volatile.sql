@@ -1,0 +1,1 @@
+ALTER FUNCTION public.my_ranking() VOLATILE;

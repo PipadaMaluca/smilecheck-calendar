@@ -48,6 +48,8 @@ const TYPE_MAP: Record<string, NotificationType> = {
   referral_used: 'referral_usado',
   prescription: 'receita',
   referral_letter: 'referencia',
+  referral_letter_received: 'referencia_recebida',
+  job_application: 'candidatura',
   daily_summary: 'resumo_diario',
   new_dentist: 'novo_dentista',
   feedback_pending: 'feedback',

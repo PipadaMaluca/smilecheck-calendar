@@ -15,6 +15,8 @@ import { MEDICATIONS_WITH_TAGS, getMedicationAllergyBlock, getMedicationInteract
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/AuthContext';
 import { awardPointsSilently } from '@/data/pointsWrites';
+import { useDirectory } from '@/data/directorySource';
+import { RealPrescriptionFlow } from './RealPrescriptionFlow';
 
 interface PrescriptionFlowProps {
   onClose: () => void;
@@ -77,7 +79,14 @@ const getRecentPatients = () => {
   return Array.from(seen.values()).sort((a, b) => b.lastDate.getTime() - a.lastDate.getTime());
 };
 
-export function PrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: PrescriptionFlowProps) {
+/** Demo keeps the mock flow untouched; real accounts issue real, immutable prescriptions. */
+export function PrescriptionFlow(props: PrescriptionFlowProps) {
+  const { isDemo } = useDirectory();
+  if (!isDemo) return <RealPrescriptionFlow onClose={props.onClose} onGoHome={props.onGoHome} />;
+  return <DemoPrescriptionFlow {...props} />;
+}
+
+function DemoPrescriptionFlow({ onClose, onGoHome, preSelectedPatient }: PrescriptionFlowProps) {
   const { t } = useTranslation();
   const { demoMode, user } = useAuth();
   const isMobile = useIsMobile();
