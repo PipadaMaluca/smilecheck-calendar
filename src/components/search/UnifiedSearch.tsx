@@ -11,6 +11,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
+import { useProfessionalSearch } from '@/data/searchSource';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useDirectory } from '@/data/directorySource';
@@ -72,21 +73,28 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
     return MOCK_PATIENTS.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
   }, [query, dir.isDemo, realHits]);
 
-  const filteredDentists = useMemo(() => {
+  // Real accounts: the neutral server search (approved profiles, public columns) — never the mock directory.
+  const proSearch = useProfessionalSearch({ q: query.trim(), kind: 'all', sort: 'name' }, !dir.isDemo && query.trim().length > 0);
+  const filteredDentists = useMemo<DentistSearchResult[]>(() => {
+    if (!dir.isDemo) return query.trim() ? proSearch.items.filter(i => i.kind === 'dentist') : [];
     if (!query.trim()) return MOCK_DENTIST_RESULTS.slice(0, 3);
     return MOCK_DENTIST_RESULTS.filter(d => 
       d.name.toLowerCase().includes(query.toLowerCase()) ||
       d.specialties.some(s => s.toLowerCase().includes(query.toLowerCase()))
     );
-  }, [query]);
+  }, [query, dir.isDemo, proSearch.items]);
 
-  const filteredClinics = useMemo(() => {
+  const filteredClinics = useMemo<{ id: string; lat?: number; lng?: number; name: string; address: string; rating?: number; reviewCount?: number; distance?: number }[]>(() => {
+    if (!dir.isDemo) return query.trim() ? proSearch.items.filter(i => i.kind === 'clinic').map(i => ({
+      id: i.id, name: i.name, address: [i.clinics?.[0]?.address, i.clinics?.[0]?.city].filter(Boolean).join(', '),
+      lat: i.clinics?.[0]?.lat ?? undefined, lng: i.clinics?.[0]?.lng ?? undefined,
+    })) : [];
     if (!query.trim()) return MOCK_CLINIC_SEARCH.slice(0, 3);
     return MOCK_CLINIC_SEARCH.filter(c => 
       c.name.toLowerCase().includes(query.toLowerCase()) ||
       c.address.toLowerCase().includes(query.toLowerCase())
     );
-  }, [query]);
+  }, [query, dir.isDemo, proSearch.items]);
 
   const showPatients = activeFilter === 'all' || activeFilter === 'patients';
   const showDentists = activeFilter === 'all' || activeFilter === 'dentists';
@@ -281,11 +289,11 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate" title={c.name}>{c.name}</p>
-                      <p className="text-xs text-muted-foreground truncate" title={`${c.address} · ${c.rating}`}>
-                        {c.address} · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{c.rating}
+                      <p className="text-xs text-muted-foreground truncate" title={c.rating !== undefined ? `${c.address} · ${c.rating}` : c.address}>
+                        {c.address}{c.rating !== undefined && <> · <Star className="w-3 h-3 inline fill-amber-400 text-warning" />{c.rating}</>}
                       </p>
                     </div>
-                    <span className="text-xs text-muted-foreground shrink-0">{c.distance} km</span>
+                    {c.distance !== undefined && <span className="text-xs text-muted-foreground shrink-0">{c.distance} km</span>}
                   </Button>
                 ))}
               </div>
