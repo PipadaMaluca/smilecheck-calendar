@@ -9,6 +9,8 @@ const h = vi.hoisted(() => ({
   navigate: vi.fn(),
 }));
 
+const uc = vi.hoisted(() => ({ open: vi.fn() }));
+vi.mock('@/components/ui/under-construction', () => ({ openUnderConstruction: uc.open }));
 vi.mock('@/integrations/lovable/index', () => ({ lovable: { auth: { signInWithOAuth: (...a: unknown[]) => h.signInWithOAuth(...a) } } }));
 vi.mock('@/integrations/supabase/client', () => ({
   supabase: {
@@ -61,7 +63,7 @@ describe('Google sign-in on login', () => {
     expect(await screen.findByText('roleChoice.googleError')).toBeTruthy();
   });
 
-  it('Apple stays "soon" and never calls OAuth', () => {
+  it('Apple opens the pop-up and never calls OAuth', () => {
     render(<MemoryRouter><LoginScreen /></MemoryRouter>);
     fireEvent.click(screen.getByRole('button', { name: /auth.continueWithApple/ }));
     expect(h.signInWithOAuth).not.toHaveBeenCalled();
@@ -111,7 +113,7 @@ describe('Google sign-in on "create account"', () => {
   });
 });
 
-describe('Apple and Facebook on "create account" stay "soon"', () => {
+describe('Apple and Facebook on "create account" open the under-construction pop-up', () => {
   beforeEach(() => {
     h.signInWithOAuth.mockReset();
     h.getUser.mockReset();
@@ -119,27 +121,24 @@ describe('Apple and Facebook on "create account" stay "soon"', () => {
     h.navigate.mockReset();
   });
 
-  it('Apple is disabled, shows the "soon" badge and starts nothing', () => {
+  it('Apple is clickable, opens the pop-up and starts nothing', () => {
     openSignUpForm();
     const btn = screen.getByRole('button', { name: /auth\.continueWithApple/ });
-    expect(btn).toBeDisabled();
-    expect(btn.getAttribute('data-soon')).toBe('');
-    expect(within(btn).getByText('common.comingSoon')).toBeTruthy();
+    expect(btn).not.toBeDisabled();
     fireEvent.click(btn);
+    expect(uc.open).toHaveBeenCalled();
     expect(h.signInWithOAuth).not.toHaveBeenCalled();
     expect(h.navigate).not.toHaveBeenCalled();
-    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
   });
 
-  it('Facebook is disabled, shows the "soon" badge and starts nothing', () => {
+  it('Facebook is clickable, opens the pop-up and starts nothing', () => {
     openSignUpForm();
     const btn = screen.getByRole('button', { name: /auth\.continueWithFacebook/ });
-    expect(btn).toBeDisabled();
-    expect(btn.getAttribute('data-soon')).toBe('');
+    expect(btn).not.toBeDisabled();
     fireEvent.click(btn);
+    expect(uc.open).toHaveBeenCalled();
     expect(h.signInWithOAuth).not.toHaveBeenCalled();
     expect(h.navigate).not.toHaveBeenCalled();
-    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
   });
 });
 
