@@ -241,7 +241,10 @@
     "enterDemoMode": "Enter demo mode",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
-    "demoModeActive": "Demo mode active"
+    "demoModeActive": "Demo mode active",
+    "qrLogin": "Log in with QR code",
+    "qrCodeAlt": "Or log in with QR code",
+    "qrFast": "Fast and password-free"
   },
   "roles": {
     "patient": "Patient",
@@ -4447,7 +4450,18 @@
       "pastSlot": "You cannot move to a past time"
     },
     "devices": {
-      "title": "Connected devices"
+      "title": "Connected devices",
+      "connectNew": "Connect new device",
+      "scanTitle": "Point at the QR code",
+      "newDeviceDetected": "New device detected",
+      "connectedTitle": "Device connected!",
+      "scanDesc": "Shown on the screen of the device you want to sign in on",
+      "confirmDesc": "Check the details before authorizing",
+      "authorizedDesc": "Login authorized successfully",
+      "scanning": "Looking for QR code...",
+      "warningRecognize": "Only authorize if you recognize this device",
+      "authorizeLogin": "Authorize login",
+      "connectedSuccess": "Device connected successfully!"
     },
     "appointments": {
       "updateStatusError": "Could not update the status",
@@ -4602,7 +4616,8 @@
     "assumption": "Assumption Day",
     "allSaints": "All Saints’ Day",
     "christmas": "Christmas",
-    "works": "Building works"
+    "works": "Building works",
+    "deviceInstructions": "On the device you want to connect, go to Settings → Link device and scan the QR code shown."
   },
   "i18nB": {
     "personalData": "Personal details",

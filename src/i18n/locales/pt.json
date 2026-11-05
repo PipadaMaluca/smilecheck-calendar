@@ -241,7 +241,10 @@
     "enterDemoMode": "Entrar em modo demo",
     "showPassword": "Mostrar palavra-passe",
     "hidePassword": "Ocultar palavra-passe",
-    "demoModeActive": "Modo demonstração ativo"
+    "demoModeActive": "Modo demonstração ativo",
+    "qrLogin": "Entrar com código QR",
+    "qrCodeAlt": "Ou entre com código QR",
+    "qrFast": "Rápido e sem palavra-passe"
   },
   "roles": {
     "patient": "Paciente",
@@ -4447,7 +4450,18 @@
       "pastSlot": "Não é possível mover para um horário passado"
     },
     "devices": {
-      "title": "Dispositivos ligados"
+      "title": "Dispositivos ligados",
+      "connectNew": "Ligar novo dispositivo",
+      "scanTitle": "Aponte para o código QR",
+      "newDeviceDetected": "Novo dispositivo detetado",
+      "connectedTitle": "Dispositivo ligado!",
+      "scanDesc": "Mostrado no ecrã do dispositivo onde quer entrar",
+      "confirmDesc": "Verifique os detalhes antes de autorizar",
+      "authorizedDesc": "Login autorizado com sucesso",
+      "scanning": "A procurar código QR...",
+      "warningRecognize": "Apenas autorize se reconhece este dispositivo",
+      "authorizeLogin": "Autorizar login",
+      "connectedSuccess": "Dispositivo ligado com sucesso!"
     },
     "appointments": {
       "updateStatusError": "Não foi possível atualizar o estado",
@@ -4602,7 +4616,8 @@
     "assumption": "assunção de nossa senhora",
     "allSaints": "dia de todos os santos",
     "christmas": "natal",
-    "works": "Obras"
+    "works": "Obras",
+    "deviceInstructions": "No dispositivo que pretende ligar, aceda a Definições → Ligar dispositivo e leia o código QR apresentado."
   },
   "i18nB": {
     "personalData": "Dados pessoais",
