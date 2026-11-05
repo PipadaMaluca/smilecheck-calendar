@@ -3809,7 +3809,17 @@
     "appleStep4": "Confirm \"Subscribe\" and choose sync options",
     "outlookStep4": "Name the calendar and click \"Import\"",
     "tryAgain": "Try again",
-    "syncError": "Sync error"
+    "syncError": "Sync error",
+    "columns": {
+      "date": "Date",
+      "time": "Time",
+      "patient": "Patient",
+      "dentist": "Dentist",
+      "clinic": "Clinic",
+      "type": "Type",
+      "status": "Status",
+      "price": "Price"
+    }
   },
   "demo": {
     "title": "Demo mode",
