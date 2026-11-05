@@ -44,13 +44,13 @@ export function DentistTeamTab() {
   const dir = useDirectory();
   const { clinics: mockClinics, clinicDentists, getDentistsForClinic } = dir;
   const { t } = useTranslation();
-  const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
+  const [expandedClinics, setExpandedClinics] = useState<string[]>([dir.clinics[0]?.id ?? '1']);
 
   const myClinics = clinicDentists
-    .filter((cd) => cd.dentistId === '1')
+    .filter((cd) => cd.dentistId === dir.selfId)
     .map((cd) => {
       const clinic = mockClinics.find((c) => c.id === cd.clinicId)!;
-      const colleagues = getDentistsForClinic(cd.clinicId).filter((d) => d.id !== '1');
+      const colleagues = getDentistsForClinic(cd.clinicId).filter((d) => d.id !== dir.selfId);
       return { clinic, colleagues };
     });
 

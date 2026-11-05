@@ -51,6 +51,8 @@ export interface Directory {
   familyMembers: DirectoryFamilyMember[];
   /** Display name of the signed-in user (demo: first mock entity of the role). */
   selfName: string;
+  /** Id of the signed-in user in this directory (demo: mock id '1' / 'fm1'). */
+  selfId: string;
   getDentistsForClinic: (clinicId: string) => Dentist[];
   /** Mock-compatible: does the dentist work at this clinic on the (demo) day. */
   dentistWorksOnDemo: (clinicId: string, dentistId: string) => boolean;
@@ -82,11 +84,12 @@ export interface DirectoryData {
   clinicDentists: DirectoryMember[];
   familyMembers: DirectoryFamilyMember[];
   selfName: string;
+  selfId: string;
 }
 
 /** Builds the helper set over any data (mock or real). */
 export function buildDirectory(data: DirectoryData, opts: { isDemo: boolean; loading?: boolean; error?: string | null; refresh?: () => void }): Directory {
-  const { clinics, dentists, clinicDentists, familyMembers, selfName } = data;
+  const { clinics, dentists, clinicDentists, familyMembers, selfName, selfId } = data;
   const getDentistsForClinic = (clinicId: string) => {
     const ids = clinicDentists.filter((cd) => cd.clinicId === clinicId).map((cd) => cd.dentistId);
     return dentists.filter((d) => ids.includes(d.id));
@@ -107,7 +110,7 @@ export function buildDirectory(data: DirectoryData, opts: { isDemo: boolean; loa
       : worksOn(dentistId, clinicId, new Date());
   return {
     isDemo: opts.isDemo, loading: opts.loading ?? false, error: opts.error ?? null,
-    clinics, dentists, clinicDentists, familyMembers, selfName,
+    clinics, dentists, clinicDentists, familyMembers, selfName, selfId,
     getDentistsForClinic, dentistWorksOnDemo, worksOn, getWorkingHours,
     refresh: opts.refresh ?? (() => {}),
   };
@@ -121,12 +124,13 @@ export function demoDirectory(role: string = 'patient'): Directory {
     clinicDentists: mockClinicDentists,
     familyMembers: mockFamilyMembers.map((m, i) => ({ ...m, self: i === 0 })),
     selfName,
+    selfId: role === 'patient' ? mockFamilyMembers[0].id : '1',
   }, { isDemo: true });
 }
 
 /** Fetches the real directory of the signed-in user. RLS scopes every query. */
 export async function fetchDirectory(userId: string, role: string, fullName: string | null): Promise<DirectoryData> {
-  const empty: DirectoryData = { clinics: [], dentists: [], clinicDentists: [], familyMembers: [], selfName: fullName ?? '' };
+  const empty: DirectoryData = { clinics: [], dentists: [], clinicDentists: [], familyMembers: [], selfName: fullName ?? '', selfId: userId };
 
   if (role === 'patient') {
     const { data, error } = await supabase
@@ -187,6 +191,7 @@ export async function fetchDirectory(userId: string, role: string, fullName: str
     })),
     familyMembers: [],
     selfName: fullName ?? '',
+    selfId: userId,
   };
 }
 
@@ -215,10 +220,10 @@ export function DirectoryProvider({ children }: { children: ReactNode }) {
   const value = useMemo(() => {
     if (isDemo) return demoDirectory(role);
     return buildDirectory(
-      data ?? { clinics: [], dentists: [], clinicDentists: [], familyMembers: [], selfName: profile?.full_name ?? '' },
+      data ?? { clinics: [], dentists: [], clinicDentists: [], familyMembers: [], selfName: profile?.full_name ?? '', selfId: user?.id ?? '' },
       { isDemo: false, loading: loading || (!data && !error), error, refresh },
     );
-  }, [isDemo, role, data, loading, error, refresh, profile?.full_name]);
+  }, [isDemo, role, data, loading, error, refresh, profile?.full_name, user?.id]);
 
   return createElement(DirectoryContext.Provider, { value }, children);
 }
