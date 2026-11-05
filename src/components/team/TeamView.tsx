@@ -14,6 +14,8 @@ import { CoverageTab } from './clinic/CoverageTab';
 // Dentist tabs
 import { DentistAvailabilityTab } from './dentist/DentistAvailabilityTab';
 import { DentistTeamTab } from './dentist/DentistTeamTab';
+import { useDirectory } from '@/data/directorySource';
+import { DentistSubstitutionAvailability, ClinicSubstitutionAvailability } from './RealSubstitutionAvailability';
 
 interface TeamViewProps {
   userRole: UserRole;
@@ -31,8 +33,9 @@ function PatientTeamView() {
   );
 }
 
-function ClinicTeamView() {
+function ClinicTeamView({ onNavigate }: { onNavigate?: (tab: string) => void }) {
   const { t } = useTranslation();
+  const { isDemo } = useDirectory();
   const [activeTab, setActiveTab] = useState('equipa');
   const [preselectedDentistId, setPreselectedDentistId] = useState<string | undefined>();
 
@@ -67,6 +70,7 @@ function ClinicTeamView() {
         </TabsContent>
         <TabsContent value="cobertura" className="mt-4">
           <CoverageTab />
+          {!isDemo && <div className="mt-4"><ClinicSubstitutionAvailability onNavigate={onNavigate} /></div>}
         </TabsContent>
       </Tabs>
     </div>
@@ -75,6 +79,7 @@ function ClinicTeamView() {
 
 function DentistTeamView() {
   const { t } = useTranslation();
+  const { isDemo } = useDirectory();
   return (
     <div className="space-y-4">
       <div>
@@ -90,6 +95,7 @@ function DentistTeamView() {
 
         <TabsContent value="disponibilidade" className="mt-4">
           <DentistAvailabilityTab />
+          {!isDemo && <div className="mt-4"><DentistSubstitutionAvailability /></div>}
         </TabsContent>
         <TabsContent value="equipa" className="mt-4">
           <DentistTeamTab />
