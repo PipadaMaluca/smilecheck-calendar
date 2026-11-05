@@ -35,6 +35,8 @@ export const TYPE_TARGETS: Record<NotificationType, string> = {
   referenciou_paciente: '/app?tab=conversas',
   resumo_diario: '/app?tab=estatisticas',
   novo_dentista: '/app?tab=equipa',
+  referencia_recebida: '/app?tab=pesquisa&section=cartas',
+  candidatura: '/app?tab=pesquisa&section=emprego',
 };
 
 /** Tabs the app shells know how to open. Anything else is "unknown". */
