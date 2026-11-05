@@ -38,3 +38,4 @@
 - Real professional search goes only through the `search_professionals` RPC (`src/data/searchSource.ts`, approved profiles, public columns, neutral order); demo mode keeps the mock — so third-party ratings/plans can never leak into search.
 - Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check; FR: API Adresse then Photon, else Photon then API Adresse; 1 req/s DB throttle; cache by address); a trigger blocks client writes.
 - Spoken languages: closed list in `spokenLanguages.ts`, mirrored server-side; weekday labels only via `weekdayLabels()`.
+- Clinics, clinic dentists, working hours and family members come only from `useDirectory()` (`src/data/directorySource.ts`; writes in `directoryWrites.ts`) — demo returns the mock, real reads RLS-scoped tables and names via `professional_public_profiles`, so screens never import directory mocks directly.
