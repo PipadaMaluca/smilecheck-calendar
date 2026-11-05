@@ -20,4 +20,16 @@ describe('Agenda texts follow the active language', () => {
     await i18n.changeLanguage('en');
     expect(STATUS_CONFIG.agendada.label).toBe('Scheduled');
   });
+  it('French absence wording uses the approved terms everywhere', async () => {
+    await i18n.changeLanguage('fr');
+    expect(STATUS_CONFIG.falta_justificada.label).toBe('Absence excusée');
+    expect(STATUS_CONFIG.falta_nao_justificada.label).toBe('Absence non excusée');
+    expect(i18n.t('contextMenu.justifiedAbsence')).toBe('Absence excusée');
+    expect(i18n.t('contextMenu.unjustifiedAbsence')).toBe('Absence non excusée');
+    expect(i18n.t('patientStatuses.noShowExcused')).toBe('Absence (excusée)');
+    expect(i18n.t('patientStatuses.noShowUnexcused')).toBe('Absence (non excusée)');
+    expect(i18n.t('pointsRules.falta')).toBe('Absence non excusée');
+    expect(i18n.t('pointsRules.falta_base')).toBe('Absence non excusée (base)');
+    expect(i18n.t('demoText.falta_nao_justificada')).toBe('Absence non excusée');
+  });
 });
