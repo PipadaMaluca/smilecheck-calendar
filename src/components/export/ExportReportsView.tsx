@@ -13,7 +13,7 @@ import { mockDentists } from '@/data/mockData';
 import { toast } from 'sonner';
 import { useKpiData } from '@/data/kpiSource';
 import { useDirectory } from '@/data/directorySource';
-import { buildReport, downloadBlob, normalizePeriod, selectReportRows } from '@/lib/reportExport';
+import { buildReport, buildReportPdf, downloadBlob, normalizePeriod, selectReportRows } from '@/lib/reportExport';
 
 interface ExportReportsViewProps {
   userRole: UserRole;
@@ -60,7 +60,7 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
     setSelectedReports(prev => prev.includes(id) ? prev.filter(r => r !== id) : [...prev, id]);
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (selectedReports.length === 0) {
       toast.error(t('export.selectAtLeast'));
       return;
@@ -72,10 +72,13 @@ export function ExportReportsView({ userRole }: ExportReportsViewProps) {
         dentistId: userRole === 'clinic' && dentistFilter !== 'todos' ? dentistFilter : undefined,
       });
       const csv = format !== 'pdf';
-      downloadBlob(
-        new Blob([buildReport(rows, userRole, t, csv ? 'csv' : 'text')], { type: csv ? 'text/csv;charset=utf-8' : 'text/plain;charset=utf-8' }),
-        `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.txt'}`,
-      );
+      const blob = csv
+        ? new Blob([buildReport(rows, userRole, t, 'csv')], { type: 'text/csv;charset=utf-8' })
+        : await buildReportPdf(rows, userRole, t, {
+            title: reports.filter((r) => selectedReports.includes(r.id)).map((r) => r.label).join(' · '),
+            period: period === 'personalizado' ? `${startDate} — ${endDate}` : PERIOD_OPTIONS.find((o) => o.id === period)?.label ?? '',
+          });
+      downloadBlob(blob, `relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.pdf'}`);
       toast.success(t('export.exportSuccess'), { icon: <CheckCircle2 className="w-4 h-4 text-primary" /> });
       return;
     }

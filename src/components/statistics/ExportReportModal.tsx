@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useTranslation } from 'react-i18next';
 import { useKpiData } from '@/data/kpiSource';
 import { useDirectory } from '@/data/directorySource';
-import { buildReport, normalizePeriod, selectReportRows } from '@/lib/reportExport';
+import { buildReport, buildReportPdf, normalizePeriod, selectReportRows } from '@/lib/reportExport';
 
 interface ExportReportModalProps {
   isOpen: boolean;
@@ -73,9 +73,14 @@ export function ExportReportModal({ isOpen, onClose, userRole }: ExportReportMod
         dentistId: userRole === 'clinic' && dentistFilter !== 'all' ? dentistFilter : undefined,
       });
       const csv = format !== 'pdf';
-      const blob = new Blob([buildReport(rows, userRole, t, csv ? 'csv' : 'text')], { type: csv ? 'text/csv;charset=utf-8' : 'text/plain;charset=utf-8' });
+      const blob = csv
+        ? new Blob([buildReport(rows, userRole, t, 'csv')], { type: 'text/csv;charset=utf-8' })
+        : await buildReportPdf(rows, userRole, t, {
+            title: selectedReports.map((k) => t(`export.report_${k}`)).join(' · '),
+            period: period === 'custom' ? `${startDate} — ${endDate}` : t(`export.period_${period}`),
+          });
       setGeneratedBlob(blob);
-      setGeneratedFilename(`relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.txt'}`);
+      setGeneratedFilename(`relatorio-smilecheck-${new Date().toISOString().slice(0, 10)}${csv ? '.csv' : '.pdf'}`);
       setExporting(false);
       setExportDone(true);
       return;
