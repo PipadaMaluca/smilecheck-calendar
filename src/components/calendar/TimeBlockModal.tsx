@@ -1,5 +1,7 @@
 import { getDateFnsLocale } from '@/lib/formatters';
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, appToday } from '@/lib/demoClock';
+import { useDirectory } from '@/data/directorySource';
+import { addMonths } from 'date-fns';
 import { useState } from 'react';
 import { X, Repeat } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -47,15 +49,16 @@ for (let h = 6; h <= 22; h++) {
 }
 
 export function TimeBlockModal({ isOpen, onClose, onSave, userRole, initialDate, initialTime, editingBlock }: TimeBlockModalProps) {
+  const isDemo = useDirectory().isDemo;
   const { t } = useTranslation();
-  const [startDate, setStartDate] = useState<Date>(editingBlock?.startDate || initialDate || demoDate(2026, 0, 31));
+  const [startDate, setStartDate] = useState<Date>(editingBlock?.startDate || initialDate || appToday(isDemo));
   const [startTime, setStartTime] = useState(editingBlock?.startTime || initialTime || '13:00');
-  const [endDate, setEndDate] = useState<Date>(editingBlock?.endDate || initialDate || demoDate(2026, 0, 31));
+  const [endDate, setEndDate] = useState<Date>(editingBlock?.endDate || initialDate || appToday(isDemo));
   const [endTime, setEndTime] = useState(editingBlock?.endTime || initialTime ? getNextTime(initialTime || '13:00') : '14:00');
   const [reason, setReason] = useState(editingBlock?.reason || '');
   const [isRepeat, setIsRepeat] = useState(!!editingBlock?.repeat);
   const [repeatFreq, setRepeatFreq] = useState<'daily' | 'weekly' | 'monthly'>(editingBlock?.repeat?.frequency || 'weekly');
-  const [repeatUntil, setRepeatUntil] = useState<Date>(editingBlock?.repeat?.until || demoDate(2026, 2, 31));
+  const [repeatUntil, setRepeatUntil] = useState<Date>(editingBlock?.repeat?.until || (isDemo ? demoDate(2026, 2, 31) : addMonths(new Date(), 2)));
   const [isClinicWide, setIsClinicWide] = useState(editingBlock?.isClinicWide || false);
 
   if (!isOpen) return null;
