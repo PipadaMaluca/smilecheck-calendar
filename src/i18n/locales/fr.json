@@ -159,7 +159,6 @@
     "verifyEmail": "Vérifiez votre e-mail",
     "verifySms": "Vérifiez votre téléphone",
     "demo": "Démo",
-    "qrLogin": "Se connecter avec un code QR",
     "scanQr": "Pointez la caméra vers ce code",
     "tagline": "Votre sourire, notre priorité",
     "emailRequired": "L'e-mail est obligatoire",
@@ -189,8 +188,6 @@
     "privacyPolicy": "Politique de confidentialité",
     "chooseAccountType": "Choisissez votre type de compte",
     "createAccountOf": "Créer un compte {{type}}",
-    "qrCodeAlt": "Ou connectez-vous avec un code QR",
-    "qrFast": "Rapide et sans mot de passe",
     "otherDevice": "Déjà un compte sur un autre appareil ? Se connecter avec un code QR →",
     "completeRegistration": "Compléter l'inscription",
     "completeRegistrationDesc": "Presque terminé ! Confirmez vos informations et remplissez les champs manquants.",
@@ -4450,18 +4447,7 @@
       "pastSlot": "Impossible de déplacer vers un horaire passé"
     },
     "devices": {
-      "title": "Appareils connectés",
-      "connectNew": "Connecter un nouvel appareil",
-      "scanTitle": "Pointez vers le code QR",
-      "newDeviceDetected": "Nouvel appareil détecté",
-      "connectedTitle": "Appareil connecté !",
-      "scanDesc": "Affiché sur l'écran de l'appareil sur lequel vous voulez vous connecter",
-      "confirmDesc": "Vérifiez les détails avant d'autoriser",
-      "authorizedDesc": "Connexion autorisée avec succès",
-      "scanning": "Recherche du code QR...",
-      "warningRecognize": "N'autorisez que si vous reconnaissez cet appareil",
-      "authorizeLogin": "Autoriser la connexion",
-      "connectedSuccess": "Appareil connecté avec succès !"
+      "title": "Appareils connectés"
     },
     "appointments": {
       "updateStatusError": "Impossible de mettre à jour le statut",
@@ -4593,7 +4579,6 @@
     "activeTwoHours": "Actif il y a 2 h",
     "activeThreeDays": "Actif il y a 3 jours",
     "activeNow": "Actif maintenant",
-    "deviceInstructions": "Sur l’appareil que vous souhaitez connecter, accédez à Paramètres → Associer un appareil et scannez le code QR affiché.",
     "portuguese": "Portugais",
     "french": "Français",
     "english": "Anglais",

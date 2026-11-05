@@ -159,7 +159,6 @@
     "verifyEmail": "Verify your email",
     "verifySms": "Verify your phone",
     "demo": "Demo",
-    "qrLogin": "Log in with QR code",
     "scanQr": "Point your camera at this code",
     "tagline": "Your smile, our priority",
     "emailRequired": "Email is required",
@@ -189,8 +188,6 @@
     "privacyPolicy": "Privacy policy",
     "chooseAccountType": "Choose your account type",
     "createAccountOf": "Create {{type}} account",
-    "qrCodeAlt": "Or log in with QR code",
-    "qrFast": "Fast and password-free",
     "otherDevice": "Already have an account on another device? Log in with QR code →",
     "completeRegistration": "Complete registration",
     "completeRegistrationDesc": "Almost there! Confirm your details and fill in the missing fields.",
@@ -4450,18 +4447,7 @@
       "pastSlot": "You cannot move to a past time"
     },
     "devices": {
-      "title": "Connected devices",
-      "connectNew": "Connect new device",
-      "scanTitle": "Point at the QR code",
-      "newDeviceDetected": "New device detected",
-      "connectedTitle": "Device connected!",
-      "scanDesc": "Shown on the screen of the device you want to sign in on",
-      "confirmDesc": "Check the details before authorizing",
-      "authorizedDesc": "Login authorized successfully",
-      "scanning": "Looking for QR code...",
-      "warningRecognize": "Only authorize if you recognize this device",
-      "authorizeLogin": "Authorize login",
-      "connectedSuccess": "Device connected successfully!"
+      "title": "Connected devices"
     },
     "appointments": {
       "updateStatusError": "Could not update the status",
@@ -4593,7 +4579,6 @@
     "activeTwoHours": "Active 2 hours ago",
     "activeThreeDays": "Active 3 days ago",
     "activeNow": "Active now",
-    "deviceInstructions": "On the device you want to connect, go to Settings → Link device and scan the QR code shown.",
     "portuguese": "Portuguese",
     "french": "French",
     "english": "English",

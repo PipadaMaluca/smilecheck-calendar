@@ -159,7 +159,6 @@
     "verifyEmail": "Verifique o seu e-mail",
     "verifySms": "Verifique o seu telemóvel",
     "demo": "Demo",
-    "qrLogin": "Entrar com código QR",
     "scanQr": "Aponte a câmara para este código",
     "tagline": "O seu sorriso, a nossa prioridade",
     "emailRequired": "E-mail é obrigatório",
@@ -189,8 +188,6 @@
     "privacyPolicy": "Política de privacidade",
     "chooseAccountType": "Escolha o tipo de conta",
     "createAccountOf": "Criar conta de {{type}}",
-    "qrCodeAlt": "Ou entre com código QR",
-    "qrFast": "Rápido e sem palavra-passe",
     "otherDevice": "Já tem conta noutro dispositivo? Entrar com código QR →",
     "completeRegistration": "Completar registo",
     "completeRegistrationDesc": "Quase lá! Confirme os seus dados e preencha os campos em falta.",
@@ -4450,18 +4447,7 @@
       "pastSlot": "Não é possível mover para um horário passado"
     },
     "devices": {
-      "title": "Dispositivos ligados",
-      "connectNew": "Ligar novo dispositivo",
-      "scanTitle": "Aponte para o código QR",
-      "newDeviceDetected": "Novo dispositivo detetado",
-      "connectedTitle": "Dispositivo ligado!",
-      "scanDesc": "Mostrado no ecrã do dispositivo onde quer entrar",
-      "confirmDesc": "Verifique os detalhes antes de autorizar",
-      "authorizedDesc": "Login autorizado com sucesso",
-      "scanning": "A procurar código QR...",
-      "warningRecognize": "Apenas autorize se reconhece este dispositivo",
-      "authorizeLogin": "Autorizar login",
-      "connectedSuccess": "Dispositivo ligado com sucesso!"
+      "title": "Dispositivos ligados"
     },
     "appointments": {
       "updateStatusError": "Não foi possível atualizar o estado",
@@ -4593,7 +4579,6 @@
     "activeTwoHours": "Ativo há 2 h",
     "activeThreeDays": "Ativo há 3 dias",
     "activeNow": "Ativo agora",
-    "deviceInstructions": "No dispositivo que pretende ligar, aceda a Definições → Ligar dispositivo e leia o código QR apresentado.",
     "portuguese": "Português",
     "french": "Francês",
     "english": "Inglês",
