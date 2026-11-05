@@ -183,9 +183,15 @@ export function PointsDataProvider({ children }: { children: React.ReactNode }) 
  */
 export function usePointsData(role: UserRole): PointsSourceValue {
   const { data, loading, error, isDemo } = useContext(PointsDataContext);
+  const { profile } = useAuth();
+  const realPlan = profile?.plan ?? 'free';
   const mock = USER_POINTS[role];
 
   return useMemo(() => {
+    // Real account still loading / failed: show zeros, never the demo numbers.
+    if (!isDemo && !data) {
+      return { ...mock, xp: 0, rewardPoints: 0, streak: 0, bestStreak: 0, levelKey: '', plan: realPlan, todayConsultations: 0, history: [], loading, error, isDemo };
+    }
     if (isDemo || !data) {
       return {
         ...mock,
@@ -202,16 +208,14 @@ export function usePointsData(role: UserRole): PointsSourceValue {
       streak: data.streak,
       bestStreak: data.bestStreak,
       levelKey: data.levelKey,
-      // Subscription plan and today's consultation counters are not modelled in
-      // the DB yet — they stay on the mock values for this role.
-      plan: mock.plan,
-      todayConsultations: mock.todayConsultations,
+      plan: realPlan,
+      todayConsultations: 0,
       history: data.history,
       loading,
       error,
       isDemo,
     };
-  }, [data, loading, error, isDemo, mock, role]);
+  }, [data, loading, error, isDemo, mock, role, realPlan]);
 }
 
 /** Refreshes the points totals after a server-side award. */
