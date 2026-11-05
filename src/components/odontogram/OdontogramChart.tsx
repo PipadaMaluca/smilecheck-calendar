@@ -8,6 +8,10 @@ import { toast } from 'sonner';
 
 interface OdontogramChartProps {
   readOnly?: boolean;
+  /** Real accounts: persisted chart + history and a server save; demo leaves these unset. */
+  state?: OdontogramState;
+  history?: OdontogramHistory[];
+  onSaveTooth?: (toothId: string, data: ToothData) => Promise<void>;
 }
 
 const LEGEND_ITEMS: { status: ToothStatus; key: string }[] = [
@@ -22,15 +26,21 @@ const LEGEND_ITEMS: { status: ToothStatus; key: string }[] = [
   { status: 'toTreat', key: 'toTreat' },
 ];
 
-export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
+export function OdontogramChart({ readOnly = false, state, history: realHistory, onSaveTooth }: OdontogramChartProps) {
   const { t } = useTranslation();
-  const mock = getJoaoSilvaMockData();
-  const [odontogram, setOdontogram] = useState<OdontogramState>(mock.state);
-  const [history] = useState<OdontogramHistory[]>(mock.history);
+  const [mock] = useState(() => getJoaoSilvaMockData());
+  const [localState, setOdontogram] = useState<OdontogramState>(mock.state);
+  const [mockHistory] = useState<OdontogramHistory[]>(mock.history);
+  const odontogram = state ?? localState;
+  const history = realHistory ?? mockHistory;
   const [selectedTooth, setSelectedTooth] = useState<string | null>(null);
 
-  const handleSave = (toothId: string, data: ToothData) => {
-    setOdontogram(prev => ({ ...prev, [toothId]: data }));
+  const handleSave = async (toothId: string, data: ToothData) => {
+    if (onSaveTooth) {
+      try { await onSaveTooth(toothId, data); } catch { toast.error(t('dossierReal.saveError')); return; }
+    } else {
+      setOdontogram(prev => ({ ...prev, [toothId]: data }));
+    }
     toast.success(t('odontogram.saved'));
     setSelectedTooth(null);
   };
@@ -131,7 +141,7 @@ export function OdontogramChart({ readOnly = false }: OdontogramChartProps) {
                   <span>—</span>
                   <span>
                     <span className="text-foreground/80">{h.dentist}</span>
-                    {' — '}{t('odontogram.tooth')} {h.tooth}: {t(h.description)}
+                    {' — '}{t('odontogram.tooth')} {h.tooth}: {h.description.startsWith('odontogram.') ? t(h.description) : h.description}
                   </span>
                 </div>
               ))}

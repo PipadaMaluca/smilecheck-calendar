@@ -18,6 +18,8 @@ import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { generateClinicalAlerts, calculateRecall, SEVERITY_CONFIG } from '@/data/clinicalSafetyData';
 import { toast } from 'sonner';
 import { OdontogramChart } from '@/components/odontogram/OdontogramChart';
+import { useDirectory } from '@/data/directorySource';
+import { RealPatientDossier } from '@/components/dossier/RealPatientDossier';
 
 interface PatientDossierViewProps {
   patientId: string;
@@ -72,7 +74,13 @@ const MOCK_PATIENT_DATA: Record<string, any> = {
 
 const IMAGE_CATEGORIES = ['Radiografia Periapical', 'Ortopantomografia', 'Teleradiografia', 'CBCT', 'Foto Intraoral', 'Outro'];
 
-export function PatientDossierView({ patientId, onClose, onNavigate, userRole }: PatientDossierViewProps) {
+export function PatientDossierView(props: PatientDossierViewProps) {
+  const dir = useDirectory();
+  if (!dir.isDemo) return <RealPatientDossier patientId={props.patientId} />;
+  return <DemoPatientDossierView {...props} />;
+}
+
+function DemoPatientDossierView({ patientId, onClose, onNavigate, userRole }: PatientDossierViewProps) {
   const { t } = useTranslation();
   const [clinicalNotes, setClinicalNotes] = useState('Paciente com boa higiene oral. Acompanhamento periodontal recomendado.');
   const [expandedConsultation, setExpandedConsultation] = useState<number | null>(null);

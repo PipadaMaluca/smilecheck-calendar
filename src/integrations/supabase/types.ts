@@ -446,6 +446,270 @@ export type Database = {
           },
         ]
       }
+      clinical_documents: {
+        Row: {
+          clinic_id: string | null
+          created_at: string
+          doc_type: string
+          family_member_id: string | null
+          id: string
+          mime_type: string
+          patient_id: string
+          size_bytes: number
+          storage_path: string
+          title: string | null
+          uploaded_by: string
+          uploaded_by_patient: boolean
+        }
+        Insert: {
+          clinic_id?: string | null
+          created_at?: string
+          doc_type: string
+          family_member_id?: string | null
+          id?: string
+          mime_type: string
+          patient_id: string
+          size_bytes: number
+          storage_path: string
+          title?: string | null
+          uploaded_by: string
+          uploaded_by_patient?: boolean
+        }
+        Update: {
+          clinic_id?: string | null
+          created_at?: string
+          doc_type?: string
+          family_member_id?: string | null
+          id?: string
+          mime_type?: string
+          patient_id?: string
+          size_bytes?: number
+          storage_path?: string
+          title?: string | null
+          uploaded_by?: string
+          uploaded_by_patient?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clinical_documents_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clinical_note_versions: {
+        Row: {
+          created_at: string
+          diagnostico: string
+          edited_by: string
+          id: string
+          motivo: string
+          note_id: string
+          observacoes: string
+          proximos_passos: string
+          tratamento: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          diagnostico: string
+          edited_by: string
+          id?: string
+          motivo: string
+          note_id: string
+          observacoes: string
+          proximos_passos: string
+          tratamento: string
+          version: number
+        }
+        Update: {
+          created_at?: string
+          diagnostico?: string
+          edited_by?: string
+          id?: string
+          motivo?: string
+          note_id?: string
+          observacoes?: string
+          proximos_passos?: string
+          tratamento?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clinical_note_versions_edited_by_fkey"
+            columns: ["edited_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_note_versions_edited_by_fkey"
+            columns: ["edited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_note_versions_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "clinical_notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clinical_notes: {
+        Row: {
+          appointment_id: string
+          author_id: string
+          clinic_id: string
+          created_at: string
+          diagnostico: string
+          family_member_id: string | null
+          id: string
+          motivo: string
+          observacoes: string
+          patient_id: string
+          proximos_passos: string
+          tratamento: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          appointment_id: string
+          author_id: string
+          clinic_id: string
+          created_at?: string
+          diagnostico?: string
+          family_member_id?: string | null
+          id?: string
+          motivo?: string
+          observacoes?: string
+          patient_id: string
+          proximos_passos?: string
+          tratamento?: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          appointment_id?: string
+          author_id?: string
+          clinic_id?: string
+          created_at?: string
+          diagnostico?: string
+          family_member_id?: string | null
+          id?: string
+          motivo?: string
+          observacoes?: string
+          patient_id?: string
+          proximos_passos?: string
+          tratamento?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clinical_notes_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "clinical_notes_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clinics: {
         Row: {
           accepts_cheque_dentista: boolean
@@ -1232,6 +1496,108 @@ export type Database = {
           },
         ]
       }
+      odontogram_entries: {
+        Row: {
+          appointment_id: string | null
+          author_id: string
+          clinic_id: string
+          created_at: string
+          faces: string[]
+          family_member_id: string | null
+          id: string
+          notes: string | null
+          patient_id: string
+          status: string
+          surfaces: Json
+          tooth: number
+        }
+        Insert: {
+          appointment_id?: string | null
+          author_id: string
+          clinic_id: string
+          created_at?: string
+          faces?: string[]
+          family_member_id?: string | null
+          id?: string
+          notes?: string | null
+          patient_id: string
+          status: string
+          surfaces?: Json
+          tooth: number
+        }
+        Update: {
+          appointment_id?: string | null
+          author_id?: string
+          clinic_id?: string
+          created_at?: string
+          faces?: string[]
+          family_member_id?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          status?: string
+          surfaces?: Json
+          tooth?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "odontogram_entries_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "odontogram_entries_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           allergies: Json
@@ -1981,6 +2347,136 @@ export type Database = {
           },
         ]
       }
+      treatment_plan_items: {
+        Row: {
+          created_at: string
+          estimated_price: number | null
+          id: string
+          plan_id: string
+          procedure: string
+          sort_order: number
+          status: string
+          tooth: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estimated_price?: number | null
+          id?: string
+          plan_id: string
+          procedure: string
+          sort_order?: number
+          status?: string
+          tooth?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estimated_price?: number | null
+          id?: string
+          plan_id?: string
+          procedure?: string
+          sort_order?: number
+          status?: string
+          tooth?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatment_plan_items_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "treatment_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treatment_plans: {
+        Row: {
+          author_id: string
+          clinic_id: string
+          created_at: string
+          family_member_id: string | null
+          id: string
+          internal_notes: string | null
+          patient_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          clinic_id: string
+          created_at?: string
+          family_member_id?: string | null
+          id?: string
+          internal_notes?: string | null
+          patient_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          clinic_id?: string
+          created_at?: string
+          family_member_id?: string | null
+          id?: string
+          internal_notes?: string | null
+          patient_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatment_plans_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatment_plans_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       triage_ai_usage: {
         Row: {
           created_at: string
@@ -1998,6 +2494,55 @@ export type Database = {
           profile_id?: string
         }
         Relationships: []
+      }
+      triage_responses: {
+        Row: {
+          answers: Json
+          appointment_id: string
+          created_at: string
+          id: string
+          patient_id: string
+          summary: string | null
+        }
+        Insert: {
+          answers?: Json
+          appointment_id: string
+          created_at?: string
+          id?: string
+          patient_id: string
+          summary?: string | null
+        }
+        Update: {
+          answers?: Json
+          appointment_id?: string
+          created_at?: string
+          id?: string
+          patient_id?: string
+          summary?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "triage_responses_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "triage_responses_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "triage_responses_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_levels: {
         Row: {
@@ -2215,6 +2760,29 @@ export type Database = {
     }
     Functions: {
       accept_terms: { Args: { _version: string }; Returns: undefined }
+      add_odontogram_entry: {
+        Args: {
+          _appointment_id?: string
+          _clinic_id: string
+          _faces: string[]
+          _family_member_id?: string
+          _notes?: string
+          _patient_id: string
+          _status: string
+          _surfaces?: Json
+          _tooth: number
+        }
+        Returns: string
+      }
+      add_treatment_item: {
+        Args: {
+          _estimated_price?: number
+          _plan_id: string
+          _procedure: string
+          _tooth?: number
+        }
+        Returns: string
+      }
       anonymize_account: { Args: { _uid: string }; Returns: Json }
       apply_points: {
         Args: {
@@ -2231,6 +2799,10 @@ export type Database = {
         Args: { _clinic: string; _family: string; _patient: string }
         Returns: undefined
       }
+      assert_dossier_writer: {
+        Args: { _clinic: string; _patient: string }
+        Returns: undefined
+      }
       award_points: {
         Args: {
           _action_key: string
@@ -2241,6 +2813,7 @@ export type Database = {
         }
         Returns: Json
       }
+      can_access_patient_folder: { Args: { _folder: string }; Returns: boolean }
       can_edit_patient: { Args: { _patient_id: string }; Returns: boolean }
       can_notify_profile: { Args: { _profile_id: string }; Returns: boolean }
       can_rate_appointment: {
@@ -2266,12 +2839,26 @@ export type Database = {
         }
         Returns: string
       }
+      create_treatment_plan: {
+        Args: {
+          _clinic_id: string
+          _family_member_id?: string
+          _internal_notes?: string
+          _patient_id: string
+          _title: string
+        }
+        Returns: string
+      }
       current_role_is: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
       current_terms_version: { Args: never; Returns: string }
       dossier_safety: {
+        Args: { _family_member_id?: string; _patient_id: string }
+        Returns: Json
+      }
+      dossier_self_declared: {
         Args: { _family_member_id?: string; _patient_id: string }
         Returns: Json
       }
@@ -2284,6 +2871,10 @@ export type Database = {
       }
       is_approved_dentist: { Args: never; Returns: boolean }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
+      is_professional_of_clinic: {
+        Args: { _clinic_id: string }
+        Returns: boolean
+      }
       is_untrusted_caller: { Args: never; Returns: boolean }
       issue_prescription: {
         Args: {
@@ -2330,6 +2921,7 @@ export type Database = {
       }
       my_favorites: { Args: never; Returns: Json }
       my_ranking: { Args: never; Returns: Json }
+      my_treatment_plans: { Args: never; Returns: Json }
       new_verification_code: { Args: never; Returns: string }
       next_document_number: {
         Args: { _clinic: string; _kind: string }
@@ -2340,6 +2932,7 @@ export type Database = {
         Returns: string
       }
       notification_default_target: { Args: { _type: string }; Returns: string }
+      open_clinical_document: { Args: { _id: string }; Returns: string }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
       owns_job_post: { Args: { _post: string }; Returns: boolean }
       professional_reviews: {
@@ -2358,6 +2951,19 @@ export type Database = {
         Returns: Json
       }
       refresh_seed_appointments: { Args: never; Returns: undefined }
+      register_clinical_document: {
+        Args: {
+          _clinic_id?: string
+          _doc_type: string
+          _family_member_id?: string
+          _mime_type: string
+          _patient_id: string
+          _size_bytes: number
+          _storage_path: string
+          _title?: string
+        }
+        Returns: string
+      }
       register_referral: { Args: { _code: string }; Returns: Json }
       request_reschedule: {
         Args: { _appointment_id: string; _new_time: string }
@@ -2366,6 +2972,17 @@ export type Database = {
       respond_clinic_invite: {
         Args: { _accept: boolean; _invite_id: string }
         Returns: undefined
+      }
+      save_clinical_note: {
+        Args: {
+          _appointment_id: string
+          _diagnostico: string
+          _motivo: string
+          _observacoes: string
+          _proximos_passos: string
+          _tratamento: string
+        }
+        Returns: string
       }
       search_my_patients: {
         Args: { _limit?: number; _offset?: number; _q?: string }
@@ -2408,6 +3025,10 @@ export type Database = {
         }[]
       }
       send_annual_renewal_reminders: { Args: never; Returns: number }
+      set_treatment_item_status: {
+        Args: { _item_id: string; _status: string }
+        Returns: undefined
+      }
       short_person_name: { Args: { _full: string }; Returns: string }
       sync_profile_plan: {
         Args: { _env: string; _user_id: string }
