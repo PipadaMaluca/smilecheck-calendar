@@ -1,3 +1,5 @@
+import { useDirectory } from '@/data/directorySource';
+import { RealPatientsTab } from './RealPatientsTab';
 import { onActivateKey } from '@/lib/a11y';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +22,13 @@ interface PatientsTabProps {
 const STATUS_FILTERS = ['all', 'active', 'new', 'inactive'] as const;
 const SORT_OPTIONS = ['lastConsultation', 'name', 'mostConsultations', 'bestRating'] as const;
 
-export function PatientsTab({ userRole, onSendMessage, onViewDossier }: PatientsTabProps) {
+export function PatientsTab(props: PatientsTabProps) {
+  const dir = useDirectory();
+  if (!dir.isDemo) return <RealPatientsTab onViewDossier={props.onViewDossier} />;
+  return <DemoPatientsTab {...props} />;
+}
+
+function DemoPatientsTab({ userRole, onSendMessage, onViewDossier }: PatientsTabProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [query, setQuery] = useState('');
