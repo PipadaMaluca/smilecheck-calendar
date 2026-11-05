@@ -182,7 +182,7 @@ export function FavoritesView({
         <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); toast.info(t('search.messagingSoon')); }}>
           <MessageCircle className="w-3 h-3" /> {t('search.sendMessage')}
         </Button>
-        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
+        <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={(e) => { e.stopPropagation(); if (real) { toast.info(t('search.messagingSoon')); return; } const phone = CLINIC_PHONES[c.id] || '+351 210 000 000'; setCallClinic({ id: c.id, name: c.name, address: c.address, phone }); }}>
           <Phone className="w-3 h-3" /> {t('search.call')}
         </Button>
       </div>
@@ -335,7 +335,7 @@ export function FavoritesView({
           })}
 
           {filteredResults.clinics.map(c => {
-            const isFav = clinicFavorites.includes(c.id);
+            const isFav = real ? fav.isFavorite('clinic', c.id) : clinicFavorites.includes(c.id);
             const initials = getClinicInitials(c.name);
             return (
               <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={`c-${c.id}`}
@@ -347,7 +347,7 @@ export function FavoritesView({
                   variant="ghost"
                   size="icon-sm"
                   aria-pressed={isFav}
-                  onClick={(e) => { e.stopPropagation(); onToggleClinicFavorite?.(c.id); }}
+                  onClick={(e) => { e.stopPropagation(); if (real) void fav.toggle('clinic', c.id); else onToggleClinicFavorite?.(c.id); }}
                   className="absolute top-2 right-2 h-auto w-auto p-1 rounded hover:bg-accent/30 z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
