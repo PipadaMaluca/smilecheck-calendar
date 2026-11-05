@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { Logo } from '@/components/branding/Logo';
 import { supabase } from '@/integrations/supabase/client';
 import { mapAuthError } from '@/lib/authErrors';
+import { runGoogleSignIn } from '@/lib/googleSignIn';
 
 
 
@@ -35,6 +36,7 @@ function maskPhone(countryCode: string, phone: string) {
 export function SignUpScreen() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { exitDemo } = useAuth();
   const [step, setStep] = useState(1);
 
   const [accountType, setAccountType] = useState<AccountType>(null);
