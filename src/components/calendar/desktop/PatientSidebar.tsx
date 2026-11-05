@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 interface FamilyMember {
   id: string;
   name: string;
-  age: number;
+  age?: number;
   relation: string;
 }
 
