@@ -1023,6 +1023,7 @@ export function DesktopCalendarView() {
             {renderStandardHeader(t('nav.search'))}
             <div className="flex-1 overflow-y-auto">
               <FavoritesView
+            onSendMessage={() => handleNavTabChange('conversas')}
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
                 onViewProfile={(d) => setViewDentistProfile(d)}

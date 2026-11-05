@@ -37,7 +37,8 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
         const tier = getTier(product.points);
         const showSeparator = showTierSeparators && tier !== lastTier;
         lastTier = tier;
-        const canAfford = !product.soon && userPoints >= product.points;
+        const canAfford = userPoints >= product.points;
+        const clickable = canAfford || !!product.soon;
         const missing = product.points - userPoints;
 
         return (
@@ -53,12 +54,12 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
             )}
             <button
               type="button"
-              onClick={() => canAfford && onRedeem(product)}
-              disabled={!canAfford}
+              onClick={() => clickable && onRedeem(product)}
+              disabled={!clickable}
               className={cn(
                 'w-full flex items-center gap-3 rounded-lg p-3 mb-2 text-left transition-colors duration-150',
                 'bg-card border border-border/50',
-                canAfford ? 'cursor-pointer hover:bg-accent/60 hover:shadow-md hover:border-primary/30 press' : 'opacity-50 cursor-not-allowed',
+                clickable ? 'cursor-pointer hover:bg-accent/60 hover:shadow-md hover:border-primary/30 press' : 'opacity-50 cursor-not-allowed',
               )}
             >
               <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-2xl shrink-0">
@@ -67,7 +68,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold text-foreground truncate">{demoText(product.name)}</p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {product.soon ? t('plans.soon') : demoText(product.category)}
+                  {demoText(product.category)}
                   {product.discount && (
                     <span className="ml-2 text-warning font-medium">{product.discount} {t('store.discount')}</span>
                   )}
@@ -81,7 +82,7 @@ export function AllProductsList({ products, userPoints, onRedeem, showTierSepara
                   'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-xs font-medium whitespace-nowrap min-w-[90px] text-center',
                   canAfford ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90' : 'bg-muted text-muted-foreground',
                 )}>
-                  {product.soon ? t('plans.soon') : canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
+                  {canAfford ? t('store.redeemBtn') : `${t('store.missing')} ${formatNumber(missing)}`}
                 </span>
               </div>
             </button>

@@ -6,7 +6,8 @@ import { PRICING_TAB_EVENT, type PricingTab } from '@/lib/landingNav';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, AlertTriangle } from 'lucide-react';
+import { Check, AlertTriangle, Info } from 'lucide-react';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { PLAN_FEATURES, PLAN_MONTHLY_PRICE, annualMonthlyPrice, planHasPointsResetWarning, planVatMode, type VatMode, type PlanFeature, type PlanRole, type PlanTier } from '@/lib/planRules';
@@ -213,7 +214,7 @@ function PlanContent({ plan, price, onCta, accent }: { plan: Plan; price: number
             {f.inherited ? <span className="w-4 flex-shrink-0" aria-hidden="true" /> : <Check className="w-4 h-4 text-success mt-0.5 flex-shrink-0" strokeWidth={3} />}
             <span className={cn('text-muted-foreground', f.inherited && 'italic')}>
               {t(`plans.f.${f.key}`, f.params)}
-              {f.soon && <Badge variant="outline" className="ml-2 align-middle text-2xs py-0 px-1.5 font-medium">{t('plans.soon')}</Badge>}
+              {f.soon && <button type="button" onClick={openUnderConstruction} aria-label={t('plans.inPreparation')} title={t('plans.inPreparation')} className="ml-1.5 inline-flex align-middle text-muted-foreground hover:text-foreground"><Info className="h-3.5 w-3.5" /></button>}
             </span>
           </li>
         ))}

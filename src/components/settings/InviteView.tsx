@@ -130,9 +130,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
           <Gift className="w-5 h-5 md:w-8 md:h-8 text-primary" />
         </div>
         <h2 className="text-base md:text-xl font-bold text-foreground px-2">{suspended ? t('invite.headlineNoPoints') : t('invite.headline')}</h2>
-        {suspended ? (
-          <Badge variant="secondary" className="mx-auto">{t('invite.comingSoon')}</Badge>
-        ) : rulePoints !== null ? (
+        {suspended ? null : rulePoints !== null ? (
           <>
             <p className="text-sm md:text-sm text-muted-foreground px-4 leading-snug">{t('invite.subtitlePoints', { count: rulePoints })}</p>
             <p className="text-xs text-muted-foreground px-4 leading-snug">{t('invite.rulesDetail')}</p>

@@ -413,7 +413,7 @@ function DemoJobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewPro
                   <Button size="sm" className="flex-1 text-xs gap-1" onClick={() => setApplyTarget(offer)}>
                     <Send className="w-3 h-3" /> {t('jobs.apply')}
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(offer.clinicName); toast.info(t('jobs.messagingSoon')); }}>
+                  <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(offer.clinicName); }}>
                     <MessageCircle className="w-3 h-3" /> {t('jobs.sendMessage')}
                   </Button>
                 </div>
@@ -527,7 +527,7 @@ function DemoJobMarketView({ userRole, onBack, onSendMessage }: JobMarketViewPro
                 }}>
                   <Users className="w-3 h-3" /> {t('jobs.sendProposal')}
                 </Button>
-                <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); toast.info(t('jobs.messagingSoon')); }}>
+                <Button size="sm" variant="outline" className="flex-1 text-xs gap-1" onClick={() => { onSendMessage?.(d.name); }}>
                   <MessageCircle className="w-3 h-3" /> {t('jobs.sendMessage')}
                 </Button>
               </div>

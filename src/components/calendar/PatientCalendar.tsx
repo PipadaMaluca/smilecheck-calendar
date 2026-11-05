@@ -297,6 +297,7 @@ export function PatientCalendar() {
           <RewardsStoreView userRole="patient" />
         ) : activeTab === 'pesquisa' ? (
           <FavoritesView
+            onSendMessage={() => handleTabChange('conversas')}
             favorites={[]}
             onToggleFavorite={() => {}}
             onViewProfile={d => setViewDentistProfile(d)}

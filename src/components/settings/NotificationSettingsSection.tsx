@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,7 +61,6 @@ export function NotificationSettingsSection(_props: { userRole: UserRole }) {
                 {NOTIF_CHANNELS.map((c) => (
                   <th key={c} scope="col" className="px-1 py-2 text-center font-medium text-muted-foreground">
                     <span className="block">{t(`notifPrefs.channels.${c}`)}</span>
-                    {!AVAILABLE_CHANNELS.has(c) && <span className="block text-2xs font-normal">{t('common.comingSoon')}</span>}
                   </th>
                 ))}
               </tr>
@@ -76,8 +76,7 @@ export function NotificationSettingsSection(_props: { userRole: UserRole }) {
                         <Checkbox
                           aria-label={t('notifPrefs.cellA11y', { type: t(`notifPrefs.types.${n}`), channel: t(`notifPrefs.channels.${c}`) })}
                           checked={available ? !!prefs[`${n}:${c}`] : false}
-                          disabled={!available}
-                          onCheckedChange={(v) => available && toggle(n, c, v === true)}
+                          onCheckedChange={(v) => (available ? toggle(n, c, v === true) : openUnderConstruction())}
                         />
                       </td>
                     );

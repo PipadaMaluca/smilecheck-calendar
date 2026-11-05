@@ -17,6 +17,7 @@ import { BrandsList } from './BrandsList';
 import { RedeemModal } from './RedeemModal';
 import { RewardsHistory } from './RewardsHistory';
 import { AllProductsList } from './AllProductsList';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { useTranslation } from 'react-i18next';
 import { usePointsData, usePointsRefresh } from '@/data/pointsSource';
 import { useAuth } from '@/contexts/AuthContext';
@@ -134,7 +135,7 @@ export function RewardsStoreView({ userRole }: RewardsStoreViewProps) {
     <RewardsFilters value={filters} max={catalogMax} onChange={setFilters} onClear={clearFilters} isDirty={isDirty} />
   );
 
-  const handleRedeem = (product: RewardProduct) => { if (product.soon) return; setRedeemProduct(product); };
+  const handleRedeem = (product: RewardProduct) => { if (product.soon) { openUnderConstruction(); return; } setRedeemProduct(product); };
 
   const handleConfirmRedeem = async (): Promise<{ code: string } | { error: string }> => {
     if (!redeemProduct) return { error: t('store.redeemFailed') };

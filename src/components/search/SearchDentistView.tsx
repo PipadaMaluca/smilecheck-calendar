@@ -23,6 +23,7 @@ import { DentistProfileModal } from './DentistProfileModal';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import smileCheckIcon from '@/assets/smilecheck-icon.webp';
 import { TriageData } from '@/types/triage';
+import { openUnderConstruction } from '@/components/ui/under-construction';
 import { useTranslation } from 'react-i18next';
 import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { CardGridSkeleton } from '@/components/skeletons';
@@ -135,8 +136,7 @@ export function SearchDentistView({ onBack, onGoHome, triageData, onQuickBook }:
           <div className="flex items-center justify-between gap-2">
             <span className="text-sm">{t('search.real.teleconsultFilter')}</span>
             <span className="flex items-center gap-2">
-              <span className="text-2xs font-semibold px-2 py-0.5 rounded-full bg-secondary text-muted-foreground whitespace-nowrap">{t('common.soon')}</span>
-              <Switch aria-label={`${t('search.real.teleconsultFilter')} — ${t('common.soon')}`} checked={false} disabled />
+              <Switch aria-label={t('search.real.teleconsultFilter')} checked={false} onCheckedChange={openUnderConstruction} />
             </span>
           </div>
         </>
