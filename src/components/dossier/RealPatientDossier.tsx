@@ -17,6 +17,7 @@ import { OdontogramChart } from '@/components/odontogram/OdontogramChart';
 import type { OdontogramHistory } from '@/components/odontogram/odontogramData';
 import { generateClinicalAlerts, SEVERITY_CONFIG } from '@/data/clinicalSafetyData';
 import { formatCurrency, formatDate } from '@/lib/formatters';
+import { CATEGORY_I18N_KEYS, type ConsultationCategory } from '@/types/calendar';
 import {
   EMPTY_NOTE, NOTE_KEYS, type ClinicalNote, type NoteFields, type SelfDeclared, type TreatmentPlan, type ClinicalDocument,
   type DocType, DOC_TYPES, DOC_MIME, buildOdontogram, fetchNotes, saveNote, fetchOdontogram, saveTooth, fetchPlans, createPlan,
@@ -202,7 +203,7 @@ function NotesSection({ appts, notes, names, me, onSaved }: { appts: ApptRow[]; 
           return (
             <div key={a.id} className="border border-border rounded-lg p-3 space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-medium">{formatDate(a.scheduled_at)} · {t(`consultationTypes.${a.consultation_type}`, { defaultValue: a.consultation_type })}</p>
+                <p className="text-sm font-medium">{formatDate(a.scheduled_at)} · {(CATEGORY_I18N_KEYS[a.consultation_type as ConsultationCategory] ? t(CATEGORY_I18N_KEYS[a.consultation_type as ConsultationCategory]) : t('dossierReal.appointment'))}</p>
                 {editing !== a.id && (
                   <Button size="sm" variant="outline" onClick={() => start(a.id)}>
                     {list.some((n) => n.author_id === me) ? t('dossierReal.correctNote') : t('dossierReal.addNote')}
