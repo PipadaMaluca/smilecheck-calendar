@@ -5519,5 +5519,121 @@
     "lastVisit": "Última consulta",
     "nextVisit": "Próxima",
     "openDossier": "Abrir ficha"
+  },
+  "docs": {
+    "clinic": "Clínica",
+    "date": "Data",
+    "dob": "Data de nascimento",
+    "downloadPdf": "Descarregar PDF",
+    "externalNote": "Destinatário externo: entregue a carta ao paciente ou envie-a pelos seus meios.",
+    "externalPlaceholder": "Nome e morada do profissional ou clínica externa",
+    "externalRecipient": "Ou escreva um destinatário fora da app",
+    "forWhom": "Para quem é?",
+    "immutableNote": "Depois de emitido, o documento não pode ser alterado; só pode ser anulado com motivo.",
+    "issueError": "Não foi possível emitir o documento. Verifique se tem uma relação ativa com este paciente.",
+    "item": {
+      "medicamento": "Medicamento",
+      "dosagem": "Dosagem",
+      "posologia": "Posologia",
+      "duracao": "Duração",
+      "quantidade": "Quantidade"
+    },
+    "letterDetails": "Detalhes da carta",
+    "letterSent": "Carta enviada",
+    "lettersShort": "Cartas",
+    "lettersTitle": "Cartas de referenciação",
+    "loadError": "Não foi possível carregar os documentos.",
+    "noClinic": "Precisa de pertencer a uma clínica para emitir documentos.",
+    "noPatients": "Ainda não tem pacientes com relação ativa.",
+    "noneReceived": "Ainda não recebeu cartas.",
+    "noneSent": "Ainda não enviou cartas.",
+    "notes": "Notas",
+    "number": "N.º",
+    "orderNumber": "N.º da Ordem",
+    "patient": "Paciente",
+    "pdfError": "Não foi possível gerar o PDF.",
+    "qrNote": "O PDF inclui um código QR de verificação (só com o código).",
+    "reason": "Motivo",
+    "received": "Recebidas",
+    "recipientNote": "O destinatário recebe uma notificação e pode ler apenas esta carta.",
+    "searchRecipient": "Procurar dentista ou clínica",
+    "sent": "Enviadas",
+    "signature": "Assinatura do médico dentista",
+    "summary": "Resumo clínico",
+    "to": "Para",
+    "toWhom": "Para quem referencia?",
+    "urgency": "Urgência",
+    "urgencyLevel": {
+      "normal": "Normal",
+      "urgente": "Urgente"
+    },
+    "verifyCode": "Código de verificação",
+    "void": "Anular",
+    "voidDescription": "A anulação fica registada com a data e o motivo e não pode ser desfeita.",
+    "voidError": "Não foi possível anular o documento.",
+    "voidReason": "Motivo da anulação",
+    "voidReasonPlaceholder": "Indique o motivo (obrigatório)",
+    "voidTitle": "Anular documento",
+    "voided": "ANULADO",
+    "voidedOk": "Documento anulado",
+    "whichPatient": "Que paciente?",
+    "rxTitle": "Receita médica",
+    "letterTitle": "Carta de referenciação",
+    "status": {
+      "emitida": "Válida",
+      "anulada": "Anulada"
+    }
+  },
+  "jobsReal": {
+    "applications_one": "{{count}} candidatura",
+    "applications_other": "{{count}} candidaturas",
+    "applied": "Candidatura enviada",
+    "apply": "Candidatar-me",
+    "applyError": "Não foi possível enviar a candidatura.",
+    "applyTo": "Candidatura: {{title}}",
+    "city": "Cidade",
+    "clinicNotApproved": "A sua clínica tem de estar aprovada para publicar ofertas.",
+    "close": "Fechar oferta",
+    "contract": "Tipo de contrato",
+    "days": "Dias",
+    "description": "Descrição",
+    "messagePlaceholder": "Mensagem para a clínica (opcional)",
+    "newPost": "Publicar oferta",
+    "noOwnPosts": "Ainda não publicou ofertas.",
+    "noPosts": "Não há ofertas abertas de momento.",
+    "postTitle": "Título",
+    "publish": "Publicar",
+    "publishError": "Não foi possível guardar a oferta.",
+    "published": "Oferta publicada",
+    "reopen": "Reabrir oferta",
+    "status": {
+      "aberta": "Aberta",
+      "fechada": "Fechada"
+    },
+    "title": "Mercado de emprego",
+    "withdraw": "Retirar candidatura",
+    "youApplied": "Candidatou-se"
+  },
+  "rankReal": {
+    "changeNote": "A evolução compara a sua posição com a de há 7 dias.",
+    "error": "Não foi possível carregar a sua classificação.",
+    "yourXp": "O seu XP: {{xp}}"
+  },
+  "realHealth": {
+    "saveError": "Não foi possível guardar as alterações."
+  },
+  "verify": {
+    "title": "Verificação de documento",
+    "error": "Não foi possível verificar o documento.",
+    "privacy": "Por privacidade, esta página nunca mostra dados do paciente.",
+    "status": {
+      "emitida": "Documento válido",
+      "anulada": "Documento anulado",
+      "not_found": "Documento não encontrado"
+    },
+    "kind": {
+      "prescription": "Receita médica",
+      "referral_letter": "Carta de referenciação"
+    }
   }
 }
