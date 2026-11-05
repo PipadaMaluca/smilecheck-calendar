@@ -10,6 +10,8 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { ProfileSkeleton } from '@/components/skeletons';
 import { EditProfileView } from './EditProfileView';
 import { PatientProfileBody } from './patient/PatientProfileBody';
+import { RealPatientProfile } from './patient/RealPatientProfile';
+import { useDirectory } from '@/data/directorySource';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 
 interface ProfileViewProps {
@@ -27,6 +29,7 @@ export function ProfileView(props: ProfileViewProps) {
   const isMobile = useIsMobile();
   const { t } = useTranslation();
   const isLoading = useSimulatedLoading(1000, `profile:${userRole}`);
+  const isDemo = useDirectory().isDemo;
   if (!isOpen) return null;
 
   if (showEdit) {
@@ -45,7 +48,9 @@ export function ProfileView(props: ProfileViewProps) {
   // Dentista e Clínica usam os seus componentes dedicados.
   if (userRole !== 'patient') return null;
 
-  const profileBody = isLoading ? (
+  const profileBody = !isDemo ? (
+    <RealPatientProfile onEditProfile={() => setShowEdit(true)} />
+  ) : isLoading ? (
     <ProfileSkeleton />
   ) : (
     <div className="animate-fade-in">
