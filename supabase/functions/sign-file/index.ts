@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
     if (!parsed.success) return json({ error: "Invalid input" }, 400);
     const { kind, id } = parsed.data;
     const fn = kind === "clinical" ? "open_clinical_document" : "open_message_attachment";
-    const { data: path, error } = await userClient.rpc(fn, { _id: undefined, ...(kind === "clinical" ? { _id: id } : { _message_id: id }) });
+    const { data: path, error } = await userClient.rpc(fn, kind === "clinical" ? { _id: id } : { _message_id: id });
     if (error || typeof path !== "string") return json({ error: "Forbidden" }, 403);
 
     const bucket = kind === "clinical" ? "clinical-documents" : "message-attachments";
