@@ -1,3 +1,4 @@
+import { AgendaExceptionBlock, AgendaOpeningBand, openingRuns } from '../AgendaExceptionBlock';
 import { onActivateKey } from '@/lib/a11y';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Glyph } from '@/components/ui/glyph';
@@ -265,7 +266,10 @@ export function DesktopTimeline({
                 } else if (slot.status === 'bloqueado') {
                   const startIdx = timeToSlotIndex(slot.time, workingHours.start);
                   slotOccupancy[startIdx] = slot;
-                  primarySlots.push({ slot, startIdx, spanCount: 1 });
+                  if (slot.blockHidden) return;
+                  const span = slot.blockSpan ?? 1;
+                  for (let i = 1; i < span && (startIdx + i) < TOTAL_SLOTS; i++) slotOccupancy[startIdx + i] = slot;
+                  primarySlots.push({ slot, startIdx, spanCount: span });
                 }
               });
 
@@ -315,11 +319,19 @@ export function DesktopTimeline({
                       />
                     );
                   })}
+                  {openingRuns(slots).map(r => (
+                    <AgendaOpeningBand key={`open-${r.time}`} reason={r.reason} color={r.color} className="mx-0.5"
+                      style={{ gridRow: `${timeToSlotIndex(r.time, workingHours.start) + 1} / span ${r.span}`, gridColumn: 1 }} />
+                  ))}
+
                   {/* Render consultation blocks using grid-row span */}
                   {primarySlots.map(({ slot, startIdx, spanCount }) => {
                     const isBlocked = slot.status === 'bloqueado';
                     const consultation = slot.consultation;
                     
+                    if (isBlocked && slot.exceptionKind) {
+                      return <AgendaExceptionBlock key={`exc-${slot.time}`} slot={slot} className="mx-0.5" style={{ gridRow: `${startIdx + 1} / span ${spanCount}` }} />;
+                    }
                     if (isBlocked) {
                       return (
                         <div

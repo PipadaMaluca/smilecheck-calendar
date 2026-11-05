@@ -1,3 +1,4 @@
+import { AgendaExceptionBlock, AgendaOpeningBand, openingRuns } from '../AgendaExceptionBlock';
 import { useDirectory } from '@/data/directorySource';
 import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
@@ -234,9 +235,11 @@ export function DesktopWeekView({
                     } else if (slot.status === 'bloqueado') {
                       const [h, m] = slot.time.split(':').map(Number);
                       const startIdx = (h - 8) * 2 + (m >= 30 ? 1 : 0);
+                      if (slot.blockHidden) { occupied.add(startIdx); return; }
                       if (!occupied.has(startIdx)) {
-                        primary.push({ slot, startIdx, spanCount: 1 });
-                        occupied.add(startIdx);
+                        const span = slot.blockSpan ?? 1;
+                        primary.push({ slot, startIdx, spanCount: span });
+                        for (let i = 0; i < span; i++) occupied.add(startIdx + i);
                       }
                     }
                   });
@@ -295,8 +298,19 @@ export function DesktopWeekView({
                         );
                       })}
 
+                      {openingRuns(slots).map(r => {
+                        const [oh, om] = r.time.split(':').map(Number);
+                        const oi = (oh - 8) * 2 + (om >= 30 ? 1 : 0);
+                        return <AgendaOpeningBand key={`open-${r.time}`} reason={r.reason} color={r.color} className="absolute left-0.5 right-0.5"
+                          style={{ top: oi * SLOT_HEIGHT + 1, height: r.span * SLOT_HEIGHT - 2 }} />;
+                      })}
+
                       {/* Blocks + appointments */}
                       {primary.map(({ slot, startIdx, spanCount }) => {
+                        if (slot.status === 'bloqueado' && slot.exceptionKind) {
+                          return <AgendaExceptionBlock key={`exc-${slot.time}`} slot={slot} compact className="absolute left-0.5 right-0.5"
+                            style={{ top: startIdx * SLOT_HEIGHT + 1, height: spanCount * SLOT_HEIGHT - 2 }} />;
+                        }
                         if (slot.status === 'bloqueado') {
                           return (
                             <div
