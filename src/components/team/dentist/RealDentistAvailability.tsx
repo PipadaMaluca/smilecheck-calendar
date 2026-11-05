@@ -13,7 +13,9 @@ import { WorkingHoursSection } from '@/components/settings/WorkingHoursSection';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDirectory } from '@/data/directorySource';
 import { formatDate } from '@/lib/formatters';
-import { listExceptions, createExceptions, deleteException, type AgendaException } from '@/data/agendaExceptions';
+import { listExceptions, deleteException, type AgendaException } from '@/data/agendaExceptions';
+import { saveAgendaExceptions } from '@/components/calendar/creation/saveAgendaExceptions';
+import { refreshAgendaAvailability } from '@/data/agendaAvailability';
 
 const REASONS = ['availability.reasonHoliday', 'availability.reasonTraining', 'availability.reasonPersonal', 'availability.reasonOther'] as const;
 
@@ -41,7 +43,9 @@ export function RealDentistAvailability() {
     const s = new Date(`${form.start}T00:00:00`); const e = new Date(`${end}T23:59:59`);
     setBusy(true);
     try {
-      await createExceptions([{ dentist_id: user.id, clinic_id: form.clinicId || null, kind: 'ausencia', starts_at: s.toISOString(), ends_at: e.toISOString(), full_day: true, reason: form.reason, note: form.note.trim() || null, color: null }]);
+      // Clinic wall clock; appointments already inside are listed, never cancelled.
+      await saveAgendaExceptions(t, 'ausencia', [{ dentistId: user.id, clinicId: form.clinicId || null }], [{ start: s, end: e }],
+        { createdBy: user.id, fullDay: true, reason: form.reason, note: form.note.trim() || null, color: null });
       setForm({ start: '', end: '', reason: REASONS[0], note: '', clinicId: '' });
       toast.success(t('exceptionsReal.saved'));
       await load();
@@ -49,7 +53,7 @@ export function RealDentistAvailability() {
   };
 
   const remove = async (id: string) => {
-    try { await deleteException(id); setRows((r) => (r ?? []).filter((x) => x.id !== id)); toast.success(t('exceptionsReal.deleted')); }
+    try { await deleteException(id); setRows((r) => (r ?? []).filter((x) => x.id !== id)); void refreshAgendaAvailability(); toast.success(t('exceptionsReal.deleted')); }
     catch { toast.error(t('exceptionsReal.saveFailed')); }
   };
 

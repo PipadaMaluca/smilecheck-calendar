@@ -111,7 +111,7 @@ export function exceptionsOnDay(date: Date, dentistIds: string[] | null, excepti
 }
 
 export function zoneFor(clinicId: string | null | undefined): string {
-  return (clinicId && state.zones[clinicId]) || DEFAULT_TZ;
+  return (clinicId && state.zones[clinicId]) || Object.values(state.zones)[0] || DEFAULT_TZ;
 }
 
 /** Translate the server's availability refusals into i18n keys. */

@@ -6,26 +6,29 @@ import type { TimeSlot } from '@/types/calendar';
 
 /** Real absence block (diagonal stripes + reason) — same family as the demo blocks. */
 export function AgendaExceptionBlock({ slot, style, className, compact }: { slot: TimeSlot; style?: CSSProperties; className?: string; compact?: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const color = slot.blockColor;
+  // Reasons picked from the quick list are stored as i18n keys; free text passes through.
+  const reason = slot.blockReason && i18n.exists(slot.blockReason) ? t(slot.blockReason) : slot.blockReason;
   return (
     <div
       data-agenda-exception="ausencia"
       role="note"
-      aria-label={`${t('exceptionsReal.absence')}: ${slot.blockReason || ''}`}
-      title={slot.blockReason || t('exceptionsReal.absence')}
+      aria-label={`${t('exceptionsReal.absence')}: ${reason || ''}`}
+      title={reason || t('exceptionsReal.absence')}
       className={cn('agenda-exception-block rounded flex items-center justify-center gap-1 overflow-hidden border-l-2 px-1', className)}
       style={{ ...(color ? ({ '--exc-color': color } as CSSProperties) : {}), ...style }}
     >
       {!compact && <Ban className="w-3 h-3 shrink-0 text-muted-foreground" aria-hidden />}
-      <span className="text-2xs font-medium text-muted-foreground truncate">{slot.blockReason || t('exceptionsReal.absence')}</span>
+      <span className="text-2xs font-medium text-muted-foreground truncate">{reason || t('exceptionsReal.absence')}</span>
     </div>
   );
 }
 
 /** Exceptional opening band drawn under free slots (never blocks clicks). */
-export function AgendaOpeningBand({ reason, color, style, className }: { reason?: string; color?: string; style?: CSSProperties; className?: string }) {
-  const { t } = useTranslation();
+export function AgendaOpeningBand({ reason: raw, color, style, className }: { reason?: string; color?: string; style?: CSSProperties; className?: string }) {
+  const { t, i18n } = useTranslation();
+  const reason = raw && i18n.exists(raw) ? t(raw) : raw;
   return (
     <div
       data-agenda-exception="abertura"
