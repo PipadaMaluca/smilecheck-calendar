@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
-import { demoDate, appToday } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { UserAvatarDropdown } from '@/components/header/UserAvatarDropdown';
@@ -639,7 +639,7 @@ export function DesktopCalendarView() {
         // Find next consultation for today for this dentist
         const DEMO_DATE = appToday(dir.isDemo);
         const dentistCons = agendaConsultations
-          .filter((c) => c.dentist.id === (mockDentists[0]?.id ?? '') && isSameDay(c.date, DEMO_DATE))
+          .filter((c) => c.dentist.id === (dir.isDemo ? (mockDentists[0]?.id ?? '') : dir.selfId) && isSameDay(c.date, DEMO_DATE))
           .sort((a, b) => a.time.localeCompare(b.time));
         const nextConsultation = dentistCons[0];
 

@@ -1,6 +1,6 @@
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { demoDate, appToday } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
