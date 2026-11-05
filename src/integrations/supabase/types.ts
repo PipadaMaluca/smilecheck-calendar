@@ -851,6 +851,79 @@ export type Database = {
           },
         ]
       }
+      conversations: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          kind: string
+          last_message_at: string
+          profile_a: string
+          profile_b: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          kind: string
+          last_message_at?: string
+          profile_a: string
+          profile_b: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          kind?: string
+          last_message_at?: string
+          profile_a?: string
+          profile_b?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_profile_a_fkey"
+            columns: ["profile_a"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_profile_a_fkey"
+            columns: ["profile_a"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_profile_b_fkey"
+            columns: ["profile_b"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_profile_b_fkey"
+            columns: ["profile_b"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_checkins: {
         Row: {
           checkin_date: string
@@ -881,6 +954,57 @@ export type Database = {
           {
             foreignKeyName: "daily_checkins_profile_id_fkey"
             columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dentist_availability: {
+        Row: {
+          city: string
+          created_at: string
+          dentist_id: string
+          ends_at: string
+          id: string
+          notes: string | null
+          radius_km: number
+          starts_at: string
+          updated_at: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          dentist_id: string
+          ends_at: string
+          id?: string
+          notes?: string | null
+          radius_km?: number
+          starts_at: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          dentist_id?: string
+          ends_at?: string
+          id?: string
+          notes?: string | null
+          radius_km?: number
+          starts_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dentist_availability_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dentist_availability_dentist_id_fkey"
+            columns: ["dentist_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1400,6 +1524,67 @@ export type Database = {
           {
             foreignKeyName: "job_posts_created_by_fkey"
             columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          attachment_mime: string | null
+          attachment_path: string | null
+          attachment_size: number | null
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+          voided_at: string | null
+        }
+        Insert: {
+          attachment_mime?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          body?: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+          voided_at?: string | null
+        }
+        Update: {
+          attachment_mime?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+          voided_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -2500,6 +2685,7 @@ export type Database = {
           answers: Json
           appointment_id: string
           created_at: string
+          family_member_id: string | null
           id: string
           patient_id: string
           summary: string | null
@@ -2508,6 +2694,7 @@ export type Database = {
           answers?: Json
           appointment_id: string
           created_at?: string
+          family_member_id?: string | null
           id?: string
           patient_id: string
           summary?: string | null
@@ -2516,6 +2703,7 @@ export type Database = {
           answers?: Json
           appointment_id?: string
           created_at?: string
+          family_member_id?: string | null
           id?: string
           patient_id?: string
           summary?: string | null
@@ -2526,6 +2714,13 @@ export type Database = {
             columns: ["appointment_id"]
             isOneToOne: false
             referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "triage_responses_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
             referencedColumns: ["id"]
           },
           {
@@ -2821,6 +3016,14 @@ export type Database = {
         Returns: boolean
       }
       can_read_dossier: { Args: { _patient_id: string }; Returns: boolean }
+      can_start_conversation: {
+        Args: { _me: string; _other: string }
+        Returns: string
+      }
+      can_upload_conversation_folder: {
+        Args: { _folder: string }
+        Returns: boolean
+      }
       cancel_clinic_invite: { Args: { _invite_id: string }; Returns: undefined }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
       claim_geocode_slot: { Args: never; Returns: undefined }
@@ -2871,6 +3074,7 @@ export type Database = {
       }
       is_approved_dentist: { Args: never; Returns: boolean }
       is_clinic_member: { Args: { _clinic_id: string }; Returns: boolean }
+      is_conversation_participant: { Args: { _conv: string }; Returns: boolean }
       is_professional_of_clinic: {
         Args: { _clinic_id: string }
         Returns: boolean
@@ -2915,13 +3119,21 @@ export type Database = {
         Args: { _level: Database["public"]["Enums"]["level_tier"] }
         Returns: number
       }
+      list_dentist_availability: { Args: never; Returns: Json }
       log_dossier_access: {
         Args: { _patient_id: string; _section: string }
         Returns: boolean
       }
+      mark_conversation_read: {
+        Args: { _conversation_id: string }
+        Returns: undefined
+      }
+      my_contactable_profiles: { Args: never; Returns: Json }
+      my_conversations: { Args: never; Returns: Json }
       my_favorites: { Args: never; Returns: Json }
       my_ranking: { Args: never; Returns: Json }
       my_treatment_plans: { Args: never; Returns: Json }
+      my_unread_messages: { Args: never; Returns: number }
       new_verification_code: { Args: never; Returns: string }
       next_document_number: {
         Args: { _clinic: string; _kind: string }
@@ -2933,11 +3145,20 @@ export type Database = {
       }
       notification_default_target: { Args: { _type: string }; Returns: string }
       open_clinical_document: { Args: { _id: string }; Returns: string }
+      open_message_attachment: {
+        Args: { _message_id: string }
+        Returns: string
+      }
+      owns_approved_clinic: { Args: never; Returns: boolean }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
       owns_job_post: { Args: { _post: string }; Returns: boolean }
       professional_reviews: {
         Args: { _clinic?: string; _dentist?: string }
         Returns: Json
+      }
+      profile_in_clinic: {
+        Args: { _clinic: string; _profile: string }
+        Returns: boolean
       }
       public_clinic_profile: { Args: { _id: string }; Returns: Json }
       public_dentist_profile: { Args: { _id: string }; Returns: Json }
@@ -3025,11 +3246,22 @@ export type Database = {
         }[]
       }
       send_annual_renewal_reminders: { Args: never; Returns: number }
+      send_message: {
+        Args: {
+          _attachment_mime?: string
+          _attachment_path?: string
+          _attachment_size?: number
+          _body: string
+          _conversation_id: string
+        }
+        Returns: string
+      }
       set_treatment_item_status: {
         Args: { _item_id: string; _status: string }
         Returns: undefined
       }
       short_person_name: { Args: { _full: string }; Returns: string }
+      start_conversation: { Args: { _other: string }; Returns: string }
       sync_profile_plan: {
         Args: { _env: string; _user_id: string }
         Returns: string
@@ -3041,6 +3273,7 @@ export type Database = {
         Args: { _id: string; _kind: string; _reason: string }
         Returns: undefined
       }
+      void_message: { Args: { _message_id: string }; Returns: undefined }
     }
     Enums: {
       app_language: "pt" | "fr" | "en"
