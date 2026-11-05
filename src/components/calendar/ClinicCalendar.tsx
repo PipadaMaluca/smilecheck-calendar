@@ -220,7 +220,7 @@ export function ClinicCalendar() {
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1' && passesAgendaFilters(c));
+    const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1' && passesAgendaFilters(c));
     return generateTimeSlots(date, consultations);
   };
 

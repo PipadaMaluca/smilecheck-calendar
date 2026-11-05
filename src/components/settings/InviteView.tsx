@@ -46,7 +46,7 @@ export function InviteView({ onClose, inline }: InviteViewProps) {
   const { user, profile, role } = useAuth();
   const ownerName = user
     ? profile?.full_name ?? user.email ?? ''
-    : role === 'dentist' ? mockDentists[0].name : role === 'clinic' ? mockClinics[0].name : mockFamilyMembers[0].name;
+    : role === 'dentist' ? (mockDentists[0]?.name ?? '') : role === 'clinic' ? (mockClinics[0]?.name ?? '') : (mockFamilyMembers[0]?.name ?? '');
   const code = (user && profile?.referral_code) || buildReferralCode(ownerName, user?.id ?? `demo-${role}`);
   const link = `${window.location.origin}/invite/${code}`;
 

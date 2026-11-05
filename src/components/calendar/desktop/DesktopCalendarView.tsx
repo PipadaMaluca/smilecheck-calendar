@@ -167,7 +167,7 @@ export function DesktopCalendarView() {
 
   // Consultation mode (dentist only)
   const dentistConsultations = useMemo(() =>
-    agendaConsultations.filter((c) => c.dentist.id === mockDentists[0].id), [agendaConsultations]);
+    agendaConsultations.filter((c) => c.dentist.id === (mockDentists[0]?.id ?? '')), [agendaConsultations]);
   const consultationMode = useConsultationMode(activeRole === 'dentist' ? dentistConsultations : []);
 
   // Onboarding: trigger on first visit per role
@@ -302,7 +302,7 @@ export function DesktopCalendarView() {
 
   const handleSelectAllFamilyMembers = () => {
     if (selectedFamilyMemberIds.length === mockFamilyMembers.length) {
-      setSelectedFamilyMemberIds([mockFamilyMembers[0].id]);
+      setSelectedFamilyMemberIds([(mockFamilyMembers[0]?.id ?? '')]);
     } else {
       setSelectedFamilyMemberIds(mockFamilyMembers.map((m) => m.id));
     }
@@ -639,7 +639,7 @@ export function DesktopCalendarView() {
         // Find next consultation for today for this dentist
         const DEMO_DATE = demoDate(2026, 0, 31);
         const dentistCons = agendaConsultations
-          .filter((c) => c.dentist.id === mockDentists[0].id && isSameDay(c.date, DEMO_DATE))
+          .filter((c) => c.dentist.id === (mockDentists[0]?.id ?? '') && isSameDay(c.date, DEMO_DATE))
           .sort((a, b) => a.time.localeCompare(b.time));
         const nextConsultation = dentistCons[0];
 
@@ -915,7 +915,7 @@ export function DesktopCalendarView() {
               {renderStandardHeader(t('profile.myProfile'))}
               <div className="flex-1 overflow-y-auto">
                 <ClinicProfileView
-                  clinicId={mockClinics[0].id}
+                  clinicId={(mockClinics[0]?.id ?? '')}
                   isOpen={true}
                   onClose={() => setActiveNavTab('home')}
                   isOwnProfile

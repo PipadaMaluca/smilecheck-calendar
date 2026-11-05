@@ -106,11 +106,11 @@ export function DentistCalendar() {
     }
   }, [activeTab]);
   useEffect(() => () => { agendaSettingsStore.reset(); }, []);
-  const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === mockDentists[0].id) || MOCK_DENTIST_RESULTS[0];
+  const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === dir.selfId) || MOCK_DENTIST_RESULTS[0];
 
   // Consultation mode
   const dentistConsultations = useMemo(() =>
-    agendaConsultations.filter((c) => c.dentist.id === mockDentists[0].id), [agendaConsultations]);
+    agendaConsultations.filter((c) => c.dentist.id === dir.selfId), [agendaConsultations]);
   const consultationMode = useConsultationMode(dentistConsultations);
 
   // Build columns based on selected clinics and dentists (like ClinicCalendar)
@@ -161,7 +161,7 @@ export function DentistCalendar() {
   // For list view - filter only Dr. Gonçalo Pipo's consultations (current user) or selected dentists
   const myConsultations = useMemo(() => {
     if (selectedDentistIds.length === 0) {
-      return agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && passesAgendaFilters(c));
+      return agendaConsultations.filter(c => c.dentist.id === dir.selfId && passesAgendaFilters(c));
     }
     return agendaConsultations.filter(c => {
       const key = `${c.clinic.id}-${c.dentist.id}`;
@@ -209,7 +209,7 @@ export function DentistCalendar() {
       return generateTimeSlots(date, consultations);
     }
     // Default to first dentist
-    const consultations = agendaConsultations.filter(c => c.dentist.id === mockDentists[0].id && c.clinic.id === '1');
+    const consultations = agendaConsultations.filter(c => c.dentist.id === dir.selfId && c.clinic.id === '1');
     return generateTimeSlots(date, consultations);
   };
 
@@ -350,10 +350,10 @@ export function DentistCalendar() {
     if (tab === 'consulta-detalhe') {
       const DEMO_DATE = demoDate(2026, 0, 31);
       const dentistCons = agendaConsultations
-        .filter(c => c.dentist.id === mockDentists[0].id && c.date.toDateString() === DEMO_DATE.toDateString())
+        .filter(c => c.dentist.id === dir.selfId && c.date.toDateString() === DEMO_DATE.toDateString())
         .sort((a, b) => a.time.localeCompare(b.time));
       const next = dentistCons[0] ?? [...agendaConsultations]
-        .filter(c => c.dentist.id === mockDentists[0].id && c.date.getTime() >= new Date().setHours(0, 0, 0, 0))
+        .filter(c => c.dentist.id === dir.selfId && c.date.getTime() >= new Date().setHours(0, 0, 0, 0))
         .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
       setShowSearch(false); setShowProfile(false); setShowInvite(false);
       setActiveTab('agenda');
@@ -458,7 +458,7 @@ export function DentistCalendar() {
                   onDentistToggle={handleDentistToggle}
                   onClinicToggle={handleMobileClinicToggle}
                   viewMode={viewMode}
-                  currentDentistId={mockDentists[0].id}
+                  currentDentistId={dir.selfId}
                   columns={mobileColumns}
                   activeKey={viewMode === 'day' ? mobileActiveDentistKey : undefined}
                   onActiveKeyChange={(k) => setMobileActiveDentistKey(k)}
@@ -467,7 +467,7 @@ export function DentistCalendar() {
             ) : (
               <>
                 <DentistAgendaDropdown
-                  currentDentistId={mockDentists[0].id}
+                  currentDentistId={dir.selfId}
                   selectedDentistIds={selectedDentistIds}
                   onDentistToggle={handleDentistToggle}
                   onClinicToggle={handleMobileClinicToggle}

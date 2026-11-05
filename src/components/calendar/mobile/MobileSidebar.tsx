@@ -57,10 +57,10 @@ export function MobileSidebar({
   const { badges, clearBadge } = useNotificationBadges();
 
   const userName = userRole === 'patient' ?
-  mockFamilyMembers[0].name :
+  (mockFamilyMembers[0]?.name ?? '') :
   userRole === 'dentist' ?
-  mockDentists[0].name :
-  mockClinics[0].name;
+  (mockDentists[0]?.name ?? '') :
+  (mockClinics[0]?.name ?? '');
 
   const userSubtitle = userRole === 'patient' ?
   t('roles.patient') :
