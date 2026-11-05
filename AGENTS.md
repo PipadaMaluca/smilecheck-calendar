@@ -40,3 +40,5 @@
 - Spoken languages: closed list in `spokenLanguages.ts` (mirrored server-side); weekdays via `weekdayLabels()`.
 - Directory data only via `useDirectory()` (`src/data/directorySource.ts`): demo=mock, real=RLS.
 - Clinical docs, rankings, jobs: writes only via RPCs/RLS (`issue_*`, `void_clinical_document`, `my_ranking`, `job_*` tables); public QR = anon `verify_document`; real screens are `Real*` beside untouched demo ones (`useDirectory().isDemo`).
+
+- Google sign-in: new social accounts get `profiles.role_pending` (no role rows) and pick the role once via `choose_initial_role` (RoleChoiceGate before TermsGate); `role_pending` is trigger-protected — so a client can never re-choose a role.
