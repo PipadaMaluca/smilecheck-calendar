@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Settings, LogOut, Gem, Star, Flame } from 'lucide-react';
 import { UserRole } from '@/types/calendar';
-import { mockDentists, mockFamilyMembers, mockClinics } from '@/data/mockData';
+import { useDirectory, demoDirectory } from '@/data/directorySource';
 import { LEVEL_CONFIG } from '@/data/mockDentistSearch';
 import { getLevelForXP } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
@@ -30,15 +30,15 @@ interface UserAvatarDropdownProps {
   compactText?: boolean;
 }
 
-function getUserInfo(userRole: UserRole, xp: number, t: (key: string) => string) {
+function getUserInfo(userRole: UserRole, xp: number, t: (key: string) => string, name: string) {
   const lvl = getLevelForXP(xp).key;
   switch (userRole) {
     case 'patient':
-      return { name: mockFamilyMembers[0].name, subtitle: t('common.patient'), level: lvl };
+      return { name, subtitle: t('common.patient'), level: lvl };
     case 'dentist':
-      return { name: mockDentists[0].name, subtitle: t('common.dentist'), level: lvl };
+      return { name, subtitle: t('common.dentist'), level: lvl };
     case 'clinic':
-      return { name: mockClinics[0].name, subtitle: t('common.clinic'), level: lvl };
+      return { name, subtitle: t('common.clinic'), level: lvl };
   }
 }
 
@@ -52,7 +52,8 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
   const stats = usePointsData(userRole);
 
 
-  const userInfo = getUserInfo(userRole, stats.xp, t);
+  const dir = useDirectory();
+  const userInfo = getUserInfo(userRole, stats.xp, t, dir.isDemo ? demoDirectory(userRole).selfName : dir.selfName);
   const levelCfg = LEVEL_CONFIG[userInfo.level];
 
   useEffect(() => {

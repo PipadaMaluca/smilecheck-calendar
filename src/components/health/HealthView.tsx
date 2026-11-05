@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
 import { useDeepLink, revealElement } from '@/lib/deepLink';
 import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
