@@ -27,9 +27,10 @@ export function ProfileNavigationProvider({
   const openDentistProfile = useCallback((nameOrResult: string | DentistSearchResult) => {
     if (typeof nameOrResult === 'string' && !dir.isDemo) {
       // Real: uuid or a directory name → public-only profile from the server.
-      const id = isUuid(nameOrResult)
-        ? nameOrResult
-        : dir.dentists.find((d) => d.name.toLowerCase() === nameOrResult.toLowerCase())?.id;
+      const key: string = nameOrResult;
+      const id = isUuid(key)
+        ? key
+        : dir.dentists.find((d) => d.name.toLowerCase() === key.toLowerCase())?.id;
       if (id) void fetchPublicDentist(id).then((d) => { if (d) onOpenDentistProfile(d); });
       return;
     }
