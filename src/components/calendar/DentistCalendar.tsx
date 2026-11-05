@@ -50,6 +50,7 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
 import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
@@ -580,7 +581,12 @@ export function DentistCalendar() {
           />
         )}
 
-        {showProfile && (
+        {showProfile && !dir.isDemo && (
+          <div className="fixed inset-0 z-modal bg-background overflow-y-auto">
+            <OwnRealProfile role="dentist" onClose={() => setShowProfile(false)} onEdit={() => { setShowProfile(false); setShowEditProfile(true); }} />
+          </div>
+        )}
+        {showProfile && dir.isDemo && (
           <DentistProfileView
             dentist={ownDentist}
             isOpen={true}
