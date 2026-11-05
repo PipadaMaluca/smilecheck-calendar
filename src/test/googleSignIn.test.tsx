@@ -112,6 +112,38 @@ describe('Google sign-in on "create account"', () => {
   });
 });
 
+describe('Apple and Facebook on "create account" stay "soon"', () => {
+  beforeEach(() => {
+    h.signInWithOAuth.mockReset();
+    h.getUser.mockReset();
+    h.maybeSingle.mockReset();
+    h.navigate.mockReset();
+  });
+
+  it('Apple is disabled, shows the "soon" badge and starts nothing', () => {
+    openSignUpForm();
+    const btn = screen.getByRole('button', { name: /auth\.continueWithApple/ });
+    expect(btn).toBeDisabled();
+    expect(btn.getAttribute('data-soon')).toBe('');
+    expect(screen.getByText('common.comingSoon')).toBeTruthy();
+    fireEvent.click(btn);
+    expect(h.signInWithOAuth).not.toHaveBeenCalled();
+    expect(h.navigate).not.toHaveBeenCalled();
+    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
+  });
+
+  it('Facebook is disabled, shows the "soon" badge and starts nothing', () => {
+    openSignUpForm();
+    const btn = screen.getByRole('button', { name: /auth\.continueWithFacebook/ });
+    expect(btn).toBeDisabled();
+    expect(btn.getAttribute('data-soon')).toBe('');
+    fireEvent.click(btn);
+    expect(h.signInWithOAuth).not.toHaveBeenCalled();
+    expect(h.navigate).not.toHaveBeenCalled();
+    expect(screen.queryByText('auth.completeRegistration')).toBeNull();
+  });
+});
+
 describe('shared Google sign-in helper', () => {
   beforeEach(() => {
     h.signInWithOAuth.mockReset();
