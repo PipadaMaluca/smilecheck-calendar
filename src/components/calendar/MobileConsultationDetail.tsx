@@ -2,6 +2,7 @@ import { PILL_CLASS } from '@/components/ui/badge';
 import { getDateFnsLocale, formatCurrency } from '@/lib/formatters';
 import { RescheduleModal } from '@/components/calendar/RescheduleModal';
 import { SoonButton } from '@/components/ui/soon-button';
+import { RealTriagePanel } from '@/components/dossier/RealTriagePanel';
 import { useEffect, useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { ArrowLeft, User, Calendar, Clock, MapPin, Video, Star, Phone, Camera, MessageCircle, FileText, RefreshCw, Copy, X, AlertTriangle, Pill, ChevronDown, ChevronUp, Ban, Unlock } from 'lucide-react';
@@ -283,7 +284,8 @@ export function MobileConsultationDetail({ consultation, onClose, onNavigate, on
           </div>
 
           {/* Triagem */}
-          {consultation.triage && (
+          {consultation.ref && <RealTriagePanel appointmentId={consultation.id} />}
+          {!consultation.ref && consultation.triage && (
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-muted-foreground uppercase">{t('consultationDetail.triage')}</h3>
               <div className="space-y-2 text-sm">
