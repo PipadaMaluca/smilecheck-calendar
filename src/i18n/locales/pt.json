@@ -746,7 +746,15 @@
     "presencial": "PRESENCIAL",
     "schedule": "Agenda",
     "time": "Horário",
-    "status": "Estatuto",
+    "status": {
+      "agendada": "Agendada",
+      "confirmada": "Confirmada",
+      "em_sala_espera": "Em sala de espera",
+      "em_consulta": "Em consulta",
+      "visto": "Visto",
+      "falta_justificada": "Falta justificada",
+      "falta_nao_justificada": "Falta não justificada"
+    },
     "arrivedAt": "Chegou às",
     "action": "Ação",
     "consultationReason": "Motivo de consulta",
@@ -758,7 +766,10 @@
     "generalDentist": "Médico dentista",
     "dentists": "Dentistas",
     "teleconsultation": "Teleconsulta",
-    "weekOf": "Semana de {{range}}"
+    "weekOf": "Semana de {{range}}",
+    "lunchBlock": "ALMOÇO",
+    "consultationCount_one": "{{count}} consulta",
+    "consultationCount_other": "{{count}} consultas"
   },
   "consultationTypes": {
     "firstConsultation": "1ª consulta",
@@ -1899,7 +1910,7 @@
       "noDistance": "Sem localização",
       "sortName": "Nome"
     },
-    "osmAttribution": "Distâncias calculadas com dados © OpenStreetMap contributors"
+    "osmAttribution": "Distâncias calculadas com dados © OpenStreetMap contributors · Base Adresse Nationale"
   },
   "history": {
     "consultationHistory": "Histórico de consultas",
@@ -5403,7 +5414,7 @@
     "required": "Indique a rua e o número.",
     "notFound": "Não conseguimos localizar esta morada no mapa. Verifique o código postal.",
     "located": "Localizada no mapa",
-    "privacy": "Para calcular a distância na pesquisa, só a morada da clínica é enviada ao OpenStreetMap."
+    "privacy": "Para calcular a distância na pesquisa, só a morada da clínica é enviada a serviços de mapas públicos (Base Adresse Nationale, Photon/OpenStreetMap)."
   },
   "dentistLanguages": {
     "title": "Línguas faladas",

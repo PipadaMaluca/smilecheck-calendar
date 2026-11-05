@@ -2,13 +2,15 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 
-// Saves a clinic's address (owner only) and geocodes it server-side with Nominatim (OpenStreetMap).
-// Usage policy: max 1 request/second (global DB throttle), identifying User-Agent, cache = only
-// re-query when the address changes (clinics.geocoded_address). Only clinic (professional) addresses are sent.
-const APP_URL = "https://id-preview--32406e4d-a317-44f1-9a40-adff5c8d9619.lovable.app";
-const USER_AGENT = `SmileCheck/1.0 (+${APP_URL})`;
-const HEADERS = { "User-Agent": USER_AGENT, "Referer": APP_URL, "Accept-Language": "pt,fr,en" };
-const NOMINATIM = "https://nominatim.openstreetmap.org/search";
+// Saves a clinic's address (owner only) and geocodes it server-side with key-free services:
+// France → API Adresse (Base Adresse Nationale, score ≥ 0.5) then Photon; elsewhere → Photon (OpenStreetMap,
+// filtered by the clinic's country) then API Adresse. Max 1 request/second (global DB throttle), identifying
+// User-Agent without email, cache = only re-query when the address changes. Only clinic addresses are sent.
+const USER_AGENT = "SmileCheck/1.0 (clinic address geocoding)";
+const HEADERS = { "User-Agent": USER_AGENT, "Accept": "application/json" };
+const BAN = "https://api-adresse.data.gouv.fr/search/";
+const PHOTON = "https://photon.komoot.io/api/";
+export const BAN_MIN_SCORE = 0.5;
 
 const Save = z.object({
   clinicId: z.string().uuid(),
@@ -26,30 +28,54 @@ type Clinic = { id: string; address: string | null; postal_code: string | null; 
 export const addressKey = (c: { address?: string | null; postal_code?: string | null; city?: string | null; country?: string | null }) =>
   [c.address, c.postal_code, c.city, c.country].map((v) => (v ?? "").trim().replace(/\s+/g, " ").toLowerCase()).join("|");
 
-async function geocode(admin: SupabaseClient, c: Clinic): Promise<{ lat: number; lng: number } | null | "error"> {
-  const { error: slotErr } = await admin.rpc("claim_geocode_slot");
-  if (slotErr) { console.error("geocode slot failed:", slotErr.message); return "error"; }
-  const country = (c.country || "PT").toLowerCase();
-  const params = new URLSearchParams({ format: "jsonv2", limit: "1", countrycodes: country, street: c.address ?? "" });
-  if (c.postal_code) params.set("postalcode", c.postal_code);
-  if (c.city) params.set("city", c.city);
-  let res: Response;
-  try { res = await fetch(`${NOMINATIM}?${params}`, { headers: HEADERS }); }
-  catch (e) { console.error("Nominatim fetch failed:", String(e)); return "error"; }
-  if (!res.ok) { console.error(`Nominatim [${res.status}]: ${(await res.text()).slice(0, 300)}`); return "error"; }
-  let rows = await res.json() as { lat: string; lon: string }[];
-  if (!rows.length) {
-    // Free-text fallback (e.g. "Rue de Paris 45, Mitry-Mory" stored in one field).
-    await admin.rpc("claim_geocode_slot");
-    const q = [c.address, c.postal_code, c.city].filter(Boolean).join(", ");
-    res = await fetch(`${NOMINATIM}?${new URLSearchParams({ format: "jsonv2", limit: "1", countrycodes: country, q })}`,
-      { headers: HEADERS });
-    if (!res.ok) { console.error(`Nominatim [${res.status}]: ${(await res.text()).slice(0, 300)}`); return "error"; }
-    rows = await res.json();
+type Hit = { lat: number; lng: number; source: "ban" | "photon" };
+type Lookup = Hit | null | "error";
+
+async function getJson(admin: SupabaseClient, url: string): Promise<unknown | "error"> {
+  const { error } = await admin.rpc("claim_geocode_slot");
+  if (error) { console.error("geocode slot failed:", error.message); return "error"; }
+  try {
+    const res = await fetch(url, { headers: HEADERS });
+    if (!res.ok) { console.error(`Geocoder [${res.status}] ${new URL(url).host}: ${(await res.text()).slice(0, 200)}`); return "error"; }
+    return await res.json();
+  } catch (e) { console.error("Geocoder fetch failed:", String(e)); return "error"; }
+}
+
+const freeText = (c: Pick<Clinic, "address" | "postal_code" | "city">) =>
+  [c.address, [c.postal_code, c.city].filter(Boolean).join(" ")].filter(Boolean).join(", ");
+
+async function viaBan(admin: SupabaseClient, c: Clinic): Promise<Lookup> {
+  const p = new URLSearchParams({ q: freeText(c), limit: "1" });
+  if (c.postal_code) p.set("postcode", c.postal_code.replace(/\s+/g, ""));
+  const data = await getJson(admin, `${BAN}?${p}`) as { features?: { geometry: { coordinates: [number, number] }; properties: { score: number } }[] } | "error";
+  if (data === "error") return "error";
+  const f = data.features?.[0];
+  if (!f || !(f.properties?.score >= BAN_MIN_SCORE)) return null;
+  const [lng, lat] = f.geometry.coordinates;
+  return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng, source: "ban" } : null;
+}
+
+async function viaPhoton(admin: SupabaseClient, c: Clinic): Promise<Lookup> {
+  // A few candidates so the country filter can drop homonyms abroad.
+  const p = new URLSearchParams({ q: freeText(c), limit: "5" });
+  const data = await getJson(admin, `${PHOTON}?${p}`) as { features?: { geometry: { coordinates: [number, number] }; properties: { countrycode?: string } }[] } | "error";
+  if (data === "error") return "error";
+  const want = (c.country || "PT").toUpperCase();
+  const f = data.features?.find((x) => (x.properties?.countrycode ?? "").toUpperCase() === want);
+  if (!f) return null;
+  const [lng, lat] = f.geometry.coordinates;
+  return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng, source: "photon" } : null;
+}
+
+async function geocode(admin: SupabaseClient, c: Clinic): Promise<Lookup> {
+  const order = (c.country || "PT").toUpperCase() === "FR" ? [viaBan, viaPhoton] : [viaPhoton, viaBan];
+  let sawError = false;
+  for (const fn of order) {
+    const r = await fn(admin, c);
+    if (r && r !== "error") return r;
+    if (r === "error") sawError = true;
   }
-  if (!rows.length) return null;
-  const lat = Number(rows[0].lat), lng = Number(rows[0].lon);
-  return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null;
+  return sawError ? "error" : null;
 }
 
 async function refreshCoordinates(admin: SupabaseClient, c: Clinic): Promise<"ok" | "not_found" | "error" | "cached"> {
@@ -60,6 +86,7 @@ async function refreshCoordinates(admin: SupabaseClient, c: Clinic): Promise<"ok
   await admin.from("clinics").update({
     latitude: r && r !== "error" ? r.lat : null,
     longitude: r && r !== "error" ? r.lng : null,
+    geocode_source: r && r !== "error" ? r.source : null,
     // On a service error keep no cache key, so the next save retries.
     geocoded_address: status === "error" ? null : key,
     geocode_status: status,
@@ -101,6 +128,6 @@ Deno.serve(async (req) => {
   if (error || !saved) return json({ error: "save_failed" }, 500);
 
   const status = await refreshCoordinates(admin, saved as Clinic);
-  const { data: final } = await admin.from("clinics").select("geocode_status").eq("id", p.clinicId).single();
-  return json({ saved: true, geocode: status === "cached" ? final?.geocode_status ?? null : status });
+  const { data: final } = await admin.from("clinics").select("geocode_status, geocode_source").eq("id", p.clinicId).single();
+  return json({ saved: true, geocode: final?.geocode_status ?? null, source: final?.geocode_source ?? null });
 });

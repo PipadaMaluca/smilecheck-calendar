@@ -106,7 +106,7 @@ export function DesktopMonthView({
               {count > 0 && isCurrentMonth && (
                 <div className="space-y-0.5">
                   <div className="text-2xs text-muted-foreground font-medium">
-                    {count} consulta{count !== 1 ? 's' : ''}
+                    {t('agenda.consultationCount', { count })}
                   </div>
                   {/* Mini category dots */}
                   <div className="flex flex-wrap gap-0.5">

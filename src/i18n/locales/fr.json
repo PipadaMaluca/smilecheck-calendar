@@ -746,7 +746,15 @@
     "presencial": "EN CABINET",
     "schedule": "Agenda",
     "time": "Heure",
-    "status": "Statut",
+    "status": {
+      "agendada": "Planifié",
+      "confirmada": "Confirmé",
+      "em_sala_espera": "En salle d'attente",
+      "em_consulta": "En consultation",
+      "visto": "Vu",
+      "falta_justificada": "Absence justifiée",
+      "falta_nao_justificada": "Absence non justifiée"
+    },
     "arrivedAt": "Arrivé à",
     "action": "Action",
     "consultationReason": "Motif de consultation",
@@ -758,7 +766,10 @@
     "generalDentist": "Médecin dentiste",
     "dentists": "Dentistes",
     "teleconsultation": "Téléconsultation",
-    "weekOf": "Semaine du {{range}}"
+    "weekOf": "Semaine du {{range}}",
+    "lunchBlock": "DÉJEUNER",
+    "consultationCount_one": "{{count}} rendez-vous",
+    "consultationCount_other": "{{count}} rendez-vous"
   },
   "consultationTypes": {
     "firstConsultation": "1ère consultation",
@@ -1883,7 +1894,7 @@
       "noDistance": "Sans localisation",
       "sortName": "Nom"
     },
-    "osmAttribution": "Distances calculées avec des données © OpenStreetMap contributors"
+    "osmAttribution": "Distances calculées avec des données © OpenStreetMap contributors · Base Adresse Nationale"
   },
   "history": {
     "consultationHistory": "Historique des consultations",
@@ -5403,7 +5414,7 @@
     "required": "Indiquez la rue et le numéro.",
     "notFound": "Nous n'avons pas pu localiser cette adresse sur la carte. Vérifiez le code postal.",
     "located": "Localisée sur la carte",
-    "privacy": "Pour calculer la distance dans la recherche, seule l'adresse de la clinique est envoyée à OpenStreetMap."
+    "privacy": "Pour calculer la distance dans la recherche, seule l'adresse de la clinique est envoyée à des services cartographiques publics (Base Adresse Nationale, Photon/OpenStreetMap)."
   },
   "dentistLanguages": {
     "title": "Langues parlées",
