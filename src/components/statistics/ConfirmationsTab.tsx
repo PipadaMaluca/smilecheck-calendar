@@ -14,6 +14,9 @@ import { UserRole, CATEGORY_COLORS, getCategoryBadgeStyle, getCategoryLabel } fr
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTranslation } from 'react-i18next';
 import { getDentistInitials } from '@/lib/avatarUtils';
+import { useKpiData } from '@/data/kpiSource';
+import { useDirectory } from '@/data/directorySource';
+import { dentistKey } from '@/data/kpis';
 
 const DEMO_DATE = demoDate(2026, 0, 31);
 
@@ -92,18 +95,24 @@ interface ConfirmationsTabProps {
 export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTabProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
-  const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
+  const kpi = useKpiData(userRole);
+  const dir = useDirectory();
+  const real = !kpi.isDemo;
+  const clinicDentists = useMemo(
+    () => (real ? (userRole === 'dentist' ? [{ id: dir.selfId, name: dir.selfName }] : dir.dentists) : getDentistsForClinic('1')),
+    [real, userRole, dir],
+  );
 
   const dentistsToShow = useMemo(() => {
-    if (userRole === 'dentist') return clinicDentists.filter(d => d.id === '1');
+    if (userRole === 'dentist') return real ? clinicDentists : clinicDentists.filter(d => d.id === '1');
     if (selectedDentist !== 'all') return clinicDentists.filter(d => d.id === selectedDentist);
     return clinicDentists;
-  }, [clinicDentists, selectedDentist, userRole]);
+  }, [clinicDentists, selectedDentist, userRole, real]);
 
   const todayConsultations = useMemo(() =>
-    mockConsultations.filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE))
+    (real ? kpi.consultations.filter(c => isSameDay(c.date, kpi.today)) : mockConsultations.filter(c => c.clinic.id === '1' && isSameDay(c.date, DEMO_DATE)))
       .filter(c => !c.status || c.status === 'agendada' || c.status === 'confirmada'),
-  []);
+  [real, kpi]);
 
   return (
     <div className="space-y-4">
@@ -127,7 +136,7 @@ export function ConfirmationsTab({ selectedDentist, userRole }: ConfirmationsTab
 
       {dentistsToShow.map(dentist => {
         const dCons = todayConsultations
-          .filter(c => c.dentist.id === dentist.id)
+          .filter(c => dentistKey(c) === dentist.id)
           .sort((a, b) => a.time.localeCompare(b.time));
 
         const displayCons = userRole === 'clinic' ? dCons.slice(0, 5) : dCons;
