@@ -175,7 +175,7 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
         <div className="flex-1 min-h-[400px] h-[60vh]">
           <Suspense fallback={<Skeleton className="h-full w-full" />}>
             {activeFilter === 'clinics' ? (
-              <DentistMapView clinics={filteredClinics} onViewClinic={id => onViewClinicProfile?.(id)} />
+              <DentistMapView clinics={filteredClinics.filter((c): c is typeof c & { lat: number; lng: number } => c.lat != null && c.lng != null)} onViewClinic={id => onViewClinicProfile?.(id)} />
             ) : (
               <DentistMapView dentists={filteredDentists} onViewProfile={d => onViewDentistProfile?.(d)} />
             )}

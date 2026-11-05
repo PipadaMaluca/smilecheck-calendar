@@ -11,8 +11,9 @@ export interface ClinicMapItem {
   id: string;
   name: string;
   address: string;
-  rating: number;
-  reviewCount: number;
+  /** Demo only — real clinic ratings are private (pending the Ordem's opinion). */
+  rating?: number;
+  reviewCount?: number;
   lat: number;
   lng: number;
 }
@@ -111,10 +112,12 @@ export default function DentistMapView({ dentists = [], onViewProfile, focusedId
                     <p className="text-sm font-semibold truncate">{c.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{c.address}</p>
                     <div className="flex items-center justify-between gap-2">
-                      <span className="flex items-center gap-1 text-xs">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
-                        {c.rating} <span className="text-muted-foreground">({c.reviewCount})</span>
-                      </span>
+                      {c.rating !== undefined ? (
+                        <span className="flex items-center gap-1 text-xs">
+                          <Star className="w-3.5 h-3.5 fill-amber-400 text-warning" />
+                          {c.rating} <span className="text-muted-foreground">({c.reviewCount})</span>
+                        </span>
+                      ) : <span />}
                       <Button type="button" size="sm" className="min-h-11" onClick={() => onViewClinic?.(c.id)}>
                         {t('search.viewProfileBtn')}
                       </Button>
