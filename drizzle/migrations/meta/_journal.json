@@ -127,6 +127,13 @@
       "when": 1793841845337,
       "tag": "0017_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1793842681931,
+      "tag": "0018_favorites_reviews_public_profiles_patient_search",
+      "breakpoints": true
     }
   ]
 }

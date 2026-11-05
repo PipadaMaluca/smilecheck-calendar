@@ -772,6 +772,73 @@ export type Database = {
           },
         ]
       }
+      favorites: {
+        Row: {
+          clinic_id: string | null
+          created_at: string
+          dentist_id: string | null
+          id: string
+          user_id: string
+        }
+        Insert: {
+          clinic_id?: string | null
+          created_at?: string
+          dentist_id?: string | null
+          id?: string
+          user_id: string
+        }
+        Update: {
+          clinic_id?: string | null
+          created_at?: string
+          dentist_id?: string | null
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       fear_assessments: {
         Row: {
           appointment_id: string | null
@@ -1775,12 +1842,19 @@ export type Database = {
         Args: { _patient_id: string; _section: string }
         Returns: boolean
       }
+      my_favorites: { Args: never; Returns: Json }
       next_free_slot: {
         Args: { _clinic: string; _dentist: string }
         Returns: string
       }
       notification_default_target: { Args: { _type: string }; Returns: string }
       owns_clinic: { Args: { _clinic_id: string }; Returns: boolean }
+      professional_reviews: {
+        Args: { _clinic?: string; _dentist?: string }
+        Returns: Json
+      }
+      public_clinic_profile: { Args: { _id: string }; Returns: Json }
+      public_dentist_profile: { Args: { _id: string }; Returns: Json }
       recompute_profile_rating: {
         Args: { _profile_id: string }
         Returns: undefined
@@ -1799,6 +1873,18 @@ export type Database = {
       respond_clinic_invite: {
         Args: { _accept: boolean; _invite_id: string }
         Returns: undefined
+      }
+      search_my_patients: {
+        Args: { _limit?: number; _offset?: number; _q?: string }
+        Returns: {
+          date_of_birth: string
+          full_name: string
+          id: string
+          last_visit: string
+          next_visit: string
+          phone: string
+          total: number
+        }[]
       }
       search_professionals: {
         Args: {
@@ -1829,6 +1915,7 @@ export type Database = {
         }[]
       }
       send_annual_renewal_reminders: { Args: never; Returns: number }
+      short_person_name: { Args: { _full: string }; Returns: string }
       sync_profile_plan: {
         Args: { _env: string; _user_id: string }
         Returns: string
