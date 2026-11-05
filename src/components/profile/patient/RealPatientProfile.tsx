@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDirectory } from '@/data/directorySource';
 import { usePointsData } from '@/data/pointsSource';
-import { getLevelForXP } from '@/data/pointsData';
+import { getLevelForXP, LEVEL_TRANSLATION_KEYS } from '@/data/pointsData';
 import { parseSelfDeclared, type SelfDeclared } from '@/data/dossierSource';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';

@@ -59,7 +59,7 @@ export function RealDentistAvailability() {
     <div className="space-y-4">
       <WorkingHoursSection />
       <Card className="bg-card/80 border-border">
-        <CardHeader className="pb-2"><CardTitle size="compact">{t('availability.exceptions')}</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle size="compact">{t('availability.exceptionsTitle')}</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-1"><Label htmlFor="ex-start" className="text-xs">{t('creationTabs.startDate')}</Label>
