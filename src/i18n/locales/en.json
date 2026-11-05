@@ -746,7 +746,15 @@
     "presencial": "IN-PERSON",
     "schedule": "Schedule",
     "time": "Time",
-    "status": "Status",
+    "status": {
+      "agendada": "Scheduled",
+      "confirmada": "Confirmed",
+      "em_sala_espera": "In waiting room",
+      "em_consulta": "In consultation",
+      "visto": "Seen",
+      "falta_justificada": "Excused no-show",
+      "falta_nao_justificada": "Unexcused no-show"
+    },
     "arrivedAt": "Arrived at",
     "action": "Action",
     "consultationReason": "Consultation reason",

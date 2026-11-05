@@ -746,7 +746,15 @@
     "presencial": "PRESENCIAL",
     "schedule": "Agenda",
     "time": "Horário",
-    "status": "Estatuto",
+    "status": {
+      "agendada": "Agendada",
+      "confirmada": "Confirmada",
+      "em_sala_espera": "Em sala de espera",
+      "em_consulta": "Em consulta",
+      "visto": "Visto",
+      "falta_justificada": "Falta justificada",
+      "falta_nao_justificada": "Falta não justificada"
+    },
     "arrivedAt": "Chegou às",
     "action": "Ação",
     "consultationReason": "Motivo de consulta",

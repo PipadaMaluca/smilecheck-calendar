@@ -746,7 +746,15 @@
     "presencial": "EN CABINET",
     "schedule": "Agenda",
     "time": "Heure",
-    "status": "Statut",
+    "status": {
+      "agendada": "Planifié",
+      "confirmada": "Confirmé",
+      "em_sala_espera": "En salle d'attente",
+      "em_consulta": "En consultation",
+      "visto": "Vu",
+      "falta_justificada": "Absence justifiée",
+      "falta_nao_justificada": "Absence non justifiée"
+    },
     "arrivedAt": "Arrivé à",
     "action": "Action",
     "consultationReason": "Motif de consultation",

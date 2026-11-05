@@ -1,3 +1,4 @@
+import i18n from '@/i18n';
 export type ConsultationType = 'teleconsulta' | 'presencial';
 
 export type ConsultationStatus = 
@@ -81,13 +82,13 @@ export interface Consultation {
 
 // Consultation status colors and labels
 export const STATUS_CONFIG: Record<ConsultationStatus, { label: string; color: string; bg: string; icon: string }> = {
-  agendada: { label: 'Agendada', color: 'text-blue-400', bg: 'bg-blue-500/20', icon: '📅' },
-  confirmada: { label: 'Confirmada', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: '✅' },
-  em_sala_espera: { label: 'Em sala de espera', color: 'text-sky-400', bg: 'bg-sky-500/20', icon: '🪑' },
-  em_consulta: { label: 'Em consulta', color: 'text-amber-400', bg: 'bg-amber-500/20', icon: '🦷' },
-  visto: { label: 'Visto', color: 'text-green-400', bg: 'bg-green-500/20', icon: '✔️' },
-  falta_justificada: { label: 'Falta justificada', color: 'text-orange-400', bg: 'bg-orange-500/20', icon: '⚠️' },
-  falta_nao_justificada: { label: 'Falta não justificada', color: 'text-destructive', bg: 'bg-destructive/20', icon: '❌' },
+  agendada: { get label() { return i18n.t('agenda.status.agendada'); }, color: 'text-blue-400', bg: 'bg-blue-500/20', icon: '📅' },
+  confirmada: { get label() { return i18n.t('agenda.status.confirmada'); }, color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: '✅' },
+  em_sala_espera: { get label() { return i18n.t('agenda.status.em_sala_espera'); }, color: 'text-sky-400', bg: 'bg-sky-500/20', icon: '🪑' },
+  em_consulta: { get label() { return i18n.t('agenda.status.em_consulta'); }, color: 'text-amber-400', bg: 'bg-amber-500/20', icon: '🦷' },
+  visto: { get label() { return i18n.t('agenda.status.visto'); }, color: 'text-green-400', bg: 'bg-green-500/20', icon: '✔️' },
+  falta_justificada: { get label() { return i18n.t('agenda.status.falta_justificada'); }, color: 'text-orange-400', bg: 'bg-orange-500/20', icon: '⚠️' },
+  falta_nao_justificada: { get label() { return i18n.t('agenda.status.falta_nao_justificada'); }, color: 'text-destructive', bg: 'bg-destructive/20', icon: '❌' },
 };
 
 export interface TimeSlot {
