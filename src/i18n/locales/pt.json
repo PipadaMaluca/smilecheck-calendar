@@ -105,8 +105,7 @@
     "from": "De",
     "to": "Até",
     "weeksAgo": "Há {{n}} semanas",
-    "retry": "Tentar novamente",
-    "comingSoon": "Em breve"
+    "retry": "Tentar novamente"
   },
   "nav": {
     "home": "Início",
@@ -292,7 +291,7 @@
   },
   "landing": {
     "hero": {
-      "badge": "Teleconsultas em breve",
+      "badge": "Teleconsultas em preparação",
       "title": "O seu sorriso merece",
       "titleHighlight": "o melhor",
       "subtitle": "Gestão de consultas, teleconsultas, pontos e recompensas numa só plataforma. Para pacientes, dentistas e clínicas.",
@@ -340,7 +339,7 @@
       "patient5Title": "Saúde oral",
       "patient5Desc": "Alergias, medicação, vacinas e documentos num só lugar",
       "patient6Title": "Teleconsultas",
-      "patient6Desc": "Em breve: consulte o seu dentista por videochamada, sem sair de casa",
+      "patient6Desc": "Teleconsulta em preparação: consulte o seu dentista por videochamada, sem sair de casa",
       "dentist1Title": "Agenda inteligente",
       "dentist1Desc": "Dia, semana, mês com arrastar e largar e filtros",
       "dentist2Title": "Confirmações",
@@ -366,9 +365,8 @@
       "clinic6Title": "Teleconsultas",
       "clinic6Desc": "Monitorize teleconsultas de toda a equipa",
       "teleEyebrow": "TELECONSULTAS",
-      "teleTitle": "Em breve: consultas por videochamada",
-      "teleDesc": "Em breve: consulte o seu dentista por videochamada, sem sair de casa. A receita digital estará incluída.",
-      "teleSoon": "Em breve"
+      "teleTitle": "Consultas por videochamada",
+      "teleDesc": "Em preparação: consulte o seu dentista por videochamada, sem sair de casa. A receita digital estará incluída."
     },
     "howItWorks": {
       "title": "Simples como sorrir",
@@ -426,7 +424,7 @@
       "q2": "Como funcionam os pontos?",
       "a2": "Ganhe pontos ao confirmar consultas, chegar a horas, manter boa higiene oral e muito mais. 100 pontos = 10 € que pode trocar na loja de recompensas.",
       "q3": "As teleconsultas são seguras?",
-      "a3": "Em breve. As teleconsultas serão feitas por videochamada encriptada diretamente na plataforma, por 20 € cada.",
+      "a3": "As teleconsultas estão em preparação. Serão feitas por videochamada encriptada diretamente na plataforma, por 20 € cada.",
       "q4": "Posso usar o SmileCheck em vários dispositivos?",
       "a4": "Sim! O SmileCheck funciona em qualquer dispositivo — computador, tablet ou telemóvel.",
       "q5": "Como funciona o sistema de níveis?",
@@ -489,12 +487,10 @@
       ]
     },
     "stores": {
-      "soon": "Em breve",
-      "appStoreAria": "Descarregar na App Store — em breve",
-      "playAria": "Disponível no Google Play — em breve",
+      "appStoreAria": "Descarregar na App Store",
+      "playAria": "Disponível no Google Play",
       "appStoreAlt": "Descarregar na App Store",
-      "playAlt": "Obter no Google Play",
-      "comingSoonLine": "Em breve na App Store e no Google Play"
+      "playAlt": "Obter no Google Play"
     }
   },
   "onboarding": {
@@ -1833,7 +1829,6 @@
     "copyNumber": "Copiar número",
     "numberCopied": "Número copiado!",
     "callNow": "Ligar agora",
-    "messagingSoon": "Funcionalidade de mensagens em breve!",
     "inviteSent": "Convite enviado a {{name}}!",
     "inviteToTeamTitle": "Convidar para equipa",
     "inviteToTeamDesc": "Convidar <1>{{name}}</1> para a {{clinic}}?",
@@ -2330,7 +2325,7 @@
         {
           "id": "servico",
           "title": "2. O serviço",
-          "content": "A SmileCheck permite marcar consultas, comunicar com profissionais, guardar informação de saúde oral e participar num programa de pontos.\n\nA SmileCheck não presta cuidados de saúde. Os cuidados são prestados pelos dentistas e clínicas, que são os únicos responsáveis pelos atos clínicos. A teleconsulta ainda não está disponível («Em breve»)."
+          "content": "A SmileCheck permite marcar consultas, comunicar com profissionais, guardar informação de saúde oral e participar num programa de pontos.\n\nA SmileCheck não presta cuidados de saúde. Os cuidados são prestados pelos dentistas e clínicas, que são os únicos responsáveis pelos atos clínicos. A teleconsulta ainda não está disponível."
         },
         {
           "id": "conta",
@@ -2908,7 +2903,7 @@
     "teleconsultReceipt": "Teleconsulta {{name}}",
     "joinWaitingList": "Entrar na lista de espera",
     "confirmBookingAction": "Confirmar marcação",
-    "paymentSoon": "O pagamento da teleconsulta estará disponível em breve"
+    "paymentSoon": "O pagamento online da teleconsulta está em preparação."
   },
   "timeBlock": {
     "editBlock": "Editar bloqueio",
@@ -3547,7 +3542,6 @@
     "sendProposalBtn": "Enviar proposta",
     "step": "Passo",
     "of": "de",
-    "messagingSoon": "Funcionalidade de mensagens em breve!",
     "availableForTeleconsult": "Disponível para teleconsultas",
     "availableSince": "Disponível desde",
     "experience": "experiência",
@@ -4001,7 +3995,7 @@
     "searchTitle": "Nenhum resultado encontrado",
     "searchDesc": "Tente pesquisar com outros termos.",
     "inviteTitle": "Convide os seus amigos!",
-    "inviteDesc": "Partilhe o seu código de convite. A recompensa por convite chega em breve.",
+    "inviteDesc": "Partilhe o seu código de convite com amigos e colegas.",
     "inviteAction": "Partilhar código",
     "waitlistTitle": "Sem pacientes em espera",
     "waitlistDesc": "Nenhum paciente quer antecipar consulta de momento.",
@@ -4026,7 +4020,7 @@
     "agendaDentistTitle": "Filtre por dentista",
     "agendaDentistDesc": "Use os filtros para ver agendas individuais ou de toda a equipa.",
     "inviteTitle": "Ganhe pontos extra!",
-    "inviteDesc": "Partilhe o seu código de convite. A recompensa por convite chega em breve.",
+    "inviteDesc": "Partilhe o seu código de convite com amigos e colegas.",
     "gotIt": "Percebi!"
   },
   "consultationMode": {
@@ -4410,8 +4404,7 @@
     "statusConfirmed": "Validado",
     "statusPending": "Pendente",
     "headlineNoPoints": "Convide amigos para o SmileCheck",
-    "comingSoon": "Recompensa em breve",
-    "subtitleComingSoon": "A recompensa por convite estará disponível em breve. Já pode partilhar o seu código.",
+    "subtitleComingSoon": "A recompensa por convite ainda não está ativa. Já pode partilhar o seu código.",
     "subtitlePoints_one": "Ganhe {{count, number}} ponto por cada convite confirmado",
     "subtitlePoints_other": "Ganhe {{count, number}} pontos por cada convite confirmado",
     "pointsShort": "+{{count, number}} pts",
@@ -4564,7 +4557,6 @@
       "orderCountry": "País ordem"
     },
     "teleconsulta": {
-      "comingSoon": "Teleconsulta em breve...",
       "quickCreated": "Teleconsulta rápida criada. A iniciar..."
     },
     "team": {
@@ -5208,9 +5200,9 @@
       "teamTeleconsults": "Teleconsultas da equipa",
       "dedicatedSupport": "Suporte dedicado"
     },
-    "soon": "Em breve",
     "pointsResetWarning": "Os pontos de recompensa são repostos todos os anos",
-    "billedAnnually": "{{total}} por ano"
+    "billedAnnually": "{{total}} por ano",
+    "inPreparation": "Funcionalidade em preparação"
   },
   "fear": {
     "title": "Escala de medo",
@@ -5850,5 +5842,10 @@
     "confirm": "Continuar",
     "error": "Não foi possível guardar. Tente novamente.",
     "googleError": "Não foi possível entrar com Google. Tente novamente."
+  },
+  "underConstruction": {
+    "title": "Área em fase de construção",
+    "body": "Estamos a preparar isto para si. Volte em breve!",
+    "ok": "OK"
   }
 }

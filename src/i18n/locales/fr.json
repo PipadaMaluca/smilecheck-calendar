@@ -105,8 +105,7 @@
     "from": "De",
     "to": "À",
     "weeksAgo": "Il y a {{n}} semaines",
-    "retry": "Réessayer",
-    "comingSoon": "Bientôt"
+    "retry": "Réessayer"
   },
   "nav": {
     "home": "Accueil",
@@ -292,7 +291,7 @@
   },
   "landing": {
     "hero": {
-      "badge": "Téléconsultations bientôt disponibles",
+      "badge": "Téléconsultations en préparation",
       "title": "Votre sourire mérite",
       "titleHighlight": "le meilleur",
       "subtitle": "Gestion de rendez-vous, téléconsultations, points et récompenses sur une seule plateforme. Pour patients, dentistes et cabinets.",
@@ -340,7 +339,7 @@
       "patient5Title": "Santé bucco-dentaire",
       "patient5Desc": "Allergies, médicaments, vaccins et documents en un seul endroit",
       "patient6Title": "Téléconsultations",
-      "patient6Desc": "Bientôt : consultez votre dentiste par appel vidéo, depuis chez vous",
+      "patient6Desc": "Téléconsultation en préparation : consultez votre dentiste par appel vidéo, depuis chez vous",
       "dentist1Title": "Agenda intelligent",
       "dentist1Desc": "Vue jour, semaine, mois avec glisser-déposer et filtres",
       "dentist2Title": "Confirmations",
@@ -366,9 +365,8 @@
       "clinic6Title": "Téléconsultations",
       "clinic6Desc": "Surveillez les téléconsultations de toute l'équipe",
       "teleEyebrow": "TÉLÉCONSULTATIONS",
-      "teleTitle": "Bientôt : consultations par appel vidéo",
-      "teleDesc": "Bientôt : parlez à votre dentiste par appel vidéo, depuis chez vous. L’ordonnance numérique sera incluse.",
-      "teleSoon": "Bientôt disponible"
+      "teleTitle": "Consultations par appel vidéo",
+      "teleDesc": "En préparation : parlez à votre dentiste par appel vidéo, depuis chez vous. L’ordonnance numérique sera incluse."
     },
     "howItWorks": {
       "title": "Simple comme un sourire",
@@ -426,7 +424,7 @@
       "q2": "Comment fonctionnent les points ?",
       "a2": "Vous gagnez des points en confirmant vos rendez-vous, en arrivant à l'heure, en maintenant une bonne hygiène bucco-dentaire et bien plus. 100 points = 10 € à échanger dans la boutique de récompenses.",
       "q3": "Les téléconsultations sont-elles sécurisées ?",
-      "a3": "Bientôt. Les téléconsultations se feront par appel vidéo chiffré directement sur la plateforme, pour 20 € chacune.",
+      "a3": "Les téléconsultations sont en préparation. Elles se feront par appel vidéo chiffré directement sur la plateforme, pour 20 € chacune.",
       "q4": "Puis-je utiliser SmileCheck sur plusieurs appareils ?",
       "a4": "Oui ! SmileCheck fonctionne sur tout appareil — ordinateur, tablette ou téléphone.",
       "q5": "Comment fonctionne le système de niveaux ?",
@@ -489,12 +487,10 @@
       ]
     },
     "stores": {
-      "soon": "Bientôt disponible",
-      "appStoreAria": "Télécharger dans l'App Store — bientôt disponible",
-      "playAria": "Disponible sur Google Play — bientôt disponible",
+      "appStoreAria": "Télécharger dans l'App Store",
+      "playAria": "Disponible sur Google Play",
       "appStoreAlt": "Télécharger dans l'App Store",
-      "playAlt": "Disponible sur Google Play",
-      "comingSoonLine": "Bientôt sur l’App Store et Google Play"
+      "playAlt": "Disponible sur Google Play"
     }
   },
   "onboarding": {
@@ -1817,7 +1813,6 @@
     "copyNumber": "Copier le numéro",
     "numberCopied": "Numéro copié !",
     "callNow": "Appeler maintenant",
-    "messagingSoon": "Fonctionnalité de messagerie bientôt disponible !",
     "inviteSent": "Invitation envoyée à {{name}} !",
     "inviteToTeamTitle": "Inviter dans l'équipe",
     "inviteToTeamDesc": "Inviter <1>{{name}}</1> dans {{clinic}} ?",
@@ -2314,7 +2309,7 @@
         {
           "id": "servico",
           "title": "2. Le service",
-          "content": "SmileCheck permet de prendre rendez-vous, d'échanger avec des professionnels, de conserver des informations de santé bucco-dentaire et de participer à un programme de points.\n\nSmileCheck ne fournit pas de soins. Les soins sont fournis par les dentistes et cabinets, seuls responsables des actes cliniques. La téléconsultation n'est pas encore disponible (« Bientôt »)."
+          "content": "SmileCheck permet de prendre rendez-vous, d'échanger avec des professionnels, de conserver des informations de santé bucco-dentaire et de participer à un programme de points.\n\nSmileCheck ne fournit pas de soins. Les soins sont fournis par les dentistes et cabinets, seuls responsables des actes cliniques. La téléconsultation n'est pas encore disponible."
         },
         {
           "id": "conta",
@@ -2892,7 +2887,7 @@
     "teleconsultReceipt": "Téléconsultation {{name}}",
     "joinWaitingList": "Rejoindre la liste d’attente",
     "confirmBookingAction": "Confirmer la réservation",
-    "paymentSoon": "Le paiement de la téléconsultation sera bientôt disponible"
+    "paymentSoon": "Le paiement en ligne de la téléconsultation est en préparation."
   },
   "timeBlock": {
     "editBlock": "Modifier le blocage",
@@ -3531,7 +3526,6 @@
     "sendProposalBtn": "Envoyer la proposition",
     "step": "Étape",
     "of": "de",
-    "messagingSoon": "Fonctionnalité de messagerie bientôt disponible !",
     "availableForTeleconsult": "Disponible pour les téléconsultations",
     "availableSince": "Disponible depuis",
     "experience": "d'expérience",
@@ -3985,7 +3979,7 @@
     "searchTitle": "Aucun résultat trouvé",
     "searchDesc": "Essayez de rechercher avec d'autres termes.",
     "inviteTitle": "Invitez vos amis !",
-    "inviteDesc": "Partagez votre code d’invitation. La récompense de parrainage arrive bientôt.",
+    "inviteDesc": "Partagez votre code d’invitation avec vos amis et collègues.",
     "inviteAction": "Partager le code",
     "waitlistTitle": "Aucun patient en attente",
     "waitlistDesc": "Aucun patient ne souhaite avancer son rendez-vous pour le moment.",
@@ -4010,7 +4004,7 @@
     "agendaDentistTitle": "Filtrer par dentiste",
     "agendaDentistDesc": "Utilisez les filtres pour voir les agendas individuels ou d'équipe.",
     "inviteTitle": "Gagnez des points bonus !",
-    "inviteDesc": "Partagez votre code d’invitation. La récompense de parrainage arrive bientôt.",
+    "inviteDesc": "Partagez votre code d’invitation avec vos amis et collègues.",
     "gotIt": "Compris !"
   },
   "consultationMode": {
@@ -4410,8 +4404,7 @@
     "statusConfirmed": "Validé",
     "statusPending": "En attente",
     "headlineNoPoints": "Invitez des amis sur SmileCheck",
-    "comingSoon": "Récompense bientôt",
-    "subtitleComingSoon": "La récompense de parrainage sera bientôt disponible. Vous pouvez déjà partager votre code.",
+    "subtitleComingSoon": "La récompense de parrainage n’est pas encore active. Vous pouvez déjà partager votre code.",
     "subtitlePoints_one": "Gagnez {{count, number}} point pour chaque invitation confirmée",
     "subtitlePoints_other": "Gagnez {{count, number}} points pour chaque invitation confirmée",
     "pointsShort": "+{{count, number}} pts",
@@ -4564,7 +4557,6 @@
       "orderCountry": "Pays de l'Ordre"
     },
     "teleconsulta": {
-      "comingSoon": "Téléconsultation bientôt disponible...",
       "quickCreated": "Téléconsultation rapide créée. Démarrage..."
     },
     "team": {
@@ -5208,9 +5200,9 @@
       "teamTeleconsults": "Téléconsultations de l’équipe",
       "dedicatedSupport": "Support dédié"
     },
-    "soon": "Bientôt",
     "pointsResetWarning": "Les points de récompense sont réinitialisés chaque année",
-    "billedAnnually": "{{total}} par an"
+    "billedAnnually": "{{total}} par an",
+    "inPreparation": "Fonctionnalité en préparation"
   },
   "fear": {
     "title": "Échelle de peur",
@@ -5850,5 +5842,10 @@
     "confirm": "Continuer",
     "error": "Impossible d'enregistrer. Veuillez réessayer.",
     "googleError": "Impossible de se connecter avec Google. Veuillez réessayer."
+  },
+  "underConstruction": {
+    "title": "Espace en construction",
+    "body": "Nous préparons cela pour vous. Revenez bientôt !",
+    "ok": "OK"
   }
 }
