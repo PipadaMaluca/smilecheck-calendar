@@ -20,7 +20,7 @@ describe('Clinical dossier rules', () => {
   });
 
   it('documents live in the patient folder and signed URLs are short-lived', () => {
-    expect(docPath('pat-1', 'image/jpeg', 'x').startsWith('pat-1/')).toBe(true);
+    expect(docPath('pat-1', 'image/jpeg', '0-0-0-0-0').startsWith('pat-1/')).toBe(true);
     expect(SIGNED_URL_SECONDS).toBeLessThanOrEqual(300);
   });
 
