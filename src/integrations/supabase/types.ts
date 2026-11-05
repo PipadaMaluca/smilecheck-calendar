@@ -1508,6 +1508,7 @@ export type Database = {
           notes: string | null
           patient_id: string
           status: string
+          surfaces: Json
           tooth: number
         }
         Insert: {
@@ -1521,6 +1522,7 @@ export type Database = {
           notes?: string | null
           patient_id: string
           status: string
+          surfaces?: Json
           tooth: number
         }
         Update: {
@@ -1534,6 +1536,7 @@ export type Database = {
           notes?: string | null
           patient_id?: string
           status?: string
+          surfaces?: Json
           tooth?: number
         }
         Relationships: [
@@ -2766,6 +2769,7 @@ export type Database = {
           _notes?: string
           _patient_id: string
           _status: string
+          _surfaces?: Json
           _tooth: number
         }
         Returns: string

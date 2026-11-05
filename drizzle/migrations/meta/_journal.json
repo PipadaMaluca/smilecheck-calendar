@@ -169,6 +169,13 @@
       "when": 1793846339296,
       "tag": "0023_clinical_docs_extension_check",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1793846370446,
+      "tag": "0024_odontogram_surfaces",
+      "breakpoints": true
     }
   ]
 }
