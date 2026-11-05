@@ -190,6 +190,13 @@
       "when": 1793847735864,
       "tag": "0026_conversations_availability_avatars_triage",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1793847762883,
+      "tag": "0027_avatar_url_signed",
+      "breakpoints": true
     }
   ]
 }
