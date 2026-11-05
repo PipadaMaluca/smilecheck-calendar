@@ -1,3 +1,4 @@
+import { isUuid } from '@/data/publicProfiles';
 import { formatDecimal1 } from '@/lib/formatters';
 import { formatDate } from '@/lib/formatters';
 import { getActiveLocale, formatCurrency } from '@/lib/formatters';
@@ -107,7 +108,8 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const [submitting, setSubmitting] = useState(false);
   const [occupiedKeys, setOccupiedKeys] = useState<Set<string> | null>(null);
 
-  const dentistUuid = SEED_DENTIST_UUID_BY_ID[dentist.id] ?? null;
+  // Real search/profile results already carry backend uuids; demo ids map through the seed table.
+  const dentistUuid = SEED_DENTIST_UUID_BY_ID[dentist.id] ?? (isUuid(dentist.id) ? dentist.id : null);
 
   useEffect(() => {
     if (!writesToDb || !dentistUuid) return;
@@ -201,7 +203,7 @@ export function BookingFlow({ dentist, onClose, onComplete, onGoHome, initialTim
   const persistBooking = async (): Promise<boolean> => {
     if (!writesToDb || !user) return true;
 
-    const clinicUuid = data.clinic?.id ? SEED_CLINIC_UUID_BY_ID[data.clinic.id] ?? null : null;
+    const clinicUuid = data.clinic?.id ? SEED_CLINIC_UUID_BY_ID[data.clinic.id] ?? (isUuid(data.clinic.id) ? data.clinic.id : null) : null;
     const isTele = data.consultationType === 'teleconsulta';
     const consultationType = isTele ? 'teleconsulta' as const : 'primeira_consulta' as const;
 

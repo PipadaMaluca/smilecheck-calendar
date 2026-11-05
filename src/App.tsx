@@ -14,6 +14,7 @@ import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { NotificationBadgeProvider } from "@/contexts/NotificationBadgeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { DirectoryProvider } from "@/data/directorySource";
+import { FavoritesProvider } from "@/data/favoritesSource";
 import { ClinicInviteNotifier } from "@/components/team/real/RealTeam";
 import { OnboardingCarousel } from "@/components/onboarding/OnboardingCarousel";
 import { OnboardingTooltips } from "@/components/onboarding/OnboardingTooltips";
@@ -50,6 +51,7 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
         <DirectoryProvider>
+        <FavoritesProvider>
           <ClinicInviteNotifier />
           <DemoModeBadge />
           <ConsentBanner />
@@ -73,6 +75,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           </AnimatedRoutes>
+        </FavoritesProvider>
         </DirectoryProvider>
         </AuthProvider>
       </BrowserRouter>
