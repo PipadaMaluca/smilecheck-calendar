@@ -235,7 +235,7 @@ export type ViewMode = 'list' | 'day' | 'three-day' | 'week' | 'month';
 export interface FamilyMember {
   id: string;
   name: string;
-  age: number;
+  age?: number;
   relation: string;
 }
 
