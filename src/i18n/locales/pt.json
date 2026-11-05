@@ -5808,7 +5808,8 @@
     "absence": "Ausência",
     "delete": "Remover ausência",
     "pickAgenda": "Escolha pelo menos uma agenda.",
-    "capped": "Foram criadas no máximo {{count}} ocorrências."
+    "capped": "Foram criadas no máximo {{count}} ocorrências.",
+    "opening": "Abertura excecional"
   },
   "streakReal": {
     "perDay": "+{{points}} pts/dia",
@@ -5824,5 +5825,14 @@
     "family": "Família",
     "visits": "Consultas realizadas",
     "teleVisits": "Teleconsultas"
+  },
+  "availabilityReal": {
+    "inAbsence": "Este horário está dentro de uma ausência do dentista.",
+    "outsideHours": "Este horário está fora do horário de trabalho do dentista.",
+    "conflictsTitle_one": "Já existe {{count}} consulta dentro desta ausência",
+    "conflictsTitle_other": "Já existem {{count}} consultas dentro desta ausência",
+    "conflictsHint": "Não foram canceladas. Contacte os pacientes para remarcar.",
+    "andMore_one": "… e mais {{count}}",
+    "andMore_other": "… e mais {{count}}"
   }
 }
