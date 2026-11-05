@@ -48,7 +48,7 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const { signOut } = useAuth();
+  const { signOut, demoMode, profile } = useAuth();
   const stats = usePointsData(userRole);
 
 
