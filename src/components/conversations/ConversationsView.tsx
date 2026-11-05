@@ -1,3 +1,5 @@
+import { useDirectory } from '@/data/directorySource';
+import { RealConversations } from '@/components/conversations/RealConversations';
 import { useDeepLink } from '@/lib/deepLink';
 import { formatDate } from '@/lib/formatters';
 import { demoText } from '@/lib/demoText';
@@ -264,7 +266,13 @@ interface ConversationsViewProps {
   onNavigate?: (tab: string) => void;
 }
 
-export function ConversationsView({ userRole, onNavigate }: ConversationsViewProps) {
+export function ConversationsView(props: ConversationsViewProps) {
+  const dir = useDirectory();
+  if (!dir.isDemo) return <RealConversations />;
+  return <DemoConversationsView {...props} />;
+}
+
+function DemoConversationsView({ userRole, onNavigate }: ConversationsViewProps) {
   const { t } = useTranslation();
   const { demoMode, user } = useAuth();
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
