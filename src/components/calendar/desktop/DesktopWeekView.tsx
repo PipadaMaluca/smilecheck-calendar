@@ -300,7 +300,7 @@ export function DesktopWeekView({
                               style={{ top: startIdx * SLOT_HEIGHT + 1, height: SLOT_HEIGHT - 2 }}
                             >
                               <span className="text-2xs font-medium text-muted-foreground">
-                                {slot.blockReason}
+                                {slot.blockReason === 'ALMOÇO' ? t('agenda.lunchBlock') : slot.blockReason}
                               </span>
                             </div>
                           );

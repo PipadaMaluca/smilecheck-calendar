@@ -758,7 +758,10 @@
     "generalDentist": "Médico dentista",
     "dentists": "Dentistas",
     "teleconsultation": "Teleconsulta",
-    "weekOf": "Semana de {{range}}"
+    "weekOf": "Semana de {{range}}",
+    "lunchBlock": "ALMOÇO",
+    "consultationCount_one": "{{count}} consulta",
+    "consultationCount_other": "{{count}} consultas"
   },
   "consultationTypes": {
     "firstConsultation": "1ª consulta",

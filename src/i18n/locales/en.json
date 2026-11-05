@@ -758,7 +758,10 @@
     "generalDentist": "General dentist",
     "dentists": "Dentists",
     "teleconsultation": "Teleconsultation",
-    "weekOf": "Week of {{range}}"
+    "weekOf": "Week of {{range}}",
+    "lunchBlock": "LUNCH",
+    "consultationCount_one": "{{count}} appointment",
+    "consultationCount_other": "{{count}} appointments"
   },
   "consultationTypes": {
     "firstConsultation": "First consultation",

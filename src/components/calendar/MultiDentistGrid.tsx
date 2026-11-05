@@ -292,7 +292,7 @@ export function MultiDentistGrid({
                           style={{ gridRow: `${startIdx + 1} / span 1` }}
                         >
                           <span className="text-muted-foreground/60 text-center text-2xs">
-                            {slot.blockReason}
+                            {slot.blockReason === 'ALMOÇO' ? t('agenda.lunchBlock') : slot.blockReason}
                           </span>
                         </div>
                       );

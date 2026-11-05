@@ -329,7 +329,7 @@ export function DesktopTimeline({
                           }}
                         >
                           <span className="text-2xs font-medium text-muted-foreground">
-                            {slot.blockReason}
+                            {slot.blockReason === 'ALMOÇO' ? t('agenda.lunchBlock') : slot.blockReason}
                           </span>
                         </div>
                       );
