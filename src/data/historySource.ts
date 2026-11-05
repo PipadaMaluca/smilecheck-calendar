@@ -1,7 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { fetchDisplayNames } from '@/data/displayNames';
 import { DB_TYPE_TO_CATEGORY } from '@/data/agendaSource';
-import { zonedParts } from '@/lib/timezone';
+import { zonedParts } from '@/lib/formatters';
 import type { ConsultationScore } from '@/types/scoring';
 import type { UserRole } from '@/types/calendar';
 
@@ -48,7 +48,7 @@ export async function fetchRealHistory(profileId: string, role: UserRole): Promi
       totalPoints: pts.reduce((s, l) => s + l.amount, 0),
       breakdown: pts.map((l) => ({ label: l.reason ?? '—', points: l.amount })),
       // Only an attended visit can be rated (server rule); absences never show the prompt.
-      feedbackStatus: mine ? 'completed' : r.status === 'falta' || role === 'clinic' ? 'expired' : 'pending',
+      feedbackStatus: mine || role === 'clinic' ? 'completed' : r.status === 'falta' ? 'expired' : 'pending',
       patientFeedback: mine ? { rating: mine.rating, comment: mine.comment ?? undefined, submittedAt: new Date(mine.created_at) } : undefined,
       receivedRating: got?.rating,
     } satisfies RealHistoryItem;

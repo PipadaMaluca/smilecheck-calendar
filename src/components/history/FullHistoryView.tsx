@@ -1,4 +1,8 @@
-import { demoDate } from '@/lib/demoClock';
+import { demoDate, appToday } from '@/lib/demoClock';
+import { useAuth } from '@/contexts/AuthContext';
+import { fetchRealHistory, type RealHistoryItem } from '@/data/historySource';
+import { submitFeedback } from '@/data/feedbackWrites';
+import { toast } from 'sonner';
 import { useState, useMemo } from 'react';
 import { ArrowLeft, Trophy, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,8 +29,7 @@ interface FullHistoryViewProps {
   inline?: boolean;
 }
 
-function getFilterDate(period: PeriodFilter): Date | null {
-  const now = DEMO_DATE;
+function getFilterDate(period: PeriodFilter, now: Date): Date | null {
   switch (period) {
     case '1month': return subMonths(now, 1);
     case '3months': return subMonths(now, 3);
@@ -46,10 +49,21 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
   const [selectedDentist, setSelectedDentist] = useState('all');
   const [feedbackScore, setFeedbackScore] = useState<ConsultationScore | null>(null);
   const initialScores = userRole === 'dentist' ? mockDentistScoreHistory : userRole === 'clinic' ? mockClinicScoreHistory : mockScoreHistory;
-  const [scores, setScores] = useState(initialScores);
+  const real = !dir.isDemo;
+  const { user } = useAuth();
+  const today = appToday(dir.isDemo);
+  const [scores, setScores] = useState<(typeof initialScores[number] | RealHistoryItem)[]>(real ? [] : initialScores);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filterDate = getFilterDate(period);
+  // Real accounts: past visits from the backend (own ledger points, own ratings) — never the demo list.
+  useEffect(() => {
+    if (!real || !user) return;
+    let alive = true;
+    fetchRealHistory(user.id, userRole).then((rows) => { if (alive) setScores(rows); }).catch(() => { if (alive) setScores([]); });
+    return () => { alive = false; };
+  }, [real, user, userRole]);
+
+  const filterDate = getFilterDate(period, today);
   const clinicDentistsList = useMemo(() => getDentistsForClinic(dir.clinics[0]?.id ?? ''), [dir]);
 
   const filteredScores = useMemo(() => {
@@ -72,17 +86,23 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
       if (aExpired && !bExpired) return -1;
       if (!aExpired && bExpired) return 1;
       if (aExpired && bExpired) return b.date.getTime() - a.date.getTime();
-      const aIsToday = isSameDay(a.date, DEMO_DATE);
-      const bIsToday = isSameDay(b.date, DEMO_DATE);
+      const aIsToday = isSameDay(a.date, today);
+      const bIsToday = isSameDay(b.date, today);
       if (aIsToday && !bIsToday) return -1;
       if (!aIsToday && bIsToday) return 1;
       if (aIsToday && bIsToday) return (a.consultationTime || '').localeCompare(b.consultationTime || '');
       return b.date.getTime() - a.date.getTime();
     });
     return items;
-  }, [scores, filterDate, searchQuery, userRole, selectedDentist, clinicDentistsList]);
+  }, [scores, filterDate, searchQuery, userRole, selectedDentist, clinicDentistsList, today]);
 
-  const handlePatientFeedback = (scoreId: string, rating: number, comment: string) => {
+  const handlePatientFeedback = async (scoreId: string, rating: number, comment: string) => {
+    if (real) {
+      const row = scores.find((s) => s.id === scoreId) as RealHistoryItem | undefined;
+      if (!user || !row?.counterpartId) return;
+      const res = await submitFeedback({ appointmentId: row.consultationId, fromProfileId: user.id, toProfileId: row.counterpartId, rating, comment });
+      if (!res.saved) { toast.error(t('history.feedbackFailed')); return; }
+    }
     setScores(prev => prev.map(s =>
       s.id === scoreId ? { ...s, feedbackStatus: 'completed' as const, patientFeedback: { rating, comment: comment || undefined, submittedAt: new Date() } } : s
     ));
