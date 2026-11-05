@@ -13,6 +13,7 @@ function AnimatedRoutes({ children }: { children: React.ReactNode }) {
 import { OnboardingProvider } from "@/contexts/OnboardingContext";
 import { NotificationBadgeProvider } from "@/contexts/NotificationBadgeContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { DirectoryProvider } from "@/data/directorySource";
 import { OnboardingCarousel } from "@/components/onboarding/OnboardingCarousel";
 import { OnboardingTooltips } from "@/components/onboarding/OnboardingTooltips";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
@@ -47,6 +48,7 @@ const App = () => (
       <OnboardingTooltips />
       <BrowserRouter>
         <AuthProvider>
+        <DirectoryProvider>
           <DemoModeBadge />
           <ConsentBanner />
           <TermsGate />
@@ -69,6 +71,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           </AnimatedRoutes>
+        </DirectoryProvider>
         </AuthProvider>
       </BrowserRouter>
       </OnboardingProvider>
