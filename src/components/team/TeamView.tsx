@@ -111,7 +111,7 @@ export function TeamView({ userRole, onNavigate }: TeamViewProps) {
       <div className="p-4 sm:p-6 max-w-5xl mx-auto pb-28">
         {userRole === 'patient' && <PatientTeamView />}
         {userRole === 'dentist' && <DentistTeamView />}
-        {userRole === 'clinic' && <ClinicTeamView />}
+        {userRole === 'clinic' && <ClinicTeamView onNavigate={onNavigate} />}
       </div>
     </div>
   );
