@@ -18,7 +18,8 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { createExceptions, expandOccurrences, MAX_OCCURRENCES } from '@/data/agendaExceptions';
+import { expandOccurrences, MAX_OCCURRENCES } from '@/data/agendaExceptions';
+import { saveAgendaExceptions } from '../saveAgendaExceptions';
 import { useTranslation } from 'react-i18next';
 
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
@@ -122,11 +123,9 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
     if (occ.length >= MAX_OCCURRENCES) toast.warning(t('exceptionsReal.capped', { count: MAX_OCCURRENCES }));
     setSaving(true);
     try {
-      await createExceptions(targets.flatMap(a => occ.map(o => ({
-        dentist_id: a.dentistId, clinic_id: a.clinicId, kind: 'ausencia' as const,
-        starts_at: o.start.toISOString(), ends_at: o.end.toISOString(), full_day: fullDay,
-        reason: reason.trim().slice(0, 120), note: notes.trim() || null, color: /^#[0-9A-Fa-f]{6}$/.test(selectedColor) ? selectedColor : null,
-      }))));
+      // Times are the clinic's wall clock; conflicts are listed, never auto-cancelled.
+      await saveAgendaExceptions(t, 'ausencia', targets.map(a => ({ dentistId: a.dentistId, clinicId: a.clinicId })), occ,
+        { createdBy: user.id, fullDay, reason: reason.trim(), note: notes.trim() || null, color: selectedColor });
       toast.success(t('creationTabs.absenceCreated'));
       onClose();
     } catch { toast.error(t('exceptionsReal.saveFailed')); } finally { setSaving(false); }
