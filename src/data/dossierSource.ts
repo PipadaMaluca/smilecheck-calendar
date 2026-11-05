@@ -161,7 +161,7 @@ export async function fetchDocuments(patientId: string): Promise<ClinicalDocumen
   return (data ?? []) as unknown as ClinicalDocument[];
 }
 
-export async function uploadDocument(a: { patientId: string; file: File; docType: DocType; title?: string; clinicId?: string | null }) {
+export async function uploadDocument(a: { patientId: string; file: File; docType: DocType; title?: string; clinicId?: string | null; familyMemberId?: string | null }) {
   const err = validateDocFile(a.file);
   if (err) throw new Error(err);
   const path = docPath(a.patientId, a.file.type);
@@ -169,19 +169,19 @@ export async function uploadDocument(a: { patientId: string; file: File; docType
   if (up.error) throw up.error;
   const { error } = await rpc('register_clinical_document', {
     _patient_id: a.patientId, _storage_path: path, _doc_type: a.docType, _mime_type: a.file.type,
-    _size_bytes: a.file.size, _title: a.title || a.file.name, _clinic_id: a.clinicId ?? null, _family_member_id: null,
+    _size_bytes: a.file.size, _title: a.title || a.file.name, _clinic_id: a.clinicId ?? null, _family_member_id: a.familyMemberId ?? null,
   });
   if (error) throw error;
 }
 
-/** Logs the view on the server, then signs a short-lived URL. Never a public URL. */
-export async function openDocument(id: string): Promise<string> {
-  const { data: path, error } = await rpc('open_clinical_document', { _id: id });
-  if (error) throw error;
-  const s = await supabase.storage.from(DOC_BUCKET).createSignedUrl(String(path), SIGNED_URL_SECONDS);
-  if (s.error || !s.data?.signedUrl) throw s.error ?? new Error('sign_failed');
-  return s.data.signedUrl;
+/** Server checks access, logs the view and signs a 60 s URL (sign-file). Clients cannot sign directly. */
+export async function signPrivateFile(kind: 'clinical' | 'message', id: string): Promise<string> {
+  const { data, error } = await supabase.functions.invoke('sign-file', { body: { kind, id } });
+  const url = (data as { url?: string } | null)?.url;
+  if (error || !url) throw error ?? new Error('sign_failed');
+  return url;
 }
+export const openDocument = (id: string) => signPrivateFile('clinical', id);
 
 // ---------- Self-declared + triage ----------
 export interface SelfDeclared {
