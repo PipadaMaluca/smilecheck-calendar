@@ -1899,7 +1899,7 @@
       "noDistance": "Sem localização",
       "sortName": "Nome"
     },
-    "osmAttribution": "Distâncias calculadas com dados © OpenStreetMap contributors"
+    "osmAttribution": "Distâncias calculadas com dados © OpenStreetMap contributors · Base Adresse Nationale"
   },
   "history": {
     "consultationHistory": "Histórico de consultas",
@@ -5403,7 +5403,7 @@
     "required": "Indique a rua e o número.",
     "notFound": "Não conseguimos localizar esta morada no mapa. Verifique o código postal.",
     "located": "Localizada no mapa",
-    "privacy": "Para calcular a distância na pesquisa, só a morada da clínica é enviada ao OpenStreetMap."
+    "privacy": "Para calcular a distância na pesquisa, só a morada da clínica é enviada a serviços de mapas públicos (Base Adresse Nationale, Photon/OpenStreetMap)."
   },
   "dentistLanguages": {
     "title": "Línguas faladas",

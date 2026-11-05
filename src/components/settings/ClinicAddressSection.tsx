@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 
 type ClinicRow = {
   id: string; name: string; address: string | null; postal_code: string | null; city: string | null;
-  country: string; latitude: number | null; geocode_status: string | null;
+  country: string; latitude: number | null; geocode_status: string | null; geocode_source: string | null;
 };
 
 /** Clinic owner edits its address; coordinates are computed only by the `clinic-address` server function. */
@@ -28,7 +28,7 @@ export function ClinicAddressSection() {
   useEffect(() => {
     if (demoMode || !uid) return;
     supabase.from('clinics')
-      .select('id, name, address, postal_code, city, country, latitude, geocode_status')
+      .select('id, name, address, postal_code, city, country, latitude, geocode_status, geocode_source')
       .eq('owner_profile_id', uid).order('name')
       .then(({ data }) => {
         const rows = (data ?? []) as ClinicRow[];
@@ -59,8 +59,9 @@ export function ClinicAddressSection() {
       return;
     }
     const status = (data as { geocode?: string | null })?.geocode ?? null;
+    const source = (data as { source?: string | null })?.source ?? null;
     setClinics(prev => prev.map(c => c.id === current.id
-      ? { ...c, address: form.address, postal_code: form.postalCode || null, city: form.city || null, geocode_status: status }
+      ? { ...c, address: form.address, postal_code: form.postalCode || null, city: form.city || null, geocode_status: status, geocode_source: source }
       : c));
     toast.success(t('clinicAddress.saved'));
   };
@@ -114,7 +115,7 @@ export function ClinicAddressSection() {
             {t('clinicAddress.notFound')}
           </p>
         )}
-        {located && <p className="text-xs text-muted-foreground">{t('clinicAddress.located')} · © OpenStreetMap contributors</p>}
+        {located && <p className="text-xs text-muted-foreground">{t('clinicAddress.located')} · {current.geocode_source === 'ban' ? 'Base Adresse Nationale' : '© OpenStreetMap contributors'}</p>}
         <p className="text-xs text-muted-foreground">{t('clinicAddress.privacy')}</p>
         <div className="flex justify-end">
           <Button type="button" onClick={save} disabled={saving || !dirty}>

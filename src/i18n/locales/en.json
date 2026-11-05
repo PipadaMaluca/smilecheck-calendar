@@ -1899,7 +1899,7 @@
       "noDistance": "No location",
       "sortName": "Name"
     },
-    "osmAttribution": "Distances calculated with data © OpenStreetMap contributors"
+    "osmAttribution": "Distances calculated with data © OpenStreetMap contributors · Base Adresse Nationale"
   },
   "history": {
     "consultationHistory": "Consultation history",
@@ -5403,7 +5403,7 @@
     "required": "Enter the street and number.",
     "notFound": "We couldn't find this address on the map. Check the postcode.",
     "located": "Found on the map",
-    "privacy": "To work out distances in search, only the clinic's address is sent to OpenStreetMap."
+    "privacy": "To work out distances in search, only the clinic's address is sent to public map services (Base Adresse Nationale, Photon/OpenStreetMap)."
   },
   "dentistLanguages": {
     "title": "Languages spoken",
