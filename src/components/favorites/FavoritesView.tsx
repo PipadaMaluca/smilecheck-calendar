@@ -232,6 +232,11 @@ export function FavoritesView({
               <Briefcase className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t('search.jobOffers')}</span><span className="sm:hidden">{t('search.jobOffersShort')}</span>
             </Button>
           )}
+          {userRole !== 'patient' && real && (
+            <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={() => setShowLetters(true)}>
+              <Mail className="w-3.5 h-3.5" /> {t('docs.lettersShort')}
+            </Button>
+          )}
           {typeFilter !== 'patients' && (
             <Button type="button" variant="outline" size="sm" aria-pressed={filterTab === 'favoritos'} onClick={() => setFilterTab(prev => prev === 'favoritos' ? 'todos' : 'favoritos')} className={cn('gap-1', filterTab === 'favoritos' ? 'bg-primary-solid text-primary-foreground hover:bg-primary-solid/90 border-primary hover:bg-primary/90' : 'text-muted-foreground hover:text-foreground')}>
               <Star className={cn('w-3.5 h-3.5', filterTab === 'favoritos' ? 'fill-current' : '')} /> {t('search.favorites')}
