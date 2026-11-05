@@ -50,6 +50,7 @@ export function UserAvatarDropdown({ userRole, onNavigate, compactText }: UserAv
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const { signOut, demoMode, profile } = useAuth();
+  const ownPhoto = useAvatarSrc(demoMode ? null : profile?.avatar_url);
   const stats = usePointsData(userRole);
 
 
