@@ -15,6 +15,8 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/AuthContext';
+import { saveAgendaExceptions } from '../saveAgendaExceptions';
 
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
 
@@ -39,7 +41,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
   const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState('#4CAF50');
-  const [selectedAgenda, setSelectedAgenda] = useState(dentistKey || '1-1');
+  const [selectedAgenda, setSelectedAgenda] = useState(dentistKey || (dir.isDemo ? '1-1' : ''));
   const [date, setDate] = useState<Date>(initialDate);
   const [startTime, setStartTime] = useState(initialTime);
   const [endTime, setEndTime] = useState(() => {
@@ -50,12 +52,21 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
   });
   const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
 
-  const agendaOptions = mockClinics.flatMap(clinic =>
-    mockDentists.slice(0, 3).map(d => ({
-      key: `${clinic.id}-${d.id}`,
-      label: `${d.name} (${clinic.name.replace('Clínica ', '')})`,
-    }))
-  );
+  const agendaOptions = dir.isDemo
+    ? mockClinics.flatMap(clinic =>
+        mockDentists.slice(0, 3).map(d => ({
+          key: `${clinic.id}-${d.id}`, clinicId: clinic.id, dentistId: d.id,
+          label: `${d.name} (${clinic.name.replace('Clínica ', '')})`,
+        }))
+      )
+    // Real: only agendas the viewer can write (own agenda per clinic; clinic owner: its dentists).
+    : mockClinics.flatMap(clinic =>
+        dir.getDentistsForClinic(clinic.id)
+          .filter(d => userRole === 'clinic' || d.id === dir.selfId)
+          .map(d => ({ key: `${clinic.id}-${d.id}`, clinicId: clinic.id, dentistId: d.id, label: `${d.name} (${clinic.name})` }))
+      );
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
 
   const colors = PRO_COLORS;
 
@@ -69,8 +80,23 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
 
   const handleCreate = () => {
     if (!isValid) { toast.error(t('creationTabs.fillTitleError')); return; }
+    if (!dir.isDemo) { void saveReal(); return; }
     toast.success(t('creationTabs.exceptionalCreated'));
     onClose();
+  };
+  const saveReal = async () => {
+    const target = agendaOptions.find(a => a.key === selectedAgenda);
+    if (!user || !target) { toast.error(t('exceptionsReal.pickAgenda')); return; }
+    const at = (time: string) => { const x = new Date(date); const [h, m] = time.split(':').map(Number); x.setHours(h, m, 0, 0); return x; };
+    const start = at(startTime), end = at(endTime);
+    if (!(end > start)) { toast.error(t('exceptionsReal.endBeforeStart')); return; }
+    setSaving(true);
+    try {
+      await saveAgendaExceptions(t, 'abertura', [{ dentistId: target.dentistId, clinicId: target.clinicId }], [{ start, end }],
+        { createdBy: user.id, fullDay: false, reason: title.trim(), note: selectedReasons.join(', ') || null, color: selectedColor });
+      toast.success(t('creationTabs.exceptionalCreated'));
+      onClose();
+    } catch { toast.error(t('exceptionsReal.saveFailed')); } finally { setSaving(false); }
   };
 
   return (
@@ -178,7 +204,7 @@ export function ExceptionalOpeningTab({ initialDate, initialTime, dentistKey, de
       {/* Footer */}
       <div className="border-t border-border bg-card px-4 py-3 flex items-center justify-end gap-2">
         <Button variant="ghost" size="sm" onClick={onClose}>{t('creationTabs.cancel')}</Button>
-        <Button size="sm" disabled={!isValid} onClick={handleCreate}>{t('creationTabs.createOpening')}</Button>
+        <Button size="sm" disabled={!isValid || saving} onClick={handleCreate}>{t('creationTabs.createOpening')}</Button>
       </div>
     </div>
   );
