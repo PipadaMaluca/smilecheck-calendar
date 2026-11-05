@@ -1,4 +1,3 @@
-import { splitAgendaKey } from '@/data/agendaAvailability';
 import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
