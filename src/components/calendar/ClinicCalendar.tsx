@@ -45,6 +45,7 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
@@ -517,7 +518,12 @@ export function ClinicCalendar() {
         }}
       />
 
-      {showProfile && (
+      {showProfile && !dir.isDemo && (
+        <div className="fixed inset-0 z-modal bg-background overflow-y-auto">
+          <OwnRealProfile role="clinic" onClose={() => setShowProfile(false)} onEdit={() => { setShowProfile(false); setShowEditProfile(true); }} />
+        </div>
+      )}
+      {showProfile && dir.isDemo && (
         <ClinicProfileView
           clinicId={ownClinicId}
           isOpen={true}

@@ -53,6 +53,7 @@ import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { ConsultationDetailView } from './ConsultationDetailView';
 import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
@@ -892,6 +893,15 @@ export function DesktopCalendarView() {
 
 
       case 'perfil':
+        if (!dir.isDemo && (activeRole === 'dentist' || activeRole === 'clinic')) {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader(t('profile.myProfile'))}
+              <div className="flex-1 overflow-y-auto">
+                <OwnRealProfile role={activeRole} onClose={() => setActiveNavTab('home')} onEdit={() => setActiveNavTab('editarPerfil')} />
+              </div>
+            </div>);
+        }
         if (activeRole === 'dentist') {
           // Show own dentist profile using DentistProfileView
           const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === '1') || MOCK_DENTIST_RESULTS[0];
