@@ -34,7 +34,7 @@
 - Consumer (patient) checkout requires `withdrawalWaiver`, enforced in `create-checkout` and stored via subscription metadata → `subscriptions.withdrawal_waiver_at`; VAT display comes from `planVatMode` in `planRules.ts`.
 - Annual renewal reminders: daily cron `send_annual_renewal_reminders`, in-app.
 - Terms acceptance is server-enforced: `require_terms_accepted` triggers (appointments, feedback, waiting_list, referrals, redemptions) and `create-checkout` check `has_accepted_terms()` against `current_terms_version()`; bump that SQL function and `TERMS_VERSION` together (tested) and `TermsGate` re-asks on next sign-in.
-- `delete-account` cancels Stripe first (`process.ts`, tested); failures stay `pending` and the `retry-account-deletions` cron retries them.
+- `delete-account` cancels Stripe first (tested); failures stay `pending` for the `retry-account-deletions` cron.
 - Real search only via `search_professionals` RPC (`searchSource.ts`: approved, public columns, neutral order); demo keeps mock — no rating/plan leaks.
 - Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check, provider fallback, 1 req/s throttle, address cache); a trigger blocks client writes.
 - Spoken languages: closed list in `spokenLanguages.ts` (mirrored server-side); weekdays via `weekdayLabels()`.
