@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { useDeepLink, revealElement } from '@/lib/deepLink';
 import { Heart, Droplets, Ruler, Weight, AlertTriangle, Pill, Activity, FileText, ClipboardList, Syringe, X, Plus, Eye, Upload, UserPlus, Send } from 'lucide-react';
@@ -20,7 +20,6 @@ import { addFamilyMember } from '@/data/directoryWrites';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { useTranslation } from 'react-i18next';
-import { useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useDocuments } from '@/data/clinicalDocs';
 import { DocumentList } from '@/components/clinical/DocumentList';
@@ -153,7 +152,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
         const self = mockFamilyMembers.find((m) => m.id === id)?.self;
         const body = { bloodType: d.bloodType, height: d.height, weight: d.weight, medications: d.medications, conditions: d.conditions, vaccines: d.vaccines };
         const q = self
-          ? supabase.from('patients').update({ allergies: d.allergies, self_health: body } as never).eq('id', id)
+          ? supabase.from('patients').upsert({ id, allergies: d.allergies, self_health: body } as never)
           : supabase.from('family_members').update({ health: { ...body, allergies: d.allergies } } as never).eq('id', id);
         void q.then(({ error }) => { if (error) toast.error(t('realHealth.saveError')); });
       }
