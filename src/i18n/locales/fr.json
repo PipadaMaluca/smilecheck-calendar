@@ -5834,5 +5834,18 @@
     "conflictsHint": "Ils n’ont pas été annulés. Contactez les patients pour les reprogrammer.",
     "andMore_one": "… et {{count}} autre",
     "andMore_other": "… et {{count}} autres"
+  },
+  "roleChoice": {
+    "title": "Comment allez-vous utiliser SmileCheck ?",
+    "body": "Choisissez le type de compte. Ce choix est définitif.",
+    "patient": "Patient",
+    "dentist": "Dentiste",
+    "clinic": "Cabinet",
+    "clinicName": "Nom du cabinet",
+    "orderNumber": "Numéro RPPS (facultatif)",
+    "proNote": "Les comptes professionnels restent en attente jusqu'à leur vérification.",
+    "confirm": "Continuer",
+    "error": "Impossible d'enregistrer. Veuillez réessayer.",
+    "googleError": "Impossible de se connecter avec Google. Veuillez réessayer."
   }
 }

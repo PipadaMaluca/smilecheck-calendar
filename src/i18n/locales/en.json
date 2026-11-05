@@ -5834,5 +5834,18 @@
     "conflictsHint": "They were not cancelled. Contact the patients to reschedule.",
     "andMore_one": "… and {{count}} more",
     "andMore_other": "… and {{count}} more"
+  },
+  "roleChoice": {
+    "title": "How will you use SmileCheck?",
+    "body": "Choose your account type. This choice is made only once.",
+    "patient": "Patient",
+    "dentist": "Dentist",
+    "clinic": "Clinic",
+    "clinicName": "Clinic name",
+    "orderNumber": "Licence number (optional)",
+    "proNote": "Professional accounts stay pending until verified.",
+    "confirm": "Continue",
+    "error": "Could not save. Please try again.",
+    "googleError": "Could not sign in with Google. Please try again."
   }
 }

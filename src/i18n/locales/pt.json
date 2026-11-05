@@ -5834,5 +5834,18 @@
     "conflictsHint": "Não foram canceladas. Contacte os pacientes para remarcar.",
     "andMore_one": "… e mais {{count}}",
     "andMore_other": "… e mais {{count}}"
+  },
+  "roleChoice": {
+    "title": "Como vai usar o SmileCheck?",
+    "body": "Escolha o tipo de conta. Esta escolha é feita uma única vez.",
+    "patient": "Paciente",
+    "dentist": "Dentista",
+    "clinic": "Clínica",
+    "clinicName": "Nome da clínica",
+    "orderNumber": "Número da Ordem (opcional)",
+    "proNote": "As contas profissionais ficam pendentes até serem verificadas.",
+    "confirm": "Continuar",
+    "error": "Não foi possível guardar. Tente novamente.",
+    "googleError": "Não foi possível entrar com Google. Tente novamente."
   }
 }
