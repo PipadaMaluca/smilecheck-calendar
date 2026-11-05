@@ -15,6 +15,7 @@ import { mockConsultations, getDentistsForClinic, mockClinics, mockDentists } fr
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickablePatientName } from '@/components/search/ClickablePatientName';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { EmptyState } from '@/components/ui/empty-state';
 import { cn } from '@/lib/utils';
 import { isSameDay } from 'date-fns';
 import { UserRole } from '@/types/calendar';
@@ -253,6 +254,9 @@ export function StatisticsView({ userRole = 'clinic' }: StatisticsViewProps) {
 
             <div>
               <h2 className="text-lg font-semibold text-foreground mb-3">{t('statistics.byDentist')}</h2>
+              {real && dentistStats.length === 0 &&
+                <EmptyState icon={Calendar} size="sm" title={t('dashboard.noConsultations')} />
+              }
               {/* Desktop / tablet table (>= 500px) */}
               <Card className="bg-card/80 border-border overflow-hidden max-[499px]:hidden">
                 <div className="overflow-x-auto">
