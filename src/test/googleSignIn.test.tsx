@@ -27,7 +27,6 @@ vi.mock('react-router-dom', async (importOriginal) => {
 vi.mock('@/hooks/use-mobile', () => ({ useIsMobile: () => true }));
 vi.mock('@/hooks/useWatermarkSrc', () => ({ useWatermarkSrc: () => '' }));
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k, i18n: { language: 'pt' } }) }));
-vi.mock('@/components/auth/QRCodeDisplay', () => ({ QRCodeDisplay: () => null }));
 
 import { LoginScreen } from '@/components/auth/LoginScreen';
 import { SignUpScreen } from '@/components/auth/SignUpScreen';
