@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDirectory } from '@/data/directorySource';
-import { displayNamesFor } from '@/data/displayNames';
+import { fetchDisplayNames } from '@/data/displayNames';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -72,7 +72,7 @@ export function RealPatientDossier({ patientId }: Props) {
         .filter((r) => r.status !== 'anulada').flatMap((r) => (r.items ?? []).map((i) => ({ name: String(i.medicamento ?? ''), dosage: String(i.dosagem ?? '') })));
       setRxMeds(meds.filter((m) => m.name));
       const ids = Array.from(new Set([...n.map((x) => x.author_id), ...o.map((x) => x.author_id), ...d.map((x) => x.uploaded_by)]));
-      if (ids.length) setNames(await displayNamesFor(ids).catch(() => ({})));
+      if (ids.length) setNames(Object.fromEntries(await fetchDisplayNames(ids).catch(() => new Map<string, string>())));
     } catch {
       setDenied(true);
     } finally { setLoading(false); }
@@ -117,7 +117,7 @@ export function RealPatientDossier({ patientId }: Props) {
               <ul className="space-y-2">
                 {safety.map((a) => (
                   <li key={a.id} className="text-sm flex items-start gap-2">
-                    <span className={SEVERITY_CONFIG[a.severity].color}>●</span>
+                    <span className={SEVERITY_CONFIG[a.severity].text}>●</span>
                     <span><span className="font-medium">{a.title}</span> — {a.description}</span>
                   </li>
                 ))}
