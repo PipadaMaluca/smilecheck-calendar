@@ -67,19 +67,15 @@ export function LoginScreen() {
     setErrors({});
     exitDemo();
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth('google', { redirect_uri: window.location.origin });
-    if (result.error) {
+    const outcome = await runGoogleSignIn();
+    if (outcome.status === 'error') {
       setLoading(false);
       setErrors({ form: t('roleChoice.googleError') });
       return;
     }
-    if (result.redirected) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data: profile } = user
-      ? await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle()
-      : { data: null };
+    if (outcome.status === 'redirected') return;
     setLoading(false);
-    navigate(`/app?role=${profile?.role ?? 'patient'}`);
+    navigate(`/app?role=${outcome.role}`);
   };
 
   const startDemo = (role: UserRole) => {

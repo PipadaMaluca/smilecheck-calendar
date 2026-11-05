@@ -1,4 +1,4 @@
-import { PENDING_REFERRAL_KEY } from '@/contexts/AuthContext';
+import { PENDING_REFERRAL_KEY, useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { useNavigate, Link } from 'react-router-dom';
