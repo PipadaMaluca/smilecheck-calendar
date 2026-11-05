@@ -35,7 +35,7 @@
 - Annual renewal reminders: daily SQL `send_annual_renewal_reminders` (pg_cron), in-app only.
 - Terms acceptance is server-enforced: `require_terms_accepted` triggers (appointments, feedback, waiting_list, referrals, redemptions) and `create-checkout` check `has_accepted_terms()` against `current_terms_version()`; bump that SQL function and `TERMS_VERSION` together (tested) and `TermsGate` re-asks on next sign-in.
 - `delete-account` cancels Stripe first (`process.ts`, tested); failures stay `pending` and the `retry-account-deletions` cron retries them.
-- Real professional search goes only through the `search_professionals` RPC (`src/data/searchSource.ts`, approved profiles, public columns, neutral order); demo mode keeps the mock — so third-party ratings/plans can never leak into search.
+- Real search only via `search_professionals` RPC (`searchSource.ts`: approved, public columns, neutral order); demo keeps mock — no rating/plan leaks.
 - Clinic address/coords/`geocode_*` are written only by the `clinic-address` edge function (owner check, provider fallback, 1 req/s throttle, address cache); a trigger blocks client writes.
 - Spoken languages: closed list in `spokenLanguages.ts` (mirrored server-side); weekdays via `weekdayLabels()`.
 - Directory data only via `useDirectory()` (`src/data/directorySource.ts`): demo=mock, real=RLS.
