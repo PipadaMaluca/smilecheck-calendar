@@ -2175,6 +2175,7 @@ export type Database = {
           plan: string
           referral_code: string | null
           role: Database["public"]["Enums"]["app_role"]
+          role_pending: boolean
           showcased_achievements: string[]
           terms_accepted_at: string | null
           terms_version: string | null
@@ -2195,6 +2196,7 @@ export type Database = {
           plan?: string
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          role_pending?: boolean
           showcased_achievements?: string[]
           terms_accepted_at?: string | null
           terms_version?: string | null
@@ -2215,6 +2217,7 @@ export type Database = {
           plan?: string
           referral_code?: string | null
           role?: Database["public"]["Enums"]["app_role"]
+          role_pending?: boolean
           showcased_achievements?: string[]
           terms_accepted_at?: string | null
           terms_version?: string | null
@@ -3129,6 +3132,14 @@ export type Database = {
       }
       cancel_clinic_invite: { Args: { _invite_id: string }; Returns: undefined }
       check_achievements: { Args: { _profile_id: string }; Returns: Json }
+      choose_initial_role: {
+        Args: {
+          _clinic_name?: string
+          _order_number?: string
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: undefined
+      }
       claim_geocode_slot: { Args: never; Returns: undefined }
       clinical_document: { Args: { _id: string; _kind: string }; Returns: Json }
       confirm_phone_verification: {
