@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { UserRole } from '@/types/calendar';
 import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { useTranslation } from 'react-i18next';
+import { useDirectory } from '@/data/directorySource';
 
 interface ChatMessage {
   id: string;
@@ -38,9 +39,10 @@ export function TeleconsultaCall({ userRole, patientName, dentistName, onEnd }: 
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [activePanel, setActivePanel] = useState<'chat' | 'notes' | null>(null);
   const [elapsed, setElapsed] = useState(0);
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(MOCK_CHAT);
+  const isDemoCall = useDirectory().isDemo;
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(isDemoCall ? MOCK_CHAT : []);
   const [chatInput, setChatInput] = useState('');
-  const [notes, setNotes] = useState('Paciente refere dor no dente 36. Dor ao mastigar, especialmente alimentos frios.');
+  const [notes, setNotes] = useState(isDemoCall ? 'Paciente refere dor no dente 36. Dor ao mastigar, especialmente alimentos frios.' : '');
   const isDentist = userRole === 'dentist' || userRole === 'clinic';
   const remoteName = isDentist ? patientName : dentistName;
   const selfName = isDentist ? dentistName : patientName;
