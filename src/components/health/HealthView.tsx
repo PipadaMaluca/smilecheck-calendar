@@ -20,6 +20,10 @@ import { addFamilyMember } from '@/data/directoryWrites';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { useTranslation } from 'react-i18next';
+import { useRef } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useDocuments } from '@/data/clinicalDocs';
+import { DocumentList } from '@/components/clinical/DocumentList';
 
 // Interfaces and types
 interface HealthViewProps {
@@ -104,7 +108,58 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
     setMembers([...mockFamilyMembers]);
     setSelectedMemberId((cur) => (mockFamilyMembers.some((m) => m.id === cur) ? cur : mockFamilyMembers[0]?.id ?? ''));
   }, [dir.isDemo, mockFamilyMembers]);
-  const [healthData, setHealthData] = useState<Record<string, MemberHealthData>>(defaultHealthData);
+  const [healthData, setHealthData] = useState<Record<string, MemberHealthData>>(dir.isDemo ? defaultHealthData : {});
+  const real = !dir.isDemo;
+  // Real accounts: self-declared health comes from the dossier (patients.allergies + self_health,
+  // family_members.health) and is saved back (debounced) — professional notes/fear are never read here.
+  const dirty = useRef<Set<string>>(new Set());
+  const loadedKey = useRef('');
+  const rxDocs = useDocuments('prescription', real);
+  const letterDocs = useDocuments('referral_letter', real);
+  useEffect(() => {
+    if (!real) return;
+    const key = mockFamilyMembers.map((m) => m.id).join(',');
+    if (!key || loadedKey.current === key) return;
+    loadedKey.current = key;
+    const selfRow = mockFamilyMembers.find((m) => m.self);
+    void (async () => {
+      const next: Record<string, MemberHealthData> = {};
+      const toData = (h: Record<string, unknown> | null | undefined, allergies?: unknown): MemberHealthData => ({
+        ...emptyHealthData(),
+        bloodType: String(h?.bloodType ?? ''), height: String(h?.height ?? ''), weight: String(h?.weight ?? ''),
+        allergies: Array.isArray(allergies ?? h?.allergies) ? ((allergies ?? h?.allergies) as unknown[]).map(String) : [],
+        medications: Array.isArray(h?.medications) ? (h!.medications as MemberHealthData['medications']) : [],
+        conditions: Array.isArray(h?.conditions) ? (h!.conditions as string[]) : [],
+        vaccines: Array.isArray(h?.vaccines) ? (h!.vaccines as MemberHealthData['vaccines']) : [],
+      });
+      if (selfRow) {
+        const { data } = await supabase.from('patients').select('allergies, self_health').eq('id', selfRow.id).maybeSingle();
+        next[selfRow.id] = toData((data?.self_health ?? {}) as Record<string, unknown>, data?.allergies ?? []);
+      }
+      const others = mockFamilyMembers.filter((m) => !m.self).map((m) => m.id);
+      if (others.length) {
+        const { data } = await supabase.from('family_members').select('id, health').in('id', others);
+        for (const r of data ?? []) next[r.id] = toData((r.health ?? {}) as Record<string, unknown>);
+      }
+      setHealthData(next);
+    })();
+  }, [real, mockFamilyMembers]);
+  useEffect(() => {
+    if (!real || dirty.current.size === 0) return;
+    const h = setTimeout(() => {
+      const ids = Array.from(dirty.current); dirty.current.clear();
+      for (const id of ids) {
+        const d = healthData[id]; if (!d) continue;
+        const self = mockFamilyMembers.find((m) => m.id === id)?.self;
+        const body = { bloodType: d.bloodType, height: d.height, weight: d.weight, medications: d.medications, conditions: d.conditions, vaccines: d.vaccines };
+        const q = self
+          ? supabase.from('patients').update({ allergies: d.allergies, self_health: body } as never).eq('id', id)
+          : supabase.from('family_members').update({ health: { ...body, allergies: d.allergies } } as never).eq('id', id);
+        void q.then(({ error }) => { if (error) toast.error(t('realHealth.saveError')); });
+      }
+    }, 700);
+    return () => clearTimeout(h);
+  }, [healthData, real, mockFamilyMembers, t]);
   const [profileChanged, setProfileChanged] = useState(false);
 
   const [showAddModal, setShowAddModal] = useState(false);
@@ -127,11 +182,12 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
   const data = healthData[selectedMemberId] || emptyHealthData();
 
   const updateData = useCallback((updater: (prev: MemberHealthData) => MemberHealthData) => {
+    if (!dir.isDemo) dirty.current.add(selectedMemberId);
     setHealthData(prev => ({
       ...prev,
       [selectedMemberId]: updater(prev[selectedMemberId] || emptyHealthData()),
     }));
-  }, [selectedMemberId]);
+  }, [selectedMemberId, dir.isDemo]);
 
   const filteredDocs = docFilter === 'todos' ? data.documents : data.documents.filter(d => d.type === docFilter);
 
@@ -173,7 +229,7 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
     </div>
   );
 
-  const referrals = [
+  const demoReferrals = [
     { id: 'ref1', from: 'Dr. Gonçalo Pipo', to: 'Dr. Alexandre Bernardo', reason: 'Referência para Endodontia', date: '20 Jan 2026' },
     { id: 'ref2', from: 'Dr. Gil Santos', to: 'Dr. Gonçalo Pipo', reason: 'Referência para Cirurgia Oral', date: '10 Dez 2025' },
   ];
@@ -450,7 +506,11 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle><SectionIcon icon={ClipboardList} label={t('health.medicalPrescriptions')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {data.prescriptions.length === 0 ? (
+              {real ? (
+                <DocumentList kind="prescription" emptyText={t('health.noPrescriptions')} onChanged={rxDocs.reload}
+                  rows={rxDocs.rows.filter((r) => (mockFamilyMembers.find((m) => m.id === selectedMemberId)?.self ? !r.family_member_id : r.family_member_id === selectedMemberId))}
+                  loading={rxDocs.loading} error={rxDocs.error} />
+              ) : data.prescriptions.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic">{t('health.noPrescriptions')}</p>
               ) : (
                 <div className="space-y-2">
@@ -477,11 +537,15 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
               <CardTitle><SectionIcon icon={Send} label={t('health.referralLetters')} /></CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {referrals.length === 0 ? (
+              {real ? (
+                <DocumentList kind="referral_letter" emptyText={t('health.noReferralLetters')} onChanged={letterDocs.reload}
+                  rows={letterDocs.rows.filter((r) => (mockFamilyMembers.find((m) => m.id === selectedMemberId)?.self ? !r.family_member_id : r.family_member_id === selectedMemberId))}
+                  loading={letterDocs.loading} error={letterDocs.error} />
+              ) : demoReferrals.length === 0 ? (
                 <p className="text-sm text-muted-foreground italic py-4 text-center">{t('health.noReferralLetters')}</p>
               ) : (
                 <div className="space-y-2">
-                  {referrals.map(ref => (
+                  {demoReferrals.map(ref => (
                     <div key={ref.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary/50">
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-1 text-sm">
