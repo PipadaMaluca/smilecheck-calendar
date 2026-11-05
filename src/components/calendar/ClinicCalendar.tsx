@@ -34,7 +34,7 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { generateTimeSlots } from '@/data/mockData';
-import { useAgendaAvailability } from '@/data/agendaAvailability';
+import { useAgendaAvailability, splitAgendaKey } from '@/data/agendaAvailability';
 import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
@@ -122,7 +122,7 @@ export function ClinicCalendar() {
    */
   const mobileColumns = useMemo<DentistColumn[]>(() => {
     const result: DentistColumn[] = [];
-    const selectedClinicIds = new Set(selectedDentistIds.map(k => k.split('-')[0]));
+    const selectedClinicIds = new Set(selectedDentistIds.map(k => splitAgendaKey(k).clinicId));
     mockClinics.forEach(clinic => {
       if (!selectedClinicIds.has(clinic.id)) return;
       getDentistsForClinic(clinic.id).forEach(dentist => {
@@ -216,9 +216,7 @@ export function ClinicCalendar() {
     // For 3-day view or list view, use selected dentist
     if (selectedDentistIds.length === 1 && selectedDentistIds[0] !== 'all') {
       // Parse composite ID (clinicId-dentistId)
-      const parts = selectedDentistIds[0].split('-');
-      const clinicId = parts[0];
-      const dentistId = parts.slice(1).join('-') || parts[0];
+      const { clinicId, dentistId } = splitAgendaKey(selectedDentistIds[0]);
       const consultations = agendaConsultations.filter(c => c.dentist.id === dentistId && c.clinic.id === clinicId && passesAgendaFilters(c));
       return generateTimeSlots(date, consultations, { dentistId, clinicId });
     }

@@ -129,3 +129,12 @@ export async function findConflicts(dentistId: string, clinicId: string | null, 
   if (error) return [];
   return (data ?? []) as ConflictingAppointment[];
 }
+
+/** Split an agenda key `<clinicId>-<dentistId>`; real ids are UUIDs (which contain '-'), demo ids are short. */
+export function splitAgendaKey(key: string): { clinicId: string; dentistId: string } {
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+  const m = key.match(uuid);
+  if (m && key[36] === '-') return { clinicId: m[0], dentistId: key.slice(37) };
+  const i = key.indexOf('-');
+  return i < 0 ? { clinicId: key, dentistId: key } : { clinicId: key.slice(0, i), dentistId: key.slice(i + 1) };
+}
