@@ -13,6 +13,10 @@ import { UserRole } from '@/types/calendar';
 import { MOCK_DENTIST_RESULTS, DentistSearchResult } from '@/data/mockDentistSearch';
 import { getDentistInitials } from '@/lib/avatarUtils';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useDirectory } from '@/data/directorySource';
+import { usePatientSearch } from '@/data/publicProfiles';
+import { ageFrom } from '@/data/directorySource';
+import { formatDate } from '@/lib/formatters';
 
 const DentistMapView = lazy(() => import('./DentistMapView'));
 
@@ -56,10 +60,17 @@ export function UnifiedSearch({ userRole, isOpen, onClose, onViewDentistProfile,
   const mapAvailable = activeFilter === 'dentists' || activeFilter === 'clinics';
   const showMap = mapAvailable && viewMode === 'map';
 
+  const dir = useDirectory();
+  // Real accounts: server-side search, active relationship only (never the mock list).
+  const realHits = usePatientSearch(query, !dir.isDemo && userRole !== 'patient', 20);
   const filteredPatients = useMemo(() => {
+    if (!dir.isDemo) return realHits.map(h => ({
+      id: h.id, name: h.full_name ?? '—', age: ageFrom(h.date_of_birth) ?? 0,
+      lastConsultation: h.last_visit ? formatDate(h.last_visit, { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
+    }));
     if (!query.trim()) return MOCK_PATIENTS.slice(0, 3);
     return MOCK_PATIENTS.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
-  }, [query]);
+  }, [query, dir.isDemo, realHits]);
 
   const filteredDentists = useMemo(() => {
     if (!query.trim()) return MOCK_DENTIST_RESULTS.slice(0, 3);

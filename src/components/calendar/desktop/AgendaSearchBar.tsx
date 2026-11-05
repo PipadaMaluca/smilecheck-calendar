@@ -186,6 +186,7 @@ export function AgendaSearchBar({ onNavigateSearch }: AgendaSearchBarProps) {
     if (result.type === 'patient' && nav) {
       nav.openPatientProfile(result.id);
     } else if (result.type === 'dentist' && nav) {
+      if (!dir.isDemo) { nav.openDentistProfile(result.id); return; }
       const d = MOCK_DENTIST_RESULTS.find((dr) => dr.id === result.id);
       if (d) nav.openDentistProfile(d);
     } else if (result.type === 'clinic' && nav) {
