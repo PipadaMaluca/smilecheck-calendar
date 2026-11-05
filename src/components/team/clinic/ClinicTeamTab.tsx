@@ -14,6 +14,8 @@ import { RemoveModal } from '../shared/RemoveModal';
 import { InviteModal } from '../shared/InviteModal';
 import { clinicTeamMembers, pendingInvites } from '../shared/teamMockData';
 import { EmptyState } from '@/components/ui/empty-state';
+import { useDirectory } from '@/data/directorySource';
+import { RealClinicTeam } from '@/components/team/real/RealTeam';
 import { CLINIC_DENTIST_LIMIT, DEMO_CURRENT_PLAN, canInviteDentist } from '@/lib/planRules';
 
 type FilterType = 'all' | 'active' | 'paused' | 'pending';
@@ -22,7 +24,14 @@ interface ClinicTeamTabProps {
   onSwitchToAvailability?: (dentistId: string) => void;
 }
 
-export function ClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
+export function ClinicTeamTab(props: ClinicTeamTabProps) {
+  const dir = useDirectory();
+  // Real clinic accounts manage their real team; demo keeps the mock screen unchanged.
+  if (!dir.isDemo) return <RealClinicTeam />;
+  return <DemoClinicTeamTab {...props} />;
+}
+
+function DemoClinicTeamTab({ onSwitchToAvailability }: ClinicTeamTabProps) {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<FilterType>('all');

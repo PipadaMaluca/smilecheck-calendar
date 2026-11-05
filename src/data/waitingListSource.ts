@@ -5,7 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import type { Database } from '@/integrations/supabase/types';
 import { assignWaitingMatch, type FreedSlot, type WaitingMatch } from '@/data/agendaWrites';
 import { SEED_DENTIST_ID_BY_UUID } from '@/data/seedIds';
-import { mockDentists } from '@/data/mockData';
+import { fetchDisplayNames } from '@/data/displayNames';
 
 /**
  * Phase 4 — waiting-list management panel: real READ + actions.
