@@ -394,6 +394,7 @@ export type Database = {
           country: string
           created_at: string
           email: string | null
+          geocode_source: string | null
           geocode_status: string | null
           geocoded_address: string | null
           geocoded_at: string | null
@@ -421,6 +422,7 @@ export type Database = {
           country?: string
           created_at?: string
           email?: string | null
+          geocode_source?: string | null
           geocode_status?: string | null
           geocoded_address?: string | null
           geocoded_at?: string | null
@@ -448,6 +450,7 @@ export type Database = {
           country?: string
           created_at?: string
           email?: string | null
+          geocode_source?: string | null
           geocode_status?: string | null
           geocoded_address?: string | null
           geocoded_at?: string | null
