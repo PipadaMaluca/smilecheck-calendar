@@ -249,7 +249,7 @@ const CLINIC_STATS: Record<string, { totalConsultations: string; activePatients:
 /** Real clinic ids (uuid) render the public-only profile; demo ids keep the mock view. */
 export function ClinicProfileView(props: ClinicProfileViewProps) {
   if (isUuid(props.clinicId) && !props.isOwnProfile) {
-    return <RealClinicProfile clinicId={props.clinicId} onClose={props.onClose} onViewDentist={(d) => props.onViewDentistProfile?.(d.id)} />;
+    return <RealClinicProfile clinicId={props.clinicId} onClose={props.onClose} />;
   }
   return <ClinicProfileViewInner {...props} />;
 }

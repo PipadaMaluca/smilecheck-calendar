@@ -10,6 +10,7 @@ import { fetchPublicClinic, dentistToResult, type PublicClinicJson } from '@/dat
 import type { RealSearchResult } from '@/data/searchSource';
 import { RealFavoriteButton, RealReviewsSection } from './RealProfileParts';
 import { onActivateKey } from '@/lib/a11y';
+import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
 
 /** Public clinic profile for real accounts: public columns only, verified reviews, real booking. */
 export function RealClinicProfile({ clinicId, onClose, onViewDentist }: { clinicId: string; onClose: () => void; onViewDentist?: (d: RealSearchResult) => void }) {
@@ -17,6 +18,8 @@ export function RealClinicProfile({ clinicId, onClose, onViewDentist }: { clinic
   const [clinic, setClinic] = useState<PublicClinicJson | null | undefined>(undefined);
   const [booking, setBooking] = useState<RealSearchResult | null>(null);
   const [choose, setChoose] = useState(false);
+  const nav = useProfileNavigation();
+  const viewDentist = onViewDentist ?? ((d: RealSearchResult) => nav?.openDentistProfile(d));
 
   useEffect(() => {
     let alive = true;
@@ -62,7 +65,7 @@ export function RealClinicProfile({ clinicId, onClose, onViewDentist }: { clinic
           <p className="text-sm text-muted-foreground">{t('publicProfile.noDentists')}</p>
         ) : clinic.dentists.map((d) => (
           <div key={d.id} role="button" tabIndex={0} onKeyDown={onActivateKey}
-            onClick={() => (choose ? setBooking(asResult(d)) : onViewDentist?.(asResult(d)))}
+            onClick={() => (choose ? setBooking(asResult(d)) : viewDentist(asResult(d)))}
             className="flex items-center gap-3 p-3 bg-secondary rounded-lg cursor-pointer hover:bg-accent/40">
             <PersonAvatar name={d.name ?? ''} photo={d.avatar_url ?? undefined} size="sm" />
             <span className="text-sm text-foreground flex-1">{d.name}</span>
