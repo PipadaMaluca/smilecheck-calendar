@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { PersonAvatar } from '@/components/ui/person-avatar';
-import { toAvatarWebp, AVATAR_SIGNED_SECONDS } from '@/lib/avatarImage';
+import { toAvatarWebp, avatarStableUrl } from '@/lib/avatarImage';
 
 /** Own photo / clinic logo: resized WebP in the owner's folder of `avatars`; only the owner writes. */
 export function RealAvatarPicker({ isClinic }: { isClinic: boolean }) {
@@ -18,14 +18,14 @@ export function RealAvatarPicker({ isClinic }: { isClinic: boolean }) {
     setBusy(true);
     try {
       const blob = await toAvatarWebp(file);
-      const path = `${user.id}/avatar-${Date.now()}.webp`;
+      const version = Date.now();
+      const path = `${user.id}/avatar-${version}.webp`;
       const up = await supabase.storage.from('avatars').upload(path, blob, { contentType: 'image/webp', upsert: true });
       if (up.error) throw up.error;
-      const s = await supabase.storage.from('avatars').createSignedUrl(path, AVATAR_SIGNED_SECONDS);
-      if (s.error || !s.data?.signedUrl) throw s.error ?? new Error('sign');
-      const { error } = await supabase.from('profiles').update({ avatar_url: s.data.signedUrl }).eq('id', user.id);
+      const url = avatarStableUrl(import.meta.env.VITE_SUPABASE_URL, user.id, version);
+      const { error } = await supabase.from('profiles').update({ avatar_url: url }).eq('id', user.id);
       if (error) throw error;
-      patchProfile({ avatar_url: s.data.signedUrl });
+      patchProfile({ avatar_url: url });
       toast.success(t('editProfileReal.saved'));
     } catch (e) {
       const m = (e as { message?: string }).message ?? '';

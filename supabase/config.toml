@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.clinic-address]
 verify_jwt = false
+
+[functions.avatar]
+verify_jwt = false
