@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AlertTriangle, ClipboardList, Eye, FileText, History, Pill, Plus, Upload, User } from 'lucide-react';
+import { AlertTriangle, ClipboardList, Eye, FileText, History, Plus, Upload, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -346,4 +346,4 @@ export function DocumentsSection({ docs, names, onUpload, onChanged }: {
   );
 }
 
-export { Pill };
+
