@@ -199,8 +199,8 @@ export function parseSelfDeclared(raw: unknown): SelfDeclared {
     bloodType: String(h.bloodType ?? ''), height: String(h.height ?? ''), weight: String(h.weight ?? ''),
   };
 }
-export async function fetchSelfDeclared(patientId: string): Promise<SelfDeclared> {
-  const { data, error } = await rpc('dossier_self_declared', { _patient_id: patientId, _family_member_id: null });
+export async function fetchSelfDeclared(patientId: string, familyMemberId: string | null = null): Promise<SelfDeclared> {
+  const { data, error } = await rpc('dossier_self_declared', { _patient_id: patientId, _family_member_id: familyMemberId });
   if (error) throw error;
   return parseSelfDeclared(data);
 }

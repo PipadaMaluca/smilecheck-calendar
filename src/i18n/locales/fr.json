@@ -898,7 +898,8 @@
     "blockConfirm": "Bloquer",
     "statusChanged": "Statut modifié",
     "triagePhotos_one": "{{count, number}} photo",
-    "triagePhotos_other": "{{count, number}} photos"
+    "triagePhotos_other": "{{count, number}} photos",
+    "noHistory": "Aucune consultation antérieure."
   },
   "confirmationStates": {
     "confirmed24h": "Confirmé 24h",
@@ -1914,7 +1915,8 @@
     "noResults": "Aucun résultat.",
     "back": "Retour",
     "ratingGiven": "Évaluation donnée :",
-    "ratingReceived": "Évaluation reçue :"
+    "ratingReceived": "Évaluation reçue :",
+    "feedbackFailed": "Impossible d’enregistrer l’évaluation."
   },
   "store": {
     "title": "Boutique de récompenses",
@@ -5772,5 +5774,55 @@
     "error": "Impossible de mettre à jour la photo.",
     "badImage": "Choisissez une image JPG, PNG ou WebP.",
     "tooBig": "L’image est trop lourde (2 Mo max.)."
+  },
+  "safetyReal": {
+    "riskWith": "risque avec {{tags}} ({{risk}})",
+    "allergyConflict": "conflit avec une allergie déclarée : {{allergy}}",
+    "interactsWith": "interaction avec {{med}} ({{risk}})",
+    "risk": {
+      "bleeding": "risque hémorragique accru",
+      "renal": "risque rénal accru",
+      "antihypertensive": "réduit l’efficacité de l’antihypertenseur",
+      "serotonin": "risque de syndrome sérotoninergique"
+    }
+  },
+  "devicesReal": {
+    "thisDevice": "Cet appareil",
+    "othersHint": "Par sécurité, nous n’affichons pas la liste des autres appareils. Vous pouvez vous déconnecter de tous les autres en une fois.",
+    "signOutOthers": "Se déconnecter des autres appareils",
+    "done": "Déconnecté des autres appareils.",
+    "failed": "Impossible de fermer les autres sessions."
+  },
+  "exceptionsReal": {
+    "loadFailed": "Impossible de charger les absences.",
+    "endBeforeStart": "La fin doit être après le début.",
+    "saved": "Absence enregistrée.",
+    "saveFailed": "Impossible d’enregistrer.",
+    "deleted": "Absence supprimée.",
+    "allClinics": "Toutes les cliniques",
+    "reason": "Motif",
+    "clinic": "Clinique",
+    "notePlaceholder": "Note (facultatif)",
+    "add": "Ajouter une absence",
+    "empty": "Aucune absence enregistrée",
+    "absence": "Absence",
+    "delete": "Supprimer l’absence",
+    "pickAgenda": "Choisissez au moins un agenda.",
+    "capped": "{{count}} occurrences au maximum ont été créées."
+  },
+  "streakReal": {
+    "perDay": "+{{points}} pts/jour",
+    "points": "+{{points}} pts"
+  },
+  "patientProfileReal": {
+    "none": "Non renseigné",
+    "noName": "Sans nom",
+    "levelLine": "Niveau {{level}} · {{xp}} XP · {{points}} pts",
+    "selfDeclared": "Santé (déclarée par vous)",
+    "conditions": "Pathologies",
+    "medications": "Médicaments",
+    "family": "Famille",
+    "visits": "Consultations effectuées",
+    "teleVisits": "Téléconsultations"
   }
 }

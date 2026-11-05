@@ -1,5 +1,6 @@
 import { getDateFnsLocale } from '@/lib/formatters';
 import { demoDate } from '@/lib/demoClock';
+import { addMonths } from 'date-fns';
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,8 @@ import { format } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { createExceptions, expandOccurrences, MAX_OCCURRENCES } from '@/data/agendaExceptions';
 import { useTranslation } from 'react-i18next';
 
 const PRO_COLORS = ['#9E9E9E', '#F44336', '#FF9800', '#FDD835', '#4CAF50', '#2196F3', '#3F51B5', '#9C27B0', '#000000', '#FFFFFF'];
@@ -45,7 +48,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
   const dir = useDirectory();
   const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
-  const [selectedAgendas, setSelectedAgendas] = useState<string[]>(dentistKey ? [dentistKey] : ['1-1']);
+  const [selectedAgendas, setSelectedAgendas] = useState<string[]>(dentistKey ? [dentistKey] : dir.isDemo ? ['1-1'] : []);
   const [startDate, setStartDate] = useState<Date>(initialDate);
   const [startTime, setStartTime] = useState(initialTime);
   const [endDate, setEndDate] = useState<Date>(initialDate);
@@ -54,7 +57,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
   const [repeat, setRepeat] = useState<'yes' | 'no'>('no');
   const [frequency, setFrequency] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
   const [weekdays, setWeekdays] = useState<number[]>([]);
-  const [repeatUntil, setRepeatUntil] = useState<Date>(demoDate(2026, 2, 31));
+  const [repeatUntil, setRepeatUntil] = useState<Date>(() => (dir.isDemo ? demoDate(2026, 2, 31) : addMonths(new Date(), 2)));
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
   const [selectedColor, setSelectedColor] = useState('#9E9E9E');
@@ -70,12 +73,21 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
     t('creationTabs.break'), t('creationTabs.personal')
   ];
 
-  const agendaOptions = mockClinics.flatMap(clinic =>
-    mockDentists.slice(0, 3).map(d => ({
-      key: `${clinic.id}-${d.id}`,
-      label: `${d.name} (${clinic.name.replace('Clínica ', '')})`,
-    }))
-  );
+  const { user } = useAuth();
+  const [saving, setSaving] = useState(false);
+  // Real accounts: only the agendas the viewer can actually write (own agenda per clinic; clinic owner: its dentists).
+  const agendaOptions = dir.isDemo
+    ? mockClinics.flatMap(clinic =>
+        mockDentists.slice(0, 3).map(d => ({
+          key: `${clinic.id}-${d.id}`, clinicId: clinic.id, dentistId: d.id,
+          label: `${d.name} (${clinic.name.replace('Clínica ', '')})`,
+        }))
+      )
+    : mockClinics.flatMap(clinic =>
+        dir.getDentistsForClinic(clinic.id)
+          .filter(d => userRole === 'clinic' || d.id === dir.selfId)
+          .map(d => ({ key: `${clinic.id}-${d.id}`, clinicId: clinic.id, dentistId: d.id, label: `${d.name} (${clinic.name})` }))
+      );
 
   const toggleAgenda = (key: string) => {
     setSelectedAgendas(prev =>
@@ -90,8 +102,34 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
       toast.error(t('creationTabs.reasonRequired'));
       return;
     }
+    if (!dir.isDemo) { void saveReal(); return; }
     toast.success(t('creationTabs.absenceCreated'));
     onClose();
+  };
+
+  const at = (d: Date, time: string, endOfDay = false) => {
+    const x = new Date(d);
+    if (fullDay) x.setHours(endOfDay ? 23 : 0, endOfDay ? 59 : 0, 0, 0);
+    else { const [h, m] = time.split(':').map(Number); x.setHours(h, m, 0, 0); }
+    return x;
+  };
+  const saveReal = async () => {
+    const targets = agendaOptions.filter(a => selectedAgendas.includes(a.key));
+    if (!user || targets.length === 0) { toast.error(t('exceptionsReal.pickAgenda')); return; }
+    const occ = expandOccurrences(at(startDate, startTime), at(endDate, endTime, true),
+      repeat === 'yes' ? { frequency, until: repeatUntil, weekdays } : null);
+    if (occ.length === 0) { toast.error(t('exceptionsReal.endBeforeStart')); return; }
+    if (occ.length >= MAX_OCCURRENCES) toast.warning(t('exceptionsReal.capped', { count: MAX_OCCURRENCES }));
+    setSaving(true);
+    try {
+      await createExceptions(targets.flatMap(a => occ.map(o => ({
+        dentist_id: a.dentistId, clinic_id: a.clinicId, kind: 'ausencia' as const,
+        starts_at: o.start.toISOString(), ends_at: o.end.toISOString(), full_day: fullDay,
+        reason: reason.trim().slice(0, 120), note: notes.trim() || null, color: /^#[0-9A-Fa-f]{6}$/.test(selectedColor) ? selectedColor : null,
+      }))));
+      toast.success(t('creationTabs.absenceCreated'));
+      onClose();
+    } catch { toast.error(t('exceptionsReal.saveFailed')); } finally { setSaving(false); }
   };
 
   return (
@@ -282,7 +320,7 @@ export function AbsenceTab({ initialDate, initialTime, dentistKey, dentistName, 
       {/* Footer */}
       <div className="border-t border-border bg-card px-4 py-3 flex items-center justify-end gap-2">
         <Button variant="ghost" size="sm" onClick={onClose}>{t('creationTabs.cancel')}</Button>
-        <Button size="sm" onClick={handleCreate}>{t('creationTabs.createAbsence')}</Button>
+        <Button size="sm" onClick={handleCreate} disabled={saving}>{t('creationTabs.createAbsence')}</Button>
       </div>
     </div>
   );

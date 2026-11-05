@@ -1,6 +1,5 @@
 import { zonedParts } from '@/lib/formatters';
 import { effectiveFear } from '@/lib/fearScale';
-import { demoDate } from '@/lib/demoClock';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -23,7 +22,7 @@ import { SEED_CLINIC_ID_BY_UUID, SEED_DENTIST_ID_BY_UUID } from '@/data/seedIds'
  * appointments from the backend. Writes (create/edit/cancel) are untouched.
  */
 
-const DB_TYPE_TO_CATEGORY: Record<string, ConsultationCategory> = {
+export const DB_TYPE_TO_CATEGORY: Record<string, ConsultationCategory> = {
   primeira_consulta: 'primeira_consulta',
   destartarizacao: 'destartarizacao',
   cirurgia: 'cirurgia',
@@ -82,7 +81,7 @@ interface PatientInfo {
   fearLevel?: number;
 }
 
-function ageFrom(dob?: string, reference = demoDate(2026, 0, 31)) {
+function ageFrom(dob?: string, reference = new Date()) {
   if (!dob) return undefined;
   const [d, m, y] = dob.split('/').map(Number);
   let age = reference.getFullYear() - y;
@@ -216,7 +215,8 @@ const AgendaDataContext = createContext<AgendaDataValue>({
 
 export function AgendaDataProvider({ children }: { children: React.ReactNode }) {
   const { demoMode, user } = useAuth();
-  const [consultations, setConsultations] = useState<Consultation[]>(mockConsultations);
+  // Real accounts never start from the demo list (no flash of mock rows before the first fetch).
+  const [consultations, setConsultations] = useState<Consultation[]>(() => (demoMode || !user ? mockConsultations : []));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);

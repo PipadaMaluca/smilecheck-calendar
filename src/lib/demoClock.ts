@@ -24,6 +24,14 @@ export function demoDate(y: number, m: number, d = 1, h = 0, mi = 0, s = 0): Dat
 /** The demo "today" (anchor day after shifting). */
 export const DEMO_TODAY = demoDate(2026, 0, 31);
 
+/**
+ * "Today" for a screen: the shifted demo anchor in demo mode, the real current day otherwise
+ * (never the demo Sunday→Monday shift for real accounts).
+ */
+export function appToday(isDemo: boolean, now = new Date()): Date {
+  return isDemo ? DEMO_TODAY : startOfDay(now);
+}
+
 const toMinutes = (time: string) => {
   const [h, m] = time.split(':').map(Number);
   return (h || 0) * 60 + (m || 0);

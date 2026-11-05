@@ -2,7 +2,7 @@ import { formatDate } from '@/lib/formatters';
 import { pointsRuleLabel } from '@/lib/pointsRuleLabels';
 import { formatDecimal1 } from '@/lib/formatters';
 import { getDateFnsLocale, formatNumber } from '@/lib/formatters';
-import { demoDate } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useState } from 'react';
 import { Glyph } from '@/components/ui/glyph';
 import { CoachMark } from '@/components/onboarding/CoachMark';
@@ -29,10 +29,10 @@ interface PontosTabProps {
   onNavigate?: (tab: string) => void;
 }
 
-const DEMO_DATE = demoDate(2026, 0, 31);
 
 export function PontosTab({ userRole, onNavigate }: PontosTabProps) {
   const data = usePointsData(userRole);
+  const DEMO_DATE = appToday(data.isDemo);
   const level = getLevelForXP(data.xp);
   const xpProgress = getXPProgress(data.xp);
   const [historyFilter, setHistoryFilter] = useState<'todos' | 'ganhos' | 'perdidos'>('todos');

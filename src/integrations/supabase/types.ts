@@ -215,6 +215,94 @@ export type Database = {
           },
         ]
       }
+      agenda_exceptions: {
+        Row: {
+          clinic_id: string | null
+          color: string | null
+          created_at: string
+          created_by: string
+          dentist_id: string
+          ends_at: string
+          full_day: boolean
+          id: string
+          kind: string
+          note: string | null
+          reason: string
+          starts_at: string
+        }
+        Insert: {
+          clinic_id?: string | null
+          color?: string | null
+          created_at?: string
+          created_by?: string
+          dentist_id: string
+          ends_at: string
+          full_day?: boolean
+          id?: string
+          kind?: string
+          note?: string | null
+          reason?: string
+          starts_at: string
+        }
+        Update: {
+          clinic_id?: string | null
+          color?: string | null
+          created_at?: string
+          created_by?: string
+          dentist_id?: string
+          ends_at?: string
+          full_day?: boolean
+          id?: string
+          kind?: string
+          note?: string | null
+          reason?: string
+          starts_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agenda_exceptions_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_exceptions_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "public_clinic_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_exceptions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_exceptions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_exceptions_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "professional_public_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agenda_exceptions_dentist_id_fkey"
+            columns: ["dentist_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       appointments: {
         Row: {
           clinic_id: string | null

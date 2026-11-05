@@ -105,6 +105,8 @@ export interface DrugInteraction {
   currentMed: string; // regex-friendly pattern for patient's current medication
   prescribedTags: AllergenTag[] | string[]; // tags or med names that trigger interaction
   risk: string;
+  /** i18n key under `safetyReal.risk.*` (real accounts render this instead of the PT text). */
+  riskKey: 'bleeding' | 'renal' | 'antihypertensive' | 'serotonin';
 }
 
 export const DRUG_INTERACTIONS: DrugInteraction[] = [
@@ -112,26 +114,31 @@ export const DRUG_INTERACTIONS: DrugInteraction[] = [
     currentMed: 'varfarina',
     prescribedTags: ['AINEs'],
     risk: 'Aumento do risco de hemorragia',
+    riskKey: 'bleeding',
   },
   {
     currentMed: 'varfarina',
     prescribedTags: ['Aspirina'],
     risk: 'Aumento do risco de hemorragia',
+    riskKey: 'bleeding',
   },
   {
     currentMed: 'metformina',
     prescribedTags: ['AINEs'],
     risk: 'Aumento do risco renal',
+    riskKey: 'renal',
   },
   {
     currentMed: 'anti-hipertensivo',
     prescribedTags: ['AINEs'],
     risk: 'Reduz eficácia do anti-hipertensivo',
+    riskKey: 'antihypertensive',
   },
   {
     currentMed: 'antidepressivo',
     prescribedTags: ['Tramadol'],
     risk: 'Risco de síndrome serotoninérgico',
+    riskKey: 'serotonin',
   },
 ];
 
@@ -139,7 +146,7 @@ export const DRUG_INTERACTIONS: DrugInteraction[] = [
 const ANTI_HYPERTENSIVES = ['losartan', 'enalapril', 'amlodipina', 'ramipril', 'valsartan', 'lisinopril', 'anti-hipertensivo'];
 const ANTIDEPRESSANTS = ['sertralina', 'fluoxetina', 'paroxetina', 'escitalopram', 'venlafaxina', 'duloxetina', 'antidepressivo'];
 
-function matchesCurrentMed(patientMedName: string, interactionPattern: string): boolean {
+export function matchesCurrentMed(patientMedName: string, interactionPattern: string): boolean {
   const lower = patientMedName.toLowerCase();
   if (interactionPattern === 'anti-hipertensivo') {
     return ANTI_HYPERTENSIVES.some(h => lower.includes(h));

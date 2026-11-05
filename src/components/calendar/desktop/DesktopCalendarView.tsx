@@ -1,7 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
-import { demoDate } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { UserAvatarDropdown } from '@/components/header/UserAvatarDropdown';
@@ -53,6 +53,7 @@ import { StatisticsView } from '@/components/statistics/StatisticsView';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { ConsultationDetailView } from './ConsultationDetailView';
 import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
@@ -106,7 +107,7 @@ export function DesktopCalendarView() {
 
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys(dir));
@@ -624,7 +625,7 @@ export function DesktopCalendarView() {
     if (activeNavTab === 'consulta-detalhe') {
       if (activeRole === 'patient') {
         // Navigate to consultas tab with next consultation pre-selected
-        const PATIENT_DEMO_DATE = demoDate(2026, 0, 31);
+        const PATIENT_DEMO_DATE = appToday(dir.isDemo);
         const nextConsultation = [...patientAgendaConsultations]
           .filter(c => c.date >= PATIENT_DEMO_DATE)
           .sort((a, b) => a.date.getTime() - b.date.getTime() || a.time.localeCompare(b.time))[0];
@@ -637,9 +638,9 @@ export function DesktopCalendarView() {
         return null;
       } else if (activeRole === 'dentist') {
         // Find next consultation for today for this dentist
-        const DEMO_DATE = demoDate(2026, 0, 31);
+        const DEMO_DATE = appToday(dir.isDemo);
         const dentistCons = agendaConsultations
-          .filter((c) => c.dentist.id === (mockDentists[0]?.id ?? '') && isSameDay(c.date, DEMO_DATE))
+          .filter((c) => c.dentist.id === (dir.isDemo ? (mockDentists[0]?.id ?? '') : dir.selfId) && isSameDay(c.date, DEMO_DATE))
           .sort((a, b) => a.time.localeCompare(b.time));
         const nextConsultation = dentistCons[0];
 
@@ -892,6 +893,15 @@ export function DesktopCalendarView() {
 
 
       case 'perfil':
+        if (!dir.isDemo && (activeRole === 'dentist' || activeRole === 'clinic')) {
+          return (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {renderStandardHeader(t('profile.myProfile'))}
+              <div className="flex-1 overflow-y-auto">
+                <OwnRealProfile role={activeRole} onClose={() => setActiveNavTab('home')} onEdit={() => setActiveNavTab('editarPerfil')} />
+              </div>
+            </div>);
+        }
         if (activeRole === 'dentist') {
           // Show own dentist profile using DentistProfileView
           const ownDentist = MOCK_DENTIST_RESULTS.find((d) => d.id === '1') || MOCK_DENTIST_RESULTS[0];

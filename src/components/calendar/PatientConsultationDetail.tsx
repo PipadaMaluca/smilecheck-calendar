@@ -19,6 +19,8 @@ import { ClickableClinicName } from '@/components/search/ClickableClinicName';
 import { useTeleconsulta } from '@/contexts/TeleconsultaContext';
 import { DENTIST_AVATAR_PHOTOS, getDentistInitials } from '@/lib/avatarUtils';
 import { RescheduleModal } from './RescheduleModal';
+import { useConsultationContext, hasAlerts } from '@/data/consultationContext';
+import { useDirectory } from '@/data/directorySource';
 
 interface PatientConsultationDetailProps {
   consultation: Consultation;
@@ -42,6 +44,9 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
   const [cancelNotes, setCancelNotes] = useState('');
   const [cancelled, setCancelled] = useState(false);
   const [rescheduleCount] = useState(0);
+  const isReal = !useDirectory().isDemo;
+  const realCtx = useConsultationContext(consultation, isReal && isOpen, 'patient', t);
+  const histRows = isReal ? realCtx.history : MOCK_HISTORY;
 
   if (!isOpen) return null;
 
@@ -182,7 +187,8 @@ export function PatientConsultationDetail({ consultation, isOpen, onClose, onNav
             <div className="bg-card rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-2xs font-semibold text-muted-foreground uppercase tracking-wider">{t('consultationDetail.briefHistory')}</h3>
               <div className="space-y-0">
-                {MOCK_HISTORY.map((h, i) => {
+                {histRows.length === 0 && <p className="text-sm text-muted-foreground">{t('consultationDetail.noHistory')}</p>}
+                {histRows.map((h, i) => {
                   const hColors = CATEGORY_COLORS[h.category as keyof typeof CATEGORY_COLORS];
                   return (
                     <div key={i} className="flex items-center justify-between text-sm py-2.5 border-b border-border/50 last:border-0">

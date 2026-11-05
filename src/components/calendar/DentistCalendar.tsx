@@ -1,6 +1,6 @@
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { demoDate } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
@@ -50,6 +50,7 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { DentistAgendaDropdown } from './mobile/DentistAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
 import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
@@ -70,7 +71,7 @@ export function DentistCalendar() {
   const { t } = useTranslation();
   // Subscribe so changes re-render columns/list
   useAgendaFilters();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
@@ -348,7 +349,7 @@ export function DentistCalendar() {
     }
     // Card 1: open next consultation detail
     if (tab === 'consulta-detalhe') {
-      const DEMO_DATE = demoDate(2026, 0, 31);
+      const DEMO_DATE = appToday(dir.isDemo);
       const dentistCons = agendaConsultations
         .filter(c => c.dentist.id === dir.selfId && c.date.toDateString() === DEMO_DATE.toDateString())
         .sort((a, b) => a.time.localeCompare(b.time));
@@ -580,7 +581,12 @@ export function DentistCalendar() {
           />
         )}
 
-        {showProfile && (
+        {showProfile && !dir.isDemo && (
+          <div className="fixed inset-0 z-modal bg-background overflow-y-auto">
+            <OwnRealProfile role="dentist" onClose={() => setShowProfile(false)} onEdit={() => { setShowProfile(false); setShowEditProfile(true); }} />
+          </div>
+        )}
+        {showProfile && dir.isDemo && (
           <DentistProfileView
             dentist={ownDentist}
             isOpen={true}

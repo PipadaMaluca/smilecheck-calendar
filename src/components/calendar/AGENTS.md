@@ -13,3 +13,6 @@
 - Dentist substitution availability: dentist manages own rows; only approved clinics read (`dentist_availability` RLS).
 - Avatars: private `avatars` bucket (public buckets blocked in workspace), own folder only, WebP ≤512 px/≤2 MB, stored as long-lived signed URL validated by trigger.
 - Security tests: `supabase/tests/conversations_rls_rollback.sql`.
+- Consultation details (real): alerts come only from `useConsultationContext` (`can_read_dossier` gate → self-declared + professional + prescriptions of the last 30 days, `buildHealthAlerts`, tested); history = real past visits. No data → no alert.
+- "Today" for any screen is `appToday(isDemo)`; never `demoDate(...)` outside demo branches.
+- Absences/exceptional slots live in `agenda_exceptions` (dentist own / clinic owner for members; repeats expanded client-side, capped at 100).

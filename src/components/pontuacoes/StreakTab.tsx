@@ -11,6 +11,16 @@ import { MOCK_STREAK_HISTORY, getCheckinDays } from '@/data/pointsData';
 import { usePointsData } from '@/data/pointsSource';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { formatNumber } from '@/lib/formatters';
+
+/** Time left until the next UTC day (the server awards one check-in per UTC day). */
+export function untilNextUtcDay(now = new Date()) {
+  const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+  const left = Math.max(0, Math.floor((next - now.getTime()) / 1000));
+  return { hours: Math.floor(left / 3600), minutes: Math.floor((left % 3600) / 60), seconds: left % 60 };
+}
 
 interface StreakTabProps {
   userRole: UserRole;
@@ -19,14 +29,33 @@ interface StreakTabProps {
 
 export function StreakTab({ userRole }: StreakTabProps) {
   const data = usePointsData(userRole);
-  const streakHistory = MOCK_STREAK_HISTORY[userRole];
-  const checkinDays = getCheckinDays(userRole);
+  const real = !data.isDemo;
+  const { user, role: authRole } = useAuth();
+  const streakHistory = real ? [] : MOCK_STREAK_HISTORY[userRole];
+  const demoCheckinDays = getCheckinDays(userRole);
   const [calendarMonth, setCalendarMonth] = useState(0);
-  const [countdown, setCountdown] = useState({ hours: 14, minutes: 32, seconds: 45 });
+  const [countdown, setCountdown] = useState(() => (real ? untilNextUtcDay() : { hours: 14, minutes: 32, seconds: 45 }));
   const { t } = useTranslation();
+  // Real accounts: own check-in days and reward values from the server rules (never hardcoded).
+  const [realCheckins, setRealCheckins] = useState<Set<string>>(new Set());
+  const [rules, setRules] = useState<Record<string, number>>({});
+  useEffect(() => {
+    if (!real || !user) return;
+    let alive = true;
+    void Promise.all([
+      supabase.from('daily_checkins').select('checkin_date').eq('profile_id', user.id).order('checkin_date', { ascending: false }).limit(400),
+      supabase.from('points_rules').select('action_key, points').eq('role', authRole ?? userRole).in('action_key', ['checkin_diario', 'streak_7', 'streak_30']),
+    ]).then(([c, r]) => {
+      if (!alive) return;
+      setRealCheckins(new Set((c.data ?? []).map((x) => x.checkin_date)));
+      setRules(Object.fromEntries((r.data ?? []).map((x) => [x.action_key, x.points])));
+    });
+    return () => { alive = false; };
+  }, [real, user, authRole, userRole]);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (real) { setCountdown(untilNextUtcDay()); return; }
       setCountdown(prev => {
         let { hours, minutes, seconds } = prev;
         seconds--;
@@ -37,14 +66,26 @@ export function StreakTab({ userRole }: StreakTabProps) {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [real]);
 
   // Calendar rendering
-  const monthDate = new Date(2026, calendarMonth, 1);
+  const nowD = new Date();
+  const baseY = real ? nowD.getFullYear() : 2026; const baseM = real ? nowD.getMonth() : 0;
+  const monthDate = new Date(baseY, baseM + calendarMonth, 1);
   const monthName = monthDate.toLocaleDateString(getActiveLocale(), { month: 'long', year: 'numeric' });
-  const daysInMonth = new Date(2026, calendarMonth + 1, 0).getDate();
+  const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
   const firstDayOfWeek = (monthDate.getDay() + 6) % 7; // Monday = 0
-  const todayDay = calendarMonth === 0 ? 31 : -1;
+  const todayDay = calendarMonth === 0 ? (real ? nowD.getDate() : 31) : -1;
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const hasCheckinOn = (day: number) => real
+    ? realCheckins.has(`${monthDate.getFullYear()}-${pad(monthDate.getMonth() + 1)}-${pad(day)}`)
+    : calendarMonth === 0 && demoCheckinDays.includes(day);
+  const ruleLabel = (key: string, demo: string, perDay = false) => {
+    if (!real) return demo;
+    const v = rules[key];
+    if (v === undefined) return '—';
+    return perDay ? t('streakReal.perDay', { points: formatNumber(v) }) : t('streakReal.points', { points: formatNumber(v) });
+  };
 
   const calendarCells = [];
   for (let i = 0; i < firstDayOfWeek; i++) calendarCells.push(null);
@@ -75,9 +116,9 @@ export function StreakTab({ userRole }: StreakTabProps) {
           </div>
           <div className="space-y-2">
             {[
-              { icon: '📅', label: t('scores.dailyCheckin'), reward: '+1 pt/day' },
-              { icon: '🔥', label: t('scores.streak7days'), reward: '+5 pts' },
-              { icon: '🏆', label: t('scores.streak30days'), reward: '+15 pts' },
+              { icon: '📅', label: t('scores.dailyCheckin'), reward: ruleLabel('checkin_diario', '+1 pt/day', true) },
+              { icon: '🔥', label: t('scores.streak7days'), reward: ruleLabel('streak_7', '+5 pts') },
+              { icon: '🏆', label: t('scores.streak30days'), reward: ruleLabel('streak_30', '+15 pts') },
             ].map((tier, i) => (
               <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/30 border border-border/50">
                 <div className="flex items-center gap-2">
@@ -109,10 +150,10 @@ export function StreakTab({ userRole }: StreakTabProps) {
             ))}
             {calendarCells.map((day, i) => {
               if (day === null) return <span key={`empty-${i}`} />;
-              const hasCheckin = calendarMonth === 0 && checkinDays.includes(day);
+              const hasCheckin = hasCheckinOn(day);
               const isToday = day === todayDay;
-              const isPast = calendarMonth === 0 ? day < 31 : true;
-              const missed = isPast && !hasCheckin && day <= 31;
+              const isPast = calendarMonth === 0 ? day < (real ? nowD.getDate() : 31) : true;
+              const missed = isPast && !hasCheckin;
               return (
                 <div
                   key={i}
@@ -131,8 +172,8 @@ export function StreakTab({ userRole }: StreakTabProps) {
         </CardContent>
       </Card>
 
-      {/* Streak History */}
-      <Card className="bg-card/80 border-border">
+      {/* Streak History (demo only: the server keeps no per-streak history yet) */}
+      {!real && <Card className="bg-card/80 border-border">
         <CardContent className="p-5 space-y-3">
           <h3 className="text-sm font-bold text-foreground">{t('scores.streakHistory')}</h3>
           <div className="space-y-2">
@@ -149,7 +190,7 @@ export function StreakTab({ userRole }: StreakTabProps) {
             ))}
           </div>
         </CardContent>
-      </Card>
+      </Card>}
     </div>
   );
 }

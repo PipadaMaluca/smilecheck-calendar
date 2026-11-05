@@ -1,6 +1,6 @@
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { demoDate } from '@/lib/demoClock';
+import { appToday } from '@/lib/demoClock';
 import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StatisticsView } from '@/components/statistics/StatisticsView';
@@ -45,6 +45,7 @@ import { useWatermarkSrc } from '@/hooks/useWatermarkSrc';
 import { SlotCreationScreen } from './creation/SlotCreationScreen';
 import { MobilePatientDossier } from './mobile/MobilePatientDossier';
 import { FullHistoryView } from '@/components/history/FullHistoryView';
+import { OwnRealProfile } from '@/components/profile/OwnRealProfile';
 import { ContestationView } from '@/components/contestation/ContestationView';
 import { ClinicAgendaDropdown } from './mobile/ClinicAgendaDropdown';
 import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
@@ -63,7 +64,7 @@ export function ClinicCalendar() {
   const smileIcon = useWatermarkSrc();
   const { t } = useTranslation();
   useAgendaFilters();
-  const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
+  const [selectedDate, setSelectedDate] = useState(() => appToday(dir.isDemo));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys(dir));
   // Real accounts: the directory loads after mount — select the present dentists once it arrives.
   useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -517,7 +518,12 @@ export function ClinicCalendar() {
         }}
       />
 
-      {showProfile && (
+      {showProfile && !dir.isDemo && (
+        <div className="fixed inset-0 z-modal bg-background overflow-y-auto">
+          <OwnRealProfile role="clinic" onClose={() => setShowProfile(false)} onEdit={() => { setShowProfile(false); setShowEditProfile(true); }} />
+        </div>
+      )}
+      {showProfile && dir.isDemo && (
         <ClinicProfileView
           clinicId={ownClinicId}
           isOpen={true}

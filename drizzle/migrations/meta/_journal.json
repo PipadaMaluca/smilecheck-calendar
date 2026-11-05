@@ -204,6 +204,13 @@
       "when": 1793848285914,
       "tag": "0028_conversations_revoke_writes",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1793849715013,
+      "tag": "0029_agenda_exceptions",
+      "breakpoints": true
     }
   ]
 }

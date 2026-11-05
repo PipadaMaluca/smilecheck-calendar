@@ -11,6 +11,7 @@ import { ArrowLeft, Star, MapPin, MessageCircle, GraduationCap, Languages, FileT
 import { LEVEL_GLOW, DENTIST_TRENDS, getTrendDisplay, formatRelativeDate } from '@/lib/profileUtils';
 import { useTranslation } from 'react-i18next';
 import { useRealRatingForMockId } from '@/data/feedbackSource';
+import { useDirectory } from '@/data/directorySource';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -131,10 +132,11 @@ function DentistProfileViewInner({ dentist, isOpen, onClose, isFavorite, onToggl
   const showProStatus = !!isOwnProfile || viewerRole === 'clinic';
   const planCfg = PLAN_CONFIG[dentist.plan || 'free'];
   const realRating = useRealRatingForMockId('dentist', dentist.id);
-  const mockReviews = getReviewsForDentist(dentist.id);
-  // Real users with real feedback rows see the DB values; otherwise mock stays.
-  const hasRealRating = realRating.count > 0;
-  const displayRating = hasRealRating && realRating.average !== null ? realRating.average : dentist.rating;
+  const isDemoDir = useDirectory().isDemo;
+  // Mock reviews/ratings exist only in demo; real accounts see verified DB reviews or nothing.
+  const mockReviews = isDemoDir ? getReviewsForDentist(dentist.id) : [];
+  const hasRealRating = realRating.count > 0 || !isDemoDir;
+  const displayRating = hasRealRating ? (realRating.average ?? 0) : dentist.rating;
   const displayReviewCount = hasRealRating ? realRating.count : dentist.reviewCount;
   const reviews = hasRealRating
     ? realRating.reviews.map((r) => ({
