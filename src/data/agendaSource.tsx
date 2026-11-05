@@ -215,7 +215,8 @@ const AgendaDataContext = createContext<AgendaDataValue>({
 
 export function AgendaDataProvider({ children }: { children: React.ReactNode }) {
   const { demoMode, user } = useAuth();
-  const [consultations, setConsultations] = useState<Consultation[]>(mockConsultations);
+  // Real accounts never start from the demo list (no flash of mock rows before the first fetch).
+  const [consultations, setConsultations] = useState<Consultation[]>(() => (demoMode || !user ? mockConsultations : []));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
