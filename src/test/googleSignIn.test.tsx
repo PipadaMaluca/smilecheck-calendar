@@ -125,7 +125,7 @@ describe('Apple and Facebook on "create account" stay "soon"', () => {
     const btn = screen.getByRole('button', { name: /auth\.continueWithApple/ });
     expect(btn).toBeDisabled();
     expect(btn.getAttribute('data-soon')).toBe('');
-    expect(screen.getByText('common.comingSoon')).toBeTruthy();
+    expect(within(btn).getByText('common.comingSoon')).toBeTruthy();
     fireEvent.click(btn);
     expect(h.signInWithOAuth).not.toHaveBeenCalled();
     expect(h.navigate).not.toHaveBeenCalled();
