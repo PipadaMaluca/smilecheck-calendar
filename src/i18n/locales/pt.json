@@ -5721,5 +5721,56 @@
       "summary": "Resumo",
       "answeredOn": "Respondida em {{date}}"
     }
+  },
+  "chatReal": {
+    "title": "Conversas",
+    "new": "Nova conversa",
+    "empty": "Ainda sem conversas",
+    "emptyHint": "Pode conversar com os profissionais com quem tem consultas marcadas ou passadas.",
+    "pick": "Escolha uma conversa",
+    "voided": "Mensagem anulada",
+    "attachment": "Anexo",
+    "read": "Lida",
+    "sent": "Enviada",
+    "void": "Anular",
+    "attach": "Anexar ficheiro",
+    "send": "Enviar",
+    "placeholder": "Escreva uma mensagem…",
+    "noContacts": "Ainda não há contactos disponíveis.",
+    "sendError": "Não foi possível enviar a mensagem.",
+    "role": {
+      "patient": "Paciente",
+      "dentist": "Dentista",
+      "clinic": "Clínica"
+    },
+    "errors": {
+      "no_relationship": "Só pode conversar com quem tem uma consulta marcada ou passada consigo.",
+      "void_window_closed": "Só pode anular mensagens até 5 minutos depois de as enviar.",
+      "empty_message": "Escreva uma mensagem ou anexe um ficheiro.",
+      "invalid_attachment": "O anexo não é válido."
+    }
+  },
+  "availReal": {
+    "dentistTitle": "Disponibilidade para substituições",
+    "dentistHint": "Publique janelas em que pode fazer substituições. Só as clínicas aprovadas as veem.",
+    "none": "Ainda não publicou disponibilidade.",
+    "to": "Até",
+    "city": "Cidade",
+    "radiusLabel": "Raio (km)",
+    "notes": "Notas (opcional)",
+    "publish": "Publicar",
+    "published": "Disponibilidade publicada",
+    "saveError": "Não foi possível guardar.",
+    "radius": "raio de {{km}} km",
+    "clinicTitle": "Dentistas disponíveis para substituições",
+    "clinicNone": "Não há disponibilidades publicadas.",
+    "contact": "Contactar",
+    "from": "De"
+  },
+  "editProfileReal": {
+    "saved": "Fotografia atualizada",
+    "error": "Não foi possível atualizar a fotografia.",
+    "badImage": "Escolha uma imagem JPG, PNG ou WebP.",
+    "tooBig": "A imagem é demasiado grande (máx. 2 MB)."
   }
 }

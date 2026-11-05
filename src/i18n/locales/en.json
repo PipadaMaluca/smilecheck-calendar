@@ -5721,5 +5721,56 @@
       "summary": "Summary",
       "answeredOn": "Answered on {{date}}"
     }
+  },
+  "chatReal": {
+    "title": "Conversations",
+    "new": "New conversation",
+    "empty": "No conversations yet",
+    "emptyHint": "You can message professionals you have a booked or past appointment with.",
+    "pick": "Choose a conversation",
+    "voided": "Message withdrawn",
+    "attachment": "Attachment",
+    "read": "Read",
+    "sent": "Sent",
+    "void": "Withdraw",
+    "attach": "Attach file",
+    "send": "Send",
+    "placeholder": "Write a message…",
+    "noContacts": "No contacts available yet.",
+    "sendError": "Could not send the message.",
+    "role": {
+      "patient": "Patient",
+      "dentist": "Dentist",
+      "clinic": "Clinic"
+    },
+    "errors": {
+      "no_relationship": "You can only message someone you have a booked or past appointment with.",
+      "void_window_closed": "Messages can only be withdrawn within 5 minutes of sending.",
+      "empty_message": "Write a message or attach a file.",
+      "invalid_attachment": "The attachment is not valid."
+    }
+  },
+  "availReal": {
+    "dentistTitle": "Availability for locum work",
+    "dentistHint": "Publish time windows when you can cover for other dentists. Only approved clinics can see them.",
+    "none": "You have not published any availability yet.",
+    "to": "Until",
+    "city": "City",
+    "radiusLabel": "Radius (km)",
+    "notes": "Notes (optional)",
+    "publish": "Publish",
+    "published": "Availability published",
+    "saveError": "Could not save.",
+    "radius": "{{km}} km radius",
+    "clinicTitle": "Dentists available for locum work",
+    "clinicNone": "No availability published.",
+    "contact": "Contact",
+    "from": "From"
+  },
+  "editProfileReal": {
+    "saved": "Photo updated",
+    "error": "Could not update the photo.",
+    "badImage": "Choose a JPG, PNG or WebP image.",
+    "tooBig": "The image is too large (max. 2 MB)."
   }
 }
