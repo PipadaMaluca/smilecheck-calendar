@@ -2,7 +2,7 @@ import { onActivateKey } from '@/lib/a11y';
 import { getDateFnsLocale } from '@/lib/formatters';
 import { TimeSlot, Consultation, CATEGORY_COLORS, CATEGORY_PILL_EMOJIS, getCategoryBadgeStyle , getCategoryLabel} from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { format, addDays, subDays } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -35,6 +35,12 @@ export function ThreeDayView({ selectedDate, getSlots, onSlotClick, onDragMove }
     const el = document.elementFromPoint(x, y)?.closest('[data-3d-slot]') as HTMLElement | null;
     return el ? { id: el.dataset['3dSlot'] as string, day: Number(el.dataset.dayIdx), time: el.dataset.time as string } : null;
   };
+  useEffect(() => {
+    if (!draggedConsultation || !touchRef.current.active) return;
+    const block = (e: TouchEvent) => e.preventDefault();
+    document.addEventListener('touchmove', block, { passive: false });
+    return () => document.removeEventListener('touchmove', block);
+  }, [draggedConsultation]);
   const onTouchStartBlock = (data: { consultation: Consultation; fromDate: Date; fromTime: string }) => {
     const r = touchRef.current;
     if (r.timer) window.clearTimeout(r.timer);
