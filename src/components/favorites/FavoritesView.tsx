@@ -2,6 +2,7 @@ import { PersonAvatar } from '@/components/ui/person-avatar';
 import { onActivateKey } from '@/lib/a11y';
 import { useState, useMemo, lazy, Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Search, Calendar, MessageCircle, FileText, Phone, Copy, Check, Users, Briefcase, List, Map as MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,7 @@ import { UserRole } from '@/types/calendar';
 import { JobMarketView } from '@/components/jobs/JobMarketView';
 import { PatientsTab } from '@/components/search/PatientsTab';
 import { useProfileNavigation } from '@/contexts/ProfileNavigationContext';
+import { useFavorites } from '@/data/favoritesSource';
 
 interface FavoritesViewProps {
   favorites: string[];
@@ -59,6 +61,14 @@ export function FavoritesView({
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
   const [typeFilter, setTypeFilter] = useState<'dentists' | 'clinics' | 'patients'>('clinics');
   const profileNav = useProfileNavigation();
+  // Real accounts: the list is the user's saved favourites (server), toggles write to the server.
+  const fav = useFavorites();
+  const real = !fav.isDemo;
+  const realClinics = useMemo(() => fav.clinics.map(c => ({
+    id: c.id, name: c.name, address: [c.address, c.postal_code, c.city].filter(Boolean).join(', '), lat: c.lat, lng: c.lng,
+  })), [fav.clinics]);
+  const isFavDentist = (id: string) => (real ? fav.isFavorite('dentist', id) : favorites.includes(id));
+  const toggleDentist = (id: string) => (real ? void fav.toggle('dentist', id) : onToggleFavorite(id));
   const [callClinic, setCallClinic] = useState<{ id: string; name: string; address: string; phone: string } | null>(null);
   const [copied, setCopied] = useState(false);
   const [inviteTarget, setInviteTarget] = useState<DentistSearchResult | null>(null);
@@ -67,21 +77,21 @@ export function FavoritesView({
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
   const filteredResults = useMemo(() => {
-    let dentists = [...MOCK_DENTIST_RESULTS];
-    let clinics = [...mockClinics];
+    let dentists = real ? [...fav.dentists] as DentistSearchResult[] : [...MOCK_DENTIST_RESULTS];
+    let clinics = real ? realClinics : [...mockClinics];
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       dentists = dentists.filter(d => d.name.toLowerCase().includes(q) || d.specialties.some(s => s.toLowerCase().includes(q)));
       clinics = clinics.filter(c => c.name.toLowerCase().includes(q) || c.address.toLowerCase().includes(q));
     }
-    if (filterTab === 'favoritos') {
+    if (filterTab === 'favoritos' && !real) {
       dentists = dentists.filter(d => favorites.includes(d.id));
       clinics = clinics.filter(c => clinicFavorites.includes(c.id));
     }
     if (typeFilter === 'dentists') clinics = [];
     if (typeFilter === 'clinics') dentists = [];
     return { dentists, clinics };
-  }, [searchQuery, filterTab, typeFilter, favorites, clinicFavorites]);
+  }, [searchQuery, filterTab, typeFilter, favorites, clinicFavorites, real, fav.dentists, realClinics]);
 
   const handleCopyPhone = (phone: string) => {
     navigator.clipboard.writeText(phone);
@@ -260,7 +270,9 @@ export function FavoritesView({
           <Suspense fallback={<Skeleton className="h-full w-full" />}>
             {typeFilter === 'clinics' ? (
               <DentistMapView
-                clinics={filteredResults.clinics.filter(c => CLINIC_COORDS[c.id]).map(c => ({ id: c.id, name: c.name, address: c.address, ...CLINIC_COORDS[c.id] }))}
+                clinics={real
+                  ? (filteredResults.clinics as typeof realClinics).filter(c => c.lat != null && c.lng != null).map(c => ({ id: c.id, name: c.name, address: c.address, lat: Number(c.lat), lng: Number(c.lng), rating: 0, reviewCount: 0 }))
+                  : filteredResults.clinics.filter(c => CLINIC_COORDS[c.id]).map(c => ({ id: c.id, name: c.name, address: c.address, ...CLINIC_COORDS[c.id] }))}
                 onViewClinic={id => onViewClinicProfile?.(id)}
               />
             ) : (
@@ -268,6 +280,8 @@ export function FavoritesView({
             )}
           </Suspense>
         </div>
+      ) : totalResults === 0 && real ? (
+        <EmptyState icon={Star} title={t('publicProfile.noFavoritesTitle')} description={t('publicProfile.noFavoritesDesc')} />
       ) : totalResults === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
           <Search className="w-10 h-10 mx-auto mb-3 opacity-30" />
@@ -279,7 +293,7 @@ export function FavoritesView({
           {filteredResults.dentists.map(d => {
             const initials = getDentistInitials(d.name);
             const photo = DENTIST_AVATAR_PHOTOS[d.id];
-            const isFav = favorites.includes(d.id);
+            const isFav = isFavDentist(d.id);
 
             return (
               <div role="button" tabIndex={0} onKeyDown={onActivateKey} key={d.id}
@@ -291,7 +305,7 @@ export function FavoritesView({
                   variant="ghost"
                   size="icon-sm"
                   aria-pressed={isFav}
-                  onClick={(e) => { e.stopPropagation(); onToggleFavorite(d.id); }}
+                  onClick={(e) => { e.stopPropagation(); toggleDentist(d.id); }}
                   className="absolute top-2 right-2 h-auto w-auto p-1 rounded hover:bg-accent/30 z-10"
                 >
                   <Star className={cn('w-5 h-5 transition-[transform,background-color,border-color,color,box-shadow] duration-150', isFav ? 'fill-amber-400 text-warning scale-110' : 'text-muted-foreground hover:text-warning')} />
@@ -301,10 +315,10 @@ export function FavoritesView({
                   <PersonAvatar name={d.name} photo={photo} size="md" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate" title={d.name}>{d.name}</p>
-                    <div className="flex items-center gap-1 mt-0.5">
+                    {!real && <div className="flex items-center gap-1 mt-0.5">
                       <Star className="w-3 h-3 fill-amber-400 text-warning" />
                       <span className="text-xs font-medium">{d.rating}</span>
-                    </div>
+                    </div>}
                     <p className="text-xs text-muted-foreground mt-0.5">{d.specialties.join(', ')}</p>
                     {d.clinics[0] && (
                       <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground min-w-0">
