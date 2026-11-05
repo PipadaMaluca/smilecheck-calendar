@@ -465,9 +465,12 @@ export function HealthView({ userRole, onNavigate }: HealthViewProps) {
             </CardHeader>
             <CardContent className="space-y-3">
               {real ? (
-                mockFamilyMembers.find((m) => m.id === selectedMemberId)?.self
-                  ? <RealHealthClinical patientId={selectedMemberId} />
-                  : <p className="text-sm text-muted-foreground italic py-4 text-center">{t('dossierReal.familyDocsSelfOnly')}</p>
+                (() => {
+                  const holder = mockFamilyMembers.find((m) => m.self);
+                  if (!holder) return null;
+                  const fam = holder.id === selectedMemberId ? null : selectedMemberId;
+                  return <RealHealthClinical key={selectedMemberId} patientId={holder.id} familyMemberId={fam} />;
+                })()
               ) : (<>
               <Tabs value={docFilter} onValueChange={setDocFilter}>
                 <TabsList className="h-8">
