@@ -39,7 +39,7 @@ import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { Consultation, TimeSlot, ViewMode } from '@/types/calendar';
 import { generateTimeSlots } from '@/data/mockData';
-import { useDirectory } from '@/data/directorySource';
+import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
@@ -57,8 +57,8 @@ import { ContestationView } from '@/components/contestation/ContestationView';
 import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Helper functions for filter state
-const getAllDentistMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-const getPresentDentistMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+const getAllDentistMobileKeys = (d: Directory) => d.clinics.flatMap(c => d.getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentDentistMobileKeys = (d: Directory) => d.clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function DentistCalendar() {
   const dir = useDirectory();
@@ -76,7 +76,7 @@ export function DentistCalendar() {
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys());
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys(dir));
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -214,12 +214,12 @@ export function DentistCalendar() {
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       // "Filtrar Presentes" - select only working dentists
-      setSelectedDentistIds(getPresentDentistMobileKeys());
+      setSelectedDentistIds(getPresentDentistMobileKeys(dir));
       return;
     }
     if (dentistId === 'all') {
       // "Todas as Agendas" - select ALL including non-working
-      setSelectedDentistIds(getAllDentistMobileKeys());
+      setSelectedDentistIds(getAllDentistMobileKeys(dir));
       return;
     }
     const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;

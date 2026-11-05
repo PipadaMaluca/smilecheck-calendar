@@ -50,7 +50,7 @@ export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewPro
   const [currentPage, setCurrentPage] = useState(1);
 
   const filterDate = getFilterDate(period);
-  const clinicDentistsList = useMemo(() => getDentistsForClinic('1'), []);
+  const clinicDentistsList = useMemo(() => getDentistsForClinic(dir.clinics[0]?.id ?? ''), []);
 
   const filteredScores = useMemo(() => {
     let items = [...scores];

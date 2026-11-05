@@ -34,7 +34,7 @@ import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
 import { generateTimeSlots } from '@/data/mockData';
-import { useDirectory } from '@/data/directorySource';
+import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
@@ -51,8 +51,8 @@ import { MobileAgendaFilter } from './mobile/MobileAgendaFilter';
 import { MobileSingleDentistAgenda } from './mobile/MobileSingleDentistAgenda';
 
 // Helper functions for filter state
-const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
-const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
+const getAllMobileKeys = (d: Directory) => d.clinics.flatMap(c => d.getDentistsForClinic(c.id).map(d => `${c.id}-${d.id}`));
+const getPresentMobileKeys = (d: Directory) => d.clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
   const dir = useDirectory();
@@ -64,7 +64,7 @@ export function ClinicCalendar() {
   const { t } = useTranslation();
   useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys());
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys(dir));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);
@@ -156,12 +156,12 @@ export function ClinicCalendar() {
   const handleDentistToggle = (dentistId: string | null, isCheckbox: boolean, clinicId?: string) => {
     if (dentistId === null) {
       // "Filtrar Presentes" - select only working dentists
-      setSelectedDentistIds(getPresentMobileKeys());
+      setSelectedDentistIds(getPresentMobileKeys(dir));
       return;
     }
     if (dentistId === 'all') {
       // "Todas as Agendas" - select ALL including non-working
-      setSelectedDentistIds(getAllMobileKeys());
+      setSelectedDentistIds(getAllMobileKeys(dir));
       return;
     }
     const key = clinicId ? `${clinicId}-${dentistId}` : dentistId;

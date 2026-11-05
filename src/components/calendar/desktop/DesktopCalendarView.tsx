@@ -58,7 +58,7 @@ import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, ConsultationStatus, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
 import { generateTimeSlots } from '@/data/mockData';
-import { useDirectory } from '@/data/directorySource';
+import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { useAppointmentActions } from '@/data/appointmentActions';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
@@ -75,10 +75,10 @@ import { TeleconsultaManager } from '@/components/teleconsulta/TeleconsultaManag
 import { useConsultationMode, InConsultationBar, ConsultationFAB, EndConsultationDialog, PointsEarnedAnimation, QuickRatingPrompt } from '@/components/consultation-mode/InConsultationMode';
 
 // Build all clinic-dentist combinations as composite keys
-const getAllClinicDentistKeys = () => {
+const getAllClinicDentistKeys = (d: Directory) => {
   const keys: string[] = [];
-  mockClinics.forEach((clinic) => {
-    getDentistsForClinic(clinic.id).forEach((dentist) => {
+  d.clinics.forEach((clinic) => {
+    d.getDentistsForClinic(clinic.id).forEach((dentist) => {
       keys.push(`${clinic.id}-${dentist.id}`);
     });
   });
@@ -86,11 +86,11 @@ const getAllClinicDentistKeys = () => {
 };
 
 // Get only dentists who work on demo day (Jan 31)
-const getPresentDentistKeys = () => {
+const getPresentDentistKeys = (d: Directory) => {
   const keys: string[] = [];
-  mockClinics.forEach((clinic) => {
-    getDentistsForClinic(clinic.id).forEach((dentist) => {
-      if (dentistWorksOnDemo(clinic.id, dentist.id)) {
+  d.clinics.forEach((clinic) => {
+    d.getDentistsForClinic(clinic.id).forEach((dentist) => {
+      if (d.dentistWorksOnDemo(clinic.id, dentist.id)) {
         keys.push(`${clinic.id}-${dentist.id}`);
       }
     });
@@ -109,7 +109,7 @@ export function DesktopCalendarView() {
   const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
-  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys());
+  const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys(dir));
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map((m) => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [clipboardConsultation, setClipboardConsultation] = useState<Consultation | null>(null);
@@ -202,7 +202,7 @@ export function DesktopCalendarView() {
   }, []);
 
   // Check if "Todos" is effectively selected (all dentists including non-working)
-  const allKeys = getAllClinicDentistKeys();
+  const allKeys = getAllClinicDentistKeys(dir);
   const isTodosSelected = allKeys.every((key) => selectedDentistIds.includes(key));
 
   // Build the list of dentists to show based on selections
@@ -269,17 +269,17 @@ export function DesktopCalendarView() {
   }, []);
 
   const handleToggleTodos = useCallback(() => {
-    const allKeys = getAllClinicDentistKeys();
+    const allKeys = getAllClinicDentistKeys(dir);
     const allSelected = allKeys.every((key) => selectedDentistIds.includes(key));
     setSelectedDentistIds(allSelected ? [] : allKeys);
   }, [selectedDentistIds]);
 
   const handleSelectPresentDentists = useCallback(() => {
-    setSelectedDentistIds(getPresentDentistKeys());
+    setSelectedDentistIds(getPresentDentistKeys(dir));
   }, []);
 
   const handleSelectAllDentists = useCallback(() => {
-    setSelectedDentistIds(getAllClinicDentistKeys());
+    setSelectedDentistIds(getAllClinicDentistKeys(dir));
   }, []);
 
   const handleFamilyMemberToggle = (memberId: string, isCheckbox: boolean) => {

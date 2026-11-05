@@ -218,7 +218,7 @@ export function WaitingListTab({ selectedDentist, userRole }: WaitingListTabProp
   const { t } = useTranslation();
   const { user } = useAuth();
   const { entries: realEntries, loading, isDemo, refresh, error: waitingError } = useWaitingList();
-  const clinicDentists = useMemo(() => getDentistsForClinic('1'), []);
+  const clinicDentists = useMemo(() => getDentistsForClinic(dir.clinics[0]?.id ?? ''), []);
 
   const dentistsToShow = useMemo(() => {
     if (userRole === 'dentist') return clinicDentists.filter((d) => d.id === '1');
