@@ -1,3 +1,4 @@
+import { splitAgendaKey } from '@/data/agendaAvailability';
 import { useAuth } from '@/contexts/AuthContext';
 import { ScreenEnter, isClinicalScreen } from '@/components/motion/ScreenEnter';
 import { getDateFnsLocale, getActiveLocale } from '@/lib/formatters';
@@ -59,7 +60,7 @@ import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, ConsultationStatus, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
 import { generateTimeSlots } from '@/data/mockData';
-import { useAgendaAvailability } from '@/data/agendaAvailability';
+import { useAgendaAvailability, splitAgendaKey } from '@/data/agendaAvailability';
 import { useDirectory, type Directory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { useAppointmentActions } from '@/data/appointmentActions';
@@ -215,9 +216,8 @@ export function DesktopCalendarView() {
     if (selectedDentistIds.length === 0) return [];
     const result: {dentist: typeof mockDentists[0];clinicId: string;worksToday: boolean;key: string;}[] = [];
     selectedDentistIds.forEach((key) => {
-      const parts = key.split('-');
-      if (parts.length !== 2) return;
-      const [clinicId, dentistId] = parts;
+      if (!key.includes('-')) return;
+      const { clinicId, dentistId } = splitAgendaKey(key);
       const dentist = mockDentists.find((d) => d.id === dentistId);
       const worksToday = dentistWorksOnDemo(clinicId, dentistId);
       if (dentist) result.push({ dentist, clinicId, worksToday, key });
@@ -323,7 +323,7 @@ export function DesktopCalendarView() {
   toTime: string, toKey: string, toName: string) =>
   {
     // Check for overlap at target
-    const [toClinicId, toDentistId] = toKey.split('-');
+    const { clinicId: toClinicId, dentistId: toDentistId } = splitAgendaKey(toKey);
     const existing = agendaConsultations.find((c) =>
     isSameDay(c.date, selectedDate) && c.time === toTime &&
     c.dentist.id === toDentistId && c.clinic.id === toClinicId &&
@@ -351,7 +351,7 @@ export function DesktopCalendarView() {
   fromDate: Date, fromTime: string, fromKey: string,
   toDate: Date, toTime: string, toKey: string) =>
   {
-    const [toClinicId, toDentistId] = toKey.split('-');
+    const { clinicId: toClinicId, dentistId: toDentistId } = splitAgendaKey(toKey);
     const toDentist = mockDentists.find((d) => d.id === toDentistId);
     const toDentistName = toDentist?.name || t('common.dentist');
     const [, fromDentistIdRaw] = fromKey.split('-');
