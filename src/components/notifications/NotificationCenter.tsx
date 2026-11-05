@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { Briefcase, useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { Bell, Check, CheckCheck, Calendar, MessageCircle, Star, Award, FileText, Stethoscope, AlertTriangle, ArrowLeft, Clock, UserPlus, BarChart3, Users, XCircle, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,7 +33,9 @@ const NOTIFICATION_ICONS: Record<NotificationType, React.ElementType> = {
   conquista: Award,
   resumo_diario: BarChart3,
   novo_dentista: UserPlus,
-  referenciou_paciente: Star
+  referenciou_paciente: Star,
+  referencia_recebida: FileText,
+  candidatura: Briefcase,
 };
 
 // Role-specific notifications — built lazily via t() so they react to language switches.
