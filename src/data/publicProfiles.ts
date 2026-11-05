@@ -22,7 +22,7 @@ export const PUBLIC_DENTIST_KEYS = ['id', 'name', 'avatar_url', 'specialties', '
 export const PRIVATE_KEYS = ['phone', 'email', 'date_of_birth', 'rating', 'level', 'plan'] as const;
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-export const isUuid = (s: string | null | undefined): s is string => !!s && UUID_RE.test(s);
+export const isUuid = (s: string | null | undefined): boolean => !!s && UUID_RE.test(s);
 
 /** Public dentist JSON → the card/profile shape the screens already use. */
 export function dentistToResult(j: PublicDentistJson): RealSearchResult {
