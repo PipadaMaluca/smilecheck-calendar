@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { ClickableClinicName } from '@/components/search/ClickableClinicName';
-import { mockClinics, clinicDentists, getDentistsForClinic } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { cn } from '@/lib/utils';
 import { EmptyState } from '@/components/ui/empty-state';
 
@@ -41,6 +41,8 @@ const levelColors: Record<string, string> = {
 };
 
 export function DentistTeamTab() {
+  const dir = useDirectory();
+  const { clinics: mockClinics, clinicDentists, getDentistsForClinic } = dir;
   const { t } = useTranslation();
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);
 

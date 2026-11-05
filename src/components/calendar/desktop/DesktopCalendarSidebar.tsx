@@ -10,7 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Dentist, UserRole } from '@/types/calendar';
 import type { Consultation } from '@/types/calendar';
-import { mockClinics, getDentistsForClinic, dentistWorksOnDemo } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -53,6 +53,8 @@ export function DesktopCalendarSidebar({
   onToggleTodos,
   hoveredConsultation,
 }: DesktopCalendarSidebarProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics, getDentistsForClinic, dentistWorksOnDemo } = dir;
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMonth, setCurrentMonth] = useSyncedMonth(selectedDate);

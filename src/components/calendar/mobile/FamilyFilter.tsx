@@ -1,4 +1,4 @@
-import { mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +8,8 @@ interface FamilyFilterProps {
 }
 
 export function FamilyFilter({ selectedMembers, onMemberToggle }: FamilyFilterProps) {
+  const dir = useDirectory();
+  const { familyMembers: mockFamilyMembers } = dir;
   const { t } = useTranslation();
   const isAllSelected = selectedMembers.includes('all');
 

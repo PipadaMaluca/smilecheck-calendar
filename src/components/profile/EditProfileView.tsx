@@ -18,7 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserRole } from '@/types/calendar';
-import { mockDentists, mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from 'sonner';
 import {
@@ -312,6 +312,8 @@ function PrivacyField({ label, children, className }: {label: string;children: R
 }
 
 export function EditProfileView({ userRole, isOpen, onClose, onSave, inline }: EditProfileViewProps) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics } = dir;
   const { t } = useTranslation();
   const [fearLevel, setFearLevel] = useState<number | null>(null);
   useEffect(() => {

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { UserRole, ViewMode } from '@/types/calendar';
 import { cn } from '@/lib/utils';
-import { mockDentists, mockClinics, mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useTranslation } from 'react-i18next';
 import { useNotificationBadges } from '@/contexts/NotificationBadgeContext';
 
@@ -50,6 +50,8 @@ export function MobileSidebar({
   onNavigate,
   activeTab
 }: MobileSidebarProps) {
+  const dir = useDirectory();
+  const { dentists: mockDentists, clinics: mockClinics, familyMembers: mockFamilyMembers } = dir;
 
   const { t } = useTranslation();
   const { badges, clearBadge } = useNotificationBadges();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Building2, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { mockClinics, getDentistsForClinic, clinicDentists } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ViewMode } from '@/types/calendar';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,8 @@ export function ClinicAgendaDropdown({
   onClinicToggle,
   viewMode,
 }: ClinicAgendaDropdownProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics, getDentistsForClinic, clinicDentists } = dir;
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [expandedClinics, setExpandedClinics] = useState<string[]>(['1']);

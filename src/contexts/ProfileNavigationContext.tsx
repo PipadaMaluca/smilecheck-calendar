@@ -1,6 +1,6 @@
 import { createContext, useContext, useCallback } from 'react';
 import { DentistSearchResult, MOCK_DENTIST_RESULTS } from '@/data/mockDentistSearch';
-import { mockClinics } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 
 interface ProfileNavigationContextType {
   openDentistProfile: (dentistNameOrResult: string | DentistSearchResult) => void;
@@ -21,6 +21,8 @@ export function ProfileNavigationProvider({
   onOpenClinicProfile: (clinicId: string) => void;
   onOpenPatientProfile?: (patientId: string) => void;
 }) {
+  const dir = useDirectory();
+  const { clinics: mockClinics } = dir;
   const openDentistProfile = useCallback((nameOrResult: string | DentistSearchResult) => {
     if (typeof nameOrResult === 'string') {
       const dentist = MOCK_DENTIST_RESULTS.find(

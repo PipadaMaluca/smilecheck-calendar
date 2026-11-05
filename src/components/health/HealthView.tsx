@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-import { mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { PREDEFINED_ALLERGIES } from '@/data/drugSafetyData';
 import { ClickableDentistName } from '@/components/search/ClickableDentistName';
 import { useTranslation } from 'react-i18next';
@@ -90,6 +90,8 @@ const emptyHealthData = (): MemberHealthData => ({
 });
 
 export function HealthView({ userRole, onNavigate }: HealthViewProps) {
+  const dir = useDirectory();
+  const { familyMembers: mockFamilyMembers } = dir;
   const { t } = useTranslation();
   const isMobile = useIsMobile();
 

@@ -57,7 +57,8 @@ import { ConsultationDetailView } from './ConsultationDetailView';
 import { PatientDossierView } from './PatientDossierView';
 import { NotificationBell, NotificationDropdown, NotificationsFullView } from '@/components/notifications/NotificationCenter';
 import { Consultation, ConsultationStatus, TimeSlot, UserRole, ViewMode } from '@/types/calendar';
-import { mockDentists, mockFamilyMembers, mockClinics, getDentistsForClinic, dentistWorksOnDemo, generateTimeSlots } from '@/data/mockData';
+import { generateTimeSlots } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { useAppointmentActions } from '@/data/appointmentActions';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
@@ -98,6 +99,8 @@ const getPresentDentistKeys = () => {
 };
 
 export function DesktopCalendarView() {
+  const dir = useDirectory();
+  const { dentists: mockDentists, familyMembers: mockFamilyMembers, clinics: mockClinics, getDentistsForClinic, dentistWorksOnDemo } = dir;
   const { consultations: agendaConsultations, patientConsultations: patientAgendaConsultations, loading: agendaLoading } = useAgendaData();
   const { changeStatus, rescheduleConsultation, cancelConsultation } = useAppointmentActions();
 

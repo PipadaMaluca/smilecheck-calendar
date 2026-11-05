@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { mockScoreHistory, mockDentistScoreHistory, mockClinicScoreHistory, ConsultationScore } from '@/types/scoring';
-import { getDentistsForClinic } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { UserRole } from '@/types/calendar';
 import { PatientFeedbackModal } from '@/components/calendar/PatientFeedbackModal';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
@@ -37,6 +37,8 @@ function getFilterDate(period: PeriodFilter): Date | null {
 }
 
 export function FullHistoryView({ userRole, onBack, inline }: FullHistoryViewProps) {
+  const dir = useDirectory();
+  const { getDentistsForClinic } = dir;
   const { t } = useTranslation();
   const [period, setPeriod] = useState<PeriodFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');

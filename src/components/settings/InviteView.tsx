@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { FullScreenMobileOverlay } from '@/components/layout/FullScreenMobileOverlay';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { mockClinics, mockDentists, mockFamilyMembers } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { buildReferralCode, REFERRAL_ACTION_KEY, SUSPENDED_ACTIONS } from '@/lib/referral';
 
 interface InviteViewProps {
@@ -34,6 +34,8 @@ const MOCK_HISTORY: InviteRow[] = [
 ];
 
 export function InviteView({ onClose, inline }: InviteViewProps) {
+  const dir = useDirectory();
+  const { clinics: mockClinics, dentists: mockDentists, familyMembers: mockFamilyMembers } = dir;
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   // Tablet follows desktop, so only true mobile widths use the stacked layout.

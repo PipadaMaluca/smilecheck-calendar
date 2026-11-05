@@ -33,7 +33,8 @@ import { FavoritesView } from '@/components/favorites/FavoritesView';
 import { ReferralLetterFlow } from '@/components/referral/ReferralLetterFlow';
 import { DentistProfileView } from '@/components/profile/DentistProfileView';
 import { ClinicProfileView } from '@/components/profile/ClinicProfileView';
-import { mockClinics, mockDentists, generateTimeSlots, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } from '@/data/mockData';
+import { generateTimeSlots } from '@/data/mockData';
+import { useDirectory } from '@/data/directorySource';
 import { useAgendaData } from '@/data/agendaSource';
 import { AgendaSkeleton } from '@/components/skeletons/AgendaSkeleton';
 import { useAgendaFilters, passesAgendaFilters } from '@/stores/agendaFiltersStore';
@@ -54,6 +55,8 @@ const getAllMobileKeys = () => mockClinics.flatMap(c => getDentistsForClinic(c.i
 const getPresentMobileKeys = () => clinicDentists.filter(cd => cd.worksOnDemo).map(cd => `${cd.clinicId}-${cd.dentistId}`);
 
 export function ClinicCalendar() {
+  const dir = useDirectory();
+  const { clinics: mockClinics, dentists: mockDentists, getDentistsForClinic, dentistWorksOnDemo, clinicDentists } = dir;
   const { consultations: agendaConsultations, loading: agendaLoading } = useAgendaData();
   const threeDayDrag = useThreeDayDragMove(agendaConsultations, true);
 
