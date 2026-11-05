@@ -77,6 +77,8 @@ export function DentistCalendar() {
   useDocumentTitle(activeTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentDentistMobileKeys(dir));
+  // Real accounts: the directory loads after mount — select the present dentists once it arrives.
+  useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentDentistMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selectedClinics, setSelectedClinics] = useState<string[]>(['1']);
   const [showPrescription, setShowPrescription] = useState(false);
   const [showProfile, setShowProfile] = useState(false);

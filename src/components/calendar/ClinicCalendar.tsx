@@ -65,6 +65,8 @@ export function ClinicCalendar() {
   useAgendaFilters();
   const [selectedDate, setSelectedDate] = useState(demoDate(2026, 0, 31));
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(() => getPresentMobileKeys(dir));
+  // Real accounts: the directory loads after mount — select the present dentists once it arrives.
+  useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentMobileKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   useDocumentTitle(activeTab);

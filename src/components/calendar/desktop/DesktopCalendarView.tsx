@@ -110,6 +110,8 @@ export function DesktopCalendarView() {
   const [viewMode, setViewMode] = useState<ViewMode>('day');
   const [isNavExpanded, setIsNavExpanded] = useState(true);
   const [selectedDentistIds, setSelectedDentistIds] = useState<string[]>(getPresentDentistKeys(dir));
+  // Real accounts: the directory loads after mount — select the present dentists once it arrives.
+  useEffect(() => { if (!dir.isDemo && !dir.loading) setSelectedDentistIds(getPresentDentistKeys(dir)); }, [dir.isDemo, dir.loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selectedFamilyMemberIds, setSelectedFamilyMemberIds] = useState<string[]>(mockFamilyMembers.map((m) => m.id));
   const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
   const [clipboardConsultation, setClipboardConsultation] = useState<Consultation | null>(null);
