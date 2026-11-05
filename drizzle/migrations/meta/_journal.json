@@ -176,6 +176,13 @@
       "when": 1793846370446,
       "tag": "0024_odontogram_surfaces",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1793846525013,
+      "tag": "0025_dossier_tables_revoke_writes",
+      "breakpoints": true
     }
   ]
 }
